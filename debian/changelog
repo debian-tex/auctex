@@ -1,3 +1,12 @@
+auctex (9.9j-3) unstable; urgency=low
+
+  * ../tex-jp.el: Applied patch from Hidenobu Nabetani
+    <nabetani@kern.phys.sci.osaka-u.ac.jp>. (closes: #28223)
+  * emacsen.install: Added lpath-jp.el trick to allow byte-compiling of
+    tex-jp.el.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 21 Oct 1998 01:25:50 +0200
+
 auctex (9.9j-2) frozen unstable; urgency=medium
 
   * Bug fix release for frozen.

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian auctex package.
-# $Id: emacsen.install,v 1.14 1998/09/03 10:06:27 salve Exp $
+# $Id: emacsen.install,v 1.15 1998/10/20 23:29:00 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -48,23 +48,31 @@ STYLES="style/slides.el    style/foils.el    style/amstex.el \
 	style/amsmath.el   style/amstext.el  style/amsbsy.el \
 	style/amsopn.el    style/amsthm.el	style/natbib.el"
 EFLAGS="-batch -q -l lpath.el -f batch-byte-compile"
+EMULEFLAGS="-batch -q -l lpath-jp.el -f batch-byte-compile"
 #-=-
 
 case "$FLAVOR" in
     emacs19|emacs20)
 	echo -n "install/$PACKAGE: Byte-compiling for $FLAVOR..."
 	install -m 755 -d $ELCDIR $ELCDIR/style/
-	for i in $SOURCES; do cp $ELDIR/$i $ELCDIR; done
-	if [ "$FLAVOR" = "emacs20" ]; then
-	    # We have MULE.
-	    for i in $MULESRC; do cp $ELDIR/$i $ELCDIR; done
-	fi
-	for i in $STYLES; do cp $ELDIR/$i $ELCDIR/style/; done
+	for i in $SOURCES; do cp $ELDIR/$i $ELCDIR/$i; done
+	for i in $STYLES; do cp $ELDIR/$i $ELCDIR/$i; done
 	cat <<-EOF >$ELCDIR/lpath.el
 		(setq load-path (cons "." load-path)
 		    TeX-lisp-directory "<none>")
 	EOF
-	(cd $ELCDIR && $FLAVOR $EFLAGS $SOURCES $MULESRC $STYLES 2>&1 | gzip -9qf > $LOG.gz)
+	(cd $ELCDIR && $FLAVOR $EFLAGS $SOURCES $STYLES 2>&1 | gzip -9qf > $LOG.gz)
+	if [ "$FLAVOR" = "emacs20" ]; then
+		# We have MULE.
+		for i in $MULESRC; do cp $ELDIR/$i $ELCDIR/$i; done
+		# This contains an hack to allow byte-compiling with japanese multibyte chars
+		cat <<-EOF >$ELCDIR/lpath-jp.el
+			(setq load-path (cons "." load-path)
+				TeX-lisp-directory "<none>")
+			(set-language-environment 'Japanese);') <- beauty stuff
+		EOF
+		(cd $ELCDIR && $FLAVOR $EMULEFLAGS $MULESRC 2>&1 | gzip -9qf >> $LOG.gz)
+	fi
 	rm $ELCDIR/*.el $ELCDIR/style/*.el
 	echo "done."
     ;;

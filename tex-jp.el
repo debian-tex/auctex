@@ -51,11 +51,17 @@
 	  (defvar TeX-japanese-process-output-coding-system 
 	    (find-coding-system 'junet)
 	    "TeX-process' coding system with standard output."))
-      (progn
-	(defvar TeX-japanese-process-input-coding-system *euc-japan*
-	  "TeX-process' coding system with standard input.")
-	(defvar TeX-japanese-process-output-coding-system *junet*
-	  "TeX-process' coding system with standard output."))))
+      (if (>= emacs-major-version 20)
+	  (progn
+	    (defvar TeX-japanese-process-input-coding-system 'euc-japan
+	      "TeX-process' coding system with standard input.")
+	    (defvar TeX-japanese-process-output-coding-system 'junet
+	      "TeX-process' coding system with standard output."))
+	(progn
+	  (defvar TeX-japanese-process-input-coding-system *euc-japan*
+	    "TeX-process' coding system with standard input.")
+	  (defvar TeX-japanese-process-output-coding-system *junet*
+	    "TeX-process' coding system with standard output.")))))
 
 (if (boundp 'NEMACS)
     (defvar TeX-process-kanji-code 2
@@ -259,6 +265,7 @@ Set japanese-TeX-mode to t, and enters latex-mode."
   "Japanese LaTeX specific initializations."
   (if japanese-TeX-mode
       (progn
+	(setq TeX-command-default "jLaTeX")
 	(setq LaTeX-default-style japanese-LaTeX-default-style)
 	(setq LaTeX-style-list japanese-LaTeX-style-list)
 	(setq TeX-command-BibTeX "jBibTeX")
