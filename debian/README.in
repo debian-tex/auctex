@@ -14,6 +14,15 @@ answer accordingly at the appropriate configuration time question (and may
 issue "dpkg-reconfigure <:=${PACKAGE}:>" if they change their minds afterwards).
 
 
+RefTeX
+======
+
+AUCTeX users will probably want to switch the very useful RefTeX package on, by
+adding something like "(add-hook 'LaTeX-mode-hook 'turn-on-reftex)" to their
+"~/.emacs" (see the RefTeX info manual for more information on RefTeX, which is
+part of GNU Emacs).
+
+
 Font-LaTeX
 ==========
 
@@ -70,14 +79,14 @@ the distribution in case they are useful.
     - `hilit-LaTeX.el'
       Better highlighting for the obsolete `hilit19' package.
 
-    - `font-latex.el'
-      Better highlighting for the FONT-LOCK package.
-
     - `bib-cite.el'
       Better support for bibliographies and much more.
 
     - `tex-jp.el'
-      Support for Japanese.
+      Japanese support.
+
+    - `tex-fptex.el'
+      fpTeX support.
 
 Read the comments in the start of each file for more information about how to
 load, what they do, and who wrote and maintains them.

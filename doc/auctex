@@ -8,7 +8,7 @@ END-INFO-DIR-ENTRY
 Indirect:
 auctex-1: 177
 auctex-2: 49426
-auctex-3: 97929
+auctex-3: 98029
 
 Tag Table:
 (Indirect)
@@ -52,11 +52,11 @@ Node: Adding Other74389
 Node: Hacking the Parser74960
 Node: Installation79031
 Node: History83188
-Node: Projects84668
-Node: Credit94218
-Node: Key Index95737
-Node: Function Index97929
-Node: Variable Index101831
-Node: Concept Index105359
+Node: Projects84768
+Node: Credit94318
+Node: Key Index95837
+Node: Function Index98029
+Node: Variable Index101931
+Node: Concept Index105510
 
 End Tag Table

@@ -1,6 +1,6 @@
-<:# Copyright (C) 1999, 2000, 01, 02 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: variables,v 1.10 2002/09/22 09:45:17 salve Exp $:>//
-<:# BEWARE: The file ../tex-site.el is not yet EPerled!:>//
+<:# Copyright (C) 1999, 2000, 01, 02, 03 by Davide Giovanni Maria Salvetti.:>//
+<:# $Id: variables,v 1.12 2003/06/29 15:34:32 salve Exp $:>//
+<:# BEWARE: The file ../tex-site.el is not yet ePerled!:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
 <:$DOCS="CHANGES README PROBLEMS":>//
@@ -16,23 +16,7 @@
 <:# X requiring sources:>//
 <:$XSRC="hilit-LaTeX.el":>//
 <:# Canned styles:>//
-<:$STYLES="style/prosper.el "
-	. "style/slides.el    style/foils.el    style/amstex.el "
-	. "style/article.el   style/book.el     style/letter.el "
-	. "style/report.el    style/amsart.el   style/amsbook.el "
-	. "style/epsf.el      style/psfig.el    style/latexinfo.el "
-	. "style/dutch.el     style/german.el   style/dk.el "
-	. "style/j-article.el style/j-book.el   style/j-report.el "
-	. "style/jarticle.el  style/jbook.el    style/jreport.el "
-	. "style/dinbrief.el  style/virtex.el   style/plfonts.el "
-	. "style/plhb.el      style/harvard.el	style/swedish.el "
-	. "style/danish.el    style/slovak.el   style/czech.el "
-	. "style/amsmath.el   style/amstext.el  style/amsbsy.el "
-	. "style/amsopn.el    style/amsthm.el	style/natbib.el "
-	. "style/index.el     style/makeidx.el  style/multind.el "
-	. "style/varioref.el  style/fancyref.el	style/mdwlist.el "
-	. "style/ngerman.el   style/graphicx.el	style/graphics.el "
-	. "style/verbatim.el":>//
+<:$STYLES=qx(find ../style -type f -name \*.el -printf "style/%f "):>//
 <:# Misc package variables:>//
 <:$UPDATE="update-auctex-elisp":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//

@@ -5,15 +5,11 @@ package.
 The current release of this package was assembled by:
 		   Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
-	  <ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/>,
-(file: "f4d13a67632cffb6c02547b727b73acf  auctex-11.11.tar.gz").
-
-The official upstream ftp site is:
-		   <ftp://sunsite.auc.dk/packages/auctex/>,
-not <ftp://ftp.iesd.auc.dk/pub/emacs-lisp/> as stated in the README file.
+	  <http://savannah.gnu.org/download/auctex/stable.pkg/>,
+(file: "6abe89698b9f03bfbd8745794c06d4b6  auctex_11.13.tar.gz").
 
 The current AUC TeX upstream maintainer is:
-		 Per Abrahamsen <auc-tex_mgr@sunsite.auc.dk>.
+                 David Kastrup <auc-tex_mgr@sunsite.auc.dk>.
 
 The original AUC Tex Debian package was assembled by:
 	      Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
@@ -45,5 +41,5 @@ License in "<:=${GPL}:>".
 # fill-column: 78
 # End:
 # LocalWords:  AUC dbef ftp README Abrahamsen auc tex Geyer japanese jlatex jp
-# LocalWords:  platex GPL
+# LocalWords:  platex GPL Kastrup
 :>//

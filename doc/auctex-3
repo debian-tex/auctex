@@ -114,15 +114,16 @@ Variable Index
 * TeX-auto-parse-length:                 Parsing Files.
 * TeX-auto-prepare-hook:                 Hacking the Parser.
 * TeX-auto-private:                      Automatic Private.
-* TeX-auto-regexp-list <1>:              Hacking the Parser.
-* TeX-auto-regexp-list:                  Parsing Files.
+* TeX-auto-regexp-list <1>:              Parsing Files.
+* TeX-auto-regexp-list:                  Hacking the Parser.
 * TeX-auto-save:                         Parsing Files.
 * TeX-auto-untabify:                     Parsing Files.
 * TeX-brace-indent-level:                Marking and formatting.
 * TeX-check-path:                        Commands.
 * TeX-close-quote:                       Quotes.
 * TeX-command-default:                   Commands.
-* TeX-command-list <1>:                  Installation.
+* TeX-command-list <1>:                  Commands.
+* TeX-command-list <2>:                  Installation.
 * TeX-command-list:                      Commands.
 * TeX-default-macro:                     Completion.
 * TeX-default-mode:                      Japanese.
@@ -134,11 +135,11 @@ Variable Index
 * TeX-ignore-file:                       Automatic.
 * TeX-insert-braces:                     Completion.
 * TeX-lisp-directory:                    Installation.
-* TeX-macro-global <1>:                  Installation.
-* TeX-macro-global:                      Automatic Global.
+* TeX-macro-global <1>:                  Automatic Global.
+* TeX-macro-global:                      Installation.
 * TeX-macro-private:                     Automatic Private.
-* TeX-master <1>:                        Multifile.
-* TeX-master:                            Commands.
+* TeX-master <1>:                        Commands.
+* TeX-master:                            Multifile.
 * TeX-one-master:                        Multifile.
 * TeX-open-quote:                        Quotes.
 * TeX-outline-extra:                     Outline.
@@ -260,8 +261,8 @@ Concept Index
 * Folding:                               Outline.
 * Font macros:                           Font Specifiers.
 * Fonts:                                 Font Specifiers.
-* Formatting <1>:                        Commands.
-* Formatting:                            Marking and formatting.
+* Formatting <1>:                        Marking and formatting.
+* Formatting:                            Commands.
 * Free:                                  Copying.
 * Free software:                         Copying.
 * General Public License:                Copying.
@@ -292,8 +293,8 @@ Concept Index
 * jLaTeX:                                Japanese.
 * jTeX:                                  Japanese.
 * Killing a process:                     Control.
-* Label prefix <1>:                      Floats.
-* Label prefix:                          Sectioning.
+* Label prefix <1>:                      Sectioning.
+* Label prefix:                          Floats.
 * Labels <1>:                            Floats.
 * Labels:                                Sectioning.
 * Labels, adding:                        Adding Other.
@@ -319,8 +320,8 @@ Concept Index
 * Making a bibliography:                 Commands.
 * Making an index:                       Commands.
 * Many Files:                            Multifile.
-* Master file <1>:                       Multifile.
-* Master file:                           Control.
+* Master file <1>:                       Control.
+* Master file:                           Multifile.
 * Matching dollar signs:                 Quotes.
 * Math mode delimiters:                  Quotes.
 * Mathematics:                           Mathematics.
