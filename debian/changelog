@@ -1,3 +1,10 @@
+auctex (10.0g-2) unstable; urgency=high
+
+  * rules (build): Removed debian/rules from deps.
+  (debian/rules): Removed debian/system.variables from deps.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed, 16 May 2001 14:48:51 +0200
+
 auctex (10.0g-1) unstable; urgency=low
 
   * New upstream release.  (Closes: #92996)

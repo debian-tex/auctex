@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.41 2001/05/08 12:53:00 salve Exp $
+# $Id: rules.in,v 1.13 2001/05/16 12:54:07 salve Exp $
 #
 # Copyright (C) 1997, 1998, 1999, 2000, 2001 by Davide Giovanni Maria Salvetti.
 #
@@ -41,16 +41,16 @@ DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 # (it's CVS registered), lest it will be deleted by clean.
 # Beside, it's automatically remade by make
 
-debian/rules: debian/system.variables debian/variables
-
 debian/system.variables: /home/salve/Debian/Packages/system.variables
 	$(INSTDATA) $< $@
+
+debian/rules: debian/variables
 
 # Eperl is simply great: thanks, Ralf!
 % :: %.in
 	eperl -P -o $@ $<
 
-build: $(DFILES) debian/rules
+build: $(DFILES)
 	$(checkdir)
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
