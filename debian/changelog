@@ -1,3 +1,15 @@
+auctex (9.9p-2) unstable; urgency=low
+
+  * ../tex.el:  Applied patch from Hidenobu Nabetani
+    <nabetani@kern.phys.sci.osaka-u.ac.jp>. (closes: #39547)
+  * ../tex-jp.el: Applied patch from Hidenobu Nabetani
+    <nabetani@kern.phys.sci.osaka-u.ac.jp>. (closes: #39547)
+  * japanese-patch: added.
+  * japanese-patch-copyright: added.
+  * rules: updated to support japanese-patch.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 16 Jul 1999 18:21:11 +0200
+
 auctex (9.9p-1) unstable; urgency=low
 
   * New upstream version (stable version).

@@ -21,6 +21,18 @@ The original AUC Tex Debian package was assembled by:
 Obviously, tex-site.el has been appropriately configured for Debian
 GNU/Linux.
 
+I applied a japanese specific patch, see japanese-patch for code, and
+japanese-patch-copyright for authors and copyright information.  Its
+feature are:
+
+ * TeX command is "jlatex" or "platex" for most Japanese TeX user.
+ * [bug fix] TeX menu is not changed in "japanese-LaTeX-mode".
+ * [bug fix] TeX-command-style updated for Emacs20.
+ * [bug fix] fill mode doesn't work in Emacs20.
+ * japanese-latex-mode is not loaded, so need to add the entry to
+   TeX-format-list in tex.el.  It doesn't need to be set
+   TeX-format-list in tex-jp.el.
+
 
 COPYRIGHT
 =========

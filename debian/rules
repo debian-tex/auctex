@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.25 1998/09/03 10:06:28 salve Exp $
+# $Id: rules,v 1.26 1999/07/16 18:21:11 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -68,6 +68,7 @@ INSTSCRIPT	:= install -m 755
 
 build:
 	$(checkdir)
+	-cat debian/japanese-patch | patch --forward --reject-file=trashcan
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
@@ -76,6 +77,8 @@ clean:
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/files* debian/substvars
 	-rm -f $$(find . -name \*.elc)
+	-cat debian/japanese-patch | patch --forward --reverse --reject-file=trashcan
+	-rm -f trashcan
 	-$(MAKE) clean
 
 binary: binary-indep binary-arch
@@ -101,6 +104,7 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/README $(doc)/README.Debian
 	$(INSTDATA) ChangeLog $(doc)/changelog
 	$(INSTDATA) debian/changelog $(doc)/changelog.Debian
+	$(INSTDATA) debian/japanese-patch{,-copyright} $(doc)
 	gzip -9frv $(doc)
 	$(INSTDATA) debian/copyright $(doc)
 	$(INSTDATA) doc/*.html $(html)
