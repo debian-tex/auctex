@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # preinst configuration file for Debian auctex package.
-# $Id: preinst,v 1.20 1998/04/10 13:49:36 salve Exp $
+# $Id: preinst,v 1.20.2.1 1998/08/27 13:53:45 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -31,7 +31,7 @@ function remove_handmade_auctex () {
 		with this Debian package.
 
 		Shall I:
-		    1) rename its tex-site file and go on installing;
+		    1) rename its tex-site file(s) and go on installing;
 		    2) stop installing this package.
 
 	EOF
@@ -43,6 +43,10 @@ function remove_handmade_auctex () {
 	    exit 1
 	fi
 	mv -V t -bf $1/tex-site.el $1/tex-site.el.dpkg-old
+	# Move the byte compiled version too if present.
+	if [ -e $1/tex-site.elc ]; then
+	    mv -V t -bf $1/tex-site.elc $1/tex-site.elc.dpkg-old
+	fi
 }
 
 function move_old_conffile () {
@@ -58,7 +62,11 @@ function move_old_conffile () {
 
 	EOF
 	mv -V t -bf /etc/elisp/tex-site.el /etc/tex-site.el.old
-	find /etc -name elisp -type d -empty | xargs rmdir
+	# Move the byte compiled version too if present.
+	if [ -e /etc/elisp/tex-site.elc ]; then
+	    mv -V t -bf /etc/elisp/tex-site.elc /etc/tex-site.elc.old
+	fi
+	find /etc -name elisp -type d -empty | xargs --no-run-if-empty rmdir
 	# This has to be removed.
 	rm -f /etc/emacs/site-start.d/50tex-site.el
 }

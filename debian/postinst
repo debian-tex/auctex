@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# $Id: postinst,v 1.24 1998/04/10 07:17:13 salve Exp $
+# $Id: postinst,v 1.24.2.1 1998/08/27 13:53:45 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -68,6 +68,13 @@ case "$1" in
 		    echo "	$i."
 		fi
 	    done
+	    # Delete these relicts if empty.
+	    for i in /usr/lib/emacs/common/auctex /usr/lib/emacs/common; do
+		if [ -d $i ]; then
+		    find ${i%/*} -name ${i##*/} -type d -empty | xargs --no-run-if-empty rmdir
+		fi
+	    done
+
 	    # Do we need to rebuild autos?
 
 	    # Since its a bit too difficult (dgms) to check if the version

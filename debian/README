@@ -19,17 +19,57 @@ Online documentation may be found in the info or HTML manual, and the
 update-auctex-lisp(8) manual page.
 
 
-Note to System Administrators:
+Notes to System Administrators
 ==============================
 
-To improve its performance AUC TeX stores informations about (La)TeX style
-files available on the system in "/var/lib/auctex/".  AUC TeX updates
-these informations weekly, by a cron script; nevertheless, you may want to
-run "/usr/sbin/update-auctex-elisp" manually after installing new style
-files under "/usr/local/lib/texmf".  (Formerly "update-auctex-elisp" was
-named "auctex-auto-load": there's now a symlink for compatibility reason,
-that will eventually disappear in future releases: you are advised to NOT
-use it).
+A) To improve its performance AUC TeX stores informations about
+(La)TeX style files available on the system in "/var/lib/auctex/".
+AUC TeX updates these informations weekly, by a cron script;
+nevertheless, you may want to run "/usr/sbin/update-auctex-elisp"
+manually after installing new style files under
+"/usr/local/lib/texmf".  (Formerly "update-auctex-elisp" was named
+"auctex-auto-load": there's now a symlink for compatibility reason,
+that will eventually disappear in future releases: you are advised to
+NOT use it).
+
+B) You may probably want to customize the list of printers available
+at your site.  This could be accomplished by declaring it in
+"/etc/emacs/site-start.el" (along with the default printer), for
+example:
+
+(setq TeX-printer-list
+      '(("lp" "dvips -f %s | lpr -P %p" "lpq -P %p")
+        ("lpc" "dvips -f %s | lpr -P %p" "lpq -P %p")
+        ("lpf" "dvips -f %s | lpr -P %p" "lpq -P %p")
+        ("lpt" "dvips -f %s | lpr -P %p" "lpq -P %p"))
+      TeX-printer-default "lpf")
+
+Please, look at the online documentation, type `C-h v TeX-printer-list
+RET' from within Emacs (load auctex first), or browse through
+"/usr/share/emacs/site-lisp/auctex/tex.el" for more information on
+this topic.
+
+
+Contributed Files
+=================
+
+There are several files that are not part of AUC TeX proper, but
+included in the distribution in case they are useful.
+
+    - `hilit-LaTeX.el'
+      Better highlighting for the obsolete `hilit19' package.
+
+    - `font-latex.el'
+      Better highlighting for the FONT-LOCK package.
+
+    - `bib-cite.el'
+      Better support for bibliographies and much more.
+
+    - `tex-jp.el'
+      Support for Japanese.
+
+Read the comments in the start of each file for more information
+about how to load, what they do, and who wrote and maintains them.
 
 
 Davide G. M. Salvetti <salve@debian.org>, Tue, 20 Jan 1998 00:34:14 +0100.

@@ -1,3 +1,13 @@
+auctex (9.9b-4) stable unstable; urgency=low
+
+  * README: Added a note about `TeX-printer-list'; added a note about
+    contributed files.
+  * postinst: Delete old relicts if empty. (closes: #22734)
+  * preinst: Added `--no-run-if-empty' to `xargs rmdir'. (closes: #22734)
+    Move old byte-compiled files along with their sources.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 27 Aug 1998 15:50:14 +0200
+
 auctex (9.9b-3) frozen unstable; urgency=low
 
   * emacsen.install: Log compilation warnings.

@@ -4,8 +4,16 @@ package.
 The current release of this package was assembled by:
 		 Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
-<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/>
+       <ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/>
 (file: "6548d9d41d0902fb927abfa8c418195a  auctex-9.9b.tar.gz").
+Please, note that that sources are considered to be in `alpha' state
+by their maintainer, although they have been tested to some degree by
+myself.
+
+The official upstream ftp site is:
+	       <ftp://sunsite.auc.dk/packages/auctex/>,
+not <ftp://ftp.iesd.auc.dk/pub/emacs-lisp/> as sated in the README
+file.
 
 The current AUC TeX upstream maintainer is:
 	       Per Abrahamsen <auc-tex_mgr@sunsite.auc.dk>.
