@@ -1,3 +1,9 @@
+auctex (11.54-4) unstable; urgency=medium
+
+  * control (Conflicts): Set emacspeak version to (<= 17.0-1).
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 28 Jan 2005 11:41:55 +0100
+
 auctex (11.54-3) unstable; urgency=high
 
   * Urgency high: fixes an important bug.  (See: #292508)

@@ -10,7 +10,7 @@ Architecture: all
 Depends: debconf, debianutils (>= 1.7), emacs21 | emacs-snapshot, make
 Recommends: tetex-base
 Suggests: catdvi, lacheck
-Conflicts: emacspeak (<= 21)
+Conflicts: emacspeak (<= 17.0-1)
 Description: An integrated environment for writing TeX/LaTeX documents
  AUCTeX is a comprehensive customizable integrated environment for writing
  input files for TeX/LaTeX using GNU Emacs.
