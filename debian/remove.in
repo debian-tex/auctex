@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp remove file for Debian <:=${PACKAGE}:> package.
-# $Id: remove.in,v 1.14 2004/05/18 14:07:28 salve Exp $
+# $Id: remove.in,v 1.16 2004/08/27 14:47:48 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -15,7 +15,9 @@ undo_install () {
     rm -f <:=if($_="${sstartd}/${EPRIORITY}${PACKAGE}.el")
 	    =~s|emacs|\${FLAVOR}|:>
     rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../tex-site.el
-    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/{*.elc,<:=${ELCLOG}:>.gz}
+    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/.nosearch
+    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>{,.gz}
+    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/*.elc
     rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/*.elc
     rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/.nosearch
     test -d <:=if($_=${style})=~s|emacs|\${FLAVOR}|:> && \

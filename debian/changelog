@@ -1,13 +1,25 @@
+auctex (11.52-2) unstable; urgency=high
+
+  * Important bug fix release.  (Closes: #268156)
+  * ../configure: Add "-no-site-file" to the test for build directory
+    validity.
+  * install (do_install): Add ".nosearch" to the ${FLAVOR} "site-lisp"
+    directory.
+  * remove (undo_install): Also remove uncompressed log and ".nosearch".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 27 Aug 2004 16:45:41 +0200
+
 auctex (11.52-1) unstable; urgency=high
 
   * New upstream release, urgency set to high due to release date
     approaching and very high number of closed bugs.
     (Closes: #244336, #244342, #245388, #246908, #257496, #265598)
-  * config: Don't display ignorable egrep error messages; thanks to Frank
-    Küster.  (Closes: #258304)
-  * control(Build-Depends-Indep): Added "emacs21 | emacs-snapshot"; thanks
-    to Frank Küster.
-  * rules: Rename "auc-tex_toc.html" to "auctex_toc.html".
+  * config (configure, reconfigure): Don't display ignorable egrep error
+    messages; thanks to Frank Küster.  (Closes: #258304)
+  * control (Build-Depends-Indep): Added "emacs21 | emacs-snapshot";
+    thanks to Frank Küster.
+  * rules (build, binary-indep): Rename "auc-tex_toc.html" to
+    "auctex_toc.html".
 
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 26 Aug 2004 18:14:48 +0200
 

@@ -1556,7 +1556,7 @@ echo $ECHO_N "checking if build directory is valid... $ECHO_C" >&6
 	 \"no\" \"yes\")"
   OUTPUT=./conftest-$$
   echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
-  ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  ${EMACS} -batch -no-site-file -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   valid_build_dir="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
   rm -f ${OUTPUT}
