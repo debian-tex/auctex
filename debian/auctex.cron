@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Update AucTeX auto-loads.
-# $Id: auctex.cron,v 1.8 1998/02/24 16:03:44 salve Exp $
+# $Id: auctex.cron,v 1.9 1998/10/17 13:56:33 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -24,7 +24,7 @@
 
 set -o posix
 
-if [ -x /usr/sbin/auctex-auto-load ]; then
+if [ -x /usr/sbin/update-auctex-elisp ]; then
     /usr/sbin/update-auctex-elisp &>/dev/null
 fi
 

@@ -16,7 +16,7 @@ Online Documentation
 ====================
 
 Online documentation may be found in the info or HTML manual, and the
-update-auctex-lisp(8) manual page.
+update-auctex-elisp(8) manual page.
 
 
 Notes to System Administrators
@@ -28,9 +28,7 @@ AUC TeX updates these informations weekly, by a cron script;
 nevertheless, you may want to run "/usr/sbin/update-auctex-elisp"
 manually after installing new style files under
 "/usr/local/lib/texmf".  (Formerly "update-auctex-elisp" was named
-"auctex-auto-load": there's now a symlink for compatibility reason,
-that will eventually disappear in future releases: you are advised to
-NOT use it).
+"auctex-auto-load").
 
 B) You may probably want to customize the list of printers available
 at your site.  This could be accomplished by declaring it in
