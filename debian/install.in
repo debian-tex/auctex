@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian auctex package.
-# $Id: install.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+# $Id: install.in,v 1.2 1999/10/11 08:15:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 

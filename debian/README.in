@@ -3,14 +3,16 @@ The Debian package auctex
 -------------------------
 
 
-Loading AUC TeX
+Loading AUC-TeX
 ===============
 
 Users will need to put "(require 'tex-site)" in their "~/.emacs" to load
-AUC TeX.
+AUC-TeX, unless the local system administrator chose to start it by default.
 
-System Administrators wanting to start AUC TeX by default on their site
-should put "(require 'tex-site)" in "<:=$SSEL:>".
+System administrators wanting to start AUC-TeX by default on their site
+should answer accordingly at the appropriate configuration time question
+(and may issue "dpkg-reconfigure <:=$PACKAGE:>" if they change their minds
+afterwards).
 
 
 Online Documentation
@@ -26,16 +28,16 @@ directory.
 Notes to System Administrators
 ==============================
 
-A) To improve its performance AUC TeX stores informations about
-(La)TeX style files available on the system in "<:=$varauc:>".
-AUC TeX updates these informations weekly, by a cron script;
+A) To improve its performance AUC-TeX stores informations about TeX macros
+and LaTeX styles available on the system in "<:=$varauc:>".
+AUC-TeX updates these informations weekly, by mean of a cron script;
 nevertheless, you may want to run "<:=if($_="$sbin/$UPDATE")=~tr|/|/|s:>"
 manually after installing new style files under "/usr/local/share/texmf".
 
-B) You may probably want to customize the list of printers available
-at your site.  This could be accomplished by declaring it in
-"<:=$SSEL:>" (along with the default printer), for
-example:
+B) You may probably want to customize the list of printers available at
+your site.
+This could be easily accomplished by declaring it in "<:=$SSEL:>"
+(along with the default printer), for example:
 
 (setq TeX-printer-list
       '(("lp" "dvips -f %s | lpr -P %p" "lpq -P %p")
@@ -44,8 +46,8 @@ example:
         ("lpt" "dvips -f %s | lpr -P %p" "lpq -P %p"))
       TeX-printer-default "lpf")
 
-Please, look at the online documentation, type `C-h v TeX-printer-list
-RET' from within Emacs (load auctex first), or browse through
+Please, look at the online documentation, type `C-h v TeX-printer-list RET'
+from within Emacs (load auctex first), or browse through the file
 "<:=if($_="$slisp/tex.el")=~tr|/|/|s:>" for more information on
 this topic.
 
@@ -53,7 +55,7 @@ this topic.
 Contributed Files
 =================
 
-There are several files that are not part of AUC TeX proper, but
+There are several files that are not part of AUC-TeX proper, but
 included in the distribution in case they are useful.
 
     - `hilit-LaTeX.el'
@@ -76,5 +78,8 @@ Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>
 <:
 # Local variables:
 # mode: text
+# fill-column: 76
 # End:
+# LocalWords:  auctex AUC tex dpkg HTML TeXInfo docsrc tr varauc cron sbin SSEL
+# LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET slisp hilit jp gmtime
 :>//

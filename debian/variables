@@ -1,3 +1,4 @@
+<:# BEWARE: The file ../tex-site.el is not yet EPerled!:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
 <:$DOCS="CHANGES README PROBLEMS":>//
@@ -31,9 +32,11 @@
 <:$ELCLOG="CompilationLog":>//
 <:$MENUSEC="Apps/Editors":>//
 <:$INFOSEC="Document Preparation":>//
+<:$EPRIORITY="50":>//
 <:# Directories:>//
 <:$debian="/DEBIAN/":>//
 <:$cron="/etc/cron.weekly/":>//
+<:$sstartd="/etc/emacs/site-start.d/":>//
 <:$usr="/usr/":>//
 <:$ecode="/usr/lib/emacsen-common/packages/":>//
 <:$sbin="/usr/sbin/":>//

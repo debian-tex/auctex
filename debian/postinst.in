@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# $Id: postinst.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+# $Id: postinst.in,v 1.2 1999/10/11 08:15:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -34,7 +34,7 @@ case "$1" in
 	test -x <:=$DBINSTALL:> && <:=$DBINSTALL:> --install <:="$docbase/$PACKAGE":>
 	# Compatibility link.
 	test -d /usr/doc -a ! -e /usr/doc/<:=$PACKAGE:> -a -d /usr/share/doc/<:=$PACKAGE:> \
-	    && ln -sf ../share/doc/pkg /usr/doc/<:=$PACKAGE:>
+	    && ln -sf ../share/doc/<:=$PACKAGE:> /usr/doc/<:=$PACKAGE:>
 	db_get <:=$PACKAGE:>/logfile
 	LOGFILE=$RET
 	db_get <:=$PACKAGE:>/doauto
@@ -58,6 +58,14 @@ case "$1" in
 		echo "${0##*/}: Debconf passed unknow value \`$RET'." >&2
 	    ;;
 	esac
+	db_get <:=$PACKAGE:>/default
+	if [ $RET = "true" ]; then umask 644;
+		cat <<-EOF ><:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>
+			(require 'tex-site);') <- beauty stuff
+		EOF
+	else
+	    rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>
+	fi
     ;;
     abort-upgrade|abort-deconfigure|abort-remove)
 	:

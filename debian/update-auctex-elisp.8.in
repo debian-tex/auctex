@@ -53,3 +53,10 @@ the directory containing the byte-compiled files.
 .BR latex (1).
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
+<:
+# Local variables:
+# mode: nroff
+# fill-column: 76
+# End:
+# LocalWords:  auctex elisp GPL AUCTeX AUC varauc cron tex
+:>//

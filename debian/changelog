@@ -1,3 +1,14 @@
+auctex (9.9p-7) unstable; urgency=low
+
+  * README: Instructions on AUC-TeX autoloading updated.
+  * config: Default autoloading questions added.
+  * postinst: Default autoloading rule added; fixed ../share/doc/pkg
+    bug. (Closes: #47119)
+  * prerm: Default autoloading rule added.
+  * templates: Default autoloading questions added.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Mon, 11 Oct 1999 10:13:43 +0200
+
 auctex (9.9p-6) unstable; urgency=low
 
   * Debconf support added.
