@@ -10,13 +10,13 @@
 ##----------------------------------------------------------------------
 
 # Where local software is found
-prefix=/usr/local
+prefix=/usr
 
 # Where info files go.
 infodir = $(prefix)/info
 
 # Where local lisp files go.
-lispdir = $(prefix)/share/emacs/site-lisp
+lispdir = $(prefix)/lib/emacs/common
 
 # Where the AUC TeX emacs lisp files go.
 aucdir=$(lispdir)/auctex
@@ -106,8 +106,7 @@ some:	$(AUCELC) $(STYLESRC:.el=.elc)
 install:	install-lisp
 
 contrib:
-	$(ELC) bib-cite.el
-	$(ELC) font-latex.el
+	$(ELC) bib-cite.el font-latex.el
 # 	$(ELC) tex-jp.el              # Doesn't compile without MULE
 # 	$(ELC) hilit-LaTeX.el         # Doesn't compile without X
 

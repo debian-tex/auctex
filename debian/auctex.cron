@@ -1,0 +1,5 @@
+#!/bin/sh
+
+/usr/sbin/auctex-auto-load 2>/dev/null >/dev/null
+
+exit 0

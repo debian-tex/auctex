@@ -1,0 +1,83 @@
+#! /usr/bin/make -f
+#
+# should be used only by dpkg-buildpackage
+
+# Some useful definitions
+INSTALL=install
+INSCRIPT=$(INSTALL) -o root -g root -m 755 -c
+INSTPROG=$(INSTALL) -o root -g root -s -m 755 -c
+INSTDATA=$(INSTALL)  -o root -g root -m 644 -c
+INSTDIR=$(INSTALL) -d -g root -m 755 -o root 
+
+define checkdir
+   test -f auc-old.el -a -f debian/rules
+endef
+
+DOCS-ARCH =
+DOCS-ALL = README PROBLEMS
+
+build:
+# Builds the binary package.
+	$(checkdir)
+	make all contrib EMACS=xemacs
+	touch build
+
+clean:
+# Undoes the effect of `make -f debian.rules build'.
+	$(checkdir)
+	make clean
+	-rm -f `find . -name \*.elc -print`
+	rm -f build
+	rm -rf debian/tmp-all
+
+binary-arch: build checkroot
+	$(checkdir)
+
+binary-indep: build checkroot
+	$(INSTDIR) debian/tmp-all/usr/lib/emacs/common
+	chmod g-s debian/tmp-all
+	$(INSTDIR) debian/tmp-all/usr/info
+	$(INSTDIR) debian/tmp-all/usr/sbin
+	make install install-contrib install-info prefix=$(shell pwd)/debian/tmp-all/usr
+	rm `find debian/tmp-all/usr/lib -name \*.el -print`
+	$(INSTDIR) debian/tmp-all/DEBIAN
+	$(INSTDIR) debian/tmp-all/etc/elisp
+	$(INSTDATA) debian/tex-site.el debian/tmp-all/etc/elisp
+	$(INSTDIR) debian/tmp-all/etc/cron.weekly
+	$(INSTDIR) debian/tmp-all/usr/doc/auctex
+	$(INSTDATA) $(DOCS-ALL) debian/tmp-all/usr/doc/auctex
+	$(INSTDATA) debian/changelog \
+	      debian/tmp-all/usr/doc/auctex/changelog.Debian
+	$(INSTDATA) ChangeLog debian/tmp-all/usr/doc/auctex/changelog
+	$(INSTDATA) debian/copyright debian/tmp-all/usr/doc/auctex/
+	gzip -9v debian/tmp-all/usr/doc/auctex/*
+	gzip -9v debian/tmp-all/usr/info/*
+	dpkg-gencontrol -pauctex -Pdebian/tmp-all
+	$(INSCRIPT) debian/auctex.cron debian/tmp-all/etc/cron.weekly/auctex
+	$(INSCRIPT) debian/auctex-auto-load debian/tmp-all/usr/sbin
+	$(INSCRIPT) debian/postinst debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/postrm debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/prerm debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/preinst debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/conffiles debian/tmp-all/DEBIAN/
+	chown -R root.root debian/tmp-all
+	dpkg --build debian/tmp-all ..
+
+mrproper: clean
+	-rm -f `find . \( -name \*~ -o -name \*.bak \) -print`
+
+# generic targets:
+binary:     binary-indep binary-arch
+
+source diff:
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+checkroot:
+	$(checkdir)
+	test root = "`whoami`"
+
+.PHONY: binary binary-arch binary-indep clean checkroot
+
+# Local Variables:
+# mode: makefile
+# End:

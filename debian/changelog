@@ -1,0 +1,42 @@
+auctex (9.7n-2) frozen unstable; urgency=low
+
+  * fixed the postinst script
+
+ -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Fri, 18 Apr 1997 03:04:19 +0200
+
+auctex (9.7n-1) unstable; urgency=low
+
+  * new upstream version.
+  * fixed files permissions (Bug# 8448)
+  * Architecture: all (Bug# 8442)
+
+ -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Wed, 2 Apr 1997 00:56:38 +0200
+
+auctex (9.7m-1) unstable; urgency=medium
+
+  * new upstream release 9.7m
+  * new maintainer Helmut Geyer
+  * correct handling of site-start.d using standard priority 50 for emacs,
+    xemacs 19 and xemacs 20.
+  
+ -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Mon, 17 Mar 1997 20:42:25 +0100
+
+auctex (9.7l-1) unstable; urgency=medium
+  
+  * new upstream release 9.7l
+  * unmaintained release for bo (Debian 1.3)
+  * new Debian packaging standard used 
+  * new location for auctex: /usr/lib/emacs/common/auctex
+  * lacheck no longer part of the package -> (not-yet-existant) lacheck package
+  * changes to support the new TeX packages based on teTeX
+  * fixed several bugs
+  * TeX-auto-generate{,-global} now is aware of already parsed files. This
+    does regretfully not work for style/macro files that do not generate
+    any lisp file. 
+  * added weekly cron entry for auctex-auto-generate
+
+ -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Sat, 15 Mar 1997 15:30:00 +0100
+  
+Local Variables:
+mode: debian-changelog
+End:

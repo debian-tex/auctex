@@ -1,0 +1,15 @@
+#!/bin/sh
+# we generate auctex lisp files for all emacsen, so byte-compile with 
+# xemacs-20, xemacs, emacs
+# This will be less important once xemacs 20.1 is released and there will
+# be a common byte format again.
+set -e
+if [ -x /usr/bin/xemacs-20.0 ]; then
+	EMACS=xemacs-20.0
+elif [ -x /usr/bin/xemacs ]; then
+	EMACS=xemacs
+else 
+	EMACS=emacs
+fi
+
+$EMACS -batch -q -no-site-file -l /etc/elisp/tex-site.el -f TeX-auto-generate-global

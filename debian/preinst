@@ -1,0 +1,39 @@
+#!/bin/sh
+set -e
+
+remove_handmade_auctex () {
+	echo -n "There is a locally installed version of auctex in $1 which will
+conflict with the debian package. Shall I
+     1) rename its tex-site file and go on installing         or
+     2) stop installing this package?
+Please answer: "
+	read answer
+	if [ "$answer" = "2" ] ; then
+		exit 1
+	elif [ "$answer" != "1" ]; then
+		fertig=
+		until [ ! -z "$fertig" ]; do
+			echo -n " Please answer 1 or 2! "
+			read answer
+			if [ "$answer" = "2" ] ; then
+	                	exit 1
+			elif [ "$answer" = "1" ]; then
+				fertig=1
+			fi
+		done
+	fi
+	mv -V t -b $1/tex-site.el $1/tex-site.el.dpkg-old
+}
+
+# remove old auctex package relics as there is a new location for auctex
+if [ -d /usr/lib/emacs/site-lisp/auctex ]; then
+	rm -rf /usr/lib/emacs/site-lisp/auctex
+fi
+
+# remove hand-made auctex packages from /usr/local, if existant.
+if [ -f /usr/local/lib/xemacs/site-lisp/tex-site.el ]; then
+	remove_handmade_auctex /usr/local/lib/xemacs/site-lisp/
+fi
+if [ -f /usr/local/share/emacs/site-lisp/tex-site.el ]; then
+	remove_handmade_auctex /usr/local/share/emacs/site-lisp/
+fi

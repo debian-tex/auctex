@@ -1,0 +1,74 @@
+#!/bin/bash
+set -e
+
+SITE_FIX=
+
+run_auto_generate () {
+	echo "AUC TeX can parse all TeX macros packages and LaTeX style files
+for information. This improves the performance of AUC TeX a lot. As this may
+need a lot of time when running for the first time, you may want to run it in
+the background or later by running /usr/sbin/auctex-auto-load. 
+If you run it in background you will get a log file in
+/tmp/auctex-auto-load.log"
+	fertig=
+	until [ ! -z "$fertig" ]; do
+		echo -n " Please answer run/background/later: [r/b/l]"
+		read answer
+		case $answer in
+			r) /usr/sbin/auctex-auto-load
+			   fertig=j
+			  ;;
+			b) /usr/sbin/auctex-auto-load > /tmp/auctex-auto-load.log 2>&1 &
+			   fertig=j
+			  ;;
+		 	l) fertig=j
+                          ;;
+		esac
+	done
+}
+
+for i in /etc/xemacs/site-start-19.d /etc/emacs/site-start.d /etc/xemacs/site-start-20.d ; do
+	if [ -d $i ]; then
+		cd $i
+		if [ ! -L 50tex-site.el ] ; then
+			ln -s ../../elisp/tex-site.el 50tex-site.el
+		fi
+	fi
+done
+
+for i in /usr/lib/emacs/site-lisp/ /usr/lib/xemacs/site-lisp/ ; do
+	if [ -d $i ]; then
+		cd $i
+		if [ ! -e tex-site.el ] ; then
+			ln -s /etc/elisp/tex-site.el .
+		fi
+	fi
+done
+     
+for i in /etc/xemacs/site-start.el /etc/emacs/site-start.el /usr/lib/xemacs/site-lisp/site-start.el /usr/lib/xemacs/site-lisp/site-start-19.el /usr/lib/xemacs/site-lisp/site-start-20.el /usr/lib/emacs/site-lisp/site-start.el; do
+    if [ -e $i ]; then
+        if [ "`grep tex-site $i`" != "" ]; then
+            SITE_FIX="$SITE_FIX $i"
+        fi
+    fi
+done
+
+if [ "$SITE_FIX" != "" ]; then
+    echo "The following files mention tex-site.el, even though they shouldn´t:"
+    echo "  $SITE_FIX "
+    echo "please remove the load or require command from these files."
+    echo -n "press <return> to proceed:"
+    read $input
+fi
+
+if [ "$1" = "upgrade"  -a "$2" = "9.4g" ]; then 
+	install-info --quiet --remove /usr/info/auctex.gz
+	run_auto_generate
+fi
+
+if [ "$1" = "install" ]; then
+	run_auto_generate
+fi
+
+install-info --quiet --section "Elisp Packages" "Elisp Packages" --menuentry="AUC TeX" --description="AUC TeX is an integrated environment for editing LaTeX and TeX files. " /usr/info/auctex.gz
+

@@ -1,0 +1,14 @@
+#!/bin/sh
+# if the package is to be removed completely, remove the info entry
+if [ "$1" != "upgrade" ] ; then
+	install-info --quiet --remove auctex
+	for i in /etc/xemacs/site-start-19.d /etc/emacs/site-start.d /etc/xemacs/site-start-20.d ; do
+       	 if [ -d $i ]; then
+       	         cd $i
+       	         if [ -L ??tex-site.el ] ; then
+			rm -f ??tex-site.el
+       	         fi
+       	 fi
+	done
+
+fi
