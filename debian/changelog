@@ -1,3 +1,11 @@
+auctex (11.11-2) unstable; urgency=low
+
+  * control(Standards-Version): Upgraded to 3.5.7.
+  * postinst(do_link): Removed.
+  * prerm(undo_link): Removed.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 27 Sep 2002 15:36:55 +0200
+
 auctex (11.11-1) unstable; urgency=medium
 
   * New upstream CVS version.

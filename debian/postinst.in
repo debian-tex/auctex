@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: postinst.in,v 1.13 2002/01/18 16:04:09 salve Exp $
+# $Id: postinst.in,v 1.14 2002/09/27 12:59:11 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -43,13 +43,6 @@ conf_autoload () {
     return 0
 }
 
-do_link () {
-    test -d /usr/doc -a ! -e /usr/doc/<:=${PACKAGE}:> \
-	 -a -d /usr/share/doc/<:=${PACKAGE}:> \
-	 && ln -sf ../share/doc/<:=${PACKAGE}:> /usr/doc/<:=${PACKAGE}:>
-    return 0
-}
-
 case "${1}" in
     (abort-remove|abort-upgrade|configure)
     <:# abort-remove in-favour ${3:newpkg} ${4:newver}
@@ -64,8 +57,6 @@ case "${1}" in
       # (dregistered files and conffiles have been installed):>//
     <:# install byte compiled lisp and do auto:>//
     <:=${EINSTALL}:> <:=${PACKAGE}:>
-    <:# install compatibility link:>//
-    do_link
     <:# install info menu into info dir:>//
     <:=${DINSTALL}:> <:="${docbase}/${PACKAGE}":>
     <:# install info menu into info dir:>//

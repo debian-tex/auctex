@@ -1,0 +1,8 @@
+* TeX-printer-list, TeX-printer-default
+Is there any simple way to collect printer info at installation time, or even
+better at load time?
+
+
+Local variables:
+mode: outline
+End variables:

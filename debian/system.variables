@@ -1,5 +1,5 @@
 <:# Copyright (C) 1999, 2000, 01, 02 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: system.variables,v 1.8 2002/01/18 16:04:10 salve Exp $:>//
+<:# $Id: system.variables,v 1.9 2002/09/27 13:41:53 salve Exp $:>//
 <:# package specific:>//
 <:$debian="/DEBIAN/":>//
 <:$ETC="/etc/":>//
@@ -45,7 +45,7 @@
 <:$GPL="/usr/share/common-licenses/GPL":>//
 <:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>;close(COPYRIGHT):>//
 <:
-# Local variables:
+# local variables:
 # mode: shell-script
 # end:
 :>//

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: prerm.in,v 1.7 2002/01/18 16:04:10 salve Exp $
+# $Id: prerm.in,v 1.8 2002/09/27 12:59:46 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -10,11 +10,6 @@ set -o posix
 
 deconf_autoload () {
     rm -f <:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
-    return 0
-}
-
-undo_link () {
-    test -L /usr/doc/<:=${PACKAGE}:> && rm -f /usr/doc/<:=${PACKAGE}:>
     return 0
 }
 
@@ -34,8 +29,6 @@ case "${1}" in
     <:=${IREMOVE}:> <:=${PACKAGE}:>
     <:# remove doc menu from doc dir:>//
     <:=${DREMOVE}:> <:=${PACKAGE}:>
-    <:# remove compatibility link:>//
-    undo_link
     <:# remove byte compiled elisp:>//
     <:=${EREMOVE}:> <:=${PACKAGE}:> ;;
     (failed-upgrade)
