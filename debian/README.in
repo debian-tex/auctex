@@ -20,7 +20,7 @@ Online Documentation
 Online documentation may be found in the info or HTML manual, and the
 <:=$UPDATE:>(8) manual page.
 
-TeXInfo sources may be found in the "<:=if($_=$docsrc)=~tr|/|/|s:>"
+TeXInfo sources may be found in the "<:=if($_="$docsrc")=~tr|/|/|s:>"
 directory.
 
 
@@ -28,7 +28,7 @@ Notes to System Administrators
 ==============================
 
 A) To improve its performance AUC-TeX stores informations about TeX macros and
-LaTeX styles available on the system in "<:=$varauc:>".
+LaTeX styles available on the system in the "<:=$var:>" directory.
 
 AUC-TeX updates these informations weekly, by mean of a cron script;
 nevertheless, you may want to run "<:=if($_="$sbin/$UPDATE")=~tr|/|/|s:>"
@@ -80,6 +80,6 @@ Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
 # mode: text
 # fill-column: 78
 # End:
-# LocalWords:  auctex AUC tex dpkg HTML TeXInfo docsrc tr varauc cron sbin SSEL
+# LocalWords:  auctex AUC tex dpkg HTML TeXInfo tr varauc cron sbin SSEL docsrc
 # LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET lisp hilit jp gmtime
 :>//

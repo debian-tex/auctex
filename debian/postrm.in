@@ -2,21 +2,35 @@
 #!/bin/bash -e
 #
 # postrm configuration file for Debian auctex package.
-# $Id: postrm.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+# $Id: postrm.in,v 1.2 1999/10/14 14:39:35 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 case "$1" in
-    remove|upgrade)
+    abort-install|abort-upgrade|failed-upgrade|remove|upgrade)
+    <:# abort-install ${2:oldver}
+      # (if $2 conffiles were there, or, if there aren't any)
+      # abort-install
+      # (undo preinst install effects):>//
+    <:# abort-upgrade ${2:oldver}
+      # (undo preinst upgrade effects):>//
+    <:# failed-upgrade ${2:oldver}
+      # (fix old postrm  bugs):>//
+    <:# remove
+      # (dregistered files have been removed, clean up):>//
+    <:# upgrade ${2:newver}
+      # (old prerm upgrade and new preinst upgrade have been called, clean up):>//
 	:
     ;;
-    purge|disappear)
+    disappear|purge)
+    <:# disappear ${2:overwriter}
+      # (dregistered files and conffiles have been overwritten, clean up):>//
+    <:# purge
+      # (dregistered files and conffiles have been purged, clean up):>//
+	<:# purge package from debconf database:>//
 	test -e <:=$CONFMODULE:> && source <:=$CONFMODULE:> && db_purge
-    ;;
-    failed-upgrade|abort-install|abort-upgrade)
-	:
     ;;
     *)
 	echo "${0##*/}: Called with unknown argument \`$1'." >&2

@@ -6,7 +6,7 @@ Description: Should AUC-TeX be auto-loaded by default at your site?
  Emacs has its own standard (La)TeX major modes, that will be globally (i.e.,
  for all users on this site) overridden if you answer yes to this question.
  This is generally a good thing, since AUC-TeX is so better; however you may
- don't want it to happen, and let instead single users at your site decide by
+ not want it to happen, and let instead single users at your site decide by
  themselves if they should load this package.
  .
  If you answer no, people who desire to use it will have to put the string
@@ -24,7 +24,7 @@ Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
 
 Template: <:=$PACKAGE:>/doauto
 Type: select
-Choices: Foreground, Background, None
+Choices: Background, Foreground, None
 Default: Background
 Description: How should (La)TeX macros be parsed?
  To greatly improve AUC-TeX performances, every TeX macro package and LaTeX

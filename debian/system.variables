@@ -1,0 +1,46 @@
+<:# package specific:>//
+<:$debian="/DEBIAN/":>//
+<:$etc="/etc/$PACKAGE/":>//
+<:$doc="/usr/share/doc/$PACKAGE/":>//
+<:$html="$doc/HTML":>//
+<:$var="/var/lib/$PACKAGE/":>//
+<:# usr and friends:>//
+<:$usr="/usr/":>//
+<:$share="/usr/share/":>//
+<:$bin="/usr/bin":>//
+<:$man="/usr/share/man/":>//
+<:$sbin="/usr/sbin/":>//
+<:# cron:>//
+<:$cron_d="/etc/cron.d/":>//
+<:$cron_daily="/etc/cron.daily/":>//
+<:$cron_weekly="/etc/cron.weekly/":>//
+<:$cron_monthly="/etc/cron.monthly/":>//
+<:# debconf:>//
+<:$CONFMODULE="/usr/share/debconf/confmodule.sh":>//
+<:# docbase:>//
+<:$DINSTALL="test -x /usr/sbin/install-docs && install-docs --install":>//
+<:$DREMOVE="test -x /usr/sbin/install-docs && install-docs --remove":>//
+<:$docbase="/usr/share/doc-base/":>//
+<:# emacs:>//
+<:$ELCLOG="CompilationLog":>//
+<:$EINSTALL="/usr/lib/emacsen-common/emacs-package-install":>//
+<:$EREMOVE="/usr/lib/emacsen-common/emacs-package-remove":>//
+<:$SSEL="/etc/emacs/site-start.el":>//
+<:$sstartd="/etc/emacs/site-start.d/":>//
+<:$ecode="/usr/lib/emacsen-common/packages/":>//
+<:$lisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
+<:# info:>//
+<:$IINSTALL="install-info --section \"$INFOSEC\" \"$INFOSEC\""
+	  . " --menuentry=\"$INFOMENU\""
+	  . " --description=\"$INFODESC\""
+	  . " --quiet":>//
+<:$IREMOVE="install-info --quiet --remove":>//
+<:$info="/usr/share/info/":>//
+<:# misc:>//
+<:$GPL="/usr/share/common-licenses/GPL":>//
+<:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>;close(COPYRIGHT):>//
+<:
+# Local variables:
+# mode: shell-script
+# end:
+:>//

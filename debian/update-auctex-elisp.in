@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # Update AucTeX auto-loads.
-# $Id: update-auctex-elisp.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+# $Id: update-auctex-elisp.in,v 1.2 1999/10/14 14:39:35 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -20,7 +20,7 @@ done
 
 # I gues it's better to remove auto generated .el files now that .elc have
 # been generated, in order to save some disk space.
-rm -f $(find <:=$varauc:> -type f -name \*.el)
+rm -f $(find <:=$var:> -type f -name \*.el)
 <:
 # Local Variables:
 # mode: shell-script

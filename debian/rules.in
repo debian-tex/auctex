@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules.in,v 1.3 1999/10/12 14:35:07 salve Exp $
+# $Id: rules.in,v 1.4 1999/10/14 14:39:35 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -21,9 +21,9 @@ INSTDATA	:= install -m 644
 INSTSCRIPT	:= install -m 755
 
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
-		debian/cron debian/docbase debian/install debian/postinst \
-		debian/postrm debian/prerm debian/remove debian/templates \
-		debian/<:=$UPDATE:> debian/<:=$UPDATE:>.8
+		debian/cron debian/docbase debian/install debian/preinst \
+		debian/postinst debian/prerm debian/postrm debian/remove \
+		debian/templates debian/<:=$UPDATE:> debian/<:=$UPDATE:>.8
 # WARNING: The man page should be manually fixed in case of $UPDATE variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
 # (it's CVS registered), lest it will be deleted by clean.
@@ -35,17 +35,17 @@ DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 
 build: $(DFILES) debian/variables
 	$(checkdir)
-	-cat debian/japanese-patch | patch --forward --reject-file=trashcan
+	-cat debian/japanese-patch | patch --forward --reject-file=debian/trashcan
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
 clean:
 	$(checkdir)
-	-rm -rf build core trashcan $(tmp) debian/{files*,substvars}
+	-rm -rf build core debian/trashcan $(tmp) debian/{files*,substvars}
 	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
-	-cat debian/japanese-patch | patch --forward --reverse --reject-file=trashcan
+	-cat debian/japanese-patch | patch --forward --reverse --reject-file=debian/trashcan
 	-$(MAKE) clean
 
 binary: binary-indep binary-arch
@@ -71,7 +71,7 @@ binary-indep: checkroot build
 	gzip -9frv $(tmp)/<:=$info:>
 
 # install Debian doc
-	$(INSTDIR) $(tmp)/<:=$doc:> $(tmp)/<:=$docsrc:> $(tmp)/<:=$html:> $(tmp)/<:=$man8:>
+	$(INSTDIR) $(tmp)/<:=$doc:> $(tmp)/<:=$docsrc:> $(tmp)/<:=$html:> $(tmp)/<:=$man:>/man8/
 	$(INSTDATA) <:=$DOCS:> $(tmp)/<:=$doc:>
 	$(INSTDATA) <:=$DOCSRC:> $(tmp)/<:=$docsrc:>
 	$(INSTDATA) debian/README $(tmp)/<:=$doc:>/README.Debian
@@ -83,16 +83,16 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/copyright $(tmp)/<:=$doc:>
 	$(INSTDATA) doc/*.html $(tmp)/<:=$html:>
 	ln -snf auc-tex_toc.html $(tmp)/<:=$html:>/index.html
-	$(INSTDATA) debian/<:=$UPDATE:>.8 $(tmp)/<:=$man8:>
-	gzip -9frv $(tmp)/<:=$man8:>
+	$(INSTDATA) debian/<:=$UPDATE:>.8 $(tmp)/<:=$man:>/man8/
+	gzip -9frv $(tmp)/<:=$man:>
 
 # install Debian system files
-	$(INSTDIR) $(tmp)/<:=$lisp:> $(tmp)/<:=$cron:> $(tmp)/<:=$sbin:> \
+	$(INSTDIR) $(tmp)/<:=$lisp:> $(tmp)/<:=$cron_weekly:> $(tmp)/<:=$sbin:> \
 		$(tmp)/<:=$ecode:>/{install,remove} $(tmp)/<:=$docbase:> \
-		$(tmp)/<:=$varauc:>
+		$(tmp)/<:=$var:>
 	$(INSTDATA) tex-site.el $(tmp)/<:=$lisp:>/../
 	$(INSTDATA) debian/docbase $(tmp)/<:=$docbase:>/<:=$PACKAGE:>
-	$(INSTSCRIPT) debian/cron $(tmp)/<:=$cron:>/<:=$PACKAGE:>
+	$(INSTSCRIPT) debian/cron $(tmp)/<:=$cron_weekly:>/<:=$PACKAGE:>
 	$(INSTSCRIPT) debian/<:=$UPDATE:> $(tmp)/<:=$sbin:>
 	$(INSTSCRIPT) debian/install $(tmp)/<:=$ecode:>/install/<:=$PACKAGE:>
 	$(INSTSCRIPT) debian/remove $(tmp)/<:=$ecode:>/remove/<:=$PACKAGE:>
@@ -100,7 +100,7 @@ binary-indep: checkroot build
 # install Debian control files
 	$(INSTDIR) $(tmp)/<:=$debian:>
 	$(INSTDATA) debian/{conffiles,templates} $(tmp)/<:=$debian:>
-	$(INSTSCRIPT) debian/{config,postinst,postrm,prerm} $(tmp)/<:=$debian:>
+	$(INSTSCRIPT) debian/{config,preinst,postinst,postrm,prerm} $(tmp)/<:=$debian:>
 
 # standard stuff
 #-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(tmp)/<:=$debian:>/du

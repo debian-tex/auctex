@@ -29,35 +29,14 @@
 <:# Misc package variables:>//
 <:$UPDATE="update-auctex-elisp":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
-<:$ELCLOG="CompilationLog":>//
 <:$MENUSEC="Apps/Editors":>//
 <:$INFOSEC="Document Preparation":>//
+<:$INFOMENU="AUC TeX":>//
+<:$INFODESC="An integrated environment for TeX and LaTeX.":>//
 <:$EPRIORITY="50":>//
-<:# Directories:>//
-<:$debian="/DEBIAN/":>//
-<:$cron="/etc/cron.weekly/":>//
-<:$sstartd="/etc/emacs/site-start.d/":>//
-<:$usr="/usr/":>//
-<:$ecode="/usr/lib/emacsen-common/packages/":>//
-<:$sbin="/usr/sbin/":>//
-<:$share="/usr/share/":>//
-<:$doc="/usr/share/doc/$PACKAGE/":>//
-<:$docsrc="$doc/doc/":>//
-<:$html="$doc/HTML":>//
-<:$docbase="/usr/share/doc-base/":>//
-<:$lisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
+#include "system.variables"
+<:$docsrc="$doc/src/":>//
 <:$style="$lisp/style/":>//
-<:$info="/usr/share/info/":>//
-<:$man8="/usr/share/man/man8/":>//
-<:$varauc="/var/lib/$PACKAGE/":>//
-<:# Programs and Data:>//
-<:$GPL="/usr/share/common-licenses/GPL":>//
-<:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>:>//
-<:$SSEL="/etc/emacs/site-start.el":>//
-<:$CONFMODULE="/usr/share/debconf/confmodule.sh":>//
-<:$EPINSTALL="/usr/lib/emacsen-common/emacs-package-install":>//
-<:$EPREMOVE="/usr/lib/emacsen-common/emacs-package-remove":>//
-<:$DBINSTALL="/usr/sbin/install-docs":>//
 <:
 # Local variables:
 # mode: shell-script

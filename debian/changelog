@@ -1,3 +1,13 @@
+auctex (9.9p-9) unstable; urgency=low
+
+  * templates: Fixed typo. (Ref: #47306)
+  * postinst: Run update-auctex-elisp with fd 3 closed; issue "db_stop" at
+    exit. (Closes: #47325)
+  * preinst: New file.
+  * variables: Split generic stuff to system.variables.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 14 Oct 1999 16:38:37 +0200
+
 auctex (9.9p-8) unstable; urgency=high
 
   * install: Really ignore emacs.

@@ -33,7 +33,7 @@ The
 .B update\-auctex\-elisp
 scripts updates the automatically generated TeX and LaTeX informations
 used by AUC TeX and stored in
-.B <:=$varauc:>
+.B <:=$var:>
 .PP
 It should be called after each major (La)TeX style files installation or upgrade.
 .PP
@@ -45,7 +45,7 @@ driven mechanism, to ensure up-to-date informations.
 .SH BUGS
 None known.
 .SH FILES
-.B <:=$varauc:>
+.B <:=$var:>
 the directory containing the byte-compiled files.
 .SH SEE ALSO
 .BR emacs (1),
