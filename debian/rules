@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.26 1999/07/16 18:21:11 salve Exp $
+# $Id: rules,v 1.27 1999/10/05 20:02:30 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -119,6 +119,7 @@ binary-indep: checkroot build
 	$(INSTDATA) tex-site.el $(slisp)
 	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
 	$(INSTDATA) debian/auctex.menu $(menu)/auctex
+	$(INSTDATA) debian/auctex.dhelp $(html)/.dhelp
 	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
 #	compatibility link: this should eventually disappear
 #	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load

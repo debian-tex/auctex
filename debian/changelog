@@ -1,3 +1,13 @@
+auctex (9.9p-3) unstable; urgency=low
+
+  * Added dhelp support. (closes: #41592)
+  * auctex.dhelp: New file.
+  * postinst: Added dhelp support.
+  * prerm: Added dhelp support.
+  * rules: Added auctex.dhelp rule.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Tue,  5 Oct 1999 20:09:42 +0200
+
 auctex (9.9p-2) unstable; urgency=low
 
   * ../tex.el:  Applied patch from Hidenobu Nabetani
