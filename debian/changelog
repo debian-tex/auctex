@@ -1,3 +1,13 @@
+auctex (11.54-3) unstable; urgency=high
+
+  * Urgency high: fixes an important bug.  (See: #292508)
+  * ../tex.el: Apply a patch from Ralf Angeli, thanks to Frank Küster.
+    (Closes: #292508)
+  * control (Conflicts): Add emacspeak (<= 21), thanks to Frank Küster.
+    (See: #291970)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 27 Jan 2005 16:34:12 +0100
+
 auctex (11.54-2) unstable; urgency=low
 
   * ../tex-buf.el: Apply a patch from Ralf Angeli.  (Closes: #258686)

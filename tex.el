@@ -669,9 +669,9 @@ The function NAME with argument ARGS and version-specific
 DOC string gets defined as BODY.  An occurence of %s in the
 DOC string gets replaced with a string like \"AUCTeX 5.1\"."
 ;;   (declare (indent defun) (debug &declare name name
-;; 				 lambda-list args
-;; 				 arg doc
-;; 				 def-body body))
+;;				 lambda-list args
+;;				 arg doc
+;;				 def-body body))
   `(defun ,name ,args ,(format doc
 			       (concat "AUCTeX " AUCTeX-version))
      ,@body))
@@ -2128,7 +2128,7 @@ The algorithm is as follows:
   (setq ispell-parser 'tex)
   (make-local-variable 'ispell-tex-p)
   (setq ispell-tex-p t)
-  
+
   ;; Redefine some standard variables
   (make-local-variable 'paragraph-start)
   (make-local-variable 'paragraph-separate)
@@ -3060,7 +3060,7 @@ Used for specifying extra syntax for a macro."
   (modify-syntax-entry ?&  "."  TeX-mode-syntax-table)
   (modify-syntax-entry ?_  "."  TeX-mode-syntax-table)
   (modify-syntax-entry ?@  "_"  TeX-mode-syntax-table)
-  (modify-syntax-entry ?~  " "  TeX-mode-syntax-table)
+  (modify-syntax-entry ?~  "."  TeX-mode-syntax-table)
   (modify-syntax-entry ?$  "$"  TeX-mode-syntax-table)
   (modify-syntax-entry ?'  "w"  TeX-mode-syntax-table)
   (modify-syntax-entry ?«  "."  TeX-mode-syntax-table)
@@ -3170,7 +3170,7 @@ be bound to `TeX-electric-macro'."
     (define-key map "\C-c?"    'describe-mode)
     (define-key map "\C-c\C-i" 'TeX-goto-info-page)
     (define-key map "\r"       'TeX-newline)
-    
+
     ;; From tex.el
     (define-key map "\""       'TeX-insert-quote)
     (define-key map "$"        'TeX-insert-dollar)
@@ -3183,14 +3183,14 @@ be bound to `TeX-electric-macro'."
     (if TeX-electric-escape
 	(define-key map "\\" 'TeX-electric-macro))
     (define-key map "\e\t"   'TeX-complete-symbol) ;*** Emacs 19 way
-    
+
     (define-key map "\C-c'"    'TeX-comment-or-uncomment-paragraph) ;*** Old way
     (define-key map "\C-c:"    'TeX-comment-or-uncomment-region) ;*** Old way
     (define-key map "\C-c\""   'TeX-uncomment) ;*** Old way
-    
+
     (define-key map "\C-c;"    'TeX-comment-or-uncomment-region)
     (define-key map "\C-c%"    'TeX-comment-or-uncomment-paragraph)
-    
+
     (define-key map "\C-c\C-t\C-o"   'TeX-Omega-mode)
     (define-key map "\C-c\C-t\C-p"   'TeX-PDF-mode)
     (define-key map "\C-c\C-t\C-i"   'TeX-interactive-mode)
@@ -3876,7 +3876,7 @@ those will be considered part of it."
 	(cond
 	 ;; Skip over pairs of square brackets
 	 ((or (looking-at "[ \t]*\n?\\(\\[\\)") ; Be conservative: Consider
-					        ; only consecutive lines.
+						; only consecutive lines.
 	      (and (looking-at (concat "[ \t]*" TeX-comment-start-regexp))
 		   (save-excursion
 		     (forward-line 1)
