@@ -36,8 +36,8 @@ need not doing anything special to load it anymore.  Emacs 21 users may choose
 Online Documentation
 ====================
 
-Online documentation may be found in the info or HTML manual, and the
-<:=${UPDATE}:>(8) manual page.
+Online documentation may be found in the info or HTML manual, and in the
+<:=${UPDATE_ELISP}:>(8) and <:=${UPDATE_INSTALL}:>(8) manual pages.
 
 TeXInfo sources may be found in the "<:=if($_="${docsrc}")=~tr|/|/|s:>"
 directory.
@@ -50,7 +50,7 @@ A) To improve its performance AUCTeX stores informations about TeX macros and
 LaTeX styles available on the system in the "<:=${var}:>" directory.
 
 AUCTeX updates these informations weekly, by mean of a cron script;
-nevertheless, you may want to run "<:=if($_="${sbin}/${UPDATE}")=~tr|/|/|s:>"
+nevertheless, you may want to run "<:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:>"
 manually after installing new style files under "/usr/local/share/texmf".
 
 B) You may probably want to customize the list of printers available at your

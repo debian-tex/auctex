@@ -1,3 +1,26 @@
+auctex (11.14+CVS.2004.05.25.1-1) UNRELEASED; urgency=low
+
+  * New CVS upstream source.
+  * rules: Add a "dir" file before calling "install-info", caters for
+    older version of that program.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 25 May 2004 11:28:53 +0200
+
+auctex (11.14+CVS.2004.05.19.1-1) UNRELEASED; urgency=low
+
+  * New CVS upstream source.
+  * README, cron, install, rules, templates: Change "${UPDATE}" to
+    "${UPDATE_ELISP}".
+  * README (Online Documentation): Add "update-auctex-install(8)".
+  * rules: Add targets for "update-auctex-install" and
+    "update-auctex-install(8)".
+  * update-auctex-elisp.8: Spell fixes.
+  * update-auctex-install: New script.
+  * update-auctex-install.8: New man page.
+  * variables: Added "${UPDATE_INSTALL}".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 19 May 2004 11:35:40 +0200
+
 auctex (11.14+CVS.2004.05.18.1-1) UNRELEASED; urgency=low
 
   * New CVS upstream source.

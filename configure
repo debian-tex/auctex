@@ -790,7 +790,8 @@ Optional Packages:
   --with-xemacs[=PATH]    Use XEmacs to build (on PATH if given)
   --with-packagedir=DIR   package DIR for XEmacs
   --with-lispdir=DIR      Where to install lisp files
-  --with-tex-input-dirs=DIRS    Directories holding TeX input files (separated by semicolons)
+  --with-tex-input-dirs=DIRS
+                          semicolon-separated DIRS for TeX file searches
   --with-auto-dir=DIR     directory containing AUCTeX automatically generated
 			  global style hooks
 
@@ -1674,14 +1675,15 @@ EOF
 `";; *) break ;; esac; done
     EMACS_LISPDIR=""
 
-  elisp="(let ((load-path load-path))
-	 (while (and load-path (not (string-match \"^${i}/\?\$\"
+  elisp="(let ((load-path load-path)
+             (pattern (concat \"^\" (regexp-quote cmdpath) \"[/\\\\]?\$\")))
+	 (while (and load-path (not (string-match pattern
 						  (car load-path))))
 		(setq load-path (cdr load-path)))
 	 (if load-path \"yes\" \"no\"))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
-  ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch -no-site-file  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
+  ${EMACS} -batch  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
   EMACS_LISPDIR="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
   rm -f ${OUTPUT}
@@ -1719,14 +1721,15 @@ EOF
 `";; *) break ;; esac; done
     EMACS_LISPDIR=""
 
-  elisp="(let ((load-path load-path))
-	 (while (and load-path (not (string-match \"^${i}/\?\$\"
+  elisp="(let ((load-path load-path)
+             (pattern (concat \"^\" (regexp-quote cmdpath) \"[/\\\\]?\$\")))
+	 (while (and load-path (not (string-match pattern
 						  (car load-path))))
 		(setq load-path (cdr load-path)))
 	 (if load-path \"yes\" \"no\"))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
-  ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch -no-site-file  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
+  ${EMACS} -batch  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) (princ x (quote ignore)) (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
   EMACS_LISPDIR="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
   rm -f ${OUTPUT}
@@ -1756,7 +1759,7 @@ use  --with-lispdir, --with-packagedir (xemacs), --datadir (emacs),
    { (exit 1); exit 1; }; }
      fi
      # Store expanded path, may be added to (X)Emacs load-path
-     lispdir_expanded=$lispdir
+     lispdir_expanded="$lispdir"
       while :;do case "$lispdir_expanded" in *\$*) __ac_tmp__='s/[\`"]/\\&/g'
 eval "lispdir_expanded=`sed ${__ac_tmp__} <<EOF
 $lispdir_expanded
@@ -1793,8 +1796,8 @@ EOF
    texinputdirsout=""
    for x in `echo ${texinputdirs} | sed -e 's/\;/\\n/g'` ; do
      if test ! -d "$x" ; then
-       { { echo "$as_me:$LINENO: error: --with-texmf-dir=\"$x\": Directory does not exist" >&5
-echo "$as_me: error: --with-texmf-dir=\"$x\": Directory does not exist" >&2;}
+       { { echo "$as_me:$LINENO: error: --with-tex-input-dirs=\"$x\": Directory does not exist" >&5
+echo "$as_me: error: --with-tex-input-dirs=\"$x\": Directory does not exist" >&2;}
    { (exit 1); exit 1; }; }
      fi
      if test "${texinputdirsout}" != "" ; then
@@ -1810,17 +1813,21 @@ if test -z "$texinputdirs" ; then
   echo "$as_me:$LINENO: checking for directories holding TeX input files" >&5
 echo $ECHO_N "checking for directories holding TeX input files... $ECHO_C" >&6
   texinputdirs=""
-  temp=`kpsewhich --progname latex --expand-braces \\$SYSTEXMF`
-  if test -z "$temp" ; then
-    temp1=`kpsewhich --progname latex --expand-braces \\$TEXMFLOCAL`
-    if test -z "$temp1" ; then
+  temp=`kpsewhich --progname latex --expand-braces \\$SYSTEXMF 2> /dev/null`
+  if test $? -ne 0 ; then
+    temp=""
+    temp1=`kpsewhich --progname latex --expand-braces \\$TEXMFLOCAL 2> /dev/null`
+    if test $? -ne 0 ; then
       temp1=`kpsewhich --progname latex --expand-path \\$TEXMFLOCAL`
     fi
-    temp2=`kpsewhich --progname latex --expand-braces \\$TEXMFMAIN`
-    if test -z "$temp2" ; then
+    temp2=`kpsewhich --progname latex --expand-braces \\$TEXMFMAIN 2> /dev/null`
+    if test $? -ne 0 ; then
       temp2=`kpsewhich --progname latex --expand-path \\$TEXMFMAIN`
     fi
-    temp3=`kpsewhich --progname latex --expand-braces \\$TEXMFDIST`
+    temp3=`kpsewhich --progname latex --expand-braces \\$TEXMFDIST 2> /dev/null`
+    if test $? -ne 0 ; then
+      temp3=""
+    fi
     for i in $temp1 $temp2 $temp3 ; do
       if ! echo $i | grep -e '^A-Za-z:' > /dev/null && \
 	 ! echo $i | grep ';' > /dev/null ; then

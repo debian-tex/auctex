@@ -73,11 +73,18 @@ it out with one of these options:
      case, a good value for this option is `~/.xemacs/xemacs-packages',
      as XEmacs looks there for per-user packages by default.
 
-`--with-texmf-dir=/DIR'
-     This option can be used to specify the location of the TeX TDS
-     directory hierarchy resides. It is not necessary for most TeX
-     installs, but may be used if you don't like the directory that
-     configure is suggesting.
+`--with-tex-input-dirs=/DIR-1/;/DIR-2/;...;/DIR-N/'
+     This option allows to specify the directories to be used for file
+     searches, e.g. for completion of LaTeX or BibTeX style file names.
+     They will be used in the variable `TeX-macro-global'.
+
+     Normally only the subdirectories `tex/' and `bibtex/bst/' below
+     the used texmf trees should be relevant.  Putting the roots of
+     texmf trees here is possible but may slow down file searching.
+
+     The directories should be separated by semicolons and each has to
+     end with a directory separator, i.e. a slash or a backslash
+     respectively.
 
 `--with-auto-dir=/DIR'
      You can use this option to specify the directory containing

@@ -3,13 +3,14 @@
 #
 # Update AUCTeX auto-loads.
 # Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: cron.in,v 1.4 2004/03/18 16:38:22 salve Exp $
+# $Id: cron.in,v 1.5 2004/05/19 09:27:37 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-test -x <:=if($_="${sbin}/${UPDATE}")=~tr|/|/|s:> && <:=${UPDATE}:> &>/dev/null
+test -x <:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:><:
+:> && <:=${UPDATE_ELISP}:> &>/dev/null
 
 exit 0
 <:

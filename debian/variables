@@ -1,10 +1,11 @@
 <:# Copyright (C) 1999, 2000, 01, 02, 03, 04 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: variables,v 1.14 2004/05/13 14:50:49 salve Exp $:>//
+<:# $Id: variables,v 1.15 2004/05/19 09:26:25 salve Exp $:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
 <:$DOCS="README CHANGES HISTORY":>//
 <:# Misc package variables:>//
-<:$UPDATE="update-auctex-elisp":>//
+<:$UPDATE_ELISP="update-auctex-elisp":>//
+<:$UPDATE_INSTALL="update-auctex-install":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
 <:$MENUSEC="Apps/Editors":>//
 <:$INFOSEC="Document Preparation":>//

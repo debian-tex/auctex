@@ -119,7 +119,7 @@ Description: How should (La)TeX macros be parsed?
  collected, so usually you won't need to worry about them whenever you install
  new (La)TeX packages or remove old ones.
  .
- Anyway, you can update them by hand running <:=${UPDATE}:>.
+ Anyway, you can update them by hand running <:=${UPDATE_ELISP}:>.
 Description-it: In che modo si deve effettuare la scansione delle macro per (La)TeX?
  Per migliorare grandemente le proprie prestazioni, AUCTeX scandir.bé‡ tutti i
  pacchetti di macro per TeX ed i file di stile per LaTeX attualmente
@@ -137,7 +137,7 @@ Description-it: In che modo si deve effettuare la scansione delle macro per (La)
  aggiuntivi per (La)TeX.
  .
  In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando
- <:=${UPDATE}:>.
+ <:=${UPDATE_ELISP}:>.
 Description-de: Wie sollen (La)TeX-Makros behandelt werden?
  Zur Beschleunigung von AUCTeX kann jedes installierte TeX-Makro und jeder
  LaTeX-Style im Voraus bearbeitet werden.
@@ -249,5 +249,5 @@ Description-pt_BR: Onde deve ir a sa.AéÌda da interpretaéÁé„o?
 # fill-column: 78
 # End:
 # LocalWords:  tex alreadydefault SSEL dpkg doauto LOGFILE cron AUCTeX
-# LocalWords:  require tex-site form dpkg-reconfigure PACKAGE UPDATE
+# LocalWords:  require tex-site form dpkg-reconfigure PACKAGE UPDATE_ELISP
 :>//

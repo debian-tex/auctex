@@ -15,3 +15,5 @@ templates
 tmp
 update-auctex-elisp
 update-auctex-elisp.8
+update-auctex-install
+update-auctex-install.8

@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.50 2004/05/13 14:51:07 salve Exp $
+# $Id: rules,v 1.52 2004/05/25 09:39:58 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04 by Davide Giovanni
 # Maria Salvetti.
@@ -38,7 +38,9 @@ DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/postinst debian/prerm debian/postrm debian/remove \
 		debian/templates \
 		debian/update-auctex-elisp debian/update-auctex-elisp.8 \
-# WARNING: The man page should be manually fixed in case of ${UPDATE} variations.
+		debian/update-auctex-install debian/update-auctex-install.8
+# WARNING: The man pages should be manually fixed in case of ${UPDATE_ELISP}
+# and ${UPDATE_INSTALL} variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
 # (it's CVS registered), lest it will be deleted by clean.
 # Beside, it's automatically remade by make
@@ -90,6 +92,9 @@ binary-indep: checkroot build
 	$(INSTDATA) $(AUCTEXSTYLES) $(tmp)//usr/share/emacs/site-lisp/auctex//style//
 	umask 0022; echo -e "clean distclean:\n\trm -f Makefile\n" \
 		> $(auctexdoc)/$(AUCTEXDOC)
+	$(INSTDIR) $(tmp)//usr/share/info/
+	umask 0022; echo -e "\nFile: dir\tNode: Top\tTop\n" \
+		> $(tmp)//usr/share/info//dir
 	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/ \
 		&& rm $(tmp)//usr/share/info//dir{,.old}
 	gzip -9frv $(tmp)//usr/share/info/
@@ -109,6 +114,7 @@ binary-indep: checkroot build
 	$(INSTDATA) doc/*.html $(tmp)//usr/share/doc/auctex//HTML
 	ln -snf auc-tex_toc.html $(tmp)//usr/share/doc/auctex//HTML/index.html
 	$(INSTDATA) debian/update-auctex-elisp.8 $(tmp)//usr/share/man//man8/
+	$(INSTDATA) debian/update-auctex-install.8 $(tmp)//usr/share/man//man8/
 	gzip -9frv $(tmp)//usr/share/man/
 
 # install Debian system files
@@ -118,6 +124,7 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/docbase $(tmp)//usr/share/doc-base//auctex
 	$(INSTSCRIPT) debian/cron $(tmp)//etc/cron.weekly//auctex
 	$(INSTSCRIPT) debian/update-auctex-elisp $(tmp)//usr/sbin/
+	$(INSTSCRIPT) debian/update-auctex-install $(tmp)//usr/sbin/
 	$(INSTSCRIPT) debian/install $(tmp)//usr/lib/emacsen-common/packages//install/auctex
 	$(INSTSCRIPT) debian/remove $(tmp)//usr/lib/emacsen-common/packages//remove/auctex
 

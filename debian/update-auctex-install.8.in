@@ -1,8 +1,8 @@
 #include "variables"
 .\" Well, you know... this is an -*- nroff -*- source file.
 .\"
-.\" Man page for update-auctex-elisp.
-.\" Copyright 1998, 99, 2000, 01, 04 Davide Giovanni Maria Salvetti.
+.\" Man page for update-auctex-install.
+.\" Copyright 2004 Davide Giovanni Maria Salvetti.
 .\"
 .\" This manual page is free software; you can redistribute it and/or
  \" modify it under the terms of the GNU General Public License as
@@ -22,36 +22,38 @@
 .\" On Debian GNU/Linux System you can find a copy of the GNU General
  \" Public License in "<:=${GPL}:>".
 .\"
-.TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
+.TH Update\-AUCTeX\-install 8 "19 May 2004" "Debian Project" "Debian GNU/Linux"
 .SH NAME
-update\-auctex\-elisp \- update AUCTeX automatically generated TeX
-macros and LaTeX styles informations.
+update\-auctex\-install \- update AUCTeX installation.
 .SH SYNOPSIS
-.B update\-auctex\-elisp
+.B update\-auctex\-install
 .RI [ FLAVOR .\|.\|. ]
 .SH DESCRIPTION
 The
-.B update\-auctex\-elisp
-script updates the automatically generated TeX and LaTeX informations
-used by AUCTeX and stored in
-.B <:=${var}:>.
+.B update\-auctex\-install
+script updates AUCTeX installation.
 .PP
-It should be called after each major (La)TeX style files installation or upgrade.
+It should be called after each major (La)TeX installation or upgrade.
 .PP
-If no arguments are specified, update\-auctex\-elisp caters to every
+If no arguments are specified, update\-auctex\-install caters to every
 supported Emacs flavor installed on the system; else it updates only the
 specified flavors, if they are installed.
 .PP
 On Debian GNU/Linux system
-.B update\-auctex\-elisp
-is called weekly by a
+.B update\-auctex\-install
+is not called weekly by a
 .BR cron (8)
-driven mechanism, to ensure up-to-date informations.
+driven mechanism, because it modifies files installed in the
+.B <:=${usr}:>
+hierarchy, and that would not be policy compliant.  You may call it by hand,
+or have the maintainer of relevant packages add a call for it in their
+.B postinst
+package scripts.
 .SH BUGS
 None known.
 .SH FILES
-.B <:=${var}:>:
-the hierarchy containing the byte-compiled files.
+.B <:=${usr}:>:
+the hierarchy containing AUCTeX installed files.
 .SH SEE ALSO
 .BR emacs (1),
 .BR tex (1),
@@ -63,5 +65,5 @@ Davide G. M. Salvetti <salve@debian.org>.
 # mode: nroff
 # fill-column: 76
 # End:
-# LocalWords:  auctex elisp GPL AUCTeX varauc cron tex var
+# LocalWords:  auctex GPL AUCTeX cron tex usr postinst
 :>//
