@@ -1,9 +1,9 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.28 1999/10/05 22:58:36 salve Exp $
+# $Id: rules,v 1.29 1999/10/07 15:55:43 salve Exp $
 #
-# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
+# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -24,7 +24,8 @@
 
 package	:= auctex
 #-=-
-DOCS	:= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex}
+DOCS	:= CHANGES README PROBLEMS \
+	doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,math-ref.tex,tex-ref.tex}
 AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el
 CONTRIB	:= bib-cite.el font-latex.el tex-jp.el hilit-LaTeX.el
 #	   tex-jp.el		# Doesn't compile without MULE
@@ -56,7 +57,7 @@ doc	:= $(share)/doc/$(package)/
 html	:= $(doc)/$(package).html/
 man8	:= $(share)/man/man8/
 cron	:= $(tmp)/etc/cron.weekly/
-menu	:= $(usr)/lib/menu/
+docbase	:= $(usr)/share/doc-base/
 emacsen	:= $(usr)/lib/emacsen-common/packages/
 sbin	:= $(usr)/sbin/
 varauc	:= $(tmp)/var/lib/auctex/
@@ -97,6 +98,8 @@ binary-indep: checkroot build
 	$(INSTDATA) $(STYLES) $(style)
 	$(INSTDATA) $(CONTRIB) $(lisp)
 	cd doc && $(MAKE) install infodir=$(info)
+#       Consistency rule.
+	cd $(info) && for i in auctex*; do mv -f -- $$i auctex.info$${i#auctex}; done
 	gzip -9frv $(info)
 
 # install Debian doc
@@ -112,25 +115,20 @@ binary-indep: checkroot build
 	ln -snf auc-tex_toc.html $(html)/index.html
 	$(INSTDATA) debian/update-auctex-elisp.8 $(man8)
 	gzip -9frv $(man8)
-#	compatibility link: this should eventually disappear
-#	ln -snf update-auctex-elisp.8.gz $(man8)/auctex-auto-load.8.gz
 
 # install Debian system files
-	$(INSTDIR) $(slisp) $(cron) $(menu) $(sbin) $(emacsen)/{install,remove} $(varauc)
+	$(INSTDIR) $(slisp) $(cron) $(sbin) $(emacsen)/{install,remove} $(docbase) $(varauc)
 	$(INSTDATA) tex-site.el $(slisp)
-	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
-	$(INSTDATA) debian/auctex.menu $(menu)/auctex
-	$(INSTDATA) debian/auctex.dhelp $(html)/.dhelp
+	$(INSTDATA) debian/docbase $(docbase)/$(package)
+	$(INSTSCRIPT) debian/cron $(cron)/$(package)
 	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
-#	compatibility link: this should eventually disappear
-#	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load
-	$(INSTSCRIPT) debian/emacsen.install $(emacsen)/install/$(package)
-	$(INSTSCRIPT) debian/emacsen.remove $(emacsen)/remove/$(package)
+	$(INSTSCRIPT) debian/install $(emacsen)/install/$(package)
+	$(INSTSCRIPT) debian/remove $(emacsen)/remove/$(package)
 
 # install Debian control files
 	$(INSTDIR) $(DEBIAN)
 	$(INSTDATA) debian/conffiles $(DEBIAN)
-	$(INSTSCRIPT) debian/{preinst,postinst,prerm,postrm} $(DEBIAN)
+	$(INSTSCRIPT) debian/{preinst,postinst,prerm} $(DEBIAN)
 
 # standard stuff
 #-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(DEBIAN)/du

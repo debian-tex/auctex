@@ -1,0 +1,24 @@
+Document: auctex
+Title: AUC TeX: An integrated environment for writing TeX/LaTeX documents.
+Author: Kresten Krab Thorup, Per Abrahamsen
+Abstract: AUC TeX can indent your text as you write it, let you run
+ TeX/LaTeX and other LaTeX-related tools (such as a output filter or
+ post processor) from within Emacs, and includes a wide range of Emacs
+ macros to allow both easy insertions of LaTeX commands, and easy
+ compilation, previewing, and printing of your TeX documents.
+ AUC TeX also lets you browse through compiling errors TeX reports,
+ while it moves the cursor directly to the reported error and displays
+ documentation for that particular error.  This will even work when
+ the document is spread over several files.
+Section: Apps/Editors
+
+Format: texinfo
+Files: /usr/share/doc/auctex/*.texi.gz
+
+Format: info
+Index: /usr/share/info/auctex.info.gz
+Files: /usr/share/info/auctex.info*
+
+Format: HTML
+Index: /usr/share/doc/auctex/auctex.html/index.html
+Files: /usr/share/doc/auctex/auctex.html/*.html

@@ -1,3 +1,19 @@
+auctex (9.9p-5) unstable; urgency=low
+
+  * Docbase support added.
+  * docbase: New file.
+  * auctex.cron: Renamed to cron.
+  * auctex.dhelp: File removed.
+  * auctex.menu: File removed.
+  * emacsen.install: Renamed to install.
+  * emacsen.remove: Renamed to remove.
+  * postrm: File removed.
+  * prerm: Docbase support added.
+  * postinst: Docbase support added.
+  * rules: Docbase support added.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu,  7 Oct 1999 17:48:43 +0200
+
 auctex (9.9p-4) unstable; urgency=low
 
   * control: Sandards-Version: 3.0.0.
