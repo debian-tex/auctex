@@ -1,3 +1,11 @@
+auctex (9.9b-2) frozen unstable; urgency=low
+
+  * control: Added dependence on debianutils (>=1.7) (closes: #21049).
+  * postinst: Moved abort stuff in a separate nop case statement.
+  * preinst: Added -f to mv -V t -b.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 14 Apr 1998 14:35:17 +0200
+
 auctex (9.9b-1) unstable; urgency=low
 
   * New upstream version.

@@ -6,7 +6,7 @@ Standards-Version: 2.4.0.0
 
 Package: auctex
 Architecture: all
-Depends: emacs19|emacs20
+Depends: debianutils (>= 1.7), emacs19|emacs20
 Recommends: tetex-base
 Suggests: lacheck
 Description: An integrated environment for writing TeX/LaTeX documents.
