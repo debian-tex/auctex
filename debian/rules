@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.36 2000/10/20 00:27:54 salve Exp $
+# $Id: rules,v 1.38 2000/11/15 16:29:50 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999, 2000.
 #
@@ -76,6 +76,9 @@ binary-indep: checkroot build
 	$(INSTDATA) tex-jp.el $(tmp)//usr/share/emacs/site-lisp/auctex/
 	$(INSTDATA) hilit-LaTeX.el $(tmp)//usr/share/emacs/site-lisp/auctex/
 	$(INSTDATA) style/slides.el    style/foils.el    style/amstex.el style/article.el   style/book.el     style/letter.el style/report.el    style/amsart.el   style/amsbook.el style/epsf.el      style/psfig.el    style/latexinfo.el style/dutch.el     style/german.el   style/dk.el style/j-article.el style/j-book.el   style/j-report.el style/jarticle.el  style/jbook.el    style/jreport.el style/dinbrief.el  style/virtex.el   style/plfonts.el style/plhb.el      style/harvard.el	style/swedish.el style/danish.el    style/slovak.el   style/czech.el style/amsmath.el   style/amstext.el  style/amsbsy.el style/amsopn.el    style/amsthm.el	style/natbib.el style/index.el     style/makeidx.el  style/multind.el style/varioref.el  style/fancyref.el	style/mdwlist.el style/ngerman.el   style/graphicsx.el $(tmp)//usr/share/emacs/site-lisp/auctex//style/
+#       This one prevents $style from being added to load-path by
+#       normal-top-level-add-subdirs-to-load-path (see subdirs.el)
+	(umask 022 && touch $(tmp)//usr/share/emacs/site-lisp/auctex//style//.nosearch)
 	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/
 #       Consistency rule.
 	cd $(tmp)//usr/share/info/ \
@@ -121,7 +124,7 @@ binary-indep: checkroot build
 	cd $(tmp) && md5sum \
 		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
 		| sort -k 2 -o $(tmp)//DEBIAN//md5sums
-	dpkg-gencontrol
+	dpkg-gencontrol -isp
 	chown -R root.root $(tmp)
 	chmod -R go=rX $(tmp)
 	dpkg --build $(tmp) ..

@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian <:=$PACKAGE:> package.
-# $Id: rules.in,v 1.8 2000/10/20 00:27:54 salve Exp $
+# $Id: rules.in,v 1.11 2000/11/15 16:29:50 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -64,6 +64,9 @@ binary-indep: checkroot build
 	$(INSTDATA) <:=$MULESRC:> $(tmp)/<:=$lisp:>
 	$(INSTDATA) <:=$XSRC:> $(tmp)/<:=$lisp:>
 	$(INSTDATA) <:=$STYLES:> $(tmp)/<:=$style:>
+#       This one prevents $style from being added to load-path by
+#       normal-top-level-add-subdirs-to-load-path (see subdirs.el)
+	(umask 022 && touch $(tmp)/<:=$style:>/.nosearch)
 	cd doc && $(MAKE) install infodir=$(tmp)/<:=$info:>
 #       Consistency rule.
 	cd $(tmp)/<:=$info:> \
@@ -109,7 +112,7 @@ binary-indep: checkroot build
 	cd $(tmp) && md5sum \
 		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
 		| sort -k 2 -o $(tmp)/<:=$debian:>/md5sums
-	dpkg-gencontrol
+	dpkg-gencontrol -isp
 	chown -R root.root $(tmp)
 	chmod -R go=rX $(tmp)
 	dpkg --build $(tmp) ..

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=$PACKAGE:> package.
-# $Id: install.in,v 1.7 2000/10/20 00:27:54 salve Exp $
+# $Id: install.in,v 1.9 2000/11/15 16:29:50 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -23,6 +23,9 @@ case "$FLAVOR" in
 	echo -n "install/<:=$PACKAGE:>: Byte-compiling for $FLAVOR... "
 	install -m 755 -d <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
+	# This one prevents $style from being added to load-path by
+        # normal-top-level-add-subdirs-to-load-path (see subdirs.el)
+	(umask 022 && touch <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/.nosearch)
 	for i in <:=$SOURCES:> <:=$STYLES:>
 	    do cp <:=$lisp:>/$i <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/$i
 	done

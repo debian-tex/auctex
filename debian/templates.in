@@ -13,17 +13,19 @@ Description: Should AUC-TeX be auto-loaded by default at your site?
  .
  If you answer no, people who desire to use it will have to put the string
  "(require 'tex-site)" in their "~/.emacs" to load it.
-Description-it: Abilitare AUC-TeX di default su questa macchina?
- Emacs normalmente ha i suoi propri modi maggiori per (La)TeX, che verranno
- globalmente sostituiti da AUC-TeX (sostituiti, cioè, per tutti gli utenti di
- questa macchina) se si risponde affermativamente a questa domanda.
+Description-it: Abilitare AUC-TeX automaticamente su questa macchina?
+ Emacs normalmente ha i suoi modi maggiori originali per (La)TeX; se si
+ risponde affermativamente a questa domanda, questi verranno globalmente
+ sostituiti da quelli di AUC-TeX (sostituiti, cioè, per tutti gli utenti di
+ questa macchina).
  .
- In genere questo è bene, visto che AUC-TeX è molto migliore; può darsi
- tuttavia che si preferisca lasciare a ciascun singolo utente di questa
- macchina la decisione di far uso o meno di questo pacchetto.
+ In genere questa è una buona cosa, perché i modi di AUC-TeX sono molto
+ migliori degli originali; può darsi, tuttavia, che si preferisca lasciare a
+ ciascun singolo utente la decisione di far uso o meno di questo pacchetto.
  .
  Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
- mettere la stringa "(require 'tex-site)" nel loro "~/.emacs" per abilitarlo.
+ mettere manualmente la stringa "(require 'tex-site)" nel loro "~/.emacs" per
+ abilitare AUC-TeX.
 
 Template: <:=$PACKAGE:>/alreadydefault
 Type: text
@@ -35,12 +37,13 @@ Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
  looking for "(require 'tex-site)" resembling forms and fix them; then run
  "dpkg-reconfigure <:=$PACKAGE:>" if needed (recommended).
 Description-it: AUC-TeX sembra già automaticamente abilitato su questa macchina.  Bene.
- Controllando il file "<:=$SSEL:>" pare che AUC-TeX sia già
- automaticamente abilitato su questa macchina.
+ Controllando il file "<:=$SSEL:>", pare che AUC-TeX sia già automaticamente
+ abilitato su questa macchina.
  .
- Se questo non è vero o se non è quel che si desidera, si vadano a cercare in
- quel file form del tipo "(require 'tex-site)" e li si correggano; poi si
- faccia girare "dpkg-reconfigure <:=$PACKAGE:>" se necessario (consigliato).
+ Se questo non è vero, o se non è quel che si desidera, si vadano a cercare in
+ quel file Lisp form del tipo "(require 'tex-site)" e li si correggano;
+ poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
+ nuovo AUC-TeX.
 
 Template: <:=$PACKAGE:>/doauto
 Type: select
@@ -62,9 +65,9 @@ Description: How should (La)TeX macros be parsed?
  .
  Anyway, you can update them by hand running <:=$UPDATE:>.
 Description-it: In che modo si deve effettuare la scansione delle macro per (La)TeX?
- Per migliorare grandemente le prestazioni di AUC-TeX, tutti i pacchetti di
- macro per TeX ed i file di stile per LaTeX attualmente installati su questa
- macchina verranno scanditi.
+ Per migliorare grandemente le proprie prestazioni, AUC-TeX scandirà tutti i
+ pacchetti di macro per TeX ed i file di stile per LaTeX attualmente
+ installati su questa macchina.
  .
  Questa operazione potrebbe richiedere molto tempo ed è quindi probabilmente
  preferibile eseguirla in sottofondo; tuttavia, si può anche scegliere di
@@ -73,11 +76,12 @@ Description-it: In che modo si deve effettuare la scansione delle macro per (La)
  file: ${LOGFILE}.
  .
  Le informazioni raccolte adesso saranno aggiornate settimanalmente per mezzo
- del demone cron, di modo che normalmente non è necessario preoccuparsene
- personalmente al momento dell'installazione o della rimozione di pacchetti
- per (La)TeX.
+ del demone cron, di modo che normalmente non sarà necessario preoccuparsene
+ di persona al momento dell'installazione o della rimozione di pacchetti
+ aggiuntivi per (La)TeX.
  .
- In ogni caso le si possono aggiornare a mano lanciando <:=$UPDATE:>.
+ In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando
+ <:=$UPDATE:>.
 
 <:
 # Local variables:

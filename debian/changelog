@@ -1,3 +1,17 @@
+auctex (9.10t-2) unstable; urgency=low
+
+  * install: Touch ".nosearch" in ".../$FLAVOR/$style" to prevent it
+    from being automatically added to load-path by the execution of
+    normal-top-level-add-subdirs-to-load-path.
+  * remove: Remove ".nosearch" from ".../$FLAVOR/$style"
+  * rules: Touch ".nosearch" in "...$style" to prevent it from
+    being automatically added to load-path by the execution of 
+    normal-top-level-add-subdirs-to-load-path.
+  * rules: Added -isp to dpkg-gencontrol.
+  * templates: Wording improved.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed, 15 Nov 2000 17:29:18 +0100
+
 auctex (9.10t-1) unstable; urgency=low
 
   * New upstream version.
@@ -10,8 +24,8 @@ auctex (9.10t-1) unstable; urgency=low
   * install: Removed emacs19.
   * japanese-patch: Removed (included upstream).
   * japanese-patch-copyright: Removed.
-  * template: Wording improved.  (Closes: #61064)
-  * template: Localized in Italian. (Closes: #64159)
+  * templates: Wording improved.  (Closes: #61064)
+  * templates: Localized in Italian. (Closes: #64159)
   * remove: Removed emacs19.
   * rules: Removed rules for japanese-patch.
   * updated-auctex-elisp: Removed emacs19.
