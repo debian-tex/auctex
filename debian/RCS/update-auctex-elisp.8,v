@@ -1,0 +1,189 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.7
+date	98.02.22.22.35.19;	author salve;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	98.02.19.18.00.44;	author salve;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	98.02.19.00.42.34;	author salve;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	98.02.18.23.06.46;	author salve;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	98.02.18.17.12.39;	author salve;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	98.02.18.13.41.12;	author salve;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	98.02.17.21.08.34;	author salve;	state Exp;
+branches;
+next	;
+
+
+desc
+@Written to shut up lintian. :-)
+@
+
+
+1.7
+log
+@To set fill-column in Local Variables is PLAIN WRONG.
+@
+text
+@.\" Well, you know... this is an -*- nroff -*- source file.
+.\"
+.\" Man page for update-auctex-elisp.
+.\" Copyright © Davide G. M. Salvetti <salve@@debian.org>, 1998.
+.\"
+.\" This manual page is free software; you can redistribute it and/or
+ \" modify it under the terms of the GNU General Public License as
+ \" published by the Free Software Foundation; either version 2 of the
+ \" License, or (at your option) any later version.
+.\"
+.\" This manual page is distributed in the hope that it will be useful,
+ \" but WITHOUT ANY WARRANTY; without even the implied warranty of
+ \" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ \" General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+ \" along with this manual page; if not, write to: The Free Software
+ \" Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307,
+ \" USA. 
+.\"
+.\" On Debian GNU/Linux System you can find a copy of the GNU General
+ \" Public License in /usr/doc/copyright/GPL.
+.\"
+.TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
+.SH NAME
+update\-auctex\-elisp \- update AUC TeX automatically generated TeX
+information.
+.SH SYNOPSIS
+.B update\-auctex\-elisp
+.SH DESCRIPTION
+The
+.B update\-auctex\-elisp
+scripts updates the automatically generated TeX information used by AUC TeX and stored in
+.B /var/lib/auctex/.
+.PP
+It should be called after each major (La)TeX style files installation or upgrade.
+.PP
+On Debian GNU/Linux system
+.B update\-auctex\-elisp
+is called weekly by a
+.BR cron (8)
+driven mechanism, to ensure having up-to-date information.
+.SH BUGS
+None known.
+.SH FILES
+.B /var/lib/auctex/
+the directory containing the byte-compiled files.
+.SH SEE ALSO
+.BR emacs (1),
+.BR tex (1),
+.BR latex (1).
+.SH AUTHOR
+Davide G. M. Salvetti <salve@@debian.org>.
+@
+
+
+1.6
+log
+@Updated GPL blurb.
+@
+text
+@d6 4
+a9 2
+.\" This manual page is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License
+.\" as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+d11 4
+a14 3
+.\" This manual page is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+.\" without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.\" See the GNU General Public License for more details.
+d16 7
+a22 3
+.\" You should have received a copy of the GNU General Public License along with this manual page; if not, write to:
+.\"	The Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+.\" On Debian GNU/Linux System you can find a copy of the GNU General Public License in /usr/doc/copyright/GPL.
+d26 2
+a27 1
+update\-auctex\-elisp \- update AUC TeX automatically generated TeX information.
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d13 4
+a16 3
+.\" You should have received a copy of the GNU General Public License along with this manual page; if not, write to the Free
+.\" Software Foundation, Inc., 675 Mass Ave., Cambridge, MA 02139, USA.  On Debian GNU/Linux System you can find a copy of the GNU
+.\" General Public License in /usr/doc/copyright/GPL.
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d44 1
+a44 1
+Davide G. M. Salvetti <salve@@debian.org>.@
+
+
+1.3
+log
+@/var/lib/emacs/auctex/ -> /var/lib/auctex/
+@
+text
+@d25 1
+a25 1
+.B /var/lib/emacs/auctex/.
+@
+
+
+1.2
+log
+@Added GPL blurb.
+@
+text
+@d37 1
+a37 1
+.B /var/lib/emacs/auctex/
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 14
+a15 2
+.\" Copyright 1998 Davide G. M. Salvetti <salve@@debian.org>.
+.\" This man page may be distributed under the GNU General Public License.
+@

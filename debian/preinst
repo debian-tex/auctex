@@ -1,73 +1,64 @@
 #!/bin/bash -e
 #
 # preinst configuration file for Debian auctex package.
-# 	$Id: preinst,v 1.2 1998/01/08 13:57:54 salve Exp $	
+# $Id: preinst,v 1.15 1998/02/22 22:30:56 salve Exp $
 #
-# Written by Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>
-# Modified by Davide G. M. Salvetti <salve@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
+# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to: The Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+#
+# On Debian GNU/Linux System you can find a copy of the GNU General Public
+# License in /usr/doc/copyright/GPL.
 
 set -o posix
 
-remove_handmade_auctex () {
-    echo "There is a locally installed version of AucTeX in $1 which will conflict"
-    cat <<EOF
-with the Debian package. Shall I
-    1) rename its tex-site file and go on installing;
-or
-    2) stop installing this package;
-EOF
-    echo -n "Please answer (1/2): "
-    read answer
-    if [ "$answer" = "2" ] ; then
-	exit 1
-    elif [ "$answer" != "1" ]; then
-	fertig=
-	until [ ! -z "$fertig" ]; do
-	    echo -n " Please answer 1 or 2! "
-	    read answer
-	    if [ "$answer" = "2" ] ; then
-		exit 1
-	    elif [ "$answer" = "1" ]; then
-		fertig=1
-	    fi
+function remove_handmade_auctex () {
+	echo "There is a locally installed version of AUC TeX in $1 which will conflict"
+	cat <<-EOF
+		with this Debian package.
+
+		Shall I:
+		    1) rename its tex-site file and go on installing;
+		    2) stop installing this package.
+	EOF
+	answer=
+	while [ "$answer" != "1" -a "$answer" != "2" ]; do
+	    read -e -p "Please answer (1/2, 1 recommended): " answer
 	done
-    fi
-    mv -V t -b $1/tex-site.el $1/tex-site.el.dpkg-old
+	if [ "$answer" = "2" ] ; then
+	    exit 1
+	fi
+	mv -V t -b $1/tex-site.el $1/tex-site.el.dpkg-old
 }
 
-# remove old auctex package relics as there is a new location for auctex
-if [ -d /usr/lib/emacs/site-lisp/auctex ]; then
-    # warn the user about what we are trying to do
-    cat <<EOF
-The obsolete /usr/lib/emacs/site-lisp/auctex is about to be removed.
+case "$1" in
+    install|upgrade)
+	:;
+	# continue below
+    ;;
+    abort-upgrade)
+	exit 0
+    ;;
+    *)
+	echo "preinst called with unknow argument \`$1'" >&2
+	exit 0
+    ;;
+esac
 
-This shouldn't be any problem, unless you made some changes and wish to
-preserve them.  If this is the case, you should save your changes before
-going any further or stop installing this package.  Shall I
-    1) remove /usr/lib/emacs/site-lisp/auctex and go on installing;
-or
-    2) stop installing this package;
-EOF
-    echo -n "Please answer (1/2, 1 recommended): "
-    read answer
-    if [ "$answer" = "2" ] ; then
-	exit 1
-    elif [ "$answer" != "1" ]; then
-	fertig=
-	until [ ! -z "$fertig" ]; do
-	    echo -n " Please answer 1 or 2! "
-	    read answer
-	    if [ "$answer" = "2" ] ; then
-		exit 1
-	    elif [ "$answer" = "1" ]; then
-		fertig=1
-	    fi
-	done
-    fi
-    rm -rf /usr/lib/emacs/site-lisp/auctex
-fi
-
-# remove hand-made auctex packages from /usr/local, if existant.
+# Remove hand-made auctex packages from /usr/local, if existant.
 if [ -f /usr/local/lib/xemacs/site-lisp/tex-site.el ]; then
     remove_handmade_auctex /usr/local/lib/xemacs/site-lisp/
 fi
@@ -75,7 +66,63 @@ if [ -f /usr/local/share/emacs/site-lisp/tex-site.el ]; then
     remove_handmade_auctex /usr/local/share/emacs/site-lisp/
 fi
 
+# tex-site.el is no more a conffile: warn the user about it, if appropriate.
+if [ -e /etc/elisp/tex-site.el ]; then
+	cat <<-EOF
+		There is a new method to start AUC TeX on a per user or per site basis: you
+		should read /usr/doc/auctex/README.Debian.gz to learn about it.
+
+		As a consequence of this new method, the old conffile /etc/elisp/tex-site.el
+		is no more needed and will be removed if you proceed installing this package.
+
+		This shouldn't be of any problem, unless you made some changes and wish to
+		preserve them.  If this is the case, you should save your changes before
+		going any further or stop installing this package.
+
+		Shall I:
+		    1) remove /etc/elisp/tex-site.el and go on installing;
+		    2) stop installing this package.
+	EOF
+	answer=
+	while [ "$answer" != "1" -a "$answer" != "2" ]; do
+	    read -e -p "Please answer (1/2, 1 recommended): " answer
+	done
+	if [ "$answer" = "2" ] ; then
+	    exit 1
+	fi
+	rm -f /etc/emacs/site-start.d/50tex-site.el
+	rm -f /etc/elisp/tex-site.el
+	find /etc -name elisp -type d -empty | xargs rmdir
+fi
+
+# Remove old auctex package relics as there is a new location for auctex.
+if [ -d /usr/lib/emacs/common/auctex ]; then
+	# Warn the user about what we are trying to do.
+	cat <<-EOF
+		The AUC TeX elisp files have been moved in:
+		    /usr/share/emacs/site-lisp/auctex/
+		The obsolete /usr/lib/emacs/common/auctex/ directory is about to be removed.
+
+		This shouldn't be of any problem, unless you made some changes and wish to
+		preserve them.  If this is the case, you should save your changes before
+		going any further or stop installing this package.
+
+		Shall I:
+		    1) remove /usr/lib/emacs/common/auctex/ and go on installing;
+		    2) stop installing this package.
+	EOF
+	answer=
+	while [ "$answer" != "1" -a "$answer" != "2" ]; do
+	    read -e -p "Please answer (1/2, 1 recommended): " answer
+	done
+	if [ "$answer" = "2" ] ; then
+	    exit 1
+	fi
+	rm -rf /usr/lib/emacs/common/auctex
+fi
+
+exit 0
+
 ### Local Variables:
 ### mode: shell-script
-### fill-column: 132
 ### End:

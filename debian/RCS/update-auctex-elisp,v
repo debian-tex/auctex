@@ -1,0 +1,258 @@
+head	1.9;
+access;
+symbols
+	9­8i-2:1.2
+	auctex_9-8i-1:1.2;
+locks; strict;
+comment	@# @;
+
+
+1.9
+date	98.02.22.22.32.49;	author salve;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	98.02.19.17.59.34;	author salve;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	98.02.18.17.12.56;	author salve;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	98.02.18.13.37.33;	author salve;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	98.02.17.15.15.56;	author salve;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	98.01.20.02.36.21;	author salve;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	98.01.19.19.00.59;	author salve;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	98.01.08.13.56.25;	author salve;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	97.12.30.17.44.02;	author salve;	state Exp;
+branches;
+next	;
+
+
+desc
+@Original Helmut Geyer's version.
+@
+
+
+1.9
+log
+@To set fill-column in Local Variables is PLAIN WRONG.
+@
+text
+@#!/bin/bash -e
+#
+# Update AucTeX auto-loads.
+# $Id: update-auctex-elisp,v 1.8 1998/02/19 17:59:34 salve Exp salve $
+#
+# Copyright © Davide G. M. Salvetti <salve@@debian.org>, 1997, 1998.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to: The Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+#
+# On Debian GNU/Linux System you can find a copy of the GNU General Public
+# License in /usr/doc/copyright/GPL.
+
+set -o posix
+
+# We generate AucTeX lisp files just for GNU/Emacs, 'cause XEmacs comes
+# with its own AucTeX.
+for FLAVOR in emacs19 emacs20; do
+    if [ -x /usr/bin/$FLAVOR ]; then
+	$FLAVOR -batch -q -no-site-file \
+	        -l /usr/share/emacs/site-lisp/tex-site.el \
+                -f TeX-auto-generate-global
+    fi
+done
+
+# I gues it's better to remove auto generated .el files now that .elc have
+# been generated, in order to save some disk space.
+rm -f $(find /var/lib/auctex/ -type f -name \*.el)
+
+### Local Variables:
+### mode: shell-script
+### End:
+@
+
+
+1.8
+log
+@Updated GPL blurb.
+@
+text
+@d4 1
+a4 1
+# $Id: update-auctex-elisp,v 1.7 1998/02/18 17:12:56 salve Exp salve $
+d8 4
+a11 2
+# This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+d13 12
+a24 7
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with this program; if not, write to:
+#	The Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+# On Debian GNU/Linux System you can find a copy of the GNU General Public License in /usr/doc/copyright/GPL.
+d28 2
+a29 1
+# We generate AucTeX lisp files just for GNU/Emacs, 'cause XEmacs comes with its own AucTeX.
+d32 3
+a34 1
+	$FLAVOR -batch -q -no-site-file -l /usr/share/emacs/site-lisp/tex-site.el -f TeX-auto-generate-global
+d38 2
+a39 1
+# I gues it's better to remove auto generated .el files now that .elc have been generated, in order to save some disk space.
+a43 1
+### fill-column: 132
+@
+
+
+1.7
+log
+@/var/lib/emacs/auctex/ -> /var/lib/auctex/
+@
+text
+@d4 1
+a4 1
+# $Id: update-auctex-elisp,v 1.6 1998/02/18 13:37:33 salve Exp salve $
+d15 3
+a17 3
+# You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave., Cambridge, MA 02139, USA.  On Debian GNU/Linux System you can find a copy of the GNU General
+# Public License in /usr/doc/copyright/GPL.
+@
+
+
+1.6
+log
+@Added GPL blurb.
+@
+text
+@d4 1
+a4 1
+# $Id: update-auctex-elisp,v 1.5 1998/02/17 15:15:56 salve Exp salve $
+d29 1
+a29 1
+rm -f $(find /var/lib/emacs/auctex/ -type f -name \*.el)
+@
+
+
+1.5
+log
+@Added flavor code.
+@
+text
+@d4 1
+a4 1
+# 	$Id: update-auctex-elisp,v 1.4 1998/01/20 02:36:21 salve Exp salve $	
+d6 12
+a17 2
+# Written by Helmut Geyer <Helmut.Geyer@@iwr.uni-heidelberg.de>.
+# Modified by Davide G. M. Salvetti <salve@@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
+@
+
+
+1.4
+log
+@tex-site.el moved in /usr/lib/emacs/site-lisp/
+@
+text
+@d4 1
+a4 1
+# 	$Id: auctex-auto-load,v 1.3 1998/01/19 19:00:59 salve Exp salve $	
+d12 5
+a16 3
+EMACS=emacs
+
+$EMACS -batch -q -no-site-file -l /usr/lib/emacs/site-lisp/tex-site.el -f TeX-auto-generate-global
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+# 	$Id: auctex-auto-load,v 1.2 1998/01/08 13:56:25 salve Exp salve $	
+d14 1
+a14 1
+$EMACS -batch -q -no-site-file -l /etc/elisp/tex-site.el -f TeX-auto-generate-global
+@
+
+
+1.2
+log
+@New maintainer.
+@
+text
+@d4 1
+a4 1
+# 	$Id$	
+d16 1
+a16 1
+# I gues it's best to remove auto generated .el files now that .elc have been generated, in order to save some disk space.
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 12
+a12 13
+#!/bin/sh
+# we generate auctex lisp files for all emacsen, so byte-compile with 
+# xemacs-20, xemacs, emacs
+# This will be less important once xemacs 20.1 is released and there will
+# be a common byte format again.
+set -e
+if [ -x /usr/bin/xemacs-20.0 ]; then
+	EMACS=xemacs-20.0
+elif [ -x /usr/bin/xemacs ]; then
+	EMACS=xemacs
+else 
+	EMACS=emacs
+fi
+d15 8
+@

@@ -2,11 +2,11 @@ Source: auctex
 Section: tex
 Priority: optional
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
-Standards-Version: 2.3.0.1
+Standards-Version: 2.4.0.0
 
 Package: auctex
 Architecture: all
-Depends: emacs
+Depends: emacs19|emacs20
 Recommends: tetex-base
 Suggests: lacheck
 Description: An integrated environment for writing TeX/LaTeX documents.
@@ -22,5 +22,5 @@ Description: An integrated environment for writing TeX/LaTeX documents.
  document is spread over several files.
  .
  Currently XEmacs ships with its own AUC TeX, so this package should only
- be used with GNU/Emacs. (I.e. you don't need to install it if your site
- has only XEmacs installed.)
+ be used with GNU/Emacs.  (I.e. you don't need to install this package if
+ your site uses only XEmacs.)

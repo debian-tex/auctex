@@ -1,17 +1,37 @@
 This is the Debian GNU/Linux prepackaged version of the AUC TeX Emacs lisp
 package.
 
-The current release of this package was assembled by Davide G. M. Salvetti
-<salve@debian.org> using sources obtained from:
-<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auxtex/auctex-9.8i.tar.gz>.
+The current release of this package was assembled by:
+		 Davide G. M. Salvetti <salve@debian.org>
+using sources obtained from:
+<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/auctex-9.8i.tar.gz>.
 
-The current AUC TeX upstream maintainer is Per Abrahamsen
-<auc-tex_mgr@sunsite.auc.dk>.
+The current AUC TeX upstream maintainer is:
+	       Per Abrahamsen <auc-tex_mgr@sunsite.auc.dk>.
 
-The original AUC Tex Debian package was assembled by Helmut Geyer
-<Helmut.Geyer@iwr.uni-heidelberg.de>.
+The original AUC Tex Debian package was assembled by:
+	    Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
 
 Obviously, tex-site.el has been appropriately configured for Debian
 GNU/Linux.
 
-Copyright: GPL (see /usr/doc/copyright/GPL).
+
+COPYRIGHT
+=========
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 1, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+
+On Debian GNU/Linux system you can find a copy of the GNU General Public
+License in /usr/doc/copyright/GPL.

@@ -1,0 +1,42 @@
+head	1.2;
+access;
+symbols
+	9­8i-2:1.1
+	auctex_9-8i-1:1.1;
+locks; strict;
+comment	@# @;
+
+
+1.2
+date	98.01.19.19.16.22;	author salve;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	97.12.30.17.44.36;	author salve;	state Exp;
+branches;
+next	;
+
+
+desc
+@Original Helmut Geyer's version.
+@
+
+
+1.2
+log
+@tex-site.el is no more a conffile.
+@
+text
+@/etc/cron.weekly/auctex
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a0 1
+/etc/elisp/tex-site.el
+@

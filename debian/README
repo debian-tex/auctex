@@ -1,0 +1,40 @@
+The Debian package auctex
+-------------------------
+
+
+Loading AUC TeX
+===============
+
+Users will need to put "(require 'tex-site)" in their "~/.emacs" to load
+AUC TeX.
+
+System Administrators wanting to start AUC TeX by default on their site
+should put "(require 'tex-site)" in "/etc/emacs/site-start.el".
+
+
+Online Documentation
+====================
+
+Online documentation may be found in the info or HTML manual, and the
+update-auctex-lisp(8) manual page.
+
+
+Note to System Administrators:
+==============================
+
+To improve its performance AUC TeX stores informations about (La)TeX style
+files available on the system in "/var/lib/auctex/".  AUC TeX updates
+these informations weekly, by a cron script; nevertheless, you may want to
+run "/usr/sbin/update-auctex-elisp" manually after installing new style
+files under "/usr/local/lib/texmf".  (Formerly "update-auctex-elisp" was
+named "auctex-auto-load": there's now a symlink for compatibility reason,
+that will eventually disappear in future releases: you are advised to NOT
+use it).
+
+
+Davide G. M. Salvetti <salve@debian.org>, Tue, 20 Jan 1998 00:34:14 +0100.
+
+
+Local variables:
+mode: text
+end:

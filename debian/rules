@@ -1,33 +1,76 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# 	$Id: rules,v 1.3 1998/01/12 19:01:45 salve Exp $	
+# $Id: rules,v 1.20 1998/02/22 22:38:54 salve Exp $
 #
-# Written by Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
-# Rewritten by Davide G. M. Salvetti <salve@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
+# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to: The Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+#
+# On Debian GNU/Linux System you can find a copy of the GNU General Public
+# License in /usr/doc/copyright/GPL.
 
-package	= auctex
-DOCS	= CHANGES README PROBLEMS
+package	:= auctex
+#-=-
+DOCS	:= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex}
+AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el
+CONTRIB	:= bib-cite.el font-latex.el
+#	   tex-jp.el		# Doesn't compile without MULE
+#	   hilit-LaTeX.el	# Doesn't compile without X
+STYLES	:= style/slides.el    style/foils.el    style/amstex.el \
+	   style/article.el   style/book.el     style/letter.el \
+	   style/report.el    style/amsart.el   style/amsbook.el \
+	   style/epsf.el      style/psfig.el    style/latexinfo.el \
+	   style/dutch.el     style/german.el   style/dk.el \
+	   style/j-article.el style/j-book.el   style/j-report.el \
+	   style/jarticle.el  style/jbook.el    style/jreport.el \
+	   style/dinbrief.el  style/virtex.el   style/plfonts.el \
+	   style/plhb.el      style/harvard.el	style/swedish.el \
+	   style/danish.el    style/slovak.el   style/czech.el \
+	   style/amsmath.el   style/amstext.el  style/amsbsy.el \
+	   style/amsopn.el    style/amsthm.el	style/natbib.el
+#-=-
 
 tmp	:= $(shell pwd)/debian/tmp/
-usr	= $(tmp)/usr/
-info	= $(usr)/info/
-lisp	= $(usr)/lib/emacs/common/
-DEBIAN 	= $(tmp)/DEBIAN/
-doc	= $(usr)/doc/$(package)/
-cron	= $(tmp)/etc/cron.weekly/
-elisp	= $(tmp)/etc/elisp/
-sbin	= $(tmp)/usr/sbin/
+usr	:= $(tmp)/usr/
+info	:= $(usr)/info/
+slisp	:= $(usr)/share/emacs/site-lisp/
+lisp	:= $(slisp)/$(package)/
+style	:= $(lisp)/style
 
-SHELL		= /bin/bash
-INSTDIR		= install -m 755 -d
-INSTPROG	= install -m 755 -s
-INSTDATA	= install -m 644
-INSTSCRIPT	= install -m 755
+DEBIAN 	:= $(tmp)/DEBIAN/
+doc	:= $(usr)/doc/$(package)/
+html	:= $(doc)/$(package).html/
+man8	:= $(usr)/man/man8/
+cron	:= $(tmp)/etc/cron.weekly/
+menu	:= $(usr)/lib/menu/
+emacsen	:= $(usr)/lib/emacsen-common/packages/
+sbin	:= $(usr)/sbin/
+varauc	:= $(tmp)/var/lib/auctex/
+
+SHELL		:= /bin/bash
+INSTDIR		:= install -m 755 -d
+INSTPROG	:= install -m 755 -s
+INSTDATA	:= install -m 644
+INSTSCRIPT	:= install -m 755
 
 build:
 	$(checkdir)
-	$(MAKE) all contrib # EMACS=xemacs
+	cd doc && $(MAKE) auctex
+	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
 clean:
@@ -35,6 +78,8 @@ clean:
 	-rm -rf build core $(tmp) debian/files* debian/substvars
 	-rm -f $$(find . -name \*.elc)
 	-$(MAKE) clean
+
+binary: binary-indep binary-arch
 
 binary-arch: checkroot build
 	$(checkdir)
@@ -44,39 +89,53 @@ binary-indep: checkroot build
 	-rm -rf $(tmp)
 
 # install package
-	$(INSTDIR) $(info) $(lisp)
-	$(MAKE) prefix=$(usr) infodir=$(info) lispdir=$(lisp) install install-contrib install-info
-#       remove uncompiled version AND usr/lib/emacs/common/tex-site.el
-	rm $$(find $(lisp) -name \*.el)
-	gzip -9v $(info)/*
-
-# install Debian system files
-	$(INSTDIR) $(cron) $(elisp) $(sbin)
-	$(INSTDATA) debian/tex-site.el $(elisp)
-	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
-	$(INSTSCRIPT) debian/auctex-auto-load $(sbin)
+	$(INSTDIR) $(info) $(lisp) $(style)
+	$(INSTDATA) $(AUCSRC) $(lisp)
+	$(INSTDATA) $(STYLES) $(style)
+	$(INSTDATA) $(CONTRIB) $(lisp)
+	cd doc && $(MAKE) install infodir=$(info)
+	gzip -9frv $(info)
 
 # install Debian doc
-	$(INSTDIR) $(doc)
+	$(INSTDIR) $(doc) $(html) $(man8)
 	$(INSTDATA) $(DOCS) $(doc)
+	$(INSTDATA) debian/README $(doc)/README.Debian
 	$(INSTDATA) ChangeLog $(doc)/changelog
 	$(INSTDATA) debian/changelog $(doc)/changelog.Debian
-	gzip -9v $(doc)/*
+	gzip -9frv $(doc)
 	$(INSTDATA) debian/copyright $(doc)
+	$(INSTDATA) doc/*.html $(html)
+	ln -snf auc-tex_toc.html $(html)/index.html
+	$(INSTDATA) debian/update-auctex-elisp.8 $(man8)
+	gzip -9frv $(man8)
+#	compatibility link: this should eventually disappear
+	ln -snf update-auctex-elisp.8.gz $(man8)/auctex-auto-load.8.gz
+
+# install Debian system files
+	$(INSTDIR) $(slisp) $(cron) $(menu) $(sbin) $(emacsen)/{install,remove} $(varauc)
+	$(INSTDATA) tex-site.el $(slisp)
+	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
+	$(INSTDATA) debian/auctex.menu $(menu)/auctex
+	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
+#	compatibility link: this should eventually disappear
+	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load
+	$(INSTSCRIPT) debian/emacsen.install $(emacsen)/install/$(package)
+	$(INSTSCRIPT) debian/emacsen.remove $(emacsen)/remove/$(package)
 
 # install Debian control files
 	$(INSTDIR) $(DEBIAN)
 	$(INSTDATA) debian/conffiles $(DEBIAN)
-	$(INSTSCRIPT) debian/{preinst,postinst,prerm,postrm} $(DEBIAN)
+	$(INSTSCRIPT) debian/{preinst,postinst,prerm} $(DEBIAN)
 
 # standard stuff
-	cd $(tmp) && md5sum $$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") | sort -k 2 -o DEBIAN/md5sums
+#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(DEBIAN)/du
+	cd $(tmp) && md5sum \
+		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
+		| sort -k 2 -o $(DEBIAN)/md5sums
 	dpkg-gencontrol
 	chown -R root.root $(tmp)
 	chmod -R go=rX $(tmp)
 	dpkg --build $(tmp) ..
-
-binary: binary-indep binary-arch
 
 checkdir = test -f debian/rules
 
@@ -91,5 +150,4 @@ source diff:
 
 ### Local Variables:
 ### mode: makefile
-### fill-column: 132
 ### End:

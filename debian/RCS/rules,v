@@ -1,0 +1,716 @@
+head	1.20;
+access;
+symbols
+	9­8i-2:1.3
+	auctex_9-8i-1:1.2;
+locks; strict;
+comment	@# @;
+
+
+1.20
+date	98.02.22.22.38.54;	author salve;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	98.02.22.22.31.40;	author salve;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	98.02.19.17.59.16;	author salve;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	98.02.18.23.04.52;	author salve;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	98.02.18.18.20.17;	author salve;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	98.02.18.18.14.25;	author salve;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	98.02.18.18.10.39;	author salve;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	98.02.18.17.23.16;	author salve;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	98.02.18.14.02.57;	author salve;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	98.02.18.13.36.17;	author salve;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	98.02.17.21.12.24;	author salve;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	98.02.17.18.29.04;	author salve;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	98.02.17.17.15.03;	author salve;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	98.01.22.23.51.08;	author salve;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	98.01.20.23.10.03;	author salve;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	98.01.20.01.35.45;	author salve;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	98.01.14.03.42.26;	author salve;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	98.01.12.19.01.45;	author salve;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	98.01.08.13.58.06;	author salve;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	97.12.30.17.45.25;	author salve;	state Exp;
+branches;
+next	;
+
+
+desc
+@Original Helmut Geyer's version.
+@
+
+
+1.20
+log
+@*** empty log message ***
+@
+text
+@#! /usr/bin/make -f
+#
+# rules file for Debian auctex package.
+# $Id: rules,v 1.19 1998/02/22 22:31:40 salve Exp salve $
+#
+# Copyright © Davide G. M. Salvetti <salve@@debian.org>, 1997, 1998.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to: The Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+#
+# On Debian GNU/Linux System you can find a copy of the GNU General Public
+# License in /usr/doc/copyright/GPL.
+
+package	:= auctex
+#-=-
+DOCS	:= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex}
+AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el
+CONTRIB	:= bib-cite.el font-latex.el
+#	   tex-jp.el		# Doesn't compile without MULE
+#	   hilit-LaTeX.el	# Doesn't compile without X
+STYLES	:= style/slides.el    style/foils.el    style/amstex.el \
+	   style/article.el   style/book.el     style/letter.el \
+	   style/report.el    style/amsart.el   style/amsbook.el \
+	   style/epsf.el      style/psfig.el    style/latexinfo.el \
+	   style/dutch.el     style/german.el   style/dk.el \
+	   style/j-article.el style/j-book.el   style/j-report.el \
+	   style/jarticle.el  style/jbook.el    style/jreport.el \
+	   style/dinbrief.el  style/virtex.el   style/plfonts.el \
+	   style/plhb.el      style/harvard.el	style/swedish.el \
+	   style/danish.el    style/slovak.el   style/czech.el \
+	   style/amsmath.el   style/amstext.el  style/amsbsy.el \
+	   style/amsopn.el    style/amsthm.el	style/natbib.el
+#-=-
+
+tmp	:= $(shell pwd)/debian/tmp/
+usr	:= $(tmp)/usr/
+info	:= $(usr)/info/
+slisp	:= $(usr)/share/emacs/site-lisp/
+lisp	:= $(slisp)/$(package)/
+style	:= $(lisp)/style
+
+DEBIAN 	:= $(tmp)/DEBIAN/
+doc	:= $(usr)/doc/$(package)/
+html	:= $(doc)/$(package).html/
+man8	:= $(usr)/man/man8/
+cron	:= $(tmp)/etc/cron.weekly/
+menu	:= $(usr)/lib/menu/
+emacsen	:= $(usr)/lib/emacsen-common/packages/
+sbin	:= $(usr)/sbin/
+varauc	:= $(tmp)/var/lib/auctex/
+
+SHELL		:= /bin/bash
+INSTDIR		:= install -m 755 -d
+INSTPROG	:= install -m 755 -s
+INSTDATA	:= install -m 644
+INSTSCRIPT	:= install -m 755
+
+build:
+	$(checkdir)
+	cd doc && $(MAKE) auctex
+	cd doc && $(MAKE) auc-tex_toc.html
+	touch build
+
+clean:
+	$(checkdir)
+	-rm -rf build core $(tmp) debian/files* debian/substvars
+	-rm -f $$(find . -name \*.elc)
+	-$(MAKE) clean
+
+binary: binary-indep binary-arch
+
+binary-arch: checkroot build
+	$(checkdir)
+
+binary-indep: checkroot build
+	$(checkdir)
+	-rm -rf $(tmp)
+
+# install package
+	$(INSTDIR) $(info) $(lisp) $(style)
+	$(INSTDATA) $(AUCSRC) $(lisp)
+	$(INSTDATA) $(STYLES) $(style)
+	$(INSTDATA) $(CONTRIB) $(lisp)
+	cd doc && $(MAKE) install infodir=$(info)
+	gzip -9frv $(info)
+
+# install Debian doc
+	$(INSTDIR) $(doc) $(html) $(man8)
+	$(INSTDATA) $(DOCS) $(doc)
+	$(INSTDATA) debian/README $(doc)/README.Debian
+	$(INSTDATA) ChangeLog $(doc)/changelog
+	$(INSTDATA) debian/changelog $(doc)/changelog.Debian
+	gzip -9frv $(doc)
+	$(INSTDATA) debian/copyright $(doc)
+	$(INSTDATA) doc/*.html $(html)
+	ln -snf auc-tex_toc.html $(html)/index.html
+	$(INSTDATA) debian/update-auctex-elisp.8 $(man8)
+	gzip -9frv $(man8)
+#	compatibility link: this should eventually disappear
+	ln -snf update-auctex-elisp.8.gz $(man8)/auctex-auto-load.8.gz
+
+# install Debian system files
+	$(INSTDIR) $(slisp) $(cron) $(menu) $(sbin) $(emacsen)/{install,remove} $(varauc)
+	$(INSTDATA) tex-site.el $(slisp)
+	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
+	$(INSTDATA) debian/auctex.menu $(menu)/auctex
+	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
+#	compatibility link: this should eventually disappear
+	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load
+	$(INSTSCRIPT) debian/emacsen.install $(emacsen)/install/$(package)
+	$(INSTSCRIPT) debian/emacsen.remove $(emacsen)/remove/$(package)
+
+# install Debian control files
+	$(INSTDIR) $(DEBIAN)
+	$(INSTDATA) debian/conffiles $(DEBIAN)
+	$(INSTSCRIPT) debian/{preinst,postinst,prerm} $(DEBIAN)
+
+# standard stuff
+#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(DEBIAN)/du
+	cd $(tmp) && md5sum \
+		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
+		| sort -k 2 -o $(DEBIAN)/md5sums
+	dpkg-gencontrol
+	chown -R root.root $(tmp)
+	chmod -R go=rX $(tmp)
+	dpkg --build $(tmp) ..
+
+checkdir = test -f debian/rules
+
+checkroot:
+	$(checkdir)
+	test root = "$$(whoami)"
+
+source diff:
+	@@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+.PHONY: binary binary-arch binary-indep clean checkroot
+
+### Local Variables:
+### mode: makefile
+### End:
+@
+
+
+1.19
+log
+@To set fill-column in Local Variables is PLAIN WRONG.
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.18 1998/02/19 17:59:16 salve Exp salve $
+d132 3
+a134 1
+	cd $(tmp) && md5sum $$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") | sort -k 2 -o $(DEBIAN)/md5sums
+@
+
+
+1.18
+log
+@Updated GPL blurb.
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.17 1998/02/18 23:04:52 salve Exp salve $
+d8 4
+a11 2
+# This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+d13 12
+a24 7
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with this program; if not, write to:
+#	The Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+# On Debian GNU/Linux System you can find a copy of the GNU General Public License in /usr/doc/copyright/GPL.
+a150 1
+### fill-column: 132
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.16 1998/02/18 18:20:17 salve Exp salve $
+d15 3
+a17 3
+# You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave., Cambridge, MA 02139, USA.  On Debian GNU/Linux System you can find a copy of the GNU General
+# Public License in /usr/doc/copyright/GPL.
+@
+
+
+1.16
+log
+@/var/lib/auctex/ added.
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.15 1998/02/18 18:14:25 salve Exp salve $
+a45 1
+varauc	:= $(tmp)/var/lib/auctex/
+d55 1
+d85 1
+a85 1
+	$(INSTDIR) $(info) $(lisp) $(style) $(varauc)
+d108 1
+a108 1
+	$(INSTDIR) $(slisp) $(cron) $(menu) $(sbin) $(emacsen)/{install,remove}
+@
+
+
+1.15
+log
+@emacsen
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.14 1998/02/18 18:10:39 salve Exp salve $
+d46 1
+d85 1
+a85 1
+	$(INSTDIR) $(info) $(lisp) $(style)
+@
+
+
+1.14
+log
+@/usr/lib/emacs -> /usr/share/emacs
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.13 1998/02/18 17:23:16 salve Exp salve $
+d53 1
+@
+
+
+1.13
+log
+@emacsen.{install,remove} are scripts
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.12 1998/02/18 14:02:57 salve Exp salve $
+d43 1
+a43 1
+slisp	:= $(usr)/lib/emacs/site-lisp/
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.11 1998/02/18 13:36:17 salve Exp salve $
+d113 2
+a114 2
+	$(INSTDATA) debian/emacsen.install $(emacsen)/install/$(package)
+	$(INSTDATA) debian/emacsen.remove $(emacsen)/remove/$(package)
+@
+
+
+1.11
+log
+@Added GPL blurb.
+@
+text
+@d4 1
+a4 1
+# $Id: rules,v 1.10 1998/02/17 21:12:24 salve Exp salve $
+d93 1
+a93 1
+	$(INSTDATA)  debian/README $(doc)/README.Debian
+@
+
+
+1.10
+log
+@Added man page for update-auctex-elisp.
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.9 1998/02/17 18:29:04 salve Exp salve $	
+d6 12
+a17 2
+# Written by Helmut Geyer <Helmut.Geyer@@iwr.uni-heidelberg.de>.
+# Rewritten by Davide G. M. Salvetti <salve@@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
+@
+
+
+1.9
+log
+@Suspended du file.
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.8 1998/02/17 17:15:03 salve Exp salve $	
+d40 1
+d81 1
+a81 1
+	$(INSTDIR) $(doc) $(html)
+d90 4
+@
+
+
+1.8
+log
+@Added support for the new emacsen proposal.
+@
+text
+@d4 1
+a4 1
+# 	$Id$	
+d107 1
+a107 1
+	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(DEBIAN)/du
+@
+
+
+1.7
+log
+@auctex-auto-load -> update-auctex-elisp
+Added compatibility symlink.
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.6 1998/01/20 23:10:03 salve Exp salve $	
+d9 20
+a28 2
+package	= auctex
+DOCS	= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex}
+d31 18
+a48 15
+usr	= $(tmp)/usr/
+info	= $(usr)/info/
+lisp	= $(usr)/lib/emacs/site-lisp/
+DEBIAN 	= $(tmp)/DEBIAN/
+doc	= $(usr)/doc/$(package)/
+html	= $(doc)/$(package).html/
+cron	= $(tmp)/etc/cron.weekly/
+menu	= $(usr)/lib/menu/
+sbin	= $(usr)/sbin/
+
+SHELL		= /bin/bash
+INSTDIR		= install -m 755 -d
+INSTPROG	= install -m 755 -s
+INSTDATA	= install -m 644
+INSTSCRIPT	= install -m 755
+d52 2
+a53 1
+	$(MAKE) all contrib
+d62 2
+d72 6
+a77 14
+	$(INSTDIR) $(info) $(lisp)
+	$(MAKE) prefix=$(usr) infodir=$(info) lispdir=$(lisp) install install-contrib install-info
+#       compress source version of the byte compiled lisp files BUT NOT $(lisp)/tex-site.el
+	gzip -9v $$(find $(lisp)/$(package) -name \*.el)
+	cd doc && $(MAKE) auc-tex_toc.html
+	gzip -9v $(info)/*
+
+# install Debian system files
+	$(INSTDIR) $(cron) $(menu) $(sbin)
+	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
+	$(INSTDATA) debian/auctex.menu $(menu)/auctex
+	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
+#	compatibility link: this should eventually disappear
+	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load
+d85 1
+a85 1
+	gzip -9v $$(find $(doc)/* -type f)
+d90 11
+a112 2
+
+binary: binary-indep binary-arch
+@
+
+
+1.6
+log
+@README.Debian from debian/README.
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.5 1998/01/20 01:35:45 salve Exp salve $	
+d59 3
+a61 1
+	$(INSTSCRIPT) debian/auctex-auto-load $(sbin)
+@
+
+
+1.5
+log
+@See debian/changelog.
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.4 1998/01/14 03:42:26 salve Exp salve $	
+d10 1
+a10 1
+DOCS	= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex} debian/README.Debian
+d64 1
+@
+
+
+1.4
+log
+@Aggiunta regola per DEBIAN/du.
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.3 1998/01/12 19:01:45 salve Exp salve $	
+d10 1
+a10 1
+DOCS	= CHANGES README PROBLEMS
+d15 1
+a15 1
+lisp	= $(usr)/lib/emacs/common/
+d18 1
+d20 2
+a21 2
+elisp	= $(tmp)/etc/elisp/
+sbin	= $(tmp)/usr/sbin/
+d31 1
+a31 1
+	$(MAKE) all contrib # EMACS=xemacs
+d50 3
+a52 2
+#       remove uncompiled version AND usr/lib/emacs/common/tex-site.el
+	rm $$(find $(lisp) -name \*.el)
+d56 1
+a56 2
+	$(INSTDIR) $(cron) $(elisp) $(sbin)
+	$(INSTDATA) debian/tex-site.el $(elisp)
+d58 1
+d62 1
+a62 1
+	$(INSTDIR) $(doc)
+d66 1
+a66 1
+	gzip -9v $(doc)/*
+d68 2
+d74 1
+a74 1
+	$(INSTSCRIPT) debian/{preinst,postinst,prerm,postrm} $(DEBIAN)
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+# 	$Id: rules,v 1.2 1998/01/08 13:58:06 salve Exp salve $	
+d73 2
+a74 1
+	cd $(tmp) && md5sum $$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") | sort -k 2 -o DEBIAN/md5sums
+@
+
+
+1.2
+log
+@New maintainer.
+@
+text
+@d3 2
+a4 2
+# postinst configuration file for Debian auctex package.
+# 	$Id$	
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 24
+a26 15
+# should be used only by dpkg-buildpackage
+
+# Some useful definitions
+INSTALL=install
+INSCRIPT=$(INSTALL) -o root -g root -m 755 -c
+INSTPROG=$(INSTALL) -o root -g root -s -m 755 -c
+INSTDATA=$(INSTALL)  -o root -g root -m 644 -c
+INSTDIR=$(INSTALL) -d -g root -m 755 -o root 
+
+define checkdir
+   test -f auc-old.el -a -f debian/rules
+endef
+
+DOCS-ARCH =
+DOCS-ALL = README PROBLEMS
+a28 1
+# Builds the binary package.
+d30 1
+a30 1
+	make all contrib EMACS=xemacs
+a33 1
+# Undoes the effect of `make -f debian.rules build'.
+d35 3
+a37 4
+	make clean
+	-rm -f `find . -name \*.elc -print`
+	rm -f build
+	rm -rf debian/tmp-all
+d39 1
+a39 1
+binary-arch: build checkroot
+d42 3
+a44 29
+binary-indep: build checkroot
+	$(INSTDIR) debian/tmp-all/usr/lib/emacs/common
+	chmod g-s debian/tmp-all
+	$(INSTDIR) debian/tmp-all/usr/info
+	$(INSTDIR) debian/tmp-all/usr/sbin
+	make install install-contrib install-info prefix=$(shell pwd)/debian/tmp-all/usr
+	rm `find debian/tmp-all/usr/lib -name \*.el -print`
+	$(INSTDIR) debian/tmp-all/DEBIAN
+	$(INSTDIR) debian/tmp-all/etc/elisp
+	$(INSTDATA) debian/tex-site.el debian/tmp-all/etc/elisp
+	$(INSTDIR) debian/tmp-all/etc/cron.weekly
+	$(INSTDIR) debian/tmp-all/usr/doc/auctex
+	$(INSTDATA) $(DOCS-ALL) debian/tmp-all/usr/doc/auctex
+	$(INSTDATA) debian/changelog \
+	      debian/tmp-all/usr/doc/auctex/changelog.Debian
+	$(INSTDATA) ChangeLog debian/tmp-all/usr/doc/auctex/changelog
+	$(INSTDATA) debian/copyright debian/tmp-all/usr/doc/auctex/
+	gzip -9v debian/tmp-all/usr/doc/auctex/*
+	gzip -9v debian/tmp-all/usr/info/*
+	dpkg-gencontrol -pauctex -Pdebian/tmp-all
+	$(INSCRIPT) debian/auctex.cron debian/tmp-all/etc/cron.weekly/auctex
+	$(INSCRIPT) debian/auctex-auto-load debian/tmp-all/usr/sbin
+	$(INSCRIPT) debian/postinst debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/postrm debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/prerm debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/preinst debian/tmp-all/DEBIAN/
+	$(INSCRIPT) debian/conffiles debian/tmp-all/DEBIAN/
+	chown -R root.root debian/tmp-all
+	dpkg --build debian/tmp-all ..
+d46 32
+a77 2
+mrproper: clean
+	-rm -f `find . \( -name \*~ -o -name \*.bak \) -print`
+d79 1
+a79 2
+# generic targets:
+binary:     binary-indep binary-arch
+d81 1
+a81 2
+source diff:
+	@@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+d85 4
+a88 1
+	test root = "`whoami`"
+d92 4
+a95 3
+# Local Variables:
+# mode: makefile
+# End:
+@

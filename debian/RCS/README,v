@@ -1,0 +1,181 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.7
+date	98.02.18.23.24.05;	author salve;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	98.02.18.17.20.48;	author salve;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	98.02.17.14.32.00;	author salve;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	98.01.22.23.48.30;	author salve;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	98.01.20.23.16.35;	author salve;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	98.01.20.01.15.14;	author salve;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	98.01.19.23.36.24;	author salve;	state Exp;
+branches;
+next	;
+
+
+desc
+@Aggiunto per spiegare (require 'tex-site).
+@
+
+
+1.7
+log
+@Added note about man page.
+@
+text
+@The Debian package auctex
+-------------------------
+
+
+Loading AUC TeX
+===============
+
+Users will need to put "(require 'tex-site)" in their "~/.emacs" to load
+AUC TeX.
+
+System Administrators wanting to start AUC TeX by default on their site
+should put "(require 'tex-site)" in "/etc/emacs/site-start.el".
+
+
+Online Documentation
+====================
+
+Online documentation may be found in the info or HTML manual, and the
+update-auctex-lisp(8) manual page.
+
+
+Note to System Administrators:
+==============================
+
+To improve its performance AUC TeX stores informations about (La)TeX style
+files available on the system in "/var/lib/auctex/".  AUC TeX updates
+these informations weekly, by a cron script; nevertheless, you may want to
+run "/usr/sbin/update-auctex-elisp" manually after installing new style
+files under "/usr/local/lib/texmf".  (Formerly "update-auctex-elisp" was
+named "auctex-auto-load": there's now a symlink for compatibility reason,
+that will eventually disappear in future releases: you are advised to NOT
+use it).
+
+
+Davide G. M. Salvetti <salve@@debian.org>, Tue, 20 Jan 1998 00:34:14 +0100.
+
+
+Local variables:
+mode: text
+end:
+@
+
+
+1.6
+log
+@/var/lib/emacs/auctex/ -> /var/lib/auctex/
+@
+text
+@d18 2
+a19 1
+Online documentation may be found in the info or HTML manual.
+@
+
+
+1.5
+log
+@Beautified.  Replaced /ect/emacs/site-start.d note with
+/etc/emacs/site-start.el note.
+@
+text
+@d25 1
+a25 1
+files available on the system in "/var/lib/emacs/auctex".  AUC TeX updates
+@
+
+
+1.4
+log
+@Added note about symlink.
+@
+text
+@d4 1
+d8 2
+a9 2
+Users will need to put (require 'tex-site) in their ~/.emacs to load AUC
+TeX.  Online documentation may be found in the info or HTML manual.
+d12 8
+a19 3
+should put (require 'tex-site) in an appropriate file in the startup
+directory /etc/emacs/site-start.d; see /usr/doc/emacs/README.site-start.d
+for more info.
+d25 1
+a25 1
+files available on the system in /var/lib/emacs/auctex.  AUC TeX updates
+d27 6
+a32 5
+run /usr/sbin/update-auctex-elisp manually after installing new style
+files under /usr/local/lib/texmf.  (Formerly update-auctex-elisp was named
+auctex-auto-load: there's now a symlink for compatibility reason, that
+will eventually disappear in future releases: you are advised not to use
+it).
+@
+
+
+1.3
+log
+@Added note about auctex-auto-load.
+@
+text
+@d19 1
+a19 1
+files available on the sistem in /var/lib/emacs/auctex.  AUC TeX updates
+d21 5
+a25 2
+run /usr/sbin/auctex-auto-load manually after installing new style files
+under /usr/local/lib/texmf.
+@
+
+
+1.2
+log
+@Added pointer to /usr/doc/emacs/README.site-start.d
+@
+text
+@d15 9
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d7 1
+a7 1
+Users will need to put (require 'tex-site) in theri ~/.emacs to load AUC
+d9 5
+@
