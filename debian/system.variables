@@ -1,5 +1,5 @@
 <:# Copyright (C) 1999, 2000, 01, 02 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: system.variables,v 1.9 2002/09/27 13:41:53 salve Exp $:>//
+<:# $Id: system.variables,v 1.10 2003/04/06 10:00:56 salve Exp $:>//
 <:# package specific:>//
 <:$debian="/DEBIAN/":>//
 <:$ETC="/etc/":>//
@@ -11,7 +11,6 @@
 <:# usr and friends:>//
 <:$usr="/usr/":>//
 <:$share="/usr/share/":>//
-<:$dict="/usr/share/dict/":>//
 <:$bin="/usr/bin/":>//
 <:$man="/usr/share/man/":>//
 <:$sbin="/usr/sbin/":>//
@@ -41,6 +40,11 @@
 	  . " --quiet":>//
 <:$IREMOVE="install-info --quiet --remove":>//
 <:$info="/usr/share/info/":>//
+<:# dictionaries-common:>//
+<:$dict="/usr/share/dict/":>//
+<:$winfo="/var/lib/dictionaries-common/wordlist/":>//
+<:$WREBUILD="/usr/sbin/update-default-wordlist --rebuild":>//
+<:$WREMOVE="/usr/sbin/remove-default-wordlist $PACKAGE":>//
 <:# misc:>//
 <:$GPL="/usr/share/common-licenses/GPL":>//
 <:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>;close(COPYRIGHT):>//

@@ -1,3 +1,9 @@
+auctex (11.11-3) unstable; urgency=medium
+
+  * control(Build-Depends-Indep): Added ed.  (Closes: #187648)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun,  6 Apr 2003 11:49:24 +0200
+
 auctex (11.11-2) unstable; urgency=low
 
   * control(Standards-Version): Upgraded to 3.5.7.
