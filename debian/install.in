@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=${PACKAGE}:> package.
-# $Id: install.in,v 1.14 2002/01/18 16:04:09 salve Exp $
+# $Id: install.in,v 1.15 2004/03/17 09:38:58 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -99,7 +99,7 @@ do_auto () {
 
 case "${FLAVOR}" in
     (emacs) : ;;
-    (emacs20|emacs21)
+    (emacs21)
     <:# byte compile:>//
     do_byte_compile ${FLAVOR}
     <:# parse TeX macros and LaTeX styles:>//

@@ -70,15 +70,6 @@
   :group 'TeX-file
   :type 'directory)
 
-;; The directory where the AUC TeX lisp files are located.
-(defcustom TeX-lisp-directory
-  (concat "/usr/share/"
-	  (symbol-name debian-emacs-flavor)
-	  "/site-lisp/auctex/")
-  "The directory where the AUC TeX Lisp files are located."
-  :group 'TeX-file
-  :type 'directory)
-
 ;; Change this to point to the place where the TeX macros are stored
 ;; at yourt site.
 (defcustom TeX-macro-global '("/usr/local/lib/texmf/tex/")

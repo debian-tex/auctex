@@ -3,14 +3,14 @@
 #
 # Update AucTeX auto-loads.
 # Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: update-auctex-elisp.in,v 1.8 2002/01/18 16:04:10 salve Exp $
+# $Id: update-auctex-elisp.in,v 1.9 2004/03/17 09:39:14 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 <:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUC TeX.:>//
-FLAVORS=${*:-"emacs20 emacs21"}
+FLAVORS=${*:-"emacs21"}
 
 for FLAVOR in ${FLAVORS}; do
     if [ -x /usr/bin/${FLAVOR} ]; then

@@ -1,3 +1,16 @@
+auctex (11.14-2) unstable; urgency=high
+
+  * COPYRIGHT: Updated.
+  * config: Set ${LOGFILE} for the doautofg template; thanks to Yannick
+    Roehlly.  (Closes: #238415)
+  * copyright: Updated.
+  * install: emacs20 removed.
+  * patch-custom: Fixed.  (Closes: #238413)
+  * remove: emacs20 removed.
+  * update-auctex-elisp(${FLAVORS}): emacs20 removed.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 17 Mar 2004 11:13:55 +0100
+
 auctex (11.14-1) unstable; urgency=high
 
   * New upstream version.  (Closes: #203632)
@@ -8,7 +21,8 @@ auctex (11.14-1) unstable; urgency=high
   * control(Depends): emacs20 removed.  (Closes: #232744)
     (Suggests): catdvi added.
   * patch-custom: New file with customization code formerly held in
-    ../tex-site.el, patch applied to ../tex.el.  (Closes: #214594)
+    ../tex-site.el, patch applied to ../tex.el and ../tex-site.el.
+    (Closes: #214594)
   * patch-info: Updated.
   * patch-multicolumn: New file, patch applied to ../latex.el; thanks to
     Julian Gilbey.  (Closes: #234110)
@@ -119,7 +133,7 @@ auctex (10.0g-3) unstable; urgency=low
 
 auctex (10.0g-2) unstable; urgency=high
 
-  * rules (build): Removed debian/rules from deps.
+  * rules(build): Removed debian/rules from deps.
     (debian/rules): Removed debian/system.variables from deps.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Wed, 16 May 2001 14:48:51 +0200
@@ -141,7 +155,7 @@ auctex (10.0d-1) unstable; urgency=medium
   * COPYRIGHT: Updated.
   * README: Added font-latex support.
   * config: Added font-latex support.
-  * control (Depends): added emacs21;
+  * control(Depends): added emacs21;
     (Build-Depends): added texinfo, texi2html.
   * install: Removed no more needed beauty stuff.
   * postinst: Removed no more needed beauty stuff.
@@ -156,7 +170,7 @@ auctex (9.10t-3) unstable; urgency=low
 
   * COPYRIGHT: Updated.
   * config: Added support for doautofg.
-  * config: Cosmetic fix.
+    Cosmetic fix.
   * control: Cosmetic fix.
   * install: Added support for emacs21.
   * postinst: Added support for doautofg.
@@ -164,7 +178,7 @@ auctex (9.10t-3) unstable; urgency=low
   * template (doautofg): New question.  (Closes: #77428)
   * update-auctex-elisp.8: Updated copyright.
   * update-auctex-elisp: Added support for emacs21.
-  * update-auctex-elisp: Cosmetic fix.
+    Cosmetic fix.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri,  5 Jan 2001 02:33:35 +0100
 
@@ -174,10 +188,10 @@ auctex (9.10t-2) unstable; urgency=low
     from being automatically added to load-path by the execution of
     normal-top-level-add-subdirs-to-load-path.
   * remove: Remove ".nosearch" from ".../$FLAVOR/$style"
-  * rules: Touch ".nosearch" in "...$style" to prevent it from
-    being automatically added to load-path by the execution of
+  * rules: Touch ".nosearch" in "...$style" to prevent it from being
+    automatically added to load-path by the execution of
     normal-top-level-add-subdirs-to-load-path.
-  * rules: Added -isp to dpkg-gencontrol.
+    Added -isp to dpkg-gencontrol.
   * templates: Wording improved.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Wed, 15 Nov 2000 17:29:18 +0100
@@ -187,15 +201,15 @@ auctex (9.10t-1) unstable; urgency=low
   * New upstream version.
   * Wrong quote string bug fixed upstream.  (Closes: #64185, #64186)
   * config: Uses a better regexp to detect alreadydefault.  (Closes: #67408)
-  * control: Dependence on emacs19 removed: upstream version now supports
+  * control(Depends): emacs19 removed: upstream version now supports
     _ONLY_ Emacs 20 and newer.
-  * control: Standards-Version: 3.2.1.
+    (Standards-Version): Updated to 3.2.1.
   * copyright: Updated, removed japanese-patch statement.
   * install: Removed emacs19.
   * japanese-patch: Removed (included upstream).
   * japanese-patch-copyright: Removed.
   * templates: Wording improved.  (Closes: #61064)
-  * templates: Localized in Italian.  (Closes: #64159)
+    Localized in Italian.  (Closes: #64159)
   * remove: Removed emacs19.
   * rules: Removed rules for japanese-patch.
   * updated-auctex-elisp: Removed emacs19.
@@ -206,7 +220,7 @@ auctex (9.10t-1) unstable; urgency=low
 
 auctex (9.9p-13) frozen unstable; urgency=medium
 
-  * control: Sandards-Version: 3.0.0.
+  * control(Sandards-Version): Updated to 3.0.0.
   * postinst: Fixed typo.
   * rules: Fixed info files renaming rule; thanks to Ryuichi
     Arafune.  (Closes: #51364)
@@ -346,7 +360,7 @@ auctex (9.9p-1) unstable; urgency=low
     `--no-site-file' added (side effects on the `custom' emacs19 add-on
     package expected; sigh!).  (Closes: #39095)
   * ../tex-jp.el: reverted to upstream version, waiting for Japaneese
-    patches to be tested against it (see: #39547).
+    patches to be tested against it.  (See: #39547)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri,  2 Jul 1999 17:53:45 +0200
 
@@ -435,7 +449,7 @@ auctex (9.9a-2) unstable; urgency=low
   * ../tex-site.el: Removed trailing `/' from TeX-lisp-directory.
   * postinst: Use mktemp for update-auctex-elisp' log file; don't ask the
     user about running it in background any more, just do it.
-  * postinst: Fixed test for update-menus.
+    Fixed test for update-menus.
   * preinst: Removed a couple of question to the user.
   * prerm: Fixed test for update-menus.
 
@@ -451,32 +465,32 @@ auctex (9.9a-1) unstable; urgency=low
 auctex (9.8i-3) unstable; urgency=medium
 
   * ../tex-site.el: Added "/usr/local/lib/texmf/tex/" to TeX-macro-global.
-  * ../tex-site.el: Added debian-emacs-flavor code.
-  * ../tex-site.el: /var/lib/emacs/auctex/ -> /var/lib/auctex/.
+    Added debian-emacs-flavor code.
+    /var/lib/emacs/auctex/ -> /var/lib/auctex/.
   * README: New file.
   * auctex-auto-load: Changed name to update-auctex-elisp; added a
     compatibility symlink that should eventually disappear.
   * auctex.menu: New file.
-  * conffiles: tex-site.el is no more a conffile.
-  * control: Updated Standards-Version: 2.4.0.0.
-  * control: Changed Depends: emacs19|emacs20.
+  * conffiles(tex-site.el): Removed.
+  * control(Standards-Version): Updated to 2.4.0.0.
+    (Depends): Changed to emacs19|emacs20.
   * emacsen.install: New file.
   * emacsen.remove: New file.
   * postinst: Added support for `menu'.
-  * postinst: Info description changed.
-  * postinst: Added call to emacs-package-install.
+    Info description changed.
+    Added call to emacs-package-install.
   * preinst: Added warning about /etc/elisp/tex-site.el removal.
-  * preinst: Dropped a few ancient warnings.
+    Dropped a few ancient warnings.
   * prerm: Added support for `menu'.
-  * prerm: Added call to emacs-package-remove.
+    Added call to emacs-package-remove.
   * postrm: Moved some stuff into prerm and deleted.
   * rules: Moved the Debian patched tex-site.el in the upstream source
     directory.
-  * rules: Moved elisp directory from /usr/lib/emacs/common/auctex/ to
+    Moved elisp directory from /usr/lib/emacs/common/auctex/ to
     /usr/share/emacs/site-lisp/auctex/.
-  * rules: Added math-ref.tex.gz and tex-ref.tex.gz to /usr/doc/auctex/.
-  * rules: Added HTML documentation in /usr/doc/auctex/auctex.html/.
-  * rules: Modified to support the new emacsen proposal.
+    Added math-ref.tex.gz and tex-ref.tex.gz to /usr/doc/auctex/.
+    Added HTML documentation in /usr/doc/auctex/auctex.html/.
+    Modified to support the new emacsen proposal.
   * update-auctex-elisp: Added debian-emacs-flavor code.
   * update-auctex-elisp.8: New file.
 
@@ -484,7 +498,8 @@ auctex (9.8i-3) unstable; urgency=medium
 
 auctex (9.8i-2) unstable; urgency=low
 
-  * auctex.cron: Doesn't send useless output to root anymore. (#16988)
+  * auctex.cron: Doesn't send useless output to root anymore.  (Closes:
+    #16988)
   * copyright: Upstream maintainer email address fixed. (Hopefully. :-)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Mon, 12 Jan 1998 20:09:47 +0100
@@ -493,20 +508,21 @@ auctex (9.8i-1) unstable; urgency=low
 
   * New maintainer.
   * New upstream version.
-  * control: auctex matches standards version 2.3.0.1.
-  * control: Extended descriptions improved.
+  * control(Standards-Version): Updated to 2.3.0.1.
+    (Description): Improved.
   * tex-site.el: Auto generated files are now created under /var instead
     of /usr.
   * auctex-auto-load: Remove auto generated *.el files after *.elc have
     been generated.
   * auctex.cron: Added test to prevent execution in config-files status.
   * postinst: Warn the user upgrading from old version about the new
-    location of tex-site.el (#12111); changed old version upgrade test
-    (#12111); run_auto_generate is now correctly called.
-  * preinst: Warn the user before trying to remove old AucTeX directory
-    (#12111).
-  * rules: Heavily rewritten; don't compress copyright anymore, fixes bug
-    (#14395).
+    location of tex-site.el.  (Closes: #12111)
+    Changed old version upgrade test. (Closes: #12111)
+    run_auto_generate is now correctly called.
+  * preinst: Warn the user before trying to remove old AucTeX directory.
+    (Closes: #12111)
+  * rules: Heavily rewritten; don't compress copyright anymore.  (Closes:
+    #14395)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 8 Jan 1998 11:07:00 +0100
 

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # config configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: config.in,v 1.10 2002/01/18 16:04:09 salve Exp $
+# $Id: config.in,v 1.11 2004/03/17 10:13:49 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -23,6 +23,7 @@ case "${1}" in
     db_go || true
     LOGFILE=$(mktemp <:=${TMPMASK}:>)
     db_subst <:=${PACKAGE}:>/doauto LOGFILE ${LOGFILE} || true
+    db_subst <:=${PACKAGE}:>/doautofg LOGFILE ${LOGFILE} || true
     db_register <:=${PACKAGE}:>/doauto <:=${PACKAGE}:>/logfile || true
     db_set <:=${PACKAGE}:>/logfile ${LOGFILE} || true
     db_input low <:=${PACKAGE}:>/doauto || true
