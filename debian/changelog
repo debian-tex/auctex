@@ -1,3 +1,12 @@
+auctex (9.9j-1) unstable; urgency=low
+
+  * New upstream version.
+  * copyright: Updated upstream sources reference.
+  * emacsen.install: Updated $SOURCES, added texmathp.el.
+  * rules: Updated $(AUCSRC), added texmathp.el.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 28 Aug 1998 18:33:17 +0200
+
 auctex (9.9b-4) stable unstable; urgency=low
 
   * README: Added a note about `TeX-printer-list'; added a note about

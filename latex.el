@@ -1,7 +1,7 @@
 ;;; latex.el --- Support for LaTeX documents.
 ;; 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9b
+;; Version: 9.9j
 ;; Keywords: wp
 ;; X-URL: http://sunsite.auc.dk/auctex
 
@@ -112,7 +112,7 @@ LaTeX-section-label	Prefix to all section labels."
 
 (defun LaTeX-current-section ()
   "Return the level of the section that contain point.
-See also LaTeX-section for description of levels."
+See also `LaTeX-section' for description of levels."
   (save-excursion
     (max (LaTeX-largest-level)
 	 (if (re-search-backward (LaTeX-outline-regexp) nil t)
@@ -183,7 +183,7 @@ section."
 
 Each element is a list with two entries.  The first entry is the
 regular expression matching a header, and the second is the level of
-the header.  See LaTeX-section-list for existing header levels."
+the header.  See `LaTeX-section-list' for existing header levels."
   :group 'LaTeX
   :type '(repeat (group (regexp :tag "Match")
 			(integer :tag "Level"))))
@@ -207,7 +207,7 @@ header is at the start of a line."
 	  "\\|" TeX-trailer-start))
 
 (defvar LaTeX-largest-level nil
-  "Largest sectioning level with current document style")
+  "Largest sectioning level with current document style.")
 
 (make-variable-buffer-local 'LaTeX-largest-level)
 
@@ -216,7 +216,7 @@ header is at the start of a line."
   LaTeX-largest-level)
 
 (defun LaTeX-outline-offset ()
-  "Offset to add to LaTeX-section-list levels to get outline level."
+  "Offset to add to `LaTeX-section-list' levels to get outline level."
   (- 2 (LaTeX-largest-level)))
 
 (defun TeX-look-at (list)
@@ -287,7 +287,7 @@ placed at the point they should be inserted.
 LaTeX-section-label: Insert a label after the section command.
 Controled by the variable `LaTeX-section-label'.
 
-To get a full featured LaTeX-section command, insert 
+To get a full featured `LaTeX-section' command, insert 
 
  (setq LaTeX-section-hook
        '(LaTeX-section-heading
@@ -332,7 +332,7 @@ no label is inserted."
 
 (defun LaTeX-section-heading ()
   "Hook to prompt for LaTeX section name.
-Insert this hook into LaTeX-section-hook to allow the user to change
+Insert this hook into `LaTeX-section-hook' to allow the user to change
 the name of the sectioning command inserted with `\\[LaTeX-section]'."
   (let ((string (completing-read
 		 (concat "Select level: (default " name ") ")
@@ -346,13 +346,13 @@ the name of the sectioning command inserted with `\\[LaTeX-section]'."
 
 (defun LaTeX-section-title ()
   "Hook to prompt for LaTeX section title.
-Insert this hook into LaTeX-section-hook to allow the user to change
+Insert this hook into `LaTeX-section-hook' to allow the user to change
 the title of the section inserted with `\\[LaTeX-section]."
   (setq title (read-string "What title: ")))
 
 (defun LaTeX-section-toc ()
   "Hook to prompt for the LaTeX section entry in the table of content .
-Insert this hook into LaTeX-section-hook to allow the user to insert
+Insert this hook into `LaTeX-section-hook' to allow the user to insert
 a different entry for the section in the table of content."
   (setq toc (read-string "Toc Entry: "))
   (if (zerop (length toc))
@@ -360,7 +360,7 @@ a different entry for the section in the table of content."
 
 (defun LaTeX-section-section ()
   "Hook to insert LaTeX section command into the file.
-Insert this hook into LaTeX-section-hook after those hooks which sets
+Insert this hook into `LaTeX-section-hook' after those hooks which sets
 the `name', `title', and `toc' variables, but before those hooks which
 assumes the section already is inserted."
     (insert TeX-esc name)
@@ -375,14 +375,17 @@ assumes the section already is inserted."
     (if (zerop (length title))
 	(set-marker done-mark (point)))
     (insert title TeX-grcl)
-    (newline))
+    (newline)
+    ;; If RefTeX is available, tell it that we've just made a new section
+    (and (fboundp 'reftex-notice-new-section)
+	 (reftex-notice-new-section)))
 
 (defun LaTeX-section-label ()
   "Hook to insert a label after the sectioning command.
-Insert this hook into LaTeX-section-hook to prompt for a label to be
+Insert this hook into `LaTeX-section-hook' to prompt for a label to be
 inserted after the sectioning command.
 
-The beaviour of this hook is controled by LaTeX-section-label."
+The beaviour of this hook is controled by `LaTeX-section-label'."
   (and (LaTeX-label name)
        (newline)))
 
@@ -393,7 +396,7 @@ The beaviour of this hook is controled by LaTeX-section-label."
   :group 'LaTeX-macro)
 
 (defcustom LaTeX-default-environment "itemize"
-  "*The default environment when creating new ones with LaTeX-environment."
+  "*The default environment when creating new ones with `LaTeX-environment'."
   :group 'LaTeX-environment
   :type 'string)
  (make-variable-buffer-local 'LaTeX-default-environment)
@@ -404,14 +407,14 @@ With optional ARG, modify current environment.
  
 It may be customized with the following variables:
  
-LaTeX-default-environment       Your favorite environment.
-LaTeX-default-style             Your favorite document style.
-LaTeX-default-options           Your favorite document style options.
-LaTeX-float                     Where you want figures and tables to float.
-LaTeX-table-label               Your prefix to labels in tables.
-LaTeX-figure-label              Your prefix to labels in figures.
-LaTeX-default-format            Format for array and tabular.
-LaTeX-default-position          Position for array and tabular."
+`LaTeX-default-environment'       Your favorite environment.
+`LaTeX-default-style'             Your favorite document style.
+`LaTeX-default-options'           Your favorite document style options.
+`LaTeX-float'                     Where you want figures and tables to float.
+`LaTeX-table-label'               Your prefix to labels in tables.
+`LaTeX-figure-label'              Your prefix to labels in figures.
+`LaTeX-default-format'            Format for array and tabular.
+`LaTeX-default-position'          Position for array and tabular."
  
   (interactive "*P")
   (let ((environment (completing-read (concat "Environment type: (default "
@@ -464,7 +467,7 @@ LaTeX-default-position          Position for array and tabular."
 	   (apply (nth 1 entry) environment (nthcdr 2 entry))))))
 
 (defun LaTeX-close-environment ()
-  "Creates an \\end{...} to match the current environment."
+  "Create an \\end{...} to match the current environment."
   (interactive "*")
   (if (> (point)
 	 (save-excursion
@@ -855,7 +858,7 @@ The cdr is the name of the function, used to insert this kind of items.")
 
 (defun LaTeX-insert-item ()
   "Insert a new item in an environment.
-You may use LaTeX-item-list to change the routines used to insert the item."
+You may use `LaTeX-item-list' to change the routines used to insert the item."
   (interactive "*")
   (let ((environment (LaTeX-current-environment)))
     (newline)
@@ -889,6 +892,13 @@ You may use LaTeX-item-list to change the routines used to insert the item."
   '(("\\\\label{\\([^\n\r%\\{}]+\\)}" 1 LaTeX-auto-label))
   "List of regular expression matching LaTeX labels only.")
 
+(defvar LaTeX-auto-index-regexp-list
+  '(("\\\\index{\\([^}{]*\\({[^}{]*\\({[^}{]*\\({[^}{]*}[^}{]*\\)*}[^}{]*\\)*}[^}{]*\\)*\\)}"
+	1 LaTeX-auto-index-entry))
+  "List of regular expression matching LaTeX index entries only.
+Regexp allows for up to 3 levels of parenthesis inside the index argument.
+This is necessary since index entries may contain commands and stuff.")
+
 (defvar LaTeX-auto-regexp-list 
   (append
    '(("\\\\\\(new\\|provide\\)command\\*?{?\\\\\\([a-zA-Z]+\\)}?\\[\\([0-9]+\\)\\]\\[\\([^\n\r]*\\)\\]"
@@ -911,6 +921,7 @@ You may use LaTeX-item-list to change the routines used to insert the item."
       1 LaTeX-auto-bibitem)
      ("\\\\bibliography{\\([^#}\\\\\n\r]+\\)}" 1 LaTeX-auto-bibliography))
    LaTeX-auto-label-regexp-list
+   LaTeX-auto-index-regexp-list
    LaTeX-auto-minimal-regexp-list)
   "List of regular expression matching common LaTeX macro definitions.")
 
@@ -1059,6 +1070,7 @@ You may use LaTeX-item-list to change the routines used to insert the item."
 (TeX-auto-add-type "bibitem" "LaTeX")
 (TeX-auto-add-type "environment" "LaTeX")
 (TeX-auto-add-type "bibliography" "LaTeX" "bibliographies")
+(TeX-auto-add-type "index-entry" "LaTeX" "index-entries")
 
 (fset 'LaTeX-add-bibliographies-auto
       (symbol-function 'LaTeX-add-bibliographies))
@@ -1078,7 +1090,7 @@ You may use LaTeX-item-list to change the routines used to insert the item."
 
 ;;;###autoload
 (defun BibTeX-auto-store ()
-  "This function should be called from bibtex-mode-hook.
+  "This function should be called from `bibtex-mode-hook'.
 It will setup BibTeX to store keys in an auto file."
   ;; We want this to be early in the list, so we do not
   ;; add it before we enter BibTeX mode the first time. 
@@ -1137,6 +1149,16 @@ Used for specifying extra syntax for a macro."
     (TeX-argument-insert label optional optional)))
 
 (defalias 'TeX-arg-ref 'TeX-arg-label)
+
+(defun TeX-arg-define-index (optional &optional prompt definition)
+  (TeX-arg-index optional prompt t))
+(defun TeX-arg-index (optional &optional prompt definition)
+  "Prompt for an index entry completing with known entries."
+  (let ((entry (completing-read (TeX-argument-prompt optional prompt "Key")
+				(LaTeX-index-entry-list))))
+    (if (and definition (not (string-equal "" entry)))
+	(LaTeX-add-index-entries entry))
+    (TeX-argument-insert entry optional optional)))
 
 (defun TeX-arg-macro (optional &optional prompt definition)
   "Prompt for a TeX macro with completion."
@@ -1424,7 +1446,7 @@ the cdr is the brace used with \\right.")
     ("\\lceil") ("\\rceil") ("\\langle") ("\\rangle")
     ("\\uparrow") ("\\Uparrow") ("\\downarrow") ("\\Downarrow")
     ("\\updownarrow") ("\\Updownarrow") ("."))
-  "List of symbols which can follow the \\left or \\right command")
+  "List of symbols which can follow the \\left or \\right command.")
 
 (defun TeX-arg-insert-braces (optional &optional prompt)
   (save-excursion
@@ -1477,9 +1499,9 @@ the cdr is the brace used with \\right.")
 
 (defun LaTeX-indent-line ()
   "Indent the line containing point, as LaTeX source.
-Add LaTeX-indent-level indentation in each \\begin{ - \\end{ block.
+Add `LaTeX-indent-level' indentation in each \\begin{ - \\end{ block.
 Lines starting with an item is given an extra indentation of
-LaTeX-item-indent."
+`LaTeX-item-indent'."
   (interactive)
   (let* ((case-fold-search nil)
 	 (indent (LaTeX-indent-calculate)))
@@ -1496,7 +1518,7 @@ LaTeX-item-indent."
 
 (defun LaTeX-fill-region-as-paragraph (from to &optional justify-flag)
   "Fill region as one paragraph.
-Break lines to fit fill-column, but leave all lines ending with \\\\
+Break lines to fit `fill-column', but leave all lines ending with \\\\
 \(plus its optional argument) alone. Prefix arg means justify too.
 From program, pass args FROM, TO and JUSTIFY-FLAG."
   (interactive "*r\nP")
@@ -1541,7 +1563,7 @@ From program, pass args FROM, TO and JUSTIFY-FLAG."
 	  (LaTeX-indent-line)))))
 
 (defun LaTeX-fill-region-as-para-do (from to justify-flag)
-  "Fill region as one paragraph: break lines to fit fill-column."
+  "Fill region as one paragraph: break lines to fit `fill-column'."
   (if (< from to)
       (progn
 	;; (save-restriction) here is likely not needed because
@@ -1650,7 +1672,7 @@ formatting."
     (message "Finished")))
 
 (defun LaTeX-find-matching-end ()
-  "Move point to the \\end of the current environment"
+  "Move point to the \\end of the current environment."
   (interactive)
   (let ((regexp (concat (regexp-quote TeX-esc) "\\(begin\\|end\\)\\b"))
 	(level 1))
@@ -1671,7 +1693,7 @@ formatting."
       (error "Can't locate end of current environment"))))
 
 (defun LaTeX-find-matching-begin ()
-  "Move point to the \\begin of the current environment"
+  "Move point to the \\begin of the current environment."
   (interactive)
   (let ((regexp (concat (regexp-quote TeX-esc) "\\(begin\\|end\\)\\b"))
 	(level 1))
@@ -2508,7 +2530,7 @@ See also `LaTeX-math-menu'."
   :type 'string)
 
 (defvar LaTeX-math-keymap (make-sparse-keymap)
-  "Keymap used for LaTeX-math-mode commands.")
+  "Keymap used for `LaTeX-math-mode' commands.")
 
 (defvar LaTeX-math-menu
   '("Math"
@@ -2622,7 +2644,7 @@ commands are defined:
   (if dollar (insert "$")))
 
 (defun LaTeX-math-cal (char dollar)
-  "Inserts a {\\cal CHAR}.  If DOLLAR is non-nil, put $'s around it."
+  "Insert a {\\cal CHAR}.  If DOLLAR is non-nil, put $'s around it."
   (interactive "*c\nP")
   (if dollar (insert "$"))
   (if (member "latex2e" (TeX-style-list))
@@ -2679,7 +2701,7 @@ commands are defined:
     (define-key map "\C-c~"    'LaTeX-math-mode) ;*** Dubious
     
     map)
-  "Keymap used in LaTeX-mode.")
+  "Keymap used in `LaTeX-mode'.")
 
 (defvar LaTeX-environment-menu-name "Insert Environment  (C-c C-e)")
 
@@ -2822,7 +2844,8 @@ the last entry in the menu."
 	      ["Sans Serif" (TeX-font nil ?\C-f) :keys "C-c C-f C-f"]
 	      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
 	      ["Slanted"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
-	      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"])
+	      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"]
+	      ["Calligraphic" (TeX-font nil ?\C-a) :keys "C-c C-f C-a"])
 	(list "Change Font"
 	      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
 	      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
@@ -2831,7 +2854,8 @@ the last entry in the menu."
 	      ["Sans Serif" (TeX-font t ?\C-f) :keys "C-u C-c C-f C-f"]
 	      ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
 	      ["Slanted"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
-	      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"])
+	      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"]
+	      ["Calligraphic" (TeX-font t ?\C-a) :keys "C-u C-c C-f C-a"])
 	["Delete Font" (TeX-font t ?\C-d) :keys "C-c C-f C-d"]
 	"-"
 	["Next Error" TeX-next-error t]
@@ -2867,26 +2891,32 @@ the last entry in the menu."
 	      ["Reset AUC TeX" (TeX-normal-mode t) :keys "C-u C-c C-n"])))
 
 (defcustom LaTeX-font-list
-  '((?\C-b "\\textbf{" "}")
-    (?\C-c "\\textsc{" "}")
-    (?\C-e "\\emph{" "}")
-    (?\C-f "\\textsf{" "}")
-    (?\C-i "\\textit{" "}")
-    (?\C-m "\\textmd{" "}")
-    (?\C-n "\\textnormal{" "}")
-    (?\C-r "\\textrm{" "}")
-    (?\C-s "\\textsl{" "}")
-    (?\C-t "\\texttt{" "}")
-    (?\C-u "\\textup{" "}")
+  '((?\C-a ""              ""  "\\mathcal{"    "}")
+    (?\C-b "\\textbf{"     "}" "\\mathbf{"     "}")
+    (?\C-c "\\textsc{"     "}")
+    (?\C-e "\\emph{"       "}")
+    (?\C-f "\\textsf{"     "}" "\\mathsf{"     "}")
+    (?\C-i "\\textit{"     "}" "\\mathit{"     "}")
+    (?\C-m "\\textmd{"     "}")
+    (?\C-n "\\textnormal{" "}" "\\mathnormal{" "}")
+    (?\C-r "\\textrm{"     "}" "\\mathrm{"     "}")
+    (?\C-s "\\textsl{"     "}")
+    (?\C-t "\\texttt{"     "}" "\\mathtt{"     "}")
+    (?\C-u "\\textup{"     "}")
     (?\C-d "" "" t))
   "Font commands used with LaTeX2e.  See `TeX-font-list'."
   :group 'LaTeX-macro
-  :type '(repeat (group (character :tag "Key")
-			(string :tag "Prefix")
-			(string :tag "Suffix")
-			(option (sexp :format "Replace\n" 
-				      :value t)))))
-
+  :type '(repeat 
+	   (group 
+	    :value (?\C-a "" "")
+	    (character :tag "Key")
+	    (string :tag "Prefix")
+	    (string :tag "Suffix")
+	    (option (group
+		     :inline t
+		     (string :tag "Math Prefix")
+		     (string :tag "Math Suffix")))
+	    (option (sexp :format "Replace\n" :value t)))))
 ;;; Mode
 
 (defgroup LaTeX-macro nil
@@ -2966,7 +2996,7 @@ of `LaTeX-mode-hook'."
 	(if (/= ?\\ (following-char))
 	    (skip-chars-backward "a-zA-Z "))
 	(skip-chars-backward "\\\\")
-	(if (looking-at "\\\\\\(emph\\|text[a-z]+\\){")
+	(if (looking-at "\\\\\\(emph\\|text[a-z]+\\|math[a-z]+\\){")
 	    (throw 'done t)
 	  (up-list -1))))
     (forward-sexp 2)
@@ -3240,7 +3270,7 @@ of `LaTeX-mode-hook'."
    '("verb" TeX-arg-verb)
    '("verb*" TeX-arg-verb)
    '("extracolsep" t)
-   '("index" t)
+   '("index" TeX-arg-define-index)
    '("glossary" t)
    '("numberline" "Section number" "Heading")
    '("caption" t)
@@ -3301,7 +3331,7 @@ of `LaTeX-mode-hook'."
 
 (defvar LaTeX-builtin-opts 
   '("12pt" "11pt" "10pt" "twocolumn" "twoside" "draft")
-  "Built in options for LaTeX standard styles")
+  "Built in options for LaTeX standard styles.")
 
 (defun LaTeX-209-to-2e ()
   "Make a stab at changing 2.09 doc header to 2e style."

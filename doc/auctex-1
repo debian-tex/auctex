@@ -1,6 +1,8 @@
 This is Info file auctex, produced by Makeinfo-1.55 from the input file
 auc-tex.texi.
 
+   * AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.   direntry
+
 
 File: auctex,  Node: Top,  Next: Copying,  Prev: (dir),  Up: (dir)
 
@@ -140,9 +142,9 @@ write it -- you can also let it indent and format an entire document.
 It has a special outline feature, which can greatly help you `getting an
 overview' of a document.
 
-   Apart from these special features, AUC TeX provides an large range of
+   Apart from these special features, AUC TeX provides a large range of
 handy Emacs macros, which in several different ways can help you write
-your LaTeX documents fast and painless.
+your LaTeX documents fast and painlessly.
 
    All features of AUC TeX are documented using the GNU Emacs online
 documentation system.  That is, documentation for any command is just a
@@ -155,7 +157,7 @@ itself).  AUC TeX is distributed under the `GNU Emacs General Public
 License' and may therefore almost freely be copied and redistributed.
 
    The next sections are a short introduction to some `actual' features.
-For further information, refer to the build-in online documentation of
+For further information, refer to the built-in online documentation of
 AUC TeX.
 
 Indentation and formatting
@@ -174,10 +176,10 @@ lets you indent an entire document like the well-known C utility indent
 Completion
 ==========
 
-   By studying your `\documentstyle' command (in the top of your
+   By studying your `\documentclass' command (in the top of your
 document), and consulting a precompiled list of (La)TeX symbols from a
 large number of TeX and LaTeX files, AUC TeX is aware of the LaTeX
-commands you should able to use in this particular document.  This
+commands you should be able to use in this particular document.  This
 `knowledge' of AUC TeX is used for two purposes.
 
   1. To make you able to `complete' partly written LaTeX commands. You
@@ -195,7 +197,7 @@ Editing your document
 
    A number of more or less intelligent keyboard macros have been
 defined to aid you editing your document.  The most important are
-listed here below.
+listed below.
 
 `LaTeX-environment'
      (`C-c C-e') Insert a `\begin{}' -- `\end{}' pair as described
@@ -206,7 +208,7 @@ listed here below.
 
 `TeX-font'
      (`C-c C-f C-r', `C-c C-f C-i', `C-c C-f C-b') Insert one of
-     `{\textrm }'), `{\textit \/}' `{\textbf }' etc.
+     `\textrm{ }'), `\textit{ \/}' `\textbf{ }' etc.
 
    A number of additional functions are available.  But it would be far
 too much to write about here.  Refer to the rest of the AUC TeX
@@ -215,12 +217,12 @@ documentation for further information.
 Running LaTeX
 =============
 
-   When invoking on of the commands `TeX-command-master' (`C-c C-c') or
-`TeX-command-region' (`C-c C-r') LaTeX is run on either the entire
+   When invoking one of the commands `TeX-command-master' (`C-c C-c')
+or `TeX-command-region' (`C-c C-r') LaTeX is run on either the entire
 current document or a given region of it.  The Emacs view is split in
 two, and the output of TeX is printed in the second half of the screen,
 as you may simultaneously continue editing your document.  In case TeX
-found any errors when processing your input you can call the function
+find any errors when processing your input you can call the function
 `TeX-next-error' (`C-c `') which will move the cursor to the first
 given error, and display a short explanatory text along with the
 message TeX gave.  This procedure may be repeated until all errors have
@@ -264,9 +266,9 @@ could refer to the newsgroups `comp.text.tex' and `gnu.emacs.sources'.
 
    If you want to contact the AUC TeX mailing list, send mail to
 `<auc-tex-request@iesd.auc.dk>' in order to join.  Articles should be
-send to `<auc-tex@iesd.auc.dk>'.
+sent to `<auc-tex@iesd.auc.dk>'.
 
-   To contact the current maintainers of auc-TeX directly, email
+   To contact the current maintainers of AUC TeX directly, email
 `<auc-tex_mgr@iesd.auc.dk>'.
 
              AUC TeX development
@@ -286,8 +288,8 @@ Inserting Frequently Used Commands
    The most commonly used commands/macros of AUC TeX are those which
 simply insert templates for often used TeX and/or LaTeX constructs,
 like font changes, handling of environments, etc.  These features are
-very simple, and easy to learn, and help you avoiding stupid mistakes
-like mismatched braces, or `\begin{}'-`\end{}' pairs.
+very simple, and easy to learn, and help you avoid stupid mistakes like
+mismatched braces, or `\begin{}'-`\end{}' pairs.
 
 * Menu:
 
@@ -302,7 +304,7 @@ File: auctex,  Node: Quotes,  Next: Font Specifiers,  Prev: Frequently Used Comm
 Insertion of Quotes, Dollars, and Braces
 ========================================
 
-   In TeX literal double quotes `"like this"' are seldom used, instead
+   In TeX, literal double quotes `"like this"' are seldom used, instead
 two single quotes are used ```like this'''.  To help you insert these
 efficiently, AUC TeX allows you to continue to press `"' to insert two
 single quotes.  To get a literal double quote, press `"' twice.
@@ -318,7 +320,7 @@ single quotes.  To get a literal double quote, press `"' twice.
      String inserted by typing `"' to open a quotation.
 
  - User Option: TeX-close-quote
-     String inserted by typing `"' to open a quotation.
+     String inserted by typing `"' to close a quotation.
 
    If you include the style file `german' `TeX-open-quote' and
 `TeX-close-quote' will both be set to `"'.
@@ -369,25 +371,25 @@ commands, with `-!-' indicating the position where the text will be
 inserted.
 
 `C-c C-f C-r'
-     Insert roman {\textrm -!-} text.
+     Insert roman \textrm{-!-} text.
 
 `C-c C-f C-b'
-     Insert bold face `{\textbf -!-}' text.
+     Insert bold face `\textbf{-!-}' text.
 
 `C-c C-f C-i'
-     Insert italics `{\textit -!-\/}' text.
+     Insert italics `\textit{-!-}' text.
 
 `C-c C-f C-e'
-     Insert emphasized `{\emph -!-\/}' text.
+     Insert emphasized `\emph{-!-}' text.
 
 `C-c C-f C-s'
-     Insert slanted `{\textsl -!-\/}' text.
+     Insert slanted `\textsl{-!-}' text.
 
 `C-c C-f C-t'
-     Insert typewriter `{\texttt -!-}' text.
+     Insert typewriter `\texttt{-!-}' text.
 
 `C-c C-f C-c'
-     Insert SMALL CAPS `{\textsc -!-}' text.
+     Insert SMALL CAPS `\textsc{-!-}' text.
 
 `C-c C-f C-d'
      Delete the innermost font specification containing point.
@@ -550,7 +552,7 @@ Inserting Environment Templates
 environments, that is `\begin{}' -- `\end{}' pairs.
 
    AUC TeX is aware of most of the actual environments available in a
-specific document.  This is achieved by examining your `\documentstyle'
+specific document.  This is achieved by examining your `\documentclass'
 command, and consulting a precompiled list of environments available in
 a large number of styles.
 
@@ -694,7 +696,7 @@ Entering Mathematics
    TeX is written by a mathematician, and has always contained good
 support for formatting mathematical text.  AUC TeX supports this
 tradition, by offering a special minor mode for entering text with many
-mathematic symbols.  You can enter this mode by typing `C-c ~'.
+mathematical symbols.  You can enter this mode by typing `C-c ~'.
 
  - Command: LaTeX-math-mode
      (`C-c ~') Toggle LaTeX-math-mode.  This is a minor mode rebinding
@@ -850,7 +852,7 @@ indentation is done for precisely the same reasons that you would
 indent ordinary computer programs.
 
    The following is a short sample of an itemize environment indented by
-AUC TeX.  If more environment are nested, they are indented
+AUC TeX.  If more environments are nested, they are indented
 `accumulated' just like most programming languages usually are seen
 indented in nested constructs.
 
@@ -1136,8 +1138,7 @@ must install the programs before using them, and for `chktex' you must
 also modify `TeX-command-list'.  You can get `lacheck' from
 `<URL:ftp://sunsite.auc.dk/pub/text/lacheck/>' or alternatively
 `chktex' from `<URL:ftp://ftp.dante.de/pub/tex/support/chktex/>'.
-Search for `chktex' in `tex.el' to see how to switch between them. They
-are
+Search for `chktex' in `tex.el' to see how to switch between them.
 
 
 File: auctex,  Node: Control,  Prev: Checking,  Up: Formatting
@@ -1150,7 +1151,7 @@ application running under AUC TeX
 
  - Command: TeX-kill-job
      (`C-c C-k')  Kill currently running external application.  This
-     may be either of TeX, LaTeX, previewer BibTeX etc.
+     may be either of TeX, LaTeX, previewer, BibTeX, etc.
 
  - Command: TeX-recenter-output-buffer
      (`C-c C-l')  Recenter the output buffer so that the bottom line is
@@ -1167,13 +1168,13 @@ File: auctex,  Node: Multifile,  Next: Parsing Files,  Prev: Formatting,  Up: To
 Multifile Documents
 *******************
 
-   You may wish spread a document over many files (as you are likely to
-do if there are multiple authors, or if you have not yet discovered the
-power of the outline commands (*note Outline::.)).  This can be done by
-having a "master" file in which you include the various files with the
-TeX macro `\input' or the LaTeX macro `\include'.  These files may also
-include other files themselves.  However, to format the document you
-must run the commands on the top level master file.
+   You may wish to spread a document over many files (as you are likely
+to do if there are multiple authors, or if you have not yet discovered
+the power of the outline commands (*note Outline::.)).  This can be
+done by having a "master" file in which you include the various files
+with the TeX macro `\input' or the LaTeX macro `\include'.  These files
+may also include other files themselves.  However, to format the
+document you must run the commands on the top level master file.
 
    When you, for example, ask AUC TeX to run a command on the master
 file, it has no way of knowing the name of the master file.  By default,

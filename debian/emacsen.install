@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian auctex package.
-# $Id: emacsen.install,v 1.13 1998/04/21 17:27:07 salve Exp $
+# $Id: emacsen.install,v 1.14 1998/09/03 10:06:27 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -30,7 +30,7 @@ ELDIR=/usr/share/emacs/site-lisp/$PACKAGE/
 ELCDIR=/usr/share/$FLAVOR/site-lisp/$PACKAGE/
 LOG=CompilationLog
 #-=-
-SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el \
+SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el texmathp.el \
 	 bib-cite.el font-latex.el"
 MULESRC="tex-jp.el"
 # This shouldn't compile without X, and we have font-latex.el anyway.

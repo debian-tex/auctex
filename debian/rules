@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.24 1998/04/21 09:45:07 salve Exp $
+# $Id: rules,v 1.25 1998/09/03 10:06:28 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -25,7 +25,7 @@
 package	:= auctex
 #-=-
 DOCS	:= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex}
-AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el
+AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el
 CONTRIB	:= bib-cite.el font-latex.el tex-jp.el hilit-LaTeX.el
 #	   tex-jp.el		# Doesn't compile without MULE
 #	   hilit-LaTeX.el	# Doesn't compile without X
