@@ -1,3 +1,5 @@
+<:# Copyright (C) 1999, 2000, 2001 by Davide Giovanni Maria Salvetti.:>//
+<:# $Id: variables,v 1.8 2001/01/16 14:20:13 salve Exp $:>//
 <:# BEWARE: The file ../tex-site.el is not yet EPerled!:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
@@ -28,7 +30,7 @@
 	. "style/amsopn.el    style/amsthm.el	style/natbib.el "
 	. "style/index.el     style/makeidx.el  style/multind.el "
 	. "style/varioref.el  style/fancyref.el	style/mdwlist.el "
-	. "style/ngerman.el   style/graphicsx.el":>//
+	. "style/ngerman.el   style/graphicx.el	style/graphics.el":>//
 <:# Misc package variables:>//
 <:$UPDATE="update-auctex-elisp":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//

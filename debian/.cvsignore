@@ -1,0 +1,17 @@
+README
+conffiles
+config
+copyright
+cron
+docbase
+files
+install
+postinst
+postrm
+preinst
+prerm
+remove
+templates
+tmp
+update-auctex-elisp
+update-auctex-elisp.8

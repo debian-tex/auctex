@@ -1,12 +1,13 @@
 Source: auctex
 Section: tex
 Priority: optional
+Build-Depends: texinfo, texi2html
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Standards-Version: 3.2.1
 
 Package: auctex
 Architecture: all
-Depends: debconf, debianutils (>= 1.7), emacs20|mule2
+Depends: debconf, debianutils (>= 1.7), emacs20|emacs21|mule2
 Recommends: tetex-base
 Suggests: lacheck
 Description: An integrated environment for writing TeX/LaTeX documents.

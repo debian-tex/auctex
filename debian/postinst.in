@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postinst.in,v 1.9 2001/01/05 08:49:03 salve Exp $
+# $Id: postinst.in,v 1.11 2001/01/18 12:42:11 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -11,7 +11,7 @@ set -o posix
 source <:=$CONFMODULE:>
 db_version 2.0
 
-#---B-E-G-I-N---O-L-D---S-T-U-F-F---(keep-it,-it-doesn't-hurt)-----------------
+#---B-E-G-I-N---O-L-D---S-T-U-F-F---keep-it,-it-doesn't-hurt-------------------
 for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
     if test -d $i
 	then rm -rf $i
@@ -19,16 +19,27 @@ for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
 done
 for i in /usr/lib/emacs/common/auctex /usr/lib/emacs/common; do
     if test -d $i
-	then find ${i%/*} -name ${i##*/} -type d -empty | xargs --no-run-if-empty rmdir
+	then find ${i%/*} -name ${i##*/} -type d -empty \
+	    | xargs --no-run-if-empty rmdir
     fi
 done
 #---E-N-D---O-L-D---S-T-U-F-F--------------------------------------------------
 
 conf_autoload () {
+    unset -v AUTOLOAD || true
     db_get <:=$PACKAGE:>/default || true
-    if [ $RET = "true" ]; then umask 022;
+    if [ $RET = "true" ]
+	then AUTOLOAD="(require 'tex-site)"
+    fi
+    db_get <:=$PACKAGE:>/fldefault || true
+    if [ $RET = "true" ]
+	then AUTOLOAD="$AUTOLOAD\
+             (when (or window-system (>= emacs-major-version 21))\
+             (require 'font-latex))"
+    fi
+    if [ ! -z "$AUTOLOAD" ]; then umask 022;
 	cat <<-EOF ><:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
-		(require 'tex-site);') <- beauty stuff
+		$(echo $AUTOLOAD | tr -s " ")
 	EOF
 	chmod 644 <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
     else
@@ -70,7 +81,7 @@ do_auto () {
 	    <:# before dying, and that means fd 3:>//
 	    <:# better don't close fd 0: emacs doesn't take it very well:>//
 	    <:# WARNING: DON'T CLOSE FD'S TO BE WRITTEN TO!:>//
-	    <:# WARNING: DON'T CLOSE FD'S TO BE READ TO!:>// 
+	    <:# WARNING: DON'T CLOSE FD'S TO BE READ TO!:>//
 	    <:="$sbin/$UPDATE":> &> ${LOGFILE} 3>&- &
 	    echo -n "<:=$UPDATE:>[$!]: "
 	    echo "Further output will appear in: ${LOGFILE}"

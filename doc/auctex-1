@@ -12,7 +12,7 @@ AUC TeX
 
    AUC TeX is an integrated environment for editing LaTeX and TeX files.
 
-   This file documents AUC TeX version 9.10.
+   This file documents AUC TeX version 10.0.
 
    Although AUC TeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -928,12 +928,6 @@ File: auctex,  Node: Outline,  Prev: Marking and formatting,  Up: Advanced Featu
 
 Outlining the Document
 ======================
-
-   GNU Emacs earlier than version 19.19 does not have a useful outline
-mode.  If you want to use outlines with old versions of emacs, please
-get the file `outln-18.el' from
-`sunsite.auc.dk:/packages/auctex/outln-18.el'.  It is a port of the
-Emacs 19.19 outline mode to Emacs 18 and Lucid Emacs.
 
    AUC TeX supports the standard outline minor mode using LaTeX
 sectioning commands as header lines.  *Note Outline Mode:

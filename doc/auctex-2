@@ -913,13 +913,15 @@ The History of AUC TeX
 
    See the file `history.texi' for older changes.
 
-News in 9.10
+News in 10.0
 ============
+
+   * Added Emacs 21 font lock support.
 
    * `,' and `.' no longer removes italic correction.
 
-   * `graphicsx' support.  Donated by Ryuichi Arafune
-     <arafune@ushioda.riec.tohoku.ac.jp>.
+   * `graphicx' and `graphics' style support.  Donated by Ryuichi
+     Arafune <arafune@ushioda.riec.tohoku.ac.jp>.
 
    * `LaTeX-math-abbrev-prefix' now accepts vector value.  Reported by
      Jan Vroonhof <vroonhof@math.ethz.ch>.

@@ -14,6 +14,21 @@ answer accordingly at the appropriate configuration time question (and may
 issue "dpkg-reconfigure <:=$PACKAGE:>" if they change their minds afterwards).
 
 
+Font LaTeX
+==========
+
+Users will need to put something like:
+
+(when (or window-system (>= emacs-major-version 21)) (require 'font-latex))
+
+in their "~/.emacs" to load Font LaTeX, unless the local system administrator
+chose to start it by default.
+
+System administrators wanting to start Font LaTeX by default on their site
+should answer accordingly at the appropriate configuration time question (and
+may issue "dpkg-reconfigure <:=$PACKAGE:>" if they later change their minds).
+
+
 Online Documentation
 ====================
 
@@ -81,5 +96,5 @@ Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
 # fill-column: 78
 # End:
 # LocalWords:  auctex AUC tex dpkg HTML TeXInfo tr varauc cron sbin SSEL docsrc
-# LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET lisp hilit jp gmtime
+# LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET lisp hilit jp gmtime var
 :>//

@@ -1,7 +1,7 @@
 # Makefile - for the AUC TeX distribution.
 #
 # Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-# Version: 9.10t
+# Version: 10.0d
 #
 # Edit the makefile, type `make', and follow the instructions.
 
@@ -67,7 +67,7 @@ FTPDIR = /home/ftp/pub/Staff/Per.Abrahamsen/auctex
 WWWDIR = $(HOME)/.public_html/auctex
 #WWWDIR = /home/ftp/pub/Staff/Per.Abrahamsen/mirror/www/auctex
 
-REMOVE =  ltx-help.el
+REMOVE =  MSDOS VMS OS2 WIN-NT
 
 MINMAPSRC = auc-menu.el maniac.el outln-18.el all.el multi-prompt.el
 
@@ -94,12 +94,12 @@ STYLESRC = style/slides.el    style/foils.el    style/amstex.el \
 	   style/amsopn.el    style/amsthm.el	style/natbib.el \
 	   style/index.el     style/makeidx.el  style/multind.el \
 	   style/varioref.el  style/fancyref.el	style/mdwlist.el \
-	   style/ngerman.el   style/graphicsx.el
+	   style/ngerman.el   style/graphicx.el	style/graphics.el
 
 DOCFILES = doc/Makefile doc/auc-tex.texi doc/intro.texi doc/install.texi \
 	doc/changes.texi doc/tex-ref.tex doc/math-ref.tex doc/history.texi
 
-EXTRAFILES = COPYING PROBLEMS MSDOS VMS OS2 WIN-NT IRIX Makefile ChangeLog \
+EXTRAFILES = COPYING PROBLEMS IRIX Makefile ChangeLog \
 	lpath.el tex-site.el $(CONTRIB)
 
 all:	lisp
@@ -210,18 +210,20 @@ dist:
 	cp ChangeLog $(FTPDIR)
 	cp doc/*.html $(WWWDIR)/doc
 	rm -f $(FTPDIR)/auctex-$(TAG).tar.gz $(FTPDIR)/auctex.tar.gz
-	rm -f $(FTPDIR)/auctex.tar.Z $(FTPDIR)/auctex.zip
+	rm -f $(FTPDIR)/auctex.zip
 	tar -cf - auctex-$(TAG) | gzip --best > $(FTPDIR)/auctex-$(TAG).tar.gz
-	tar -cf - auctex-$(TAG) | compress > $(FTPDIR)/auctex.tar.Z
 	-zip -r $(FTPDIR)/auctex auctex-$(TAG)
 	(cd $(FTPDIR); ln -s auctex-$(TAG).tar.gz auctex.tar.gz)
-	auc rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
-	          -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
+	auc diff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+	         -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
 		> $(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch ;  exit 0
+#	auc rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+#	          -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
+#		> $(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch ;  exit 0
 
 patch:
-	auc rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
-	          -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex
+	auc diff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+	         -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex
 
 min-map:
 	-auc add $(MINMAPSRC) 

@@ -1,11 +1,11 @@
 ;;; -*- emacs-lisp -*-
-;;; graphicsx.el - Support for the graphicx style option.
+;;; graphicx.el - Support for the graphicx style option.
 
 ;; Copyright (C) 2000 by Free Software Foundation, Inc.
 
 ;; Author: Ryuichi Arafune <arafune@ushioda.riec.tohoku.ac.jp>
 ;; Created: 1999/3/20
-;; Version: $Id: graphicsx.el,v 1.1 2000/04/25 11:07:30 abraham Exp $
+;; Version: $Id: graphicx.el,v 1.1 2000/11/30 13:13:58 abraham Exp $
 ;; Keywords: tex
 
 ;; This file is free software; you can redistribute it and/or modify
@@ -28,6 +28,9 @@
 ;;  If you want to use bb, angle or totalheight as arguments of includegraphics,
 ;;  set TeX-include-graphics-simple nil (default t).
 
+;; Acknowledgements
+;;  Dr. Thomas Baumann <thomas.baumann@ch.tum.de>
+;;
 ;;; Code:
 
 (TeX-add-style-hook 
@@ -38,29 +41,22 @@
 	      '("includegraphics" TeX-arg-includegraphics)))))
 
 
-(defvar TeX-include-graphics-simple t 
-"if nil, AUC TeX asks the following arguments: Bounding box (bb), Rotation angle (angle), Total height (totalheight) in addition to normal arguments.")
- 
-(defun TeX-make-eps-completion-alist ()
-  "Make a alist of eps files in the current directory"
-  (let ( TeX-eps-completion-alist
-	 (files-currentdirectory (directory-files "./" nil  "\\.eps$" nil )))
-    (while files-currentdirectory
-      (setq TeX-eps-completion-alist
-	    (cons (list (car files-currentdirectory)) TeX-eps-completion-alist))
-      (setq files-currentdirectory (cdr files-currentdirectory)))
-    TeX-eps-completion-alist))
+(defvar TeX-include-graphics-simple t
+  "if nil, AUC TeX asks the following arguments: Bounding box (bb), Rotation angle (angle), Total height (totalheight) in addition to normal arguments.")
 
 (defun TeX-arg-includegraphics (optional)
-  "Ask for file name (eps file only), width, height, keepaspectratio, and crip. Insert includegraphics macro"
+  "Ask for file name (eps file only), width, height, keepaspectratio, and clip. Insert includegraphics macro"
   (let ((width-flag nil) (height-flag nil) (left-brace-flag nil) 
-	(psfile  (completing-read "PS (eps only) file: " (TeX-make-eps-completion-alist)
-				  nil t (car (car (TeX-make-eps-completion-alist)))))
+	(psfile 
+	 (completing-read "PS (eps only) file: " 
+			  (mapcar 'list (directory-files "./" nil "\\.eps$" nil))
+			  nil t 
+			  (car (car (mapcar 'list (directory-files "./" nil "\\.eps$" nil))))))
 	(figwidth (read-input "Figure width (cm): "))
 	(figheight (read-input "Figure height (cm): "))
 	(keepaspectratio (y-or-n-p "Keep Aspectratio ? "))
-	(crip (y-or-n-p "Cripping figure ? ")))
-    (if (or (not (zerop (length figwidth))) (not (zerop (length figheight))) keepaspectratio crip)
+	(clip (y-or-n-p "Clipping figure ? ")))
+    (if (or (not (zerop (length figwidth))) (not (zerop (length figheight))) keepaspectratio clip)
 	(progn (insert "[") (setq left-brace-flag t)))
     (if (not (zerop (length figwidth)))
 	(progn (insert "width="figwidth"cm")
@@ -76,10 +72,10 @@
 	    (insert ",keepaspectratio")
 	  (if  keepaspectratio
 	      (insert "keepaspectratio"))))
-    (if (and crip (or width-flag height-flag keepaspectratio))
-	(insert ",crip")
-      (if crip 
-	  (insert "crip")))
+    (if (and clip (or width-flag height-flag keepaspectratio))
+	(insert ",clip")
+      (if clip 
+	  (insert "clip")))
 ;;; Insert more arguments when TeX-include-graphics-simple is nil
     (if (not TeX-include-graphics-simple)
 	(progn
@@ -91,23 +87,23 @@
 		       (setq  bblly (read-input "Bounding Box Lower Left y :"))
 		       (setq  bburx (read-input "Bounding Upper right x :"))
 		       (setq  bbury (read-input "Bounding Upper right y :"))))
-	    (if (and bbset-flag (or crip keepaspectratio width-flag height-flag))
+	    (if (and bbset-flag (or clip keepaspectratio width-flag height-flag))
 		(insert ",bb="bbllx bblly bburx bbury)
 	      (if bbset-flag
-		  (inert "bb="bbllx bblly bburx bbury)))
+		  (insert "bb="bbllx bblly bburx bbury)))
 	    (setq angle (read-input "Rotation Angle :"))
 	    (if (not (zerop (length angle)))
 		(progn (setq angle-flag t)
-		       (if (or crip keepaspectratio width-flag height-flag bbset-flag)
+		       (if (or clip keepaspectratio width-flag height-flag bbset-flag)
 			   (insert ",angle="angle)
 			 (if angle-flag
 			     (insert "angle="angle)))))
 	    (setq totalheight (read-input "Total Height (cm):"))
 	    (if (not (zerop (length totalheight)))
-		(if (or crip keepaspectratio width-flag height-flag bbset-flag angle-flag)
+		(if (or clip keepaspectratio width-flag height-flag bbset-flag angle-flag)
 		    (insert ",totalheight="totalheight)
-		  (if (not zerop (length totalheight))
-		      (insert "totalheight="totalheight)))))))
+		  (if (not (zerop (length totalheight))
+			   (insert "totalheight="totalheight))))))))
 ;;;
     (if left-brace-flag
 	(insert "]"))

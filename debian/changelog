@@ -1,14 +1,31 @@
+auctex (10.0d-1) unstable; urgency=medium
+
+  * New upstream release.
+  * COPYRIGHT: Updated.
+  * README: Added font-latex support.
+  * config: Added font-latex support.
+  * control (Depends): added emacs21;
+            (Build-Depends): added texinfo, texi2html.
+  * install: Removed no more needed beauty stuff.
+  * postinst: Removed no more needed beauty stuff.
+              Added font-latex support.
+  * templates: Added font-latex support.
+  * update-auctex-elisp.8: Updated copyright.
+  * variables: Updated $STYLES.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 18 Jan 2001 13:18:19 +0100
+
 auctex (9.10t-3) unstable; urgency=low
 
   * COPYRIGHT: Updated.
-  * config.in: Added support for doautofg.
-  * config.in: Cosmetic fix.
+  * config: Added support for doautofg.
+  * config: Cosmetic fix.
   * control: Cosmetic fix.
-  * install.in: Added support for emacs21.
-  * postinst.in: Added support for doautofg.
-  * remove.in: Added support for emacs21.
-  * template.in (doautofg): New question.  (Closes: #77428)
-  * update-auctex-elisp.8.in: Updated copyright.
+  * install: Added support for emacs21.
+  * postinst: Added support for doautofg.
+  * remove: Added support for emacs21.
+  * template (doautofg): New question.  (Closes: #77428)
+  * update-auctex-elisp.8: Updated copyright.
   * update-auctex-elisp: Added support for emacs21.
   * update-auctex-elisp: Cosmetic fix.
 

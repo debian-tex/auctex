@@ -7,8 +7,8 @@ END-INFO-DIR-ENTRY
 
 Indirect:
 auctex-1: 168
-auctex-2: 50042
-auctex-3: 98088
+auctex-2: 49746
+auctex-3: 97852
 
 Tag Table:
 (Indirect)
@@ -30,33 +30,33 @@ Node: Completion27374
 Node: Commenting30798
 Node: Marking and formatting32017
 Node: Outline35729
-Node: Formatting37509
-Node: Commands38140
-Node: Debugging42397
-Node: Checking43594
-Node: Control44891
-Node: Multifile45591
-Node: Parsing Files50042
-Node: I18n54163
-Node: European54685
-Node: Japanese57134
-Node: Automatic57860
-Node: Automatic Global60350
-Node: Automatic Private61512
-Node: Automatic Local62749
-Node: Style Files63822
-Node: Simple Style64616
-Node: Adding Macros65772
-Node: Adding Environments71350
-Node: Adding Other73923
-Node: Hacking the Parser74494
-Node: Installation78565
-Node: History82876
-Node: Projects84827
-Node: Credit94377
-Node: Key Index95896
-Node: Function Index98088
-Node: Variable Index101990
-Node: Concept Index105365
+Node: Formatting37213
+Node: Commands37844
+Node: Debugging42101
+Node: Checking43298
+Node: Control44595
+Node: Multifile45295
+Node: Parsing Files49746
+Node: I18n53867
+Node: European54389
+Node: Japanese56838
+Node: Automatic57564
+Node: Automatic Global60054
+Node: Automatic Private61216
+Node: Automatic Local62453
+Node: Style Files63526
+Node: Simple Style64320
+Node: Adding Macros65476
+Node: Adding Environments71054
+Node: Adding Other73627
+Node: Hacking the Parser74198
+Node: Installation78269
+Node: History82580
+Node: Projects84591
+Node: Credit94141
+Node: Key Index95660
+Node: Function Index97852
+Node: Variable Index101754
+Node: Concept Index105129
 
 End Tag Table

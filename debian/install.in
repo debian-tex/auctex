@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=$PACKAGE:> package.
-# $Id: install.in,v 1.10 2001/01/05 08:49:03 salve Exp $
+# $Id: install.in,v 1.12 2001/01/14 16:33:08 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -36,7 +36,7 @@ case "$FLAVOR" in
 	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    && $FLAVOR $EFLAGS <:=$SOURCES:> <:=$STYLES:> 2>&1 \
 	    | gzip -9qf > <:=$ELCLOG:>.gz)
-	# We have always have MULE, as we don't support emacs19 anymore.
+	# We always have MULE, as we don't support emacs19 anymore.
 	for i in <:=$MULESRC:>
 	    do cp <:=$lisp:>/$i \
 	        <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/$i
@@ -46,7 +46,7 @@ case "$FLAVOR" in
         cat <<-EOF ><:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/lpath-jp.el
 		(setq load-path (cons "." load-path)
 			TeX-lisp-directory "<none>")
-		(set-language-environment 'Japanese);') <- beauty stuff
+		(set-language-environment 'Japanese);')
 	EOF
 	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    && $FLAVOR $EMULEFLAGS <:=$MULESRC:> 2>&1 \

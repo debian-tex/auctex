@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # config configuration file for Debian <:=$PACKAGE:> package.
-# $Id: config.in,v 1.7 2001/01/05 08:49:03 salve Exp $
+# $Id: config.in,v 1.8 2001/01/18 12:42:11 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -19,6 +19,13 @@ case "$1" in
 	    db_text low <:=$PACKAGE:>/alreadydefault || true
 	else
 	    db_input medium <:=$PACKAGE:>/default || true
+	fi
+	if egrep "\brequire[[:space:]]+[^)]*'font-latex\b" <:=$SSEL:> \
+	| egrep -v ";.*\brequire\b" &>/dev/null; then
+	    db_set <:=$PACKAGE:>/fldefault false || true
+	    db_text low <:=$PACKAGE:>/flalreadydefault || true
+	else
+	    db_input medium <:=$PACKAGE:>/fldefault || true
 	fi
 	db_go || true
 	LOGFILE=$(mktemp <:=$TMPMASK:>)

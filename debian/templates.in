@@ -14,7 +14,7 @@ Description: Should AUC-TeX be auto-loaded by default at your site?
  If you answer no, people who desire to use it will have to put the string
  "(require 'tex-site)" in their "~/.emacs" to load it.
 Description-it: Abilitare AUC-TeX automaticamente su questa macchina?
- Emacs normalmente ha i suoi modi maggiori originali per (La)TeX; se si
+ Emacs normalmente ha i propri modi maggiori originali per (La)TeX; se si
  risponde affermativamente a questa domanda, questi verranno globalmente
  sostituiti da quelli di AUC-TeX (sostituiti, cioè, per tutti gli utenti di
  questa macchina).
@@ -44,6 +44,58 @@ Description-it: AUC-TeX sembra già automaticamente abilitato su questa macchina.
  quel file Lisp form del tipo "(require 'tex-site)" e li si correggano;
  poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
  nuovo AUC-TeX.
+
+Template: <:=$PACKAGE:>/fldefault
+Type: boolean
+Default: true
+Description: Should Font LaTeX be auto-loaded by default at your site?
+ Font LaTeX is a set of fontification definitions for LaTeX files.
+ .
+ Emacs has its own standard Font Lock mode for LaTeX, that will be globally
+ (i.e., for all users on this site) overridden by Font LaTeX if you answer yes
+ to this question.
+ .
+ This is generally a good thing, since Font LaTeX is so much better; however
+ you may not want it to happen, and instead let single users at your site
+ decide by themselves if they should load this package.
+ .
+ If you answer no, people who desire to use it will have to put the string
+ "(require 'font-latex)" in their "~/.emacs" to load it.
+Description-it: Abilitare Font LaTeX automaticamente su questa macchina?
+ Font LaTeX è una collezione di definizioni per evidenziare visivamente la
+ sintassi dei documenti LaTeX.
+ .
+ Emacs normalmente ha le proprie definizioni originali per evidenziare
+ visivamente i documenti LaTeX; se si risponde affermativamente a questa
+ domanda, queste verranno globalmente sostituite da quelli di Font LaTeX
+ (sostituiti, cioè, per tutti gli utenti di questa macchina).
+ .
+ In genere questa è una buona cosa, perché le definizioni di Font LaTeX sono
+ molto migliori di quelle originali; può darsi, tuttavia, che si preferisca
+ lasciare a ciascun singolo utente la decisione di far uso o meno di questo
+ pacchetto.
+ .
+ Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
+ mettere manualmente la stringa "(require 'font-latex)" nel loro "~/.emacs"
+ per abilitare Font LaTeX.
+
+Template: <:=$PACKAGE:>/flalreadydefault
+Type: text
+Description: Font LaTeX seems to be already auto-loaded at your site.  Good.
+ By inspection of the file "<:=$SSEL:>" Font LaTeX seems to be
+ already auto-loaded by default at your site.
+ .
+ If this is not true, or if it's not what you want, please search that file
+ looking for "(require 'font-latex)" resembling forms and fix them; then run
+ "dpkg-reconfigure <:=$PACKAGE:>" if needed (recommended).
+Description-it: Font LaTeX sembra già automaticamente abilitato su questa macchina.  Bene.
+ Controllando il file "<:=$SSEL:>", pare che Font LaTeX sia già
+ automaticamente abilitato su questa macchina.
+ .
+ Se questo non è vero, o se non è quel che si desidera, si vadano a cercare in
+ quel file Lisp form del tipo "(require 'font-latex)" e li si correggano;
+ poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
+ nuovo Font LaTeX.
 
 Template: <:=$PACKAGE:>/doauto
 Type: select
