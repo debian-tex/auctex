@@ -3,24 +3,22 @@ This is the Debian GNU/Linux prepackaged version of the AUC TeX Emacs lisp
 package.
 
 The current release of this package was assembled by:
-		 Davide G. M. Salvetti <salve@debian.org>
+		   Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
-	       <ftp://sunsite.auc.dk/packages/auctex/>,
+		   <ftp://sunsite.auc.dk/packages/auctex/>,
 (file: "d20c048f8f90c9281dbef4d51b707e09  auctex-9.9p.tar.gz").
 
 The official upstream ftp site is:
-	       <ftp://sunsite.auc.dk/packages/auctex/>,
-not <ftp://ftp.iesd.auc.dk/pub/emacs-lisp/> as sated in the README
-file.
+		   <ftp://sunsite.auc.dk/packages/auctex/>,
+not <ftp://ftp.iesd.auc.dk/pub/emacs-lisp/> as sated in the README file.
 
 The current AUC TeX upstream maintainer is:
-	       Per Abrahamsen <auc-tex_mgr@sunsite.auc.dk>.
+		 Per Abrahamsen <auc-tex_mgr@sunsite.auc.dk>.
 
 The original AUC Tex Debian package was assembled by:
-	    Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
+	      Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
 
-Obviously, tex-site.el has been appropriately configured for Debian
-GNU/Linux.
+Obviously, tex-site.el has been appropriately configured for Debian GNU/Linux.
 
 I applied a Japanese specific patch, see japanese-patch for code, and
 japanese-patch-copyright for authors and copyright information.  Its
@@ -38,25 +36,25 @@ feature are:
 COPYRIGHT
 =========
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 1, or (at your option)
-any later version.
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 1, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+details.
 
-You should have received a copy of the GNU General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+Place, Suite 330, Boston, MA 02111-1307, USA.
 
 On Debian GNU/Linux system you can find a copy of the GNU General Public
 License in "<:=$GPL:>".
 <:
 # Local variables:
 # mode: text
+# fill-column: 78
 # End:
 # LocalWords:  AUC dbef ftp README Abrahamsen auc tex Geyer japanese jlatex jp
 # LocalWords:  platex GPL

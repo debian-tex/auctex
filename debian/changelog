@@ -1,3 +1,12 @@
+auctex (9.9p-8) unstable; urgency=high
+
+  * install: Really ignore emacs.
+  * postinst: Mental typo with umask fixed (hence urgency=high).
+  * remove: Really ignore emacs.
+  * rules: Fixed japanese-patch mistake. (Closes: #47189)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Tue, 12 Oct 1999 16:34:45 +0200
+
 auctex (9.9p-7) unstable; urgency=low
 
   * README: Instructions on AUC-TeX autoloading updated.

@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+# $Id: rules.in,v 1.3 1999/10/12 14:35:07 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -35,7 +35,7 @@ DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 
 build: $(DFILES) debian/variables
 	$(checkdir)
-	-cat japanese-patch | patch --forward --reject-file=trashcan
+	-cat debian/japanese-patch | patch --forward --reject-file=trashcan
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
@@ -45,7 +45,7 @@ clean:
 	-rm -rf build core trashcan $(tmp) debian/{files*,substvars}
 	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
-	-cat japanese-patch | patch --forward --reverse --reject-file=trashcan
+	-cat debian/japanese-patch | patch --forward --reverse --reject-file=trashcan
 	-$(MAKE) clean
 
 binary: binary-indep binary-arch
@@ -58,10 +58,10 @@ binary-indep: checkroot build
 	-rm -rf $(tmp)
 
 # install package
-	$(INSTDIR) $(tmp)/<:=$info:> $(tmp)/<:=$slisp:> $(tmp)/<:=$style:>
-	$(INSTDATA) <:=$SOURCES:> $(tmp)/<:=$slisp:>
-	$(INSTDATA) <:=$MULESRC:> $(tmp)/<:=$slisp:>
-	$(INSTDATA) <:=$XSRC:> $(tmp)/<:=$slisp:>
+	$(INSTDIR) $(tmp)/<:=$info:> $(tmp)/<:=$lisp:> $(tmp)/<:=$style:>
+	$(INSTDATA) <:=$SOURCES:> $(tmp)/<:=$lisp:>
+	$(INSTDATA) <:=$MULESRC:> $(tmp)/<:=$lisp:>
+	$(INSTDATA) <:=$XSRC:> $(tmp)/<:=$lisp:>
 	$(INSTDATA) <:=$STYLES:> $(tmp)/<:=$style:>
 	cd doc && $(MAKE) install infodir=$(tmp)/<:=$info:>
 #       Consistency rule.
@@ -87,10 +87,10 @@ binary-indep: checkroot build
 	gzip -9frv $(tmp)/<:=$man8:>
 
 # install Debian system files
-	$(INSTDIR) $(tmp)/<:=$slisp:> $(tmp)/<:=$cron:> $(tmp)/<:=$sbin:> \
+	$(INSTDIR) $(tmp)/<:=$lisp:> $(tmp)/<:=$cron:> $(tmp)/<:=$sbin:> \
 		$(tmp)/<:=$ecode:>/{install,remove} $(tmp)/<:=$docbase:> \
 		$(tmp)/<:=$varauc:>
-	$(INSTDATA) tex-site.el $(tmp)/<:=$slisp:>/../
+	$(INSTDATA) tex-site.el $(tmp)/<:=$lisp:>/../
 	$(INSTDATA) debian/docbase $(tmp)/<:=$docbase:>/<:=$PACKAGE:>
 	$(INSTSCRIPT) debian/cron $(tmp)/<:=$cron:>/<:=$PACKAGE:>
 	$(INSTSCRIPT) debian/<:=$UPDATE:> $(tmp)/<:=$sbin:>

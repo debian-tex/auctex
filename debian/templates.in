@@ -3,10 +3,11 @@ Template: <:=$PACKAGE:>/default
 Type: boolean
 Default: true
 Description: Should AUC-TeX be auto-loaded by default at your site?
- Emacs has its own standard (La)TeX major modes, that will be overridden if
- you answer yes to this question.  This is generally a good thing, since
- AUC-TeX is so better; however you may don't want it to happen, and let
- instead single users at your site decide if they should load this package.
+ Emacs has its own standard (La)TeX major modes, that will be globally (i.e.,
+ for all users on this site) overridden if you answer yes to this question.
+ This is generally a good thing, since AUC-TeX is so better; however you may
+ don't want it to happen, and let instead single users at your site decide by
+ themselves if they should load this package.
  .
  If you answer no, people who desire to use it will have to put the string
  "(require 'tex-site)" in their "~/.emacs" to load it.
@@ -29,20 +30,20 @@ Description: How should (La)TeX macros be parsed?
  To greatly improve AUC-TeX performances, every TeX macro package and LaTeX
  style file currently installed on your system will be parsed.
  .
- This may take a lot of time, so it should be probably done in background,
- but you may also choose to have it done in foreground, or to skip the
- parsing at all instead.  If you choose Background, you will find a detailed
- log of the process in the file: ${LOGFILE}.
+ This may take a lot of time, so it should be probably done in background, but
+ you may also choose to have it done in foreground, or to skip the parsing at
+ all instead.  If you choose Background, you will find a detailed log of the
+ process in the file: ${LOGFILE}.
  .
- A weekly cron job will also take care of upgrading the informations
- collected now, so usually you won't need to worry about them when you
- install new (La)TeX packages or remove old ones.
+ A weekly cron job will also take care of upgrading the informations collected
+ now, so usually you won't need to worry about them whenever you install new
+ (La)TeX packages or remove old ones.
  .
  Anyway, you can update them by hand running <:=$UPDATE:>.
 <:
 # Local variables:
 # mode: text
-# fill-column: 76
+# fill-column: 78
 # End:
 # LocalWords:  AUC tex alreadydefault SSEL dpkg doauto LOGFILE cron
 :>//

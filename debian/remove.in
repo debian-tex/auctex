@@ -1,6 +1,9 @@
 #include "variables"
 #!/bin/bash -e
 #
+# elisp remove file for Debian auctex package.
+# $Id: remove.in,v 1.3 1999/10/12 14:09:36 salve Exp $
+#
 <:=@COPYRIGHT:>//
 
 set -o posix
@@ -8,12 +11,15 @@ set -o posix
 FLAVOR=$1
 
 case "$FLAVOR" in 
+    emacs)
+	:
+    ;;
     emacs19|emacs20)
 	echo -n "remove/<:=$PACKAGE:>: Removing for $FLAVOR... "
-	rm -f <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/{*.elc,<:=$ELCLOG:>.gz}
+	rm -f <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/{*.elc,<:=$ELCLOG:>.gz}
 	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.elc
 	rmdir --ignore-fail-on-non-empty <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
-	rmdir --ignore-fail-on-non-empty <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>
+	rmdir --ignore-fail-on-non-empty <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>
 	echo "done."
     ;;
     *)

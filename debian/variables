@@ -45,8 +45,8 @@
 <:$docsrc="$doc/doc/":>//
 <:$html="$doc/HTML":>//
 <:$docbase="/usr/share/doc-base/":>//
-<:$slisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
-<:$style="$slisp/style/":>//
+<:$lisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
+<:$style="$lisp/style/":>//
 <:$info="/usr/share/info/":>//
 <:$man8="/usr/share/man/man8/":>//
 <:$varauc="/var/lib/$PACKAGE/":>//
