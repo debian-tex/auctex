@@ -3,20 +3,28 @@
 #
 # Update AucTeX auto-loads.
 # Installed by the Debian <:=$PACKAGE:> package.
-# $Id: update-auctex-elisp.in,v 1.4 1999/10/22 19:58:34 salve Exp $
+# $Id: update-auctex-elisp.in,v 1.5 2000/01/20 14:33:49 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 <:# only GNU/Emacs, 'cause XEmacs comes with its own AUC TeX.:>//
-for FLAVOR in emacs19 emacs20 mule2; do
+for FLAVOR in emacs19 emacs20; do
     if [ -x /usr/bin/$FLAVOR ]; then
 	$FLAVOR --no-site-file --no-init-file --batch \
 	        --load=/usr/share/emacs/site-lisp/tex-site.el \
                 --funcall=TeX-auto-generate-global
     fi
 done
+
+<:# Mule2 add hoc rule.:>//
+if [ -x /usr/bin/mule2 ]; then
+    mule2 --no-site-file --no-init-file --batch \
+	  --load=/usr/share/emacs/site-lisp/tex-site.el \
+          --eval '(set-file-coding-system-for-read *iso-2022-int-1*)' \
+          --funcall=TeX-auto-generate-global
+fi
 
 <:# better to remove .el files now that .elc have done:>//
 rm -f $(find <:=$var:> -type f -name \*.el)

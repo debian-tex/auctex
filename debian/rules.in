@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian <:=$PACKAGE:> package.
-# $Id: rules.in,v 1.6 1999/10/22 19:58:34 salve Exp $
+# $Id: rules.in,v 1.7 2000/01/20 14:33:49 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -68,7 +68,9 @@ binary-indep: checkroot build
 	$(INSTDATA) <:=$STYLES:> $(tmp)/<:=$style:>
 	cd doc && $(MAKE) install infodir=$(tmp)/<:=$info:>
 #       Consistency rule.
-	cd $(tmp)/<:=$info:> && for i in auctex*; \
+	cd $(tmp)/<:=$info:> \
+	&& echo -e ",s/auctex-/auctex.info-/g\n,wq" | ed auctex \
+	&& for i in auctex*; \
 		do mv -f -- $$i auctex.info$${i#auctex}; \
 	done
 	gzip -9frv $(tmp)/<:=$info:>

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postinst.in,v 1.7 1999/10/31 22:01:57 salve Exp $
+# $Id: postinst.in,v 1.8 2000/01/20 14:33:49 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -61,7 +61,7 @@ do_auto () {
 	    rm -f $LOGFILE
 	;;
 	*)
-	    echo "${0##*/}: Debconf passed unknow value \`$RET'." >&2
+	    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2
 	;;
     esac
     return 0

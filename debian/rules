@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.34 1999/10/22 19:58:34 salve Exp $
+# $Id: rules,v 1.35 2000/01/20 14:33:49 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999.
 #
@@ -80,7 +80,9 @@ binary-indep: checkroot build
 	$(INSTDATA) style/slides.el    style/foils.el    style/amstex.el style/article.el   style/book.el     style/letter.el style/report.el    style/amsart.el   style/amsbook.el style/epsf.el      style/psfig.el    style/latexinfo.el style/dutch.el     style/german.el   style/dk.el style/j-article.el style/j-book.el   style/j-report.el style/jarticle.el  style/jbook.el    style/jreport.el style/dinbrief.el  style/virtex.el   style/plfonts.el style/plhb.el      style/harvard.el	style/swedish.el style/danish.el    style/slovak.el   style/czech.el style/amsmath.el   style/amstext.el  style/amsbsy.el style/amsopn.el    style/amsthm.el	style/natbib.el $(tmp)//usr/share/emacs/site-lisp/auctex//style/
 	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/
 #       Consistency rule.
-	cd $(tmp)//usr/share/info/ && for i in auctex*; \
+	cd $(tmp)//usr/share/info/ \
+	&& echo -e ",s/auctex-/auctex.info-/g\n,wq" | ed auctex \
+	&& for i in auctex*; \
 		do mv -f -- $$i auctex.info$${i#auctex}; \
 	done
 	gzip -9frv $(tmp)//usr/share/info/

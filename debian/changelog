@@ -1,3 +1,14 @@
+auctex (9.9p-13) frozen unstable; urgency=medium
+
+  * control: Sandards-Version: 3.0.0.
+  * postinst: Fixed typo.
+  * rules: Fixed info files renaming rule; thanks to Ryuichi
+    Arafune. (Closes: #51364)
+  * update-auctex-elisp: mule2 ad hoc rule added; thanks to Takuo
+    Kitame. (Closes: #52016)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 20 Jan 2000 15:32:38 +0100
+
 auctex (9.9p-12) unstable; urgency=low
 
   * Debconf support updated.
