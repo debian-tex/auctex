@@ -1,4 +1,175 @@
+2004-08-28  David Kastrup  <dak@gnu.org>
+
+	* Version 11.53 released.
+
+2004-08-28  David Kastrup  <dak@gnu.org>
+
+	* doc/tex-ref.tex: Bump version.
+
+	* configure.in: Bump version number.
+
+	* auctex.spec (Version): bump to 11.53.
+
+	* doc/auctex.texi: Bump version to 11.53.
+
+2004-08-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (install-el): Fix typos.
+
+2004-08-27  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-kpathsea-format-alist): Added
+	LaTeX-includegraphics-extensions.
+	(TeX-search-files): Fix non-kpathsea case.
+
+	* style/graphicx.el (LaTeX-includegraphics-read-file): Use
+	completion based on TeX-search-files.
+
+2004-08-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-preserve-comments): New variable.
+	(TeX-fold-buffer-type): Use it.
+
+	* font-latex.el (font-latex): Add to AUCTeX's customization group.
+	(font-latex-find-matching-close): Correctly recognize multiple
+	escape characters.  Add missing paren.
+
+2004-08-26  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex-site.el.in (japanese-slitex-mode): Removed obsolete autoload
+	of slitex.
+
+	* tex-jp.el (japanese-plain-tex-mode, japanese-latex-mode): Use
+	`TeX-defun' for getting version info into mode doc.
+
+2004-08-26  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-mik.el: Use `start' instead of the respective executable for
+	PostScript, PDF and HTML files.
+
+	* tex-fptex.el: Ditto.
+
+2004-08-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-find-macro-boundaries): Detect the start of any
+	macro, not just those consisting of [A-Za-z@].
+	Remove some superfluous `goto-char' calls.
+	(TeX-find-macro-start-helper): Reimplement once again.  Original
+	patch by David Kastrup; slightly modified.  Doc fix.
+	(TeX-find-macro-end-helper): Doc fix.  Handle macros not
+	consisting of [A-Za-z@] correctly.
+	(TeX-find-opening-brace): Improve performance.
+
+2004-08-25  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el: Autoload `TeX-process-set-variable' and `TeX-region-file'.
+
+2004-08-25  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4: EMACS_PATH_LISPDIR: Expand lispdir if relative to
+	binary. Quote lispdir, and deal with exec_prefix, add missing
+	bracket.
+
+	* aclocal.m4: Fix xemacs<->emacs mistake, restore path searching
+	when --without-packagedir is given
+
+	* configure.in: enable --without-packagedir
+
+	* aclocal.m4: Barf if packagedir not found, don't bother with
+	load-path on xemacs' lispdir
+
+2004-08-25  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-command): Call `TeX-process-set-variable' with
+	correct options, so that the viewer command is next unless
+	overridden.
+
+	* tex.el (TeX-set-mode-name): Set `TeX-command-next' in the
+	buffers where they actually count.
+
+2004-08-24  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-math-default): Correctly code "jmath" and
+	"Bbbk".
+
+2004-08-24  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (Mathematics): Add `LaTeX-math-menu-unicode'.
+	(Changes): Refer to `history.texi' _after_ the newer changes.
+
+	* doc/changes.texi: Added versions 11.51-11.53.
+
+2004-08-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (VirTeX-common-initialization): Use "%" instead of
+	`comment-start' for `comment-start-skip'.
+	(TeX-find-opening-brace): Do not use an inverse matcher but negate
+	the whole expression.
+	(TeX-find-macro-start-helper): Reimplement.  Should be much faster
+	now.
+
+	* latex.el (LaTeX-current-environment): Use
+	`buffer-substring-no-properties'.
+	(LaTeX-indent-line): Revert last change.  Only multi-line overlays
+	at the start of a line are affected by the XEmacs bug.
+
+	* tex-info.el (Texinfo-environment-list): Add "command" macro.
+
+2004-08-24  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/install.texi (Prerequisites): Add `easy-mmode.el' update for
+	XEmacs.
+
+2004-08-23  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-indent-line): Get all overlays, not just one.
+	(LaTeX-math-default): Add iota.
+	(LaTeX-math-default): Use different symbol for triangle.
+	(LaTeX-math-default): Don't use `?\S-e' for `?E'.
+
+	* tex.el (TeX-match-buffer): Use `buffer-substring-no-properties'
+	(TeX-in-commented-line): Use `skip-chars-forward' and `forward-line'.
+	(TeX-in-line-comment): Use `forward-line'.
+	(TeX-brace-count-line): Use `skip-chars-forward'.
+
+	* RELEASE: Some updates.
+
+	* latex.el (LaTeX-section): Use an active region as title if available.
+	(LaTeX-section-title): Prompt with title if present.  Should we
+	ask at all?
+	(LaTeX-math-list): Add Unicode code point.
+	(LaTeX-math-menu-unicode): New customization variable for unicode
+	in math menu.  Only set in GTK Emacs for now.  Does not work on
+	XEmacs.  Use it for initializing the menus.  Also prefix menu
+	points with backslash.
+
+	* Makefile.in (.PHONY): Declare a bunch of phony targets to
+	protect against users making files/directories with that name (in
+	particular "lisp").
+
+2004-08-22  David Kastrup  <dak@gnu.org>
+
+	* style/italian.el ("italian"): Don't overwrite existing local
+	variable settings.
+
+	* style/ngerman.el ("ngerman"): Don't overwrite existing local
+	variable settings.
+
+	* style/german.el ("german"): Don't overwrite existing local
+	variable settings.
+
+	* tex.el (TeX-set-mode-name, TeX-PDF-mode): XEmacs needs two
+	arguments for `local-variable-p'.
+
 2004-08-20  David Kastrup  <dak@gnu.org>
+
+	* tex.el (desktop): Save TeX-Omega-mode, too.
+
+	* Makefile.in (full-release): Source rpm is auctex, not
+	auctex-emacs.
+
+	* auctex.spec (Provides): Provide auctex as well to satisfy
+	preview-latex.  create package emacs nevertheless.
 
 	* Version 11.52 released.
 

@@ -40,6 +40,10 @@
 (eval-when-compile
   (require 'cl))
 
+;; Don't require `tex-buf' because `tex-buf' requires `tex'.
+(autoload 'TeX-process-set-variable "tex-buf")
+(autoload 'TeX-region-file "tex-buf")
+
 (defgroup AUCTeX nil
   "A (La)TeX environment."
   :tag "AUCTeX"
@@ -605,8 +609,8 @@ Also does other stuff."
 (eval-and-compile
   (defconst AUCTeX-version
     (eval-when-compile
-      (let ((name "$Name: release_11_52 $")
-	    (rev "$Revision: 5.436 $"))
+      (let ((name "$Name: release_11_53 $")
+	    (rev "$Revision: 5.446 $"))
 	(or (when (string-match "\\`[$]Name: *\\(release_\\)?\\([^ ]+\\) *[$]\\'"
 				name)
 	      (setq name (match-string 2 name))
@@ -621,7 +625,7 @@ If not a regular release, CVS revision of `tex.el'."))
 
 (defconst AUCTeX-date
   (eval-when-compile
-    (let ((date "$Date: 2004/08/20 00:32:59 $"))
+    (let ((date "$Date: 2004/08/27 17:57:06 $"))
       (string-match
        "\\`[$]Date: *\\([0-9]+\\)/\\([0-9]+\\)/\\([0-9]+\\)"
        date)
@@ -731,7 +735,7 @@ name is to be updated.
 If RESET is non-nil, `TeX-command-next' is reset to
 `TeX-command-default' in updated buffers."
   (if (and changed
-	   (not (and local (local-variable-p changed))))
+	   (not (and local (local-variable-p changed (current-buffer)))))
       (dolist (buffer (buffer-list))
 	(and (local-variable-p 'TeX-mode-p buffer)
 	     (not (local-variable-p changed buffer))
@@ -748,7 +752,11 @@ If RESET is non-nil, `TeX-command-next' is reset to
 				  TeX-base-mode-name
 				  (when (> (length trailing-flags) 0)
 				    (concat "/" trailing-flags))))
-	  (when reset (setq TeX-command-next TeX-command-default))
+	  (when reset
+	    (TeX-process-set-variable (TeX-master-file)
+				      'TeX-command-next TeX-command-default)
+	    (TeX-process-set-variable (TeX-region-file)
+				      'TeX-command-next TeX-command-default))
 	  (set-buffer-modified-p (buffer-modified-p))))))
 
 ;;; Source Specials
@@ -980,7 +988,7 @@ See `TeX-global-PDF-mode' for toggling the default value."
       (if TeX-PDF-mode-parsed
 	  (unless (eq TeX-PDF-mode arg)
 	    (kill-local-variable 'TeX-PDF-mode))
-	(unless (local-variable-p 'TeX-PDF-mode)
+	(unless (local-variable-p 'TeX-PDF-mode (current-buffer))
 	  (setq TeX-PDF-mode-parsed t
 		TeX-PDF-mode arg)))
     (if TeX-PDF-mode-parsed
@@ -2058,7 +2066,7 @@ The algorithm is as follows:
 	 "\\(\\(^\\|[^\\\n]\\)\\("
 	 (regexp-quote TeX-esc)
 	 (regexp-quote TeX-esc)
-	 "\\)*\\)\\(" comment-start "+[ \t]*\\)"))
+	 "\\)*\\)\\(%+[ \t]*\\)"))
   ;; `comment-padding' is defined here as an integer for compatibility
   ;; reasons because older Emacsen could not cope with a string.
   (make-local-variable 'comment-padding)
@@ -2121,7 +2129,8 @@ The algorithm is as follows:
 
 (eval-after-load 'desktop
   '(progn
-     (dolist (elt '(TeX-master TeX-PDF-mode TeX-interactive-mode))
+     (dolist (elt '(TeX-master TeX-PDF-mode TeX-interactive-mode
+			       TeX-Omega-mode))
        (unless (member elt (default-value 'desktop-locals-to-save))
 	 (setq-default desktop-locals-to-save
 		       (cons elt (default-value 'desktop-locals-to-save)))))
@@ -2756,6 +2765,12 @@ t means autodetect, nil means kpathsea is disabled."
 
 (defcustom TeX-kpathsea-format-alist
   '(("tex" "${TEXINPUTS.latex}" TeX-file-extensions)
+    ("eps" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
+    ("pdf" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
+    ("pdf" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
+    ("png" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
+    ("jpg" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
+    ("jpeg" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
     ("bib" "$BIBINPUTS" BibTeX-file-extensions)
     ("bst" "$BSTINPUTS" BibTeX-style-extensions))
   "Formats to search for expansion using kpathsea.
@@ -2832,52 +2847,46 @@ If optional argument STRIP is set, remove file extension.
 If optional argument DIRECTORIES is set, search in those directories.
 Otherwise, search in all TeX macro directories.
 If optional argument EXTENSIONS is not set, use `TeX-file-extensions'"
-
   (if (null extensions)
       (setq extensions TeX-file-extensions))
-
   (or (TeX-search-files-kpathsea extensions nodir strip)
-      (if (null directories)
-	  (setq directories
-		(cons "./" (append TeX-macro-private TeX-macro-global))))
-
-      (let (match
-	    (TeX-file-recurse (cond ((symbolp TeX-file-recurse)
-				     TeX-file-recurse)
-				    ((zerop TeX-file-recurse)
-				     nil)
-				    ((1- TeX-file-recurse)))))
-	(while directories
-	  (let* ((directory (car directories))
-		 (content (and directory
-			       (file-readable-p directory)
-			       (file-directory-p directory)
-			       (directory-files directory))))
-
-	    (setq directories (cdr directories))
-
-	    (while content
-	      (let ((file (concat directory (car content))))
-
-		(setq content (cdr content))
-		(cond ((string-match TeX-ignore-file file))
-		      ((not (file-readable-p file)))
-		      ((file-directory-p file)
-		       (if TeX-file-recurse
-			   (setq match
-				 (append match
-					 (TeX-search-files
-					  (list (file-name-as-directory file))
-					  extensions
-					  nodir strip)))))
-		      ((TeX-match-extension file extensions)
-		       (setq match (cons (TeX-strip-extension file
-							      extensions
-							      nodir
-							      (not strip))
-					 match))))))))
-
-	match)))
+      (progn
+	(if (null directories)
+	    (setq directories
+		  (cons "./" (append TeX-macro-private TeX-macro-global))))
+	(let (match
+	      (TeX-file-recurse (cond ((symbolp TeX-file-recurse)
+				       TeX-file-recurse)
+				      ((zerop TeX-file-recurse)
+				       nil)
+				      ((1- TeX-file-recurse)))))
+	  (while directories
+	    (let* ((directory (car directories))
+		   (content (and directory
+				 (file-readable-p directory)
+				 (file-directory-p directory)
+				 (directory-files directory))))
+	      (setq directories (cdr directories))
+	      (while content
+		(let ((file (concat directory (car content))))
+		  (setq content (cdr content))
+		  (cond ((string-match TeX-ignore-file file))
+			((not (file-readable-p file)))
+			((file-directory-p file)
+			 (if TeX-file-recurse
+			     (setq match
+				   (append match
+					   (TeX-search-files
+					    (list (file-name-as-directory file))
+					    extensions
+					    nodir strip)))))
+			((TeX-match-extension file extensions)
+			 (setq match (cons (TeX-strip-extension file
+								extensions
+								nodir
+								(not strip))
+					   match))))))))
+	  match))))
 
 (defun TeX-car-string-lessp (s1 s2)
   "Compare the cars of S1 and S2 in lexicographic order.
@@ -2909,9 +2918,7 @@ Like assoc, except case insensitive."
   "Return the substring corresponding to the N'th match.
 See `match-data' for details."
   (if (match-beginning n)
-      (let ((str (buffer-substring (match-beginning n) (match-end n))))
-	(set-text-properties 0 (length str) nil str)
-	(copy-sequence str))
+      (buffer-substring-no-properties (match-beginning n) (match-end n))
     ""))
 
 (defun TeX-function-p (arg)
@@ -3497,22 +3504,21 @@ which will not match commented lines with leading whitespace.  But
 `TeX-in-commented-line' will match commented lines without leading
 whitespace as well."
   (save-excursion
-    (save-match-data
-      (re-search-backward "^\\|\r" nil t)
-      (if (looking-at (concat "[ \t]*" comment-start))
-	  t
-	nil))))
+    (forward-line 0)
+    (skip-chars-forward " \t")
+    (string= (buffer-substring-no-properties
+	      (point) (min (point-max) (+ (point) (length comment-start))))
+	     comment-start)))
 
 (defun TeX-in-line-comment ()
   "Return non-nil if point is in a line comment.
 A line comment is a comment starting in column one, i.e. there is
 no whitespace before the comment sign."
   (save-excursion
-    (save-match-data
-      (move-to-left-margin)
-      (if (looking-at comment-start)
-	  t
-	nil))))
+    (forward-line 0)
+    (string= (buffer-substring-no-properties
+	      (point) (min (point-max) (+ (point) (length comment-start))))
+	     comment-start)))
 
 (defun TeX-forward-comment-skip (&optional count limit)
   "Move forward to the next comment skip.
@@ -3597,22 +3603,21 @@ regardless of its data type."
 (defun TeX-brace-count-line ()
   "Count number of open/closed braces."
   (save-excursion
-    (save-restriction
-      (let ((count 0))
-	(narrow-to-region (point)
-			  (save-excursion
-			    (re-search-forward "[^\\\\]%\\|\n\\|\\'")
-			    (backward-char)
-			    (point)))
-
-	(while (re-search-forward "\\({\\|}\\|\\\\.\\)" nil t)
-	  (cond
-	   ((string= "{" (TeX-match-buffer 1))
-	    (setq count (+ count TeX-brace-indent-level)))
-	   ((string= "}" (TeX-match-buffer 1))
-	    (setq count (- count TeX-brace-indent-level)))))
-	count))))
-
+    (let ((count 0) (limit (line-end-position)) char)
+      (while (progn
+	       (skip-chars-forward "^%{}\\\\" limit)
+	       (when (< (point) limit)
+		 (setq char (char-after))
+		 (forward-char)
+		 (cond ((eq char ?\{)
+			(setq count (+ count TeX-brace-indent-level)))
+		       ((eq char ?\})
+			(setq count (- count TeX-brace-indent-level)))
+		       ((eq char ?\\)
+			(when (< (point) limit)
+			  (forward-char)
+			  t))))))
+      count)))
 
 ;;; Navigation
 
@@ -3640,17 +3645,13 @@ If LIMIT is non-nil, search down to this position in the buffer."
 The function assumes that point is inside the group, i.e. before
 a closing brace.  With optional ARG>=1, find that outer level.
 If LIMIT is non-nil, search up to this position in the buffer."
-  (let ((arg (if arg (if (< arg 1) 1 arg) 1))
-	brace)
+  (let ((arg (if arg (if (< arg 1) 1 arg) 1)))
     (save-excursion
       (while (and (/= arg 0)
 		  (re-search-backward "{\\|}" limit t 1))
-	(setq brace (match-string 0))
-	(when (TeX-looking-at-backward
-	       (concat "[^" TeX-esc "]\\("
-		       (regexp-quote (concat TeX-esc TeX-esc))
-		       "\\)*"))
-	  (cond ((string= brace "}")
+	(when (save-excursion
+		 (zerop (mod (skip-chars-backward (regexp-quote TeX-esc)) 2)))
+	  (cond ((eq (char-after) ?})
 		 (setq arg (1+ arg)))
 		(t
 		 (setq arg (1- arg))))))
@@ -3666,21 +3667,16 @@ the macro."
     (let ((orig-point (point))
 	  opening-brace
 	  start-point)
-      (if (and (looking-at
-		(concat "\\(" (regexp-quote TeX-esc) "\\)[@A-Za-z]+"))
-	       (save-match-data
-		 (not (TeX-looking-at-backward
-		       (concat
-			"\\(" (regexp-quote (concat TeX-esc TeX-esc)) "\\)*"
-			"\\(" (regexp-quote TeX-esc) "\\)")))))
+      (if (and (eq (char-after) (aref TeX-esc 0))
+	       (save-excursion
+		 (zerop (mod (skip-chars-backward (regexp-quote TeX-esc)) 2))))
 	  ;; Point is located directly at the start of a macro.
-	  (progn
-	    (setq start-point (point))
-	    (goto-char (match-end 1)))
+	  (setq start-point (point))
 	;; Search backward for a macro start.
 	(setq start-point (TeX-find-macro-start-helper))
 	(setq opening-brace (TeX-find-opening-brace))
 	;; Cases {\foo ba-!-r} or \foo{bar\baz{bla}bl-!-u}
+	;; FIXME: Fails on \foo{\bar}{ba-!-z} constructs.
 	(when (and opening-brace start-point
 		   (> start-point opening-brace)
 		   (>= (point) (TeX-find-macro-end-helper start-point)))
@@ -3690,36 +3686,36 @@ the macro."
       (if (not start-point)
 	  nil
 	;; Search forward for the end of the macro.
-	(goto-char start-point)
-	(goto-char (TeX-find-macro-end-helper (point)))
+	(goto-char (TeX-find-macro-end-helper start-point))
 	(if (< orig-point (point))
 	    (list start-point (point))
 	  nil)))))
 
 (defun TeX-find-macro-start-helper ()
-  "Find the starting token of a macro, e.g. a backslash."
-  (if (save-excursion
-	(and (re-search-backward
-	      (concat
-	       "\\(^\\|[^" TeX-esc "\n]\\)"
-	       "\\(" (regexp-quote (concat TeX-esc TeX-esc)) "\\)*"
-	       "\\(" (regexp-quote TeX-esc) "\\)")
-	      nil t)
-	     (save-excursion
-	       (goto-char (match-end 3))
-	       (not (looking-at (regexp-quote TeX-esc))))))
-      (match-beginning 3)
-    nil))
+   "Find the starting token of a macro.
+In TeX, LaTeX or ConTeXt this is a `\\' character, in Texinfo it
+is the character `@'.  In case an escaped character is found,
+return the position before the escaping character."
+   (save-excursion
+     (save-match-data
+       (and (search-backward TeX-esc nil t)
+	    (let ((oldpoint (point)))
+	      (if (zerop (mod (skip-chars-backward (regexp-quote TeX-esc)) 2))
+		  oldpoint
+		(1- oldpoint)))))))
 
 (defun TeX-find-macro-end-helper (start)
-  "Find the end of a macro if its START is known.
+  "Find the end of a macro given its START.
+START is the position just before the starting token of the macro.
 If the macro is followed by square brackets or curly braces,
 those will be considered part of it."
   (save-excursion
     (catch 'found
       (goto-char start)
-      (skip-chars-forward (regexp-quote TeX-esc))
-      (skip-chars-forward (concat "^ \t{[\n" (regexp-quote TeX-esc)))
+      (forward-char)
+      (if (not (looking-at "[A-Za-z@]"))
+	  (forward-char)
+	(skip-chars-forward "A-Za-z@*"))
       (while (not (eobp))
 	(cond
 	 ((or (looking-at "[ \t]*\n?\\(\\[\\)") ; Be conservative: Consider

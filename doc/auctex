@@ -14,7 +14,7 @@ AUCTeX
 
 AUCTeX is an integrated environment for editing LaTeX and TeX files.
 
-   This file documents AUCTeX version 11.52.
+   This file documents AUCTeX version 11.53.
 
    Although AUCTeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -750,6 +750,11 @@ variable `LaTeX-math-abbrev-prefix'.
  -- User Option: LaTeX-math-list
      A list containing key command mappings to use in `LaTeX-math-mode'.
      The car of each element is the key and the cdr is the macro name.
+
+ -- User Option: LaTeX-math-menu-unicode
+     Whether the LaTeX menu should try using Unicode for effect.  Your
+     Emacs built must be able to display include Unicode characters in
+     menus for this feature.
 
    AUCTeX's reference card `tex-ref.tex' includes a list of all math
 mode commands.
@@ -2577,6 +2582,15 @@ File: auctex,  Node: Prerequisites,  Next: Configure,  Up: Installation
 
    * A recent version of Emacs 21, alternatively XEmacs 21.
 
+     Support for Emacs 20 has been dropped in favor of getting more
+     important work done.  For XEmacs, you need at least version 1.84
+     of the `xemacs-base' package (released on 01/27/2004) or a sumo
+     tarball dated 02/02/2004 or newer for compiling AUCTeX because of
+     non-trivial changes in `easy-mmode.el': please use the XEmacs
+     package system for upgrading if necessary.  The current developers
+     don't have the resources for providing backward compatibility to
+     earlier versions.
+
    * A working LaTeX installation
 
      This is not really needed to _install_ the package, but will be
@@ -3040,7 +3054,35 @@ File: auctex,  Node: Changes,  Next: ToDo,  Prev: Installation,  Up: Top
 Appendix A Changes and New Features
 ***********************************
 
-See the file `history.texi' for older changes.
+News in 11.53
+=============
+
+   * The LaTeX math menu can include Unicode characters if your Emacs
+     built supports it.  See the variable `LaTeX-math-menu-unicode',
+     *Note Mathematics::.
+
+   * Bug fixes for XEmacs.
+
+News in 11.52
+=============
+
+   * Installation and menus under XEmacs work again (maybe for the first
+     time).
+
+   * Fontification of subscripts and superscripts is now disabled when
+     the fontification engine is not able to support it properly.
+
+   * Bug fixes in the build process.
+
+News in 11.51
+=============
+
+   * PDFTeX and Source Special support did not work with ConTeXt, this
+     has been fixed.  Similar for Source Special support under Windows.
+
+   * Omega support has been added.
+
+   * Bug fixes in the build process.
 
 News in 11.50
 =============
@@ -3225,6 +3267,11 @@ News in 11.01
 =============
 
    * Bug fixes.
+
+Older versions
+==============
+
+See the file `history.texi' for older changes.
 
 
 File: auctex,  Node: ToDo,  Next: FAQ,  Prev: Changes,  Up: Top
@@ -3759,6 +3806,7 @@ Variable Index
 * LaTeX-item-indent:                     Indenting.           (line  18)
 * LaTeX-math-abbrev-prefix:              Mathematics.         (line  22)
 * LaTeX-math-list:                       Mathematics.         (line  28)
+* LaTeX-math-menu-unicode:               Mathematics.         (line  32)
 * LaTeX-paragraph-commands:              Filling.             (line  58)
 * LaTeX-section-hook:                    Sectioning.          (line  50)
 * LaTeX-section-label:                   Sectioning.          (line  53)
@@ -4118,52 +4166,52 @@ Node: Tabular-like25749
 Node: Customizing environments26347
 Node: Advanced Features26582
 Node: Mathematics27430
-Node: Completion28807
-Node: Commenting32789
-Node: Indenting34122
-Node: Filling39880
-Node: Show/Hide45431
-Node: Folding46020
-Node: Outline51731
-Node: Running TeX and friends52986
-Node: Commands53745
-Node: Viewing61069
-Node: Debugging64867
-Node: Checking66080
-Node: Control67405
-Node: Multifile68125
-Node: Parsing Files72825
-Node: I18n77165
-Node: European77687
-Node: Japanese80125
-Node: Automatic81929
-Node: Automatic Global84418
-Node: Automatic Private85588
-Node: Automatic Local86833
-Node: Style Files87912
-Node: Simple Style88707
-Node: Adding Macros89843
-Node: Adding Environments95412
-Node: Adding Other97975
-Node: Hacking the Parser98553
-Node: Installation102458
-Node: Prerequisites103278
-Node: Configure104042
-Node: Build/install107085
-Node: Loading the package107545
-Node: Advice for package providers109001
-Node: Advice for non-privileged users110301
-Node: Installation under MS Windows114328
-Node: Customizing120542
-Node: Changes123147
-Node: ToDo130792
-Node: Mid-term Goals131433
-Node: Wishlist132925
-Node: Bugs140193
-Node: FAQ142317
-Node: Key Index144123
-Node: Function Index147968
-Node: Variable Index154024
-Node: Concept Index160449
+Node: Completion29020
+Node: Commenting33002
+Node: Indenting34335
+Node: Filling40093
+Node: Show/Hide45644
+Node: Folding46233
+Node: Outline51944
+Node: Running TeX and friends53199
+Node: Commands53958
+Node: Viewing61282
+Node: Debugging65080
+Node: Checking66293
+Node: Control67618
+Node: Multifile68338
+Node: Parsing Files73038
+Node: I18n77378
+Node: European77900
+Node: Japanese80338
+Node: Automatic82142
+Node: Automatic Global84631
+Node: Automatic Private85801
+Node: Automatic Local87046
+Node: Style Files88125
+Node: Simple Style88920
+Node: Adding Macros90056
+Node: Adding Environments95625
+Node: Adding Other98188
+Node: Hacking the Parser98766
+Node: Installation102671
+Node: Prerequisites103491
+Node: Configure104766
+Node: Build/install107809
+Node: Loading the package108269
+Node: Advice for package providers109725
+Node: Advice for non-privileged users111025
+Node: Installation under MS Windows115052
+Node: Customizing121266
+Node: Changes123871
+Node: ToDo132308
+Node: Mid-term Goals132949
+Node: Wishlist134441
+Node: Bugs141709
+Node: FAQ143833
+Node: Key Index145639
+Node: Function Index149484
+Node: Variable Index155540
+Node: Concept Index162038
 
 End Tag Table

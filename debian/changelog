@@ -1,3 +1,9 @@
+auctex (11.53-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu,  9 Sep 2004 10:07:40 +0200
+
 auctex (11.52-3) unstable; urgency=high
 
   * Important bug fix release.  (Closes: #268156)

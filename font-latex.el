@@ -6,7 +6,7 @@
 ;;             Simon Marshall <Simon.Marshall@esrin.esa.it>
 ;; Maintainer: Peter S. Galbraith <psg@debian.org>
 ;; Created:    06 July 1996
-;; Version:    0.923 (18 Aug 2004)
+;; Version:    0.924 (27 Aug 2004)
 ;; Keywords:   LaTeX faces
 
 ;;; This file is not part of GNU Emacs.
@@ -95,6 +95,10 @@
 ;;
 ;; ----------------------------------------------------------------------------
 ;;; Change log:
+;; V0.924 27Aug2004 Ralf Angeli
+;;  - `font-latex': Add to AUCTeX's customization group.
+;;  - `font-latex-find-matching-close': Correctly recognize multiple
+;;    escape characters.  Add missing paren.
 ;; V0.923 18Aug2004 Ralf Angeli
 ;;  - `font-latex-script': Disable raising of characters for older
 ;;    Emacsen.  Original patch by Reiner Steib.
@@ -360,7 +364,8 @@
   "Font-latex text highlighting package."
   :prefix "font-latex-"
   :group 'faces
-  :group 'tex)
+  :group 'tex
+  :group 'AUCTeX)
 (defgroup font-latex-highlighting-faces nil
   "Faces for highlighting text in font-latex."
   :prefix "font-latex-"
@@ -1339,12 +1344,16 @@ have changed."
 OPENCHAR is the opening character and CLOSECHAR is the closing character."
   (let ((parse-sexp-ignore-comments t) ; scan-sexps ignores comments
         (init-point (point))
-        (status))
+        (status)
+	(esc-char (if (and (boundp 'TeX-esc) TeX-esc) TeX-esc "\\")))
     (if (condition-case nil
             (goto-char (scan-sexps (point) 1))
           (error))
         ;; No error code.  See if closechar is quoted
-        (if (save-excursion (backward-char 1) (= (preceding-char) ?\\))
+        (if (save-excursion
+	      (backward-char 1)
+	      (not (zerop (mod (skip-chars-backward (regexp-quote esc-char))
+			       2))))
             (setq status nil)
           (setq status t))
       ;; Terminated in error -- Try ourselves
@@ -1370,7 +1379,10 @@ OPENCHAR is the opening character and CLOSECHAR is the closing character."
               (cond
                ((font-latex-commented-outp)
                 (forward-line 1))
-               ((save-excursion (backward-char 1) (= (preceding-char) ?\\))
+               ((save-excursion
+		  (backward-char 1)
+		  (not (zerop (mod (skip-chars-backward (regexp-quote esc-char))
+				   2))))
                 nil)
                (t
                 (setq mycount (if (= (preceding-char) openchar)
