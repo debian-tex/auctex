@@ -2,10 +2,11 @@ This is the Debian GNU/Linux prepackaged version of the AUC TeX Emacs lisp
 package.
 
 The current release of this package was assembled by Davide G. M. Salvetti
-<salve@debian.org> using source obtained from:
-ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auxtex/auctex-9.8i.tar.gz.
+<salve@debian.org> using sources obtained from:
+<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auxtex/auctex-9.8i.tar.gz>.
 
-Current AUC TeX maintainer is Per Abrahamsen <auc-tex@sunsite.auc.dk>.
+The current AUC TeX upstream maintainer is Per Abrahamsen
+<auc-tex_mgr@sunsite.auc.dk>.
 
 The original AUC Tex Debian package was assembled by Helmut Geyer
 <Helmut.Geyer@iwr.uni-heidelberg.de>.

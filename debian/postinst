@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# 	$Id: postinst,v 1.2 1998/01/08 13:57:37 salve Exp $	
+# 	$Id: postinst,v 1.3 1998/01/12 18:59:11 salve Exp $	
 #
 # Written by Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>
 # Modified by Davide G. M. Salvetti <salve@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
@@ -26,7 +26,7 @@ EOF
 	case $answer in
 	    r) /usr/sbin/auctex-auto-load
 		fertig=j;;
-	    b) /usr/sbin/auctex-auto-load > /tmp/auctex-auto-load.log 2>&1 &
+	    b) /usr/sbin/auctex-auto-load &> /tmp/auctex-auto-load.log &
 		fertig=j;;
 	    l) fertig=j;;
 	esac
