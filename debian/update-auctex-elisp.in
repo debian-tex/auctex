@@ -2,14 +2,14 @@
 #!/bin/bash -e
 #
 # Update AucTeX auto-loads.
-# $Id: update-auctex-elisp.in,v 1.2 1999/10/14 14:39:35 salve Exp $
+# Installed by the Debian <:=$PACKAGE:> package.
+# $Id: update-auctex-elisp.in,v 1.3 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-# We generate AUC TeX lisp files just for GNU/Emacs, 'cause XEmacs comes
-# with its own AUC TeX.
+<:# only GNU/Emacs, 'cause XEmacs comes with its own AUC TeX.:>//
 for FLAVOR in emacs19 emacs20; do
     if [ -x /usr/bin/$FLAVOR ]; then
 	$FLAVOR --no-site-file --no-init-file --batch \
@@ -18,8 +18,7 @@ for FLAVOR in emacs19 emacs20; do
     fi
 done
 
-# I gues it's better to remove auto generated .el files now that .elc have
-# been generated, in order to save some disk space.
+<:# better to remove .el files now that .elc have done:>//
 rm -f $(find <:=$var:> -type f -name \*.el)
 <:
 # Local Variables:

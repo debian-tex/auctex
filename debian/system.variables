@@ -7,7 +7,7 @@
 <:# usr and friends:>//
 <:$usr="/usr/":>//
 <:$share="/usr/share/":>//
-<:$bin="/usr/bin":>//
+<:$bin="/usr/bin/":>//
 <:$man="/usr/share/man/":>//
 <:$sbin="/usr/sbin/":>//
 <:# cron:>//

@@ -1,8 +1,8 @@
 #include "variables"
 #!/bin/bash -e
 #
-# elisp remove file for Debian auctex package.
-# $Id: remove.in,v 1.3 1999/10/12 14:09:36 salve Exp $
+# elisp remove file for Debian <:=$PACKAGE:> package.
+# $Id: remove.in,v 1.4 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 

@@ -1,8 +1,8 @@
 #include "variables"
 #!/bin/bash -e
 #
-# elisp install file for Debian auctex package.
-# $Id: install.in,v 1.4 1999/10/12 14:09:36 salve Exp $
+# elisp install file for Debian <:=$PACKAGE:> package.
+# $Id: install.in,v 1.5 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 

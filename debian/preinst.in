@@ -1,8 +1,8 @@
 #include "variables"
 #!/bin/bash -e
 #
-# preinst configuration file for Debian auctex package.
-# $Id: preinst.in,v 1.1 1999/10/14 14:39:35 salve Exp $
+# preinst configuration file for Debian <:=$PACKAGE:> package.
+# $Id: preinst.in,v 1.2 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 

@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.33 1999/10/14 14:39:35 salve Exp $
+# $Id: rules.in,v 1.5 1999/10/14 19:11:32 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999.
 #

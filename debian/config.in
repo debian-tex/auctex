@@ -1,8 +1,8 @@
 #include "variables"
 #!/bin/bash -e
 #
-# config configuration file for Debian auctex package.
-# $Id: config.in,v 1.2 1999/10/11 08:15:32 salve Exp $
+# config configuration file for Debian <:=$PACKAGE:> package.
+# $Id: config.in,v 1.3 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 

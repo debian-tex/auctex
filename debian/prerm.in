@@ -1,8 +1,8 @@
 #include "variables"
 #!/bin/bash -e
 #
-# postinst configuration file for Debian auctex package.
-# $Id: prerm.in,v 1.3 1999/10/14 14:39:35 salve Exp $
+# postinst configuration file for Debian <:=$PACKAGE:> package.
+# $Id: prerm.in,v 1.4 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -11,7 +11,7 @@ set -o posix
 source <:=$CONFMODULE:>
 
 deconf_autoload () {
-    rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>
+    rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
     return 0
 }
 

@@ -1,8 +1,8 @@
 #include "variables"
 #!/bin/bash -e
 #
-# postinst configuration file for Debian auctex package.
-# $Id: postinst.in,v 1.5 1999/10/14 14:39:35 salve Exp $
+# postinst configuration file for Debian <:=$PACKAGE:> package.
+# $Id: postinst.in,v 1.6 1999/10/14 19:11:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -26,12 +26,12 @@ done
 conf_autoload () {
     db_get <:=$PACKAGE:>/default
     if [ $RET = "true" ]; then umask 022;
-	cat <<-EOF ><:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>
+	cat <<-EOF ><:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
 		(require 'tex-site);') <- beauty stuff
 	EOF
-	chmod 644 <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>
+	chmod 644 <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
     else
-	rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>
+	rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
     fi
     return 0
 }

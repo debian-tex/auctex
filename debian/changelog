@@ -1,3 +1,9 @@
+auctex (9.9p-10) unstable; urgency=low
+
+  * postinst,prerm: Fixed typo. (Closes: #47418)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 14 Oct 1999 21:09:16 +0200
+
 auctex (9.9p-9) unstable; urgency=low
 
   * templates: Fixed typo. (Ref: #47306)
