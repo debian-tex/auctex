@@ -1,0 +1,27 @@
+#include "variables"
+# patch-info - enforce consistency rules for AUCTeX info files
+#
+# $Id: patch-info.in,v 1.1 2003/08/20 15:16:19 salve Exp $
+#
+<:=@COPYRIGHT:>//
+#
+--- doc/auc-tex.texi	2002-02-08 12:04:47.000000000 +0100
++++ new/auc-tex.texi	2003-08-20 15:17:00.000000000 +0200
+@@ -1,5 +1,5 @@
+ \input texinfo
+-@setfilename auctex
++@setfilename auctex.info
+ @settitle AUC TeX
+ @direntry
+ * AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
+--- doc/Makefile	1998-08-28 18:18:46.000000000 +0200
++++ new/Makefile	2003-08-20 15:24:17.000000000 +0200
+@@ -58,7 +58,7 @@
+ 	-makeinfo --no-headers history.texi --output HISTORY
+ 
+ install: auctex
+-	cp auctex auctex-* $(infodir)
++	cp auctex.info* $(infodir)
+ 	@echo "**********************************************************"
+ 	@echo "** The \`auctex' info files are now installed."
+ 	@echo "** Edit \`$(infodir)/dir'"

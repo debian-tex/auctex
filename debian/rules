@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules.in,v 1.14 2002/01/18 16:04:10 salve Exp $
+# $Id: rules,v 1.47 2003/08/20 15:16:19 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03 by Davide Giovanni Maria Salvetti.
 #
@@ -35,7 +35,8 @@ INSTSCRIPT	:= install -m 755
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/cron debian/docbase debian/install debian/preinst \
 		debian/postinst debian/prerm debian/postrm debian/remove \
-		debian/templates debian/update-auctex-elisp debian/update-auctex-elisp.8
+		debian/templates debian/patch-info \
+		debian/update-auctex-elisp debian/update-auctex-elisp.8 \
 # WARNING: The man page should be manually fixed in case of ${UPDATE} variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
 # (it's CVS registered), lest it will be deleted by clean.
@@ -52,16 +53,21 @@ debian/rules: debian/variables
 
 build: $(DFILES)
 	$(checkdir)
+	patch --strip=0 --forward < debian/patch-info
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
-clean:
+clean: debian/patch-info
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
-	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
 	-$(MAKE) clean
+	-patch --strip=0 --forward --reverse \
+		--reject-file=debian/patch-reject \
+		< debian/patch-info
+	-rm -f debian/patch-reject
+	-rm -f $(DFILES)
 
 binary: binary-indep binary-arch
 
@@ -77,17 +83,11 @@ binary-indep: checkroot build
 	$(INSTDATA) auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el tex-mik.el font-latex.el tex-font.el bib-cite.el tex-fptex.el $(tmp)//usr/share/emacs/site-lisp/auctex/
 	$(INSTDATA) tex-jp.el $(tmp)//usr/share/emacs/site-lisp/auctex/
 	$(INSTDATA) hilit-LaTeX.el $(tmp)//usr/share/emacs/site-lisp/auctex/
-	$(INSTDATA) style/amsart.el style/amsbook.el style/amsbsy.el style/amsmath.el style/amsopn.el style/amstex.el style/amstext.el style/amsthm.el style/article.el style/book.el style/czech.el style/danish.el style/dinbrief.el style/dk.el style/dutch.el style/epsf.el style/fancyref.el style/foils.el style/german.el style/graphics.el style/graphicx.el style/harvard.el style/index.el style/j-article.el style/j-book.el style/j-report.el style/jarticle.el style/jbook.el style/jreport.el style/latexinfo.el style/letter.el style/makeidx.el style/mdwlist.el style/multind.el style/natbib.el style/ngerman.el style/plfonts.el style/plhb.el style/prosper.el style/psfig.el style/report.el style/scrartcl.el style/scrbase.el style/scrbook.el style/scrlttr2.el style/scrreprt.el style/slides.el style/slovak.el style/swedish.el style/varioref.el style/verbatim.el style/virtex.el  $(tmp)//usr/share/emacs/site-lisp/auctex//style/
+	$(INSTDATA) style/amsart.el style/amsbook.el style/amsbsy.el style/amsmath.el style/amsopn.el style/amstex.el style/amstext.el style/amsthm.el style/article.el style/book.el style/czech.el style/danish.el style/dinbrief.el style/dk.el style/dutch.el style/epsf.el style/fancyref.el style/foils.el style/german.el style/graphics.el style/graphicx.el style/harvard.el style/index.el style/j-article.el style/j-book.el style/j-report.el style/jarticle.el style/jbook.el style/jreport.el style/latexinfo.el style/letter.el style/makeidx.el style/mdwlist.el style/multind.el style/natbib.el style/ngerman.el style/plfonts.el style/plhb.el style/psfig.el style/report.el style/slides.el style/slovak.el style/swedish.el style/varioref.el style/virtex.el style/verbatim.el style/prosper.el style/scrartcl.el style/scrbase.el style/scrbook.el style/scrlttr2.el style/scrreprt.el  $(tmp)//usr/share/emacs/site-lisp/auctex//style/
 #       This one prevents ${style} from being added to load-path by
 #       normal-top-level-add-subdirs-to-load-path (see subdirs.el)
 	(umask 022 && touch $(tmp)//usr/share/emacs/site-lisp/auctex//style//.nosearch)
 	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/
-#       Consistency rule.
-	cd $(tmp)//usr/share/info/ \
-	&& echo -e ",s/auctex-/auctex.info-/g\n,wq" | ed auctex \
-	&& for i in auctex*; \
-		do mv -f -- $${i} auctex.info$${i#auctex}; \
-	done
 	gzip -9frv $(tmp)//usr/share/info/
 
 # install Debian doc

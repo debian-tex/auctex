@@ -1,3 +1,10 @@
+auctex (11.13-2) unstable; urgency=high
+
+  * patch-info: New file.
+  * rules: Use it.  (Closes: #204034)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed, 20 Aug 2003 16:09:08 +0200
+
 auctex (11.13-1) unstable; urgency=medium
 
   * New upstream version.  (Closes: #177270, #199193)

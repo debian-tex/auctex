@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian <:=${PACKAGE}:> package.
-# $Id: rules.in,v 1.14 2002/01/18 16:04:10 salve Exp $
+# $Id: rules.in,v 1.15 2003/08/20 15:16:19 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -23,7 +23,8 @@ INSTSCRIPT	:= install -m 755
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/cron debian/docbase debian/install debian/preinst \
 		debian/postinst debian/prerm debian/postrm debian/remove \
-		debian/templates debian/<:=${UPDATE}:> debian/<:=${UPDATE}:>.8
+		debian/templates debian/patch-info \
+		debian/<:=${UPDATE}:> debian/<:=${UPDATE}:>.8 \
 # WARNING: The man page should be manually fixed in case of ${UPDATE} variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
 # (it's CVS registered), lest it will be deleted by clean.
@@ -40,16 +41,21 @@ debian/rules: debian/variables
 
 build: $(DFILES)
 	$(checkdir)
+	patch --strip=0 --forward < debian/patch-info
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
-clean:
+clean: debian/patch-info
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
-	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
 	-$(MAKE) clean
+	-patch --strip=0 --forward --reverse \
+		--reject-file=debian/patch-reject \
+		< debian/patch-info
+	-rm -f debian/patch-reject
+	-rm -f $(DFILES)
 
 binary: binary-indep binary-arch
 
@@ -70,12 +76,6 @@ binary-indep: checkroot build
 #       normal-top-level-add-subdirs-to-load-path (see subdirs.el)
 	(umask 022 && touch $(tmp)/<:=${style}:>/.nosearch)
 	cd doc && $(MAKE) install infodir=$(tmp)/<:=${info}:>
-#       Consistency rule.
-	cd $(tmp)/<:=${info}:> \
-	&& echo -e ",s/auctex-/auctex.info-/g\n,wq" | ed auctex \
-	&& for i in auctex*; \
-		do mv -f -- $${i} auctex.info$${i#auctex}; \
-	done
 	gzip -9frv $(tmp)/<:=${info}:>
 
 # install Debian doc
