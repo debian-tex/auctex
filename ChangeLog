@@ -1,3 +1,84 @@
+1999-01-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.9o released.
+
+1999-01-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-insert-braces, TeX-command-list): Fixed custom types.  
+	Patch by Markus Rost <markus.rost@mathematik.uni-regensburg.de>.  
+
+1999-01-09  Christoph Wedler  <wedler@fmi.uni-passau.de>
+
+	* latex.el (LaTeX2e-font-replace): Don't use hard-coded regexp for
+ 	font commands, use local `TeX-font-list', i.e., `LaTeX-font-list'.
+
+1999-01-05  Christoph Wedler  <wedler@fmi.uni-passau.de>
+
+	* tex.el (TeX-load-style-file): Do not prevent .elc style files to
+ 	be loaded if `TeX-byte-compile' is nil, just prevent compilation.
+	(TeX-lisp-directory): Only use `locate-data-directory' if this
+	function is defined and AucTeX is installed as an XEmacs package.
+
+1998-12-12  Christoph Wedler  <wedler@fmi.uni-passau.de>
+
+	* tex.el (load-path): Don't add `TeX-lisp-directory'.
+	(TeX-lisp-directory): Use `locate-data-directory' if present.
+
+1998-12-12  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.9n released.
+
+1998-12-12  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-file-recurse): Added right parenthesis.
+	Reported by Bernt Guldbrandtsen <bernt@stat.washington.edu>.
+	
+1998-12-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.9m released.
+
+1998-12-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* font-latex.el: Updated.
+	* bib-cite.el: Ditto.
+
+	* Version 9.9l released.
+
+1998-12-01  Alastair Burt  <burt@dfki.de>
+
+	* doc/auc-tex.texi (Automatic): 
+
+	* lisp/tex.el: Extended the semantics of TeX-file-recurse
+	-- now accepts a positive integer as a bound on the recursion.
+	Functions TeX-search-files and TeX-auto-generate have been amended 
+	appropriately.
+
+1998-11-23  Carsten Dominik  <dominik@strw.leidenuniv.nl>
+
+	* texmathp.el (texmathp): Added autoload cookie.
+
+1998-11-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.9k released.
+
+1998-11-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-load-style-file): Protect `byte-compile-file'.
+	Reported by Kurt Swanson <kurt@dna.lth.se>.
+
+	* latex.el (LaTeX-outline-name): New function.
+	(LaTeX-imenu-create-index-function): New function.
+	(LaTeX-common-initialization): Use it.
+
+	* tex-buf.el (TeX-run-interactive): Make sure buffer is writable
+	(needed in Emacs 20.3).
+	Reported by many.
+
+1998-10-15  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* doc/auc-tex.texi (European): Removed references to obsolete
+	packages. 
+
 1998-07-29  Per Abrahamsen  <abraham@dina.kvl.dk>
 
 	* Version 9.9j released.

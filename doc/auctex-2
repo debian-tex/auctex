@@ -154,48 +154,10 @@ LaTeX versions, try:
 appropriate font and a version of GNU Emacs capable of displaying 8-bit
 characters.  I believe all emacs versions except plain Emacs 18 are
 capable of this.  For GNU Emacs 19, *note European Display:
-(emacs)European Display..  Other relevant packages are:
-
-`remap'
-     Supports lots of different 7-bit and 8-bit character sets for GNU
-     Emacs 19.  Mostly useful if you have seldomly used character sets,
-     or need to use different character set for keyboard, buffer, and
-     display.  An overkill if you just need ISO 8859 Latin 1.
-     Currently in alpha test, but available by ftp from the host
-     sunsite.auc.dk in `/packages/auctex/'.
-
-     To get dead keys for TeX, install remap and insert the following in
-     your `.emacs' or `site-start.el' file.
-
-          (require 'remap)
-          
-          (defvar all-dead-keys "~'`^"
-            "Dead keys used by remap")
-          
-          (remap-define-map "Dead Key"
-            (apply 'append (mapcar 'remap-dead-map all-dead-keys)))
-          
-          (remap-define-map "TeX Dead Key"
-            (remap-map "Dead Key" (remap-add "Ascii" "~TeX")))
-          
-          (setq remap-setup-alist
-                '(("7-bit"  "Raw"          "L1" "US" "Ctrl" "~TeX")
-                  ("8-bit"  "Raw"          "L1" "L1" "Ctrl" "Raw")
-                  ("Dead/7" "Dead Key"     "L1" "US" "Ctrl" "~TeX")
-                  ("Dead/8" "Dead Key"     "L1" "L1" "Ctrl" "Raw")
-                  ("TeX"    "TeX Dead Key" "L1" "US" "Ctrl" "Raw")))
-
-     You can now enable TeX dead keys with
-          `M-x remap-setup-choose RET TeX RET'
+(emacs)European Display..
 
    A compromise is to use use an European character set when editing the
 file, and convert to TeX macros when reading and writing the files.
-
-`iso-tex.el'
-     This file automatically converts between ISO 8859 Latin 1 encoding
-     and LaTeX encodings of West European characters.  It is available
-     by ftp from aida.intellektik.informatik.th-darmstadt.de in the
-     directory `/pub/gene/Emacs'.
 
 `iso-cvt.el'
      Much like `iso-tex.el' but is bundled with Emacs 19.23 and later.
@@ -296,7 +258,9 @@ files will be executed.
 recursively search through subdirectories.
 
  - User Option: TeX-file-recurse
-     If not nil, search TeX directories recursively.
+     Whether to search TeX directories recursively: nil means do not
+     recurse, a positive integer means go that far deep in the directory
+     hierarchy, t means recurse indefinitely.
 
    By default, AUC TeX will ignore files name `.', `..', `SCCS', `RCS',
 and `CVS'.
@@ -950,6 +914,25 @@ The History of AUC TeX
 
 News in 9.9
 ===========
+
+   * Fixed some custom types.  Patch by Markus Rost
+     <markus.rost@mathematik.uni-regensburg.de>.
+
+   * Support loading byte compiled files, even if `TeX-byte-compile' is
+     nil.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+
+   * The command to replace a LaTeX2e font should work more reliably
+     now.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+
+   * Minor XEmacs packaging changes.  Patch by Christoph Wedler
+     <wedler@fmi.uni-passau.de>.
+
+   * `TeX-file-recurse' now accepts an integer value, max depth of
+     recursion.  Patch by Alastair Burt  <burt@dfki.bde>.
+
+   * Simple imenu support for LaTeX.
+
+   * Workaround for 20.3 bugs.
 
    * The `Spell' command now works on all open buffers in the document.
      Patch by Jason Stewart <jasons@cs.unm.edu>.

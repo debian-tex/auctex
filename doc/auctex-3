@@ -186,7 +186,6 @@ Concept Index
 * auto directories.:                    Automatic.
 * book.el:                              Simple Style.
 * iso-cvt.el:                           European.
-* iso-tex.el:                           European.
 * macro.el:                             Hacking the Parser.
 * macro.tex:                            Hacking the Parser.
 * Makefile:                             Installation.
@@ -274,8 +273,8 @@ Concept Index
 * Folding:                              Outline.
 * Font macros:                          Font Specifiers.
 * Fonts:                                Font Specifiers.
-* Formatting:                           Commands.
 * Formatting:                           Marking and formatting.
+* Formatting:                           Commands.
 * Free:                                 Copying.
 * Free software:                        Copying.
 * General Public License:               Copying.
@@ -328,8 +327,8 @@ Concept Index
 * Making a bibliography:                Commands.
 * Making an index:                      Commands.
 * Many Files:                           Multifile.
-* Master file:                          Multifile.
 * Master file:                          Control.
+* Master file:                          Multifile.
 * Matching dollar signs:                Quotes.
 * Math mode delimiters:                 Quotes.
 * Mathematics:                          Mathematics.
@@ -356,8 +355,8 @@ Concept Index
 * Personal information:                 Automatic Private.
 * Personal macro directory:             Automatic Private.
 * Poland:                               European.
-* Prefix for labels:                    Sectioning.
 * Prefix for labels:                    Floats.
+* Prefix for labels:                    Sectioning.
 * Previewing:                           Commands.
 * Printing:                             Commands.
 * Private TeX macro directory:          Automatic Private.
@@ -382,8 +381,8 @@ Concept Index
 * Running LaTeX:                        Commands.
 * Sample style file:                    Simple Style.
 * Sectioning:                           Sectioning.
-* Sections:                             Outline.
 * Sections:                             Sectioning.
+* Sections:                             Outline.
 * Setting the default command:          Commands.
 * Setting the header:                   Commands.
 * Setting the trailer:                  Commands.

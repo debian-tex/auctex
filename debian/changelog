@@ -1,3 +1,17 @@
+auctex (9.9o-1) unstable; urgency=low
+
+  * New upstream version. (closes: #32122)
+  * update-auctex-elisp: Removed emacs' option `-no-site-file', since we
+    already byte compile stuff without it.  This should allow AUC TeX to
+    make good use of the `custom' add-on package with `emacs19'; however,
+    it may well have some nasty side effects on non-standard sites, since
+    this way we're going to compile things in an (potentially) unknow
+    environment, due to the fact we let `site-start.el' to be loaded on
+    startup as well.  Well, we'll see; thanks to Martin Stjernholm for
+    this fix. (closes: #30419)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 23 Jan 1999 15:38:48 +0100
+
 auctex (9.9j-3) unstable; urgency=low
 
   * ../tex-jp.el: Applied patch from Hidenobu Nabetani

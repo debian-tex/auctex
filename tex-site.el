@@ -5,7 +5,7 @@
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9j
+;; Version: 9.9o
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -65,7 +65,7 @@ Full documentation will be available after autoloading the function."
   :group 'TeX-file
   :type 'directory)
 
-(defcustom TeX-macro-global '("/usr/lib/texmf/tex/" "/usr/local/lib/texmf/tex/")
+(defcustom TeX-macro-global '("/usr/local/lib/texmf/tex/" "/usr/lib/texmf/tex/")
   "Directories containing the sites TeX macro files and style files.
 The directory names *must* end with a slash."
   :group 'TeX-file
