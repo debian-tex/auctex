@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian <:=${PACKAGE}:> package.
-# $Id: rules.in,v 1.16 2004/03/16 13:39:34 salve Exp $
+# $Id: rules.in,v 1.17 2004/03/18 11:10:02 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -23,8 +23,7 @@ INSTSCRIPT	:= install -m 755
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/cron debian/docbase debian/install debian/preinst \
 		debian/postinst debian/prerm debian/postrm debian/remove \
-		debian/templates debian/patch-custom debian/patch-info \
-		debian/patch-multicolumn \
+		debian/templates \
 		debian/<:=${UPDATE}:> debian/<:=${UPDATE}:>.8 \
 # WARNING: The man page should be manually fixed in case of ${UPDATE} variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
@@ -42,28 +41,15 @@ debian/rules: debian/variables
 
 build: $(DFILES)
 	$(checkdir)
-	patch --strip=0 --forward < debian/patch-custom
-	patch --strip=0 --forward < debian/patch-info
-	patch --strip=0 --forward < debian/patch-multicolumn
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
-clean: debian/patch-custom debian/patch-info debian/patch-multicolumn
+clean:
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
 	-rm -f $$(find . -name \*.elc)
 	-$(MAKE) clean
-	-patch --strip=0 --forward --reverse \
-		--reject-file=debian/patch-reject \
-		< debian/patch-multicolumn
-	-patch --strip=0 --forward --reverse \
-		--reject-file=debian/patch-reject \
-		< debian/patch-info
-	-patch --strip=0 --forward --reverse \
-		--reject-file=debian/patch-reject \
-		< debian/patch-custom
-	-rm -f debian/patch-reject
 	-rm -f $(DFILES)
 
 binary: binary-indep binary-arch

@@ -60,19 +60,15 @@
 ;; file, but instead copy those definitions you need to change to
 ;; `tex-site.el'. 
 
-(defcustom TeX-lisp-directory (or (and (fboundp 'locate-data-directory)
-				       (locate-data-directory "auctex"))
-				  (and (fboundp 'locate-library)
-				       (let ((f (locate-library "tex")))
-					 (and f (file-name-directory f))))
-				  (concat data-directory "auctex/"))
-  "The directory where the AUC TeX Lisp files are located."
-  :group 'TeX-file
-  :type 'directory)
+;; Customized for Debian GNU/Linux by Davide G. M. Salvetti
+;; <salve@debian.org>.
 
 ;; Change this to point to the place where the TeX macros are stored
-;; at yourt site.
-(defcustom TeX-macro-global '("/usr/local/lib/texmf/tex/")
+;; at yourt site.  The directory names *must* end with a slash.
+(defcustom TeX-macro-global '("/usr/local/share/texmf/tex/"
+			      "/usr/local/share/texmf/bibtex/"
+			      "/usr/share/texmf/tex/"
+			      "/usr/share/texmf/bibtex/")
   "Directories containing the sites TeX macro files and style files.
 The directory names *must* end with a slash."
   :group 'TeX-file
@@ -105,34 +101,30 @@ performed as specified in TeX-expand-list."
 (defcustom TeX-command-list
   ;; You may have to remove the single quotes around the command
   ;; arguments if you use DOS.
-  (list (list "TeX" "tex '\\nonstopmode\\input %t'" 'TeX-run-TeX nil t)
-	(list "TeX Interactive" "tex %t" 'TeX-run-interactive nil t)
-	(list "LaTeX" "%l '\\nonstopmode\\input{%t}'"
-	      'TeX-run-LaTeX nil t)
-	(list "LaTeX Interactive" "%l %t" 'TeX-run-interactive nil t)
-	(list "LaTeX2e" "latex2e '\\nonstopmode\\input{%t}'"
-	      'TeX-run-LaTeX nil t)
-	(if (or window-system (getenv "DISPLAY"))
-	    (list "View" "%v " 'TeX-run-silent t nil)
-	  (list "View" "dvi2tty -q -w 132 %s " 'TeX-run-command t nil))
-	(list "Print" "%p %r " 'TeX-run-command t nil)
-	(list "Queue" "%q" 'TeX-run-background nil nil)
-	(list "File" "dvips %d -o %f " 'TeX-run-command t nil)
-	(list "BibTeX" "bibtex %s" 'TeX-run-BibTeX nil nil)
-	(list "Index" "makeindex %s" 'TeX-run-command nil t)
-	;; (list "Check" "chktex -v3 %s" 'TeX-run-compile nil t)
-	;; Uncomment the above line and comment out the next line to
-	;; use `chktex' instead of `lacheck'. 
-	(list "Check" "lacheck %s" 'TeX-run-compile nil t)
-	(list "Spell" "<ignored>" 'TeX-run-ispell-on-document nil nil)
-	(list "Other" "" 'TeX-run-command t t)
+  `(("TeX" "tex %x '\\nonstopmode\\input %t'" TeX-run-TeX nil t)
+    ("TeX Interactive" "tex %x %t" TeX-run-interactive nil t)
+    ("LaTeX" "latex %x '\\nonstopmode\\input{%t}'" TeX-run-LaTeX nil t)
+    ("LaTeX Interactive" "latex %x %t" TeX-run-interactive nil t)
+    ,(if (or window-system (getenv "DISPLAY"))
+	 '("View" "%v " TeX-run-silent t nil)
+       '("View" "catdvi %d " TeX-run-command t nil))
+    ("Print" "%p %r " TeX-run-command t nil)
+    ("Queue" "%q" TeX-run-background nil nil)
+    ("File" "dvips %d -o %f " TeX-run-command t nil)
+    ("BibTeX" "bibtex %s" TeX-run-BibTeX nil nil)
+    ("Index" "makeindex %s" TeX-run-command nil t)
+    ("Check" "lacheck %s" TeX-run-compile nil t)
+    ("Spell" "<ignored>" TeX-run-ispell-on-document nil nil)
+    ("Other" "" TeX-run-command t t)
 	;; Not part of standard TeX.
-	(list "LaTeX PDF" "pdflatex '\\nonstopmode\\input{%t}'"
-	      'TeX-run-LaTeX nil t)
-	(list "Makeinfo" "makeinfo %t" 'TeX-run-compile nil t)
-	(list "Makeinfo HTML" "makeinfo --html %t" 'TeX-run-compile nil t)
-	(list "AmSTeX" "amstex '\\nonstopmode\\input %t'"
-	      'TeX-run-TeX nil t))
+    ("PDFTeX" "pdftex '\\nonstopmode\\input %t'" TeX-run-TeX nil t)
+    ("PDFTeX Interactive" "pdftex %t" TeX-run-interactive nil t)
+    ("PDFLaTeX" "pdflatex '\\nonstopmode\\input{%t}'" TeX-run-LaTeX nil t)
+    ("PDFLaTeX Interactive" "pdflatex %t" TeX-run-interactive nil t)
+    ("Makeinfo" "makeinfo %t" TeX-run-compile nil t)
+    ("Makeinfo HTML" "makeinfo --html %t" TeX-run-compile nil t)
+    ("ThumbPDF" "thumbpdf %s" TeX-run-command nil nil)
+    ("AmSTeX" "amstex '\\nonstopmode\\input %t'" TeX-run-TeX nil t))
   "List of commands to execute on the current document.
 
 Each element is a list, whose first element is the name of the command
@@ -292,12 +284,25 @@ is performed as specified in TeX-expand-list."
 ;; You may want special options to the view command depending on the
 ;; style options.  Only works if parsing is enabled.
 
-(defcustom TeX-view-style '(("^a5$" "xdvi %d -paper a5")
+(defcustom TeX-view-style
+  `(,(list (concat
+	    "^"
+	    (regexp-opt '("a4paper" "a4" "a4dutch" "a4wide" "sem-a4"))
+	    "$")
+	   "xdvi %d -paper a4")
+    ,(list (concat
+	    "^"
+	    (regexp-opt '("a5paper" "a5" "a5comb"))
+	    "$")
+	   "xdvi %d -paper a5")
+    ("^b5paper$" "xdvi %d -paper b5")
+    ("^letterpaper$" "xdvi %d -paper us")
+    ("^legalpaper$" "xdvi %d -paper legal")
+    ("^executivepaper$" "xdvi %d -paper 7.25x10.5in")
+    ;; We should really know better than this
 			    ("^landscape$" "xdvi %d -paper a4r -s 4")
-			    ;; The latest xdvi can show embedded postscript.
-			    ;; If you don't have that, uncomment next line.
-			    ;; ("^epsf$" "ghostview %f")
-			    ("." "xdvi %d"))
+    ;; TeX defaults to letterpaper, xdvi defaults to a4paper
+    ("." "xdvi %d -paper us"))
   "List of style options and view options.
 
 If the first element (a regular expresion) matches the name of one of
@@ -321,26 +326,35 @@ string."
   :group 'TeX-command
   :type '(repeat (group regexp (string :tag "Command"))))
 
+;; [Debian specific] Predicate used in TeX-expand-list.
+(defcustom TeX-enable-source-specials-p t
+  "*Non-nil means pass option `--src-specials' to TeX and friends."
+  :group 'TeX-command
+  :type 'boolean)
+
 ;; This is the list of expansion for the commands in
 ;; TeX-command-list.  Not likely to be changed, but you may e.g. want
 ;; to handle .ps files. 
 
 (defcustom TeX-expand-list 
-  (list (list "%p" 'TeX-printer-query)	;%p must be the first entry
-	(list "%q" (function (lambda ()
-		     (TeX-printer-query TeX-queue-command 2))))
-	(list "%v" (lambda () 
-		     (TeX-style-check TeX-view-style)))
-	(list "%r" (lambda () 
-		     (TeX-style-check TeX-print-style)))
-	(list "%l" (lambda ()
-		     (TeX-style-check LaTeX-command-style)))
-	(list "%s" 'file nil t)
-	(list "%t" 'file 't t)
-	(list "%n" 'TeX-current-line)
-	(list "%d" 'file "dvi" t)
-	(list "%f" 'file "ps" t)
-        (list "%b" 'TeX-current-file-name-nondirectory))
+  '(("%p" TeX-printer-query)		;%p must be the first entry
+    ("%q" (lambda () (TeX-printer-query TeX-queue-command 2)))
+    ;; Qui sotto dovremmo mettere qualcosa per controllare anche il landscape.
+    ;; Un'idea è quella di elencare le opzioni di xdvi nella forma -paper
+    ;; WWxHHun e poi far scambiare WW e HH se c'è landscape (TeX-style-check
+    ;; (...))
+    ("%v" (lambda () (TeX-style-check TeX-view-style)))
+    ("%r" (lambda () (TeX-style-check TeX-print-style)))
+    ("%l" (lambda () (TeX-style-check LaTeX-command-style)))
+    ("%s" file nil t)
+    ("%t" file t t)
+    ("%n" TeX-current-line)
+    ("%d" file "dvi" t)
+    ("%f" file "ps" t)
+    ("%g" file "pdf" t)
+    ("%x" (lambda ()
+	 (if TeX-enable-source-specials-p "--src-specials" "")))
+    ("%b" TeX-current-file-name-nondirectory))
   "List of expansion strings for TeX command names.
 
 Each entry is a list with two or more elements.  The first element is
@@ -701,7 +715,12 @@ This will be done when AUC TeX first try to use the master file.")
 (or (string-match "/\\'" TeX-lisp-directory)
     (setq TeX-lisp-directory (concat TeX-lisp-directory "/")))
 
-(defcustom TeX-auto-global (concat TeX-lisp-directory "auto/")
+;; Directory containing automatically generated information.
+;; Must end with a slash.
+(defcustom TeX-auto-global (concat
+			    "/var/lib/auctex/"
+			    (symbol-name debian-emacs-flavor)
+			    "/")
   "*Directory containing automatically generated information.
 Must end with a slash.
 

@@ -1,7 +1,7 @@
 ;;; tex-site.el - Site specific variables.
 
-;; Copyright (C) 1991, 2000, 2001 Kresten Krab Thorup 
-;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen 
+;; Copyright (C) 1991, 2000, 2001 Kresten Krab Thorup
+;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
@@ -12,12 +12,12 @@
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
-;; 
+;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-;; 
+;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -47,12 +47,26 @@ Full documentation will be available after autoloading the function."
 ;; Copy variables you need to change from the start of `tex.el' and
 ;; insert them here.
 
-(defvar TeX-lisp-directory "@AUCDIR"
-  "*The directory where the AUC TeX lisp files are located.")
+;; Customized for Debian GNU/Linux by Davide G. M. Salvetti
+;; <salve@debian.org>.
+
+;; The directory where the AUC TeX lisp files are located.
+(defcustom TeX-lisp-directory
+  (concat "/usr/share/"
+       (symbol-name debian-emacs-flavor)
+       "/site-lisp/auctex/")
+  "The directory where the AUC TeX Lisp files are located."
+  :group 'TeX-file
+  :type 'directory)
 
 ;;; Autoloads:
 
 (add-to-list 'load-path TeX-lisp-directory)
+
+;; Add Debian source directories.
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/auctex/" 'append)
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/auctex/style/"
+	     'append)
 
 ;; This hook will store bibitems when you save a BibTeX buffer.
 (add-hook 'bibtex-mode-hook 'BibTeX-auto-store)

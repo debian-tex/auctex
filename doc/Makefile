@@ -59,7 +59,7 @@ HISTORY: history.texi
 
 install: auctex
 	-mkdir -p $(infodir)
-	cp auctex auctex-* $(infodir)
+	cp auctex.info* $(infodir)
 	@echo "**********************************************************"
 	@echo "** The \`auctex' info files are now installed."
 	@echo "** Edit \`$(infodir)/dir'"

@@ -1,3 +1,20 @@
+auctex (11.14-3) unstable; urgency=low
+
+  * ../doc/Makefile: Code from patch-info moved here.
+  * ../doc/auc-tex.texi: Code from patch-info moved here.
+  * ../latex.el: Code from patch-multicolumn moved here.
+  * ../tex.el: Code from patch-custom moved here.
+    (TeX-macro-global): Changed "bibtex" in "bibtex/bst"; thanks to Frank
+    Küster.  (Reread: #125715)
+  * ../tex-site.el: Code from patch-custom moved here.
+  * install: Open ${_db_logfile} in append mode instead of truncating it
+    with every new flavor run; thanks to Frank Küster.
+  * patch-custom: Removed.
+  * patch-info: Removed.
+  * patch-multicolumn: Removed.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 18 Mar 2004 15:08:15 +0100
+
 auctex (11.14-2) unstable; urgency=high
 
   * COPYRIGHT: Updated.

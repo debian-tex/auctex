@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=${PACKAGE}:> package.
-# $Id: install.in,v 1.15 2004/03/17 09:38:58 salve Exp $
+# $Id: install.in,v 1.16 2004/03/18 13:57:58 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -75,7 +75,7 @@ do_auto () {
 	    echo >&2 "Further output will appear in: ${_db_logfile}."
 	    echo >&2 -n "<:=${PACKAGE}:>: "
 	    echo >&2 -n "Waiting for <:=${UPDATE}:> to terminate... "
-	    <:="${sbin}/${UPDATE}":> ${1} &> ${_db_logfile}
+	    <:="${sbin}/${UPDATE}":> ${1} >> ${_db_logfile} 2>&1
 	    echo >&2 "done." ;;
 	    (*) echo >&2 \
 		"${0##*/}: Debconf passed unknown value \`${_db_doautofg}'." ;;
@@ -87,7 +87,7 @@ do_auto () {
 	<:# better don\'t close fd 0: emacs doesn\'t take it very well:>//
 	<:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO!:>//
 	<:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO!:>//
-	<:="${sbin}/${UPDATE}":> ${1} &> ${_db_logfile} 3>&- &
+	<:="${sbin}/${UPDATE}":> ${1} >> ${_db_logfile} 2>&1 3>&- &
 	echo >&2 -n "<:=${UPDATE}:>[${!}]: "
 	echo >&2 "Further output will appear in: ${_db_logfile}." ;;
 	(None) rm -f ${_db_logfile} ;;

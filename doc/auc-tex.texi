@@ -1,5 +1,5 @@
 \input texinfo
-@setfilename auctex
+@setfilename auctex.info
 @settitle AUC TeX
 @direntry
 * AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
