@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# $Id: postinst,v 1.21 1998/02/24 16:40:29 salve Exp $
+# $Id: postinst,v 1.22 1998/03/06 14:20:22 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -27,23 +27,21 @@ set -o posix
 PACKAGE=auctex
 
 function run_auto_generate () {
+	TMPFILE=$(mktemp /tmp/update-auctex-elisp.XXXXXXX)
 	cat <<-EOF
-		AUC TeX can parse all TeX macros packages and LaTeX style files for
-		information. This improves the performance of AUC TeX a lot. As this may
-		need a lot of time when running for the first time, you may want to run it
-		in the background or later by running /usr/sbin/update-auctex-elisp.  If
-		you run it in background you will get a log file in:
-		    /tmp/update-auctex-elisp.log
+
+		AUC TeX parses all TeX macro packages and LaTeX style files for
+		information.  This improves the performance of AUC TeX a lot.
+
+		As this takes a lot of time when running for the first time, it will be
+		done in background.  You will get a log file in:
+		    $TMPFILE
+
+		You can update this information an any later time, if needed, by running:
+		    /usr/sbin/update-auctex-elisp
+
 	EOF
-	answer=
-	while [ "$answer" != "r" -a "$answer" != "b" -a "$answer" != "l" ]; do
-	    read -e -p "Please answer run/background/later (r/b/l): " answer
-	done
-	case $answer in
-	    r) /usr/sbin/update-auctex-elisp;;
-	    b) /usr/sbin/update-auctex-elisp &> /tmp/update-auctex-elisp.log &;;
-	    l) :;;
-	esac
+	/usr/sbin/update-auctex-elisp &> $TMPFILE &
 }
 
 # Helmut's stuff: apparently this is a workaround for a defective
@@ -57,9 +55,9 @@ case "$1" in
 	/usr/lib/emacsen-common/emacs-package-install $PACKAGE
 	install-info --section "Document Preparation" "Document Preparation" \
 		     --menuentry="AUC TeX" \
-		     --description="An integrated environment for TeX and LaTeX. " \
+		     --description="An integrated environment for TeX and LaTeX." \
 		     --quiet /usr/info/auctex.gz
-	test -x /usr/bin/update-menus && update-menus && sleep 3
+	if test -x /usr/bin/update-menus; then update-menus; fi
 	if [ "$1" = "configure" ]; then
 	    # Do we have old stuff still around?
 	    for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do

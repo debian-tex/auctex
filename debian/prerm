@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# $Id: prerm,v 1.15 1998/02/24 16:43:12 salve Exp $
+# $Id: prerm,v 1.16 1998/03/06 14:44:46 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -34,7 +34,7 @@ case "$1" in
 	    rm -rf $AUTO
 	fi
 	install-info --quiet --remove auctex
-	test -x /usr/bin/update-menus && update-menus && sleep 3
+	if test -x /usr/bin/update-menus; then update-menus; fi
 	/usr/lib/emacsen-common/emacs-package-remove $PACKAGE
     ;;
     failed-upgrade)

@@ -60,8 +60,9 @@ Full documentation will be available after autoloading the function."
 
 (defvar TeX-lisp-directory (concat "/usr/share/"
 				   (symbol-name debian-emacs-flavor)
-				   "/site-lisp/auctex/")
-  "*The directory where the AUC TeX byte-compiled lisp files are located.")
+				   "/site-lisp/auctex")
+  "*The directory where the AUC TeX byte-compiled lisp files are located.
+Should not end with a slash.")
 
 (defvar TeX-auto-global (concat "/var/lib/auctex/"
 				(symbol-name debian-emacs-flavor)

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # preinst configuration file for Debian auctex package.
-# $Id: preinst,v 1.16 1998/02/24 16:04:49 salve Exp $
+# $Id: preinst,v 1.18 1998/03/06 14:51:31 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -25,13 +25,15 @@
 set -o posix
 
 function remove_handmade_auctex () {
-	echo "There is a locally installed version of AUC TeX in $1 which will conflict"
 	cat <<-EOF
+
+		There is a locally installed version of AUC TeX in $1 which will conflict
 		with this Debian package.
 
 		Shall I:
 		    1) rename its tex-site file and go on installing;
 		    2) stop installing this package.
+
 	EOF
 	answer=
 	while [ "$answer" != "1" -a "$answer" != "2" ]; do
@@ -43,82 +45,45 @@ function remove_handmade_auctex () {
 	mv -V t -b $1/tex-site.el $1/tex-site.el.dpkg-old
 }
 
-case "$1" in
-    install|upgrade)
-	:;
-	# continue below
-    ;;
-    abort-upgrade)
-	exit 0
-    ;;
-    *)
-	echo "preinst called with unknow argument \`$1'" >&2
-	exit 0
-    ;;
-esac
-
-# Remove hand-made auctex packages from /usr/local, if existant.
-if [ -f /usr/local/lib/xemacs/site-lisp/tex-site.el ]; then
-    remove_handmade_auctex /usr/local/lib/xemacs/site-lisp/
-fi
-if [ -f /usr/local/share/emacs/site-lisp/tex-site.el ]; then
-    remove_handmade_auctex /usr/local/share/emacs/site-lisp/
-fi
-
-# tex-site.el is no more a conffile: warn the user about it, if appropriate.
-if [ -e /etc/elisp/tex-site.el ]; then
+function move_old_conffile () {
+	# Warn the user.
 	cat <<-EOF
+
 		There is a new method to start AUC TeX on a per user or per site basis: you
 		should read /usr/doc/auctex/README.Debian.gz to learn about it.
 
 		As a consequence of this new method, the old conffile /etc/elisp/tex-site.el
-		is no more needed and will be removed if you proceed installing this package.
+		is no more needed and will be moved to /etc/tex-site.el.old; you can safely
+		remove it unless you made some change you wish to preserve.
 
-		This shouldn't be of any problem, unless you made some changes and wish to
-		preserve them.  If this is the case, you should save your changes before
-		going any further or stop installing this package.
-
-		Shall I:
-		    1) remove /etc/elisp/tex-site.el and go on installing;
-		    2) stop installing this package.
 	EOF
-	answer=
-	while [ "$answer" != "1" -a "$answer" != "2" ]; do
-	    read -e -p "Please answer (1/2, 1 recommended): " answer
-	done
-	if [ "$answer" = "2" ] ; then
-	    exit 1
-	fi
-	rm -f /etc/emacs/site-start.d/50tex-site.el
-	rm -f /etc/elisp/tex-site.el
+	mv -V t -b /etc/elisp/tex-site.el /etc/tex-site.el.old
 	find /etc -name elisp -type d -empty | xargs rmdir
-fi
+	# This has to be removed.
+	rm -f /etc/emacs/site-start.d/50tex-site.el
+}
 
-# Remove old auctex package relics as there is a new location for auctex.
-if [ -d /usr/lib/emacs/common/auctex ]; then
-	# Warn the user about what we are trying to do.
-	cat <<-EOF
-		The AUC TeX elisp files have been moved in:
-		    /usr/share/emacs/site-lisp/auctex/
-		The obsolete /usr/lib/emacs/common/auctex/ directory is about to be removed.
-
-		This shouldn't be of any problem, unless you made some changes and wish to
-		preserve them.  If this is the case, you should save your changes before
-		going any further or stop installing this package.
-
-		Shall I:
-		    1) remove /usr/lib/emacs/common/auctex/ and go on installing;
-		    2) stop installing this package.
-	EOF
-	answer=
-	while [ "$answer" != "1" -a "$answer" != "2" ]; do
-	    read -e -p "Please answer (1/2, 1 recommended): " answer
-	done
-	if [ "$answer" = "2" ] ; then
-	    exit 1
+case "$1" in
+    install|upgrade)
+	# Remove hand-made auctex packages from /usr/local, if existant.
+	if [ -f /usr/local/lib/xemacs/site-lisp/tex-site.el ]; then
+	    remove_handmade_auctex /usr/local/lib/xemacs/site-lisp/
 	fi
-	rm -rf /usr/lib/emacs/common/auctex
-fi
+	if [ -f /usr/local/share/emacs/site-lisp/tex-site.el ]; then
+	    remove_handmade_auctex /usr/local/share/emacs/site-lisp/
+	fi
+	# tex-site.el is no more a conffile.
+	if [ -e /etc/elisp/tex-site.el ]; then
+	    move_old_conffile
+	fi
+    ;;
+    abort-upgrade)
+	:
+    ;;
+    *)
+	echo "preinst called with unknow argument \`$1'" >&2
+    ;;
+esac
 
 exit 0
 
