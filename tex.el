@@ -1,7 +1,7 @@
 ;;; tex.el --- Support for TeX documents.
 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9o
+;; Version: 9.9p
 ;; Keywords: wp
 ;; X-URL: http://sunsite.auc.dk/auctex
 
@@ -590,10 +590,10 @@ The value is actually the tail of LIST whose car is ELT."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "9.9o"
+(defconst AUC-TeX-version "9.9p"
   "AUC TeX version number")
 
-(defconst AUC-TeX-date "Mon Jan 11 23:52:40 MET 1999"
+(defconst AUC-TeX-date "Thu Feb 11 11:19:02 MET 1999"
   "AUC TeX release date")
 
 ;;; Buffer
@@ -2199,7 +2199,7 @@ If optional argument EXTENSIONS is not set, use TeX-file-extensions"
   (if (null directories)
       (setq directories
 	    (cons "./" (append TeX-macro-private TeX-macro-global))))
-  (mapcan (function
+  (mapcar (function
 	   (lambda (dir)
 	     (TeX-search-files-1 dir extensions nodir strip
 			      (cond 
@@ -2670,7 +2670,9 @@ to use, as specified by TeX-font-list."
 	     (insert after))))))
 
 (defun TeX-font-replace (start end)
-  "Replace font specification around point with START and END."
+  "Replace font specification around point with START and END.
+For modes with font specifications like `{\\font text}'.
+See also `TeX-font-replace-macro' and `TeX-font-replace-function'."
   (save-excursion
     (while (not (looking-at "{\\\\[a-zA-Z]+ "))
       (up-list -1))
@@ -2686,6 +2688,36 @@ to use, as specified by TeX-font-list."
 	    t))
 	(delete-backward-char 1))
     (insert end)))
+
+(defun TeX-font-replace-macro (start end)
+  "Replace font specification around point with START and END.
+For modes with font specifications like `\\font{text}'.
+See also `TeX-font-replace' and `TeX-font-replace-function'."
+  (let ((font-list TeX-font-list)
+	cmds strings regexp)
+    (while font-list
+      (setq strings (cdr (car font-list))
+	    font-list (cdr font-list))
+      (and (stringp (car strings)) (null (string= (car strings) ""))
+	   (setq cmds (cons (car strings) cmds)))
+      (setq strings (cdr (cdr strings)))
+      (and (stringp (car strings)) (null (string= (car strings) ""))
+	   (setq cmds (cons (car strings) cmds))))
+    (setq regexp (mapconcat 'regexp-quote cmds "\\|"))
+    (save-excursion
+      (catch 'done
+	(while t
+	  (if (/= ?\\ (following-char))
+	      (skip-chars-backward "a-zA-Z "))
+	  (skip-chars-backward (regexp-quote TeX-esc))
+	  (if (looking-at regexp)
+	      (throw 'done t)
+	    (up-list -1))))
+      (forward-sexp 2)
+      (save-excursion
+	(replace-match start t t))
+      (delete-backward-char 1)
+      (insert end))))
 
 ;;; Dollars
 ;;

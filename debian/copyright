@@ -4,11 +4,8 @@ package.
 The current release of this package was assembled by:
 		 Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
-       <ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/>
-(file: "3c09066db6ef3ba99006407be9424fc9 auctex-9.9j.tar.gz").
-Please, note that that sources are considered to be in `alpha' state
-by their maintainer, although they have been tested to some degree by
-myself.
+	       <ftp://sunsite.auc.dk/packages/auctex/>,
+(file: "d20c048f8f90c9281dbef4d51b707e09  auctex-9.9p.tar.gz").
 
 The official upstream ftp site is:
 	       <ftp://sunsite.auc.dk/packages/auctex/>,

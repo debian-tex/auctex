@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian auctex package.
-# $Id: emacsen.install,v 1.15 1998/10/20 23:29:00 salve Exp $
+# $Id: emacsen.install,v 1.16 1999/07/02 15:58:11 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -47,8 +47,8 @@ STYLES="style/slides.el    style/foils.el    style/amstex.el \
 	style/danish.el    style/slovak.el   style/czech.el \
 	style/amsmath.el   style/amstext.el  style/amsbsy.el \
 	style/amsopn.el    style/amsthm.el	style/natbib.el"
-EFLAGS="-batch -q -l lpath.el -f batch-byte-compile"
-EMULEFLAGS="-batch -q -l lpath-jp.el -f batch-byte-compile"
+EFLAGS="--no-site-file --no-init-file --batch --load=lpath.el --funcall=batch-byte-compile"
+EMULEFLAGS="--no-site-file --no-init-file --batch  --load=lpath-jp.el --funcall=batch-byte-compile"
 #-=-
 
 case "$FLAVOR" in

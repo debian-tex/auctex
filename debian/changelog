@@ -1,3 +1,19 @@
+auctex (9.9p-1) unstable; urgency=low
+
+  * New upstream version (stable version).
+  * README: updated.
+  * copyright: updated.
+  * emacsen.install: E(MULE)?FLAGS switched to long style option and
+    `--no-site-file' added (side effects on the `custom' emacs19 add-on
+    package expected; sigh!). (closes: #39095)
+  * update-auctex-elisp: $FLAVOR flags switched to long style option and
+    `--no-site-file' added (side effects on the `custom' emacs19 add-on
+    package expected; sigh!). (closes: #39095)
+  * ../tex-jp.el: reverted to upstream version, waiting for Japaneese
+    patches to be tested against it (see: #39547).
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri,  2 Jul 1999 17:53:45 +0200
+
 auctex (9.9o-1) unstable; urgency=low
 
   * New upstream version. (closes: #32122)
