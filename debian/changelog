@@ -1,3 +1,19 @@
+auctex (9.10t-3) unstable; urgency=low
+
+  * COPYRIGHT: Updated.
+  * config.in: Added support for doautofg.
+  * config.in: Cosmetic fix.
+  * control: Cosmetic fix.
+  * install.in: Added support for emacs21.
+  * postinst.in: Added support for doautofg.
+  * remove.in: Added support for emacs21.
+  * template.in (doautofg): New question.  (Closes: #77428)
+  * update-auctex-elisp.8.in: Updated copyright.
+  * update-auctex-elisp: Added support for emacs21.
+  * update-auctex-elisp: Cosmetic fix.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri,  5 Jan 2001 02:33:35 +0100
+
 auctex (9.10t-2) unstable; urgency=low
 
   * install: Touch ".nosearch" in ".../$FLAVOR/$style" to prevent it
@@ -5,7 +21,7 @@ auctex (9.10t-2) unstable; urgency=low
     normal-top-level-add-subdirs-to-load-path.
   * remove: Remove ".nosearch" from ".../$FLAVOR/$style"
   * rules: Touch ".nosearch" in "...$style" to prevent it from
-    being automatically added to load-path by the execution of 
+    being automatically added to load-path by the execution of
     normal-top-level-add-subdirs-to-load-path.
   * rules: Added -isp to dpkg-gencontrol.
   * templates: Wording improved.
@@ -25,7 +41,7 @@ auctex (9.10t-1) unstable; urgency=low
   * japanese-patch: Removed (included upstream).
   * japanese-patch-copyright: Removed.
   * templates: Wording improved.  (Closes: #61064)
-  * templates: Localized in Italian. (Closes: #64159)
+  * templates: Localized in Italian.  (Closes: #64159)
   * remove: Removed emacs19.
   * rules: Removed rules for japanese-patch.
   * updated-auctex-elisp: Removed emacs19.
@@ -39,9 +55,9 @@ auctex (9.9p-13) frozen unstable; urgency=medium
   * control: Sandards-Version: 3.0.0.
   * postinst: Fixed typo.
   * rules: Fixed info files renaming rule; thanks to Ryuichi
-    Arafune. (Closes: #51364)
+    Arafune.  (Closes: #51364)
   * update-auctex-elisp: mule2 ad hoc rule added; thanks to Takuo
-    Kitame. (Closes: #52016)
+    Kitame.  (Closes: #52016)
 
  -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 20 Jan 2000 15:32:38 +0100
 
@@ -63,7 +79,7 @@ auctex (9.9p-11) unstable; urgency=low
 
 auctex (9.9p-10) unstable; urgency=low
 
-  * postinst,prerm: Fixed typo. (Closes: #47418)
+  * postinst,prerm: Fixed typo.  (Closes: #47418)
 
  -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 14 Oct 1999 21:09:16 +0200
 
@@ -71,7 +87,7 @@ auctex (9.9p-9) unstable; urgency=low
 
   * templates: Fixed typo. (Ref: #47306)
   * postinst: Run update-auctex-elisp with fd 3 closed; issue "db_stop" at
-    exit. (Closes: #47325)
+    exit.  (Closes: #47325)
   * preinst: New file.
   * variables: Split generic stuff to system.variables.
 
@@ -82,7 +98,7 @@ auctex (9.9p-8) unstable; urgency=high
   * install: Really ignore emacs.
   * postinst: Mental typo with umask fixed (hence urgency=high).
   * remove: Really ignore emacs.
-  * rules: Fixed japanese-patch mistake. (Closes: #47189)
+  * rules: Fixed japanese-patch mistake.  (Closes: #47189)
 
  -- Davide G. M. Salvetti <salve@hal.linux.it>  Tue, 12 Oct 1999 16:34:45 +0200
 
@@ -91,7 +107,7 @@ auctex (9.9p-7) unstable; urgency=low
   * README: Instructions on AUC-TeX autoloading updated.
   * config: Default autoloading questions added.
   * postinst: Default autoloading rule added; fixed ../share/doc/pkg
-    bug. (Closes: #47119)
+    bug.  (Closes: #47119)
   * prerm: Default autoloading rule added.
   * templates: Default autoloading questions added.
 
@@ -144,7 +160,7 @@ auctex (9.9p-4) unstable; urgency=low
 
 auctex (9.9p-3) unstable; urgency=low
 
-  * Added dhelp support. (closes: #41592)
+  * Added dhelp support.  (Closes: #41592)
   * auctex.dhelp: New file.
   * postinst: Added dhelp support.
   * prerm: Added dhelp support.
@@ -155,9 +171,9 @@ auctex (9.9p-3) unstable; urgency=low
 auctex (9.9p-2) unstable; urgency=low
 
   * ../tex.el:  Applied patch from Hidenobu Nabetani
-    <nabetani@kern.phys.sci.osaka-u.ac.jp>. (closes: #39547)
+    <nabetani@kern.phys.sci.osaka-u.ac.jp>.  (Closes: #39547)
   * ../tex-jp.el: Applied patch from Hidenobu Nabetani
-    <nabetani@kern.phys.sci.osaka-u.ac.jp>. (closes: #39547)
+    <nabetani@kern.phys.sci.osaka-u.ac.jp>.  (Closes: #39547)
   * japanese-patch: added.
   * japanese-patch-copyright: added.
   * rules: updated to support japanese-patch.
@@ -171,10 +187,10 @@ auctex (9.9p-1) unstable; urgency=low
   * copyright: updated.
   * emacsen.install: E(MULE)?FLAGS switched to long style option and
     `--no-site-file' added (side effects on the `custom' emacs19 add-on
-    package expected; sigh!). (closes: #39095)
+    package expected; sigh!).  (Closes: #39095)
   * update-auctex-elisp: $FLAVOR flags switched to long style option and
     `--no-site-file' added (side effects on the `custom' emacs19 add-on
-    package expected; sigh!). (closes: #39095)
+    package expected; sigh!).  (Closes: #39095)
   * ../tex-jp.el: reverted to upstream version, waiting for Japaneese
     patches to be tested against it (see: #39547).
 
@@ -182,7 +198,7 @@ auctex (9.9p-1) unstable; urgency=low
 
 auctex (9.9o-1) unstable; urgency=low
 
-  * New upstream version. (closes: #32122)
+  * New upstream version.  (Closes: #32122)
   * update-auctex-elisp: Removed emacs' option `-no-site-file', since we
     already byte compile stuff without it.  This should allow AUC TeX to
     make good use of the `custom' add-on package with `emacs19'; however,
@@ -190,14 +206,14 @@ auctex (9.9o-1) unstable; urgency=low
     this way we're going to compile things in an (potentially) unknow
     environment, due to the fact we let `site-start.el' to be loaded on
     startup as well.  Well, we'll see; thanks to Martin Stjernholm for
-    this fix. (closes: #30419)
+    this fix.  (Closes: #30419)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Sat, 23 Jan 1999 15:38:48 +0100
 
 auctex (9.9j-3) unstable; urgency=low
 
   * ../tex-jp.el: Applied patch from Hidenobu Nabetani
-    <nabetani@kern.phys.sci.osaka-u.ac.jp>. (closes: #28223)
+    <nabetani@kern.phys.sci.osaka-u.ac.jp>.  (Closes: #28223)
   * emacsen.install: Added lpath-jp.el trick to allow byte-compiling of
     tex-jp.el.
 
@@ -224,8 +240,8 @@ auctex (9.9b-4) stable unstable; urgency=low
 
   * README: Added a note about `TeX-printer-list'; added a note about
     contributed files.
-  * postinst: Delete old relicts if empty. (closes: #22734)
-  * preinst: Added `--no-run-if-empty' to `xargs rmdir'. (closes: #22734)
+  * postinst: Delete old relicts if empty.  (Closes: #22734)
+  * preinst: Added `--no-run-if-empty' to `xargs rmdir'.  (Closes: #22734)
     Move old byte-compiled files along with their sources.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 27 Aug 1998 15:50:14 +0200
@@ -241,7 +257,7 @@ auctex (9.9b-3) frozen unstable; urgency=low
 
 auctex (9.9b-2) frozen unstable; urgency=low
 
-  * control: Added dependence on debianutils (>=1.7) (closes: #21049).
+  * control: Added dependence on debianutils (>=1.7).  (Closes: #21049).
   * postinst: Moved abort stuff in a separate nop case statement.
   * preinst: Added -f to mv -V t -b.
 
@@ -360,25 +376,25 @@ auctex (9.7m-1) unstable; urgency=medium
   * new maintainer Helmut Geyer
   * correct handling of site-start.d using standard priority 50 for emacs,
     xemacs 19 and xemacs 20.
-  
+
  -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Mon, 17 Mar 1997 20:42:25 +0100
 
 auctex (9.7l-1) unstable; urgency=medium
-  
+
   * new upstream release 9.7l
   * unmaintained release for bo (Debian 1.3)
-  * new Debian packaging standard used 
+  * new Debian packaging standard used
   * new location for auctex: /usr/lib/emacs/common/auctex
   * lacheck no longer part of the package -> (not-yet-existant) lacheck package
   * changes to support the new TeX packages based on teTeX
   * fixed several bugs
   * TeX-auto-generate{,-global} now is aware of already parsed files. This
     does regretfully not work for style/macro files that do not generate
-    any lisp file. 
+    any lisp file.
   * added weekly cron entry for auctex-auto-generate
 
  -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Sat, 15 Mar 1997 15:30:00 +0100
-  
+
 Local Variables:
 mode: debian-changelog
 End:

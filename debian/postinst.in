@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postinst.in,v 1.8 2000/01/20 14:33:49 salve Exp $
+# $Id: postinst.in,v 1.9 2001/01/05 08:49:03 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -43,8 +43,26 @@ do_auto () {
     db_get <:=$PACKAGE:>/doauto || true
     case "$RET" in
 	Foreground)
-	    rm -f $LOGFILE
-	    <:="$sbin/$UPDATE":>
+	    <:# Ask another time the user, if she really wants to shoot:>//
+	    <:# herself in the foot.  Just to be sure.:>//
+	    db_get <:=$PACKAGE:>/doautofg || true
+	    case "$RET" in
+		Console)
+		    rm -f ${LOGFILE}
+	    	    <:="$sbin/$UPDATE":>
+		;;
+		File)
+		    echo -n "<:=$UPDATE:>: "
+		    echo "Further output will appear in: ${LOGFILE}"
+		    echo -n "<:=$PACKAGE:>: "
+		    echo -n "Waiting for <:=$UPDATE:> to terminate... "
+	    	    <:="$sbin/$UPDATE":> &> ${LOGFILE}
+		    echo "done."
+		;;
+		*)
+		    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2
+		;;
+	    esac
 	;;
 	Background)
 	    # Closing fd 3 is debconf important.
@@ -53,12 +71,12 @@ do_auto () {
 	    <:# better don't close fd 0: emacs doesn't take it very well:>//
 	    <:# WARNING: DON'T CLOSE FD'S TO BE WRITTEN TO!:>//
 	    <:# WARNING: DON'T CLOSE FD'S TO BE READ TO!:>// 
-	    <:="$sbin/$UPDATE":> &> $LOGFILE 3>&- &
-	    echo -n "update-auctex-elisp[$!]: "
-	    echo "Further output will appear in: $LOGFILE"
+	    <:="$sbin/$UPDATE":> &> ${LOGFILE} 3>&- &
+	    echo -n "<:=$UPDATE:>[$!]: "
+	    echo "Further output will appear in: ${LOGFILE}"
 	;;
 	None)
-	    rm -f $LOGFILE
+	    rm -f ${LOGFILE}
 	;;
 	*)
 	    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2

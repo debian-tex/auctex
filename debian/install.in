@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=$PACKAGE:> package.
-# $Id: install.in,v 1.9 2000/11/15 16:29:50 salve Exp $
+# $Id: install.in,v 1.10 2001/01/05 08:49:03 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -19,7 +19,7 @@ case "$FLAVOR" in
     emacs)
 	:
     ;;
-    emacs20|mule2)
+    emacs20|emacs21|mule2)
 	echo -n "install/<:=$PACKAGE:>: Byte-compiling for $FLAVOR... "
 	install -m 755 -d <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
@@ -36,24 +36,21 @@ case "$FLAVOR" in
 	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    && $FLAVOR $EFLAGS <:=$SOURCES:> <:=$STYLES:> 2>&1 \
 	    | gzip -9qf > <:=$ELCLOG:>.gz)
-	# We don't support emacs19 anymore (only emacs20), but let's leave it as it is.
-	if [ "$FLAVOR" = "emacs20" -o "$FLAVOR" = "mule2" ]; then
-		# We have MULE.
-		for i in <:=$MULESRC:>
-		    do cp <:=$lisp:>/$i \
-			<:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/$i
-		done
-		# This contains an hack to allow byte-compiling
-		# with japanese multibyte chars
-		cat <<-EOF ><:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/lpath-jp.el
-			(setq load-path (cons "." load-path)
-				TeX-lisp-directory "<none>")
-			(set-language-environment 'Japanese);') <- beauty stuff
-		EOF
-		(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
-		    && $FLAVOR $EMULEFLAGS <:=$MULESRC:> 2>&1 \
-		    | gzip -9qf >> <:=$ELCLOG:>.gz)
-	fi
+	# We have always have MULE, as we don't support emacs19 anymore.
+	for i in <:=$MULESRC:>
+	    do cp <:=$lisp:>/$i \
+	        <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/$i
+	done
+	# This contains an hack to allow byte-compiling
+	# with japanese multibyte chars
+        cat <<-EOF ><:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/lpath-jp.el
+		(setq load-path (cons "." load-path)
+			TeX-lisp-directory "<none>")
+		(set-language-environment 'Japanese);') <- beauty stuff
+	EOF
+	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
+	    && $FLAVOR $EMULEFLAGS <:=$MULESRC:> 2>&1 \
+	    | gzip -9qf >> <:=$ELCLOG:>.gz)
 	rm -f <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/*.el \
 	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.el
 	echo "done."

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # config configuration file for Debian <:=$PACKAGE:> package.
-# $Id: config.in,v 1.6 2000/10/20 00:27:54 salve Exp $
+# $Id: config.in,v 1.7 2001/01/05 08:49:03 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -11,8 +11,6 @@ set -o posix
 source <:=$CONFMODULE:>
 db_version 2.0
 
-# It seems dpkg doesn't pass $1 to config, so this case is willingly fake.
-# Maybe this is a documentation bug for debconf?
 case "$1" in
     configure|reconfigure)
 	if egrep "\brequire[[:space:]]+[^)]*'tex-site\b" <:=$SSEL:> \
@@ -29,8 +27,13 @@ case "$1" in
 	db_set <:=$PACKAGE:>/logfile $LOGFILE || true
 	db_input low <:=$PACKAGE:>/doauto || true
 	db_go || true
+	db_get <:=$PACKAGE:>/doauto || true
+	if [ "$RET" = "Foreground" ]; then
+	    db_input low <:=$PACKAGE:>/doautofg || true
+	    db_go || true
+	fi
     ;;
-    unknown_and_impossible_armageddon|*)
+    *)
 	echo "${0##*/}: Called with unknown argument \`$1'." >&2
     ;;
 esac

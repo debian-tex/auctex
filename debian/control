@@ -15,7 +15,7 @@ Description: An integrated environment for writing TeX/LaTeX documents.
  processor) from within Emacs, and includes a wide range of Emacs
  macros to allow both easy insertions of LaTeX commands, and easy
  compilation, previewing, and printing of your TeX documents.
- .                
+ .
  AUC TeX also lets you browse through compiling errors TeX reports,
  while it moves the cursor directly to the reported error and displays
  documentation for that particular error.  This will even work when the

@@ -83,6 +83,31 @@ Description-it: In che modo si deve effettuare la scansione delle macro per (La)
  In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando
  <:=$UPDATE:>.
 
+Template: <:=$PACKAGE:>/doautofg
+Type: select
+Choices: Console, File
+Choices-it: Video, File
+Default: File
+Description: Where should parsing output go?
+  You chose to parse TeX macro packages and LaTeX style files in foreground.
+  This is ok, but normally it will also generate quite a lot of output.
+  .
+  By default -- i.e., answering File to this question -- further output from
+  the parsing process will go to a file named: ${LOGFILE}.
+  .
+  If you answer Console, you will see all of the (boring) output right on your
+  terminal.
+Description-it: Dove vanno inviati i messaggi della scansione?
+  I pacchetti di macro per TeX ed i file di stile per LaTeX saranno scanditi
+  in primo piano come è stato richiesto.  Questo va bene, ma di solito produce
+  molti messaggi informativi.
+  .
+  Rispondendo File a questa domanda i messaggi originati dalla scansione
+  verranno scritti in un file di nome ${LOGFILE}.
+  .
+  Rispondendo Video, i messaggi (noiosi) verranno visualizzati sul proprio
+  terminale.
+
 <:
 # Local variables:
 # mode: text
