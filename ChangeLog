@@ -1,3 +1,1339 @@
+2005-01-12  David Kastrup  <dak@gnu.org>
+
+	* Version 11.54 released.
+
+2005-01-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/beamer.el: Update copyright information.  General
+	clean-up.
+	("beamer"): Support frame environment.
+	The overprint has an optional "area width" argument, not a
+	mandatory "overlay" argument.
+
+2005-01-09  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* RELEASE: Addition to contributors section.
+
+	* tex-bar.el (TeX-bar-LaTeX-button-alist): Use generic "view"
+	image instead of mode specific.
+
+2005-01-09  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* RELEASE: Added information about fixed bugs and added features
+	in AUCTeX 11.54.
+
+	* auctex.spec (Version): Bump to 11.54.
+
+	* configure.ac: Bump version info to 11.54.
+
+	* doc/auctex.texi: Bump version info to 11.54.
+
+	* doc/tex-ref.tex: Bump version info to 11.54.
+
+2005-01-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-forward-paragraph): Allow finding paragraph
+	commands even if they are preceded by whitespace and comment
+	starters.
+
+2005-01-06  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-forward-comment-skip): Differentiate prefixes with
+	whitespace between comment starters.
+
+	* latex.el: Update copyright information.
+	(LaTeX-indent-calculate-last, LaTeX-fill-region-as-para-do): Do
+	not widen.
+	(LaTeX-fill-region-as-paragraph, LaTeX-fill-region-as-para-do):
+	Use a marker instead of narrowing the region.
+	(LaTeX-indent-line, LaTeX-indent-inner-do)
+	(LaTeX-current-indentation, LaTeX-back-to-indentation): Handle
+	prefixes with whitespace between comment starters correctly.
+
+2005-01-05  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* style/graphicx.el: Added completion of boxing macros.  Fontify
+	some macros.
+
+	* font-latex.el (font-latex-built-in-keyword-classes): Fixed typo
+	in doc string.
+
+2005-01-02  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* toolbar-x.el (toolbarx-default-toolbar-meaning-alist): Some
+	checkdoc related fixes.  Still not checkdoc clean.
+
+	* tex-bar.el (Commentary): Don't mention stuff done by
+	configure/make in the instructions.
+	(TeX-bar-help-from-command-list): Quote symbols in doc string.
+	File is checkdoc clean now.
+
+	* doc/auctex.texi: Update copyright.
+	(Mathematics): Explain how to enable LaTeX-math-mode by default.
+	Suggested by Chris Wallace <c.wallace@qmul.ac.uk>.
+	(Filling, Outline): Markup fixes: Use @lisp instead of @example
+	where appropriate.
+
+2004-12-30  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (ConTeXt-find-matching-start): Require 'tex and add
+	autoloads to make the compiler happy.
+
+	* doc/changes.texi: Add and tweak some stuff for 11.54.
+
+2004-12-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-auto-parse-region): Do not add element to `symbol'
+	if it is already contained.
+
+2004-12-23  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-indent-outer-do): Remove redundant code.
+
+2004-12-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el: Add coding cookie.
+	(font-latex-quote-end-list): Remove.
+	(font-latex-quote-list): New variable.
+	(font-latex-quotes, font-latex-match-quotation): Use it for
+	generalization.
+	(font-latex-keyword-matcher): Revert last change.
+	(font-latex-make-built-in-keywords): Match the empty string only
+	at the end of multi-char macros.
+	(font-latex-make-user-keywords): Make sure sedate face is not used
+	for words right after a "\\".
+	(font-latex-set-syntactic-keywords): Do not match linebreaks as
+	delimiters of `verb-like-commands'.
+
+2004-12-19  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-keyword-matcher): Highlight only first
+	matched group.
+	(font-latex-make-built-in-keywords): Set up grouping for warning
+	keywords and mark its end with "[^A-Za-z@*]".
+
+2004-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-fill-paragraph): Do not narrow region when code
+	comments are filled.  Fixes wrong indentation if a line with a
+	code comment following an indented line is filled.
+	Mark end of current line, not beginning of next.
+	Jump to start of code comment line after regular filling.
+
+2004-12-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-built-in-keyword-classes): Move
+	warning keywords up in order to save them from being covered by
+	less important faces.  Include "include" in warning keywords.
+
+	* aclocal.m4 (TEX_INPUT_DIRS): Change `IFS' temporarily for
+	tokenizing the string instead of inserting newlines.  The latter
+	did not work anyway because there was one backslash too much in
+	"\\n".  Strip trailing slashes of determined directories before
+	concatenation.
+
+	* doc/install.texi (Configure): Quote value for
+	--with-tex-input-dirs.
+
+	* doc/wininstall.texi: Quote value for --with-tex-input-dirs.
+
+	* tex.el (TeX-arg-opening-brace, TeX-arg-closing-brace): New
+	variables.
+	(TeX-parse-arguments, TeX-parse-argument, TeX-argument-insert):
+	Use them.
+
+	* latex.el (TeX-arg-free): Temporarily bind
+	`TeX-arg-opening-brace' and `TeX-arg-closing-brace'.
+
+2004-12-15  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-source-specials-view-position-flags): Fix syntax for
+	xdvi.
+
+2004-12-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi (top): Duplicate top node and wrap it in @ifinfo
+	and @ifhtml environments respectively.
+
+2004-12-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* context.el (ConTeXt-paragraph-commands-regexp): Match any
+	command starting with "\start" or "\stop" and the respective
+	language variants.
+
+2004-12-11  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-keymap): Change key bindings for clearout
+	commands.
+	(TeX-fold-item, TeX-fold-remove-overlays): Doc fix.
+
+	* tex.el (TeX-fold-menu): Change display of key bindings for
+	clearout commands.
+
+	* doc/auctex.texi (Folding): Document new key bindings for
+	clearout commands.
+
+2004-12-10  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-keymap): Add key binding for
+	`TeX-fold-dwim'.
+	(TeX-fold-dwim): New function.
+	Add support for folding regions.
+	(TeX-fold-macro, TeX-fold-env): Call `message' here instead of in
+	`TeX-fold-item' to get the right return value for the latter.
+	(TeX-fold-item): Move `message' out to get the right return value.
+	(TeX-fold-remove-overlays): Signal if an overlay was deleted with
+	the return value.
+
+	* tex.el (TeX-fold-menu): Add menu entry for `Tex-fold-dwim'.
+
+	* doc/auctex.texi (Folding): Document `TeX-fold-dwim'.
+	Mention support for folding regions with `TeX-fold-dwim'.
+
+	* doc/changes.texi: Advertise folding and unfolding of regions as
+	well as DWIM functionality.
+
+	* tex-fold.el (TeX-fold-keymap): Add key bindings for
+	`TeX-fold-region and `TeX-fold-clearout-region'.
+	(TeX-fold-region): Make interactive.
+
+	* tex.el (TeX-fold-menu): Add menu entries for folding and
+	unfolding of regions.
+
+	* doc/auctex.texi (Folding): Document folding and unfolding of
+	regions.
+	Document `TeX-fold-dwim'.
+
+	* latex.el (LaTeX-fill-code-comment): Do not hardcode tab width.
+
+2004-12-09  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-keymap): Add key bindings for
+	`TeX-fold-paragraph' and `TeX-fold-clearout-paragraph'.
+	(TeX-fold-buffer): Now calls new `*-region' functions.
+	(TeX-fold-paragraph): New function.
+	(TeX-fold-buffer-type): Remove.
+	(TeX-fold-region): New function.  Basically encloses contents of
+	`TeX-fold-buffer-type' but type parameter is not mandatory
+	anymore.
+	(TeX-fold-clearout-buffer): Now calls `TeX-fold-clearout-region'.
+	(TeX-fold-clearout-paragraph, TeX-fold-clearout-region): New
+	functions.
+
+	* tex.el (TeX-fold-menu): Add menu entries for folding and
+	unfolding of paragraphs.
+
+	* doc/auctex.texi (Folding): Document folding and unfolding of
+	paragraphs.
+
+	* doc/changes.texi: Advertise folding and unfolding of
+	paragraphs.
+
+	* tex.el (TeX-comment-start-regexp): New variable.
+	(TeX-comment-or-uncomment-region, TeX-uncomment)
+	(TeX-forward-comment-skip, TeX-find-macro-end-helper): Use it.
+
+	* latex.el (LaTeX-newline, LaTeX-insert-environment)
+	(LaTeX-env-item, LaTeX-indent-line, LaTeX-current-indentation)
+	(LaTeX-fill-region-as-paragraph, LaTeX-fill-region-as-para-do)
+	(LaTeX-fill-move-to-break-point, LaTeX-fill-paragraph)
+	(LaTeX-fill-code-comment, LaTeX-fill-region)
+	(LaTeX-forward-paragraph, LaTeX-backward-paragraph): Use
+	`TeX-comment-start-regexp' instead of `comment-start'.
+	(LaTeX-backward-paragraph, LaTeX-indent-line): Simplify.
+
+	* style/mdwlist.el ("mdwlist"): Use `TeX-comment-start-regexp'
+	instead of `comment-start'.
+
+	* style/doc.el (LaTeX-env-no-comment): Use
+	`TeX-comment-start-regexp' instead of `comment-start'.
+
+2004-12-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-buffer-type): Do not ignore case during
+	search.
+
+	* context.el (ConTeXt-paragraph-commands-regexp): New name for
+	`ConTeXt-paragraph-commands'.  Doc fix.  Match escape character at
+	front as well.
+	(ConTeXt-mode-common-initialization): Use it.  Set
+	`LaTeX-paragraph-commands-regexp' instead of
+	`LaTeX-paragraph-commands'.  Adapt definition of
+	`paragraph-start'.
+
+2004-12-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (hack-one-local-variable): Advise it in order to call
+	minor mode functions for AUCTeX minor modes activated by
+	file-local minor mode variables.
+
+	* latex.el (LaTeX-math-mode): Define using `define-minor-mode'.
+	Make it compatible with older Emacsen.
+
+2004-12-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/csquotes.el (LaTeX-csquotes-quote-after-quote): Avoid
+	interference with (n)german.el.
+
+2004-12-01  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (distclean): Remove generated `configure' file.
+	And revert again as it does not comply with the definition of
+	standard targets in the GNU make manual.
+
+	* style/jurabib.el ("jurabib"): Add further macros.
+
+	* tex.el: Add coding cookie.
+	Use punctuation syntax for "«" and "»" characters.
+	(TeX-parse-argument): Deactivate mark after insertion of first
+	pair of braces.  Fixes problems with the insertion of macros with
+	more than one brace and an active selection.
+
+	* style/csquotes.el (LaTeX-csquotes-open-quote)
+	(LaTeX-csquotes-close-quote): Doc fix.
+	("csquotes"): Repair quoting.  Use completing-read where
+	possible.  Use a stricter test for usage of quotes.
+
+	* doc/auctex.texi (Quotes): Document csquotes.el.
+
+2004-11-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/csquotes.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/csquotes.el.
+
+	* doc/changes.texi: Advertise support for csquotes.sty.
+
+2004-11-29  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-auto-insert): Added SKIP argument.
+	(TeX-auto-store): Use it to avoid circular dependencies.
+
+	* style/graphicx.el (LaTeX-arg-includegraphics): Add "page".
+
+	* latex.el (LaTeX-includegraphics-options-alist): Ditto.
+
+2004-11-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi: Use "auctex.info" instead of "auctex" as info
+	file name.
+
+	* doc/Makefile.in: Adapt to suit change in info file name from
+	"auctex" to "auctex.info".
+
+	* doc/.cvsignore: Adapt to suit change in info file name from
+	"auctex" to "auctex.info".
+
+	* doc/changes.texi: Advertise use of "auctex.info" info file name.
+
+2004-11-29  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* configure.ac: Add @command macro test 
+
+	* configure.in: Moved to configure.ac
+
+	* configure.ac: Moved from configure.in
+
+	* doc/macros.texi: Add @command macro 
+
+	* doc/auctex.texi: Change order of @top and @ifnottex, error
+	message otherwise.
+
+	* doc/Makefile.in: Add MAKEINFO environment variable for texi2...
+	usage. Remove old (confusing) messages. 
+
+2004-11-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/intro.texi (Introduction): @/ unfortunately is only
+	available since Texinfo 4.6.  Remove it for now.
+
+	* doc/auctex.texi: Correct some references.
+
+2004-11-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi: Remove RCS keyword.
+	Correct subtitle.
+	Various corrections of filling and capitalization.
+	Move up installation instructions.
+	(Display): New node and chapter holding display-related content.
+	(Font Locking): New node and section.
+	(Folding): Now a section.  Remove the silly first paragraph.
+	(Outline): Now a section.
+
+	* doc/macros.texi: Add `@fontlatex' macro.
+
+	* doc/install.texi: Specify node unconditionally in the file.
+
+	* doc/intro.texi (Introduction): Use `@email' instead of `@url'
+	for email addresses.
+
+	* doc/quickstart.texi (Processing): Better heading.
+
+	* font-latex.el: Clean up comments.
+	(font-latex-built-in-keyword-classes): Add explanation of the
+	variable structure.
+	(font-latex-match-command-with-arguments): Change "asterix" to
+	"asterisk".
+
+2004-11-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-backward-paragraph): Jump to macro start.  D'oh.
+
+	* texmathp.el: Rearrange variable and function definitions in
+	order to get as few compiler warnings as possible due to the
+	reintroduction of the :set function in `texmathp-tex-commands'.
+	Add a dummy `defvar' for `texmathp-tex-commands' to silence the
+	compiler.
+	(texmathp-tex-commands): Reintroduce a :set function as advertised
+	in `texmathp-compile'.
+	(texmathp): Remove the conditional call to `texmathp-compile' as
+	this is handled by the :set function in `texmathp-tex-commands' on
+	load of the file.
+
+	* tex.el: Autoload `texmathp-match-switch'.
+
+2004-11-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-bold-face, font-latex-italic-face)
+	(font-latex-math-face, font-latex-string-face)
+	(font-latex-warning-face, font-latex-verbatim-face): Inherit from
+	suitable base faces if possible.  Doc fix.
+	(font-latex-sedate-face): Doc fix.
+
+	* latex.el (LaTeX-paragraph-commands): Doc fix.
+	(LaTeX-backward-paragraph): Do not unnecessarily jump to a (wrong)
+	position after the macro start.
+
+	* tex.el: Move (nearly all) autoloads to a single place.  Remove
+	redundant autoload for `TeX-region-file'.  Add autoload for
+	`TeX-view'.
+	(TeX-parse-macro): Doc fix.
+	Do not add braces for macros defined as `("foo" 0)'.
+	(TeX-parse-arguments): Do not bind `<' and `>'.
+	(TeX-parse-argument, TeX-argument-insert): Do not use `<' and `>'
+	formerly bound by `TeX-parse-arguments'.  Fixes some compiler
+	warnings.
+	(TeX-auto-list-information): Use `message' correctly.
+
+	* tex-info.el (texinfo-mode): Add `@email' macro.
+
+2004-11-22  Berend de Boer  <berend@pobox.com>
+
+	* context.el (ConTeXt-mode-common-initialization): ConTeXt does
+	not need italics correction.
+
+2004-11-20  Christian Schlauer  <cschl@arcor.de>
+
+	* doc/auctex.texi (Floats): Update.
+
+	* doc/changes.texi: Mention change of `LaTeX-float'.
+
+	* latex.el (LaTeX-float, LaTeX-env-figure): Implement "do not
+	prompt" option.  `LaTeX-float' has the same customize value menu
+	like `LaTeX-default-position' now.  This implies that the old
+	meaning nil corresponds to `""' now, while nil means "do not
+	prompt".
+	(LaTeX-env-figure): Ask for `Float position' instead of `Float
+	to'.
+	(LaTeX-float): New default value "" instead of "htbp" (after a
+	discussion on the mailing list).
+	(LaTeX-default-format, LaTeX-default-width)
+	(LaTeX-default-position): Omit `Specifies the' in doc-string.
+
+2004-11-19  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* tex-buf.el (TeX-run-TeX): Improve comments.
+
+2004-11-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-TeX-sentinel-check): Use only the letters after
+	the last dot of a file name for the file extension.
+
+2004-11-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Search backward for
+	\verb|...| constructs rather than forward.  Fixes cases with more
+	than one constructs per line.  Reported by Christan Schlauer.
+
+2004-11-16  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: Clarify --with-xemacs.
+
+2004-11-15  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-paragraph-commands): Now is a customizable list
+	instead of a regular expression.
+	(LaTeX-paragraph-commands-internal)
+	(LaTeX-paragraph-commands-regexp): New variables.
+	(LaTeX-forward-paragraph, LaTeX-backward-paragraph)
+	(LaTeX-common-initialization): Use
+	`LaTeX-paragraph-commands-regexp' instead of
+	`LaTeX-paragraph-commands'.
+
+2004-11-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-close-environment): Insert a newline at the end
+	of the environment if an uncommented line follows a commented one.
+
+2004-11-11  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (docTeX-in-macrocode-p): Search backward for an
+	environment beginning rather than forward for its end.
+
+2004-11-08  David Kastrup  <dak@gnu.org>
+
+	* latex.el (doctex-mode): Set the mode name.
+
+2004-11-04  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (texinfo-mode): Add `@command' macro.
+
+	* doc/auctex.texi (Commands): Correct key binding for
+	`TeX-Omega-mode'.  Add index entry.  Use `@command' instead of
+	`@code' where appropriate.
+
+	* font-latex.el (font-latex-built-in-keyword-classes): Use correct
+	face for `font-latex-match-title-3'.
+
+2004-11-04  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* images/amstex.xpm: Added.  Contains symbolic color
+	'backgroundToolBarColor', required by (GNU/Linux) XEmacs.
+
+2004-11-03  Christian Schlauer  <cschl@arcor.de>
+
+	* latex.el (LaTeX-env-figure, LaTeX-env-minipage)
+	(LaTeX-env-tabular*): Do always accept the user's input as the new
+	buffer-local values for `LaTeX-float' and `LaTeX-default-width',
+	even if the user entered the empty string.
+	(LaTeX-env-minipage): Do not ask for the (optional) position if
+	`LaTeX-default-position' is set to `nil'.  Behaviour agrees with
+	LaTeX-env-array and LaTeX-env-tabular* now.
+	(LaTeX-env-array, LaTeX-env-tabular*): Changed `setq'-assignment
+	of `LaTeX-default-position' so that it works not only the first
+	time in buffers with `LaTeX-default-position' set to `nil'.
+	(LaTeX-env-array, LaTeX-env-minipage, LaTeX-env-tabular*): Use
+	`LaTeX-optop', `TeX-grop', etc. instead of `{', `['.
+	(LaTeX-env-picture): Don't delete whitespace after inserting the
+	environment.  Cursor position corresponds to proper indentation
+	now.
+
+2004-11-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-delete-dups-by-car): New name for `TeX-delete-dups'.
+	(TeX-delete-duplicate-strings, TeX-sort-strings): New functions.
+	Contributed by Reiner Steib and David Kastrup.
+
+	* font-latex.el: Require 'tex.
+	(font-latex-user-keyword-classes): Enhance :set function to tell
+	user which entry is duplicated.
+
+	* latex.el (TeX-arg-input-file): Use new name
+	`TeX-delete-dups-by-car' instead of `TeX-delete-dups'.
+
+	* style/graphicx.el (LaTeX-includegraphics-read-file-TeX): Use
+	new name `TeX-delete-dups-by-car' instead of `TeX-delete-dups'.
+
+2004-11-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-make-user-keywords): Add the "fixed"
+	matchers here rather than in `font-latex-make-built-in-keywords'.
+
+	* latex.el (LaTeX-math-default, LaTeX-math-menu): Use "Greek
+	Uppercase" instead of "Greek" and "Greek Lowercase" instead of
+	"greek".
+
+2004-11-02  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-paragraph-commands): Make `\maketitle' a
+	paragraph starter.
+
+2004-11-01  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-make-built-in-keywords)
+	(font-latex-make-user-keywords): Append rather than prepend
+	matchers.
+
+2004-11-01  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* toolbar-x.el
+	(toolbarx-make-command): Code clean up.
+
+2004-11-01  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el: Change maintainer information.
+	(font-latex-keywords): New customization group.
+	(font-latex-built-in-keyword-classes): New variable.
+	(font-latex-make-match-defun, font-latex-keyword-matcher): New
+	functions.
+	(font-latex-make-built-in-keywords): New name for
+	`font-latex-make-keywords'.
+	Move default keyword definitions from
+	`font-latex-match-*-keywords' to
+	`font-latex-match-*-keywords-local'.
+	Integrate `font-latex-match-*-keywords-set' function into
+	`font-latex-match-*-keywords' defcustom.
+	(font-latex-keywords-1, font-latex-keywords-2): Default to nil.
+	All matchers are now added in `font-latex-make-built-in-keywords'
+	and `font-latex-make-user-keywords'.
+	(font-latex-user-keyword-classes): New variable.
+	(font-latex-make-user-keywords): New function.
+
+	* doc/changes.texi: Remove duplicate word.
+	Mention possibility to add new keyword classes.
+
+	* doc/quickstart.texi: Some rewordings, corrections and
+	enhancements.
+
+2004-10-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-auto-symbol-check): Use `add-to-list' instead of
+	`cons' in order to avoid duplicates.
+
+	* latex.el (LaTeX-auto-minimal-regexp-list): Use non-greedy
+	operators for getting the end of a TeX group.
+	(LaTeX-auto-cleanup): Use `add-to-list' instead of `cons' in order
+	to avoid duplicates.
+
+2004-10-29  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* tex-buf.el:  Add simple error report system.
+	(TeX-error-report-switches): New variable (plist).
+	(TeX-run-TeX),
+	(TeX-TeX-sentinel-check): Use it, updating error state,
+	where property is (intern (TeX-master-file)).
+
+	* tex-bar.el: Remove defadvice's to TeX-run-TeX and
+	TeX-TeX-sentinel-check.
+	(TeX-bar-error-handling-switches): Removed.
+	(TeX-bar-LaTeX-button-alist): next-error updated.
+
+2004-10-28  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex-bar.el (TeX-bar-LaTeX-button-alist): Add `TeX-save-document'.
+
+	* doc/changes.texi: Renamed function `LaTeX-install-toolbar'.
+
+	* tex-site.el.in: Ditto.
+
+2004-10-28  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* tex-bar.el: Now requires tex-buf.el, for error handling.
+	Renamed symbols:
+	(LaTeX-install-toolbar): New name for `latex-install-toolbar'.
+	(tex-bar-latex-buttons): New name for `tex-bar-latex-buttons'.
+	(tex-bar-img-filename): New name for `tex-bar-img-filename'.
+	(TeX-tool-bar): New name for `tex-tool-bar' group.
+	(TeX-bar-LaTeX-buttons): New name for `tex-bar-latex-buttons'.
+	(TeX-bar-LaTeX-all-button-alists): New name for
+	`tex-bar-latex-all-button-alists'.
+	(TeX-tool-bar-button-definitions): New name for
+	`tex-tool-bar-button-definitions'.
+	(LaTeX-symbols-toolbar-switch-contents): New name for
+	`latex-symbols-toolbar-switch-contents'.
+	(LaTeX-symbols-toolbar-contents): New name for
+	`latex-symbols-toolbar-contents'
+	(LaTeX-install-toolbar): New name for `latex-install-toolbar'.
+
+	Use separator only in Emacs, while buildin separator is not
+	implemented for XEmacs.
+	(TeX-bar-help-from-command-list): New function, that returns the
+	:help string for ITEM from TeX-command-list.
+	(TeX-bar-error-handling-switches): New variable.
+	(TeX-run-TeX [tex-buf.el]): before-adviced to reset error
+	internals.
+	(TeX-TeX-sentinel-check [tex-buf.el]): after-adviced to set error
+	internals when error happens.
+	(TeX-bar-LaTeX-button-alist): New button next-error, which is
+	resp. visible/active when error detected on Emacs/XEmacs.  All
+	buttons received :help from TeX-command-list.
+	(TeX-bar-LaTeX-buttons): next-error is default, and file is no
+	longer default.
+
+2004-10-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-auto-class-regexp-list): New variable.
+	Match "\DeclareRobustCommand\foo" besides
+	"\DeclareRobustCommand{\foo}" as well.
+	(LaTeX-auto-regexp-list): Use it.
+	(LaTeX-auto-cleanup): Do not consider key=value options.  Check
+	for "Package" in addition to "package".
+
+2004-10-26  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-auto-generate-global): Only parse cls and sty files.
+
+2004-10-26  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-match-command-in-braces): Remove
+	references to non-existent variables.
+
+2004-10-26  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (LaTeX-math-list): Improve doc string and custom type.
+	(LaTeX-math-default): Added doc string.
+
+2004-10-26  Frank Küster <frank@kuesterei.ch>
+
+	* doc/quickstart.texi: Don't use so many nodes.  Several fixes.
+
+2004-10-26  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (tar-ball): Don't include CVS stuff.
+
+	* doc/changes.texi: Mention experimental tool bar support.
+
+	* Makefile.in (tar-ball): Include tex-bar images.
+
+2004-10-25  David Kastrup  <dak@gnu.org>
+
+	Toolbar patches by Reiner Steib
+	* Makefile.in (aucteximagedir): Define.
+	(AUCSRC, AUCELC): Add toolbar files.
+	(install-images): new target.
+
+	* tex-site.el.in (TeX-image-directory): Define.
+
+	* tex-bar.el (toolbar-x): require toolbar and latex at runtime.
+
+2004-10-24  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (DOCFILES): Added doc/quickstart.texi.
+
+2004-10-23  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* toolbar-x.el:
+	(toolbarx-emacs-mount-popup-menu): Nil cannot be a menu key
+	anymore (fixed).
+	(toolbarx-test-image-type): Improve comments.  Add support for
+	variables defined with `defimage', which are considered a simple
+	value for the :image property.
+	(toolbarx-emacs-refresh): Nil cannot be a toolbar (menu) key
+	anymore (fixed).
+	(toolbarx-install-toolbar): Improved documentation for the :image
+	property.
+
+2004-10-22  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* tex-bar.el: Improve comments.  Symbol-toolbar code moved to the
+	bottom of the file.
+	(tex-bar-latex-buttons): Improve comments.  Add custom :type.
+	(tex-bar-latex-buttons): New command -- display a list of defined
+	buttons.
+	(tex-bar-available-meaning-alists): Removed (renamed).
+	(tex-bar-latex-all-button-alists): New name of
+	`tex-bar-available-meaning-alists'.  Add custom :type.
+	(tex-bar-meaning-alist): Removed (renamed).
+	(tex-bar-latex-button-alist): New name of `tex-bar-meaning-alist'.
+	Add custom :type.  Renamed `latex-symbols' button to
+	`latex-symbols-experimental'.
+
+	* toolbar-x.el: Improve comments.
+	(toolbarx-process-group-without-insert): Become autoloaded.
+	(toolbarx-process-group): Code cleanup.
+	(toolbarx-process-symbol): Code cleanup.
+	(toolbarx-default-toolbar-meaning-alist): Separator button label
+	renamed from `:sep' to `separator'.
+
+2004-10-22  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (European): Adjust to change of
+	`LaTeX-italian-open-quote'.
+
+2004-10-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (TEX_INPUT_DIRS): Do not use -e command line option
+	for grep.
+
+2004-10-18  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/quickstart.texi: Fix markup.
+
+2004-10-18  Frank Küster <frank@kuesterei.ch>
+
+	* doc/quickstart.texi: New chapter.
+
+	* doc/changes.texi: Mention `Quick Start'.
+
+	* doc/auctex.texi (Font Specifiers): Add \textrm and \textsf
+	(Commands): Add TeX-Omega-mode
+	(top): Print contents near at the beginning.
+
+	* doc/macros.texi: New macro @sans.
+
+	* doc/intro.texi (Introduction): Removed sections obsoleted by
+	`Quick Start' (Indentation and filling, Completion, Editing your
+	document, Outlines).
+
+2004-10-18  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/todo.texi, doc/install.texi, doc/history.texi,
+	doc/changes.texi, doc/auctex.texi: Remove optional arguments of
+	all @node commands.
+
+	* doc/Makefile.in (TEXIFILES): Added quickstart.texi.
+
+2004-10-18  Frank Küster <frank@kuesterei.ch>
+
+	* doc/Makefile.in (TEXIFILES): Add macros.texi.
+	(auctex.dvi, auctex.pdf): Depend on TEXIFILES.
+
+2004-10-18  Christian Schlauer  <cschl@arcor.de>
+
+	* latex.el (LaTeX-env-figure, LaTeX-env-minipage): Point out to
+	the user that the placement (figure) and position (minipage)
+	specifiers are optional arguments.
+	(LaTeX-env-figure): Simplified.  Do not insert the (optional)
+	placement specifier `LaTeX-float' into the buffer if the user
+	entered the empty string when asked for `float'.
+
+2004-10-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-make-keywords): Correctly evaluate
+	keywords when making `font-latex-match-*-keywords' defcustom.
+
+2004-10-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/todo.texi (Bugs): Document some bugs related to font locking
+	and folding.
+
+	* latex.el (LaTeX-insert-environment): Partial rewrite.  Stay in
+	comments.  Do not comment uncommented following lines.  Get rid of
+	redundant comment prefix.
+	(LaTeX-indent-calculate): Check for beginning of buffer.
+	(LaTeX-indent-calculate-last): Do not check for beginning of
+	buffer.  Fixes wrong indentation of environments at the top of the
+	buffer.
+
+2004-10-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-macro-nth-arg): Use
+	`TeX-find-closing-brace' instead of `forward-sexp'.  Fixes
+	problems with comment characters in \url macros.
+
+	* latex.el (LaTeX-paragraph-commands): Use `regexp-opt' to
+	generate the regexp.
+	(LaTeX-common-initialization): Add support for "$$" to
+	`paragraph-start'.
+
+	* context.el (ConTeXt-mode-common-initialization): Add support for
+	"$$" to `paragraph-start'.
+
+	* font-latex.el: Remove change log.
+	(font-latex-make-keywords): New function.
+	(font-latex-match-variable-keywords-local)
+	(font-latex-match-variable-make)
+	(font-latex-match-variable-keywords-set)
+	(font-latex-match-variable-keywords, font-latex-match-variable)
+	(font-latex-match-reference-keywords-local)
+	(font-latex-match-reference-make)
+	(font-latex-match-reference-keywords-set)
+	(font-latex-match-reference-keywords)
+	(font-latex-match-reference)
+	(font-latex-match-function-keywords-local)
+	(font-latex-match-function-make)
+	(font-latex-match-function-keywords-set)
+	(font-latex-match-function-keywords, font-latex-match-function)
+	(font-latex-match-title-1-keywords-local)
+	(font-latex-match-title-1-make)
+	(font-latex-match-title-1-keywords-set)
+	(font-latex-match-title-1-keywords, font-latex-match-title-1)
+	(font-latex-match-title-2-keywords-local)
+	(font-latex-match-title-2-make)
+	(font-latex-match-title-2-keywords-set)
+	(font-latex-match-title-2-keywords, font-latex-match-title-2)
+	(font-latex-match-title-3-keywords-local)
+	(font-latex-match-title-3-make)
+	(font-latex-match-title-3-keywords-set)
+	(font-latex-match-title-3-keywords, font-latex-match-title-2)
+	(font-latex-match-title-4-keywords-local)
+	(font-latex-match-title-4-make)
+	(font-latex-match-title-4-keywords-set)
+	(font-latex-match-title-4-keywords, font-latex-match-title-2)
+	(font-latex-match-textual-keywords-local)
+	(font-latex-match-textual-make)
+	(font-latex-match-textual-keywords-set)
+	(font-latex-match-textual-keywords, font-latex-match-textual)
+	(font-latex-match-warning-keywords-local)
+	(font-latex-match-warning-make)
+	(font-latex-match-warning-keywords-set)
+	(font-latex-match-warning-keywords, font-latex-match-warning)
+	(font-latex-match-warning-function): Now generated by
+	`font-latex-make-keywords'.
+	(font-latex-match-bold-command-keywords-local)
+	(font-latex-match-bold-command-keywords)
+	(font-latex-match-bold-command)
+	(font-latex-match-italic-command-keywords-local)
+	(font-latex-match-italic-command-keywords)
+	(font-latex-match-italic-command)
+	(font-latex-match-math-command-keywords-local)
+	(font-latex-match-math-command-keywords)
+	(font-latex-match-math-command)
+	(font-latex-match-type-command-keywords-local)
+	(font-latex-match-type-command-keywords)
+	(font-latex-match-type-command)
+	(font-latex-match-bold-declaration-keywords-local)
+	(font-latex-match-bold-declaration-keywords)
+	(font-latex-match-bold-declaration)
+	(font-latex-match-italic-declaration-keywords-local)
+	(font-latex-match-italic-declaration-keywords)
+	(font-latex-match-italic-declaration)
+	(font-latex-match-type-declaration-keywords-local)
+	(font-latex-match-type-declaration-keywords)
+	(font-latex-match-type-declaration): New variables generated by
+	`font-latex-make-keywords'.
+	(font-latex-match-bold-command)
+	(font-latex-match-bold-command-make)
+	(font-latex-match-bold-command-keywords-set)
+	(font-latex-match-italic-command)
+	(font-latex-match-italic-command-make)
+	(font-latex-match-italic-command-keywords-set)
+	(font-latex-match-math-command)
+	(font-latex-match-math-command-make)
+	(font-latex-match-math-command-keywords-set)
+	(font-latex-match-type-command)
+	(font-latex-match-type-command-make)
+	(font-latex-match-type-command-keywords-set)
+	(font-latex-match-bold-declaration)
+	(font-latex-match-bold-declaration-make)
+	(font-latex-match-bold-declaration-keywords-set)
+	(font-latex-match-italic-declaration)
+	(font-latex-match-italic-declaration-make)
+	(font-latex-match-italic-declaration-keywords-set)
+	(font-latex-match-type-declaration)
+	(font-latex-match-type-declaration-make)
+	(font-latex-match-type-declaration-keywords-set): New functions
+	generated by `font-latex-make-keywords'.
+	(font-latex-keywords-1): Use new functions.
+	(font-latex-bold-command-keywords)
+	(font-latex-italic-command-keywords)
+	(font-latex-math-command-keywords)
+	(font-latex-type-command-keywords)
+	(font-latex-bold-declaration-keywords)
+	(font-latex-italic-declaration-keywords)
+	(font-latex-type-declaration-keywords): Remove.
+	(font-latex-match-command-with-arguments): New name for
+	`font-latex-match-command-outside-arguments'.  Third argument now
+	is an integer instead of a binary.  It specifies the number of
+	mandatory arguments of a LaTeX macro.  Simplify the function.
+	(font-latex-match-font-cache)
+	(font-latex-match-font-outside-braces): Remove.
+	(font-latex-match-in-brace-cache): New name for
+	`font-latex-match-infont-cache'.
+	(font-latex-match-command-in-braces): New name for
+	`font-latex-match-font-inside-braces'.  Generalize, so that it can
+	be used for any command and does not return a special, complex
+	match.
+	(font-latex-set-syntactic-keywords): Try to minimize false
+	fontifications of macros which may look like \foo{bar} and
+	\foo{bar{.
+	(font-latex-commented-outp): Do not consider comment characters in
+	verbatim content.
+
+2004-10-15  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (LaTeX-default-format, LaTeX-default-width)
+	(LaTeX-default-position): Fix doc strings.
+
+2004-10-14  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (LaTeX-default-width): Make it buffer local.
+	(LaTeX-env-minipage): Pick up new value of LaTeX-default-width.
+
+2004-10-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Add starred sectioning
+	commands.
+
+	* latex.el (LaTeX-fill-region-as-paragraph): Do not add linebreaks
+	after "$$ " at the end of paragraph filling.
+	(LaTeX-fill-move-to-break-point): Simplify.  Add support for
+	$$...$$ type display math.
+
+	* style/jurabib.el: New file.
+
+	* Makefile.in (STYLESRC): Add jurabib.el.
+
+	* doc/changes.texi: Mention support for the jurabib package.
+
+2004-10-14  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* auctb.el: Removed (renamed to tex-bar.el)
+
+	* tex-bar.el: Added; (new name of auctb.el). Added support for
+	buttons and customization.
+	(install-auctex-toolbar): removed.
+	(tex-tool-bar): New custom group, inside AUCTeX group.
+	(tex-tool-bar-button-definitions): New custom group, inside
+	tex-tool-bar group.
+	(tex-bar-latex-buttons): New custom variable: buttons in LaTeX
+	mode.
+	(tex-bar-meaning-alist): New custom variable.
+	(tex-bar-available-meaning-alists): New custom variable:
+	collection of variables for meaning-alists.
+	(latex-install-toolbar): New function: install the toolbar for
+	LaTeX mode.
+	(latex-symbols-toolbar-contents): added separator between symbol
+	switches and symbols.
+
+	* toolbarx.el: Removed (renamed to toolbar-x.el)
+
+	* toolbar-x.el: Added; (new name of toolbarx.el).
+	(toolbarx-default-toolbar-meaning-alist) Added `:sep' button.
+	(toolbarx-emacs-add-button): clean up.
+
+2004-10-13  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (LaTeX-default-width): New variable.
+	(LaTeX-env-minipage, LaTeX-env-tabular*): Use it.
+	(LaTeX-environment): Mention it in the doc string.
+	(LaTeX-env-label): Reindent.
+
+	* tex.el (TeX-delete-dups): Use our own (faster) version.
+
+	* latex.el (LaTeX-env-array, LaTeX-env-minipage)
+	(LaTeX-env-tabular*): Don't delete whitespace after inserting the
+	environment.  Cursor position corresponds to proper indentation
+	now.  From Christian Schlauer <cschl@arcor.de> with some
+	modifications.
+
+2004-10-12  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (Completion): Mention `C-c RET' for
+	`TeX-insert-macro'.  Fixed typo.
+	(Parsing Files): Fixed typo.
+	(European): Improved.
+	From Frank Küster <frank@kuesterei.ch>,	slightly modified.
+
+	* latex.el (LaTeX-common-initialization): Use `LaTeX-env-tabular*'
+	for "tabular*".
+
+2004-10-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (Texinfo-insert-node): Emacs 21.3 and earlier
+	expect a list of lists.
+
+	* tex.el: Cater for `delete-selection-mode'.
+	`eval-after-load' (used for support of desktop.el) in Emacs 21.3
+	and earlier expects a string, not a symbol.
+	(TeX-point-is-escaped): Remove.  Implementation of
+	`TeX-escaped-p', which does the same, is slightly nicer.
+	(TeX-insert-dollar): Use `TeX-escaped-p'.
+
+2004-10-11  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el: Small clean-ups and rearrangements.
+	(font-latex-match-variable-keywords)
+	(font-latex-match-reference-keywords)
+	(font-latex-match-function-keywords)
+	(font-latex-match-title-1-keywords)
+	(font-latex-match-title-2-keywords)
+	(font-latex-match-title-3-keywords)
+	(font-latex-match-title-4-keywords)
+	(font-latex-match-textual-keywords)
+	(font-latex-match-warning-keywords): Remove redundant defvars.
+	(font-latex-match-variable, font-latex-match-reference)
+	(font-latex-match-function, font-latex-match-title-1)
+	(font-latex-match-title-2, font-latex-match-title-3)
+	(font-latex-match-title-4, font-latex-match-textual)
+	(font-latex-match-warning): Set default values and make
+	buffer-local.
+	(font-latex-match-reference): Add doc string.
+	(font-latex-set-syntactic-keywords): Do not set comment syntax.
+
+2004-10-10  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/booktabs.el, style/captcont.el, style/fancyref.el,
+	style/mdwlist.el, style/natbib.el, style/nicefrac.el,
+	style/paralist.el, style/scrbase.el, style/scrbook.el,
+	style/scrlttr2.el, style/scrpage2.el, style/scrreprt.el,
+	style/subfigure.el, style/units.el (TeX-add-style-hook): Do not
+	set up font-latex variables if font-latex is not loaded and
+	enabled.
+
+	* style/alltt.el, style/listings.el, style/url.el
+	(TeX-add-style-hook): Do not set up font-latex variables if
+	font-latex is not loaded and enabled.  Reinitialize font-lock
+	defaults.
+
+	* font-latex.el: Do not autoload `texmathp'.
+	(font-latex-fontify-script): Doc fix.
+	(font-latex-script): Do without `texmathp'.
+	(font-latex-syntactic-keywords): Default to nil.
+	Make buffer-local.
+	(font-latex-setup): Set syntactic keywords.
+
+2004-10-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-update-style, TeX-parse-arguments)
+	(TeX-parse-argument, VirTeX-common-initialization)
+	(TeX-auto-parse-region): Simplify code by using `unless'.
+
+2004-10-08  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-search-forward-unescaped)
+	(TeX-search-backward-unescaped, TeX-re-search-forward-unescaped)
+	(TeX-search-unescaped, TeX-escaped-p): New functions.
+	(TeX-find-macro-boundaries): Use `TeX-escaped-p'.
+
+	* latex.el (LaTeX-newline, LaTeX-current-indentation)
+	(LaTeX-fill-region-as-para-do, LaTeX-fill-move-to-break-point):
+	Use new search functions from tex.el.
+
+	* tex-fold.el (TeX-fold-make-overlay, TeX-fold-hide-item)
+	(TeX-fold-show-item): Respect `font-lock-mode'.
+
+	* style/amstex.el: Add copyright and license information.
+	("amstex"): Do not load amsmath.el in `plain-tex-mode' or
+	`ams-tex-mode'.
+
+2004-10-06  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* texmathp.el (texmathp): Limit environment search with result of
+	macro search if possible.
+
+	* font-latex.el (font-latex-verb-like-commands): New variable.
+	(font-latex-set-syntactic-keywords): Use it.
+	(font-latex-match-command-outside-arguments)
+	(font-latex-match-font-outside-braces)
+	(font-latex-match-font-inside-braces): Check face at the beginning
+	of the match to make keyword fontification possible even if a
+	macro's argument was already fontified due to syntactic keyword
+	fontification.
+
+	* style/listings.el (TeX-add-style-hook): Suppress indentation in
+	lstlisting environments.  Fontify both \lstinline|...| and
+	\lstinline{...}.  Add lstlisting environment to
+	`LaTeX-verbatim-regexp'.
+
+	* style/url.el (TeX-add-style-hook): Treat arguments \url|...| and
+	\url{...} as verbatim.
+
+	* style/alltt.el (TeX-add-style-hook): Use buffer-local variable
+	`font-latex-verbatim-environments-local'.
+
+2004-10-05  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* toolbarx.el (toolbarx-default-toolbar-meaning-alist): New
+	constant, providing a MEANING-ALIST for the insertion of the
+	default buttons and some extra ones in Emacs and XEmacs.
+
+2004-10-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-output-view-style): Move more special items upwards.
+	Remove "a4" and "a5" styles.
+
+2004-10-04  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* toolbarx.el:
+	(toolbarx-emacs-add-button)
+	(toolbarx-test-image-type): Add Emacs `image descriptor' as valid
+	image specification (Emacs only).
+	(toolbarx-emacs-add-button): "transp-strip" is new `tranparent
+	strip' image file.
+
+	* images/bibtex.xpm, images/dvipdf.xpm, images/dvips.xpm,
+	* images/error.xpm, images/exec.xpm, images/execbibtex.xpm,
+	* images/execdvips.xpm, images/execerror.xpm,
+	* images/execpdftex.xpm, images/exectex.xpm,
+	* images/execviewdvi.xpm, images/execviewpdf.xpm,
+	* images/execviewps.xpm, images/gv.xpm, images/jumpdvi.xpm,
+	* images/pdftex.xpm, images/pspdf.xpm, images/sep.xpm,
+	* images/tex.xpm, images/view.xpm, images/viewdvi.xpm,
+	* images/viewpdf.xpm, images/viewps.xpm: Add symbolic color
+	'backgroundToolBarColor' to make pics work in (GNU/Linux) XEmacs
+
+2004-10-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el: Some clean-ups, rearrangements and performance
+	improvements.
+	(font-latex-verbatim-face): XEmacs does not like :inherit.
+	(font-latex-setup): Activate `font-latex-syntactic-face-function'.
+	(font-latex-faces-present-p): New function.
+	(font-latex-match-command-outside-arguments): Use it.
+	(font-latex-bold-command-keywords)
+	(font-latex-italic-command-keywords)
+	(font-latex-math-command-keywords)
+	(font-latex-type-command-keywords): New variables.
+	(font-latex-match-font-outside-braces): Use them.
+	Check for comment and verbatim faces.
+	(font-latex-bold-declaration-keywords)
+	(font-latex-italic-declaration-keywords)
+	(font-latex-type-declaration-keywords): New variables.
+	(font-latex-match-font-inside-braces): Use them.
+	Check for comment and verbatim faces.
+	(font-latex-script): Use `font-latex-faces-present-p'.
+
+	* doc/changes.texi: Add some new features and fixed bugs.
+
+2004-09-29  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* images/bibtex.xpm, images/dvipdf.xpm, images/dvips.xpm,
+	* images/error.xpm, images/exec.xpm, images/execbibtex.xpm,
+	* images/execdvips.xpm, images/execerror.xpm,
+	* images/execpdftex.xpm, images/exectex.xpm,
+	* images/execviewdvi.xpm, images/execviewpdf.xpm,
+	* images/execviewps.xpm, images/gv.xpm, images/jumpdvi.xpm,
+	* images/pdftex.xpm, images/pspdf.xpm, images/sep.xpm,
+	* images/tex.xpm, images/view.xpm, images/viewdvi.xpm,
+	* images/viewpdf.xpm, images/viewps.xpm: Add designed images for
+	toolbar buttons.
+
+2004-09-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-do-multi-line): Add new option and use
+	it as default value.
+	(font-latex-use-cache): New variable.
+	(font-latex-match-command-outside-arguments)
+	(font-latex-match-font-outside-braces)
+	(font-latex-match-font-inside-braces): Use it.
+	(font-latex-check-cache): Do not check if cache is to be used.
+	(font-latex-setup): Set up multi-line font locking.
+
+2004-09-28  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* toolbarx.el: Support for grouping `:insert' clauses in the 3
+	engines (performance improvement.)  Better comments and
+	docstrings.
+	(toolbarx-process-symbol): Fix `nreverse'-missing bug.
+
+	* auctb.el: Fix Copyright notice (to FSF).  Remove "AMS Special"
+	from ppup menu.  Simplify.  Remove garbage comments from end.
+	(auctb-img-filename): Remove "symb-pics/" from return.  Add
+	"symb-pics/" explicitly where it is needed in the defconst's.
+
+	* images, images/dropdown.xpm, images/ltx-symb-turn-off.xpm,
+	* images/ltx-symb-turn-on.xpm: Add designed images for symbol
+	toolbar.
+
+2004-09-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el: Add change log entries and bump version.
+	(font-latex-find-matching-close): Fix typo in last commit.
+	(font-latex-match-font-inside-braces): Set actual numbers in the
+	match, not nil.  Fixes errors with `font-lock-multiline' enabled.
+
+2004-09-27  David Kastrup  <dak@gnu.org>
+
+	* font-latex.el (font-latex-find-matching-close): Simplify.
+
+	* latex.el (LaTeX-math-default): Use `W in math mode for the Omega
+	letter.
+
+	* tex.el (TeX-find-macro-start-helper): Simplify.
+	(TeX-find-macro-end-helper): Simplify.
+	(TeX-find-macro-end-helper): Stop if `forward-sexp' fails.
+
+	* doc/todo.texi (Wishlist): Macro spell checking mentioned.
+
+2004-09-26  Miguel Frasson  <frasson@math.leidenuniv.nl>
+
+	* toolbarx.el: Add to cvs (first version).
+
+	* auctb.el: Add to cvs (first version); features only a symbol
+	toolbar.
+
+2004-09-24  Davide G. M. Salvetti  <salve@debian.org>
+
+	* configure.in: Add `--(en|dis)able-build-dir-test' switch to
+	allow disabling `VALID_BUILD_DIR'.
+
+2004-09-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (VirTeX-common-initialization): Revert last change.
+
+	* font-latex.el (font-latex-keywords-2): Use function
+	`font-latex-match-script' instead of regexp directly.
+	(font-latex-fontify-script): Doc fix.
+	(font-latex-match-script): Reintroduce.
+
+2004-09-19  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-verbatim-macros): New variable.
+	(LaTeX-fill-move-to-break-point): Do not break inside of macros
+	defined in `LaTeX-verbatim-macros'.
+	(LaTeX-fill-newline): Do not trigger auto-fill.
+
+	* style/listings.el (TeX-add-style-hook): Add "lstinline" to
+	`LaTeX-verbatim-macros'.
+
+	* font-latex.el (font-latex-set-syntactic-keywords): "*" is not
+	allowed as a \verb delimiter.
+
+	* doc/todo.texi (Bugs): Another bug gone the way of the poodle.
+
+2004-09-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-indent-line): Use XEmacs' functions to deal with
+	extents/overlays.  Avoids dependence on overlay.el.
+	(LaTeX-fill-region-as-paragraph): Inhibit filling of "Local
+	Variables" section, if to be filled as a paragraph.
+
+	* style/url.el: Add some (low-level) symbols for completion and
+	fontification.
+	(TeX-arg-urlstyle): New function.
+
+	* doc/todo.texi (Bugs): Remove some obsolete bug descriptions.
+
+2004-09-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-verbatim-environments): Change from
+	defvar to defcustom.
+	(font-latex-verbatim-environments-local)
+	(font-latex-verbatim-macros)
+	(font-latex-verbatim-macros-local): New variables.
+	(font-latex-set-syntactic-keywords): Use them.
+
+	* style/listings.el: New file.
+
+	* Makefile.in (STYLESRC): Add it.
+
+	* doc/changes.texi: Mention support for listings.sty.
+
+2004-09-16  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/changes.texi: Mention built fixes.
+
+2004-09-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-commented-outp): Reimplement for
+	better performance.
+
+	* doc/changes.texi: Streamline documentation of performance
+	changes.
+
+	* tex.el (TeX-search-syntax-table): Make XEmacs happy.
+	(VirTeX-common-initialization): Append our stuff to the end of
+	`find-file-hooks'.  Fixes problems with `auto-insert-mode'.
+
+2004-09-15  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4 (EMACS_LISP): quote ${emacs}, Windows....
+
+2004-09-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/changes.texi: Add changes from 11.51 up to now.
+
+	* style/url.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/url.el.
+
+2004-09-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-keywords-1): Add highlighter for math
+	macros.
+	(font-latex-keywords-2): Use regexp for matching instead of
+	`font-latex-match-script'.
+	(font-latex-match-font-outside-braces): Add support for math, esp.
+	"\ensuremath".
+	(font-latex-match-script): Remove.
+	(font-latex-script): Fix check for present faces.  Add `texmathp'
+	check in case there is no math face present.
+
+2004-09-09  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* aclocal.m4 (texinputdirs): Strip leading "!!".
+
 2004-09-08  Reiner Steib  <Reiner.Steib@gmx.de>
 
 	* latex.el (TeX-arg-input-file): Remove duplicates from the

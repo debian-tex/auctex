@@ -1,6 +1,6 @@
 ;;; graphicx.el --- AUCTeX style file for graphicx.sty
 
-;; Copyright (C) 2000, 2004 by Free Software Foundation, Inc.
+;; Copyright (C) 2000, 2004, 2005 by Free Software Foundation, Inc.
 
 ;; Author: Ryuichi Arafune <arafune@debian.org>
 ;; Created: 1999/3/20
@@ -34,12 +34,29 @@
 
 (TeX-add-style-hook
  "graphicx"
- (function (lambda ()
-	     (TeX-add-symbols
-	      ;; Why do we need those?
-	      "protect" "clip" "keepaspectratio"
-	      "width" "height" "bb" "angle" "totalheight"
-	      '("includegraphics" LaTeX-arg-includegraphics)))))
+ (lambda ()
+   (TeX-add-symbols
+    '("reflectbox" "Argument")
+    '("resizebox" "Width" "Height" "Argument")
+    '("resizebox*" "Width" "Total height" "Argument")
+    '("rotatebox" [ "Options" ] "Angle" "Argument")
+    '("scalebox" "Horizontal scale" [ "Vertical scale" ] "Argument")
+    '("includegraphics" LaTeX-arg-includegraphics))
+   ;; Fontification
+   (when (and (featurep 'font-latex)
+	      (eq TeX-install-font-lock 'font-latex-setup))
+     (add-to-list 'font-latex-match-textual-keywords-local "reflectbox")
+     ;; Fontification of optional and mandantory arguments of \resizebox,
+     ;; \rotatebox and \scalebox should be improved.
+     ;; (add-to-list 'font-latex-match-textual-keywords-local "resizebox")
+     ;; (add-to-list 'font-latex-match-textual-keywords-local "rotatebox")
+     ;; (add-to-list 'font-latex-match-textual-keywords-local "scalebox")
+     (add-to-list 'font-latex-match-reference-keywords-local "includegraphics")
+     ;; Tell font-lock about the update.
+     (font-latex-match-textual-make)
+     (font-latex-match-reference-make)
+     (setq font-lock-set-defaults nil)
+     (font-lock-set-defaults))))
 
 (defun LaTeX-includegraphics-extensions (&optional list)
   "Return appropriate extensions for input files to \\includegraphics."
@@ -57,7 +74,7 @@ Offers all graphic files found in the TeX search path.  See
   ;; Drop latex/pdflatex differences for now.  Might be (re-)included later.
   (completing-read
    "Image file: "
-   (TeX-delete-dups
+   (TeX-delete-dups-by-car
     (mapcar 'list
 	    (TeX-search-files nil LaTeX-includegraphics-extensions t t)))
    nil nil nil))
@@ -103,7 +120,11 @@ The extent of the optional arguments is determined by the prefix argument and
 	    (cdr (assq 0 LaTeX-includegraphics-options-alist)))
 	   (t
 	    (cdr (assq 0 LaTeX-includegraphics-options-alist)))))
-	 ;; Options from Table 1:
+	 ;; Order the optional aruments like in the tables in epslatex.ps,
+	 ;; page 14.  But collect y-or-n options at the end, so that the use
+	 ;; can skip some options by typing `RET RET ... RET n n n ... n'
+	 ;;
+	 ;; Options from Table 1 (epslatex.ps, page 14):
 	 (totalheight
 	  (TeX-arg-maybe
 	   'totalheight incl-opts
@@ -140,6 +161,10 @@ The extent of the optional arguments is determined by the prefix argument and
 	     (concat
 	      "Origin (any combination of `lcr' (horizontal) "
 	      "and `tcbB' (vertical)): "))))
+	 (page ;; Not in any table; Only for PDF.
+	  (TeX-arg-maybe
+	   'page incl-opts
+	   '(read-input "Page: ")))
 	 (bb
 	  (TeX-arg-maybe
 	   'bb incl-opts
@@ -154,7 +179,7 @@ The extent of the optional arguments is determined by the prefix argument and
 	   'trim incl-opts
 	   '(and (not viewport)
 		 (y-or-n-p "Set trim? "))))
-	 ;; Table 2:
+	 ;; Table 3:
 	 (clip
 	  (TeX-arg-maybe
 	   'clip incl-opts
@@ -250,6 +275,11 @@ The extent of the optional arguments is determined by the prefix argument and
       (setq maybe-left-brace ""))
     (when keepaspectratio
       (insert maybe-left-brace maybe-comma "keepaspectratio")
+      (setq maybe-comma ",")
+      (setq maybe-left-brace ""))
+    ;;
+    (when (not (zerop (length page)))
+      (insert maybe-left-brace maybe-comma "page=" page)
       (setq maybe-comma ",")
       (setq maybe-left-brace ""))
     ;;

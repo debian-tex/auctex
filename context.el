@@ -854,18 +854,17 @@ If OPTIONAL, only insert it if not empty, and then use square brackets."
   '("crlf" "par")
   "List of ConTeXt macros that should have their own line besides the section(-block) commands.")
 
-(defun ConTeXt-paragraph-commands ()
-  "Regexp matching names of LaTeX macros that should have their own line."
+(defun ConTeXt-paragraph-commands-regexp ()
+  "Return a regexp matching macros that should have their own line."
   (concat
-   "\\[\\|\\]\\|"  ; display math delimitors (is this applicable to ConTeXt??)
-   (ConTeXt-environment-start-name) "\\b\\|"
-   (ConTeXt-environment-stop-name) "\\b\\|start"
-   (mapconcat 'identity ConTeXt-section-block-list "\\b\\|start") "\\b\\|stop"
-   (mapconcat 'identity ConTeXt-section-block-list "\\b\\|stop") "\\b\\|"
+   (regexp-quote TeX-esc) "\\("
+   "[][]\\|"  ; display math delimitors (is this applicable to ConTeXt??)
+   (ConTeXt-environment-start-name) "\\|"
+   (ConTeXt-environment-stop-name) "\\|"
    (mapconcat 'car ConTeXt-section-list "\\b\\|") "\\b\\|"
    (mapconcat 'identity ConTeXt-extra-paragraph-commands "\\b\\|")
    "\\b\\|"
-   (mapconcat 'identity ConTeXt-item-list "\\b\\|") "\\b"))
+   (mapconcat 'identity ConTeXt-item-list "\\b\\|") "\\b\\)"))
 
 
 ;; Outline support
@@ -942,6 +941,39 @@ header is at the start of a line."
 			    (ConTeXt-outline-offset))))
 		 (t
 		  (error "Unrecognized header")))))))
+
+
+;;; Fonts
+
+(defcustom ConTeXt-font-list '((?\C-b "{\\bf " "}")
+			   (?\C-c "{\\sc " "}")
+			   (?\C-e "{\\em " "}")
+			   (?\C-i "{\\it " "}")
+			   (?\C-r "{\\rm " "}")
+			   (?\C-s "{\\sl " "}")
+			   (?\C-t "{\\tt " "}")
+			   (?\C-d "" "" t))
+  "List of fonts used by `TeX-font'.
+
+Each entry is a list.
+The first element is the key to activate the font.
+The second element is the string to insert before point, and the third
+element is the string to insert after point.
+If the fourth and fifth element are strings, they specify the prefix and
+suffix to be used in math mode.
+An optional fourth (or sixth) element means always replace if t."
+  :group 'TeX-macro
+  :type '(repeat
+	   (group
+	    :value (?\C-a "" "")
+	    (character :tag "Key")
+	    (string :tag "Prefix")
+	    (string :tag "Suffix")
+	    (option (group
+		     :inline t
+		     (string :tag "Math Prefix")
+		     (string :tag "Math Suffix")))
+	    (option (sexp :format "Replace\n" :value t)))))
 
 
 ;; Imenu support
@@ -1394,24 +1426,21 @@ There might be text before point."
 
   ;; Paragraph formatting
   (set (make-local-variable 'LaTeX-syntactic-comments) nil)
-  (set (make-local-variable 'LaTeX-paragraph-commands)
-       (ConTeXt-paragraph-commands))
+  (set (make-local-variable 'LaTeX-paragraph-commands-regexp)
+       (ConTeXt-paragraph-commands-regexp))
   (set (make-local-variable 'paragraph-ignore-fill-prefix) t)
   (set (make-local-variable 'fill-paragraph-function) 'LaTeX-fill-paragraph)
   (set (make-local-variable 'adaptive-fill-mode) nil)
   (setq paragraph-start
 	(concat
 	 "[ \t]*\\("
-	 (regexp-quote TeX-esc)
-	 "\\("
-	 (ConTeXt-paragraph-commands)
-	 "\\)\\|$"
-	 "\\)"
-	 ))
+	 (ConTeXt-paragraph-commands-regexp) "\\|"
+	 "\\$\\$\\|" ; Plain TeX display math
+	 "$\\)"))
   (setq paragraph-separate
 	(concat
 	 "[ \t]*\\("
-	 "\\$\\$"			; display math delimitor
+	 "\\$\\$" ; Plain TeX display math
 	 "\\|$\\)"))
 
   ;; Keybindings and menu
@@ -1431,6 +1460,9 @@ There might be text before point."
   ;;(make-local-variable 'outline-heading-end-regexp)
   (setq TeX-header-end (ConTeXt-header-end)
 	TeX-trailer-start (ConTeXt-trailer-start))
+
+  ;; font switch support
+  (set (make-local-variable 'TeX-font-list) ConTeXt-font-list)
 
   ;; imenu support
   (set (make-local-variable 'imenu-create-index-function)

@@ -14,7 +14,7 @@
 
 Summary: 	Enhanced TeX modes for Emacsen
 Name: 		auctex
-Version: 	11.53
+Version: 	11.54
 Release: 	1%{distri}
 License: 	GPL
 Group: 		%{commongroup}
@@ -68,7 +68,7 @@ test -f ./configure || ./autogen.sh
 %configure "--with-emacs" '--with-texmf-dir=%{_datadir}/texmf'
 make
 pushd doc
-make auctex tex-ref.pdf
+make auctex.info tex-ref.pdf
 popd
 
 %install

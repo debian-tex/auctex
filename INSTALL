@@ -82,7 +82,7 @@ it out with one of these options:
      case, a good value for this option is `~/.xemacs/xemacs-packages',
      as XEmacs looks there for per-user packages by default.
 
-`--with-tex-input-dirs=/DIR-1/;/DIR-2/;...;/DIR-N/'
+`--with-tex-input-dirs="/DIR-1/;/DIR-2/;...;/DIR-N/"'
      This option allows to specify the directories to be used for file
      searches, e.g. for completion of LaTeX or BibTeX style file names.
      They will be used in the variable `TeX-macro-global'.
@@ -93,7 +93,9 @@ it out with one of these options:
 
      The directories should be separated by semicolons and each has to
      end with a directory separator, i.e. a slash or a backslash
-     respectively.
+     respectively.  If more than one directory is specified or spaces
+     are used in the name of a directory the whole string has to be
+     quoted.
 
 `--with-auto-dir=/DIR'
      You can use this option to specify the directory containing

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=${PACKAGE}:> package.
-# $Id: install.in,v 1.22 2004/09/09 15:15:23 salve Exp $
+# $Id: install.in,v 1.24 2005/01/15 12:46:10 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -25,11 +25,13 @@ do_install () {
     echo >&2 -n "install/<:=${PACKAGE}:>: Setting up for ${FLAVOR}... "
     cd <:=${lisp}:>; umask 0022;
     ${INSTDIR} <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
-    DISABLE_VALID_BUILD_DIR=YES ./configure --prefix=<:=${usr}:> \
+    ./configure --disable-build-dir-test \
+	--prefix=<:$_=${usr}; s|/+|/|g; print:> \
 	--with-emacs=${FLAVOR} \
-	--with-lispdir=<:$_=${lisp}; $_=~s|/+${PACKAGE}/*|/|;
-			 $_=~s|emacs|\${FLAVOR}|; print:> \
-	--with-auto-dir=<:=${var}:>/${FLAVOR} \
+	--with-lispdir=<:$_=${lisp}; s|/+${PACKAGE}/*|/|;
+			 s|emacs|\${FLAVOR}|; s|/+|/|g; print:> \
+	--with-auto-dir=<:$_=${var}; s|/+|/|g;
+			 s|/$||; print:>/${FLAVOR} \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
 	install-lisp install-contrib \

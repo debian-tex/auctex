@@ -3,16 +3,94 @@
 @chapheading Changes and New Features in @AUCTeX{}
 
 @end ifset
-@c -----------------------
 
 @heading News in 11.54
 
 @itemize @bullet
 @item
+The parser (used e.g. for @code{TeX-auto-generate-global}) was extended
+to recognize keywords common in @LaTeX{} packages and classes, like
+``\DeclareRobustCommand'' or ``\RequirePackage''.  Additionally a bug
+was fixed which led to duplicate entries in @AUCTeX{} style files.
+
+@item
+Folding can now be done for paragraphs and regions besides single
+constructs and the whole buffer.  With the new @code{TeX-fold-dwim}
+command content can both be hidden and shown with a single key binding.
+In course of these changes new key bindings for unfolding commands where
+introduced.  The old bindings are still present but will be phased out
+in future releases.
+
+@item
+Info files of the manual now have a .info extension.
+
+@item
+There is an experimental toolbar support now.  It is not activated by
+default.  If you want to use it, add
+@lisp
+(add-hook 'LaTeX-mode-hook 'LaTeX-install-toolbar)
+@end lisp
+to your init file.
+
+@item
+The manual now contains a new chapter ``Quick Start''.  It explains the
+main features and how to use them, and should be enough for a new user
+to start using @AUCTeX{}.
+
+@item
+A new section ``Font Locking'' was added to the manual which explains
+syntax highlighting in @AUCTeX{} and its customization.  Together with
+the sections related to folding and outlining, the section is part of
+the new chapter ``Display''.
+
+@item
+Keywords for syntax highlighting of @LaTeX{} constructs to be typeset in
+bold, italic or typewriter fonts may now be customized.  Besides the
+built-in classes, new keyword classes may be added by customizing the
+variable @samp{font-latex-user-keyword-classes}.  The customization
+options can be found in the customization group
+@samp{font-latex-keywords}.
+
+@item
+Verbatim content is now displayed with the @samp{fixed-pitch} face. (GNU
+Emacs only)
+
+@item
+Syntax highlighting should not spill out of verbatim content
+anymore. (GNU Emacs only)
+
+@item
+Verbatim commands like @samp{\verb|...|} will not be broken anymore
+during filling.
+
+@item
 You can customize the completion for graphic files with 
 @code{LaTeX-includegraphics-read-file}.
-@end itemize
 
+@item
+Support for the @LaTeX{} packages @samp{url}, @samp{listings},
+@samp{jurabib} and @samp{csquotes} was added with regard to command
+completion and syntax highlighting.
+
+@item
+Performance of fontification and filling was improved.
+
+@item
+Insertion of nodes in Texinfo mode now supports completion of existing
+node names.
+
+@item
+Setting the variable @code{LaTeX-float} to @code{nil} now means that you
+will not be prompted for the float position of figures and tables.  You
+can get the old behaviour of @code{nil} by setting the variable to
+@code{""}, i.e. an empty string.  See also @ref{Floats}.
+
+@item
+The XEmacs-specific bug concerning @code{overlays-at} was fixed.
+
+@item
+Lots of bug fixes.
+@end itemize
 
 @heading News in 11.53
 
@@ -32,6 +110,9 @@ Completion for graphic files in the TeX search path has been added.
 @item
 @command{start} is used for the viewer for Mik@TeX{} and fp@TeX{}.
 
+@item
+The variable @code{TeX-fold-preserve-comments} can now be customized to
+deactivate folding in comments.
 @end itemize
 
 @heading News in 11.52
@@ -63,6 +144,9 @@ Omega support has been added.
 
 @item
 Bug fixes in the build process.
+
+@item
+@code{TeX-fold} now supports folding of environments in Texinfo mode.
 @end itemize
 
 @heading News in 11.50

@@ -1,3 +1,18 @@
+auctex (11.54-1) unstable; urgency=medium
+
+  * New upstream release.  (Closes: #290263)
+  * Medium urgency: the potential impact of bug #287461 is unknown, so
+    better fix it soon; should go in sarge.
+  * install (do_install): Use "--disable-build-dir-test" instead of
+    "DISABLE_VALID_BUILD_DIR=YES".
+  * install (do_install): Strip extra "/" from configure command line;
+    thanks to Marcus Frings and others.  (Closes: #287461)
+  * rules (binary-indep): Change the "index.html" link to "auctex.html".
+  * docbase, prerm, postinst, rules (build): AUCTeX info manual is now called
+    "auctex.info".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 15 Jan 2005 13:13:56 +0100
+
 auctex (11.53+CVS.2004.09.09.1-1) UNRELEASED; urgency=low
 
   * New CVS upstream source.

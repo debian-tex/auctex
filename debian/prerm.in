@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: prerm.in,v 1.9 2004/05/13 14:47:36 salve Exp $
+# $Id: prerm.in,v 1.10 2005/01/15 11:41:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -19,7 +19,7 @@ case "${1}" in
       # remove in-favour ${3:newpkg} ${4:newver}:>//
     <:# upgrade ${2:newver}:>//
     <:# remove info menu from info dir:>//
-    <:=${IREMOVE}:> <:=${PACKAGE}:>
+    <:=${IREMOVE}:> <:="${info}/${PACKAGE}.info.gz":>
     <:# remove doc menu from doc dir:>//
     <:=${DREMOVE}:> <:=${PACKAGE}:>
     <:# remove byte compiled elisp:>//

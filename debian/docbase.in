@@ -36,8 +36,8 @@ Format: texinfo
 Files: <:=if($_="${docsrc}/*.texi.gz")=~tr|/|/|s:>
 
 Format: info
-Index: <:=if($_="${info}/${PACKAGE}.gz")=~tr|/|/|s:>
-Files: <:=if($_="${info}/${PACKAGE}*")=~tr|/|/|s:>
+Index: <:=if($_="${info}/${PACKAGE}.info.gz")=~tr|/|/|s:>
+Files: <:=if($_="${info}/${PACKAGE}.info*")=~tr|/|/|s:>
 
 Format: HTML
 Index: <:=if($_="${html}/index.html")=~tr|/|/|s:>

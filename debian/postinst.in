@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: postinst.in,v 1.17 2004/05/13 14:47:13 salve Exp $
+# $Id: postinst.in,v 1.18 2005/01/15 11:41:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -44,7 +44,7 @@ case "${1}" in
     <:# register doc with doc-base:>//
     <:=${DINSTALL}:> <:="${docbase}/${PACKAGE}":>
     <:# install info menu into info dir:>//
-    <:=${IINSTALL}:> <:="${info}/${PACKAGE}.gz":>
+    <:=${IINSTALL}:> <:="${info}/${PACKAGE}.info.gz":>
     ;;
     (abort-deconfigure)
     <:# abort-deconfigure in-favour ${3:newpkg} ${4:newver} removing ${6:oldpkg} ${7:oldver}
