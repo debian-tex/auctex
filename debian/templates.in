@@ -26,6 +26,16 @@ Description-it: Abilitare AUC-TeX automaticamente su questa macchina?
  Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
  mettere manualmente la stringa "(require 'tex-site)" nel loro "~/.emacs" per
  abilitare AUC-TeX.
+Description-de: Soll AUC-TeX systemweit automatisch geladen werden?
+ Emacs hat standardmäßige (La)TeX-Modi, die global (also für alle Nutzer auf
+ Ihrem System) überschrieben werden, wenn Sie diese Frage bejahen.
+ .
+ Das ist generell ein gutes Ding, da AUC-TeX 'ne Ecke besser ist -- wie auch
+ immer, Sie könnten das nicht mögen und jedem Nutzer die Wahl lassen wollen,
+ ob sie das Paket einbinden.
+ .
+ Wenn Sie die Frage verneinen, müssen Nutzer, die AUC-TeX nutzen wollen,
+ "(require 'tex-site)" in ihr "~/.emacs" einfügen.
 
 Template: <:=$PACKAGE:>/alreadydefault
 Type: text
@@ -44,6 +54,13 @@ Description-it: AUC-TeX sembra già automaticamente abilitato su questa macchina.
  quel file Lisp form del tipo "(require 'tex-site)" e li si correggano;
  poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
  nuovo AUC-TeX.
+Description-de: AUC-TeX scheint schon standardmäßig eingebunden zu sein. Fein.
+ Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint AUC-TeX bereits
+ standardmäßig auf Ihrem System eingebunden zu werden.
+ .
+ Wenn das nicht stimmt oder wenn das nicht das ist, was Sie wollen, dann
+ entfernen Sie bitte die "(require 'tex-site)"-Aufrufe in der genannten
+ Datei. Danach wird der Aufruf von "dpkg-reconfigure auctex" empfohlen.
 
 Template: <:=$PACKAGE:>/fldefault
 Type: boolean
@@ -78,6 +95,19 @@ Description-it: Abilitare Font LaTeX automaticamente su questa macchina?
  Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
  mettere manualmente la stringa "(require 'font-latex)" nel loro "~/.emacs"
  per abilitare Font LaTeX.
+Description-de: Soll "Font LaTeX" standardmäßig eingebunden werden?
+ "Font LaTeX" verschönert die Darstellung von LaTeX-Dateien.
+ .
+ Emacs hat seinen eigenen standardmäßigen "Font Lock Mode" für LaTeX, der
+ global (also für alle Nutzer auf Ihrem System) überschrieben wird, wenn Sie
+ diese Frage bejahen.
+ .
+ Das ist generell ein gutes Ding, da Font LaTeX 'ne Ecke besser ist -- wie
+ auch immer, Sie könnten das nicht mögen und jedem Nutzer die Wahl lassen
+ wollen, ob sie das Paket einbinden.
+ .
+ Wenn Sie die Frage verneinen, müssen Nutzer, die Font LaTeX nutzen wollen,
+ "(require 'font-latex)" in ihr "~/.emacs" einfügen.
 
 Template: <:=$PACKAGE:>/flalreadydefault
 Type: text
@@ -96,6 +126,13 @@ Description-it: Font LaTeX sembra già automaticamente abilitato su questa macchi
  quel file Lisp form del tipo "(require 'font-latex)" e li si correggano;
  poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
  nuovo Font LaTeX.
+Description-de: Font LaTeX scheint schon eingebunden zu sein. Fein.
+ Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint Font LaTeX
+ bereits standardmäßig auf Ihrem System eingebunden zu werden.
+ .
+ Wenn das nicht stimmt oder wenn das nicht das ist, was Sie wollen, dann
+ entfernen Sie bitte die "(require 'font-latex)"-Aufrufe in der genannten
+ Datei. Danach wird der Aufruf von "dpkg-reconfigure auctex" empfohlen.
 
 Template: <:=$PACKAGE:>/doauto
 Type: select
@@ -134,6 +171,23 @@ Description-it: In che modo si deve effettuare la scansione delle macro per (La)
  .
  In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando
  <:=$UPDATE:>.
+Description-de: Wie sollen (La)TeX-Makros behandelt werden?
+ Zur Beschleunigung von AUC-TeX kann jedes installierte TeX-Makro und jeder
+ LaTeX-Style im Voraus bearbeitet werden.
+ .
+ Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund
+ empfohlen. Die Bearbeitung kann allerdings auch im Vordergrund erfolgen --
+ die weitere Installation wird dann allerdings bis zum Abschluß der
+ Bearbeitung unterbrochen. Die Voraus-Bearbeitung kann auch ganz
+ unterbleiben. Wenn Sie die Bearbeitung im Hintergrund wählen, finden Sie
+ eine detaillierte Protokollausgabe in ${LOGFILE}.
+ .
+ Weiterhin wird ein wöchentlicher cron-Job auf die Fortschreibung der nun
+ erhobenen Informationen achten, so daß Sie sich für gewöhnlich nicht weiter
+ darum kümmern müssen, wenn Sie LaTeX-Pakete installieren oder entfernen.
+ .
+ Die Aktualisierung kann zudem von Hand durch Aufruf von
+ "update-auctex-elisp" erfolgen.
 
 Template: <:=$PACKAGE:>/doautofg
 Type: select
@@ -159,6 +213,16 @@ Description-it: Dove vanno inviati i messaggi della scansione?
   .
   Rispondendo Video, i messaggi (noiosi) verranno visualizzati sul proprio
   terminale.
+Description-de: Wo soll die Protokoll-Ausgabe hingehen?
+ Sie wählten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund.
+ Das ist schon in Ordnung, aber für gewöhnlich wird dabei eine Menge
+ langweiliger Kram ausgegeben.
+ .
+ Standardmäßig (also bei der Wahl von "Datei") wird die weitere Ausgabe des
+ Bearbeitungsprozesses in die Datei ${LOGFILE} umgeleitet.
+ .
+ Wenn Sie mit "Konsole" antworten, wird die gesamte Ausgabe direkt auf Ihrem
+ Terminal erscheinen.
 
 <:
 # Local variables:

@@ -1,7 +1,7 @@
 Source: auctex
 Section: tex
 Priority: optional
-Build-Depends: texinfo, texi2html
+Build-Depends: eperl, texinfo, texi2html
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Standards-Version: 3.2.1
 

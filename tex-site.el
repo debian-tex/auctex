@@ -1,11 +1,11 @@
 ;;; tex-site.el - Site specific variables.
 
-;; Copyright (C) 1991, 2000 Kresten Krab Thorup 
+;; Copyright (C) 1991, 2000, 2001 Kresten Krab Thorup 
 ;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen 
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
-;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 10.0d
+;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
+;; Version: 10.0g
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -104,7 +104,7 @@ These correspond to TeX macros shared by all users of a site."
 (autoload 'japanese-plain-tex-mode "tex-jp" no-doc t)
 (autoload 'japanese-latex-mode "tex-jp" no-doc t)
 (autoload 'japanese-slitex-mode "tex-jp" no-doc t)
-(autoload 'texinfo-mode "tex-info" no-doc t)
+;;(autoload 'texinfo-mode "tex-info" no-doc t)
 (autoload 'latex-mode "latex" no-doc t)
 
 (when (memq system-type '(windows-nt))

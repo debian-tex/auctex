@@ -3,9 +3,9 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.39 2001/01/05 09:51:06 salve Exp $
+# $Id: rules,v 1.41 2001/05/08 12:53:00 salve Exp $
 #
-# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997-2001.
+# Copyright (C) 1997, 1998, 1999, 2000, 2001 by Davide Giovanni Maria Salvetti.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -41,6 +41,8 @@ DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 # (it's CVS registered), lest it will be deleted by clean.
 # Beside, it's automatically remade by make
 
+debian/rules: debian/system.variables debian/variables
+
 debian/system.variables: /home/salve/Debian/Packages/system.variables
 	$(INSTDATA) $< $@
 
@@ -48,7 +50,7 @@ debian/system.variables: /home/salve/Debian/Packages/system.variables
 % :: %.in
 	eperl -P -o $@ $<
 
-build: $(DFILES) debian/variables
+build: $(DFILES) debian/rules
 	$(checkdir)
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html

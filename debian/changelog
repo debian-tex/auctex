@@ -1,3 +1,14 @@
+auctex (10.0g-1) unstable; urgency=low
+
+  * New upstream release.  (Closes: #92996)
+  * control (Build-Depends): Added eperl.
+  * copyright: Updated md5sum; typo fixed.
+  * rules (debian/rules): Added.
+  * rules (build): Added debian/rules.
+  * templates: Added German; thanks to Knut Suebert.  (Closes: #93686)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat,  5 May 2001 15:47:53 +0200
+
 auctex (10.0d-1) unstable; urgency=medium
 
   * New upstream release.

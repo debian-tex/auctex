@@ -1,11 +1,11 @@
 ;;; tex.el --- Support for TeX documents.
 
-;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 10.0d
+;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
+;; Version: 10.0g
 ;; Keywords: wp
-;; X-URL: http://sunsite.auc.dk/auctex
+;; X-URL: http://sunsite.dk/auctex
 
-;; Copyright (C) 1985, 1986, 2000 Free Software Foundation, Inc.
+;; Copyright (C) 1985, 1986, 2000, 2001 Free Software Foundation, Inc.
 ;; Copyright (C) 1987 Lars Peter Fischer
 ;; Copyright (C) 1991 Kresten Krab Thorup
 ;; Copyright (C) 1993, 1994, 1996, 1997, 1999 Per Abrahamsen 
@@ -36,7 +36,7 @@
   "A (La)TeX environment."
   :tag "AUC TeX"
   :link '(custom-manual "(auctex)Top")
-  :link '(url-link :tag "Home Page" "http://sunsite.auc.dk/auctex/")
+  :link '(url-link :tag "Home Page" "http://sunsite.dk/auctex/")
   :prefix "TeX-"
   :group 'tex)
 
@@ -316,8 +316,10 @@ string."
   (list (list "%p" 'TeX-printer-query)	;%p must be the first entry
 	(list "%q" (function (lambda ()
 		     (TeX-printer-query TeX-queue-command 2))))
-	(list "%v" 'TeX-style-check TeX-view-style)
-	(list "%l" 'TeX-style-check LaTeX-command-style)
+	(list "%v" (lambda () 
+		     (TeX-style-check TeX-view-style)))
+	(list "%l" (lambda ()
+		     (TeX-style-check LaTeX-command-style)))
 	(list "%s" 'file nil t)
 	(list "%t" 'file 't t)
 	(list "%n" 'TeX-current-line)
@@ -412,10 +414,10 @@ Full documentation will be available after autoloading the function."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "10.0d"
+(defconst AUC-TeX-version "10.0g"
   "AUC TeX version number.")
 
-(defconst AUC-TeX-date "Tue Jan  2 17:46:22 MET 2001"
+(defconst AUC-TeX-date "Wed Apr 11 13:51:05 CEST 2001"
   "AUC TeX release date.")
 
 ;;; Buffer
@@ -1277,8 +1279,7 @@ Unless optional argument COMPLETE is non-nil, ``: '' will be appended."
 ;; Stolen from Emacs 21.
 
 (eval-and-compile
-  (unless (featurep 'xemacs)
-
+  (unless (or (featurep 'xemacs) (< emacs-major-version 21))
     (defconst tex-font-lock-keywords-1
       (eval-when-compile
 	(let* (;; Names of commands whose arg should be fontified as heading, etc.
@@ -1384,12 +1385,9 @@ Unless optional argument COMPLETE is non-nil, ``: '' will be appended."
       "Default expressions to highlight in TeX modes.")
 
 
-    (if (> emacs-major-version 20)
-	(defface tex-math-face
-	  '((t :inherit font-lock-string-face))
-	  "Face used to highlight TeX math expressions.")
-      (require 'font-lock)
-      (copy-face 'font-lock-string-face 'tex-math-face))
+    (defface tex-math-face
+      '((t :inherit font-lock-string-face))
+      "Face used to highlight TeX math expressions.")
     (defvar tex-math-face 'tex-math-face)
 
     ;; Use string syntax but math face for $...$.
@@ -1558,7 +1556,7 @@ of AmS-TeX-mode-hook."
 	      (list "" TeX-complete-word)))
   
   ;; Support Font Lock for Emacs 21+.
-  (unless (featurep 'xemacs)
+  (unless (or (featurep 'xemacs) (< emacs-major-version 21))
     (set (make-local-variable 'font-lock-defaults)
 	 '((tex-font-lock-keywords
 	    tex-font-lock-keywords-1 tex-font-lock-keywords-2)
@@ -2896,7 +2894,7 @@ between."
   (interactive)
   (require 'reporter)
   (reporter-submit-bug-report
-   "auc-tex@sunsite.auc.dk"
+   "auc-tex@sunsite.dk"
    (concat "AUC TeX " AUC-TeX-version)
    (list 'window-system
 	 'LaTeX-version

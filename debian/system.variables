@@ -1,5 +1,5 @@
 <:# Copyright (C) 1999, 2000, 2001 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: system.variables,v 1.4 2001/01/18 10:11:02 salve Exp $:>//
+<:# $Id: system.variables,v 1.6 2001/05/08 12:53:00 salve Exp $:>//
 <:# package specific:>//
 <:$debian="/DEBIAN/":>//
 <:$ETC="/etc/":>//
