@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # elisp remove file for Debian auctex package.
-# $Id: emacsen.remove,v 1.5 1998/02/22 22:27:46 salve Exp $
+# $Id: emacsen.remove,v 1.7 1998/02/24 16:03:16 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -14,7 +14,6 @@
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Public License for more details.
-#
 #
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to: The Free Software Foundation, Inc.,
@@ -29,13 +28,18 @@ PACKAGE=auctex
 FLAVOR=$1
 ELCDIR=/usr/share/$FLAVOR/site-lisp/$PACKAGE/
 
-if [ "$FLAVOR" = "emacs19" -o "$FLAVOR" = "emacs20" ]; then
-    echo -n "remove/$PACKAGE: Removing for $FLAVOR..."
+case "$FLAVOR" in 
+    emacs19|emacs20)
+	echo -n "remove/$PACKAGE: Removing for $FLAVOR..."
 	rm -f $ELCDIR/*.elc
-    echo " done."
-fi
+	echo " done."
+    ;;
+    *)
+	echo "remove/$PACKAGE: Ignoring emacsen flavor $FLAVOR."
+    ;;
+esac
 
-exit 0;
+exit 0
 
 ### Local Variables:
 ### mode: shell-script

@@ -1,3 +1,10 @@
+auctex (9.9a-1) unstable; urgency=low
+
+  * New upstream version.
+  * emacsen.intall: Added tex-jp.elc rule for emacs20.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Mon, 23 Feb 1998 17:38:35 +0100
+
 auctex (9.8i-3) unstable; urgency=medium
 
   * ../tex-site.el: Added "/usr/local/lib/texmf/tex/" to TeX-macro-global.
@@ -9,7 +16,7 @@ auctex (9.8i-3) unstable; urgency=medium
   * auctex.menu: New file.
   * conffiles: tex-site.el is no more a conffile.
   * control: Updated Standards-Version: 2.4.0.0.
-  * control: Changed Depends: emacs19|emacs20
+  * control: Changed Depends: emacs19|emacs20.
   * emacsen.install: New file.
   * emacsen.remove: New file.
   * postinst: Added support for `menu'.

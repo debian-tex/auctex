@@ -9,7 +9,7 @@ AUC TeX
 
    AUC TeX is an integrated environment for editing LaTeX and TeX files.
 
-   This file documents AUC TeX version 9.8.
+   This file documents AUC TeX version 9.9.
 
    Although AUC TeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -37,7 +37,7 @@ of alpha releases, write to `auc-tex-request@sunsite.auc.dk' to join
 it.  Send contributions to `auc-tex@sunsite.auc.dk'.
 
    Bug reports, suggestions for new features, and pleas for help should
-go to either `auc-tex_mgr@iesd.auc.dk' (the AUC TeX managers), or to
+go to either `auc-tex_mgr@sunsite.auc.dk' (the AUC TeX managers), or to
 `auc-tex@sunsite.auc.dk' (the mailing list) if they might have general
 interest.  Please use the command `M-x TeX-submit-bug-report' to report
 bugs if possible.

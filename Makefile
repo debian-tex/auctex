@@ -1,7 +1,7 @@
 # Makefile - for the AUC TeX distribution.
 #
 # Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-# Version: 9.8i
+# Version: 9.9a
 #
 # Edit the makefile, type `make', and follow the instructions.
 
@@ -169,7 +169,7 @@ dist:
 	perl -pi.bak -e "s/Version: $(OLD)/Version: $(TAG)/" \
 	    $(AUCSRC) $(EXTRAFILES)
 	mv ChangeLog ChangeLog.old
-	echo `date "+%a %b %d %T %Y "` \
+	echo `date "+%Y-%m-%d "` \
 	     " Per Abrahamsen  <abraham@dina.kvl.dk>" > ChangeLog
 	echo >> ChangeLog
 	echo "	* Version" $(TAG) released. >> ChangeLog

@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.20 1998/02/22 22:38:54 salve Exp $
+# $Id: rules,v 1.22 1998/02/24 16:05:00 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -15,7 +15,6 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # General Public License for more details.
 #
-#
 # You should have received a copy of the GNU General Public License along
 # with this program; if not, write to: The Free Software Foundation, Inc.,
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
@@ -27,7 +26,7 @@ package	:= auctex
 #-=-
 DOCS	:= CHANGES README PROBLEMS doc/{math-ref.tex,tex-ref.tex}
 AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el
-CONTRIB	:= bib-cite.el font-latex.el
+CONTRIB	:= bib-cite.el font-latex.el tex-jp.el hilit-LaTeX.el
 #	   tex-jp.el		# Doesn't compile without MULE
 #	   hilit-LaTeX.el	# Doesn't compile without X
 STYLES	:= style/slides.el    style/foils.el    style/amstex.el \

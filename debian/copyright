@@ -4,7 +4,7 @@ package.
 The current release of this package was assembled by:
 		 Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
-<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/auctex-9.8i.tar.gz>.
+<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/auctex-9.9a.tar.gz>.
 
 The current AUC TeX upstream maintainer is:
 	       Per Abrahamsen <auc-tex_mgr@sunsite.auc.dk>.
