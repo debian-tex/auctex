@@ -1,3 +1,13 @@
+auctex (11.53+CVS.2004.09.09.1-1) UNRELEASED; urgency=low
+
+  * New CVS upstream source.
+  * install (do_install): Add "DISABLE_VALID_BUILD_DIR=YES" to "configure"
+    call.  No more add ".nosearch" to the ${FLAVOR} "site-lisp" directory.
+  * remove (undo_install): No need to remove ".nosearch" from the
+    ${FLAVOR} "site-lisp" directory anymore.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu,  9 Sep 2004 16:13:22 +0200
+
 auctex (11.53-1) unstable; urgency=low
 
   * New upstream release.

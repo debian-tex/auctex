@@ -3054,6 +3054,12 @@ File: auctex,  Node: Changes,  Next: ToDo,  Prev: Installation,  Up: Top
 Appendix A Changes and New Features
 ***********************************
 
+News in 11.54
+=============
+
+   * You can customize the completion for graphic files with
+     `LaTeX-includegraphics-read-file'.
+
 News in 11.53
 =============
 
@@ -3062,6 +3068,11 @@ News in 11.53
      *Note Mathematics::.
 
    * Bug fixes for XEmacs.
+
+   * Completion for graphic files in the TeX search path has been added.
+
+   * `start' is used for the viewer for MikTeX and fpTeX.
+
 
 News in 11.52
 =============
@@ -4204,14 +4215,14 @@ Node: Advice for non-privileged users111025
 Node: Installation under MS Windows115052
 Node: Customizing121266
 Node: Changes123871
-Node: ToDo132308
-Node: Mid-term Goals132949
-Node: Wishlist134441
-Node: Bugs141709
-Node: FAQ143833
-Node: Key Index145639
-Node: Function Index149484
-Node: Variable Index155540
-Node: Concept Index162038
+Node: ToDo132573
+Node: Mid-term Goals133214
+Node: Wishlist134706
+Node: Bugs141974
+Node: FAQ144098
+Node: Key Index145904
+Node: Function Index149749
+Node: Variable Index155805
+Node: Concept Index162303
 
 End Tag Table
