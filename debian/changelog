@@ -1,3 +1,11 @@
+auctex (11.54-5) unstable; urgency=high
+
+  * Urgency high: fixes an important bug.  (See: #292886)
+  * ../latex.el: Apply a patch from Ralf Angeli, thanks to Daniel Burrows.
+    (Closes: #292886)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue,  1 Feb 2005 00:29:34 +0100
+
 auctex (11.54-4) unstable; urgency=medium
 
   * control (Conflicts): Set emacspeak version to (<= 17.0-1).
