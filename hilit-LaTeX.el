@@ -4,7 +4,7 @@
  
 ;; Author:    Peter S. Galbraith <rhogee@bathybius.meteo.mcgill.ca>
 ;; Created:   03 March 1994
-;; Version:   1.16 (08 Aug 95)
+;; Version:   1.17 (06 Sep 95)
 ;; Keywords:  LaTeX, hilit19, hl319, highlight, auctex 
 
 ;; Everyone is granted permission to copy, modify and redistribute this
@@ -21,13 +21,12 @@
 ;; LCD Archive Entry:
 ;; hilit-LaTeX|Peter Galbraith|galbraith@mixing.qc.dfo.ca|
 ;; Enhancements for LaTeX highlighting w/ hilit19.el or hl319.el|
-;; 08-Aug-1995|1.16|~/modes/hilit-LaTeX.el.gz|
+;; 06-Sep-1995|1.17|~/modes/hilit-LaTeX.el.gz|
 ;; ----------------------------------------------------------------------------
 ;;; Commentary:
 
 ;; New versions of this package (if they exist) may be found at:
-;;  ftp://bathybius.meteo.mcgill.ca/pub/users/rhogee/elisp/hilit-LaTeX.el
-;;  ftp://mixing.qc.dfo.ca/pub/elisp/hilit-LateX.el
+;;  ftp://ftp.phys.ocean.dal.ca/users/rhogee/elisp/hilit-LaTeX.el
 
 ;; Description:
 ;;  This package enhances hilit19 (or hl319) highlighting patterns for LaTeX.
@@ -104,6 +103,7 @@
 ;;                     (No clean way to implement these, so disabled)
 ;; V1.16 08Aug95 PSG   yet another on-the-fly infinite loop found by
 ;;                     Laurent Bonnaud <Laurent.Bonnaud@irisa.fr>
+;; V1.17 06Sep95 PSG   math regexp broken in V19.29.  Regexp matcher changed in emacs.
 ;; ----------------------------------------------------------------------------
 ;;; Code:
 
@@ -285,16 +285,13 @@ Used for patterns like:
 
   '((hilit-inside-bracket-region "\\\\\\(text\\(it\\|sl\\)\\|emph\\){" italic)
 
+  ;;("\\\\be\\b" "\\\\ee\\b" glob-struct)
     ("\\\\("  "\\\\)" glob-struct)           ; \( \)
     ("[^\\\\\\(\\\\begin{avm}\\)]\\\\\\[" "\\\\\\]" 
      glob-struct) ; \[ \] but not \\[len] or \begin{avm}\[
 
 ;;; ("[^$\\]\\($\\($[^$]*\\$\\|[^$]*\\)\\$\\)" 1 formula); '$...$' or '$$...$$'
-   ;;   ^^ but not \$102.54 is expensive for a car wash.
-   ;;      Above formula breaks when excaped dollar sign are presnt within
-   ;;      equation.  $ t = \$45.50 $.  I think the one below works ok:
-    ("\\(^\\|[^$\\]\\)\\($\\($\\([^$]\\|\\\\\\$\\)*\\$\\|\\([^$]\\|\\\\\\$\\)*\\)\\$\\)" 
-  ;;; ^^^^^^^      ^^^ -> $ test $ will be highlighted on-the-fly at line-begin
+    ("\\(^\\|[^\\]\\)\\(\\$\\($\\([^\\$]\\|\\\\.\\)*\\$\\|\\([^\\$]\\|\\\\.\\)*\\)\\$\\)"
      2 glob-struct) ; '$...$' or '$$...$$'
 
     ;; things that bring in external files

@@ -1,7 +1,7 @@
 # Makefile - for the AUC TeX distribution.
 #
 # Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-# Version: 9.7n
+# Version: 9.8i
 #
 # Edit the makefile, type `make', and follow the instructions.
 
@@ -10,13 +10,13 @@
 ##----------------------------------------------------------------------
 
 # Where local software is found
-prefix=/usr
+prefix=/usr/local
 
 # Where info files go.
 infodir = $(prefix)/info
 
 # Where local lisp files go.
-lispdir = $(prefix)/lib/emacs/common
+lispdir = $(prefix)/share/emacs/site-lisp
 
 # Where the AUC TeX emacs lisp files go.
 aucdir=$(lispdir)/auctex
@@ -88,7 +88,9 @@ STYLESRC = style/slides.el    style/foils.el    style/amstex.el \
 	   style/jarticle.el  style/jbook.el    style/jreport.el \
 	   style/dinbrief.el  style/virtex.el   style/plfonts.el \
 	   style/plhb.el      style/harvard.el	style/swedish.el \
-	   style/danish.el
+	   style/danish.el    style/slovak.el   style/czech.el \
+	   style/amsmath.el   style/amstext.el  style/amsbsy.el \
+	   style/amsopn.el    style/amsthm.el	style/natbib.el
 
 DOCFILES = doc/Makefile doc/auc-tex.texi doc/intro.texi doc/install.texi \
 	doc/changes.texi doc/tex-ref.tex doc/math-ref.tex doc/history.texi
@@ -106,7 +108,8 @@ some:	$(AUCELC) $(STYLESRC:.el=.elc)
 install:	install-lisp
 
 contrib:
-	$(ELC) bib-cite.el font-latex.el
+	$(ELC) bib-cite.el
+	$(ELC) font-latex.el
 # 	$(ELC) tex-jp.el              # Doesn't compile without MULE
 # 	$(ELC) hilit-LaTeX.el         # Doesn't compile without X
 

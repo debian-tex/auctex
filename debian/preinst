@@ -1,39 +1,81 @@
-#!/bin/sh
-set -e
+#!/bin/bash -e
+#
+# preinst configuration file for Debian auctex package.
+# 	$Id: preinst,v 1.2 1998/01/08 13:57:54 salve Exp $	
+#
+# Written by Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>
+# Modified by Davide G. M. Salvetti <salve@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
+
+set -o posix
 
 remove_handmade_auctex () {
-	echo -n "There is a locally installed version of auctex in $1 which will
-conflict with the debian package. Shall I
-     1) rename its tex-site file and go on installing         or
-     2) stop installing this package?
-Please answer: "
-	read answer
-	if [ "$answer" = "2" ] ; then
+    echo "There is a locally installed version of AucTeX in $1 which will conflict"
+    cat <<EOF
+with the Debian package. Shall I
+    1) rename its tex-site file and go on installing;
+or
+    2) stop installing this package;
+EOF
+    echo -n "Please answer (1/2): "
+    read answer
+    if [ "$answer" = "2" ] ; then
+	exit 1
+    elif [ "$answer" != "1" ]; then
+	fertig=
+	until [ ! -z "$fertig" ]; do
+	    echo -n " Please answer 1 or 2! "
+	    read answer
+	    if [ "$answer" = "2" ] ; then
 		exit 1
-	elif [ "$answer" != "1" ]; then
-		fertig=
-		until [ ! -z "$fertig" ]; do
-			echo -n " Please answer 1 or 2! "
-			read answer
-			if [ "$answer" = "2" ] ; then
-	                	exit 1
-			elif [ "$answer" = "1" ]; then
-				fertig=1
-			fi
-		done
-	fi
-	mv -V t -b $1/tex-site.el $1/tex-site.el.dpkg-old
+	    elif [ "$answer" = "1" ]; then
+		fertig=1
+	    fi
+	done
+    fi
+    mv -V t -b $1/tex-site.el $1/tex-site.el.dpkg-old
 }
 
 # remove old auctex package relics as there is a new location for auctex
 if [ -d /usr/lib/emacs/site-lisp/auctex ]; then
-	rm -rf /usr/lib/emacs/site-lisp/auctex
+    # warn the user about what we are trying to do
+    cat <<EOF
+The obsolete /usr/lib/emacs/site-lisp/auctex is about to be removed.
+
+This shouldn't be any problem, unless you made some changes and wish to
+preserve them.  If this is the case, you should save your changes before
+going any further or stop installing this package.  Shall I
+    1) remove /usr/lib/emacs/site-lisp/auctex and go on installing;
+or
+    2) stop installing this package;
+EOF
+    echo -n "Please answer (1/2, 1 recommended): "
+    read answer
+    if [ "$answer" = "2" ] ; then
+	exit 1
+    elif [ "$answer" != "1" ]; then
+	fertig=
+	until [ ! -z "$fertig" ]; do
+	    echo -n " Please answer 1 or 2! "
+	    read answer
+	    if [ "$answer" = "2" ] ; then
+		exit 1
+	    elif [ "$answer" = "1" ]; then
+		fertig=1
+	    fi
+	done
+    fi
+    rm -rf /usr/lib/emacs/site-lisp/auctex
 fi
 
 # remove hand-made auctex packages from /usr/local, if existant.
 if [ -f /usr/local/lib/xemacs/site-lisp/tex-site.el ]; then
-	remove_handmade_auctex /usr/local/lib/xemacs/site-lisp/
+    remove_handmade_auctex /usr/local/lib/xemacs/site-lisp/
 fi
 if [ -f /usr/local/share/emacs/site-lisp/tex-site.el ]; then
-	remove_handmade_auctex /usr/local/share/emacs/site-lisp/
+    remove_handmade_auctex /usr/local/share/emacs/site-lisp/
 fi
+
+### Local Variables:
+### mode: shell-script
+### fill-column: 132
+### End:

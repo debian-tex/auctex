@@ -5,7 +5,7 @@
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.7l
+;; Version: 9.8i
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -40,16 +40,21 @@ Full documentation will be available after autoloading the function."
   "Documentation for autoload functions.")
 
 ;;; Customization:
-;;
-;; Copy variables you need to change from the start of `tex.el' and
-;; insert them here.
 
-(defvar TeX-lisp-directory "/usr/lib/emacs/common/auctex"
+;; Customized for Debian GNU/Linux by Davide G. M. Salvetti <salve@debian.org> on Thu, 08 Jan 1998 11:07:00 CET.
+
+(defvar TeX-lisp-directory "/usr/lib/emacs/common/auctex/"
   "*The directory where the AUC TeX lisp files are located.")
+
+(defvar TeX-auto-global "/var/lib/emacs/auctex/"
+  "*Directory containing automatically generated information.
+Must end with a slash.
+
+For storing automatic extracted information about the TeX macros
+shared by all users of a site.")
 
 (defvar TeX-macro-global '("/usr/lib/texmf/tex/")
   "*Directories containing the sites TeX macro files and style files.
-
 The directory names *must* end with a slash.")
 
 ;;; Autoloads:

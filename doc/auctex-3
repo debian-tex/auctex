@@ -124,8 +124,8 @@ Variable Index
 * TeX-check-path:                       Commands.
 * TeX-close-quote:                      Quotes.
 * TeX-command-default:                  Commands.
-* TeX-command-list:                     Installation.
 * TeX-command-list:                     Commands.
+* TeX-command-list:                     Installation.
 * TeX-command-list:                     Commands.
 * TeX-default-macro:                    Completion.
 * TeX-display-help:                     Debugging.
@@ -140,9 +140,9 @@ Variable Index
 * TeX-macro-global:                     Installation.
 * TeX-macro-global:                     Automatic Global.
 * TeX-macro-private:                    Automatic Private.
-* TeX-master:                           Commands.
-* TeX-master:                           Commands.
 * TeX-master:                           Multifile.
+* TeX-master:                           Commands.
+* TeX-master:                           Commands.
 * TeX-one-master:                       Multifile.
 * TeX-open-quote:                       Quotes.
 * TeX-outline-extra:                    Outline.
@@ -304,10 +304,10 @@ Concept Index
 * jLaTeX:                               Japanese.
 * Killing a process:                    Control.
 * LaTeX:                                Commands.
-* Label prefix:                         Floats.
 * Label prefix:                         Sectioning.
-* Labels:                               Floats.
+* Label prefix:                         Floats.
 * Labels:                               Sectioning.
+* Labels:                               Floats.
 * Labels, adding:                       Adding Other.
 * labels, completion of:                Completion.
 * Latin 1:                              European.

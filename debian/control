@@ -1,12 +1,12 @@
 Source: auctex
 Section: tex
 Priority: optional
-Maintainer: Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>
-Standards-Version: 2.1.2.2
+Maintainer: Davide G. M. Salvetti <salve@debian.org>
+Standards-Version: 2.3.0.1
 
 Package: auctex
-architecture: all
-Depends: emacs 
+Architecture: all
+Depends: emacs
 Recommends: tetex-base
 Suggests: lacheck
 Description: An integrated environment for writing TeX/LaTeX documents.
@@ -20,3 +20,7 @@ Description: An integrated environment for writing TeX/LaTeX documents.
  while it moves the cursor directly to the reported error and displays
  documentation for that particular error.  This will even work when the
  document is spread over several files.
+ .
+ Currently XEmacs ships with its own AUC TeX, so this package should only
+ be used with GNU/Emacs. (I.e. you don't need to install it if your site
+ has only XEmacs installed.)

@@ -1,3 +1,24 @@
+auctex (9.8i-1) unstable; urgency=low
+
+  * control: auctex matches standards version 2.3.0.1.
+  * control: Extended descriptions improved.
+  * tex-site.el: Auto generated files are now created under /var instead
+    of /usr.
+  * auctex-auto-load: Remove auto generated *.el files after *.elc have
+    been generated.
+  * auctex.cron: Added test to prevent execution in config-files status.
+  * postinst: Warn the user upgrading from old version about the new
+    location of tex-site.el (#12111); changed old version upgrade test
+    (#12111); run_auto_generate is now correctly called.
+  * preinst: Warn the user before trying to remove old AucTeX directory
+    (#12111).
+  * rules: Heavily rewritten; don't compress copyright anymore, fixes bug
+    (#14395).
+  * New upstream version.
+  * New maintainer.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 8 Jan 1998 11:07:00 +0100
+
 auctex (9.7n-2) frozen unstable; urgency=low
 
   * fixed the postinst script

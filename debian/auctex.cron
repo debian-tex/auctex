@@ -1,5 +1,13 @@
-#!/bin/sh
+#!/bin/bash -e
+#
+# Update AucTeX auto-loads.
+# 	$Id: auctex.cron,v 1.2 1998/01/08 13:56:32 salve Exp $	
+#
+# Written by Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
+# Modified by Davide G. M. Salvetti <salve@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
 
-/usr/sbin/auctex-auto-load 2>/dev/null >/dev/null
+if [ -x /usr/sbin/auctex-auto-load ]; then
+    /usr/sbin/auctex-auto-load 2>&1 >/dev/null
+fi
 
 exit 0

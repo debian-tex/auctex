@@ -1,3 +1,231 @@
+Mon Oct 20 16:35:31 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8i released.
+
+Mon Oct 20 16:31:50 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8h released.
+
+Mon Oct 20 16:30:05 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8g released.
+
+Mon Oct 20 10:15:42 1997  Peter S Galbraith  <rhogee@mixing.qc.dfo.ca>
+
+	* font-latex.el: Updated to V0.504 (Oct 20 97)
+
+	* bib-cite.el: Updated to 3.04 (Aug 25 97)
+
+	* hilit-LaTeX.el: Updated to V1.17 (Sep 06 95)
+
+Wed Oct  1 21:44:21 1997  kifer@CS.SunySB.EDU (Michael Kifer)
+
+	* tex.el (TeX-insert-punctuation): Expand abbrevs in the
+	beginning. 
+
+Thu Sep 11 11:46:24 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-buf.el (TeX-run-silent): New function.
+
+	* tex.el (TeX-command-list): Changed default for view from
+	`TeX-run-background' to `TeX-run-silent'.
+
+Wed Sep 10 12:44:36 1997  "Dr. Werner Fink" <werner@suse.de>
+
+	* style/dinbrief.el: Updated.
+
+Mon Sep  8 15:59:43 1997  karlheg@inetarena.com (Karl M. Hegbloom)
+
+	* tex-info.el (texinfo-mode): Regexp fix.
+
+Fri Aug 29 07:43:25 1997  David J. Rowe  <rowe@asys47.wdl.lmco.com>
+
+	* latex.el (LaTeX-auto-regexp-list): Added support so newcommand*,
+	renewcommand*, providecommand*, newenvironment* and
+	renewenvironment* are recognized by TeX-auto-generate and
+	TeX-auto-generate-global.
+	(LaTeX-common-initialization): Added all of above "starred"
+	commands to symbol list and added providecommand to symbol list.
+
+Fri Aug 29 09:38:21 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8f released.
+
+Fri Aug 29 09:14:03 1997  Carsten Dominik  <dominik@strw.LeidenUniv.nl>
+
+	* amsmath.el ("amsmath"): Added environments xalignat and
+	xxalignat, and starred forms
+
+Fri Aug 22 18:28:59 1997  Christoph Wedler  <wedler@fmi.uni-passau.de>
+
+	* tex-buf.el (TeX-region-create): Also bind `orig-buffer' which
+	might be useful in `TeX-region-hook'.
+
+Mon Jul 14 18:48:50 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8e released.
+
+Mon Jul 14 18:48:16 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Makefile (STYLESRC): Added `style/natbib.el'.
+
+Sun Jul 13 12:23:54 1997  Berwin Turlach  <berwin.turlach@anu.edu.au>
+
+	* Added style support for natbib.sty
+
+Fri Jul 11 19:06:53 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8d released.
+
+Fri Jul 11 19:02:00 1997  Jan Vroonhof <vroonhof@frege.math.ethz.ch>
+
+	* latex.el (LaTeX-auto-regexp-list): 
+
+Sat Jul  5 11:08:07 1997  Berwin Turlach  <berwin.turlach@anu.edu.au>
+
+	* latex.el (BibTeX-auto-store): make TeX-master a local variable
+	and set it to true.
+
+Thu Jul 03 18:06:22 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8c released.
+
+Thu Jul  3 14:44:55 1997  Carsten Dominik <dominik@strw.LeidenUniv.nl>
+
+	* style/amsmath.el ("amsmath"): Use `TeX-arg-ref' for eqref.
+
+Sun Jun 29 15:29:59 1997  Berwin Turlach  <berwin.turlach@anu.edu.au>
+
+	* harvard.el: Updated the support for harvard.el
+
+Mon Jun 30 17:04:24 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8b released.
+
+Sat Jun 28 14:27:30 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-buf.el (TeX-LaTeX-sentinel): `natbib' support.
+	Patch by Berwin Turlach <berwin.turlach@anu.edu.au>.
+
+Fri Jun 27 19:16:34 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.8a released.
+
+Tue Jun 24 17:03:06 1997  Christoph Wedler  <wedler@fmi.uni-passau.de>
+
+	* tex.el (TeX-update-style): `TeX-auto-update' could be unbound.
+	(TeX-auto-x-parse-length): New variable.  Allows to use maximimum
+ 	= slow parsing for the beginning of a file and minimum = fast
+ 	parsing, e.g., just for labels, for the rest of the file.
+	(TeX-auto-x-regexp-list): Ditto.
+	(TeX-auto-parse-region): New function.
+	(TeX-auto-parse): Use them.
+
+	* tex-buf.el (TeX-region-extra): New variable with a value which
+ 	redefines \cite for the region file in order get less
+	warnings. With value "", this variable has no effect.
+	(TeX-region-hook): New variable.
+	(TeX-region-create): Use them.
+
+	* latex.el (LaTeX-indent-line): TeX commands are case sensitive.
+	(LaTeX-find-matching-end): Would not work correctly with more than
+ 	one \end in a line.
+	(LaTeX-find-matching-begin): Would not work correctly with more
+ 	than one \begin in a line.
+
+	(LaTeX-menu-max-items): New variable with value 25.  Split menu
+ 	if number of entries in a menu is larger than this value.  If nil,
+ 	never split menu into submenus, which is the behaviour before the
+ 	introduction of this variable.
+	(LaTeX-submenu-name-format): New variable.
+	(LaTeX-split-long-menu): New function using the two new variables.
+	(LaTeX-menu-update): Use it.
+
+	(LaTeX-document-regexp): New variable.  Texts in environments
+ 	other than "document", e.g., "letter", could be without initial
+ 	indentation.
+	(LaTeX-verbatim-regexp): New variable.  \begin and \end of
+ 	environments other than "verbatim\\*?", e.g., "program", could
+ 	start at column 0.
+	(LaTeX-begin-regexp): New variable similar to `LaTeX-item-regexp'.
+  	Commands other than "begin", e.g, "if", could increase the
+ 	indentation.
+	(LaTeX-end-regexp): New variable similar to `LaTeX-item-regexp'.
+  	Commands other than "end", e.g, "fi", could decrease the
+ 	indentation.
+	(LaTeX-indent-comment-start-regexp): New variable.  Would allow
+ 	you to correct the automatic indentation with commands in special
+ 	comments.
+	(LaTeX-indent-calculate): Use them.
+	(LaTeX-indent-level-count): Use them.
+	(LaTeX-indent-calculate-last): Use them.
+
+	(LaTeX-math-insert-function): New variable.
+	(LaTeX-math-insert): Use it.
+
+Wed Jun 11 09:10:13 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (TeX-arg-ref): New alias.
+	(LaTeX-common-initialization): Use it.
+	Patch by Soren Dayton <csdayton@cs.uchicago.edu>.
+
+Thu Jun  5 13:56:15 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-auto-minimal-regexp-list): Added `usepackage'. 
+	(LaTeX-auto-minimal-regexp-list): Ditto.
+	Patch by Carsten Dominik <dominik@strw.LeidenUniv.nl>.
+
+	* style/amsmath.el: New file.
+	* style/amstext.el: New file.
+	* style/amsbsy.el: New file.
+	* style/amsopn.el : New file.
+	* style/amsthm.el: New file.
+	* Makefile (STYLESRC): Added them.
+	Files provided by Carsten Dominik <dominik@strw.LeidenUniv.nl>.
+
+Tue Jun  3 17:18:06 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/slovak.el: New file.
+	* style/czech.el: New file.
+	* Makefile (STYLESRC): Add them.
+	Files provided by Milan Zamazal <pdm@fi.muni.cz>.
+
+Thu Apr 17 14:25:44 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.7p released.
+
+Sat Apr 12 22:38:15 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el: Added customize information.
+	* tex-buf.el: Ditto.
+	* latex.el: Ditto.
+	
+Sun Apr 06 19:28:11 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.7o released.
+
+Sun Apr  6 19:23:37 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-equation-label): New variable.
+	(LaTeX-eqnarray-label): New variable.
+	(LaTeX-label): Support `figure*', `label*', `equation', and
+	`eqnarray'.
+	(LaTeX-env-figure): Support `table*'.
+	Patch by Joes Staal <staal@geo.tudelft.nl>.
+	
+Fri Mar 28 12:23:15 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-down-section): Doc fix.
+	(LaTeX-section-heading): Ditto.
+	(LaTeX-section-title): Ditto.
+	(LaTeX-env-array): Ditto.
+	(TeX-braces-user-association): Ditto.
+	(LaTeX-fill-region-as-paragraph): Ditto.
+	(LaTeX-math-abbrev-prefix): Ditto.
+	(LaTeX-math-mode): Ditto.
+	(TeX-arg-right-insert-p): Ditto.
+	(latex-mode): Ditto.
+
 Wed Mar 26 21:14:44 1997  Per Abrahamsen  <abraham@dina.kvl.dk>
 
 	* Version 9.7n released.

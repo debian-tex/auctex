@@ -1,83 +1,95 @@
 #! /usr/bin/make -f
 #
-# should be used only by dpkg-buildpackage
+# postinst configuration file for Debian auctex package.
+# 	$Id: rules,v 1.2 1998/01/08 13:58:06 salve Exp $	
+#
+# Written by Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
+# Rewritten by Davide G. M. Salvetti <salve@debian.org> on Tue, 30 Dec 1997 11:07:00 CET.
 
-# Some useful definitions
-INSTALL=install
-INSCRIPT=$(INSTALL) -o root -g root -m 755 -c
-INSTPROG=$(INSTALL) -o root -g root -s -m 755 -c
-INSTDATA=$(INSTALL)  -o root -g root -m 644 -c
-INSTDIR=$(INSTALL) -d -g root -m 755 -o root 
+package	= auctex
+DOCS	= CHANGES README PROBLEMS
 
-define checkdir
-   test -f auc-old.el -a -f debian/rules
-endef
+tmp	:= $(shell pwd)/debian/tmp/
+usr	= $(tmp)/usr/
+info	= $(usr)/info/
+lisp	= $(usr)/lib/emacs/common/
+DEBIAN 	= $(tmp)/DEBIAN/
+doc	= $(usr)/doc/$(package)/
+cron	= $(tmp)/etc/cron.weekly/
+elisp	= $(tmp)/etc/elisp/
+sbin	= $(tmp)/usr/sbin/
 
-DOCS-ARCH =
-DOCS-ALL = README PROBLEMS
+SHELL		= /bin/bash
+INSTDIR		= install -m 755 -d
+INSTPROG	= install -m 755 -s
+INSTDATA	= install -m 644
+INSTSCRIPT	= install -m 755
 
 build:
-# Builds the binary package.
 	$(checkdir)
-	make all contrib EMACS=xemacs
+	$(MAKE) all contrib # EMACS=xemacs
 	touch build
 
 clean:
-# Undoes the effect of `make -f debian.rules build'.
 	$(checkdir)
-	make clean
-	-rm -f `find . -name \*.elc -print`
-	rm -f build
-	rm -rf debian/tmp-all
+	-rm -rf build core $(tmp) debian/files* debian/substvars
+	-rm -f $$(find . -name \*.elc)
+	-$(MAKE) clean
 
-binary-arch: build checkroot
+binary-arch: checkroot build
 	$(checkdir)
 
-binary-indep: build checkroot
-	$(INSTDIR) debian/tmp-all/usr/lib/emacs/common
-	chmod g-s debian/tmp-all
-	$(INSTDIR) debian/tmp-all/usr/info
-	$(INSTDIR) debian/tmp-all/usr/sbin
-	make install install-contrib install-info prefix=$(shell pwd)/debian/tmp-all/usr
-	rm `find debian/tmp-all/usr/lib -name \*.el -print`
-	$(INSTDIR) debian/tmp-all/DEBIAN
-	$(INSTDIR) debian/tmp-all/etc/elisp
-	$(INSTDATA) debian/tex-site.el debian/tmp-all/etc/elisp
-	$(INSTDIR) debian/tmp-all/etc/cron.weekly
-	$(INSTDIR) debian/tmp-all/usr/doc/auctex
-	$(INSTDATA) $(DOCS-ALL) debian/tmp-all/usr/doc/auctex
-	$(INSTDATA) debian/changelog \
-	      debian/tmp-all/usr/doc/auctex/changelog.Debian
-	$(INSTDATA) ChangeLog debian/tmp-all/usr/doc/auctex/changelog
-	$(INSTDATA) debian/copyright debian/tmp-all/usr/doc/auctex/
-	gzip -9v debian/tmp-all/usr/doc/auctex/*
-	gzip -9v debian/tmp-all/usr/info/*
-	dpkg-gencontrol -pauctex -Pdebian/tmp-all
-	$(INSCRIPT) debian/auctex.cron debian/tmp-all/etc/cron.weekly/auctex
-	$(INSCRIPT) debian/auctex-auto-load debian/tmp-all/usr/sbin
-	$(INSCRIPT) debian/postinst debian/tmp-all/DEBIAN/
-	$(INSCRIPT) debian/postrm debian/tmp-all/DEBIAN/
-	$(INSCRIPT) debian/prerm debian/tmp-all/DEBIAN/
-	$(INSCRIPT) debian/preinst debian/tmp-all/DEBIAN/
-	$(INSCRIPT) debian/conffiles debian/tmp-all/DEBIAN/
-	chown -R root.root debian/tmp-all
-	dpkg --build debian/tmp-all ..
+binary-indep: checkroot build
+	$(checkdir)
+	-rm -rf $(tmp)
 
-mrproper: clean
-	-rm -f `find . \( -name \*~ -o -name \*.bak \) -print`
+# install package
+	$(INSTDIR) $(info) $(lisp)
+	$(MAKE) prefix=$(usr) infodir=$(info) lispdir=$(lisp) install install-contrib install-info
+#       remove uncompiled version AND usr/lib/emacs/common/tex-site.el
+	rm $$(find $(lisp) -name \*.el)
+	gzip -9v $(info)/*
 
-# generic targets:
-binary:     binary-indep binary-arch
+# install Debian system files
+	$(INSTDIR) $(cron) $(elisp) $(sbin)
+	$(INSTDATA) debian/tex-site.el $(elisp)
+	$(INSTSCRIPT) debian/auctex.cron $(cron)/auctex
+	$(INSTSCRIPT) debian/auctex-auto-load $(sbin)
+
+# install Debian doc
+	$(INSTDIR) $(doc)
+	$(INSTDATA) $(DOCS) $(doc)
+	$(INSTDATA) ChangeLog $(doc)/changelog
+	$(INSTDATA) debian/changelog $(doc)/changelog.Debian
+	gzip -9v $(doc)/*
+	$(INSTDATA) debian/copyright $(doc)
+
+# install Debian control files
+	$(INSTDIR) $(DEBIAN)
+	$(INSTDATA) debian/conffiles $(DEBIAN)
+	$(INSTSCRIPT) debian/{preinst,postinst,prerm,postrm} $(DEBIAN)
+
+# standard stuff
+	cd $(tmp) && md5sum $$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") | sort -k 2 -o DEBIAN/md5sums
+	dpkg-gencontrol
+	chown -R root.root $(tmp)
+	chmod -R go=rX $(tmp)
+	dpkg --build $(tmp) ..
+
+binary: binary-indep binary-arch
+
+checkdir = test -f debian/rules
+
+checkroot:
+	$(checkdir)
+	test root = "$$(whoami)"
 
 source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
-checkroot:
-	$(checkdir)
-	test root = "`whoami`"
-
 .PHONY: binary binary-arch binary-indep clean checkroot
 
-# Local Variables:
-# mode: makefile
-# End:
+### Local Variables:
+### mode: makefile
+### fill-column: 132
+### End:

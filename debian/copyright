@@ -1,11 +1,16 @@
-This is Debian/GNU Linux's prepackaged version of the AUC TeX
-Emacs lisp package. The package was assembeled by Helmut Geyer
-<Helmut.Geyer@iwr.uni-heidelberg.de> using sources obtained from 
-<ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/auctex-9.7l.tar.gz>
+This is the Debian GNU/Linux prepackaged version of the AUC TeX Emacs lisp
+package.
 
-Some adjustments to Makefile were necessary and tex.el was changed in order
-to improve the TeX-auto-generate and TeX-auto-generate-global functions.
+The current release of this package was assembled by Davide G. M. Salvetti
+<salve@debian.org> using source obtained from:
+ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auxtex/auctex-9.8i.tar.gz.
 
-AUC TeX is distributed under the GNU General Public License version 2;
-for details see the file /usr/doc/GPL which contains the complete text
-of the license.
+Current AUC TeX maintainer is Per Abrahamsen <auc-tex@sunsite.auc.dk>.
+
+The original AUC Tex Debian package was assembled by Helmut Geyer
+<Helmut.Geyer@iwr.uni-heidelberg.de>.
+
+Obviously, tex-site.el has been appropriately configured for Debian
+GNU/Linux.
+
+Copyright: GPL (see /usr/doc/copyright/GPL).
