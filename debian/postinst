@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# $Id: postinst,v 1.22 1998/03/06 14:20:22 salve Exp $
+# $Id: postinst,v 1.23 1998/03/06 16:11:13 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -76,7 +76,7 @@ case "$1" in
 	    # does no harm.
 	    # Anyway, that some other version should be 9.8i-3: we changed
 	    # from /var/lib/emacs/auctex to /var/lib/auctex!
-	    if [ ! -d /var/lib/auctex ]; then
+	    if [ $(find /var/lib/ -name auctex -type d -empty) ]; then
 		run_auto_generate
 	    fi
 	fi

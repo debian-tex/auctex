@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.22 1998/02/24 16:05:00 salve Exp $
+# $Id: rules,v 1.23 1998/03/09 13:07:27 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -108,7 +108,7 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/update-auctex-elisp.8 $(man8)
 	gzip -9frv $(man8)
 #	compatibility link: this should eventually disappear
-	ln -snf update-auctex-elisp.8.gz $(man8)/auctex-auto-load.8.gz
+#	ln -snf update-auctex-elisp.8.gz $(man8)/auctex-auto-load.8.gz
 
 # install Debian system files
 	$(INSTDIR) $(slisp) $(cron) $(menu) $(sbin) $(emacsen)/{install,remove} $(varauc)
@@ -117,7 +117,7 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/auctex.menu $(menu)/auctex
 	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
 #	compatibility link: this should eventually disappear
-	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load
+#	ln -snf update-auctex-elisp $(sbin)/auctex-auto-load
 	$(INSTSCRIPT) debian/emacsen.install $(emacsen)/install/$(package)
 	$(INSTSCRIPT) debian/emacsen.remove $(emacsen)/remove/$(package)
 

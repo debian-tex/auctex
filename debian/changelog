@@ -1,7 +1,20 @@
+auctex (9.9b-1) unstable; urgency=low
+
+  * New upstream version.
+  * ../tex-site.el: Switched Debian configuration variables definitions
+    from `defvar' to `defcustom'.
+  * ../tex-site.el: Re-added trailing `/' to TeX-lisp-directory.
+  * postinst: Fixed test on /var/lib/auctex before call to
+    run_auto_generate.
+  * rules: auctex-auto-load -> update-auctex-elisp compatibility symlink
+    disabled.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Mon,  9 Mar 1998 14:20:15 +0100
+
 auctex (9.9a-2) unstable; urgency=low
 
   * ../tex-site.el: Removed trailing `/' from TeX-lisp-directory.
-  * postinst: Use mktemp for update-aucte-elisp' log file; don't ask the
+  * postinst: Use mktemp for update-auctex-elisp' log file; don't ask the
     user about running it in background any more, just do it.
   * postinst: Fixed test for update-menus.
   * preinst: Removed a couple of question to the user.
