@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
-# elisp remove file for Debian auctex package.
-# $Id: emacsen.remove,v 1.10 1998/04/21 17:56:12 salve Exp $
+# postrm configuration file for Debian auctex package.
+# $Id: postrm,v 1.2 1998/04/21 09:44:43 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -24,21 +24,15 @@
 
 set -o posix
 
-PACKAGE=auctex
-FLAVOR=$1
-ELCDIR=/usr/share/$FLAVOR/site-lisp/$PACKAGE/
-LOG=CompilationLog
-
-case "$FLAVOR" in 
-    emacs19|emacs20)
-	echo -n "remove/$PACKAGE: Removing for $FLAVOR..."
-	rm -f $ELCDIR{,/style}/{*.elc,$LOG.gz}
-	rmdir $ELCDIR/style || true
-	rmdir $ELCDIR || true
-	echo "done."
+case "$1" in
+    remove|upgrade|purge|disappear)
+	if [ -x /usr/bin/update-menus ]; then update-menus; fi
+    ;;
+    failed-upgrade|abort-install|abort-upgrade)
+	:
     ;;
     *)
-	echo "remove/$PACKAGE: Ignoring emacsen flavor $FLAVOR."
+	echo "${0##*/}: Called with unknown argument \`$1'." >&2
     ;;
 esac
 

@@ -1,3 +1,12 @@
+auctex (9.9b-3) frozen unstable; urgency=low
+
+  * emacsen.install: Log compilation warnings.
+  * postrm: New file.
+  * prerm: Moved call to update-menus to postrm.
+  * rules: Added postrm rule.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 21 Apr 1998 19:02:59 +0200
+
 auctex (9.9b-2) frozen unstable; urgency=low
 
   * control: Added dependence on debianutils (>=1.7) (closes: #21049).

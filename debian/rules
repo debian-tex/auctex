@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.23 1998/03/09 13:07:27 salve Exp $
+# $Id: rules,v 1.24 1998/04/21 09:45:07 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -124,7 +124,7 @@ binary-indep: checkroot build
 # install Debian control files
 	$(INSTDIR) $(DEBIAN)
 	$(INSTDATA) debian/conffiles $(DEBIAN)
-	$(INSTSCRIPT) debian/{preinst,postinst,prerm} $(DEBIAN)
+	$(INSTSCRIPT) debian/{preinst,postinst,prerm,postrm} $(DEBIAN)
 
 # standard stuff
 #-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(DEBIAN)/du

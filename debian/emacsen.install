@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian auctex package.
-# $Id: emacsen.install,v 1.9 1998/02/24 16:03:04 salve Exp $
+# $Id: emacsen.install,v 1.13 1998/04/21 17:27:07 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -28,6 +28,7 @@ PACKAGE=auctex
 FLAVOR=$1
 ELDIR=/usr/share/emacs/site-lisp/$PACKAGE/
 ELCDIR=/usr/share/$FLAVOR/site-lisp/$PACKAGE/
+LOG=CompilationLog
 #-=-
 SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el multi-prompt.el \
 	 bib-cite.el font-latex.el"
@@ -61,12 +62,11 @@ case "$FLAVOR" in
 	for i in $STYLES; do cp $ELDIR/$i $ELCDIR/style/; done
 	cat <<-EOF >$ELCDIR/lpath.el
 		(setq load-path (cons "." load-path)
-		    byte-compile-warnings nil
 		    TeX-lisp-directory "<none>")
 	EOF
-	(cd $ELCDIR && $FLAVOR $EFLAGS $SOURCES $MULESRC $STYLES 2>/dev/null)
+	(cd $ELCDIR && $FLAVOR $EFLAGS $SOURCES $MULESRC $STYLES 2>&1 | gzip -9qf > $LOG.gz)
 	rm $ELCDIR/*.el $ELCDIR/style/*.el
-	echo " done."
+	echo "done."
     ;;
     *)
 	echo "install/$PACKAGE: Ignoring emacsen flavor $FLAVOR."
