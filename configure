@@ -1548,29 +1548,6 @@ fi
 
 
 
-  echo "$as_me:$LINENO: checking if build directory is valid" >&5
-echo $ECHO_N "checking if build directory is valid... $ECHO_C" >&6
-
-  elisp="(if (or (member (directory-file-name default-directory) load-path)\
-	      (member (file-name-as-directory default-directory) load-path))\
-	 \"no\" \"yes\")"
-  OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
-  ${EMACS} -batch -no-site-file -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
-  valid_build_dir="`cat ${OUTPUT}`"
-  echo "=> ${1}" >& 5 2>&1
-  rm -f ${OUTPUT}
-
-  if test "$valid_build_dir" = "no"; then
-    { { echo "$as_me:$LINENO: error: Build directory inside load-path!  Aborting!" >&5
-echo "$as_me: error: Build directory inside load-path!  Aborting!" >&2;}
-   { (exit 1); exit 1; }; }
-  else
-    echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
-  fi
-
-
     if test ${EMACS_FLAVOR} = xemacs; then
     echo "$as_me:$LINENO: checking for XEmacs package directory" >&5
 echo $ECHO_N "checking for XEmacs package directory... $ECHO_C" >&6

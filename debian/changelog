@@ -1,6 +1,13 @@
-auctex (11.52-2) unstable; urgency=high
+auctex (11.52-3) unstable; urgency=high
 
   * Important bug fix release.  (Closes: #268156)
+  * ../configure: Completely remove the test for build directory validity.
+    (Unharmful hack on Debian.)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed,  8 Sep 2004 09:52:18 +0200
+
+auctex (11.52-2) UNRELEASED; urgency=high
+
   * ../configure: Add "-no-site-file" to the test for build directory
     validity.
   * install (do_install): Add ".nosearch" to the ${FLAVOR} "site-lisp"
