@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian auctex package.
-# $Id: postinst,v 1.26 1999/10/05 20:02:30 salve Exp $
+# $Id: postinst,v 1.29 1999/10/05 23:22:07 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1998.
 #
@@ -20,7 +20,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #
 # On Debian GNU/Linux System you can find a copy of the GNU General Public
-# License in /usr/doc/copyright/GPL.
+# License in /usr/share/common-licenses/GPL.
 
 set -o posix
 
@@ -56,9 +56,9 @@ case "$1" in
 	install-info --section "Document Preparation" "Document Preparation" \
 		     --menuentry="AUC TeX" \
 		     --description="An integrated environment for TeX and LaTeX." \
-		     --quiet /usr/info/auctex.gz
+		     --quiet /usr/share/info/auctex.gz
 	if test -x /usr/bin/update-menus; then update-menus; fi
-	if test -x /usr/sbin/dhelp_parse; then dhelp_parse -a /usr/doc/auctex/auctex.html; fi
+	if test -x /usr/sbin/dhelp_parse; then dhelp_parse -a /usr/share/doc/auctex/auctex.html; fi
 	if [ "$1" = "configure" ]; then
 	    # Do we have old stuff still around?
 	    for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do

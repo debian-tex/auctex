@@ -12,4 +12,4 @@
 		while it moves the cursor directly to the reported error and displays\
 		documentation for that particular error.  This will even work when the\
 		document is spread over several files."\
-	command="/usr/doc/auctex/auctex.html/index.html"
+	command="/usr/share/doc/auctex/auctex.html/index.html"

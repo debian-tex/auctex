@@ -1,7 +1,7 @@
 #! /usr/bin/make -f
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.27 1999/10/05 20:02:30 salve Exp $
+# $Id: rules,v 1.28 1999/10/05 22:58:36 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -20,7 +20,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #
 # On Debian GNU/Linux System you can find a copy of the GNU General Public
-# License in /usr/doc/copyright/GPL.
+# License in /usr/share/common-licenses/GPL.
 
 package	:= auctex
 #-=-
@@ -45,15 +45,16 @@ STYLES	:= style/slides.el    style/foils.el    style/amstex.el \
 
 tmp	:= $(shell pwd)/debian/tmp/
 usr	:= $(tmp)/usr/
-info	:= $(usr)/info/
-slisp	:= $(usr)/share/emacs/site-lisp/
+share	:= $(usr)/share/
+info	:= $(share)/info/
+slisp	:= $(share)/emacs/site-lisp/
 lisp	:= $(slisp)/$(package)/
 style	:= $(lisp)/style
 
 DEBIAN 	:= $(tmp)/DEBIAN/
-doc	:= $(usr)/doc/$(package)/
+doc	:= $(share)/doc/$(package)/
 html	:= $(doc)/$(package).html/
-man8	:= $(usr)/man/man8/
+man8	:= $(share)/man/man8/
 cron	:= $(tmp)/etc/cron.weekly/
 menu	:= $(usr)/lib/menu/
 emacsen	:= $(usr)/lib/emacsen-common/packages/

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # preinst configuration file for Debian auctex package.
-# $Id: preinst,v 1.21 1998/08/27 16:23:37 salve Exp $
+# $Id: preinst,v 1.22 1999/10/05 22:58:36 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998.
 #
@@ -20,7 +20,7 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #
 # On Debian GNU/Linux System you can find a copy of the GNU General Public
-# License in /usr/doc/copyright/GPL.
+# License in /usr/share/common-licenses/GPL.
 
 set -o posix
 
@@ -54,7 +54,7 @@ function move_old_conffile () {
 	cat <<-EOF
 
 		There is a new method to start AUC TeX on a per user or per site basis: you
-		should read /usr/doc/auctex/README.Debian.gz to learn about it.
+		should read /usr/share/doc/auctex/README.Debian.gz to learn about it.
 
 		As a consequence of this new method, the old conffile /etc/elisp/tex-site.el
 		is no more needed and will be moved to /etc/tex-site.el.old; you can safely
