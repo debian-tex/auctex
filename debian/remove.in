@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp remove file for Debian <:=${PACKAGE}:> package.
-# $Id: remove.in,v 1.12 2004/03/17 09:38:25 salve Exp $
+# $Id: remove.in,v 1.13 2004/05/13 14:47:52 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -10,8 +10,11 @@ set -o posix
 
 FLAVOR=${1}
 
-undo_byte_compile () {
+undo_install () {
     echo >&2 -n "remove/<:=${PACKAGE}:>: Removing for ${FLAVOR}... "
+    rm -f <:=if($_="${sstartd}/${EPRIORITY}${PACKAGE}.el")
+	    =~s|emacs|\${FLAVOR}|:>
+    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../tex-site.el
     rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/{*.elc,<:=${ELCLOG}:>.gz}
     rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/*.elc
     rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/.nosearch
@@ -35,8 +38,8 @@ case "${FLAVOR}" in
     (emacs21)
     <:# remove all parsed information files:>//
     undo_auto
-    <:# undo byte compilation:>//
-    undo_byte_compile ;;
+    <:# deinstall:>//
+    undo_install ;;
     (*) echo >&2 "remove/<:=${PACKAGE}:>: Ignoring emacsen flavor ${FLAVOR}." ;;
 esac
 

@@ -2,16 +2,16 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: postinst.in,v 1.15 2004/03/18 14:03:32 salve Exp $
+# $Id: postinst.in,v 1.17 2004/05/13 14:47:13 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-<:# parse debconf database:>//
+<:# parse debconf database: do not remove, even if we make no further use
+  #  of it here:>//
 source <:=${CONFMODULE}:>
 db_version 2.0
-db_get <:=${PACKAGE}:>/default || true; _db_default=${RET}
 
 #---B-E-G-I-N---O-L-D---S-T-U-F-F---keep-it,-it-doesn't-hurt-------------------
 for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
@@ -26,22 +26,6 @@ for i in /usr/lib/emacs/common/auctex /usr/lib/emacs/common; do
     fi
 done
 #---E-N-D---O-L-D---S-T-U-F-F--------------------------------------------------
-
-conf_autoload () {
-    unset -v AUTOLOAD || true
-    if [ ${_db_default} = "true" ]
-	then AUTOLOAD="(require 'tex-site)"
-    fi
-    if [ ! -z "${AUTOLOAD}" ]; then umask 022;
-	cat <<-EOF ><:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
-		$(echo ${AUTOLOAD} | tr -s " ")
-	EOF
-	chmod 644 <:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
-    else
-	rm -f <:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
-    fi
-    return 0
-}
 
 case "${1}" in
     (abort-remove|abort-upgrade|configure)
@@ -60,14 +44,12 @@ case "${1}" in
     <:# register doc with doc-base:>//
     <:=${DINSTALL}:> <:="${docbase}/${PACKAGE}":>
     <:# install info menu into info dir:>//
-    <:=${IINSTALL}:> <:="${info}/${PACKAGE}.info.gz":>
-    <:# put or remove emacs startup file:>//
-    conf_autoload ;;
+    <:=${IINSTALL}:> <:="${info}/${PACKAGE}.gz":>
+    ;;
     (abort-deconfigure)
     <:# abort-deconfigure in-favour ${3:newpkg} ${4:newver} removing ${6:oldpkg} ${7:oldver}
       # (undo prerm deconfigure in-favour ${3} ${4} removing ${6} ${7}):>//
-    <:# put or remove emacs startup file:>//
-    conf_autoload ;;
+    : ;;
     (*) echo >&2 "${0##*/}: Called with unknown argument \`${1}'." ;;
 esac
 

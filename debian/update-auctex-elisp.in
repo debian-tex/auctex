@@ -1,21 +1,21 @@
 #include "variables"
 #!/bin/bash -e
 #
-# Update AucTeX auto-loads.
+# Update AUCTeX auto-loads.
 # Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: update-auctex-elisp.in,v 1.9 2004/03/17 09:39:14 salve Exp $
+# $Id: update-auctex-elisp.in,v 1.11 2004/05/13 14:50:26 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-<:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUC TeX.:>//
+<:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX.:>//
 FLAVORS=${*:-"emacs21"}
 
 for FLAVOR in ${FLAVORS}; do
     if [ -x /usr/bin/${FLAVOR} ]; then
 	${FLAVOR} --no-site-file --no-init-file --batch \
-		  --load=/usr/share/emacs/site-lisp/tex-site.el \
+		  --load=<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../tex-site.el \
 		  --funcall=TeX-auto-generate-global
     fi
 done

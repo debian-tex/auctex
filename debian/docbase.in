@@ -1,25 +1,43 @@
 #include "variables"
 Document: <:=${PACKAGE}:>
-Title: AUC TeX: An integrated environment for writing TeX/LaTeX documents.
-Author: Kresten Krab Thorup, Per Abrahamsen
-Abstract: AUC TeX can indent your text as you write it, let you run TeX/LaTeX
- and other LaTeX-related tools (such as a output filter or post processor)
- from within Emacs, and includes a wide range of Emacs macros to allow both
- easy insertions of LaTeX commands, and easy compilation, previewing, and
- printing of your TeX documents.
+Title: AUCTeX: An integrated environment for writing TeX/LaTeX documents
+Author: Kresten Krab Thorup, Per Abrahamsen, David Kastrup
+Abstract: AUCTeX is a comprehensive customizable integrated environment for
+ writing input files for TeX/LaTeX using GNU Emacs.
  .
- AUC TeX also lets you browse through compiling errors TeX reports, while it
- moves the cursor directly to the reported error and displays documentation
- for that particular error.  This will even work when the document is spread
- over several files.
+ AUCTeX lets you run TeX/LaTeX and other LaTeX-related tools, such as a output
+ filters or post processor from inside Emacs.  Especially `running LaTeX' is
+ interesting, as AUCTeX lets you browse through the errors TeX reported, while
+ it moves the cursor directly to the reported error, and displays some
+ documentation for that particular error.  This will even work when the
+ document is spread over several files.
+ .
+ AUCTeX automatically indents your `LaTeX-source', not only as you write it --
+ you can also let it indent and format an entire document.  It has a special
+ outline feature, which can greatly help you `getting an overview' of a
+ document.
+ .
+ Apart from these special features, AUCTeX provides a large range of handy
+ Emacs macros, which in several different ways can help you write your LaTeX
+ documents fast and painlessly.
+ .
+  All features of AUCTeX are documented using the GNU Emacs online
+ documentation system.  That is, documentation for any command is just a key
+ click away!
+ .
+ AUCTeX is written entirely in Emacs-Lisp, and hence you can easily add new
+ features for your own needs.  It was not made as part of any particular
+ employment or project (apart from the AUCTeX project itself).  AUCTeX is
+ distributed under the `GNU Emacs General Public License' and may therefore
+ almost freely be copied and redistributed.
 Section: <:=${MENUSEC}:>
 
 Format: texinfo
 Files: <:=if($_="${docsrc}/*.texi.gz")=~tr|/|/|s:>
 
 Format: info
-Index: <:=if($_="${info}/${PACKAGE}.info.gz")=~tr|/|/|s:>
-Files: <:=if($_="${info}/${PACKAGE}.info*")=~tr|/|/|s:>
+Index: <:=if($_="${info}/${PACKAGE}.gz")=~tr|/|/|s:>
+Files: <:=if($_="${info}/${PACKAGE}*")=~tr|/|/|s:>
 
 Format: HTML
 Index: <:=if($_="${html}/index.html")=~tr|/|/|s:>
@@ -29,6 +47,6 @@ Files: <:=if($_="${html}/*.html")=~tr|/|/|s:>
 # mode: text
 # fill-column: 78
 # End:
-# LocalWords:  auctex AUC Kresten Krab Thorup Abrahamsen MENUSEC texinfo docsrc
-# LocalWords:  texi gz tr HTML html
+# LocalWords:  auctex AUCTeX Kresten Krab Thorup Abrahamsen MENUSEC texinfo
+# LocalWords:  texi gz tr HTML html docsrc Kastrup
 :>//

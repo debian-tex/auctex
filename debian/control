@@ -7,21 +7,39 @@ Standards-Version: 3.5.10
 
 Package: auctex
 Architecture: all
-Depends: debconf, debianutils (>= 1.7), emacs21
+Depends: debconf, debianutils (>= 1.7), emacs21, make
 Recommends: tetex-base
 Suggests: catdvi, lacheck
 Description: An integrated environment for writing TeX/LaTeX documents
- AUC TeX can indent your text as you write it, let you run TeX/LaTeX
- and other LaTeX-related tools (such as a output filter or post
- processor) from within Emacs, and includes a wide range of Emacs
- macros to allow both easy insertions of LaTeX commands, and easy
- compilation, previewing, and printing of your TeX documents.
+ AUCTeX is a comprehensive customizable integrated environment for writing
+ input files for TeX/LaTeX using GNU Emacs.
  .
- AUC TeX also lets you browse through compiling errors TeX reports,
- while it moves the cursor directly to the reported error and displays
+ AUCTeX lets you run TeX/LaTeX and other LaTeX-related tools, such as a output
+ filters or post processor from inside Emacs.  Especially `running LaTeX' is
+ interesting, as AUCTeX lets you browse through the errors TeX reported, while
+ it moves the cursor directly to the reported error, and displays some
  documentation for that particular error.  This will even work when the
  document is spread over several files.
  .
- Currently XEmacs ships with its own AUC TeX, so this package should only
+ AUCTeX automatically indents your `LaTeX-source', not only as you write it --
+ you can also let it indent and format an entire document.  It has a special
+ outline feature, which can greatly help you `getting an overview' of a
+ document.
+ .
+ Apart from these special features, AUCTeX provides a large range of handy
+ Emacs macros, which in several different ways can help you write your LaTeX
+ documents fast and painlessly.
+ .
+ All features of AUCTeX are documented using the GNU Emacs online
+ documentation system.  That is, documentation for any command is just a
+ key click away!
+ .
+ AUCTeX is written entirely in Emacs-Lisp, and hence you can easily add
+ new features for your own needs.  It was not made as part of any
+ particular employment or project (apart from the AUCTeX project itself).
+ AUCTeX is distributed under the `GNU Emacs General Public License' and
+ may therefore almost freely be copied and redistributed.
+ .
+ Currently XEmacs ships with its own AUCTeX, so this package should only
  be used with GNU/Emacs.  (I.e., you don't need to install this package if
  your site uses only XEmacs.)

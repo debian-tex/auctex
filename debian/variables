@@ -1,29 +1,15 @@
-<:# Copyright (C) 1999, 2000, 01, 02, 03 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: variables,v 1.12 2003/06/29 15:34:32 salve Exp $:>//
-<:# BEWARE: The file ../tex-site.el is not yet ePerled!:>//
+<:# Copyright (C) 1999, 2000, 01, 02, 03, 04 by Davide Giovanni Maria Salvetti.:>//
+<:# $Id: variables,v 1.14 2004/05/13 14:50:49 salve Exp $:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
-<:$DOCS="CHANGES README PROBLEMS":>//
-<:# Documentation sources:>//
-<:$DOCSRC="doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,"
-	. "math-ref.tex,tex-ref.tex}":>//
-<:# AUC TeX sources:>//
-<:$SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el tex-mik.el font-latex.el tex-font.el":>//
-<:# Contributed sources:>//
-<:$SOURCES="$SOURCES bib-cite.el tex-fptex.el":>//
-<:# Mule requiring sources:>//
-<:$MULESRC="tex-jp.el":>//
-<:# X requiring sources:>//
-<:$XSRC="hilit-LaTeX.el":>//
-<:# Canned styles:>//
-<:$STYLES=qx(find ../style -type f -name \*.el -printf "style/%f "):>//
+<:$DOCS="README CHANGES HISTORY":>//
 <:# Misc package variables:>//
 <:$UPDATE="update-auctex-elisp":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
 <:$MENUSEC="Apps/Editors":>//
 <:$INFOSEC="Document Preparation":>//
-<:$INFOMENU="AUC TeX":>//
-<:$INFODESC="An integrated environment for TeX and LaTeX.":>//
+<:$INFOMENU="AUCTeX":>//
+<:$INFODESC="An integrated environment for TeX and LaTeX":>//
 <:$EPRIORITY="50":>//
 #include "system.variables"
 <:$docsrc="$doc/src/":>//

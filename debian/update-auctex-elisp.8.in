@@ -24,7 +24,7 @@
 .\"
 .TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
 .SH NAME
-update\-auctex\-elisp \- update AUC TeX automatically generated TeX
+update\-auctex\-elisp \- update AUCTeX automatically generated TeX
 macros and LaTeX styles informations.
 .SH SYNOPSIS
 .B update\-auctex\-elisp
@@ -33,7 +33,7 @@ macros and LaTeX styles informations.
 The
 .B update\-auctex\-elisp
 scripts updates the automatically generated TeX and LaTeX informations
-used by AUC TeX and stored in
+used by AUCTeX and stored in
 .B <:=${var}:>
 .PP
 It should be called after each major (La)TeX style files installation or upgrade.
@@ -63,5 +63,5 @@ Davide G. M. Salvetti <salve@debian.org>.
 # mode: nroff
 # fill-column: 76
 # End:
-# LocalWords:  auctex elisp GPL AUCTeX AUC varauc cron tex
+# LocalWords:  auctex elisp GPL AUCTeX varauc cron tex var
 :>//

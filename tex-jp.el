@@ -1,14 +1,31 @@
-;;; tex-jp.el - Support for Japanese TeX.
-;;
+;;; tex-jp.el --- Support for Japanese TeX.
 
 ;; Copyright (C) 1999, 2001 Hidenobu Nabetani <nabe@debian.or.jp>
-;; Copyright (C) 2002 Masayuki Ataka <ataka@milk.freemail.ne.jp>
+;; Copyright (C) 2002, 2003, 2004 Masayuki Ataka <ataka@milk.freemail.ne.jp>
 
 ;; Author:     KOBAYASHI Shinji <koba@flab.fujitsu.co.jp>
 ;; Maintainer: Masayuki Ataka <ataka@milk.freemail.ne.jp>
-;; Version: 11.14
+;; Keywords: tex
+
+;; This file is part of AUCTeX.
+
+;; AUCTeX is free software; you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
+
+;; AUCTeX is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with AUCTeX; see the file COPYING.  If not, write to the Free
+;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+;; 02111-1307, USA.
 
 ;;; Commentary:
+
 ;; This file was written by KOBAYASHI Shinji <koba@flab.fujitsu.co.jp>
 ;; based on many patches developed by Japanese NetNews community.
 ;; Japanese message translation by MATUI Takao <mat@nuis.ac.jp>.
@@ -19,58 +36,56 @@
 
 ;;; Customization
 
+(defgroup AUCTeX-jp nil
+  "Japanese support in AUCTeX."
+  :group 'AUCTeX)
+
 ;; TeX-format-list need to be set in tex.el, not tex-jp.el.
 ;(setq TeX-format-list
 ;      (append '(("JLATEX" japanese-latex-mode
-;		 "\\\\\\(documentstyle[^%\n]*{j\\|documentclass[^%\n]*{j\\)")
+;                 "\\\\\\(documentstyle\\|documentclass\\)[^%\n]*{\\(j[s-]?\\|t\\)\\(article\\|report\\|book\\|slides\\)")
 ;		("JTEX" japanese-plain-tex-mode
 ;		 "-- string likely in Japanese TeX --"))
 ;	      TeX-format-list))
 
 (defvar japanese-TeX-command-list
-  (list (list "jTeX" "jtex '\\nonstopmode\\input %t'"
-	      'TeX-run-TeX nil t)
-	(list "jLaTeX" "jlatex '\\nonstopmode\\input{%t}'"
-	      'TeX-run-LaTeX nil t)
-	(list "pTeX" "ptex '\\nonstopmode\\input %t'"
-	      'TeX-run-TeX nil t)
-	(list "pLaTeX" "platex '\\nonstopmode\\input{%t}'"
-	      'TeX-run-LaTeX nil t)
+  ;; Changed to double quotes for Windows afflicted people.
+  (list (list "jTeX" "jtex %S \"\\nonstopmode\\input %t\""
+	      'TeX-run-TeX nil (list 'plain-tex-mode))
+	(list "jLaTeX" "jlatex %S \"\\nonstopmode\\input{%t}\""
+	      'TeX-run-LaTeX nil (list 'latex-mode))
+	(list "pTeX" "ptex %S \"\\nonstopmode\\input %t\""
+	      'TeX-run-TeX nil (list 'plain-tex-mode))
+	(list "pLaTeX" "platex %S \"\\nonstopmode\\input{%t}\""
+	      'TeX-run-LaTeX nil (list 'latex-mode))
 	(list "Mendex" "mendex %s" 'TeX-run-command nil t)
-	(list "jBibTeX" "jbibtex %s" 'TeX-run-BibTeX nil nil))
+	(list "jBibTeX" "jbibtex %s" 'TeX-run-BibTeX nil t))
   "Additional list of commands to execute in japanese-LaTeX-mode")
 
 (setq TeX-command-list
-      (append japanese-TeX-command-list TeX-command-list))
+      (append japanese-TeX-command-list
+	      '(("-" "" nil nil t)) ;; separetor for command menu
+	      TeX-command-list))
 
-;; the following code is needed to change mode-menu in japanese-LaTeX-mode.
-(easy-menu-define TeX-mode-menu
-    TeX-mode-map
-    "Menu used in TeX mode."
-  (append '("Command")
-	  '(("Command on"
-	     [ "Master File" TeX-command-select-master
-	       :keys "C-c C-c" :style radio
-	       :selected (eq TeX-command-current 'TeX-command-master) ]
-	     [ "Buffer" TeX-command-select-buffer
-	       :keys "C-c C-b" :style radio
-	       :selected (eq TeX-command-current 'TeX-command-buffer) ]
-	     [ "Region" TeX-command-select-region
-	       :keys "C-c C-r" :style radio
-	       :selected (eq TeX-command-current 'TeX-command-region) ]))
-	  (let ((file 'TeX-command-on-current))
-	    (mapcar 'TeX-command-menu-entry TeX-command-list))))
+;; Menus
 
-(define-key LaTeX-mode-map [menu-bar Command] (cons "Command" TeX-mode-menu))
-;; up to here to change mode-menu in japanese-LaTeX-mode.
+(easy-menu-define plain-TeX-mode-command-menu
+  plain-TeX-mode-map
+  "Command menu used in TeX mode."
+  (TeX-mode-specific-command-menu 'plain-tex-mode))
+
+(easy-menu-define LaTeX-mode-command-menu
+  LaTeX-mode-map
+  "Command menu used in LaTeX mode."
+  (TeX-mode-specific-command-menu 'latex-mode))
 
 (setq LaTeX-command-style
       (append (if (string-equal LaTeX-version "2")
 		  '(("^ams" "amsjlatex")
 		    ("^jslides$" "jslitex")
 		    ("^j-?\\(article\\|report\\|book\\)$" "jlatex"))
-                '(("^j-\\(article\\|report\\|book\\)$" "jlatex")
-                  ("^[jt]s?\\(article\\|report\\|book\\)$" "platex")))
+		'(("^j-\\(article\\|report\\|book\\)$" "jlatex")
+		  ("^[jt]s?\\(article\\|report\\|book\\)$" "platex")))
 	      LaTeX-command-style))
 
 (setcdr (assoc "%l" TeX-expand-list)
@@ -94,18 +109,24 @@
       (defvar TeX-japanese-process-output-coding-system 'junet
 	"TeX-process' coding system with standard output.")))
 
-(defvar japanese-TeX-command-default "jTeX"
-  "The default command for TeX-command in the japanese-TeX mode.")
-(make-variable-buffer-local 'japanese-TeX-command-default)
+(defcustom japanese-TeX-command-default "pTeX"
+  "*The default command for TeX-command in the japanese-TeX mode."
+  :group 'AUCTeX-jp
+  :type 'string)
+  (make-variable-buffer-local 'japanese-TeX-command-default)
 
-(defvar japanese-LaTeX-command-default "jLaTeX"
-  "The default command for TeX-command in the japanese-LaTeX mode.")
-(make-variable-buffer-local 'japanese-LaTeX-command-default)
+(defcustom japanese-LaTeX-command-default "LaTeX"
+  "*The default command for TeX-command in the japanese-LaTeX mode."
+  :group 'AUCTeX-jp
+  :type 'string)
+  (make-variable-buffer-local 'japanese-LaTeX-command-default)
 
-(defvar japanese-LaTeX-default-style "j-article"
-  "*Default when creating new Japanese documents.")
+(defcustom japanese-LaTeX-default-style "jarticle"
+  "*Default when creating new Japanese documents."
+  :group 'AUCTeX-jp
+  :type 'string)
 
-(defvar japanese-LaTeX-style-list
+(defcustom japanese-LaTeX-style-list
   '(("j-article")
     ("j-report")
     ("j-book")
@@ -116,7 +137,9 @@
     ("tarticle")
     ("treport")
     ("tbook"))
-  "*List of Japanese document styles.")
+  "*List of Japanese document styles."
+  :group 'AUCTeX-jp
+  :type '(repeat (group (string :format "%v"))))
 
 (setq LaTeX-style-list
       (append japanese-LaTeX-style-list LaTeX-style-list))
@@ -126,18 +149,17 @@
 (if (and (featurep 'xemacs)
 	 (featurep 'mule))
     (setq TeX-after-start-process-function
-	  (function (lambda (process)
-		      (set-process-input-coding-system
-		       process
-		       TeX-japanese-process-input-coding-system)
-		      (set-process-output-coding-system
-		       process
-		       TeX-japanese-process-output-coding-system)))))
+	  (lambda (process)
+	    (set-process-input-coding-system
+	     process
+	     TeX-japanese-process-input-coding-system)
+	    (set-process-output-coding-system
+	     process
+	     TeX-japanese-process-output-coding-system))))
 
 ;;; Japanese Parsing
 
-(if (featurep 'mule)
-(progn
+(when (featurep 'mule)
 
 (defconst LaTeX-auto-regexp-list
   (append
@@ -190,7 +212,7 @@
      1 LaTeX-auto-bibitem))
   "List of regexp-list expressions matching BibTeX items.")
 
-))
+)
 
 (defconst TeX-auto-full-regexp-list
   (append LaTeX-auto-regexp-list plain-TeX-auto-regexp-list)
@@ -277,7 +299,7 @@ Set japanese-TeX-mode to t, and enters latex-mode."
 ;;;     ;; If there was no newline, and there is text in the paragraph, then
 ;;;     ;; create a newline.
 ;;;     (if (and (not oneleft) (> to from-plus-indent))
-;;; 	(newline))
+;;;	(newline))
     (goto-char from-plus-indent))
 
   (if (not (> to (point)))
@@ -513,13 +535,13 @@ Set japanese-TeX-mode to t, and enters latex-mode."
 		  (LaTeX-indent-line)
 		  ;; Set prefixcol so whitespace in the prefix won't get lost.
 		  (and fill-prefix (not (equal fill-prefix ""))
-                       (setq prefixcol (current-column)))))
+		       (setq prefixcol (current-column)))))
 	      ;; Justify the line just ended, if desired.
 	      (if justify
-                (if (save-excursion (skip-chars-forward " \t") (eobp))
-                    (progn
-                      (delete-horizontal-space)
-                      (justify-current-line justify t t))
+		(if (save-excursion (skip-chars-forward " \t") (eobp))
+		    (progn
+		      (delete-horizontal-space)
+		      (justify-current-line justify t t))
 		    (forward-line -1)
 		    (justify-current-line justify nil t)
 		    (forward-line 1))))))
@@ -816,7 +838,7 @@ input stack size
 このエラーはおそらく命令定義中の誤りによるものです．例えば，次の命令は
 再帰的定義となっており，自分自身を使って\\gnuを定義しています．
 
-          \\newcommand{\\gnu}{a \\gnu} % これはだめ
+	  \\newcommand{\\gnu}{a \\gnu} % これはだめ
 
 この\\gnu命令を見つけるとTeXは\\gnuが何をうみだすのかを決定しようとし
 てその末尾をいつまでも追いつづけ，やがて``input stack''を使いきってし

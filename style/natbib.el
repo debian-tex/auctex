@@ -45,10 +45,13 @@
       ;; Add the other symbols
       (TeX-add-symbols
        '("citetext" "Text")
-       '("bibpunct" ["Post note separator"] "Opening bracket" "Closing bracket"
-	 "style [n]umeric [s]uperscript [a]uthor-year"
-	 "Punctuation between author and year"
-	 "Punctuation between years for common authors")
+       '("bibpunct" ["Post note separator"] 
+		 "Opening bracket"
+		 "Closing bracket"
+		 "Punctuation between multiple citations"
+		 "style [n]umeric [s]uperscript [a]uthor-year"
+		 "Punctuation between author and year"
+		 "Punctuation between years for common authors")
        '("citestyle" "Style")
        '("citeindextrue")
        '("citeindexfalse")
@@ -63,7 +66,16 @@
 			   citecmds "\\|")
 		"\\)\\(\\[[^]\n\r\\%]*\\]\\)*{\\([^{}\n\r\\%,]*,\\)*\\([^{}\n\r\\%,]*\\)")
 	4 'LaTeX-bibitem-list "}")))
-    
+
+    ;; Add fontification for references
+    (setq font-latex-match-reference-keywords-local
+          (append font-latex-match-reference-keywords-local
+            '("cite" "citet" "citet*" "citealt" "citealt*"
+              "citep" "citep*" "citealp" "citealp*" 
+              "citeauthor" "citeauthor*" "citefullauthor"
+              "citeyear" "citeyearpar""shortcites")))
+    (font-latex-match-reference-make)
+
     ;; Tell RefTeX
     (if (fboundp 'reftex-set-cite-format)
 	(reftex-set-cite-format 'natbib)))))

@@ -2,29 +2,22 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: prerm.in,v 1.8 2002/09/27 12:59:46 salve Exp $
+# $Id: prerm.in,v 1.9 2004/05/13 14:47:36 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-deconf_autoload () {
-    rm -f <:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
-    return 0
-}
-
 case "${1}" in
     (deconfigure)
     <:# deconfigure in-favour ${3:newpkg} ${4:newver} removing ${6:oldpkg} ${7:oldver}:>//
     <:# remove emacs startup file if present:>//
-    deconf_autoload ;;
+    : ;;
     (remove|upgrade)
     <:# remove
       # (or, in case of conflict with newpkg)
       # remove in-favour ${3:newpkg} ${4:newver}:>//
     <:# upgrade ${2:newver}:>//
-    <:# remove emacs startup file if present:>//
-    deconf_autoload
     <:# remove info menu from info dir:>//
     <:=${IREMOVE}:> <:=${PACKAGE}:>
     <:# remove doc menu from doc dir:>//

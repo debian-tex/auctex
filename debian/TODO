@@ -1,6 +1,10 @@
 * TeX-printer-list, TeX-printer-default
-Is there any simple way to collect printer info at installation time, or even
-better at load time?
+  Is there any simple way to collect printer info at installation time, or
+  even better at load time?
+
+* update-auctex-something.in
+  Update AUCTeX configuration (see do_install in install.in), to be added
+  to the weekly cron job.
 
 
 Local variables:

@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.49 2004/03/18 14:09:55 salve Exp $
+# $Id: rules,v 1.50 2004/05/13 14:51:07 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04 by Davide Giovanni
 # Maria Salvetti.
@@ -43,7 +43,14 @@ DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 # (it's CVS registered), lest it will be deleted by clean.
 # Beside, it's automatically remade by make
 
-debian/system.variables: /home/salve/Debian/Packages/system.variables
+AUCTEXSCRIPTS	:= configure install-sh
+AUCTEXSRC	:= $(shell ls *.in | grep -v configure) *.el
+AUCTEXSTYLES	:= style/*.el style/.nosearch
+# Hack needed by configure: touch Makefile.in in auctexdoc.
+auctexdoc	:= $(tmp)//usr/share/emacs/site-lisp/auctex//doc
+AUCTEXDOC	:= Makefile.in
+
+debian/system.variables: /home/salve/.../Debian/Packages/system.variables
 	$(INSTDATA) $< $@
 
 debian/rules: debian/variables
@@ -54,15 +61,17 @@ debian/rules: debian/variables
 
 build: $(DFILES)
 	$(checkdir)
+	test -x ./autogen.sh && ./autogen.sh || true
+	./configure --infodir=/usr/share/info/
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
+	cd doc && $(MAKE) README CHANGES HISTORY
 	touch build
 
 clean:
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
-	-rm -f $$(find . -name \*.elc)
-	-$(MAKE) clean
+	-$(MAKE) distclean
 	-rm -f $(DFILES)
 
 binary: binary-indep binary-arch
@@ -75,22 +84,22 @@ binary-indep: checkroot build
 	-rm -rf $(tmp)
 
 # install package
-	$(INSTDIR) $(tmp)//usr/share/info/ $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//usr/share/emacs/site-lisp/auctex//style/
-	$(INSTDATA) auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el tex-mik.el font-latex.el tex-font.el bib-cite.el tex-fptex.el $(tmp)//usr/share/emacs/site-lisp/auctex/
-	$(INSTDATA) tex-jp.el $(tmp)//usr/share/emacs/site-lisp/auctex/
-	$(INSTDATA) hilit-LaTeX.el $(tmp)//usr/share/emacs/site-lisp/auctex/
-	$(INSTDATA) style/amsart.el style/amsbook.el style/amsbsy.el style/amsmath.el style/amsopn.el style/amstex.el style/amstext.el style/amsthm.el style/article.el style/book.el style/czech.el style/danish.el style/dinbrief.el style/dk.el style/dutch.el style/epsf.el style/fancyref.el style/foils.el style/german.el style/graphics.el style/graphicx.el style/harvard.el style/index.el style/j-article.el style/j-book.el style/j-report.el style/jarticle.el style/jbook.el style/jreport.el style/latexinfo.el style/letter.el style/makeidx.el style/mdwlist.el style/multind.el style/natbib.el style/ngerman.el style/plfonts.el style/plhb.el style/psfig.el style/report.el style/slides.el style/slovak.el style/swedish.el style/varioref.el style/virtex.el style/verbatim.el style/prosper.el style/scrartcl.el style/scrbase.el style/scrbook.el style/scrlttr2.el style/scrreprt.el  $(tmp)//usr/share/emacs/site-lisp/auctex//style/
-#       This one prevents ${style} from being added to load-path by
-#       normal-top-level-add-subdirs-to-load-path (see subdirs.el)
-	(umask 022 && touch $(tmp)//usr/share/emacs/site-lisp/auctex//style//.nosearch)
-	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/
+	$(INSTDIR) $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//usr/share/emacs/site-lisp/auctex//style/ $(auctexdoc)
+	$(INSTSCRIPT) $(AUCTEXSCRIPTS) $(tmp)//usr/share/emacs/site-lisp/auctex//
+	$(INSTDATA) $(AUCTEXSRC) $(tmp)//usr/share/emacs/site-lisp/auctex//
+	$(INSTDATA) $(AUCTEXSTYLES) $(tmp)//usr/share/emacs/site-lisp/auctex//style//
+	umask 0022; echo -e "clean distclean:\n\trm -f Makefile\n" \
+		> $(auctexdoc)/$(AUCTEXDOC)
+	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/ \
+		&& rm $(tmp)//usr/share/info//dir{,.old}
 	gzip -9frv $(tmp)//usr/share/info/
 
 # install Debian doc
 	$(INSTDIR) $(tmp)//usr/share/doc/auctex/ $(tmp)//usr/share/doc/auctex//src/ \
 		$(tmp)//usr/share/doc/auctex//HTML $(tmp)//usr/share/man//man8/
-	$(INSTDATA) CHANGES README PROBLEMS $(tmp)//usr/share/doc/auctex/
-	$(INSTDATA) doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,math-ref.tex,tex-ref.tex} $(tmp)//usr/share/doc/auctex//src/
+	$(INSTDATA) doc/README doc/CHANGES doc/HISTORY  \
+		$(tmp)//usr/share/doc/auctex/
+	$(INSTDATA) doc/*.tex{,i} $(tmp)//usr/share/doc/auctex//src/
 	$(INSTDATA) debian/README $(tmp)//usr/share/doc/auctex//README.Debian
 	$(INSTDATA) ChangeLog $(tmp)//usr/share/doc/auctex/
 	$(INSTDATA) debian/changelog $(tmp)//usr/share/doc/auctex//changelog.Debian
@@ -106,7 +115,6 @@ binary-indep: checkroot build
 	$(INSTDIR) $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//etc/cron.weekly/ \
 		$(tmp)//usr/sbin/ $(tmp)//usr/lib/emacsen-common/packages//{install,remove} \
 		$(tmp)//usr/share/doc-base/ $(tmp)//var/lib/auctex/
-	$(INSTDATA) tex-site.el $(tmp)//usr/share/emacs/site-lisp/auctex//../
 	$(INSTDATA) debian/docbase $(tmp)//usr/share/doc-base//auctex
 	$(INSTSCRIPT) debian/cron $(tmp)//etc/cron.weekly//auctex
 	$(INSTSCRIPT) debian/update-auctex-elisp $(tmp)//usr/sbin/

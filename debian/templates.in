@@ -2,57 +2,57 @@
 Template: <:=${PACKAGE}:>/default
 Type: boolean
 Default: true
-Description: Should AUC-TeX be auto-loaded by default at your site?
+Description: Should AUCTeX be auto-loaded by default at your site?
  Emacs has its own standard (La)TeX major modes, that will be globally (i.e.,
- for all users on this site) overridden by AUC-TeX if you answer yes to this
+ for all users on this site) overridden by AUCTeX if you answer yes to this
  question.
  .
- This is generally a good thing, since AUC-TeX is so much better; however you
+ This is generally a good thing, since AUCTeX is so much better; however you
  may not want it to happen, and instead let single users at your site decide
  by themselves if they should load this package.
  .
  If you answer no, people who desire to use it will have to put the string
  "(require 'tex-site)" in their "~/.emacs" to load it.
-Description-it: Abilitare AUC-TeX automaticamente su questa macchina?
+Description-it: Abilitare AUCTeX automaticamente su questa macchina?
  Emacs normalmente ha i propri modi maggiori originali per (La)TeX; se si
  risponde affermativamente a questa domanda, questi verranno globalmente
- sostituiti da quelli di AUC-TeX (sostituiti, cio.béË, per tutti gli utenti di
+ sostituiti da quelli di AUCTeX (sostituiti, cio.béË, per tutti gli utenti di
  questa macchina).
  .
- In genere questa éË una buona cosa, perchéÈ i modi di AUC-TeX sono molto
+ In genere questa éË una buona cosa, perchéÈ i modi di AUCTeX sono molto
  migliori degli originali; puéÚ darsi, tuttavia, che si preferisca lasciare a
  ciascun singolo utente la decisione di far uso o meno di questo pacchetto.
  .
  Se la risposta saré‡ negativa, gli utenti che ne vorranno far uso dovranno
  mettere manualmente la stringa "(require 'tex-site)" nel loro "~/.emacs" per
- abilitare AUC-TeX.
-Description-de: Soll AUC-TeX systemweit automatisch geladen werden?
+ abilitare AUCTeX.
+Description-de: Soll AUCTeX systemweit automatisch geladen werden?
  Emacs hat standardmé‰éﬂige (La)TeX-Modi, die global (also fé¸r alle Nutzer auf
  Ihrem System) é¸berschrieben werden, wenn Sie diese Frage bejahen.
  .
- Das ist generell ein gutes Ding, da AUC-TeX 'ne Ecke besser ist -- wie auch
+ Das ist generell ein gutes Ding, da AUCTeX 'ne Ecke besser ist -- wie auch
  immer, Sie kéˆnnten das nicht méˆgen und jedem Nutzer die Wahl lassen wollen,
  ob sie das Paket einbinden.
  .
- Wenn Sie die Frage verneinen, mé¸ssen Nutzer, die AUC-TeX nutzen wollen,
+ Wenn Sie die Frage verneinen, mé¸ssen Nutzer, die AUCTeX nutzen wollen,
  "(require 'tex-site)" in ihr "~/.emacs" einfé¸gen.
-Description-es: éøDebe cargarse AUC-TeX por defecto en su sistema?
+Description-es: éøDebe cargarse AUCTeX por defecto en su sistema?
  Emacs tiene sus modos (La)TeX esté·ndar que seré·n reemplazados globalmente
- (para todos los usuarios del sistema) por AUC-TeX si responde SéÌ a esta
+ (para todos los usuarios del sistema) por AUCTeX si responde SéÌ a esta
  pregunta.
  .
- Generalmente es una buena idea ya que AUC-TeX es mucho mejor.  Sin embargo
+ Generalmente es una buena idea ya que AUCTeX es mucho mejor.  Sin embargo
  puede que no le guste la idea y prefiera que los usuarios de su sistema
  decidan por séÌ mismos si quieren cargar este paquete.
  .
  Si responde No la gente que quiera usarlo deberé· incluir la cadena
  "(require 'tex-site)" en su "~/.emacs" para cargarlo.
-Description-pt_BR: AUC-TeX deve ser auto-carregado por padr.Aé„o em seu sistema?
+Description-pt_BR: AUCTeX deve ser auto-carregado por padr.Aé„o em seu sistema?
  Emacs tem seus préÛprios modos (La)TeX padréıes, que seré„o cancelados
- globalmente (isto éÈ, para todos os usué·rios deste sistema) pelo AUC-TeX se
+ globalmente (isto éÈ, para todos os usué·rios deste sistema) pelo AUCTeX se
  vocéÍ responder sim a esta questé„o.
  .
- Isto geralmente éÈ algo bom, jé· que o AUC-TeX éÈ muito melhor; entretanto vocéÍ
+ Isto geralmente éÈ algo bom, jé· que o AUCTeX éÈ muito melhor; entretanto vocéÍ
  pode né„o querer que isso aconteéÁa, e ao invéÈs disso deixar que os usué·rios de
  seu sistema escolham por si préÛprios se devem carregar este pacote.
  .
@@ -61,37 +61,37 @@ Description-pt_BR: AUC-TeX deve ser auto-carregado por padr.Aé„o em seu sistema
 
 Template: <:=${PACKAGE}:>/alreadydefault
 Type: note
-Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
- By inspection of the file "<:=${SSEL}:>" AUC-TeX seems to be
+Description: AUCTeX seems to be already auto-loaded at your site.  Good.
+ By inspection of the file "<:=${SSEL}:>" AUCTeX seems to be
  already auto-loaded by default at your site.
  .
  If this is not true, or if it's not what you want, please search that file
  looking for "(require 'tex-site)" resembling forms and fix them; then run
  "dpkg-reconfigure <:=${PACKAGE}:>" if needed (recommended).
-Description-it: AUC-TeX sembra gi.bé‡ automaticamente abilitato su questa macchina.  Bene.
- Controllando il file "<:=${SSEL}:>", pare che AUC-TeX sia gié‡ automaticamente
+Description-it: AUCTeX sembra gi.bé‡ automaticamente abilitato su questa macchina.  Bene.
+ Controllando il file "<:=${SSEL}:>", pare che AUCTeX sia gié‡ automaticamente
  abilitato su questa macchina.
  .
  Se questo non éË vero, o se non éË quel che si desidera, si vadano a cercare in
  quel file Lisp form del tipo "(require 'tex-site)" e li si correggano;
  poi si faccia girare "dpkg-reconfigure <:=${PACKAGE}:>" per configurare di
- nuovo AUC-TeX.
-Description-de: AUC-TeX scheint schon standardmé‰éﬂig eingebunden zu sein. Fein.
- Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint AUC-TeX bereits
+ nuovo AUCTeX.
+Description-de: AUCTeX scheint schon standardmé‰éﬂig eingebunden zu sein. Fein.
+ Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint AUCTeX bereits
  standardmé‰éﬂig auf Ihrem System eingebunden zu werden.
  .
  Wenn das nicht stimmt oder wenn das nicht das ist, was Sie wollen, dann
  entfernen Sie bitte die "(require 'tex-site)"-Aufrufe in der genannten
  Datei. Danach wird der Aufruf von "dpkg-reconfigure auctex" empfohlen.
-Description-es: Parece que AUC-TeX ya se esté· cargando automé·ticamente. Bien
- Tras inspeccionar el fichero "/etc/emacs/site-start.el" parece que AUC-TeX
+Description-es: Parece que AUCTeX ya se esté· cargando automé·ticamente. Bien.
+ Tras inspeccionar el fichero "/etc/emacs/site-start.el" parece que AUCTeX
  esta ya configurado para cargarse por defecto en su sistema.
  .
  Si no es verdad o si no lo quiere, por favor, busque en el fichero la frase
  "(require 'tex-site)" y modiféÌquela.
  DespuéÈs ejecute "dpkg-reconfigure auctex" si es necesario (recomendado).
-Description-pt_BR: AUC-TeX parece j.Aé· estar se carregando automaticamente. Bom.
- Inspecionando o arquivo "/etc/emacs/site-start.el", AUC-TeX parece jé· estar
+Description-pt_BR: AUCTeX parece j.Aé· estar se carregando automaticamente. Bom.
+ Inspecionando o arquivo "/etc/emacs/site-start.el", AUCTeX parece jé· estar
  se carregando automaticamente por padré„o em seu sistema.
  .
  Se isso né„o for verdadeiro, ou se né„o éÈ o que vocéÍ quer, por favor, procure
@@ -107,7 +107,7 @@ Choices-es: Segundo plano, Primer plano, Omitir
 Choices-pt_BR: Background, Foreground, Nenhum
 Default: Background
 Description: How should (La)TeX macros be parsed?
- To greatly improve AUC-TeX performances, every TeX macro package and LaTeX
+ To greatly improve AUCTeX performances, every TeX macro package and LaTeX
  style file currently installed at your site will be parsed.
  .
  This may take a lot of time, so it should be probably done in background;
@@ -121,7 +121,7 @@ Description: How should (La)TeX macros be parsed?
  .
  Anyway, you can update them by hand running <:=${UPDATE}:>.
 Description-it: In che modo si deve effettuare la scansione delle macro per (La)TeX?
- Per migliorare grandemente le proprie prestazioni, AUC-TeX scandir.bé‡ tutti i
+ Per migliorare grandemente le proprie prestazioni, AUCTeX scandir.bé‡ tutti i
  pacchetti di macro per TeX ed i file di stile per LaTeX attualmente
  installati su questa macchina.
  .
@@ -139,7 +139,7 @@ Description-it: In che modo si deve effettuare la scansione delle macro per (La)
  In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando
  <:=${UPDATE}:>.
 Description-de: Wie sollen (La)TeX-Makros behandelt werden?
- Zur Beschleunigung von AUC-TeX kann jedes installierte TeX-Makro und jeder
+ Zur Beschleunigung von AUCTeX kann jedes installierte TeX-Makro und jeder
  LaTeX-Style im Voraus bearbeitet werden.
  .
  Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund
@@ -156,7 +156,7 @@ Description-de: Wie sollen (La)TeX-Makros behandelt werden?
  Die Aktualisierung kann zudem von Hand durch Aufruf von
  "update-auctex-elisp" erfolgen.
 Description-es: éøComo deben analizarse las macros (La)TeX?
- Para mejorar el rendimiento de AUC-TeX se analizaré· el contenido de cada
+ Para mejorar el rendimiento de AUCTeX se analizaré· el contenido de cada
  paquete de macros TeX y ficheros de estilo LaTeX instalado en su sistema.
  .
  Esto puede tardar mucho tiempo, por lo que se deberéÌa hacer en segundo
@@ -171,7 +171,7 @@ Description-es: éøComo deben analizarse las macros (La)TeX?
  De cualquier forma puede actualizarlos ejecutando update-auctex-elisp en
  cualquier momento.
 Description-pt_BR: Como macros (La)TeX devem ser interpretados?
- Para melhorar enormemente a performance de AUC-TeX, todo pacote de macro TeX
+ Para melhorar enormemente a performance de AUCTeX, todo pacote de macro TeX
  e arquivo de estilo LaTeX instalados atualmente em seu sistema ser.Aé„o
  interpretados.
  .
@@ -248,6 +248,6 @@ Description-pt_BR: Onde deve ir a sa.AéÌda da interpretaéÁé„o?
 # mode: text
 # fill-column: 78
 # End:
-# LocalWords:  AUC tex alreadydefault SSEL dpkg doauto LOGFILE cron AUC-TeX
+# LocalWords:  tex alreadydefault SSEL dpkg doauto LOGFILE cron AUCTeX
 # LocalWords:  require tex-site form dpkg-reconfigure PACKAGE UPDATE
 :>//

@@ -3,15 +3,16 @@ The Debian package auctex
 -------------------------
 
 
-Loading AUC-TeX
+Loading AUCTeX
 ===============
 
 Users will need to put "(require 'tex-site)" in their "~/.emacs" to load
-AUC-TeX, unless the local system administrator chose to start it by default.
+AUCTeX, unless the local system administrator chose to start it by default.
 
-System administrators wanting to start AUC-TeX by default on their site should
+System administrators wanting to start AUCTeX by default on their site should
 answer accordingly at the appropriate configuration time question (and may
-issue "dpkg-reconfigure <:=${PACKAGE}:>" if they change their minds afterwards).
+issue "dpkg-reconfigure <:=${PACKAGE}:>" if they change their minds
+afterwards).
 
 
 RefTeX
@@ -26,7 +27,7 @@ part of GNU Emacs).
 Font-LaTeX
 ==========
 
-Starting with AUC-TeX 11.01, a new user customizable variable appeared:
+Starting with AUCTeX 11.01, a new user customizable variable appeared:
 "TeX-install-font-lock".  Font-LaTeX it's now the default choice, so users
 need not doing anything special to load it anymore.  Emacs 21 users may choose
 "tex-font" instead, should they wish it.
@@ -45,10 +46,10 @@ directory.
 Notes to System Administrators
 ==============================
 
-A) To improve its performance AUC-TeX stores informations about TeX macros and
+A) To improve its performance AUCTeX stores informations about TeX macros and
 LaTeX styles available on the system in the "<:=${var}:>" directory.
 
-AUC-TeX updates these informations weekly, by mean of a cron script;
+AUCTeX updates these informations weekly, by mean of a cron script;
 nevertheless, you may want to run "<:=if($_="${sbin}/${UPDATE}")=~tr|/|/|s:>"
 manually after installing new style files under "/usr/local/share/texmf".
 
@@ -73,23 +74,17 @@ from within Emacs (load auctex first), or browse through the file
 Contributed Files
 =================
 
-There are several files that are not part of AUC-TeX proper, but included in
-the distribution in case they are useful.
+There are several files that are not part of AUCTeX proper, but included in
+the distribution in case they are useful:
 
-    - `hilit-LaTeX.el'
-      Better highlighting for the obsolete `hilit19' package.
+    - `bib-cite.el': better support for bibliographies and much more;
 
-    - `bib-cite.el'
-      Better support for bibliographies and much more.
+    - `tex-jp.el': Japanese support;
 
-    - `tex-jp.el'
-      Japanese support.
+    - `tex-fptex.el': fpTeX support.
 
-    - `tex-fptex.el'
-      fpTeX support.
-
-Read the comments in the start of each file for more information about how to
-load, what they do, and who wrote and maintains them.
+Read the comments at the start of each file for more information about how to
+load it, what does it do, and who wrote and maintains it.
 
 
 Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
@@ -98,6 +93,7 @@ Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
 # mode: text
 # fill-column: 78
 # End:
-# LocalWords:  auctex AUC tex dpkg HTML TeXInfo tr varauc cron sbin SSEL docsrc
+# LocalWords:  auctex AUCTeX tex dpkg HTML TeXInfo tr varauc cron sbin SSEL
 # LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET lisp hilit jp gmtime var
+# LocalWords:  docsrc RefTeX reftex fptex fpTeX
 :>//

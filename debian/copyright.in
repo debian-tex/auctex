@@ -1,21 +1,17 @@
 #include "variables"
-This is the Debian GNU/Linux prepackaged version of the AUC TeX Emacs lisp
+This is the Debian GNU/Linux prepackaged version of the AUCTeX Emacs lisp
 package.
 
 The current release of this package was assembled by:
 		   Davide G. M. Salvetti <salve@debian.org>
-using sources obtained from:
-	  <http://savannah.gnu.org/download/auctex/stable.pkg/>,
-(file: "8b0dd6adedfd3c84f94e30b07011f0c9  auctex_11.14.tar.gz").
+using sources obtained from the AUCTeX project web page
+(http://www.gnu.org/software/auctex/).
 
-The current AUC TeX upstream maintainer is:
+The current AUCTeX upstream maintainer is:
                  David Kastrup <auc-tex_mgr@sunsite.auc.dk>.
 
-The original AUC Tex Debian package was assembled by:
+The original AUCTeX Debian package was assembled by:
 	      Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
-
-Debian GNU configuration has been applied to tex.el; individual site
-configuration may be applied to tex-site.el.
 
 
 COPYRIGHT
@@ -41,6 +37,6 @@ License in "<:=${GPL}:>".
 # mode: text
 # fill-column: 78
 # End:
-# LocalWords:  AUC dbef ftp README Abrahamsen auc tex Geyer japanese jlatex jp
-# LocalWords:  platex GPL Kastrup
+# LocalWords:  AUCTeX dbef ftp README auc tex Geyer japanese jlatex
+# LocalWords:  platex GPL Kastrup jp
 :>//
