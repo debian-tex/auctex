@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp remove file for Debian <:=${PACKAGE}:> package.
-# $Id: remove.in,v 1.13 2004/05/13 14:47:52 salve Exp $
+# $Id: remove.in,v 1.14 2004/05/18 14:07:28 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -35,7 +35,7 @@ undo_auto () {
 
 case "${FLAVOR}" in
     (emacs) : ;;
-    (emacs21)
+    (emacs21|emacs-snapshot)
     <:# remove all parsed information files:>//
     undo_auto
     <:# deinstall:>//

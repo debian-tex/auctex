@@ -3,14 +3,14 @@
 #
 # Update AUCTeX auto-loads.
 # Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: update-auctex-elisp.in,v 1.11 2004/05/13 14:50:26 salve Exp $
+# $Id: update-auctex-elisp.in,v 1.12 2004/05/18 14:05:52 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 <:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX.:>//
-FLAVORS=${*:-"emacs21"}
+FLAVORS=${*:-"emacs21 emacs-snapshot"}
 
 for FLAVOR in ${FLAVORS}; do
     if [ -x /usr/bin/${FLAVOR} ]; then
