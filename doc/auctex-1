@@ -1,4 +1,4 @@
-This is auctex, produced by makeinfo version 4.0 from auc-tex.texi.
+This is auctex, produced by makeinfo version 4.2 from auc-tex.texi.
 
 START-INFO-DIR-ENTRY
 * AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
@@ -12,7 +12,7 @@ AUC TeX
 
    AUC TeX is an integrated environment for editing LaTeX and TeX files.
 
-   This file documents AUC TeX version 11.
+   This file almost documents AUC TeX version 12.
 
    Although AUC TeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -33,7 +33,7 @@ most important points.  Corrections or perhaps rewrites of sections are
 VERY WELCOME.
 
    Kresten Krab Thorup (6.0)
-Per Abrahamsen (later updates)
+Per Abrahamsen (updates to 11) David Kastrup (updates from almost 12)
 
    There is a mailing list for discussion about AUC TeX and announcement
 of alpha releases, write to `auc-tex-request@sunsite.dk' to join it.
@@ -246,13 +246,13 @@ functionality.
 Availability
 ============
 
-   The most recent version is always available by ftp at
+   The most recent version is always available at
 
-                       <ftp://sunsite.dk/packages/auctex/auctex.tar.gz>
+               <http://savannah.nongnu.org/download/auctex/stable.pkg/>
 
    WWW users may want to check out the AUC TeX page at
 
-                                            <http://sunsite.dk/auctex/>
+                                        <http://www.nongnu.org/auctex/>
 
 Contacts
 ========
@@ -579,6 +579,7 @@ you may easily specify more, as described in `Customizing environments'.
 
 * Menu:
 
+* Equations::                   Equations
 * Floats::                      Floats
 * Itemize-like::                Itemize-like
 * Tabular-like::                Tabular-like
@@ -591,7 +592,27 @@ that you use `C-c C-e' to insert complete environments instead.
      (`C-c ]') Insert an `\end' that matches the current environment.
 
 
-File: auctex,  Node: Floats,  Next: Itemize-like,  Prev: Environments,  Up: Environments
+File: auctex,  Node: Equations,  Next: Floats,  Prev: Environments,  Up: Environments
+
+Equations
+---------
+
+   When inserting equation-like environments, the `\label' will have a
+default prefix, which is controlled by the following variables:
+
+ - User Option: LaTeX-equation-label
+     Prefix to use for `equation' labels.
+
+ - User Option: LaTeX-eqnarray-label
+     Prefix to use for `eqnarray' labels.
+
+ - User Option: LaTeX-amsmath-label
+     Prefix to use for amsmath equation labels.  Amsmath equations
+     include `align', `alignat', `xalignat', `aligned', `flalign' and
+     `gather'.
+
+
+File: auctex,  Node: Floats,  Next: Itemize-like,  Prev: Equations,  Up: Environments
 
 Floats
 ------

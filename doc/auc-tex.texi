@@ -1,6 +1,9 @@
 \input texinfo
 @setfilename auctex
 @settitle AUC TeX
+@direntry
+* AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
+@end direntry
 @c footnotestyle separate
 @c paragraphindent 2
 @comment %**end of header 
@@ -8,20 +11,22 @@
 @tolerance 10000
 @end iftex
 
-@c $Id: auc-tex.texi,v 1.120 1998/02/25 09:34:56 abraham Exp $
+@c $Id: auc-tex.texi,v 1.133 2002/12/12 14:05:57 dak Exp $
 
 @finalout
 @titlepage
 @title AUC @TeX{}
 @subtitle A much enhanced La@TeX{} mode for GNU Emacs.
-@subtitle Version 9.9
+@subtitle Almost Version 12
   
 @author by Kresten Krab Thorup
-@author updated for 6.1 to 9.9 by Per Abrahamsen
+@author updated for 6.1 to 11 by Per Abrahamsen
+@author updated for almost 12 by David Kastrup
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1992 Kresten Krab Thorup @*
-Copyright @copyright{} 1993, 1994,1995 Per Abrahamsen
+Copyright @copyright{} 2002 David Kastrup
+Copyright @copyright{} 1993, 1994, 1995, 2001 Per Abrahamsen
+Copyright @copyright{} 1992  Kresten Krab Thorup @*
  
 Permission is granted to make and distribute verbatim copies of
 this manual provided the copyright notice and this permission notice
@@ -54,7 +59,7 @@ approved by the Free Software Foundation.
 AUC @TeX{} is an integrated environment for editing La@TeX{} and
 @TeX{} files.@refill
 
-This file documents AUC @TeX{} version 9.9.
+This file almost documents AUC @TeX{} version 12.
 
 Although AUC @TeX{} contains a large number of features, there are no
 reasons to despair.  You can continue to write @TeX{} and La@TeX{}
@@ -77,15 +82,16 @@ important points.  Corrections or perhaps rewrites of sections
 are VERY WELCOME.@refill
 
 Kresten Krab Thorup (6.0) @*
-Per Abrahamsen (later updates)
+Per Abrahamsen (updates to 11)
+David Kastrup (updates from almost 12)
 
 There is a mailing list for discussion about AUC @TeX{} and announcement
-of alpha releases, write to @samp{auc-tex-request@@sunsite.auc.dk} to join
-it.  Send contributions to @samp{auc-tex@@sunsite.auc.dk}.
+of alpha releases, write to @samp{auc-tex-request@@sunsite.dk} to join
+it.  Send contributions to @samp{auc-tex@@sunsite.dk}.
 
 Bug reports, suggestions for new features, and pleas for help should go
-to either @samp{auc-tex_mgr@@sunsite.auc.dk} (the AUC @TeX{} managers), or
-to @samp{auc-tex@@sunsite.auc.dk} (the mailing list) if they might have
+to either @samp{auc-tex_mgr@@sunsite.dk} (the AUC @TeX{} managers), or
+to @samp{auc-tex@@sunsite.dk} (the mailing list) if they might have
 general interest.  Please use the command @kbd{M-x
 TeX-submit-bug-report} to report bugs if possible.@refill
 
@@ -171,7 +177,7 @@ The most commonly used commands/macros of AUC @TeX{} are those which
 simply insert templates for often used @TeX{} and/or La@TeX{}
 constructs, like font changes, handling of environments, etc.
 These features are very simple, and easy to learn, and help you
-avoiding stupid mistakes like mismatched braces, or
+avoid stupid mistakes like mismatched braces, or
 @samp{\begin@{@}}-@samp{\end@{@}} pairs.@refill
 
 @menu
@@ -193,7 +199,7 @@ avoiding stupid mistakes like mismatched braces, or
 @cindex Matching dollar signs
 @cindex Display math mode
 
-In @TeX{} literal double quotes @samp{"like this"} are seldom used,
+In @TeX{}, literal double quotes @samp{"like this"} are seldom used,
 instead two single quotes are used @samp{``like this''}.  To help you
 insert these efficiently, AUC @TeX{} allows you to continue to press
 @kbd{"} to insert two single quotes.  To get a literal double quote,
@@ -213,7 +219,7 @@ String inserted by typing @kbd{"} to open a quotation.
 @end defopt
 
 @defopt TeX-close-quote
-String inserted by typing @kbd{"} to open a quotation.
+String inserted by typing @kbd{"} to close a quotation.
 @end defopt
 
 If you include the style file @file{german} @code{TeX-open-quote} and
@@ -274,37 +280,37 @@ will be inserted.@refill
 @item C-c C-f C-r 
 @kindex C-c C-f C-r
 @cindex @code{\textrm}
-Insert roman @r{@{\textrm @point{}@}} text.
+Insert roman @r{\textrm@{@point{}@}} text.
 
 @item C-c C-f C-b
 @kindex C-c C-f C-b
 @cindex @code{\textbf}
-Insert @b{bold face} @samp{@{\textbf @point{}@}} text.
+Insert @b{bold face} @samp{\textbf@{@point{}@}} text.
 
 @item C-c C-f C-i
 @kindex C-c C-f C-i
 @cindex @code{\textit}
-Insert @i{italics} @samp{@{\textit @point{}\/@}} text.
+Insert @i{italics} @samp{\textit@{@point{}@}} text.
 
 @item C-c C-f C-e
 @kindex C-c C-f C-e
 @cindex @code{\emph}
-Insert @i{emphasized} @samp{@{\emph @point{}\/@}} text.
+Insert @i{emphasized} @samp{\emph@{@point{}@}} text.
 
 @item C-c C-f C-s
 @kindex C-c C-f C-s
 @cindex @code{\textsl}
-Insert @i{slanted} @samp{@{\textsl @point{}\/@}} text.
+Insert @i{slanted} @samp{\textsl@{@point{}@}} text.
 
 @item C-c C-f C-t
 @kindex C-c C-f C-t
 @cindex @code{\texttt}
-Insert @t{typewriter} @samp{@{\texttt @point{}@}} text.
+Insert @t{typewriter} @samp{\texttt@{@point{}@}} text.
 
 @item C-c C-f C-c
 @kindex C-c C-f C-c
 @cindex @code{\textsc}
-Insert @sc{small caps} @samp{@{\textsc @point{}@}} text.
+Insert @sc{small caps} @samp{\textsc@{@point{}@}} text.
 
 @item C-c C-f C-d
 @kindex C-c C-f C-c
@@ -490,7 +496,7 @@ that is @samp{\begin@{@}} --- @samp{\end@{@}} pairs.
 
 AUC @TeX{} is aware of most of the actual environments available in a
 specific document.  This is achieved by examining your
-@samp{\documentstyle} command, and consulting a precompiled list of
+@samp{\documentclass} command, and consulting a precompiled list of
 environments available in a large number of styles.
 
 You insert an environment with @kbd{C-c C-e}, and select an environment
@@ -527,6 +533,7 @@ Most of these are described further in the following sections, and you
 may easily specify more, as described in `Customizing environments'.
 
 @menu
+* Equations::                   Equations
 * Floats::                      Floats
 * Itemize-like::                Itemize-like
 * Tabular-like::                Tabular-like
@@ -541,7 +548,31 @@ that you use @kbd{C-c C-e} to insert complete environments instead.
 (@kbd{C-c ]}) Insert an @samp{\end} that matches the current environment. 
 @end deffn
 
-@node Floats, Itemize-like, Environments, Environments
+@node Equations, Floats, Environments, Environments
+@subsection Equations
+@cindex Equations
+@cindex Equation
+@cindex Eqnarray
+@cindex amsmath
+
+When inserting equation-like environments, the @samp{\label} will have a
+default prefix, which is controlled by the following variables:
+
+@defopt LaTeX-equation-label
+Prefix to use for `equation' labels.
+@end defopt
+
+@defopt LaTeX-eqnarray-label
+Prefix to use for `eqnarray' labels.
+@end defopt
+
+@defopt LaTeX-amsmath-label
+Prefix to use for amsmath equation labels.  Amsmath equations include
+@samp{align}, @samp{alignat}, @samp{xalignat}, @samp{aligned},
+@samp{flalign} and @samp{gather}.
+@end defopt
+
+@node Floats, Itemize-like, Equations, Environments
 @subsection Floats
 @cindex Floats
 @cindex Figures
@@ -647,7 +678,7 @@ indenting and navigating through the document.
 @TeX{} is written by a mathematician, and has always contained good
 support for formatting mathematical text.  AUC @TeX{} supports this
 tradition, by offering a special minor mode for entering text with many
-mathematic symbols.  You can enter this mode by typing @kbd{C-c
+mathematical symbols.  You can enter this mode by typing @kbd{C-c
 ~}.@refill
 
 @deffn Command LaTeX-math-mode
@@ -836,7 +867,7 @@ that you would indent ordinary computer programs.
 @vindex LaTeX-item-indent
 
 The following is a short sample of an itemize environment indented by
-AUC @TeX{}.  If more environment are nested, they are indented
+AUC @TeX{}.  If more environments are nested, they are indented
 `accumulated' just like most programming languages usually are seen
 indented in nested constructs.
 
@@ -934,12 +965,6 @@ matched by a @samp{@}}.@refill
 @cindex Sections
 @cindex Overview
 @cindex Folding
-
-GNU Emacs earlier than version 19.19 does not have a useful outline
-mode.  If you want to use outlines with old versions of emacs, please
-get the file @file{outln-18.el} from
-@file{sunsite.auc.dk:/packages/auctex/outln-18.el}.  It is a port of the
-Emacs 19.19 outline mode to Emacs 18 and Lucid Emacs.@refill
 
 AUC @TeX{} supports the standard outline minor mode using La@TeX{}
 sectioning commands as header lines.  @xref{Outline Mode, , Outline
@@ -1049,7 +1074,7 @@ controlled by the variable @code{TeX-command-list}.@refill
 @vindex TeX-command-list
 @end deffn
 
-@xref{Installation} for a discussion about @code{TeX-command-list} and
+@xref{Installation}, for a discussion about @code{TeX-command-list} and
 @ref{Multifile} for a discussion about @code{TeX-master}.
 
 @deffn Command TeX-command-region
@@ -1212,11 +1237,10 @@ It is much more configurable than @code{lacheck}, but doesn't find all
 the problems @code{lacheck} does, at least in its default configuration.
 You must install the programs before using them, and for @code{chktex}
 you must also modify @code{TeX-command-list}.  You can get
-@code{lacheck} from @file{<URL:ftp://sunsite.auc.dk/pub/text/lacheck/>}
+@code{lacheck} from @file{<URL:ftp://sunsite.dk/pub/text/lacheck/>}
 or alternatively @code{chktex} from
 @file{<URL:ftp://ftp.dante.de/pub/tex/support/chktex/>}.  Search for
-`chktex' in @file{tex.el} to see how to switch between them.@refill They
-are
+`chktex' in @file{tex.el} to see how to switch between them.@refill
 
 @node Control,  , Checking, Formatting
 @section Controlling the output
@@ -1237,7 +1261,7 @@ application running under AUC @TeX{}
 @deffn Command TeX-kill-job
 @kindex C-c C-k
 (@kbd{C-c C-k})  Kill currently running external application.
-This may be either of @TeX{}, La@TeX{}, previewer Bib@TeX{} etc.
+This may be either of @TeX{}, La@TeX{}, previewer, Bib@TeX{}, etc.
 @end deffn
 
 @deffn Command TeX-recenter-output-buffer
@@ -1266,7 +1290,7 @@ process was started.
 @cindex \input
 @cindex Master file
 
-You may wish spread a document over many files (as you are likely to do if
+You may wish to spread a document over many files (as you are likely to do if
 there are multiple authors, or if you have not yet discovered the power
 of the outline commands (@pxref{Outline})).  This can be done by having a
 ``master'' file in which you include the various files with the @TeX{}
@@ -1539,79 +1563,22 @@ of TeX and Emacs are needed for Korean, Japanese, and Chinese.
 
 First you will need a way to write non-ASCII characters.  You can either
 use macros, or teach @TeX{} about the ISO character sets.  I prefer the
-later, it has the advantage that the usual the standard emacs word
+latter, it has the advantage that the usual standard emacs word
 movement and case change commands will work.
 
-
-With LaTeX2e, just add @samp{\usepackage[latin1]@{inputenc@}}.  With older
-LaTeX versions, try: 
-
-@table @file
-@item isolatin1.sty
-Support for ISO 8859 Latin 1.  Available by ftp from the host
-@t{ftp.uni-stuttgart.de} as
-@file{/pub/tex/macros/latex/contrib/misc/isolatin1.sty}. 
-
-@item latin2.sty
-Support for ISO 8859 Latin 2.  Available by ftp from the host
-@t{ftp.uni-stuttgart.de} as
-@file{/pub/tex/macros/latex/contrib/latin2.sty}.
-@end table
+With LaTeX2e, just add @samp{\usepackage[latin1]@{inputenc@}}.  Other
+languages than Western European ones will probably have other encoding
+needs.
 
 To be able to display non-ASCII characters you will need an appropriate
 font and a version of GNU Emacs capable of displaying 8-bit characters.
-I believe all emacs versions except plain Emacs 18 are capable of this.
-For GNU Emacs 19, @pxref{European Display,,,emacs, The GNU Emacs
-Editor}.  Other relevant packages are:
-
-@table @file
-@item remap
-Supports lots of different 7-bit and 8-bit character sets for GNU Emacs
-19.  Mostly useful if you have seldomly used character sets, or need to
-use different character set for keyboard, buffer, and display.  An
-overkill if you just need ISO 8859 Latin 1.  Currently in alpha test,
-but available by ftp from the host @t{sunsite.auc.dk} in
-@file{/packages/auctex/}.
-
-To get dead keys for @TeX{}, install remap and insert the following in
-your @file{.emacs} or @file{site-start.el} file.
-
-@lisp
-(require 'remap)
-
-(defvar all-dead-keys "~'`^"
-  "Dead keys used by remap")
-
-(remap-define-map "Dead Key"
-  (apply 'append (mapcar 'remap-dead-map all-dead-keys)))
-
-(remap-define-map "TeX Dead Key"
-  (remap-map "Dead Key" (remap-add "Ascii" "~TeX")))
-
-(setq remap-setup-alist
-      '(("7-bit"  "Raw"          "L1" "US" "Ctrl" "~TeX")
-        ("8-bit"  "Raw"          "L1" "L1" "Ctrl" "Raw")
-        ("Dead/7" "Dead Key"     "L1" "US" "Ctrl" "~TeX")
-        ("Dead/8" "Dead Key"     "L1" "L1" "Ctrl" "Raw")
-        ("TeX"    "TeX Dead Key" "L1" "US" "Ctrl" "Raw")))
-@end lisp
-
-You can now enable TeX dead keys with 
-@example
-@kbd{M-x remap-setup-choose RET TeX RET}
-@end example
-@end table
+The manner in which this is supported differs between Emacsen, so you
+need to take a look at your respective documentation.
 
 A compromise is to use use an European character set when editing the
 file, and convert to @TeX{} macros when reading and writing the files.
 
 @table @file
-@item iso-tex.el
-@cindex @file{iso-tex.el}
-This file automatically converts between ISO 8859 Latin 1 encoding and
-La@TeX{} encodings of West European characters.  It is available by ftp
-from @t{aida.intellektik.informatik.th-darmstadt.de} in the directory
-@file{/pub/gene/Emacs}.
 @item iso-cvt.el
 @cindex @file{iso-cvt.el}
 Much like @file{iso-tex.el} but is bundled with Emacs 19.23 and later.
@@ -1619,6 +1586,11 @@ Much like @file{iso-tex.el} but is bundled with Emacs 19.23 and later.
 @item x-compose.el
 @cindex @file{x-compose.el}
 Similar package bundled with new versions of XEmacs.
+
+@item X-Symbol
+@cindex X-Symbol
+a much more complete package for both Emacs and XEmacs that can also
+handle a lot of mathematical characters and input methods.
 
 @end table
 
@@ -1661,22 +1633,71 @@ depending on context.
 @cindex Japan
 @cindex Japanese
 @cindex Nippon
-@cindex NEMACS
 @cindex MULE
 @cindex j@TeX{}
 @cindex jLa@TeX{}
+@cindex p@TeX{}
+@cindex pLa@TeX{}
+@vindex TeX-default-mode
+@vindex japanese-TeX-command-default
+@vindex japanese-LaTeX-command-default
+@vindex japanese-LaTeX-default-style
 
 To write Japanese text with AUC @TeX{} you need to have versions of
 @TeX{} and Emacs that support Japanese.  There exist at least two
-variants of @TeX{} for Japanese text, and AUC @TeX{} can be used with
-both, as well as with the two Japanese-aware Emacses, NEMACS and MULE.
+variants of @TeX{} for Japanese text (j@TeX{} and p@TeX{}), and AUC
+@TeX{} can be used with MULE supported Emacsens.
+
+To install Japanese support for AUC @TeX{}, copy @file{tex-jp.el} to
+AUC @TeX{} installed directory.  Next two commands will automatically
+install contributed files.
+
+@example
+make contrib
+make install-contrib
+@end example
+
+See @file{INSTALLATION} and @file{Makefile} for more information.
 
 To use the Japanese TeX variants, simply enter @code{japanese-tex-mode},
 @code{japanese-latex-mode}, or @code{japanese-slitex-mode}, and
 everything should work.  If not, send mail to Shinji Kobayashi
-(@samp{<koba@@flab.fujitsu.co.jp>}, who kindly donated the code for
+@samp{<koba@@flab.fujitsu.co.jp>}, who kindly donated the code for
 supporting Japanese in AUC @TeX{}.  None of the primary AUC @TeX{}
 maintainers understand Japanese, so they can not help you.
+
+If you usually use AUC @TeX{} in Japanese, setting following variables
+is useful.
+
+@defopt TeX-default-mode
+Mode to enter for a new file when it can't be determined whether
+the file is plain @TeX{} or La@TeX{} or what.
+
+To use Japanese @TeX{} always, set japanese command for example:
+@lisp
+(setq TeX-default-mode 'japanese-latex-mode)
+@end lisp
+@end defopt
+
+@defopt japanese-TeX-command-default
+The default command for TeX-command in japanese @TeX{} mode.
+
+The default value is @samp{jTeX}.
+@end defopt
+
+@defopt japanese-LaTeX-command-default
+The default command for TeX-command in japanese La@TeX{} mode.
+
+The default value is @samp{jLaTeX}.
+@end defopt
+
+@defopt japanese-LaTeX-default-style
+The default style/class when creating new japanese La@TeX{} document.
+
+The default value is @samp{j-article}.
+@end defopt
+
+See @file{tex-jp.el} for more information.
 
 @node Automatic, Style Files, I18n, top
 @chapter Automatic Customization
@@ -1729,7 +1750,9 @@ By default, when AUC @TeX{} searches a directory for files, it will
 recursively search through subdirectories. 
 
 @defopt TeX-file-recurse
-If not nil, search @TeX{} directories recursively.
+Whether to search @TeX{} directories recursively: nil means do not
+recurse, a positive integer means go that far deep in the directory
+hierarchy, t means recurse indefinitely.
 @end defopt
 
 By default, AUC @TeX{} will ignore files name @file{.}, @file{..},
@@ -1863,7 +1886,7 @@ These correspond to @TeX{} macros found in the current directory.
 @cindex Style hooks
 @cindex @file{style}
 
-@xref{Automatic} for a discussion about automatically generated global,
+@xref{Automatic}, for a discussion about automatically generated global,
 private, and local style files.  The hand generated style files are
 equivalent, except that they by default are found in @file{style}
 directories instead of @file{auto} directories. 
@@ -2340,6 +2363,12 @@ solution to one of the following problems.  It might be a good idea to
 mail me first, though.
 
 @itemize @bullet
+@item
+Page count when compiling should (optionally) go to modeline of the
+window where the compilation command was invoked, instead of the output
+window.  Suggested by Karsten Tinnefeld
+<tinnefeld@@irb.informatik.uni-dortmund.de>.
+
 @item
 Command to insert a macrodefinition in the preamble, without moving
 point from the current location.  Suggested by 

@@ -1,0 +1,18 @@
+#include "variables"
+# patch-multicolumn - fix \multicolumn prompt
+#
+# $Id: patch-multicolumn.in,v 1.1 2004/03/16 13:39:13 salve Exp $
+#
+<:=@COPYRIGHT:>//
+#
+--- latex.el	2003-08-20 15:26:57.000000000 +0100
++++ latex.el	2004-02-21 20:46:00.000000000 +0000
+@@ -3263,7 +3263,7 @@
+    '("shortstack" [ TeX-arg-lr ] t)
+    '("vector" (TeX-arg-pair "X slope" "Y slope") "Length")
+    '("cline" "Span `i-j'")
+-   '("multicolumn" "Columns" "Position" t)
++   '("multicolumn" "Columns" "Format" t)
+    '("item"
+      (TeX-arg-conditional (or TeX-arg-item-label-p
+ 			      (string-equal (LaTeX-current-environment)

@@ -1,7 +1,7 @@
 ;;; tex-buf.el - External commands for AUC TeX.
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.13
+;; Version: 11.14
 
 ;; Copyright (C) 1993, 1996, 2001 Per Abrahamsen 
 ;; Copyright (C) 1991 Kresten Krab Thorup
@@ -962,6 +962,8 @@ original file."
 			      (re-search-backward "[\r\n]" nil t)
 			      (setq trailer-offset (TeX-current-offset))
 			      (buffer-substring (point) (point-max))))))))))
+    ;; file name should be relative to master
+    (setq original (file-relative-name original (TeX-master-directory)))
     (save-excursion
       (set-buffer file-buffer)
       (setq buffer-undo-list t)

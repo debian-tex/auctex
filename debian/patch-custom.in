@@ -1,0 +1,43 @@
+#include "variables"
+# patch-custom - Debian customization
+#
+# $Id: patch-custom.in,v 1.1 2004/03/16 13:38:39 salve Exp $
+#
+<:=@COPYRIGHT:>//
+#
+--- tex.el	2004-03-16 14:15:45.000000000 +0100
++++ tex.el	2004-03-16 14:14:46.000000000 +0100
+@@ -63,15 +63,6 @@
+ ;;; Customized for Debian GNU/Linux by Davide G. M. Salvetti
+ ;;; <salve@debian.org>.
+ 
+-;; The directory where the AUC TeX lisp files are located.
+-(defcustom TeX-lisp-directory
+-  (concat "/usr/share/"
+-	  (symbol-name debian-emacs-flavor)
+-	  "/site-lisp/auctex/")
+-  "The directory where the AUC TeX Lisp files are located."
+-  :group 'TeX-file
+-  :type 'directory)
+-
+ ;; Change this to point to the place where the TeX macros are stored
+ ;; at yourt site.  The directory names *must* end with a slash.
+ (defcustom TeX-macro-global '("/usr/local/share/texmf/tex/"
+--- tex-site.el	2004-03-16 14:15:45.000000000 +0100
++++ tex-site.el	2004-03-16 14:14:45.000000000 +0100
+@@ -47,6 +47,15 @@
+ ;; Copy variables you need to change from the start of `tex.el' and
+ ;; insert them here.
+ 
++;; The directory where the AUC TeX lisp files are located.
++(defcustom TeX-lisp-directory
++  (concat "/usr/share/"
++	  (symbol-name debian-emacs-flavor)
++	  "/site-lisp/auctex/")
++  "The directory where the AUC TeX Lisp files are located."
++  :group 'TeX-file
++  :type 'directory)
++
+ ;;; Autoloads:
+ 
+ (add-to-list 'load-path TeX-lisp-directory)

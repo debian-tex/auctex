@@ -19,11 +19,10 @@
      '("xalignat"   LaTeX-amsmath-env-alignat)
      '("xalignat*"  LaTeX-amsmath-env-alignat)
      '("xxalignat"  LaTeX-amsmath-env-alignat)
-     '("xxalignat*" LaTeX-amsmath-env-alignat)
      '("aligned"    LaTeX-amsmath-env-aligned)
      '("gathered"   LaTeX-amsmath-env-aligned)
      "align*" "gather*" "flalign*" "multline*" "equation*"
-     "alignat*" "xalignat*" "xxalignat*" 
+     "alignat*" "xalignat*"
      "split"
      "cases"
      "matrix" "smallmatrix" "pmatrix" "bmatrix" "Bmatrix" "vmatrix" "Vmatrix"
@@ -84,6 +83,15 @@
 		     ("cases"    . LaTeX-item-equation))
 		   LaTeX-item-list))
 
+    (setq LaTeX-label-alist
+	  (append '(("align"      . LaTeX-amsmath-label)
+		    ("alignat"    . LaTeX-amsmath-label)
+		    ("xalignat"   . LaTeX-amsmath-label)
+		    ("aligned"    . LaTeX-amsmath-label)
+		    ("flalign"    . LaTeX-amsmath-label)
+		    ("gather"     . LaTeX-amsmath-label))
+		  LaTeX-label-alist))
+
     ;; amsmath includes amstext, amsbsy, & amsopn.
     ;; So we run their hooks, too.
     (TeX-run-style-hooks "amstext" "amsbsy" "amsopn")
@@ -96,7 +104,8 @@
 (defun LaTeX-amsmath-env-alignat (env)
   (let ((ncols (read-string "Number of columns: ")))
     (LaTeX-insert-environment env (concat TeX-grop ncols TeX-grcl))
-    (and (LaTeX-label environment)
+    (and (not (string= "xxalignat" env))
+	 (LaTeX-label environment)
 	 (newline-and-indent))))
 
 (defun LaTeX-amsmath-env-aligned (env)
@@ -120,5 +129,13 @@
     (and (LaTeX-label environment)
 	 (newline-and-indent))))
 
-  
+(defcustom LaTeX-amsmath-label LaTeX-equation-label
+  "*Default prefix to amsmath equation labels.
+
+Amsmath equations include \"align\", \"alignat\", \"xalignat\", \"aligned\",
+\"flalign\" and \"gather\"."
+  :group 'LaTeX-label
+  :type 'string)
+
+
 ;;; amsmath.el ends here.

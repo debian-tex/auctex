@@ -7,9 +7,9 @@ Standards-Version: 3.5.10
 
 Package: auctex
 Architecture: all
-Depends: debconf, debianutils (>= 1.7), emacs20|emacs21
+Depends: debconf, debianutils (>= 1.7), emacs21
 Recommends: tetex-base
-Suggests: lacheck
+Suggests: catdvi, lacheck
 Description: An integrated environment for writing TeX/LaTeX documents
  AUC TeX can indent your text as you write it, let you run TeX/LaTeX
  and other LaTeX-related tools (such as a output filter or post

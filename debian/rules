@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.47 2003/08/20 15:16:19 salve Exp $
+# $Id: rules,v 1.48 2004/03/16 13:39:34 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03 by Davide Giovanni Maria Salvetti.
 #
@@ -35,7 +35,8 @@ INSTSCRIPT	:= install -m 755
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/cron debian/docbase debian/install debian/preinst \
 		debian/postinst debian/prerm debian/postrm debian/remove \
-		debian/templates debian/patch-info \
+		debian/templates debian/patch-custom debian/patch-info \
+		debian/patch-multicolumn \
 		debian/update-auctex-elisp debian/update-auctex-elisp.8 \
 # WARNING: The man page should be manually fixed in case of ${UPDATE} variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
@@ -53,19 +54,27 @@ debian/rules: debian/variables
 
 build: $(DFILES)
 	$(checkdir)
+	patch --strip=0 --forward < debian/patch-custom
 	patch --strip=0 --forward < debian/patch-info
+	patch --strip=0 --forward < debian/patch-multicolumn
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
-clean: debian/patch-info
+clean: debian/patch-custom debian/patch-info debian/patch-multicolumn
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
 	-rm -f $$(find . -name \*.elc)
 	-$(MAKE) clean
 	-patch --strip=0 --forward --reverse \
 		--reject-file=debian/patch-reject \
+		< debian/patch-multicolumn
+	-patch --strip=0 --forward --reverse \
+		--reject-file=debian/patch-reject \
 		< debian/patch-info
+	-patch --strip=0 --forward --reverse \
+		--reject-file=debian/patch-reject \
+		< debian/patch-custom
 	-rm -f debian/patch-reject
 	-rm -f $(DFILES)
 
