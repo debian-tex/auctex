@@ -2,13 +2,14 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: prerm.in,v 1.4 1999/10/14 19:11:32 salve Exp $
+# $Id: prerm.in,v 1.5 1999/10/31 22:01:57 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 source <:=$CONFMODULE:>
+db_version 2.0
 
 deconf_autoload () {
     rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el

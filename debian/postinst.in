@@ -2,13 +2,14 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postinst.in,v 1.6 1999/10/14 19:11:32 salve Exp $
+# $Id: postinst.in,v 1.7 1999/10/31 22:01:57 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 source <:=$CONFMODULE:>
+db_version 2.0
 
 #---B-E-G-I-N---O-L-D---S-T-U-F-F---(keep-it,-it-doesn't-hurt)-----------------
 for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
@@ -24,7 +25,7 @@ done
 #---E-N-D---O-L-D---S-T-U-F-F--------------------------------------------------
 
 conf_autoload () {
-    db_get <:=$PACKAGE:>/default
+    db_get <:=$PACKAGE:>/default || true
     if [ $RET = "true" ]; then umask 022;
 	cat <<-EOF ><:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
 		(require 'tex-site);') <- beauty stuff
@@ -37,9 +38,9 @@ conf_autoload () {
 }
 
 do_auto () {
-    db_get <:=$PACKAGE:>/logfile
+    db_get <:=$PACKAGE:>/logfile || true
     LOGFILE=$RET
-    db_get <:=$PACKAGE:>/doauto
+    db_get <:=$PACKAGE:>/doauto || true
     case "$RET" in
 	Foreground)
 	    rm -f $LOGFILE

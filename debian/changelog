@@ -1,3 +1,9 @@
+auctex (9.9p-12) unstable; urgency=low
+
+  * Debconf support updated.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Sun, 31 Oct 1999 22:49:57 +0100
+
 auctex (9.9p-11) unstable; urgency=low
 
   * control: Added mule2 support.

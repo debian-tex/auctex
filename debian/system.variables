@@ -16,7 +16,7 @@
 <:$cron_weekly="/etc/cron.weekly/":>//
 <:$cron_monthly="/etc/cron.monthly/":>//
 <:# debconf:>//
-<:$CONFMODULE="/usr/share/debconf/confmodule.sh":>//
+<:$CONFMODULE="/usr/share/debconf/confmodule":>//
 <:# docbase:>//
 <:$DINSTALL="test -x /usr/sbin/install-docs && install-docs --install":>//
 <:$DREMOVE="test -x /usr/sbin/install-docs && install-docs --remove":>//
