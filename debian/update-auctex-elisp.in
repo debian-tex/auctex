@@ -3,14 +3,15 @@
 #
 # Update AucTeX auto-loads.
 # Installed by the Debian <:=$PACKAGE:> package.
-# $Id: update-auctex-elisp.in,v 1.5 2000/01/20 14:33:49 salve Exp $
+# $Id: update-auctex-elisp.in,v 1.6 2000/10/20 00:27:54 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 <:# only GNU/Emacs, 'cause XEmacs comes with its own AUC TeX.:>//
-for FLAVOR in emacs19 emacs20; do
+# We don't support emacs19 anymore (only emacs20), but let's leave it as it is.
+for FLAVOR in emacs20; do
     if [ -x /usr/bin/$FLAVOR ]; then
 	$FLAVOR --no-site-file --no-init-file --batch \
 	        --load=/usr/share/emacs/site-lisp/tex-site.el \

@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp remove file for Debian <:=$PACKAGE:> package.
-# $Id: remove.in,v 1.5 1999/10/22 19:58:34 salve Exp $
+# $Id: remove.in,v 1.6 2000/10/20 00:27:54 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -14,7 +14,7 @@ case "$FLAVOR" in
     emacs)
 	:
     ;;
-    emacs19|emacs20|mule2)
+    emacs20|mule2)
 	echo -n "remove/<:=$PACKAGE:>: Removing for $FLAVOR... "
 	rm -f <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/{*.elc,<:=$ELCLOG:>.gz}
 	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.elc

@@ -2,11 +2,11 @@ Source: auctex
 Section: tex
 Priority: optional
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
-Standards-Version: 3.1.0
+Standards-Version: 3.2.1
 
 Package: auctex
 Architecture: all
-Depends: debconf, debianutils (>= 1.7), emacs19|emacs20|mule2
+Depends: debconf, debianutils (>= 1.7), emacs20|mule2
 Recommends: tetex-base
 Suggests: lacheck
 Description: An integrated environment for writing TeX/LaTeX documents.

@@ -1,3 +1,393 @@
+2000-10-09  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10t released.
+
+2000-10-09  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-outline-name): Don't escape `{' or `}' in
+	regexps. 
+	Patch by "Stefan Monnier" <monnier+gnu/emacs/news/@RUM.cs.yale.edu>.
+
+	* tex-mik.el (TeX-command-list): Use `TeX-run-discard' for "View"
+	command. 
+	Suggested by "Claus Dethlefsen" <c.dethlefsen@lancaster.ac.uk>.
+
+	* latex.el (LaTeX-common-initialization): `\bibitem' starts
+	paragraphs, just like `\item'.
+	Reported by Werner LEMBERG <sx0005@sx2.HRZ.Uni-Dortmund.DE>.
+
+2000-10-06  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-current-line): Return a string, not a number.
+	Reported by Julia Habel <julia.habel@gmx.de>.
+	Patch by Dirk.Ullrich@DaimlerChrysler.com.
+	
+2000-06-15  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-site.el: Require tex-mik after changing load-path.
+	Reported by "I. Jossang" <ij202@eng.cam.ac.uk>.
+
+2000-06-13  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* IRIX: New file.
+	* Makefile (EXTRAFILES): Added it.
+
+2000-05-10  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10s released.
+
+2000-05-03  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10r released.
+
+2000-05-02  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-mode-map): Don't bind `.' and `,' by default.
+
+2000-05-03  Peter Galbraith <psg@debian.org>
+
+	* font-latex.el: file was broken. Updated to 0.701 (30 Mar 2000).
+	* bib-cite.el: file was broken. Updated to 3.16 (20 Dec 99).
+
+2000-04-14  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10q released.
+
+2000-03-30  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/graphicsx.el: New file.
+	* Makefile (STYLESRC): Added it.
+	Donated by Ryuichi Arafune <arafune@ushioda.riec.tohoku.ac.jp>.
+	
+2000-04-14  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10q released.
+
+2000-03-23  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-math-keymap): Accept vector for
+	`LaTeX-math-abbrev-prefix'. 
+	(LaTeX-math-insert-prefix): Better error message if
+	`LaTeX-math-abbrev-prefix' is not bound.
+	Reported by Jan Vroonhof <vroonhof@math.ethz.ch>.
+	
+2000-02-23  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-info.el (TeXinfo-environment-list): Added more missing
+	environments.  Patch by Akim Demaille <akim@epita.fr>.
+
+2000-02-22  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-info.el (TeXinfo-environment-list): Add `group'.
+	Patch by Akim Demaille <akim@epita.fr>.
+	
+2000-01-28  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-command-list): Add `makeinfo --html' support.
+	Suggested by Akim Demaille <akim@epita.fr>.
+	
+2000-01-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-info.el (TeXinfo-mode-map): Added "\e\r" binding for 
+	`texinfo-insert-@item'.
+	Reported by Akim Demaille <akim@epita.fr>.
+	(TeXinfo-mode-menu, texinfo-mode): Changed menu name and mode name
+	to `Texinfo'.
+	Suggested by Akim Demaille <akim@epita.fr>.
+	
+1999-12-21  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* bib-cite.el: Updated to 3.16 (20 Dec 99).
+
+	* font-latex.el: Updated to 0.700 (20 December 1999).
+
+2000-03-30  Peter Galbraith <psg@debian.org>
+
+	* font-latex.el: Updated to 0.701 (30 Mar 2000).
+
+2000-01-14  Peter Galbraith <psg@debian.org>
+
+	* bib-cite.el: Updated to 3.16 (20 Dec 99).
+	* font-latex.el: Updated to 0.700 (20 Dec 99).
+	* hilit-LaTeX.el: Changed author email address.
+
+1999-12-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10p released.
+
+1999-12-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* bib-cite.el: Updated to 3.15 (20 Dec 99).
+
+	* tex-mik.el (TeX-command-list): Fixed default PDF LaTeX command.
+	Reported by "Christian Schlauer" <Christian.Schlauer@web.de>.
+
+	* Version 9.10o released.
+
+1999-12-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* bib-cite.el: Updated to 3.13 (20 Dec 99).
+
+1999-12-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/danish.el ("danish"): Support Danish quotes.
+	Suggested by arne@daimi.au.dk (Arne Jørgensen).
+
+1999-12-03  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-info.el (texinfo-mode): Added `kill-all-local-variables'.
+	Reported by Stefan Monnier <foo@acm.com>.
+
+	* Version 9.10n released.
+
+1999-12-03  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-mik.el: Fixed typo.
+	Reported by Bernt Guldbrandtsen <bg@rs580.sh.dk>
+
+1999-12-01  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10m released.
+
+1999-12-01  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Makefile (AUCSRC, AUCELC): Added `tex-mik.el'.
+
+1999-11-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10l released.
+
+1999-11-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-env-figure): Use `\centering' instead of
+	`center' environment.
+	Patch by Stefan Monnier <foo@acm.com>.
+
+1999-11-25  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-mik.el (tex-mik): Add provide.
+
+	* tex-site.el: Automatically require `tex-mik.el' under NT.
+
+1999-11-12  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-current-file-name-nondirectory): New function.
+	(TeX-expand-list): Use it.
+
+1999-11-10  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* doc/auc-tex.texi: Fixed references.
+	Patch by Stefan Monnier <foo@acm.com>.
+	* tex.el (TeX-lisp-directory): Use `locate-library' to find
+	default under Emacs.
+	Patch by Stefan Monnier <foo@acm.com>.
+	(TeX-dwim-master): New function.
+	(TeX-master-file): Use it.
+	(TeX-master): Document it.
+	Patch by Stefan Monnier <foo@acm.com>.
+	
+1999-11-06  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10k released.
+
+1999-11-06  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el: Use `indent-according-to-mode' instead of
+	`LaTeX-indent-line'. 
+	(LaTeX-mode-map): Don't remap `TAB'.
+	Patch by "Stefan Monnier <foo@acm.com>".
+
+1999-11-03  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-command-list): Added `LaTeX PDF' command.
+
+1999-10-28  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10j released.
+
+1999-10-27  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Makefile (dist): Create a .nosearch in the style directory.
+	(install-lisp): Ditto.
+	Suggested by Markus Rost <rost@IAS.EDU>.
+
+1999-10-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10i released.
+
+1999-10-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-master-directory): Call `substitute-in-file-name'.
+	Patch by Alexander Holt <alexander.holt@ed.ac.uk>.
+	
+	* style/ngerman.el: New style.
+	Suggested by Torsten Schuetze <schuetze@math.tu-dresden.de>.
+	* Makefile (STYLESRC): Added it.
+
+	* tex-buf.el (TeX-command-query): Added history argument.
+	Suggested by Werner LEMBERG <sx0005@sx2.HRZ.Uni-Dortmund.DE>.
+
+	* latex.el (LaTeX-environment): Added history argument.
+
+	* tex.el (TeX-add-style-hook): Don't add the same hook twice.
+	Suggested by Jarl Friis <jarl@diku.dk>.
+
+	* tex.el: Removed portability code for old Emacsen.
+
+1999-10-25  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10h released.
+
+1999-09-27  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-auto-cleanup): Allow multiple packages for
+	`usepackage'. 
+	Reported by Torsten Schuetze <schuetze@math.tu-dresden.de>.
+	(LaTeX-auto-cleanup): Also add "unmangled" documentstyle.
+	Reported by Cyril Humbert <humbert@phobos.univ-mlv.fr>.
+
+1999-09-09  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/mdwlist.el: New file.
+	Patch by Stephen Heilbronner <heilbron@nm.informatik.uni-muenchen.de>.
+	* Makefile (STYLESRC): Added it.
+
+1999-08-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10g released.
+
+1999-08-20  Hidenobu Nabetani  <nabe@debian.or.jp>
+
+	* tex.el (TeX-format-list): Add "JLATEX" and "JTEX" which is needed
+	to load tex-jp.el automatically.
+	* tex-jp.el (TeX-format-list): Remove "JLATEX" and "JTEX".
+
+1999-08-19  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-hide-environment, LaTeX-show-environment): make
+	them work with new outline mode.
+	Reported by Thomas Schick <schick@math.psu.edu>.
+	
+	* tex.el (match-string): New compatibility function.
+	Reported by Andrew Edward Santosa <andrews@comp.nus.edu.sg>.
+
+1999-08-18  Hidenobu Nabetani  <nabe@debian.or.jp>
+
+	* tex-jp.el (TeX-command-list): Add "jLaTeX" and "pLaTeX".
+	(TeX-mode-menu): Fix the problem that menu "TeX" is unchanged.
+	(TeX-japanese-process-input-coding-system): Update for Emacs 20.
+	(TeX-japanese-process-output-coding-system): Update for Emacs 20.
+	(TeX-command-default): Change from "j-article" to "jarticle".
+	(LaTeX-fill-region-as-para-do): Fix the problem that fill mode 
+	don't work in Emacs 20.
+
+1999-07-16  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10f released.
+
+1999-07-16  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-auto-minimal-regexp-list): Recognize usepackage
+	options. 
+	(LaTeX-auto-cleanup): Ditto.
+
+1999-07-15  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-ignore-file): Ignore babel, it loads everything.
+	Reported by Mate Wierdl <mw@wierdlmpc.msci.memphis.edu>.
+
+	* style/foils.el: Removed require 'latex.
+	* style/natbib.el: Ditto.
+	* style/harvard.el: Ditto.
+	* style/slides.el: Ditto.
+	* style/latexinfo.el: Ditto.
+	Reported by Mate Wierdl <mw@wierdlmpc.msci.memphis.edu>.
+	
+	* Makefile (infodir, lispdir, aucdir, EMACS): Use `standard' values.
+	Reported by Mate Wierdl <mw@wierdlmpc.msci.memphis.edu>.
+
+	* tex-info.el (texinfo-mode): Fix doc string.
+	Reported by Bob Weiner <weiner@altrasoft.com>.
+
+1999-05-17  Jerry James  <jerry@cs.ucsb.edu>
+
+	* tex.el: Fix two typos in comments.
+  	(set-text-properties): Protect against possible XEmacs version
+	21.13, 22.13, etc.
+
+1999-05-14  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-indent-environment-list): Customized.
+
+	* Version 9.10e released.
+
+1999-05-14  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el: (TeX-auto-generate): Reimplemented support for numeric
+	`TeX-file-recurse'. 
+	(TeX-search-files): Ditto.
+
+1999-05-03  Rune Kleveland <runekl@math.uio.no>
+
+	* style/amsart.el ("amsart"): Load `amsthm.el'.
+	* style/amsbook.el ("amsbook"): Ditto.
+
+1999-03-29  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10d released.
+
+1999-03-29  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* doc/changes.texi: Added extra `@'.
+
+	* Version 9.10c released.
+
+1999-03-19  Carsten Dominik  <dominik@strw.leidenuniv.nl>
+
+	* tex.el (TeX-insert-dollar): Better error message when trying
+	to insert a dollar in math-mode.
+
+	* texmathp.el (texmathp-tex-commands-default): Added more default
+	macros.
+
+1999-03-12  Carsten Dominik  <dominik@strw.LeidenUniv.nl>
+
+	* latex.el (TeX-arg-index-tag): New function, to be used by the
+ 	index.el and multind.el style files.
+	(LaTeX-auto-index-regexp-list): Now matches both \index and
+ 	\glossary.
+	(TeX-arg-index): Renamed from TeX-arg-define-index.
+	(TeX-arg-define-index): Now an alias for `TeX-arg-index'.
+	(LaTeX-common-initialization): Added a regexp for index and
+	glossary to `TeX-complete-list'.  Added entry for glossary with
+	`Tex-add-symbols'.
+	* style/index.el: New file.
+	* style/makeidx.el: New file.
+	* style/multind.el: New file.
+	* style/varioref.el: New file.
+	* style/fancyref.el: New file.
+	* Makefile (STYLESRC): Added `style/index.el', `style=makeidx.el', 
+	`style/multind.el', `style/varioref.el', `style/fancyref.el'.
+	
+1999-02-23  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-search-files): `nconc' the result.
+	Reported by Berwin Turlach <bturlach@maths.adelaide.edu.au>.
+	
+1999-02-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 9.10b released.
+
+1999-02-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* doc/changes.texi: Typo: @ldots -> @dots.
+
+	* Version 9.10a released.
+
+	* doc/auc-tex.texi: Changed version to 9.10.
+	* doc/history.texi: Ditto.
+	* doc/changes.texi: Ditto.
+	
 1999-02-11  Per Abrahamsen  <abraham@dina.kvl.dk>
 
 	* Version 9.9p released.

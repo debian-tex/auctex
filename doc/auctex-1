@@ -1,7 +1,8 @@
-This is Info file auctex, produced by Makeinfo-1.55 from the input file
-auc-tex.texi.
+This is auctex, produced by makeinfo version 4.0 from auc-tex.texi.
 
-   * AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.   direntry
+START-INFO-DIR-ENTRY
+* AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.
+END-INFO-DIR-ENTRY
 
 
 File: auctex,  Node: Top,  Next: Copying,  Prev: (dir),  Up: (dir)
@@ -11,7 +12,7 @@ AUC TeX
 
    AUC TeX is an integrated environment for editing LaTeX and TeX files.
 
-   This file documents AUC TeX version 9.9.
+   This file documents AUC TeX version 9.10.
 
    Although AUC TeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -164,14 +165,15 @@ Indentation and formatting
 ==========================
 
    AUC TeX may automatically indent your document as you write it. By
-pressing lfd instead of ret at the end of a line, the current line is
-indented by two spaces according to the current environment level, and
-the cursor is moved down one line.  By pressing tab, the current line
-is indented, and the cursor stays where it is.  The well-known Emacs
-feature `format-paragraph' (`M-q') is reimplemented especially for AUC
-TeX to follow the indentation.  A special command `LaTeX-fill-buffer'
-lets you indent an entire document like the well-known C utility indent
-(this time, only according to the LaTeX structure :-).
+pressing <lfd> instead of <ret> at the end of a line, the current line
+is indented by two spaces according to the current environment level,
+and the cursor is moved down one line.  By pressing <tab>, the current
+line is indented, and the cursor stays where it is.  The well-known
+Emacs feature `format-paragraph' (`M-q') is reimplemented especially
+for AUC TeX to follow the indentation.  A special command
+`LaTeX-fill-buffer' lets you indent an entire document like the
+well-known C utility indent (this time, only according to the LaTeX
+structure :-).
 
 Completion
 ==========
@@ -183,10 +185,10 @@ commands you should be able to use in this particular document.  This
 `knowledge' of AUC TeX is used for two purposes.
 
   1. To make you able to `complete' partly written LaTeX commands. You
-     may e.g. write `\renew' and press `M-tab' (`TeX-complete-symbol'),
-     and then AUC TeX will complete the word `\renewcommand' for you.
-     In case of ambiguity it will display a list of possible
-     completions.
+     may e.g. write `\renew' and press `M-<tab>'
+     (`TeX-complete-symbol'), and then AUC TeX will complete the word
+     `\renewcommand' for you. In case of ambiguity it will display a
+     list of possible completions.
 
   2. To aid you inserting environments, that is \begin - \end pairs.
      This is done by pressing C-c C-e (LaTeX-environment), and you will
@@ -563,10 +565,10 @@ C-c C-e' you will change the current environment.
 
  - Command: LaTeX-environment ARG
      (`C-c C-e')  AUC TeX will prompt you for an environment to insert.
-     At this prompt, you may press TAB or SPC to complete a partially
-     written name, and/or to get a list of available environments.
-     After selection of a specific environment AUC TeX may prompt you
-     for further specifications.
+     At this prompt, you may press <TAB> or <SPC> to complete a
+     partially written name, and/or to get a list of available
+     environments.  After selection of a specific environment AUC TeX
+     may prompt you for further specifications.
 
      If the optional argument ARG is not-nil (i.e. you have given a
      prefix argument), the current environment is modified and no new
@@ -642,10 +644,10 @@ Itemize-like
 ------------
 
    In an itemize-like environment, nodes (i.e., `\item's) may be
-inserted using `C-c LFD'.
+inserted using `C-c <LFD>'.
 
  - Command: LaTeX-insert-item
-     (`C-c LFD') Close the current item, move to the next line and
+     (`C-c <LFD>') Close the current item, move to the next line and
      insert an appropriate `\item' for the current environment. That is,
      `itemize' and `enumerate' will have `\item ' inserted, while
      `description' will have `\item[]' inserted.
@@ -728,19 +730,19 @@ Completion
 ==========
 
    Emacs lisp programmers probably know the `lisp-complete-symbol'
-command, usually bound to `M-TAB'.  Users of the wonderful ispell mode
-know and love the `ispell-complete-word' command from that package.
-Similarly, AUC TeX has a `TeX-complete-symbol' command, usually bound
-to `M-TAB'.  Using `LaTeX-complete-symbol' makes it easier to type and
-remember the names of long LaTeX macros.
+command, usually bound to `M-<TAB>'.  Users of the wonderful ispell
+mode know and love the `ispell-complete-word' command from that
+package.  Similarly, AUC TeX has a `TeX-complete-symbol' command,
+usually bound to `M-<TAB>'.  Using `LaTeX-complete-symbol' makes it
+easier to type and remember the names of long LaTeX macros.
 
    In order to use `TeX-complete-symbol', you should write a backslash
-and the start of the macro.  Typing `M-TAB' will now complete as much
+and the start of the macro.  Typing `M-<TAB>' will now complete as much
 of the macro, as it unambiguously can.  For example, if you type
-``\renewc'' and then ``M-TAB', it will expand to ``\renewcommand''.
+``\renewc'' and then ``M-<TAB>', it will expand to ``\renewcommand''.
 
  - Command: TeX-complete-symbol
-     (`M-TAB')  Complete TeX symbol before point.
+     (`M-<TAB>')  Complete TeX symbol before point.
 
    A more direct way to insert a macro is with `TeX-insert-macro',
 bound to `C-c C-m'.  It has the advantage over completion that it knows
@@ -769,7 +771,7 @@ or, as the first choice the value of the variable `TeX-default-macro'.
 
    The difference between `TeX-insert-macro' and `TeX-electric-macro'
 is that space will complete and exit from the minibuffer in
-`TeX-electric-macro'.  Use TAB if you merely want to complete.
+`TeX-electric-macro'.  Use <TAB> if you merely want to complete.
 
  - Command: TeX-electric-macro
      Prompt (with completion) for the name of a TeX macro, and if AUC
@@ -778,7 +780,7 @@ is that space will complete and exit from the minibuffer in
 
    By default AUC TeX will put an empty set braces `{}' after a macro
 with no arguments to stop it from eating the next whitespace.  This can
-be stopped by entering `LaTeX-math-mode', *note Mathematics::., or by
+be stopped by entering `LaTeX-math-mode', *note Mathematics::, or by
 setting `TeX-insert-braces' to nil
 
  - User Option: TeX-insert-braces
@@ -792,11 +794,10 @@ more information.
 example existing labels when you enter a `\ref' macro with
 `TeX-insert-macro' or `TeX-electric-macro', and BibTeX entries when you
 enter a `\cite' macro.  For this kind of completion to work, parsing
-must be enabled as described in *note Parsing Files::..  For `\cite'
-you must also make sure that the BibTeX files have been saved at least
-once after you enabled automatic parsing on save, and that the basename
-of the BibTeX file does not conflict with the basename of one of TeX
-files.
+must be enabled as described in *note Parsing Files::.  For `\cite' you
+must also make sure that the BibTeX files have been saved at least once
+after you enabled automatic parsing on save, and that the basename of
+the BibTeX file does not conflict with the basename of one of TeX files.
 
 
 File: auctex,  Node: Commenting,  Next: Marking and formatting,  Prev: Completion,  Up: Advanced Features
@@ -877,12 +878,12 @@ indented in nested constructs.
    You can format and indent single lines, paragraphs, environments, or
 sections.
 
-`TAB'
+`<TAB>'
      `LaTeX-indent-line' will indent the current line.
 
-`LFD'
+`<LFD>'
      `reindent-then-newline-and-indent' indents the current line, and
-     then inserts a new line (much like RET) and move the cursor to an
+     then inserts a new line (much like <RET>) and move the cursor to an
      appropriate position by the left margin.
 
 `M-q'
@@ -979,7 +980,7 @@ Formatting and Printing
    The most powerful features of AUC TeX may be those allowing you to
 run (La)TeX and other external commands like BibTeX and `makeindex'
 from within Emacs, viewing and printing the results, and moreover
-allowing you to *debug* your documents.
+allowing you to _debug_ your documents.
 
 * Menu:
 
@@ -1009,7 +1010,7 @@ current region with `TeX-command-region'.
      file is controlled by the variable `TeX-master'.  The available
      commands are controlled by the variable `TeX-command-list'.
 
-   *Note Installation:: for a discussion about `TeX-command-list' and
+   *Note Installation::, for a discussion about `TeX-command-list' and
 *Note Multifile:: for a discussion about `TeX-master'.
 
  - Command: TeX-command-region
@@ -1125,7 +1126,7 @@ not examples of bad style.  Furthermore, description of the errors may
 often be confusing.  The utility `lacheck' can be used to find style
 errors, such as forgetting to escape the space after an abbreviation or
 using `...' instead of `\ldots' and many other problems like that.  You
-start `lacheck' with `C-c C-c C h e c k RET'.  The result will be a
+start `lacheck' with `C-c C-c C h e c k <RET>'.  The result will be a
 list of errors in the `*compilation*' buffer.  You can go through the
 errors with `C-x `' (`next-error', *note Compilation:
 (emacs)Compilation.), which will move point to the location of the next
@@ -1170,11 +1171,11 @@ Multifile Documents
 
    You may wish to spread a document over many files (as you are likely
 to do if there are multiple authors, or if you have not yet discovered
-the power of the outline commands (*note Outline::.)).  This can be
-done by having a "master" file in which you include the various files
-with the TeX macro `\input' or the LaTeX macro `\include'.  These files
-may also include other files themselves.  However, to format the
-document you must run the commands on the top level master file.
+the power of the outline commands (*note Outline::)).  This can be done
+by having a "master" file in which you include the various files with
+the TeX macro `\input' or the LaTeX macro `\include'.  These files may
+also include other files themselves.  However, to format the document
+you must run the commands on the top level master file.
 
    When you, for example, ask AUC TeX to run a command on the master
 file, it has no way of knowing the name of the master file.  By default,
@@ -1242,8 +1243,8 @@ files in the document.  This is done by having an `auto' subdirectory
 placed in the directory where your document is located.  Each time you
 save a file, AUC TeX will write information about the file into the
 `auto' directory.  When you load a file, AUC TeX will read the
-information in the `auto' directory about the file you loaded *and the
-master file specified by `TeX-master'*.  Since the master file (perhaps
+information in the `auto' directory about the file you loaded _and the
+master file specified by `TeX-master'_.  Since the master file (perhaps
 indirectly) includes all other files in the document, AUC TeX will get
 information from all files in the document.  This means that you will
 get from each file, for example, completion for all labels defined

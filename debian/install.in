@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=$PACKAGE:> package.
-# $Id: install.in,v 1.6 1999/10/22 19:58:34 salve Exp $
+# $Id: install.in,v 1.7 2000/10/20 00:27:54 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -19,7 +19,7 @@ case "$FLAVOR" in
     emacs)
 	:
     ;;
-    emacs19|emacs20|mule2)
+    emacs20|mule2)
 	echo -n "install/<:=$PACKAGE:>: Byte-compiling for $FLAVOR... "
 	install -m 755 -d <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
@@ -33,6 +33,7 @@ case "$FLAVOR" in
 	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    && $FLAVOR $EFLAGS <:=$SOURCES:> <:=$STYLES:> 2>&1 \
 	    | gzip -9qf > <:=$ELCLOG:>.gz)
+	# We don't support emacs19 anymore (only emacs20), but let's leave it as it is.
 	if [ "$FLAVOR" = "emacs20" -o "$FLAVOR" = "mule2" ]; then
 		# We have MULE.
 		for i in <:=$MULESRC:>

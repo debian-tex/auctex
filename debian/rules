@@ -3,9 +3,9 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.35 2000/01/20 14:33:49 salve Exp $
+# $Id: rules,v 1.36 2000/10/20 00:27:54 salve Exp $
 #
-# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999.
+# Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999, 2000.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -50,17 +50,15 @@ debian/system.variables: /home/salve/Debian/Packages/system.variables
 
 build: $(DFILES) debian/variables
 	$(checkdir)
-	-cat debian/japanese-patch | patch --forward --reject-file=debian/trashcan
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
 clean:
 	$(checkdir)
-	-rm -rf build core debian/trashcan $(tmp) debian/{files*,substvars}
+	-rm -rf build core $(tmp) debian/{files*,substvars}
 	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
-	-cat debian/japanese-patch | patch --forward --reverse --reject-file=debian/trashcan
 	-$(MAKE) clean
 
 binary: binary-indep binary-arch
@@ -74,10 +72,10 @@ binary-indep: checkroot build
 
 # install package
 	$(INSTDIR) $(tmp)//usr/share/info/ $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//usr/share/emacs/site-lisp/auctex//style/
-	$(INSTDATA) auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el bib-cite.el font-latex.el $(tmp)//usr/share/emacs/site-lisp/auctex/
+	$(INSTDATA) auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el tex-mik.el bib-cite.el font-latex.el $(tmp)//usr/share/emacs/site-lisp/auctex/
 	$(INSTDATA) tex-jp.el $(tmp)//usr/share/emacs/site-lisp/auctex/
 	$(INSTDATA) hilit-LaTeX.el $(tmp)//usr/share/emacs/site-lisp/auctex/
-	$(INSTDATA) style/slides.el    style/foils.el    style/amstex.el style/article.el   style/book.el     style/letter.el style/report.el    style/amsart.el   style/amsbook.el style/epsf.el      style/psfig.el    style/latexinfo.el style/dutch.el     style/german.el   style/dk.el style/j-article.el style/j-book.el   style/j-report.el style/jarticle.el  style/jbook.el    style/jreport.el style/dinbrief.el  style/virtex.el   style/plfonts.el style/plhb.el      style/harvard.el	style/swedish.el style/danish.el    style/slovak.el   style/czech.el style/amsmath.el   style/amstext.el  style/amsbsy.el style/amsopn.el    style/amsthm.el	style/natbib.el $(tmp)//usr/share/emacs/site-lisp/auctex//style/
+	$(INSTDATA) style/slides.el    style/foils.el    style/amstex.el style/article.el   style/book.el     style/letter.el style/report.el    style/amsart.el   style/amsbook.el style/epsf.el      style/psfig.el    style/latexinfo.el style/dutch.el     style/german.el   style/dk.el style/j-article.el style/j-book.el   style/j-report.el style/jarticle.el  style/jbook.el    style/jreport.el style/dinbrief.el  style/virtex.el   style/plfonts.el style/plhb.el      style/harvard.el	style/swedish.el style/danish.el    style/slovak.el   style/czech.el style/amsmath.el   style/amstext.el  style/amsbsy.el style/amsopn.el    style/amsthm.el	style/natbib.el style/index.el     style/makeidx.el  style/multind.el style/varioref.el  style/fancyref.el	style/mdwlist.el style/ngerman.el   style/graphicsx.el $(tmp)//usr/share/emacs/site-lisp/auctex//style/
 	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/
 #       Consistency rule.
 	cd $(tmp)//usr/share/info/ \
@@ -94,7 +92,6 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/README $(tmp)//usr/share/doc/auctex//README.Debian
 	$(INSTDATA) ChangeLog $(tmp)//usr/share/doc/auctex/
 	$(INSTDATA) debian/changelog $(tmp)//usr/share/doc/auctex//changelog.Debian
-	$(INSTDATA) debian/japanese-patch{,-copyright} $(tmp)//usr/share/doc/auctex/
 	gzip -9frv $(tmp)//usr/share/doc/auctex/
 	ln -sf ChangeLog.gz $(tmp)//usr/share/doc/auctex//changelog.gz
 	$(INSTDATA) debian/copyright $(tmp)//usr/share/doc/auctex/

@@ -1,24 +1,18 @@
 ;;; font-latex.el --- LaTeX fontification for Font Lock mode.
 
-;; Copyright (C) 1996, 1997, 1998 Peter S. Galbraith
+;; Copyright (C) 1996-2000 Peter S. Galbraith
  
 ;; Authors:    Peter S. Galbraith <GalbraithP@df0-mpo.gc.ca>
+;;                                <psg@debian.org>
 ;;             Simon Marshall <Simon.Marshall@esrin.esa.it>
 ;; Maintainer: Peter S. Galbraith <GalbraithP@df0-mpo.gc.ca>
+;;                                <psg@debian.org>
 ;; Created:    06 July 1996
-;; Version:    0.603 (02 July 1998)
+;; Version:    0.701 (30 March 2000)
 ;; Keywords:   LaTeX faces
 
-;; RCS $Id: font-latex.el,v 5.5 1998/12/11 16:47:13 abraham Exp $
+;; RCS $Id: font-latex.el,v 5.9 2000/05/03 15:22:01 psg Exp $
 ;; Note: RCS version number does not correspond to release number.
-
-;; LCD Archive Entry: (Not yet submitted!)
-;; font-latex|Peter Galbraith|GalbraithP@df0-mpo.gc.ca|
-;; LaTeX fontification for font-lock|
-;; 06-Jul-1996|0.01|~/modes/font-latex.el|
-
-;; The archive is ftp://archive.cis.ohio-state.edu/pub/gnu/emacs/elisp-archive/
-;;            or http://ftp.digital.com/pub/GNU/elisp-archive/
 
 ;;; This file is not part of GNU Emacs.
 
@@ -75,7 +69,34 @@
 ;;   I direct you to the file font-lock.el that comes with Emacs for more
 ;;   info.
 ;;
+;; Fontification Levels:
+;;
+;;  There are two levels of fontification, selected by the value of the
+;;  font-lock variable font-lock-maximum-decoration.  There are ways
+;;  documented in font-latex.el to set this differently for each mode that
+;;  uses font-lock, but if you are unsure and are running on a fast enough
+;;  machine, try putting this in your ~/.emacs file: 
+;;    (setq font-lock-maximum-decoration t) 
+;;  It probably best to put it before the (require 'font-latex) statement.
+;;
+;; Changing colours
+;;
+;;  Okay, so you hate the colours I picked.  How do you change them you ask?
+;;  First, find the font name to change using the command:
+;;    M-x list-text-properties-at
+;;  Then, suppose you got `font-latex-math-face', edit ~/.Xdefaults and add:
+;;    Emacs.font-latex-math-face.attributeForeground: blue
+;;  without the semi-colon I'm using here ascomment delimiters, of course.
+;;
 ;; Turning on Font-lock automatically:
+;;
+;;  Note: Recent versions of GNU Emacs uses a better mecanish to turn
+;;        on fontification for all buffer:
+;;
+;;    (if window-system
+;;        (global-font-lock-mode t nil))
+;;
+;;  For older Emacsen:
 ;;
 ;;  If you choose to turn-on font-lock by default using a mode-hook,
 ;;  there is an order to respect with-respect-to loading font-latex.  
@@ -95,25 +116,6 @@
 ;;
 ;;  It's probably not a bad idea to always append 'turn-on-font-lock
 ;;  such that it is always sure to be last.
-;;
-;; Fontification Levels:
-;;
-;;  There are two levels of fontification, selected by the value of the
-;;  font-lock variable font-lock-maximum-decoration.  There are ways
-;;  documented in font-latex.el to set this differently for each mode that
-;;  uses font-lock, but if you are unsure and are running on a fast enough
-;;  machine, try putting this in your ~/.emacs file: 
-;;    (setq font-lock-maximum-decoration t) 
-;;  It probably best to put it before the (require 'font-latex) statement.
-;;
-;; Changing colours
-;;
-;;  Okay, so you hate the colours I picked.  How do you change them you ask?
-;;  First, find the font name to change using the command:
-;;    M-x list-text-properties-at
-;;  Then, suppose you got `font-latex-math-face', edit ~/.Xdefaults and add:
-;;    Emacs.font-latex-math-face.attributeForeground: blue
-;;  without the semi-colon I'm using here ascomment delimiters, of course.
 ;;
 ;; Lazy-lock users:
 ;;
@@ -144,6 +146,11 @@
 ;;    instead of `highlighting 1: \(^\|[^\\]\)\(\\[a-zA-Z\\]+\)'
 ;; ----------------------------------------------------------------------------
 ;;; Change log:
+;; V0.701 30Mar00 Stefan Monnier <monnier@rum.cs.yale.edu> (RCS V1.63)
+;;    Removed tests against specific versions of Emacs, testing for 
+;;    functions instead.
+;; V0.700 20Dec99 PSG (RCS V1.62)
+;;    Added customize support.
 ;; V0.603 02July98 PSG (RCS V1.61)
 ;;    Squashed another infinite loop.
 ;; V0.602 02July98 PSG (RCS V1.60)
@@ -260,9 +267,25 @@
 ;;; Code:
 (require 'font-lock)
 
-(defvar font-latex-do-multi-line t
-  "*Set this to nil to disable the multi-line fontification 
-prone to infinite loop bugs.")
+(cond
+ ((fboundp 'defcustom)
+  (defgroup font-latex nil
+    "Font-latex text highlighting package."
+    :prefix "font-latex-"
+    :group 'faces
+    :group 'tex)
+  (defgroup font-latex-highlighting-faces nil
+    "Faces for highlighting text in font-latex."
+    :prefix "font-latex-"
+    :group 'font-latex)
+  (defcustom font-latex-do-multi-line t
+    "Nil means disable the multi-line fontification prone to infinite loops."
+    :group 'font-latex
+    :type 'boolean))
+ (t
+  (defvar font-latex-do-multi-line t
+    "*Set this to nil to disable the multi-line fontification 
+prone to infinite loop bugs.")))
 
 (defvar font-latex-warning-face			'font-latex-warning-face
   "Face to use for LaTeX major keywords.")
@@ -404,29 +427,6 @@ prone to infinite loop bugs.")
 
 ;; End-User can stop reading here.
 
-;; Make sure font-latex.el is supported.  I don't claim to have tested this...
-(if (if (save-match-data (string-match "Lucid\\|XEmacs" (emacs-version)))
-	(and (= emacs-major-version 19) (< emacs-minor-version 14))
-      (and (= emacs-major-version 19) (< emacs-minor-version 29)))
-    (error "`font-latex' was written for Emacs 19.29/XEmacs 19.14 or later"))
-
-(defvar font-latex-is-XEmacs19
-  (and (not (null (save-match-data 
-                    (string-match "XEmacs\\|Lucid" emacs-version))))
-       (= 19 emacs-major-version)))
-(defvar font-latex-is-XEmacs20
-  (and (not (null (save-match-data 
-                    (string-match "XEmacs\\|Lucid" emacs-version))))
-       (<= 20 emacs-major-version)))    ;xemacs-beta-20.5 sets it to version 21
-(defvar font-latex-is-Emacs19
-  (and (not font-latex-is-XEmacs19) 
-       (not font-latex-is-XEmacs20) 
-       (= 19 emacs-major-version)))
-(defvar font-latex-is-Emacs20
-  (and (not font-latex-is-XEmacs19) 
-       (not font-latex-is-XEmacs20) 
-       (= 20 emacs-major-version)))
-
 (defvar font-latex-string-face nil
   "Face to use for strings.  This is set by Font LaTeX.")
 
@@ -437,8 +437,7 @@ prone to infinite loop bugs.")
   (require 'cl))
 
 (cond
- ((or font-latex-is-Emacs20 
-      font-latex-is-XEmacs20)
+ ((fboundp 'defface)
   (defface font-latex-bold-face
     '((((class grayscale) (background light)) (:foreground "DimGray" :bold t))
       (((class grayscale) (background dark)) (:foreground "LightGray" :bold t))
@@ -484,7 +483,7 @@ prone to infinite loop bugs.")
     :group 'font-latex-highlighting-faces)
 
   (copy-face 'font-lock-string-face 'font-latex-string-face)
-  (if font-latex-is-Emacs20
+  (if (facep 'font-lock-warning-face)
       (copy-face 'font-lock-warning-face 'font-latex-warning-face)
     (defface font-latex-warning-face
       '((((class grayscale)(background light))(:foreground "DimGray" :bold t))
@@ -494,7 +493,7 @@ prone to infinite loop bugs.")
         (t (:bold t)))
       "Font Lock for LaTeX major keywords."
       :group 'font-latex-highlighting-faces)))
- (font-latex-is-Emacs19
+ ((and (fboundp 'font-lock-make-faces) (boundp 'font-lock-face-attributes))
   (if (not font-lock-face-attributes)
       ;; Otherwise I overwrite fock-lock-face-attributes.
       (font-lock-make-faces))
@@ -559,66 +558,56 @@ prone to infinite loop bugs.")
   (set-face-foreground 'font-latex-sedate-face "grey50" 'global nil 'append)
   (set-face-foreground 'font-latex-warning-face "red" 'global nil 'append)))
 
+;;;###autoload
 (defun font-latex-setup ()
   "Setup this buffer for LaTeX font-lock.  Usually called from a hook."
   ;; Trickery to make $$ fontification be in `font-latex-math-face' while
   ;; strings get whatever `font-lock-string-face' has been set to.
   (cond
-   (font-latex-is-Emacs20
-    (make-local-variable 'font-lock-string-face)
-    (setq font-lock-string-face font-latex-math-face
-	  font-latex-string-face (default-value 'font-lock-string-face))
-    ;; Tell Font Lock about the support.
-    (make-local-variable 'font-lock-defaults)
-    ;; Parentheses () disabled because they should not delimit fontification
-    ;; in LaTeX text.
-    (setq font-lock-defaults
-	  '((font-latex-keywords font-latex-keywords-1 font-latex-keywords-2)
-	    nil nil ((?\( . ".") (?\) . ".") (?$ . "\"")) nil
-	    (font-lock-comment-start-regexp . "%")
-	    (font-lock-mark-block-function . mark-paragraph))))
-   ((or font-latex-is-XEmacs19 font-latex-is-XEmacs20)
+   ((fboundp 'built-in-face-specifiers)
     ;; Cool patch from Christoph Wedler...
     (let (instance)
-      (mapcar (function
-	       (lambda (property)
-		 (setq instance
-		       (face-property-instance 'font-latex-math-face property
-					       nil 0 t))
-		 (if (numberp instance)
-		     (setq instance
-			   (face-property-instance 'default property nil 0)))
-		 (or (numberp instance)
-		     (set-face-property 'font-lock-string-face property
-					instance (current-buffer)))))
+      (mapcar (lambda (property)
+		(setq instance
+		      (face-property-instance 'font-latex-math-face property
+					      nil 0 t))
+		(if (numberp instance)
+		    (setq instance
+			  (face-property-instance 'default property nil 0)))
+		(or (numberp instance)
+		    (set-face-property 'font-lock-string-face property
+				       instance (current-buffer))))
 	      (built-in-face-specifiers))))
    (t
-    (font-lock-make-faces)
+    (if (fboundp 'font-lock-make-faces) (font-lock-make-faces))
     (make-local-variable 'font-lock-string-face)
     (setq font-lock-string-face font-latex-math-face
-	  font-latex-string-face (default-value 'font-lock-string-face))
-    ;; Tell Font Lock about the support.
-    (make-local-variable 'font-lock-defaults)
-    ;; Parentheses () disabled because they should not delimit fontification
-    ;; in LaTeX text.
-    (setq font-lock-defaults
-	  '((font-latex-keywords font-latex-keywords-1 font-latex-keywords-2)
-	    nil nil ((?\( . ".") (?\) . ".") (?$ . "\"")) nil
-	    (font-lock-comment-start-regexp . "%")
-	    (font-lock-mark-block-function . mark-paragraph))))))
+	  font-latex-string-face (default-value 'font-lock-string-face))))
 
-(when (or font-latex-is-XEmacs19 font-latex-is-XEmacs20)
-    (put 'latex-mode 'font-lock-defaults
-         '((font-latex-keywords font-latex-keywords-1 font-latex-keywords-2)
-           nil nil ((?\( . ".") (?\) . ".") (?$ . "\"")) nil
-           (font-lock-comment-start-regexp . "%")
-           (font-lock-mark-block-function . mark-paragraph)))
-    (put 'latex-tex-mode	'font-lock-defaults 'latex-mode)
-    (put 'LaTex-tex-mode	'font-lock-defaults 'latex-mode)
-    (put 'LaTeX-mode        'font-lock-defaults 'latex-mode)
-    (put 'japanese-LaTeX-mode 'font-lock-defaults 'latex-mode)
-    (put 'LATeX-MoDe	'font-lock-defaults 'latex-mode)
-    (put 'lATEx-mODe	'font-lock-defaults 'latex-mode))
+  ;; Tell Font Lock about the support.
+  (make-local-variable 'font-lock-defaults)
+  ;; Parentheses () disabled because they should not delimit fontification
+  ;; in LaTeX text.
+  (setq font-lock-defaults
+	'((font-latex-keywords font-latex-keywords-1 font-latex-keywords-2)
+	  nil nil ((?\( . ".") (?\) . ".") (?$ . "\"")) nil
+	  (font-lock-comment-start-regexp . "%")
+	  (font-lock-mark-block-function . mark-paragraph))))
+
+;; Should not be necessary since XEmacs' font-lock also supports
+;; Emacs' use of the `font-lock-defaults' local variable.   -Stefan
+;; (when (save-match-data (string-match "XEmacs\\|Lucid" emacs-version)))
+;;     (put 'latex-mode 'font-lock-defaults
+;;          '((font-latex-keywords font-latex-keywords-1 font-latex-keywords-2)
+;;            nil nil ((?\( . ".") (?\) . ".") (?$ . "\"")) nil
+;;            (font-lock-comment-start-regexp . "%")
+;;            (font-lock-mark-block-function . mark-paragraph)))
+;;     (put 'latex-tex-mode	'font-lock-defaults 'latex-mode)
+;;     (put 'LaTex-tex-mode	'font-lock-defaults 'latex-mode)
+;;     (put 'LaTeX-mode        'font-lock-defaults 'latex-mode)
+;;     (put 'japanese-LaTeX-mode 'font-lock-defaults 'latex-mode)
+;;     (put 'LATeX-MoDe	'font-lock-defaults 'latex-mode)
+;;     (put 'lATEx-mODe	'font-lock-defaults 'latex-mode))
 
 
 (defun font-latex-match-reference (limit)

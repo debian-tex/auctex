@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian <:=$PACKAGE:> package.
-# $Id: rules.in,v 1.7 2000/01/20 14:33:49 salve Exp $
+# $Id: rules.in,v 1.8 2000/10/20 00:27:54 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -38,17 +38,15 @@ debian/system.variables: /home/salve/Debian/Packages/system.variables
 
 build: $(DFILES) debian/variables
 	$(checkdir)
-	-cat debian/japanese-patch | patch --forward --reject-file=debian/trashcan
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
 clean:
 	$(checkdir)
-	-rm -rf build core debian/trashcan $(tmp) debian/{files*,substvars}
+	-rm -rf build core $(tmp) debian/{files*,substvars}
 	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
-	-cat debian/japanese-patch | patch --forward --reverse --reject-file=debian/trashcan
 	-$(MAKE) clean
 
 binary: binary-indep binary-arch
@@ -82,7 +80,6 @@ binary-indep: checkroot build
 	$(INSTDATA) debian/README $(tmp)/<:=$doc:>/README.Debian
 	$(INSTDATA) ChangeLog $(tmp)/<:=$doc:>
 	$(INSTDATA) debian/changelog $(tmp)/<:=$doc:>/changelog.Debian
-	$(INSTDATA) debian/japanese-patch{,-copyright} $(tmp)/<:=$doc:>
 	gzip -9frv $(tmp)/<:=$doc:>
 	ln -sf ChangeLog.gz $(tmp)/<:=$doc:>/changelog.gz
 	$(INSTDATA) debian/copyright $(tmp)/<:=$doc:>

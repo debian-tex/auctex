@@ -5,8 +5,8 @@ package.
 The current release of this package was assembled by:
 		   Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
-		   <ftp://sunsite.auc.dk/packages/auctex/>,
-(file: "d20c048f8f90c9281dbef4d51b707e09  auctex-9.9p.tar.gz").
+	  <ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/>,
+(file: "12c1677578b07be63685d03b484729d5  /home/salve/auctex-9.10t.tar.gz").
 
 The official upstream ftp site is:
 		   <ftp://sunsite.auc.dk/packages/auctex/>,
@@ -20,25 +20,13 @@ The original AUC Tex Debian package was assembled by:
 
 Obviously, tex-site.el has been appropriately configured for Debian GNU/Linux.
 
-I applied a Japanese specific patch, see japanese-patch for code, and
-japanese-patch-copyright for authors and copyright information.  Its
-feature are:
-
- * TeX command is "jlatex" or "platex" for most Japanese TeX user.
- * [bug fix] TeX menu is not changed in "japanese-LaTeX-mode".
- * [bug fix] TeX-command-style updated for Emacs20.
- * [bug fix] fill mode doesn't work in Emacs20.
- * japanese-latex-mode is not loaded, so need to add the entry to
-   TeX-format-list in tex.el.  It doesn't need to be set
-   TeX-format-list in tex-jp.el.
-
 
 COPYRIGHT
 =========
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 1, or (at your option) any later version.
+Foundation; either version 2, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
 ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS

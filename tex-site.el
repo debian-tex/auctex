@@ -1,11 +1,11 @@
 ;;; tex-site.el - Site specific variables.
 
-;; Copyright (C) 1991 Kresten Krab Thorup 
-;; Copyright (C) 1993, 1994, 1997 Per Abrahamsen 
+;; Copyright (C) 1991, 2000 Kresten Krab Thorup 
+;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen 
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9p
+;; Version: 9.10t
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -34,26 +34,19 @@
 
 ;;; Code:
 
+(when (< emacs-major-version 20)
+  (error "AUC TeX requires Emacs 20 or later"))
+
 (defvar no-doc
   "This function is part of AUC TeX, but has not yet been loaded.
 Full documentation will be available after autoloading the function."
   "Documentation for autoload functions.")
 
-(eval-and-compile
-  ;; Kludge to allow `defcustom' for Emacs 19.
-  (condition-case ()
-      (require 'custom)
-    (error nil))
-  (if (and (featurep 'custom) (fboundp 'custom-declare-variable))
-      nil ;; We've got what we needed
-    ;; We have the old custom-library, hack around it!
-    (defmacro defgroup (&rest args)
-      nil)
-    (defmacro defcustom (var value doc &rest args) 
-      (` (defvar (, var) (, value) (, doc))))))
-
 ;;; Customization:
 ;;
+;; Copy variables you need to change from the start of `tex.el' and
+;; insert them here.
+
 ;; Customized for Debian GNU/Linux by
 ;; Davide G. M. Salvetti <salve@debian.org>
 ;; on Thu, 08 Jan 1998 11:07:00 CET.
@@ -95,16 +88,10 @@ These correspond to TeX macros shared by all users of a site."
 
 ;;; Autoloads:
 
-(or (assoc TeX-lisp-directory (mapcar 'list load-path))	;No `member' yet.
-    (assoc (substring TeX-lisp-directory 0 -1) ;Without trailing slash.
-	   (mapcar 'list load-path))
-    (setq load-path (cons TeX-lisp-directory load-path)))
+(add-to-list 'load-path TeX-lisp-directory)
 
 ;; This hook will store bibitems when you save a BibTeX buffer.
-(defvar bibtex-mode-hook nil)
-(or (memq 'BibTeX-auto-store bibtex-mode-hook) ;No `add-hook' yet.
-    (setq bibtex-mode-hook (cons 'BibTeX-auto-store bibtex-mode-hook)))
-
+(add-hook 'bibtex-mode-hook 'BibTeX-auto-store)
 (autoload 'BibTeX-auto-store "latex" no-doc t)
 
 (autoload 'tex-mode "tex" no-doc t)
@@ -119,6 +106,10 @@ These correspond to TeX macros shared by all users of a site."
 (autoload 'japanese-slitex-mode "tex-jp" no-doc t)
 (autoload 'texinfo-mode "tex-info" no-doc t)
 (autoload 'latex-mode "latex" no-doc t)
+
+(when (memq system-type '(windows-nt))
+  ;; Try to make life easy for MikTeX users.
+  (require 'tex-mik))
 
 (provide 'tex-site)
 

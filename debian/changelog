@@ -1,3 +1,25 @@
+auctex (9.10t-1) unstable; urgency=low
+
+  * New upstream version.
+  * Wrong quote string bug fixed upstream.  (Closes: #64185, #64186)
+  * config: Uses a better regexp to detect alreadydefault.  (Closes: #67408)
+  * control: Dependence on emacs19 removed: upstream version now supports
+    _ONLY_ Emacs 20 and newer.
+  * control: Standards-Version: 3.2.1.
+  * copyright: Updated, removed japanese-patch statement.
+  * install: Removed emacs19.
+  * japanese-patch: Removed (included upstream).
+  * japanese-patch-copyright: Removed.
+  * template: Wording improved.  (Closes: #61064)
+  * template: Localized in Italian. (Closes: #64159)
+  * remove: Removed emacs19.
+  * rules: Removed rules for japanese-patch.
+  * updated-auctex-elisp: Removed emacs19.
+  * updated-auctex-elisp.8: Updated.
+  * variables: Added tex-mik.el and various new styles.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 20 Oct 2000 02:14:58 +0200
+
 auctex (9.9p-13) frozen unstable; urgency=medium
 
   * control: Sandards-Version: 3.0.0.

@@ -1,7 +1,7 @@
 # Makefile - for the AUC TeX distribution.
 #
 # Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-# Version: 9.9p
+# Version: 9.10t
 #
 # Edit the makefile, type `make', and follow the instructions.
 
@@ -75,9 +75,9 @@ CONTRIB = hilit-LaTeX.el bib-cite.el tex-jp.el font-latex.el
 CONTRIBELC = bib-cite.elc font-latex.elc
 
 AUCSRC = auc-old.el tex.el tex-buf.el latex.el tex-info.el \
-	texmathp.el multi-prompt.el
+	texmathp.el multi-prompt.el tex-mik.el
 AUCELC = auc-old.elc tex.elc tex-buf.elc latex.elc tex-info.elc \
-	texmathp.elc multi-prompt.elc
+	texmathp.elc multi-prompt.elc tex-mik.elc
 
 
 STYLESRC = style/slides.el    style/foils.el    style/amstex.el \
@@ -91,12 +91,15 @@ STYLESRC = style/slides.el    style/foils.el    style/amstex.el \
 	   style/plhb.el      style/harvard.el	style/swedish.el \
 	   style/danish.el    style/slovak.el   style/czech.el \
 	   style/amsmath.el   style/amstext.el  style/amsbsy.el \
-	   style/amsopn.el    style/amsthm.el	style/natbib.el
+	   style/amsopn.el    style/amsthm.el	style/natbib.el \
+	   style/index.el     style/makeidx.el  style/multind.el \
+	   style/varioref.el  style/fancyref.el	style/mdwlist.el \
+	   style/ngerman.el   style/graphicsx.el
 
 DOCFILES = doc/Makefile doc/auc-tex.texi doc/intro.texi doc/install.texi \
 	doc/changes.texi doc/tex-ref.tex doc/math-ref.tex doc/history.texi
 
-EXTRAFILES = COPYING PROBLEMS MSDOS VMS OS2 WIN-NT Makefile ChangeLog \
+EXTRAFILES = COPYING PROBLEMS MSDOS VMS OS2 WIN-NT IRIX Makefile ChangeLog \
 	lpath.el tex-site.el $(CONTRIB)
 
 all:	lisp
@@ -132,6 +135,10 @@ install-lisp:	some
 	    $(MV) style/*.elc $(aucdir)/style ; \
 	    $(CP) $(AUCSRC) $(aucdir) ; \
 	    $(CP) style/*.el $(aucdir)/style ; \
+	    touch $(aucdir)/style/.nosearch ; \
+	    if [ ! -d $(aucdir)/auto ]; then mkdir $(aucdir)/auto; \
+	                                else true; fi ; \
+	    touch $(aucdir)/auto/.nosearch ; \
 	else \
 	    echo "Leaving compiled files in place."; \
 	fi
@@ -176,24 +183,25 @@ dist:
 	echo "	* Version" $(TAG) released. >> ChangeLog
 	echo >> ChangeLog
 	cat ChangeLog.old >> ChangeLog
-	cvs commit -m "Release $(OLD)++" tex.el
+	auc commit -m 'Release_$(OLD)++' tex.el
 	rm -f tex.el.orig
 	mv tex.el tex.el.orig
 	sed -e '/defconst AUC-TeX-date/s/"[^"]*"/"'"`date`"'"/' \
 	    -e '/defconst AUC-TeX-version/s/"[^"]*"/"'$(TAG)'"/' \
 	    < tex.el.orig > tex.el
 	rm -f $(REMOVE) 
-	-cvs remove $(REMOVE) 
-	-cvs add $(AUCSRC) $(EXTRAFILES)
-	-(cd doc; cvs add `echo $(DOCFILES) | sed -e s@doc/@@g` )
-	-(cd style; cvs add `echo $(STYLESRC) | sed -e s@style/@@g` )
-	cvs commit -m "Release $(TAG)"
-	cvs tag release_`echo $(TAG) | sed -e 's/[.]/_/g'`
+	-auc remove $(REMOVE) 
+	-auc add $(AUCSRC) $(EXTRAFILES)
+	-(cd doc; auc add `echo $(DOCFILES) | sed -e s@doc/@@g` )
+	-(cd style; auc add `echo $(STYLESRC) | sed -e s@style/@@g` )
+	auc commit -m 'Release_$(TAG)'
+	auc tag release_`echo $(TAG) | sed -e 's/[.]/_/g'`
 	mkdir auctex-$(TAG) 
 	mkdir auctex-$(TAG)/style
 	mkdir auctex-$(TAG)/doc 
 	cp $(AUCSRC) $(EXTRAFILES) auctex-$(TAG)
 	cp $(STYLESRC) auctex-$(TAG)/style
+	touch auctex-$(TAG)/style/.nosearch
 	cp $(DOCFILES)  auctex-$(TAG)/doc
 	(cd doc; $(MAKE) dist; cp auctex auctex-* ../auctex-$(TAG)/doc )
 	(cd doc; cp INSTALLATION README CHANGES ../auctex-$(TAG)/ )
@@ -205,17 +213,17 @@ dist:
 	rm -f $(FTPDIR)/auctex.tar.Z $(FTPDIR)/auctex.zip
 	tar -cf - auctex-$(TAG) | gzip --best > $(FTPDIR)/auctex-$(TAG).tar.gz
 	tar -cf - auctex-$(TAG) | compress > $(FTPDIR)/auctex.tar.Z
-	zip -r $(FTPDIR)/auctex auctex-$(TAG)
+	-zip -r $(FTPDIR)/auctex auctex-$(TAG)
 	(cd $(FTPDIR); ln -s auctex-$(TAG).tar.gz auctex.tar.gz)
-	cvs rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+	auc rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
 	          -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
 		> $(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch ;  exit 0
 
 patch:
-	cvs rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+	auc rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
 	          -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex
 
 min-map:
-	-cvs add $(MINMAPSRC) 
-	cvs commit -m "Update"
+	-auc add $(MINMAPSRC) 
+	auc commit -m "Update"
 	cp $(MINMAPSRC) doc/math-ref.tex $(FTPDIR) 

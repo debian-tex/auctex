@@ -4,13 +4,26 @@ Type: boolean
 Default: true
 Description: Should AUC-TeX be auto-loaded by default at your site?
  Emacs has its own standard (La)TeX major modes, that will be globally (i.e.,
- for all users on this site) overridden if you answer yes to this question.
- This is generally a good thing, since AUC-TeX is so better; however you may
- not want it to happen, and let instead single users at your site decide by
- themselves if they should load this package.
+ for all users on this site) overridden by AUC-TeX if you answer yes to this
+ question.
+ .
+ This is generally a good thing, since AUC-TeX is so much better; however you
+ may not want it to happen, and instead let single users at your site decide
+ by themselves if they should load this package.
  .
  If you answer no, people who desire to use it will have to put the string
  "(require 'tex-site)" in their "~/.emacs" to load it.
+Description-it: Abilitare AUC-TeX di default su questa macchina?
+ Emacs normalmente ha i suoi propri modi maggiori per (La)TeX, che verranno
+ globalmente sostituiti da AUC-TeX (sostituiti, cioè, per tutti gli utenti di
+ questa macchina) se si risponde affermativamente a questa domanda.
+ .
+ In genere questo è bene, visto che AUC-TeX è molto migliore; può darsi
+ tuttavia che si preferisca lasciare a ciascun singolo utente di questa
+ macchina la decisione di far uso o meno di questo pacchetto.
+ .
+ Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
+ mettere la stringa "(require 'tex-site)" nel loro "~/.emacs" per abilitarlo.
 
 Template: <:=$PACKAGE:>/alreadydefault
 Type: text
@@ -19,31 +32,58 @@ Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
  already auto-loaded by default at your site.
  .
  If this is not true, or if it's not what you want, please search that file
- looking for "(require 'tex-site)" resembling forms and fix it; then run
+ looking for "(require 'tex-site)" resembling forms and fix them; then run
  "dpkg-reconfigure <:=$PACKAGE:>" if needed (recommended).
+Description-it: AUC-TeX sembra già automaticamente abilitato su questa macchina.  Bene.
+ Controllando il file "<:=$SSEL:>" pare che AUC-TeX sia già
+ automaticamente abilitato su questa macchina.
+ .
+ Se questo non è vero o se non è quel che si desidera, si vadano a cercare in
+ quel file form del tipo "(require 'tex-site)" e li si correggano; poi si
+ faccia girare "dpkg-reconfigure <:=$PACKAGE:>" se necessario (consigliato).
 
 Template: <:=$PACKAGE:>/doauto
 Type: select
 Choices: Background, Foreground, None
+Choices-it: Sottofondo, Primo piano, Nessuno
 Default: Background
 Description: How should (La)TeX macros be parsed?
  To greatly improve AUC-TeX performances, every TeX macro package and LaTeX
- style file currently installed on your system will be parsed.
+ style file currently installed at your site will be parsed.
  .
- This may take a lot of time, so it should be probably done in background, but
- you may also choose to have it done in foreground, or to skip the parsing at
- all instead.  If you choose Background, you will find a detailed log of the
- process in the file: ${LOGFILE}.
+ This may take a lot of time, so it should be probably done in background;
+ however you may also choose to have it done in foreground, or to skip the
+ parsing at all instead.  If you choose Background, you will find a detailed
+ log of the process in the file: ${LOGFILE}.
  .
- A weekly cron job will also take care of upgrading the informations collected
- now, so usually you won't need to worry about them whenever you install new
- (La)TeX packages or remove old ones.
+ A weekly cron job will also take care of updating the informations now
+ collected, so usually you won't need to worry about them whenever you install
+ new (La)TeX packages or remove old ones.
  .
  Anyway, you can update them by hand running <:=$UPDATE:>.
+Description-it: In che modo si deve effettuare la scansione delle macro per (La)TeX?
+ Per migliorare grandemente le prestazioni di AUC-TeX, tutti i pacchetti di
+ macro per TeX ed i file di stile per LaTeX attualmente installati su questa
+ macchina verranno scanditi.
+ .
+ Questa operazione potrebbe richiedere molto tempo ed è quindi probabilmente
+ preferibile eseguirla in sottofondo; tuttavia, si può anche scegliere di
+ eseguirla in primo piano o di non eseguirla affatto.  Se si sceglie
+ Sottofondo verrà generata una cronistoria dettagliata dell'operazione nel
+ file: ${LOGFILE}.
+ .
+ Le informazioni raccolte adesso saranno aggiornate settimanalmente per mezzo
+ del demone cron, di modo che normalmente non è necessario preoccuparsene
+ personalmente al momento dell'installazione o della rimozione di pacchetti
+ per (La)TeX.
+ .
+ In ogni caso le si possono aggiornare a mano lanciando <:=$UPDATE:>.
+
 <:
 # Local variables:
 # mode: text
 # fill-column: 78
 # End:
-# LocalWords:  AUC tex alreadydefault SSEL dpkg doauto LOGFILE cron
+# LocalWords:  AUC tex alreadydefault SSEL dpkg doauto LOGFILE cron AUC-TeX
+# LocalWords:  require tex-site form dpkg-reconfigure PACKAGE UPDATE
 :>//

@@ -6,7 +6,7 @@
 <:$DOCSRC="doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,"
 	. "math-ref.tex,tex-ref.tex}":>//
 <:# AUC TeX sources:>//
-<:$SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el":>//
+<:$SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el tex-mik.el":>//
 <:# Contributed sources:>//
 <:$SOURCES="$SOURCES bib-cite.el font-latex.el":>//
 <:# Mule requiring sources:>//
@@ -25,7 +25,10 @@
 	. "style/plhb.el      style/harvard.el	style/swedish.el "
 	. "style/danish.el    style/slovak.el   style/czech.el "
 	. "style/amsmath.el   style/amstext.el  style/amsbsy.el "
-	. "style/amsopn.el    style/amsthm.el	style/natbib.el":>//
+	. "style/amsopn.el    style/amsthm.el	style/natbib.el "
+	. "style/index.el     style/makeidx.el  style/multind.el "
+	. "style/varioref.el  style/fancyref.el	style/mdwlist.el "
+	. "style/ngerman.el   style/graphicsx.el":>//
 <:# Misc package variables:>//
 <:$UPDATE="update-auctex-elisp":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//

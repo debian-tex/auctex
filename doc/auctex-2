@@ -1,7 +1,8 @@
-This is Info file auctex, produced by Makeinfo-1.55 from the input file
-auc-tex.texi.
+This is auctex, produced by makeinfo version 4.0 from auc-tex.texi.
 
-   * AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.   direntry
+START-INFO-DIR-ENTRY
+* AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.
+END-INFO-DIR-ENTRY
 
 
 File: auctex,  Node: Parsing Files,  Next: I18n,  Prev: Multifile,  Up: Top
@@ -19,10 +20,10 @@ adding the following lines to your `.emacs' file.
 
    The later command will make AUC TeX store the parsed information in
 an `auto' subdirectory in the directory each time the TeX files are
-stored, *note Automatic Local::..  If AUC TeX finds the pre-parsed
+stored, *note Automatic Local::.  If AUC TeX finds the pre-parsed
 information when loading a file, it will not need to reparse the buffer.
 The information in the `auto' directory is also useful for multifile
-documents *note Multifile::., since it allows each file to access the
+documents *note Multifile::, since it allows each file to access the
 parsed information from all the other files in the document.  This is
 done by first reading the information from the master file, and then
 recursively the information from each file stored in the master file.
@@ -171,7 +172,7 @@ language specific hook that will allow you to for example change ispell
 dictionary, or run code to change the keyboard remapping.  The
 following will for example choose a Danish dictionary for documents
 including the `dk.sty' file.  This requires parsing to be enabled,
-*note Parsing Files::..
+*note Parsing Files::.
 
      (add-hook 'TeX-language-dk-hook
                (function (lambda () (ispell-change-dictionary "danish"))))
@@ -185,13 +186,13 @@ including the `dk.sty' file.  This requires parsing to be enabled,
 
 `german'
      Runs style hook `TeX-language-de-hook'.  Gives  `"' word syntax
-     and makes the " key insert a literal `"'.
+     and makes the <"> key insert a literal `"'.
 
 `plfonts'
 `plhb'
      Runs style hook `TeX-language-pl-hook'.  Gives  `"' word syntax
-     and makes the " key insert a literal `"'.  Pressing " twice will
-     insert `"<' or `">' depending on context.
+     and makes the <"> key insert a literal `"'.  Pressing <"> twice
+     will insert `"<' or `">' depending on context.
 
 
 File: auctex,  Node: Japanese,  Prev: European,  Up: I18n
@@ -372,7 +373,7 @@ File: auctex,  Node: Style Files,  Next: Installation,  Prev: Automatic,  Up: To
 Writing Your own Style Support
 ******************************
 
-   *Note Automatic:: for a discussion about automatically generated
+   *Note Automatic::, for a discussion about automatically generated
 global, private, and local style files.  The hand generated style files
 are equivalent, except that they by default are found in `style'
 directories instead of `auto' directories.
@@ -778,10 +779,10 @@ symbols found.
      number, a list of strings if MATCH is a list of numbers) is put in
      front of the table.
 
- - Variable: TeX-auto-prepare-hook
+ - Variable: TeX-auto-prepare-hook nil
      List of functions to be called before parsing a TeX file.
 
- - Variable: TeX-auto-cleanup-hook
+ - Variable: TeX-auto-cleanup-hook nil
      List of functions to be called after parsing a TeX file.
 
 
@@ -841,7 +842,7 @@ Customizing
    Next, you should edit the file `tex-site.el' to fit your local site.
 You do this by looking at the customization section in the beginning
 of `tex.el' and copy the definitions that are wrong for your site to
-`tex-site.el'.  Do *not* edit `tex.el' directly, or you will have to do
+`tex-site.el'.  Do _not_ edit `tex.el' directly, or you will have to do
 all the work over again when you upgrade AUC TeX.  AUC TeX will not
 overwrite your old `tex-site.el' file next time you install, so you
 will be able to keep all your customizations.
@@ -912,73 +913,60 @@ The History of AUC TeX
 
    See the file `history.texi' for older changes.
 
-News in 9.9
-===========
+News in 9.10
+============
 
-   * Bug fix in JLATEX recognition.  Patch by Tsutomu OKUMURA
-     <oku@nml.t.u-tokyo.ac.jp>.
+   * `,' and `.' no longer removes italic correction.
 
-   * Bug fix in foils package sypport.  Suggested by Bernt
-     Guldbrandtsen <bernt@jupiter.ansci.iastate.edu>.
+   * `graphicsx' support.  Donated by Ryuichi Arafune
+     <arafune@ushioda.riec.tohoku.ac.jp>.
 
-   * Made `make install-contrib' compile the contributed lisp files.
-     Suggested by Nils Ackermann <Nils.Ackermann@math.uni-giessen.de>.
+   * `LaTeX-math-abbrev-prefix' now accepts vector value.  Reported by
+     Jan Vroonhof <vroonhof@math.ethz.ch>.
 
-   * In `texinfo-mode', `C-c C-f C-d' now deletes the current font,
-     while `C-u C-c C-f KEY' changes it.  `@dfn' moved to `C-c C-f d'.
-     Suggested by Christoph Wedler <wedler@fmi.uni-passau.de>.
+   * Improved Texinfo support(more environments and html).  Patch by
+     Akim Demaille <akim@epita.fr>.
 
-   * Fixed some custom types.  Patch by Markus Rost
-     <markus.rost@mathematik.uni-regensburg.de>.
+   * `danish' quotes support.  Suggested by arne@daimi.au.dk (Arne
+     Joergensen).
 
-   * Support loading byte compiled files, even if `TeX-byte-compile' is
-     nil.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+   * Some PDF support.
 
-   * The command to replace a LaTeX2e font should work more reliably
-     now.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+   * New `tex-mik.el' file for MikTeX support.
 
-   * Minor XEmacs packaging changes.  Patch by Christoph Wedler
-     <wedler@fmi.uni-passau.de>.
+   * Some commands now have their own history.  Suggested by Werner
+     LEMBERG <sx0005@sx2.HRZ.Uni-Dortmund.DE>.
 
-   * `TeX-file-recurse' now accepts an integer value, max depth of
-     recursion.  Patch by Alastair Burt  <burt@dfki.bde>.
+   * Use `\centering' instead of center environment in figures.  Patch
+     by Stefan Monnier <foo@acm.com>.
 
-   * Simple imenu support for LaTeX.
+   * New `dwim' setting for `TeX-master' attempts to guess a default
+     master for new files.  Patch by Stefan Monnier <foo@acm.com>.
 
-   * Workaround for 20.3 bugs.
+   * `ngerman' style support.  Just a copy of the german style support.
 
-   * The `Spell' command now works on all open buffers in the document.
-     Patch by Jason Stewart <jasons@cs.unm.edu>.
+   * Removed support for Emacs 18 and 19.
 
-   * `C-c C-m' now puts content of region inside first empty brackets
-     in the macro, if any.  Patch by Peter Thiemann <pjt@cs.nott.ac.uk>.
+   * `mdwlist' support.  Patch by Stephen Heilbronner
+     <heilbron@nm.informatik.uni-muenchen.de>.
 
-   * Update of `natbib.el' style file by Carsten Dominik
-     <dominik@strw.LeidenUniv.nl>.
+   * Fixed various bugs with the babel package.
 
-   * Much better detection of TeX math mode.  Patch by Carsten Dominik
-     <dominik@strw.LeidenUniv.nl>.
+   * `amsart' and `amsbook' now loads `amsthm' by default.  Patch by
+     Rune Kleveland <runekl@math.uio.no>.
 
-   * New `%n' escape in `TeX-command-list' for entering the current
-     line number.  Suggested by "Lee, Sang-Min"
-     <smagus@acorn.snu.ac.kr>.
+   * Fixed bug with file searching.  Reported by Berwin Turlach
+     <bturlach@maths.adelaide.edu.au>.
 
-   * Doc fixes in manual.  Patch by Gustavo Chaves
-     <gustavo@cpqd.com.br>.
+   * Finalized index support, added index-related style files.  Patch
+     by Carsten Dominik <dominik@strw.leidenuniv.nl>.
 
-   * Better reftex support for sections.  Patch by Carsten Dominik
-     <dominik@strw.LeidenUniv.nl>.
+   * New style files for `varioref.sty' and `fancyref.sty'.  Patch by
+     Carsten Dominik <dominik@strw.leidenuniv.nl>.
 
-   * Bug fixes in math card.  Reported by "Ron Smith"
-     <rsmith@eel.ufl.edu>.
+   * `texmathp' recognizes additional macros like `\fbox'.  Patch by
+     Ulrik Vieth <vieth@thphy.uni-duesseldorf.de>.
 
-   * Better multifile support.  Patch by Soren Dayton
-     <csdayton@cs.uchicago.edu>.
-
-   * Don't expand abbreviations when `abbrev-mode' is nil.  Suggested
-     by Alastair Burt <alastair.burt@dfki.de>.
-
-   * `direntry' support in manual, by SL Baur <steve@altair.xemacs.org>.
 
 
 File: auctex,  Node: Projects,  Next: Credit,  Prev: History,  Up: Top
@@ -1088,10 +1076,11 @@ mail me first, though.
                ("\\\\DeclareText\\(Command\\|Symbol\\|Accent\\|Composite\\){?\\\\\\([a-zA-Z]+\\)}?"
                 2 TeX-auto-symbol)
 
-   * Use index files (when available) to speed up `C-c C-m include RET'.
+   * Use index files (when available) to speed up `C-c C-m include
+     <RET>'.
 
    * Option not to calculate very slow completions like for `C-c C-m
-     include RET'.
+     include <RET>'.
 
    * AUC TeX should not parse verbatim environments.
 
@@ -1139,7 +1128,7 @@ mail me first, though.
      last spell check?  Suggested by Ravinder Bhumbla
      `<rbhumbla@ucsd.edu>'.
 
-   * Make . check for abbreviations and sentences ending with capital
+   * Make <.> check for abbreviations and sentences ending with capital
      letters.
 
    * Use Emacs 19 minibuffer history to choose between previewers, and
@@ -1164,9 +1153,13 @@ mail me first, though.
 
      Here is the start of such a list.
     `LaTeX-add-environments'
+
     `TeX-add-symbols'
+
     `LaTeX-add-labels'
+
     `LaTeX-add-bibliographies'
+
     `LaTeX-largest-level'
    * Correct indentation for tabular, tabbing, table, math, and array
      environments.
@@ -1222,6 +1215,7 @@ mail me first, though.
    * Hook up the letter environment with `bbdb.el'.
 
    * Make the letter environment hook produce `documentstyle' too.
+
 
 
 File: auctex,  Node: Credit,  Next: Key Index,  Prev: Projects,  Up: Top
@@ -1284,42 +1278,41 @@ Key Index
 
 * Menu:
 
-* ":                                    Quotes.
-* $:                                    Quotes.
-* LFD:                                  Marking and formatting.
-* TAB:                                  Marking and formatting.
-* C-c %:                                Commenting.
-* C-c ;:                                Commenting.
-* C-c LFD:                              Itemize-like.
-* C-c {:                                Quotes.
-* C-c C-c:                              Commands.
-* C-c C-d:                              Multifile.
-* C-c C-e:                              Environments.
-* C-c C-f:                              Font Specifiers.
-* C-c C-f C-b:                          Font Specifiers.
-* C-c C-f C-c:                          Font Specifiers.
-* C-c C-f C-c:                          Font Specifiers.
-* C-c C-f C-e:                          Font Specifiers.
-* C-c C-f C-i:                          Font Specifiers.
-* C-c C-f C-r:                          Font Specifiers.
-* C-c C-f C-s:                          Font Specifiers.
-* C-c C-f C-t:                          Font Specifiers.
-* C-c C-k:                              Control.
-* C-c C-l:                              Control.
-* C-c C-m:                              Completion.
-* C-c C-n:                              Parsing Files.
-* C-c C-q C-e:                          Marking and formatting.
-* C-c C-q C-p:                          Marking and formatting.
-* C-c C-q C-r:                          Marking and formatting.
-* C-c C-q C-s:                          Marking and formatting.
-* C-c C-r:                              Commands.
-* C-c C-s:                              Sectioning.
-* C-c C-w:                              Debugging.
-* C-c ]:                                Environments.
-* C-c ^:                                Control.
-* C-c `:                                Debugging.
-* C-c ~:                                Mathematics.
-* M-TAB:                                Completion.
-* M-g:                                  Marking and formatting.
-* M-q:                                  Marking and formatting.
+* ":                                     Quotes.
+* $:                                     Quotes.
+* <LFD>:                                 Marking and formatting.
+* <TAB>:                                 Marking and formatting.
+* C-c %:                                 Commenting.
+* C-c ;:                                 Commenting.
+* C-c <LFD>:                             Itemize-like.
+* C-c ]:                                 Environments.
+* C-c ^:                                 Control.
+* C-c `:                                 Debugging.
+* C-c C-c:                               Commands.
+* C-c C-d:                               Multifile.
+* C-c C-e:                               Environments.
+* C-c C-f:                               Font Specifiers.
+* C-c C-f C-b:                           Font Specifiers.
+* C-c C-f C-c:                           Font Specifiers.
+* C-c C-f C-e:                           Font Specifiers.
+* C-c C-f C-i:                           Font Specifiers.
+* C-c C-f C-r:                           Font Specifiers.
+* C-c C-f C-s:                           Font Specifiers.
+* C-c C-f C-t:                           Font Specifiers.
+* C-c C-k:                               Control.
+* C-c C-l:                               Control.
+* C-c C-m:                               Completion.
+* C-c C-n:                               Parsing Files.
+* C-c C-q C-e:                           Marking and formatting.
+* C-c C-q C-p:                           Marking and formatting.
+* C-c C-q C-r:                           Marking and formatting.
+* C-c C-q C-s:                           Marking and formatting.
+* C-c C-r:                               Commands.
+* C-c C-s:                               Sectioning.
+* C-c C-w:                               Debugging.
+* C-c {:                                 Quotes.
+* C-c ~:                                 Mathematics.
+* M-<TAB>:                               Completion.
+* M-g:                                   Marking and formatting.
+* M-q:                                   Marking and formatting.
 

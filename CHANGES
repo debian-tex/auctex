@@ -1,68 +1,55 @@
-News in 9.9
-===========
+News in 9.10
+============
 
-   * Bug fix in JLATEX recognition.  Patch by Tsutomu OKUMURA
-     <oku@nml.t.u-tokyo.ac.jp>.
+   * `,' and `.' no longer removes italic correction.
 
-   * Bug fix in foils package sypport.  Suggested by Bernt
-     Guldbrandtsen <bernt@jupiter.ansci.iastate.edu>.
+   * `graphicsx' support.  Donated by Ryuichi Arafune
+     <arafune@ushioda.riec.tohoku.ac.jp>.
 
-   * Made `make install-contrib' compile the contributed lisp files.
-     Suggested by Nils Ackermann <Nils.Ackermann@math.uni-giessen.de>.
+   * `LaTeX-math-abbrev-prefix' now accepts vector value.  Reported by
+     Jan Vroonhof <vroonhof@math.ethz.ch>.
 
-   * In `texinfo-mode', `C-c C-f C-d' now deletes the current font,
-     while `C-u C-c C-f KEY' changes it.  `@dfn' moved to `C-c C-f d'.
-     Suggested by Christoph Wedler <wedler@fmi.uni-passau.de>.
+   * Improved Texinfo support(more environments and html).  Patch by
+     Akim Demaille <akim@epita.fr>.
 
-   * Fixed some custom types.  Patch by Markus Rost
-     <markus.rost@mathematik.uni-regensburg.de>.
+   * `danish' quotes support.  Suggested by arne@daimi.au.dk (Arne
+     Joergensen).
 
-   * Support loading byte compiled files, even if `TeX-byte-compile' is
-     nil.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+   * Some PDF support.
 
-   * The command to replace a LaTeX2e font should work more reliably
-     now.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+   * New `tex-mik.el' file for MikTeX support.
 
-   * Minor XEmacs packaging changes.  Patch by Christoph Wedler
-     <wedler@fmi.uni-passau.de>.
+   * Some commands now have their own history.  Suggested by Werner
+     LEMBERG <sx0005@sx2.HRZ.Uni-Dortmund.DE>.
 
-   * `TeX-file-recurse' now accepts an integer value, max depth of
-     recursion.  Patch by Alastair Burt  <burt@dfki.bde>.
+   * Use `\centering' instead of center environment in figures.  Patch
+     by Stefan Monnier <foo@acm.com>.
 
-   * Simple imenu support for LaTeX.
+   * New `dwim' setting for `TeX-master' attempts to guess a default
+     master for new files.  Patch by Stefan Monnier <foo@acm.com>.
 
-   * Workaround for 20.3 bugs.
+   * `ngerman' style support.  Just a copy of the german style support.
 
-   * The `Spell' command now works on all open buffers in the document.
-     Patch by Jason Stewart <jasons@cs.unm.edu>.
+   * Removed support for Emacs 18 and 19.
 
-   * `C-c C-m' now puts content of region inside first empty brackets
-     in the macro, if any.  Patch by Peter Thiemann <pjt@cs.nott.ac.uk>.
+   * `mdwlist' support.  Patch by Stephen Heilbronner
+     <heilbron@nm.informatik.uni-muenchen.de>.
 
-   * Update of `natbib.el' style file by Carsten Dominik
-     <dominik@strw.LeidenUniv.nl>.
+   * Fixed various bugs with the babel package.
 
-   * Much better detection of TeX math mode.  Patch by Carsten Dominik
-     <dominik@strw.LeidenUniv.nl>.
+   * `amsart' and `amsbook' now loads `amsthm' by default.  Patch by
+     Rune Kleveland <runekl@math.uio.no>.
 
-   * New `%n' escape in `TeX-command-list' for entering the current
-     line number.  Suggested by "Lee, Sang-Min"
-     <smagus@acorn.snu.ac.kr>.
+   * Fixed bug with file searching.  Reported by Berwin Turlach
+     <bturlach@maths.adelaide.edu.au>.
 
-   * Doc fixes in manual.  Patch by Gustavo Chaves
-     <gustavo@cpqd.com.br>.
+   * Finalized index support, added index-related style files.  Patch
+     by Carsten Dominik <dominik@strw.leidenuniv.nl>.
 
-   * Better reftex support for sections.  Patch by Carsten Dominik
-     <dominik@strw.LeidenUniv.nl>.
+   * New style files for `varioref.sty' and `fancyref.sty'.  Patch by
+     Carsten Dominik <dominik@strw.leidenuniv.nl>.
 
-   * Bug fixes in math card.  Reported by "Ron Smith"
-     <rsmith@eel.ufl.edu>.
+   * `texmathp' recognizes additional macros like `\fbox'.  Patch by
+     Ulrik Vieth <vieth@thphy.uni-duesseldorf.de>.
 
-   * Better multifile support.  Patch by Soren Dayton
-     <csdayton@cs.uchicago.edu>.
-
-   * Don't expand abbreviations when `abbrev-mode' is nil.  Suggested
-     by Alastair Burt <alastair.burt@dfki.de>.
-
-   * `direntry' support in manual, by SL Baur <steve@altair.xemacs.org>.
 

@@ -1,9 +1,9 @@
-;;; tex-info.el - Support for editing TeXinfo source.
+;;; tex-info.el - Support for editing Texinfo source.
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9p
+;; Version: 9.10t
 
-;; Copyright (C) 1993, 1994, 1997 Per Abrahamsen 
+;; Copyright (C) 1993, 1994, 1997, 2000 Per Abrahamsen 
 ;; 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -36,7 +36,8 @@
     ("deftypefn") ("deftypefun") ("deftypevar") ("deftypevr")
     ("defun") ("defvar") ("defvr") ("description") ("display")
     ("enumerate") ("example") ("ifset") ("ifclear") ("flushleft")
-    ("flushright") ("format") ("ftable") ("iftex") ("itemize")
+    ("flushright") ("format") ("ftable") ("group") ("iftex") ("itemize")
+    ("ifhtml") ("ifinfo") ("ifnothtml") ("ifnotinfo") ("ifnottex") ("macro")
     ("lisp") ("quotation") ("smallexample") ("smalllisp") ("table")
     ("tex") ("titlepage") ("vtable")) 
   "Alist of TeXinfo environments.")
@@ -111,15 +112,16 @@ When called interactively, prompt for an environment."
 
   ;; Simulating LaTeX-mode
 
-  (define-key TeXinfo-mode-map "\C-c\C-e" 'TeXinfo-insert-environment)
   (define-key TeXinfo-mode-map "\C-c\n"   'texinfo-insert-@item)
+  (or (key-binding "\e\r")
+      (define-key map "\e\r"    'texinfo-insert-@item)) ;*** Alias
   (define-key TeXinfo-mode-map "\C-c\C-s" 'texinfo-insert-@node)
   (define-key TeXinfo-mode-map "\C-c]" 'texinfo-insert-@end))
 
 (easy-menu-define TeXinfo-mode-menu
     TeXinfo-mode-map
     "Menu used in TeXinfo mode."
-  (list "TeXinfo"
+  (list "Texinfo"
 	["Environment..." TeXinfo-insert-environment t]
 	["Node..." texinfo-insert-@node t]
 	["Macro..." TeX-insert-macro t]
@@ -190,19 +192,19 @@ When called interactively, prompt for an environment."
   
 ;;; Mode:
 
-;;; Do not ;;;###autoload because of conflict with standard tex-mode.el.
+;;; Do not ;;;###autoload because of conflict with standard texinfo.el.
 (defun texinfo-mode ()
   "Major mode for editing files of input for TeXinfo.
 
 Special commands:
 \\{TeXinfo-mode-map}
 
-Entering TeXinfo mode calls the value of text-mode-hook,
-then the value of TeX-mode-hook, and then the value of
-TeXinfo-mode-hook."
+Entering TeXinfo mode calls the value of `text-mode-hook'  and then the
+value of `TeXinfo-mode-hook'."
   (interactive)
+  (kill-all-local-variables)
   ;; Mostly stolen from texinfo.el
-  (setq mode-name "TeXinfo")
+  (setq mode-name "Texinfo")
   (setq major-mode 'texinfo-mode)
   (use-local-map TeXinfo-mode-map)
   (set-syntax-table texinfo-mode-syntax-table)
