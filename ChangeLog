@@ -1,3 +1,1477 @@
+2004-08-20  David Kastrup  <dak@gnu.org>
+
+	* Version 11.52 released.
+
+2004-08-20  David Kastrup  <dak@gnu.org>
+
+	* tex.el (AUCTeX-version): move to front and also eval when
+	compiling.  Other version info moved, too.
+	(TeX-defun): Macro for putting version info into definition.
+	(plain-tex-mode): Use `TeX-defun'.
+	(ams-tex-mode): Use `TeX-defun'.
+
+	* tex-info.el (texinfo-mode): Use `TeX-defun' for getting version
+	info into mode doc.
+
+	* latex.el (latex-mode): Use `TeX-defun' for getting version info
+	into mode doc.
+
+	* context.el (context-mode): Use `TeX-defun' for getting version
+	info into mode doc.
+
+	* auctex.spec (BuildRoot): New naming scheme.
+
+	* RELEASE: Add `DESTDIR' blurb.
+
+2004-08-19  David Kastrup  <dak@gnu.org>
+
+	* auctex.spec: Change `tex-site.el' to overwriting config file
+	mode.
+
+	* tex.el (plain-tex-mode): Move menu initializiation here instead
+	of `plain-TeX-common-initialization'.  We don't want "TeX" menus
+	in `ConTeXt-mode' or `AmSTeX-mode'.
+	(plain-TeX-common-initialization): remove `easy-menu-add' here.
+	(TeX-common-menu-entries): Change "Customize" strategy again.
+	(plain-TeX-menu-entries): Move from `plain-TeX-menu'.
+	(plain-TeX-mode-menu): Use `plain-TeX-menu-entries'.
+	(AmSTeX-mode-map): Derive from `TeX-mode-map' not
+	`plain-TeX-mode-map'.
+	(AmSTeX-mode-menu): Define menu for `AmSTeX-mode'.
+	(ams-tex-mode): Add menus in proper order.
+
+	* tex-info.el (texinfo-mode): Swap order of `easy-menu-add'.
+
+	* latex.el (LaTeX-common-initialization): Swap order of
+	`easy-menu-add'.
+
+	* context.el (ConTeXt-mode-common-initialization): Swap order of
+	`easy-menu-add', move `major-mode' init to front.
+
+	* latex.el (LaTeX-common-initialization): Exchange order of
+	`easy-menu-add' to get better menu layout in XEmacs.
+
+2004-08-19  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec (description): Overhauled.
+
+	* doc/install.texi: Markup fixes, see "(texinfo)command".
+
+	* doc/wininstall.texi: Ditto.
+
+2004-08-19  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-mode-menu): Use `TeX-common-menu-entries'.
+
+	* tex-info.el (Texinfo-mode-menu): Use `TeX-common-menu-entries'.
+
+	* tex.el (ams-tex-mode): Add `plain-TeX-mode-menu' here.  Doh.
+
+	* context.el (ConTeXt-mode-menu): Use `TeX-menu-with-help' instead
+	of `TeX-maybe-remove-help'.
+	(ConTeXt-mode-menu): Use `TeX-common-menu-entries'.
+
+	* tex.el (TeX-customization-menu): Save the customization menu
+	here when generated, so that we have it available in all modes.
+	(TeX-common-menu-entries): The common menu entries for TeX modes.
+	(plain-TeX-mode-menu): Use `TeX-common-menu-entries'.
+
+	* configure.in: export `localstatedir'.
+
+	* Makefile.in (localstatedir): import `localstatedir'.
+
+2004-08-19  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/install.texi (Customizing): tex-site.el should be edited no
+	more.  Customize should be used instead.  Relevant variables are
+	determined during configuration now.
+	Mention build/installation commands for contributed files.
+
+2004-08-19  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec: Fixes for SuSE.
+
+2004-08-19  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: `putative-existing-lisp-dir' is not a package
+	directory if `lisp' is not a path component.  Normalize
+	whitespace.
+	Remove trailing slash from packagedir.
+
+	* tex-site.el.in (TeX-macro-global): Don't quote texinputdirs
+	additionally.
+
+	* aclocal.m4: Really remove trailing slashes/backslashes.
+	Don't expand `lispdir'.
+	(library): Surround `texinputdirs' with quotes.  Output it
+	enclosed in parens.
+	(library): Let `autodir' refer unexpanded to `localstatedir'.
+	Add some quoting in patterns.
+
+	* doc/Makefile.in (DESTDIR): introduce `DESTDIR' into installation
+	targets.
+
+	* Makefile.in (DESTDIR): introduce `DESTDIR' into installation
+	targets.
+
+2004-08-18  David Kastrup  <dak@gnu.org>
+
+	* tex-fold.el (TeX-fold-buffer-type): Don't use `end-of-buffer' as
+	it plays around with the current window point.
+
+	* Makefile.in (auctexdir, styledir): Use `${...}' for symmetry
+	with aclocal.m4
+
+	* aclocal.m4: Use `${...}' instead of `$(...)' everywhere.
+
+2004-08-18  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4 (EMACS_LISPDIR): Output expanded lispdir
+
+2004-08-18  David Kastrup  <dak@gnu.org>
+
+	* configure.in: Shell-quote autodir.
+
+	* RELEASE: Some minor changes.
+
+2004-08-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* RELEASE: Change version to 11.52.  Replace old feature/bug
+	information.
+
+	* font-latex.el (font-latex-script): Disable raising of characters
+	for older Emacsen.  Original patch by Reiner Steib.
+	Bump version and add change log entry.
+
+	* tex-fold.el (TeX-fold-unfolded-face): Make it look more blueish
+	on displays with 24bit color depth.
+	(TeX-fold-buffer-type): Use either a complemented character
+	alternative to be on the safe side or "\\_>" on Emacsen which
+	support it.
+
+2004-08-17  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* texmathp.el (texmathp-tex-commands-default): Added \label.
+	Various checkdoc-related fixes.
+	
+2004-08-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-buffer-type): Use alternative way to
+	determine end of search pattern.  Fixes problem with starred
+	macros.
+	Fix compile errors and add further match alternatives.
+	(TeX-fold-item): Recognize starred macros as well.
+	XEmacs does not know `match-string-no-properties'.
+	(TeX-fold-make-overlay): Do not alter `display-string' before
+	`face' is set.
+	(TeX-fold-hide-item): Get only the string part of
+	`display-string'.
+
+	* tex.el (TeX-fold-menu): Wrap value in `TeX-menu-with-help'.
+	Fixes XEmacs start-up error.
+
+	* tex-mik.el: Fix typo in comment.
+
+	* auctex.spec (Version): Change to 11.52.
+
+	* configure.in: Change AUCTeX version to 11.52.
+
+	* doc/tex-ref.tex: Change AUCTeX version to 11.52.
+
+	* doc/auctex.texi: Change AUCTeX version to 11.52.
+
+2004-08-17  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (full-release): Fix a few things.
+
+	* Version 11.51 released.
+
+2004-08-17  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: Quote when expanding and remove trailing backslash,
+	too.
+	(library): Don't check for $PWD but for default-directory.
+
+2004-08-16  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: move --prefix description up, since it
+	might be the only needed option.
+
+	* doc/tex-ref.tex (section{Font Selection}): Add italic
+	corrections and small-caps entry.
+
+	* tex.el (info): Add more prefixes to `Info-file-list-for-emacs'.
+
+	* tex-jp.el (japanese-TeX-command-list): Comment addition.
+
+	* RELEASE: Add availability and update release notes.
+
+	* Makefile.in (RPMROOT): New variable.
+	(tar-ball): Clean up `$(FTPDIR)' and `$(WWWDIR/doc)' before
+	installation.
+	(full-release): New target that does RPM building, signing and
+	other stuff for upload.
+	(patch): gzip the patch.
+
+	* auctex.spec: Add definition stuff for SuSE.
+	(BuildRoot): Don't specify infodir when it is not used.
+
+	* bib-cite.el: Fix refTeX link.
+
+2004-08-16  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4 (EMACS_PROG_EMACS): Add "${prefix}/bin" for Windows users
+
+	* aclocal.m4 (EMACS_LISPDIR): Remove trailing slash from lispdir_expanded elisp string
+
+2004-08-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (VALID_BUILD_DIR): New function.
+
+	* configure.in: Use it.
+	Change AUCTeX version to 11.51.
+
+	* doc/tex-ref.tex: Change AUCTeX version to 11.51.
+
+	* doc/auctex.texi: Change AUCTeX version to 11.51.
+
+	* auctex.spec (Version): Change to 11.51.
+
+	* Makefile.in (distclean): Get rid of autom4te.cache.
+
+2004-08-15  David Kastrup  <dak@gnu.org>
+
+	* tex-info.el: Change Copyright notice to FSF
+
+	* tex-mik.el: Change Copyright notice to FSF
+
+	* tex.el: Change Copyright notice to FSF
+
+	* font-latex.el: Change Copyright notice to FSF
+
+	* multi-prompt.el: Change Copyright notice to FSF
+
+	* tex-buf.el: Change Copyright notice to FSF
+
+	* tex-site.el.in: Change Copyright notice to FSF
+
+	* style/scrartcl.el: Change Copyright notice to FSF
+
+	* style/scrbook.el: Change Copyright notice to FSF
+
+	* style/scrlttr2.el: Change Copyright notice to FSF
+
+	* style/scrreprt.el: Change Copyright notice to FSF
+
+	* latex.el: Change Copyright notice to FSF
+
+	* tex-info.el: Change Copyright notice to FSF
+
+	* tex-mik.el: Change Copyright notice to FSF
+
+	* tex.el: Change Copyright notice to FSF
+
+	* bib-cite.el: Change Copyright notice and URLs.
+
+2004-08-15  Dan Nicolaescu  <dann@ics.uci.edu>
+
+        * latex.el (LaTeX-common-initialization): Don't set
+        `selective-display'.
+
+2004-08-15  David Kastrup  <dak@gnu.org>
+
+	* doc/tex-ref.tex: Add Omega entry, rearrange.
+
+	* tex.el (TeX-print-command): Use `%(o?)'.
+	(TeX-command, TeX-Omega-command, LaTeX-command)
+	(LaTeX-Omega-command, ConTeXt-engine, ConTeXt-Omega-engine): New
+	customization strings to implement various expanders.
+	(TeX-command-list): Use them.
+	(LaTeX-command-style): Same here.
+	(TeX-printer-list, TeX-view-style, TeX-output-view-style): Use
+	`%(o?)'.
+	(TeX-expand-list): New entries.
+	(TeX-PDF-mode): Don't switch on in Omega mode.
+	(TeX-Omega-mode): New minor mode.
+	(tex-omega-mode): alias for it.
+	(TeX-mode-map): Keybinding for it.
+	(TeX-mode-specific-command-menu-entries): Add quick viewer entry.
+	(TeX-mode-specific-command-menu-entries): Add Omega toggle and
+	inactivate PDF when Omega is on.
+
+	* context.el (ConTeXt-expand-options): New function for generating
+	`texexec' options.
+
+2004-08-15  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-fold-menu): New variable.
+	(plain-TeX-mode-menu): Use it.
+
+	* context.el (ConTeXt-mode-menu): Use `TeX-fold-menu'.
+
+	* latex.el (LaTeX-mode-menu): Use `TeX-fold-menu'.
+
+	* tex-info.el: Change every occurence of "TeXinfo" to "Texinfo".
+	(Texinfo-environment-list): Add some missing environments.
+	(Texinfo-find-env-end, Texinfo-find-env-start): New functions.
+	(Texinfo-mode-menu): Use `TeX-fold-menu'.
+
+	* tex-fold.el (TeX-fold-buffer-type): Support folding of
+	environments in texinfo-mode.
+	(TeX-fold-item): Ditto.
+	(TeX-fold-hide-item): Display an error string if the macro
+	argument cannot be found.
+
+2004-08-14  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-command-list): rename `%(execmode)' to `%(execopts)'
+	since it has gotten quite fatter.
+	(TeX-expand-list): Implement `TeX-PDF-mode',
+	`TeX-interactive-mode', `TeX-source-specials-mode' for ConTeXt and
+	pass on `ConTeXt-current-interface'.
+
+2004-08-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-mik.el: Change `TeX-source-specials-viewer-flags' to
+	`TeX-source-specials-view-position-flags' as the latter is now
+	used in tex.el.
+	Set `TeX-source-specials-view-editor-flags'.
+
+	* tex-fptex.el: Ditto.
+
+2004-08-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi (top): We want the introduction to appear in
+	HTML output as well.
+
+2004-08-13  David Kastrup  <dak@gnu.org>
+
+	* Version 11.50 released.
+
+2004-08-13  Jan-Åke Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4: Add another alternative for lispdir
+
+2004-08-13  David Kastrup  <dak@gnu.org>
+
+	* auctex.spec (Source0): Change source URL.
+
+	* Makefile.in (EXTRAFILES): Add RELEASE and auctex.spec.
+	(tar-ball): Don't create CHANGES-$(TAG), just CHANGES (as it is
+	always a longer history).  But create RELEASE-$(TAG) instead:
+	that's release-specific.
+
+2004-08-13  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: Changes to --prefix and --with-auto-dir,
+	partly by Christian Schlauer.
+	Add a few words of my own after suggestions.
+
+	* doc/changes.texi, style/units.el, style/nicefrac.el,
+	Makefile.in: Add contributed styles for units.sty and
+	nicefrac.sty from Christian Schlauer.
+
+2004-08-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-unspec-use-name): New variable.
+	(TeX-fold-item): Use it.
+
+	* RELEASE: Add warning about `TeX-command-list'.
+
+	* doc/auctex.texi (Commands): Add "be".
+	(Folding): Document `TeX-fold-unspec-use-name'.
+
+2004-08-13  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (tar-ball): copy only one auctex, add pdf manual and
+	reference card.
+
+	* doc/Makefile.in (dist): Add tex-ref, and both pdf and ps
+	(tex-ref.ps, auctex.ps): Use -Ppdf option for better quality.
+
+	* auctex.spec (BuildRoot): Add CHANGES.
+
+	* Makefile.in (release-commit): There are no Version: strings
+	anymore, don't replace them.
+
+	* tex-fptex.el: customize Queue and Print commands appropriately.
+
+	* tex-mik.el: customize Queue and Print commands appropriately.
+
+	* tex.el (TeX-expand-list): Call TeX-printer-query differently.
+	(TeX-command-menu-print, TeX-command-menu-printer-entry)
+	(TeX-command-menu-entry): Implement stuff differently, add "Other"
+	menu entry.
+
+	* tex-buf.el (TeX-printer-query): Change arguments here.
+	Reorganize, too.
+
+	* doc/auctex.texi (Commands): Fix a warning.
+
+	* tex-info.el (TeXinfo-mode-menu): Other quoting.
+	(texinfo-mode): Set `TeX-mode-p', `TeX-base-mode-name', call
+	`TeX-set-mode-name'.
+
+	* context.el (ConTeXt-mode-menu): Add the environments back to
+	folding.
+
+	* doc/auctex.texi, doc/faq.texi, doc/install.texi, doc/intro.texi,
+	doc/todo.texi: various changes and smaller typos corrected.
+
+	* doc/macros.texi fix problems with PDF links and indexing.
+	
+	* configure.in: Check for pdftex, dvips, texi2html, texi2dvi,
+	texi2pdf.
+
+	* doc/Makefile.in (TEXI2HTML, TEXI2DVI, TEXI2PDF): new variables
+	entered by configure.
+	(auctex.dvi): Use texi2dvi.
+	(auctex.pdf): New target.
+	(clean): Remove PDF files.
+
+2004-08-12  David Kastrup  <dak@gnu.org>
+
+	* tex-jp.el (japanese-TeX-command-list): Fixed this to new style.
+	(LaTeX-command-style): Same here.  Hey, this should even make
+	preview-latex work mostly with Japanese files and PDFTeX.
+
+2004-08-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-view-extension): Remove.
+	(TeX-view-output-file): Use the function `TeX-output-extension'
+	instead of `TeX-view-extension'.
+	(TeX-run-set-command): Setting `TeX-view-extension' not necessary
+	anymore.
+
+	* tex.el (TeX-view-extension): Remove.
+
+2004-08-11  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: explain about tex-mik.el and tex-fptex.el
+
+	* tex-fptex.el: require tex-site.  Only set `TeX-lisp-directory'
+	if it has not been customized.  Construct `TeX-command-list' from
+	its default value.
+
+	* tex-mik.el: same here.
+
+	* tex.el (TeX-mode-specific-command-menu): Tiny optimization.
+	(TeX-mode-specific-command-menu-entries): Make it legal for
+	`TeX-command-mode-menu-entry' to return nil for indicating no menu
+	entry at all (so that entries like "Print" or "Queue" may be
+	dynamically removed).
+
+2004-08-11  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (Commands): Adjust references.
+	(Viewing): Make source specials a subsection.  Adjust references.
+
+	* tex.el (TeX-source-specials-mode): Remove bogus :link.  Refer to
+	viewing node of the manual.
+
+	* doc/changes.texi: Added references.
+
+	* doc/todo.texi (Wishlist): Markup fix.
+
+2004-08-11  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi (Viewing): Add some information about forward
+	and inverse search.
+
+	* tex-mik.el: Synchronize `TeX-command-list' with tex.el.
+	Use gsview32 in `TeX-output-view-style'.
+
+	* tex-fptex.el: Synchronize `TeX-command-list' with tex.el.
+
+2004-08-11  David Kastrup  <dak@gnu.org>
+
+	* doc/tex-ref.tex: Move papersize stuff to the front.  Fiddle
+	somewhat with the sizes, too.
+
+	* auctex.spec (Version): Change version, web sites, some build
+	stuff (this is not yet finished).
+
+	* auc-old.el: remove.
+
+	* doc/Makefile.in (TEXIFILES): refer to auctex.texi instead of
+	auc-tex.texi.  Change all dependent stuff, too.
+
+	* Makefile.in (DOCFILES): refer to doc/auctex.texi instead of
+	doc/auc-tex.texi
+
+	* doc/auc-tex.texi: renamed into doc/auctex.texi.
+
+	* doc/auc-tex.texi (Commands): Some rewording.
+
+	* doc/todo.texi (Wishlist): Some rearrangements and additions.
+
+2004-08-10  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-math-default): Reorder and complete Greek
+	letters, use Babel transcription conventions for them.
+
+	* doc/tex-ref.tex: Add \sl definition.
+	(section{Miscellaneous}): Use \string~ for tilde.
+	(section{Greek Letters}): Reorder and complete Greek letters.
+
+	* tex.el (TeX-PDF-mode): Set `TeX-output-extension' too.
+	(ams-tex-mode): Move `TeX-set-mode-name' after running hooks.
+
+	* tex-ref.tex: merge math-ref.tex, update a few things, format
+	stuff.
+
+	* math-ref.tex: removed.
+	
+	* doc/Makefile.in (all): Remove math-ref.tex
+
+	* Makefile.in (DOCFILES): Remove math-ref.tex
+
+2004-08-10  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* RELEASE: Add `volunteers welcome'.
+
+	* doc/auc-tex.texi (Completion): TeX-insert-macro-default-style.
+
+	* tex.el (TeX-source-specials-mode): Add manual link.
+
+	* doc/auc-tex.texi (Commands): Say how to enable
+	TeX-source-specials-mode permanently.
+	(Viewing): Describe TeX-view.
+
+2004-08-10  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-maybe-remove-help): convert Emacs' :visible into
+	XEmacs' :included.
+
+	* latex.el (LaTeX-mode-menu): Change bug submit menu entry.
+
+	* context.el (ConTeXt-mode-menu): Same.
+
+	* tex.el (plain-TeX-mode-menu): Same.
+
+	* tex-info.el (TeXinfo-mode-menu): Same.
+
+	* latex.el (LaTeX-mode-menu): A few changed help strings and other
+	small fry.
+
+	* context.el (ConTeXt-mode-menu): Rework menu, reorganize it, add
+	help strings.
+
+2004-08-10  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (TeXinfo-mode-menu): Capitalize menu entries.
+
+	* context.el (ConTeXt-project-structure-menu-name)
+	(ConTeXt-section-block-menu-name, ConTeXt-mode-menu): Capitalize
+	menu entries.
+
+	* tex-info.el (TeXinfo-mode-menu): Add help strings.
+
+	* tex.el (TeX-command-list): Set a default value which will not
+	lead to an inactive menu entry.
+	(plain-TeX-mode-menu): Add some help strings.
+	Capitalize menu entries.
+	(tex-source-specials-mode): New alias for
+	`TeX-source-specials-mode'.
+
+	* latex.el (LaTeX-mode-menu): Rearrange and insert help strings.
+	Capitalize menu entries.
+
+	* tex-fold.el (tex-fold-mode): New alias for `TeX-fold-mode' used
+	in tex.el.
+	(TeX-fold-buffer-type): Support folding of environments in ConTeXt
+	mode as well.
+	(TeX-fold-item): Ditto.
+
+	* doc/auc-tex.texi (Commands): Change `TeX-source-specials' to
+	`TeX-source-specials-mode' where appropriate.
+
+	* RELEASE: Include contributors.  (Hopefully I got everybody.)
+
+2004-08-10  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-set-mode-name, TeX-source-specials-map)
+	(TeX-source-specials-mode, TeX-source-specials-expand-options)
+	(TeX-source-specials-view-expand-options): Rename
+	`TeX-source-specials' to `TeX-source-specials-mode'.
+	(TeX-PDF-mode): Make first arg optional (actually, not sure this
+	is a good idea).
+	(tex-pdf-mode): alias for `TeX-PDF-mode'.
+	(tex-interactive-mode): alias for `TeX-interactive-mode'
+	(tex-fold-mode): add autoload.
+	(TeX-mode-map, TeX-mode-specific-command-menu-entries): rename
+	`TeX-source-specials' to `TeX-source-specials-mode'.
+	(TeX-command-list): Add help strings.
+	(TeX-command-menu-entry): Splice help into command entries.
+	(TeX-mode-specific-command-menu-entries): Remove help in XEmacs.
+	(TeX-mode-specific-command-list): Save unnecessary copies and
+	conses.
+
+2004-08-09  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-set-mode-name): Add LOCAL argument.
+	(TeX-source-specials, TeX-mode-set, TeX-global-PDF-mode)
+	(TeX-PDF-mode, TeX-interactive-mode): Use it.
+	(plain-tex-mode): Move `TeX-set-mode-name' to after running the
+	hooks.
+
+	* latex.el (latex-mode): Move setting the mode name to after
+	running the hooks.
+
+	* tex.el (TeX-maybe-remove-help): new function (noop on Emacs).
+	(TeX-menu-with-help): new macro (noop on Emacs).
+	(TeX-mode-specific-command-menu-entries): Add a lot of help strings.
+	(plain-TeX-mode-menu): Same here.
+
+	* latex.el (LaTeX-mode-menu): `:visible' is not known in XEmacs,
+	and I don't want to clutter the menu with "Convert 209 to 2e" when
+	not necessary.
+
+	* RELEASE (Requirements): some additions.
+	Incorporate some suggestions from Ralf.
+
+	* tex.el (TeX-set-mode-name): Actually use `reset' (patch by Ralf
+	Angeli).
+
+	* latex.el (LaTeX-common-initialization): There is no "LaTeX2e"
+	command anymore, so don't set it.  Don't do anything on
+	"DVIoutput".  doc fixes.
+
+	* doc/auc-tex.texi (Commands): Explain `TeX-command-buffer',
+	`TeX-pin-region', `TeX-PDF-mode', `TeX-interactive-mode',
+	`TeX-source-specials'.
+
+2004-08-09  Berend de Boer  <berend@pobox.com>
+
+	* context.el (ConTeXt-current-environment): now properly skips
+	nested environments instead of always returning the last
+	environment just above the cursor.
+
+2004-08-08  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-run-set-command): Initialize
+	`TeX-output-extension' based on `TeX-PDF-mode'.
+
+	* tex.el (TeX-command-output-list): Don't look at pdf* commands.
+	Don't have default mode "dvi".
+	(VirTeX-common-initialization): Don't add to
+	desktop-locals-to-save locally: that's broken.
+	(desktop): Add stuff into appropriate variables for proper desktop
+	save/restore.
+	(TeX-mode-specific-command-menu-entries, plain-TeX-mode-menu):
+	Reorganize menus.  Add font commands into plain TeX menu.
+
+	* tex-info.el (TeXinfo-mode-menu): Reorganize menu.
+
+	* latex.el (LaTeX-mode-menu): Reorganize menu.
+
+	* context.el (ConTeXt-mode-menu): Reorganize menu.
+
+2004-08-07  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-base-mode-name): Make buffer-local (Doh).
+	(TeX-set-mode-name): Doc fix.
+
+	* doc/todo.texi (Mid-term Goals): Use @previewlatex macro.
+	(Mid-term Goals): New entries.  Should some of them be moved to
+	wishlist?  Remove a few fixed bugs.
+
+	* doc/macros.texi: move @ConTeXt macro out of info-only section.
+	Typeset @previewlatex differently.
+
+2004-08-06  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* font-latex.el: Use "gnu.org" instead of "nongnu.org".
+
+	* bib-cite.el: Ditto.  Use "AUCTeX", not "auc-tex".
+
+	* lpath.el: Use "AUCTeX".
+
+2004-08-05  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/macros.texi: New @ConTeXt macro.
+
+	* doc/auc-tex.texi, doc/changes.texi, doc/history.texi,
+	doc/todo.texi, doc/wininstall.texi: Use macros @AUCTeX, @ConTeXt,
+	@LaTeX everywhere.
+
+	* doc/auc-tex.texi (European): Mention Emacs 21.  Fixed typo.
+
+	* doc/todo.texi: Help for documentation wanted.
+
+	* doc/changes.texi: Some additions: captcont and subfigure,
+	`LaTeX-includegraphics-options-alist', `LaTeX-default-position',
+	kpathsea based completion, `TeX-insert-macro-default-style'.
+	Refer to installation nodes (autoconf installation).
+
+	* tex.el (TeX-submit-bug-report): Added more explanations.
+
+	* latex.el (LaTeX-style-list): Improve doc-string.
+
+	* font-latex.el (font-latex-script-display): New variable.  Make
+	raise of sub-/superscripts customizable.
+	(font-latex-unfontify-region, font-latex-script): Use it.
+
+2004-08-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* RELEASE: Improve sectioning and add some more information.
+
+2004-08-05  David Kastrup  <dak@gnu.org>
+
+	* tex-site.el.in: don't require 'tex-mik on Windows, let the user
+	load it instead of tex-site if he wants to.
+
+	* tex.el (TeX-command-list): Add `%(PDFout)', `%(mode)' and
+	`%(execmode)'.  Remove `TeX Interactive', `LaTeX Interactive' and
+	`ConTeXt Interactive'.
+	(LaTeX-command-style): Don't provide a default for a
+	`LaTeX-version' of "2": people can customize this if necessary
+	themselves, we would not know a sane default, anyway.
+	(TeX-expand-list): Support `TeX-DVI-via-PDFTeX', `%(PDFout)',
+	`%(mode)' and `%(execmode)'.
+	(TeX-set-mode-name): Add `reset' flag to indicate that the next
+	step should again be TeXing.  Add "I" flag.
+	(TeX-source-specials): Call `TeX-set-mode-name' with `reset' flag.
+	(TeX-mode-set): Variable setter for TeX modes.
+	(TeX-PDF-mode): Make the default value a global mode.
+	(TeX-global-PDF-mode): Toggle function to change default
+	`TeX-PDF-mode'.
+	(TeX-PDF-mode): Remove local binding of `TeX-PDF-mode' in case of
+	conflicts.  Call `TeX-set-mode-name' with `reset' flag.
+	(TeX-DVI-via-PDFTeX): New customizable variable.
+	(TeX-interactive-mode): New mode.
+	(TeX-mode-map): Add binding for `TeX-interactive-mode'.
+	(TeX-mode-specific-command-menu-entries): Add menu entry for it.
+
+	* tex-buf.el (TeX-command-expand): Document `%%'.
+	(TeX-run-TeX): If `TeX-interactive-mode' is set, run
+	`TeX-run-interactive' instead.
+
+2004-08-04  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* font-latex.el (font-latex-fontify-script): Default to nil in
+	XEmacs.
+
+2004-08-04  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-base-mode-name, TeX-set-mode-name): Move to front,
+	add catering for global mode switches.
+	(TeX-source-specials, global-TeX-PDF-mode): Use this.
+
+	* latex.el (LaTeX-common-initialization): Add style hook for
+	"ifpdf".
+
+2004-08-04  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-unfontify-region): New function.
+	(font-latex-setup): Use it.
+
+2004-08-04  David Kastrup  <dak@gnu.org>
+
+	* tex-fptex.el (TeX-command-list): Remove PDFTeX calls.
+
+	* tex-mik.el (TeX-command-list): Remove PDFTeX calls.
+
+	* tex.el (TeX-command-list): Use %(PDF) where necessary, drop
+	PDFTeX entries.
+	(LaTeX-command-style): Add %(PDF) here.
+	(TeX-expand-list): Expand %(PDF).
+	(TeX-mode-p): Moved.
+	(TeX-PDF-mode, global-TeX-PDF-mode): New minor modes.
+	(TeX-PDF-mode-on, TeX-PDF-mode-off): Shortcuts for calling.
+	(TeX-PDF-mode-parsed): New variable.
+	(TeX-set-mode-name): Simplify.
+	(TeX-mode-map): Add C-c C-t C-p for TeX-PDF-mode.
+	(TeX-mode-specific-command-menu-entries): Add menu entry for it.
+
+	* latex.el (LaTeX-math-mode): Refresh modeline after generating
+	it, not before.
+	(LaTeX-common-initialization): Add style-hooks fo pdftex, dvips
+	and others.
+
+	* tex.el (TeX-view-style, TeX-output-view-style): Place dvi file
+	name last.
+
+2004-08-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-source-specials): New customization group.
+	(TeX-source-specials, TeX-source-specials-tex-flags)
+	(TeX-source-specials-places)
+	(TeX-source-specials-view-start-server): Use it
+	(TeX-source-specials-view-position-flags)
+	(TeX-source-specials-view-gnuclient-flags)
+	(TeX-source-specials-view-emacsclient-flags): Change defvar to
+	defcustom.
+	(TeX-source-specials-view-editor-flags): New customize option.
+	(TeX-source-specials-view-expand-client): Return not only client
+	but options as well.
+	(TeX-source-specials-view-expand-options): Use
+	`TeX-source-specials-view-editor-flags'.
+
+2004-08-03  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-source-specials-places): Change comment.
+
+2004-08-03  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-mode-menu): Add "Close Environment"
+
+	* tex.el (TeX-source-specials-view-gnuserv-p): replaces
+	`TeX-source-specials-view-guess-server'.
+	(TeX-source-specials-view-expand-client)
+	(TeX-source-specials-view-expand-options): Use this.
+
+2004-08-03  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* style/alphanum.el, style/doc.el, style/jura.el,
+	style/ltx-base.el, style/ltxdoc.el: Added coding cookies.
+
+2004-08-03  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Change Source Special description and a few other
+	things.
+
+2004-08-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-expand-list): New %cS expander for
+	`TeX-source-specials-view-expand-client'.
+	(TeX-source-specials-view-start-server): New customize option.
+	(TeX-source-specials-view-start-server-asked): New variable.
+	(TeX-source-specials-view-position-flags): New name.  Formerly
+	known as `TeX-source-specials-viewer-flags'.
+	(TeX-source-specials-view-gnuclient-flags): New variable.
+	(TeX-source-specials-view-emacsclient-flags): New variable.
+	(TeX-source-specials-view-expand-client): New function.
+	(TeX-source-specials-view-expand-options): Expand options for
+	inverse search as well.
+	Correct return value.
+	Use `TeX-source-specials-view-guess-server'.
+	(TeX-forward-comment-skip): Only consider consecutive comment
+	characters when comparing the comment prefix.
+	(TeX-source-specials-view-guess-server): New function.
+
+	* doc/changes.texi: Avoid email addresses.
+
+	* doc/tex-ref.tex: Update to 11.50.
+
+2004-08-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/changes.texi: Advertise support for toggling source
+	specials.  Mention macro completion in docTeX mode and fix for
+	filling in XEmacs with preview-latex and activated previews.
+
+2004-08-01  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: Remove info about manual installation.
+	Explain about preferred path syntax.
+
+	* doc/install.texi: Move info dor INSTALL.Windows.
+
+2004-08-01  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fptex.el: Do not overwrite customized variables.
+
+	* tex-mik.el: Ditto.
+
+	* Makefile.in (STYLESRC): Add new style files.
+
+	* aclocal.m4: Synchronize with preview-latex.
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Add references to
+	default.
+	(TeX-fold-buffer-type): Additionally pass display string
+	specification and type to `TeX-fold-make-overlay'
+	(TeX-fold-item): Ditto.
+	(TeX-fold-make-overlay): Accept display string specification and
+	type as arguments and set them accordingly in the overlay.
+	Do not signal overfullness if the dispay string contains a
+	linebreak.
+	(TeX-fold-macro-nth-arg): Make `macro-start' mandatory so that
+	macro boundaries may be determined even if point is not inside of
+	a macro.
+	(TeX-fold-hide-item): Recompute display string on closure if
+	display string specification is an integer.
+
+	* style/alphanum.el: Add header and reformat.
+
+	* style/jura.el: Add header.
+
+	* style/doc.el: New file. Contributed by Frank Küster
+	<frank@kuesterei.ch>.
+	(TeX-add-style-hook): Remove bogus `LaTeX-add-index-entries' call.
+
+	* style/ltx-base.el: New file. Contributed by Frank Küster
+	<frank@kuesterei.ch>.
+
+	* style/ltxdoc.el: Ditto.
+
+2004-07-31  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el: Autoload `texmathp'.
+	(font-latex-keywords-2): Add `font-latex-match-script'.
+	(font-latex-script-keywords): Remove.
+	(font-latex-fontify-script): Remove :set function.
+	(font-latex-match-script): New function.
+
+	* tex-mik.el (TeX-view-style): Remove unconditional source
+	specials option for yap.
+	(TeX-output-view-style): Set it.
+	(TeX-source-specials-viewer-flags): Ditto.
+
+	* tex-fptex.el (TeX-view-style): Adapt options to WinDVI
+	documentation.
+	(TeX-output-view-style): Set it.
+	(TeX-source-specials-viewer-flags): Ditto.
+
+2004-07-30  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (tar-ball): Remove warning which often confuses
+	users.
+
+	* aclocal.m4 (EMACS_MAJOR_VERSION): New test and variable.
+
+	* configure.in: Fix AUCTeX version.
+
+	* tex-site.el.in: At least (X)Emacs 21 is required.
+
+	* tex.el: Ditto.
+
+	* doc/Makefile.in (install): Remove warning which often confuses
+	users.
+
+	* doc/auc-tex.texi: Fix version numbers.
+	(Changes): New name.  Formerly known as "History".
+	(ToDo): New heading.
+
+	* doc/changes.texi: Add heading for `rawfile'.  Change `section'
+	to `heading'.
+
+	* doc/faq.texi (Frequently Asked Questions About AUCTeX): At
+	least (X)Emacs 21 is needed.
+
+	* doc/install.texi (Prerequisites): Ditto.
+
+2004-07-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Extend default.  Add
+	specification for argument number.
+	(TeX-fold-env-spec-list): Ditto.
+	(TeX-fold-folded-face): Renamed from
+	`TeX-fold-display-string-face'.
+	(TeX-fold-unfolded-face): New face and variable.
+	(TeX-fold-buffer-type): Move through buffer from bottom to top in
+	a single run in order to allow easier prioritization of nested
+	overlays.
+	(TeX-fold-item): Compute display string via
+	`TeX-fold-macr-nth-arg'.
+	(TeX-fold-make-overlay): Consider the length of the display string
+	as well when judging if a line is overfull.  Let priority be
+	computed by `TeX-fold-macr-nth-arg'.  Do not call
+	`TeX-fold-hide-item'.
+	(TeX-fold-macro-nth-arg): New function.
+	(TeX-fold-priority-step): New variable.
+	(TeX-fold-prioritize): New function.
+	(TeX-fold-hide-item): Set mouse-face.
+	(TeX-fold-show-item): Ditto.  Do not set face twice.
+	(TeX-fold-post-command): Recognize mouse clicks as well.
+
+	* tex.el (TeX-find-macro-boundaries): New function.
+	(TeX-find-macro-end-helper): Find macro arguments with a preceding
+	linebreak as well.
+
+	* doc/auc-tex.texi (Folding): Document new functionality.
+
+	* latex.el (LaTeX-fill-region): Improve performance by avoiding
+	unnecessary calls to `LaTeX-forward-paragraph'.
+
+	* font-latex.el (font-latex-fontify-script): Doc fix.
+
+2004-07-23  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-make-overlay): New function.
+	Remove superfluous `let'.
+	(TeX-fold-buffer-type, TeX-fold-item): Use it.
+	(TeX-fold-mode): Call `TeX-fold-clearout-buffer' after clearing
+	`post-command-hook'.
+
+2004-07-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-indent-line): Temporarily make invisible
+	overlays visible in XEmacs.
+
+	* tex.el (TeX-comment-region): Use a real function instead of an
+	`fset' and temporarily change `comment-start' for certain XEmacs
+	releases.
+	(TeX-comment-or-uncomment-region): Use it.
+	(TeX-comment-or-uncomment-paragraph): Ditto.
+
+	* doc/changes.texi: Remove warning about TeX-fold not working
+	correctly on XEmacs.
+
+2004-07-21  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-display-string-face): Remove `min-colors'
+	spec as XEmacs does not like them.
+	(TeX-fold-hide-item): Set face on the glyph and not on the
+	overlay/extent in XEmacs.
+	(TeX-fold-post-command): Do not check detached extents in XEmacs.
+
+	* context.el (ConTeXt-mode-menu): Check if variable is defined.
+	Necessary for XEmacs compatibility.
+	(ConTeXt-menu-update): Fix creation of environment menus.
+
+	* latex.el (LaTeX-mode-menu): Check if variable is defined.
+	Necessary for XEmacs compatibility.
+
+	* tex-info.el (TeXinfo-mode-menu): Ditto.
+
+2004-07-20  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* font-latex.el (font-latex-set-title-face): New function.
+	(font-latex-title-fontity): Use it to make customization work
+	during a session.
+	(font-latex-title-*-face): Use it to simplify the initialization.
+
+2004-07-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-macro-spec-list): New name for
+	`TeX-fold-spec-list'.  More unobtrusive default.
+	(TeX-fold-env-spec-list)
+	(TeX-fold-unspec-macro-display-string)
+	(TeX-fold-unspec-env-display-string): New variables.
+	(TeX-fold-keymap): New key bindings which are more mnemonic and
+	orient at preview-latex's bindings instead of outline.el.
+	(TeX-fold-buffer): Transfer contents to `TeX-fold-buffer-type'
+	which can be used for both macros and environments.
+	(TeX-fold-buffer-type): New function.
+	(TeX-fold-macro): Transfer contents to `TeX-fold-item' which can
+	be used for both macros and environments.
+	(TeX-fold-env): New function.
+	(TeX-fold-item): New function. Prioritize overlays.
+	(TeX-fold-clearout-item): New name for `TeX-fold-clearout-macro'.
+	(TeX-fold-hide-item, TeX-fold-show-item): Adapt doc string.
+
+	* latex.el (LaTeX-hide-environment): Remove.  Functionality is now
+	provided by TeX-fold.
+	(LaTeX-show-environment): Ditto.
+	(LaTeX-mode-map): Remove key bindings for `LaTeX-hide-environment'
+	and `LaTeX-show-environment'.
+	(LaTeX-mode-menu): Adapt key bindings for folding.  Remove menu
+	entries for `LaTeX-hide-environment' and `LaTeX-show-environment'.
+
+	* context.el (ConTeXt-mode-menu): Adapt key bindings for folding.
+
+	* tex-info.el (TeXinfo-mode-menu): Ditto.
+
+	* doc/auc-tex.texi (Folding): Document new and changed functions
+	and variables related to folding environments (new) and macros.
+
+	* doc/changes.texi: Advertise support for folding environments.
+
+2004-07-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-source-specials): Do not set a lighter in
+	`minor-mode-alist' but use `TeX-set-mode-name' instead.
+	(TeX-base-mode-name): New variable.
+	(TeX-set-mode-name): New function.
+	(plain-tex-mode): Set `TeX-base-mode-name' instead of `mode-name'
+	and use `TeX-set-mode-name'.
+	(ams-tex-mode): Ditto.
+
+	* context-en.el (context-en-mode): Ditto.
+
+	* context-nl.el (context-nl-mode): Ditto.
+
+	* latex.el: Do not add a lighter for `LaTeX-math-mode' in
+	`minor-mode-alist'.
+	(LaTeX-math-mode): Use `TeX-set-mode-name'.
+	(latex-mode): Set `TeX-base-mode-name' instead of `mode-name' and
+	use `TeX-set-mode-name'.
+
+	* tex-fold.el (TeX-fold-mode): Do not set a lighter in
+	`minor-mode-alist' but use `TeX-set-mode-name' instead.
+
+2004-07-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-find-macro-start): Fix handling of nested macros.
+	(TeX-find-macro-start-helper): New function.
+	(TeX-find-macro-end-helper): New function.
+
+	* tex-info.el (TeXinfo-mode-menu): Fix extension of customize
+	menu.
+
+	* latex.el (LaTeX-env-figure): Prevent superfluous blank lines and
+	give RefTeX a chance to generate a label in environments with a
+	bottom caption.  Patch by Christian Schlauer <cs-usenet@arcor.de>.
+	(LaTeX-style-list): Add entry for beamer class.
+
+	* context.el (ConTeXt-mode-menu): Add "Show/Hide" submenu.
+
+	* doc/auc-tex.texi (Folding): Document key binding for
+	`TeX-fold-mode'.
+
+2004-07-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (TeXinfo-mode-map): Inherit from `TeX-mode-map'.
+	(texinfo-mode): Enable TeX-master functionality.
+
+	* tex.el (TeX-one-master): Include .texi files.
+	(TeX-add-local-master): Use "@c " as comment prefix in Texinfo
+	mode.
+
+	* tex-fold.el (TeX-fold): Move customization group from `LaTeX' to
+	`AUCTeX'.
+
+	* doc/changes.texi: Advertise folding functionality.
+
+2004-07-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-display-string-face): Cater for display
+	devices with few colors.
+	(TeX-fold-keymap): Add key bindings for showing and hiding
+	individual macros.
+	(TeX-fold-macro): New function.
+	(TeX-fold-clearout-buffer): New name for
+	`TeX-fold-remove-all-overlays'.
+	(TeX-fold-clearout-macro): New function.
+	(TeX-fold-remove-overlays): New function.
+
+	* latex.el (LaTeX-mode-menu): Add entries for showing and hiding
+	individual macros.
+
+	* tex-info.el (TeXinfo-mode-menu): Update and rearrange.  Add
+	entries for "Show/Hide" functionality.
+
+	* doc/auc-tex.texi (Show/Hide): New section.
+	(Folding): New subsection.
+	(Outline): Moved under "Show/Hide".
+
+2004-07-10  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el: Do not require tex-fold.el.
+	Autoload `TeX-fold-mode'.
+	(TeX-mode-map): Add keybinding for `TeX-fold-mode'.
+
+	* tex-fold.el: Do not add keybinding for `TeX-fold-mode' with
+	`TeX-mode-hook'.
+	(TeX-fold-post-command): Do not hijack other overlays.
+
+2004-07-09  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el: New file.
+
+	* Makefile.in (AUCSRC): Add tex-fold.el.
+	(AUCELC): Add tex-fold.elc.
+
+	* latex.el (LaTeX-find-macro-start): Move to tex.el and rename to
+	`TeX-find-macro-start'.
+	(LaTeX-find-macro-end): Analogous.
+	(LaTeX-forward-paragraph): Change call to `LaTeX-find-macro-*' to
+	`TeX-find-macro-*'.
+	(LaTeX-backward-paragraph): Ditto.
+	(LaTeX-mode-menu): Add submenu "Show/Hide".  Add entries for
+	relevant functions in tex-fold.el and add the show/hide
+	environment entries which were in "Formatting and Marking" before.
+
+	* tex.el: Require tex-fold.el.
+	(TeX-find-macro-start): New function.  Formerly known as
+	`LaTeX-find-macro-start' in latex.el.
+	(TeX-find-macro-end): New function.  Formerly known as
+	`LaTeX-find-macro-end' in latex.el.
+
+2004-07-08  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* texmathp.el (texmathp-match-environment): Let environments be
+	added more than once.
+
+	* font-latex.el (font-latex-superscript-face)
+	(font-latex-subscript-face): New faces.
+	(font-latex-script-keywords): New constant.
+	(font-latex-fontify-script): New customize option.
+	(font-latex-script): New function.
+
+2004-07-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-view): Inform the user if the output file is
+	not present.
+
+	* tex.el (TeX-forward-comment-skip): Fix `count' functionality.
+	Stop as well at places where the prefix of commented lines
+	changes.  Simplify and improve efficiency by saving current
+	prefix before while-loop starts.  Adapt documentation string.
+	(TeX-backward-comment-skip): Adapt documentation string.
+
+2004-06-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* context.el (ConTeXt-environment-menu-name): Make name distinct
+	from `LaTeX-environment-menu-name'.
+	(ConTeXt-environment-modify-menu-name): Analogous.
+
+2004-06-17  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (tar-ball): Change permissions of auctex-$(TAG).
+
+	* tex.el (TeX-source-specials-expand-view-options): New function.
+	(TeX-expand-list): Added new specifier (%dS) for
+	`TeX-source-specials-expand-view-options'.
+	(TeX-view-style, TeX-output-view-style): Add %dS for source
+	specials in all xdvi calls.
+	(TeX-expand-list): Remove useless lambda.
+
+	* tex-buf.el (TeX-output-style-check): Remove addition of source
+	specials.
+
+2004-06-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-one-master): Add "dtx" extension.
+	(TeX-add-local-master): Insert \iffalse...\fi in docTeX mode.
+	(TeX-file-extensions): Add "dtx" extension.
+	(docTeX-default-extension): New variable.
+
+	* latex.el (LaTeX-find-macro-start): Use next whitespace if the
+	end of an opened macro cannot be determined.
+	(doctex-mode): Set `TeX-default-extension' to
+	`docTeX-default-extension'.
+
+	* doc/changes.texi: Add information about `TeX-newline-function'.
+
+2004-06-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/mdwlist.el (TeX-add-style-hook): Change variables only
+	locally.
+
+	* latex.el (LaTeX-default-verb-delimiter): New variable.
+	(TeX-arg-verb): Use it.
+
+2004-06-15  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/mdwlist.el: New header.
+	(TeX-add-style-hook): Add support for \makecompactlist, \suspend,
+	and \resume.
+
+2004-06-14  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-pin-region): Don't balk at unpinning if there
+	is no pinned region.
+
+	* tex.el (TeX-mode-specific-command-menu-entries): Be more
+	meticulous about when the pin-region menu entry can be used.
+
+2004-06-13  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-pin-region): Add autoload form.
+	(TeX-mode-map): Add keybinding for TeX-pin-region.
+	(TeX-mode-specific-command-menu-entries): Add menu entry for it.
+
+	* tex-buf.el (TeX-command-master, TeX-command-region)
+	(TeX-command-buffer): Add `override-confirm' prefix argument.
+	(TeX-pin-region): New function to replace previous interactive
+	prefix for TeX-command-region.  Change TeX-region semantics
+	accordingly.
+
+2004-06-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/faq.texi: New file.
+
+	* doc/auc-tex.texi (Filling): Add information about activating
+	`auto-fill-mode'.
+	(FAQ): Add node.
+
+	* doc/todo.texi (Bugs): Add bug when fontifying unmatched math
+	toggles in verbatim-like environments.
+
+	* doc/.cvsignore: Add `FAQ'.
+
+	* doc/Makefile.in (TEXIFILES): Add `faq.texi'.
+	(FAQ): New target.
+	(dist): Add `FAQ'.
+	(clean): Ditto.
+
+	* .cvsignore: Add `FAQ'.
+
+	* Makefile.in (DOCFILES): Add `doc/faq.texi'.
+	(EXTRAFILES): Remove `PROBLEMS'.
+	(tar-ball): Add `FAQ'.
+
+	* autogen.sh: Activate creation of `FAQ' from `doc/faq.texi'.
+
+2004-06-11  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fptex.el (TeX-command-list): Use correct expander for
+	"View PDF".
+
+	* latex.el (LaTeX-fill-region-as-para-do): Fix removal of trailing
+	whitespace.
+	(LaTeX-fill-move-to-break-point): Prevent infinite loop in
+	commented regions.
+	(LaTeX-fill-newline): Fix compatibility with XEmacs, i.e. use
+	code related to text properties only for Emacs and reintroduce
+	insertion of a potential fill prefix for XEmacs.
+
+2004-06-10  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/changes.texi: Add some news regarding upcoming release.
+	Try to match former news with actual releases.
+
+2004-06-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-comment-padding-string): New function.
+
+	* latex.el (LaTeX-newline): Do something sensible if point is
+	at the start of a commented line or inside of one and right at
+	the start of another one in the same line.
+	(LaTeX-insert-environment): Fix insertion of environments if
+	point is inside or right before a commented line.
+	(LaTeX-indent-line): Use `TeX-comment-padding-string'.
+
+2004-06-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-make-title-faces): New function.
+	(font-latex-title-1-face, font-latex-title-2-face)
+	(font-latex-title-3-face): Now generated by
+	`font-latex-make-title-faces' and compatible with XEmacs.
+	(font-latex-title-4-face): Add face specification for XEmacs.
+
+2004-06-04  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-view-mouse): New function.
+
+	* tex.el (TeX-source-specials-map): Outcomment madcap mouse
+	bindings.
+	(minor-mode-map-alist): Remove TeX-source-specials manually, as I
+	can't figure out how to not get it placed there by
+	define-minor-mode.
+	(TeX-split-string): Correct docs.  Simplify.
+	(TeX-parse-path): Fix pattern.
+
+2004-06-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-newline): New function.
+	(TeX-mode-map): Use it.
+
+	* latex.el: Various checkdoc-related fixes.
+	(LaTeX-forward-paragraph): Check for and cope with multi-line
+	paragraph commands not only those with a single line.
+	Check for LaTeX macro at the end of a paragraph command.
+	(LaTeX-backward-paragraph): Check for and cope with multi-line
+	paragraph commands not only those with a single line.
+	(LaTeX-paragraph-command-p): Remove.
+	(LaTeX-find-macro-start): Find macro start even if point is
+	already at the start.
+
+	* doc/auc-tex.texi (Marking and formatting): Split into
+	`Indenting' and `Filling'.
+	(Indenting): New section.
+	(Filling): New section.
+
+	* doc/intro.texi: Fix key representations and reference to
+	`fill-paragraph'.
+
+2004-06-02  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-format-filter): Don't use split-string which
+	appears to trigger an XEmacs bug.
+
+2004-06-02  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-insert-macro-default-style): Fixed typo in doc-string.
+
+2004-06-01  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-no-braces-modes): Removed.  Revert unintened
+	addition from 2004-04-19 commit.
+	(TeX-insert-macro-default-style): New variable.
+	(TeX-parse-arguments): Use it.
+	(TeX-insert-macro): Document dependence on
+	`TeX-insert-macro-default-style' and prefix.  Fix typo in comment.
+
+2004-05-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-source-specials-map): Fix key binding for XEmacs.
+
+2004-05-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (TEX_INPUT_DIRS): Quote regexps with square brackets.
+
+	* tex.el (TeX-newline-function): Rename.  Formerly known as
+	`TeX-newline'.
+	(TeX-mode-map): Use new name.
+
+	* doc/auc-tex.texi (Marking and formatting): Rename `TeX-newline'
+	to `TeX-newline-function'.
+
+2004-05-26  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* style/graphicx.el (LaTeX-arg-includegraphics): Rewrite.
+	Optional macro arguments can be controlled by
+	`LaTeX-includegraphics-options-alist' now.
+	(LaTeX-includegraphics-extensions)
+	(LaTeX-includegraphics-read-file): New functions.
+	(TeX-include-graphics-simple): Removed; use
+	`LaTeX-includegraphics-options-alist' instead.
+	(TeX-string-divide-number-unit, TeX-default-unit-for-image): Moved
+	to `tex.el'.
+
+	* latex.el (LaTeX-includegraphics-extensions)
+	(LaTeX-includegraphics-options-alist)
+	(LaTeX-includegraphics-strip-extension-flag): New options for
+	`style/graphicx.el'.
+
+	* tex.el (TeX-kpathsea-path-delimiter): Fix doc-string.
+	(TeX-insert-macro, TeX-parse-arguments): Skip optional macro
+	arguments when called with a prefix.
+	(TeX-string-divide-number-unit, TeX-default-unit-for-image): From
+	`style/graphicx.el'.
+	(TeX-arg-maybe): New function.
+
+	* latex.el (LaTeX-common-initialization): Added additional
+	arguments for \parbox.
+
+2004-05-26  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-newline): New name for `TeX-indent-on-newline'.  It
+	now holds function definitions and not mere symbols anymore.
+	(TeX-mode-map): Use it.
+
+	* doc/auc-tex.texi (Marking and formatting): Remove documentation
+	for `TeX-indent-on-newline' and document `TeX-newline'.
+
+2004-05-26  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-indent-on-newline): New option.
+	(TeX-mode-map): Use it.
+
+	* doc/auc-tex.texi (Marking and formatting): Document
+	`TeX-indent-on-newline' plus small corrections.
+
+2004-05-25  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-command): Add `override-confirm' argument.
+	(TeX-view): New function, without confirmation.
+
+	* context.el (ConTeXt-mode-map): Inherit keymap instead of
+	copying.
+
+	* latex.el (LaTeX-mode-map): Inherit keymap instead of copying.
+
+	* tex.el (TeX-source-specials-map): New variable.
+	(TeX-source-specials): Make a minor mode.  Replaces
+	`TeX-toggle-source-specials' and
+	`TeX-source-specials-active-flag'.
+	(TeX-source-specials-expand-options): Adapt to that.
+	(TeX-electric-macro-map): inherit from
+	`minibuffer-local-completion-map' instead of copying.
+	(plain-tex-mode): Help string uses `plain-TeX-mode-map'.
+	(TeX-mode-p): New variable, set in TeX modes.
+	(VirTeX-common-initialization): Set it.
+	(TeX-mode-map): Proper defvar.  Add keybindings for
+	`TeX-source-specials' and `TeX-view'.
+	(plain-TeX-mode-map): Inherit instead of copy.
+	(AmSTeX-mode-map): Same here.
+
+	* doc/auc-tex.texi: Change info dir formatting, adapt copyrights
+	according to the assignment process.
+
 2004-05-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
 
 	* doc/install.texi (Configure): Remove unused option
@@ -6,10 +1480,8 @@
 	* doc/wininstall.texi: Ditto.  Add information about new option
 	`--with-auto-dir'.
 
-2004-05-25  David Kastrup  <dak@gnu.org>
-
-	* doc/auc-tex.texi: Change dired formatting, adapt copyrights
-	according to the assignment process.
+	* latex.el (LaTeX-backward-paragraph): Revert check-in of
+	2004-05-24.
 
 2004-05-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
 

@@ -1,8 +1,8 @@
 ;;; tex-site.el - Site specific variables.  Don't edit.
 
 ;; Copyright (C) 1991, 2000, 2001 Kresten Krab Thorup
-;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen
-;; Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+;; Copyright (C) 1993, 1994, 1997, 1999,
+;;               2003, 2004 Free Software Foundation, Inc.
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: auc-tex@sunsite.dk
@@ -44,8 +44,8 @@
 
 ;;; Code:
 
-(if (< emacs-major-version 20)
-  (error "AUCTeX requires Emacs 20 or later"))
+(if (< emacs-major-version 21)
+  (error "AUCTeX requires Emacs 21 or later"))
 
 (defvar no-doc
   "This function is part of AUCTeX, but has not yet been loaded.
@@ -64,7 +64,7 @@ shared by all users of a site."
   :group 'TeX-file
   :type 'directory)
 
-(defcustom TeX-macro-global '("@texinputdirs@")
+(defcustom TeX-macro-global '(@texinputdirs@)
   "Directories containing the sites TeX macro files and style files.
 The directory names *must* end with a slash."
   :group 'TeX-file
@@ -95,10 +95,6 @@ The directory names *must* end with a slash."
 (autoload 'japanese-slitex-mode "tex-jp" no-doc t)
 (autoload 'texinfo-mode "tex-info" no-doc t)
 (autoload 'latex-mode "latex" no-doc t)
-
-(when (memq system-type '(windows-nt))
-  ;; Try to make life easy for MikTeX users.
-  (require 'tex-mik))
 
 (provide 'tex-site)
 

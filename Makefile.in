@@ -8,16 +8,18 @@
 
 prefix = @prefix@
 datadir = @datadir@
+localstatedir = @localstatedir@
 infodir = @infodir@
 lispdir = @lispdir@
 packagedir = @packagedir@
-auctexdir= $(lispdir)/auctex
+auctexdir= ${lispdir}/auctex
 autodir = @autodir@
-styledir = $(auctexdir)/style
+styledir = ${auctexdir}/style
 
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 MKINSTALLDIRS = ./mkinstalldirs
+DESTDIR=
 
 EMACS=@EMACS@
 ELCC=$(EMACS) -batch -q -no-site-file -l lpath.el
@@ -29,6 +31,7 @@ SHELL = /bin/sh
 DIST_PREFIX = /home/tmp/auctex-
 FTPDIR = $(DIST_PREFIX)ftp
 WWWDIR = $(DIST_PREFIX)www
+RPMROOT = /usr/src/redhat
 
 CONTRIB = bib-cite.el tex-fptex.el
 CONTRIBELC = bib-cite.elc tex-fptex.elc
@@ -36,12 +39,12 @@ CONTRIB_MULE = tex-jp.el
 COMPILE_MULE = @COMPILE_MULE@
 CONTRIB_MULEELC = @CONTRIB_MULEELC@
 
-AUCSRC = tex.el tex-buf.el latex.el auc-old.el tex-info.el \
+AUCSRC = tex.el tex-buf.el latex.el tex-info.el \
 	texmathp.el multi-prompt.el tex-mik.el font-latex.el tex-font.el \
-	context.el context-en.el context-nl.el
-AUCELC = auc-old.elc tex.elc tex-buf.elc latex.elc tex-info.elc \
+	context.el context-en.el context-nl.el tex-fold.el
+AUCELC = tex.elc tex-buf.elc latex.elc tex-info.elc \
 	texmathp.elc multi-prompt.elc tex-mik.elc font-latex.elc tex-font.elc \
-	context.elc context-en.elc context-nl.elc
+	context.elc context-en.elc context-nl.elc tex-fold.elc
 
 
 STYLESRC = style/prosper.el \
@@ -65,13 +68,15 @@ STYLESRC = style/prosper.el \
 	   style/scrpage2.el  style/captcont.el  style/subfigure.el \
 	   style/paralist.el  style/booktabs.el  style/emp.el \
 	   style/jura.el      style/alphanum.el	 style/beamer.el \
-	   style/alltt.el     style/italian.el
+	   style/alltt.el     style/italian.el   style/doc.el \
+	   style/ltxdoc.el    style/ltx-base.el	 style/units.el \
+	   style/nicefrac.el
 
-DOCFILES = doc/Makefile.in doc/auc-tex.texi doc/intro.texi doc/install.texi \
-	doc/changes.texi doc/tex-ref.tex doc/math-ref.tex doc/history.texi \
-	doc/wininstall.texi doc/todo.texi doc/macros.texi
+DOCFILES = doc/Makefile.in doc/auctex.texi doc/intro.texi doc/install.texi \
+	doc/changes.texi doc/tex-ref.tex doc/history.texi \
+	doc/wininstall.texi doc/todo.texi doc/faq.texi doc/macros.texi
 
-EXTRAFILES = COPYING PROBLEMS ChangeLog \
+EXTRAFILES = RELEASE COPYING ChangeLog auctex.spec \
 	configure install-sh $(MKINSTALLDIRS) Makefile.in \
 	tex-site.el.in lpath.el $(CONTRIB) $(CONTRIB_MULE)
 
@@ -90,55 +95,55 @@ contrib:
 	$(ELCC) -f batch-byte-compile $(CONTRIB) $(COMPILE_MULE)
 
 install-el:
-	-$(MKINSTALLDIRS) $(lispdir)
-	rm -f $(auctexdir)/tex-site.el # Remove old (CVS-version) mistakes
-	if [ -f $(lispdir)/tex-site.el ]; then \
-	   if grep -q "tex-site.*Don't edit." $(lispdir)/tex-site.el; then \
+	-$(MKINSTALLDIRS) $(DESTDIR)$(lispdir)
+	rm -f $(DESTDIR)$(auctexdir)/tex-site.el # Remove old (CVS-version) mistakes
+	if [ -f $(DESTDIR)$(lispdir)/tex-site.el ]; then \
+	   if grep -q "tex-site.*Don't edit." $(DESTDIR)$(lispdir)/tex-site.el; then \
 	    echo "Overwriting old tex-site.el" ; \
 	   else \
 	    echo "Renaming old texsite.el to texsite.el.save" ; \
-	    mv $(lispdir)/tex-site.el $(lispdir)/texsite.el.save ; \
+	    mv $(DESTDIR)$(lispdir)/tex-site.el $(DESTDIR)$(lispdir)/texsite.el.save ; \
 	   fi; \
 	fi; \
-	$(INSTALL_DATA) tex-site.el $(lispdir)
-	-$(MKINSTALLDIRS) $(auctexdir)
+	$(INSTALL_DATA) tex-site.el $(DESTDIR)$(lispdir)
+	-$(MKINSTALLDIRS) $(DESTDIR)$(auctexdir)
 	for x in $(AUCSRC) ; do \
-	  echo ' $(INSTALL_DATA)' $$x '$(auctexdir)' ; \
-	  $(INSTALL_DATA) $$x $(auctexdir) ; \
+	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(auctexdir)' ; \
+	  $(INSTALL_DATA) $$x $(DESTDIR)$(auctexdir) ; \
 	done;
-	-$(MKINSTALLDIRS) $(styledir)
-	$(INSTALL_DATA) $(NOSEARCH) $(styledir)
+	-$(MKINSTALLDIRS) $(DESTDIR)$(styledir)
+	$(INSTALL_DATA) $(NOSEARCH) $(DESTDIR)$(styledir)
 	for x in $(STYLESRC) ; do \
-	  echo ' $(INSTALL_DATA)' $$x '$(styledir)' ; \
-	  $(INSTALL_DATA) $$x $(styledir) ; \
+	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(styledir)' ; \
+	  $(INSTALL_DATA) $$x $(DESTDIR)$(styledir) ; \
 	done;
-	-$(MKINSTALLDIRS) $(autodir)
-	$(INSTALL_DATA) $(NOSEARCH) $(autodir)
+	-$(MKINSTALLDIRS) $(DESTDIR)$(autodir)
+	$(INSTALL_DATA) $(NOSEARCH) $(DESTDIR)$(autodir)
 
 install-lisp:	some install-el
 	for x in $(AUCSRC) ; do \
-	  echo ' $(INSTALL_DATA)' $${x}c '$(auctexdir)' ; \
-	  $(INSTALL_DATA) $${x}c $(auctexdir) ; \
+	  echo ' $(INSTALL_DATA)' $${x}c '$(DESTDIR)$(auctexdir)' ; \
+	  $(INSTALL_DATA) $${x}c $(DESTDIR)$(auctexdir) ; \
 	done;
 	for x in $(STYLESRC) ; do \
-	  echo ' $(INSTALL_DATA)' $${x}c '$(styledir)' ; \
-	  $(INSTALL_DATA) $${x}c $(styledir) ; \
+	  echo ' $(INSTALL_DATA)' $${x}c '$(DESTDIR)$(styledir)' ; \
+	  $(INSTALL_DATA) $${x}c $(DESTDIR)$(styledir) ; \
 	done;
 
 install-contrib-el:
 	for x in $(CONTRIB) $(CONTRIB_MULE); do \
-	  echo ' $(INSTALL_DATA)' $$x '$(auctexdir)' ; \
-	  $(INSTALL_DATA) $$x $(auctexdir) ; \
+	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(auctexdir)' ; \
+	  $(INSTALL_DATA) $$x $(DESTDIR)$(auctexdir) ; \
 	done;
 
 install-contrib:	install-contrib-el $(CONTRIBELC) $(CONTRIB_MULEELC)
 	for x in $(CONTRIBELC) $(CONTRIB_MULEELC); do \
-	  echo ' $(INSTALL_DATA)' $$x '$(auctexdir)' ; \
-	  $(INSTALL_DATA) $$x $(auctexdir) ; \
+	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(auctexdir)' ; \
+	  $(INSTALL_DATA) $$x $(DESTDIR)$(auctexdir) ; \
 	done;
 
 install-info:
-	-cd doc; $(MAKE) install
+	-cd doc; $(MAKE) 'DESTDIR=$(DESTDIR)' install
 
 
 install-auto:
@@ -153,7 +158,7 @@ clean:
 	(cd doc; $(MAKE) clean)
 
 distclean: clean
-	rm -f Makefile tex-site.el config.*
+	rm -rf Makefile tex-site.el config.* autom4te.cache
 
 tar-ball-clean:
 	@if [ "X$(TAG)" = "X" ]; then echo "*** No tag ***"; exit 1; fi
@@ -175,8 +180,6 @@ release-commit:
 	@echo "** Making distribution of auctex for release $(TAG)"
 	@echo "**********************************************************"
 	sleep 3
-	perl -pi.bak -e "s/Version: $(OLD)/Version: $(TAG)/" \
-	    $(AUCSRC) $(EXTRAFILES)
 	mv ChangeLog ChangeLog.old
 	echo `date "+%Y-%m-%d "` \
 	     " David Kastrup  <dak@gnu.org>" > ChangeLog
@@ -195,27 +198,43 @@ tar-ball:
 	cp $(AUCSRC) $(EXTRAFILES) auctex-$(TAG)
 	cp $(STYLESRC) $(NOSEARCH) auctex-$(TAG)/style
 	cp $(DOCFILES)  auctex-$(TAG)/doc
-	(cd doc; $(MAKE) dist; cp auctex auctex ../auctex-$(TAG)/doc )
+	(cd doc; $(MAKE) dist; cp auctex ../auctex-$(TAG)/doc )
 	(cd doc; \
 	for x in auctex-*; do \
 	  if [ -r $$x ]; then \
 	    cp $$x ../auctex-$(TAG)/doc ; \
-	  else \
-	    echo "Warning: File $$x doesn't exist."; \
 	  fi; \
 	done )
-	(cd doc; cp INSTALL INSTALL.windows README CHANGES TODO \
+	(cd doc; cp INSTALL INSTALL.windows README CHANGES TODO FAQ \
 		../auctex-$(TAG)/ )
+	rm -rf $(FTPDIR) $(WWWDIR)/doc
 	mkdir -p $(FTPDIR) $(WWWDIR)/doc
-	cp doc/CHANGES $(FTPDIR)/CHANGES-$(TAG)
-	cp doc/auc-tex.ps $(FTPDIR)
+	cp doc/CHANGES $(FTPDIR)/CHANGES
+	cp RELEASE $(FTPDIR)/RELEASE-$(TAG)
+	cp doc/auctex.ps doc/auctex.pdf doc/tex-ref.ps doc/tex-ref.pdf $(FTPDIR)
 	cp ChangeLog $(FTPDIR)
 	cp doc/*.html $(WWWDIR)/doc
-	rm -f $(FTPDIR)/auctex-$(TAG).tar.gz $(FTPDIR)/auctex.tar.gz
-	rm -f $(FTPDIR)/auctex.zip
+	chmod -R go-w+rX auctex-$(TAG)
 	tar -cf - auctex-$(TAG) | gzip --best > $(FTPDIR)/auctex-$(TAG).tar.gz
 	-zip -r $(FTPDIR)/auctex-$(TAG).zip auctex-$(TAG)
 
+full-release:
+	tar xzfO $(FTPDIR)/auctex-$(TAG).tar.gz auctex-$(TAG)/tex.el \
+	| fgrep -s '$$'"Name: release_`echo $(TAG)| sed -e 's/[.]/_/g'` " \
+	|| { echo "Not a properly tagged release!" >&2 ; exit 1 ; }
+	rm -f $(FTPDIR)/*.{directive,asc,sig}
+	su -c "rpmbuild -ta --sign $(FTPDIR)/auctex-$(TAG).tar.gz" -
+	cp $(RPMROOT)/{RPMS/noarch,SRPMS}/auctex-emacs-$(TAG)[.-]* $(FTPDIR)
+	read -sp "Enter pass phrase: " phrase ; \
+	for i in $(FTPDIR)/*; do \
+	   echo "$$phrase" | gpg --passphrase-fd 0 --detach-sign $$i ; \
+	   case $$i in *-$(TAG)*) echo "directory: auctex" >$$i.directive;; \
+	      *) echo "directory: auctex/$(TAG)-extra" >$$i.directive ;; \
+	   esac ; \
+	   echo "$$phrase" | gpg --passphrase-fd 0 --clearsign $$i.directive ; \
+	done
+	rm $(FTPDIR)/*.directive
+
 patch:
-	diff -u auctex-$(OLD) auctex-$(TAG) > \
-		$(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch; exit 0
+	diff -u auctex-$(OLD) auctex-$(TAG) | gzip --best \
+		>$(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch.gz

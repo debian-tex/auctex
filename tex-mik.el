@@ -1,7 +1,6 @@
 ;;; tex-mik.el --- MikTeX support for AUCTeX.
 
-;; Copyright (C) 1999, 2000, 2001 Per Abrahamsen
-;; Copyright (C) 2004 Free Software Foundation, Inc.
+;; Copyright (C) 1999, 2000, 2001, 2004 Free Software Foundation, Inc.
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: auc-tex@sunsite.dk
@@ -30,27 +29,39 @@
 
 ;;; Code:
 
-;; The MikTeX commands.
-(setq TeX-command-list
-  (list (list "TeX" "tex %S \\nonstopmode\\input %t" 'TeX-run-TeX nil
-              (list 'plain-tex-mode))
-	(list "LaTeX" "%l \\nonstopmode\\input{%t}" 'TeX-run-TeX nil
-              (list 'latex-mode))
-	(list "PDFLaTeX" "pdflatex %S \\nonstopmode\\input{%t}"
-	      'TeX-run-TeX nil (list 'latex-mode))
-	(list "View" "%v" 'TeX-run-discard nil t)
-	(list "Print" "gsview32 %f" 'TeX-run-command t t)
-	(list "File" "dvips %d -o %f " 'TeX-run-command t t)
-	(list "BibTeX" "bibtex %s" 'TeX-run-BibTeX nil t)
-	(list "Index" "makeindex %s" 'TeX-run-command nil t)
-	(list "Check" "lacheck %s" 'TeX-run-compile nil t)
-	(list "Other" "" 'TeX-run-command t t)))
+  ;; Remove the Queue entry from the default, and make a non-Unix
+  ;; specific print entry, assuming that we'll print via gsview32.
+(unless (get 'TeX-queue-command 'saved-value)
+  (setq TeX-queue-command nil))
 
-(setq TeX-view-style '(("^a5$" "yap %d -paper a5")
-		       ("^landscape$" "yap %d -paper a4r -s 4")
-		       ("^epsf$" "gsview32 %f")
-		       ("." "yap -1 -s%n%b %d")))
+(unless (get 'TeX-printer-list 'saved-value)
+  (setq TeX-printer-list nil))
+
+(unless (get 'TeX-print-command 'saved-value)
+  (setq TeX-print-command
+	"gsview32 %f"))
+
+(unless (get 'TeX-view-style 'saved-value)
+  (setq TeX-view-style '(("^epsf$" "gsview32 %f")
+			 ("." "yap -1 %dS %d"))))
+
+(unless (get 'TeX-output-view-style 'saved-value)
+  (setq TeX-output-view-style
+	'(("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "dvips %d -o && gsview32 %f")
+	  ("^dvi$" "." "yap -1 %dS %d")
+	  ("^pdf$" "." "AcroRd32 %o") ; Use "start %o" instead?
+	  ("^html?$" "." "mozilla %o"))))
+
+(unless (get 'TeX-source-specials-view-position-flags 'saved-value)
+  (setq TeX-source-specials-view-position-flags "-s %n%b"))
+
+;; Yap does not support a command line option for inverse searching.
+;; The editor command has to be configured inside Yap in
+;; "View/Options/Inverse Search" instead.
+(unless (get 'TeX-source-specials-view-editor-flags 'saved-value)
+  (setq TeX-source-specials-view-editor-flags ""))
 
 (provide 'tex-mik)
+(require 'tex-site)
 
 ;;; tex-mik.el ends here

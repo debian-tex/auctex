@@ -1,16 +1,30 @@
-+% -*- plain-tex -*- 
-% $Id: tex-ref.tex,v 1.4 2003/06/03 09:01:31 dak Exp $
-% Reference Card for Auc TeX version 7
+% -*- plain-tex -*- 
+% Reference Card for AUCTeX version 11.52
 %**start of header
 \newcount\columnsperpage
 
-% This file can be printed with 1, 2, or 3 columns per page (see below).
-% Specify how many you want here.  Nothing else needs to be changed.
+% This file has only been checked with 3 columns per page.  But it
+% should print fine either via DVI or PDFTeX.
 
-\columnsperpage=2
+\columnsperpage=3
+
+% Papersize stuff.  Use default paper size for PDF, but switch
+% orientation.  Use papersize special for dvips.
+
+\ifcase\ifx\pdfoutput\undefined 1 \fi
+  \ifnum\pdfoutput=0 1 \fi 2
+\or
+%    \special{papersize 8.5in,11in}%
+     \special{papersize 297mm,210mm}%
+\or
+      \dimen0\pdfpagewidth
+      \pdfpagewidth\pdfpageheight
+      \pdfpageheight\dimen0
+\fi
+
 
 % This file is intended to be processed by plain TeX (TeX82).
-% compile-command: "tex ref-card.tex"
+% compile-command: "tex tex-ref" or "pdftex tex-ref"
 %
 % Original author of Auc-TeX Reference Card:
 %                                  
@@ -19,25 +33,26 @@
 %
 % Kresten Krab Thorup updated the reference card to 6.
 % Per Abrahamsen updated the reference card to 7, 8, and 9.
+% Ralf Angeli updated it to 11.50.
+% And David Kastrup messed around with it, too, merging the math reference.
 %
 % Thanks to Stephen Gildea
 % Paul Rubin, Bob Chassell, Len Tower, and Richard Mlynarik
 % for creating the GNU Emacs Reference Card from which this was mutated
 
-\def\versionnumber{9}
-\def\year{1993}
-\def\version{February \year\ v\versionnumber}
+\def\versionnumber{11.52}
+\def\year{2004}
+\def\version{August \year\ v\versionnumber}
 
 \def\shortcopyrightnotice{\vskip 1ex plus 2 fill
   \centerline{\small \copyright\ \year\ Free Software Foundation, Inc.
   Permissions on back.  v\versionnumber}}
 
-\def\copyrightnotice{
+\def\copyrightnotice{%
 \vskip 1ex plus 2 fill\begingroup\small
-\centerline{Copyright \copyright\ 1987 Free Software Foundation, Inc.}
+\centerline{Copyright \copyright\ 1987, 1993, 2004 Free Software Foundation, Inc.}
 \centerline{Copyright \copyright\ 1992 Kresten Krab Thorup}
-\centerline{Copyright \copyright\ \year\ Per Abrahamsen}
-\centerline{for AUC \TeX\ version \versionnumber}
+\centerline{for AUC\TeX\ version \versionnumber}
 
 Permission is granted to make and distribute copies of
 this card provided the copyright notice and this permission notice
@@ -54,7 +69,7 @@ are preserved on all copies.
 \newbox\columna
 \newbox\columnb
 
-\def\ncolumns{\the\columnsperpage}
+\edef\ncolumns{\the\columnsperpage}
 
 \message{[\ncolumns\space 
   column\if 1\ncolumns\else s\fi\space per page]}
@@ -76,9 +91,9 @@ are preserved on all copies.
   \def\makefootline{\baselineskip10pt\hsize6.5in\line{\the\footline}}
 \else
   \hsize 3.2in
-  \vsize 7.95in
-%  \hoffset -.75in
-%  \voffset -.745in
+  \vsize 7.6in
+  \hoffset -.75in
+  \voffset -.8in
   \font\titlefont=cmbx10 \scaledmag2
   \font\headingfont=cmbx10 \scaledmag1
   \font\smallfont=cmr6
@@ -87,14 +102,20 @@ are preserved on all copies.
   \font\eightbf=cmbx8
   \font\eightit=cmti8
   \font\eighttt=cmtt8
+  \font\eightsl=cmsl8
+  \font\eightsc=cmcsc8
   \font\eightsy=cmsy8
   \textfont0=\eightrm
   \textfont2=\eightsy
-  \def\rm{\eightrm}
+  \def\rm{\fam0 \eightrm}
   \def\bf{\eightbf}
   \def\it{\eightit}
   \def\tt{\eighttt}
+  \def\sl{\eightsl}
+  \def\sc{\eightsc}
   \normalbaselineskip=.8\normalbaselineskip
+  \ht\strutbox.8\ht\strutbox
+  \dp\strutbox.8\dp\strutbox
   \normallineskip=.8\normallineskip
   \normallineskiplimit=.8\normallineskiplimit
   \normalbaselines\rm           %make definitions take effect
@@ -155,7 +176,8 @@ are preserved on all copies.
 
 \outer\def\title#1{{\titlefont\centerline{#1}}\vskip 1ex plus .5ex}
 
-\outer\def\section#1{\par\filbreak
+\outer\def\section#1{\par\vskip 0pt plus 0.2\vsize \penalty-3000
+         \vskip 0pt plus -0.2\vsize
   \vskip 3ex plus 2ex minus 2ex {\headingfont #1}\mark{#1}%
   \vskip 2ex plus 1ex minus 1.5ex}
 
@@ -177,7 +199,7 @@ are preserved on all copies.
 \def\endexample{\endgroup}
 
 \def\key#1#2{\leavevmode\hbox to \hsize{\vtop
-  {\hsize=.75\hsize\rightskip=1em
+  {\hsize=.68\hsize\rightskip=1em
   \hskip\keyindent\relax#1}\kbd{#2}\hfil}}
 
 \newbox\metaxbox
@@ -193,61 +215,81 @@ are preserved on all copies.
 \def\threecol#1#2#3{\hskip\keyindent\relax#1\hfil&\kbd{#2}\quad
   &\kbd{#3}\quad\cr}
 
+\def\LaTeX{%
+    L\kern-.36em\raise.3ex\hbox{\sc{a}}\kern-.15em\TeX}
+
 %**end of header
 
-
-\title{AUC \TeX\ Reference Card}
+\title{AUC\TeX\ Reference Card}
 
 \centerline{(for version \versionnumber)}
 
 \section{Conventions Used}
 
-\key{Carriage Return}{RET}
-\key{Tabular}{TAB}
-\key{Linefeed}{LFD}
-
-Mode variables: You want to change the variables found in the file
-`{\tt tex-site.el}' in the AUC-\TeX\ distribution for your site.  The
-other variables should be set by the individual user.  
-
-Entering LaTeX mode calls the value of text-mode-hook, then the value
-of TeX-mode-hook, and then the value of LaTeX-mode-hook.
+\key{Carriage Return or \kbd{C-m}}{RET}
+\key{Tabular or \kbd{C-i}}{TAB}
+\key{Linefeed or \kbd{C-j}}{LFD}
 
 \section{Shell Interaction}
 
-\key{Save Document}{C-c C-d}
 \key{Run a command on the master file}{C-c C-c}
 \key{Run a command on the buffer}{C-c C-b}
 \key{Run a command on the region}{C-c C-r}
+\key{Fix the region}{C-c C-t C-r}
 \key{Kill job}{C-c C-k}
 \key{Recenter output buffer}{C-c C-l}
-\key{Next error in \TeX/LaTeX session}{C-c `}
-\key{Toggle debug of wonderful boxes}{C-c C-w}
-\key{Switch to master file or active buffer}{C-c ^}
+\key{Next error in \TeX/\LaTeX\ session}{C-c `}
+\key{Toggle debug of wonderful boxes}{C-c C-w} % wonderful?
+\key{View output file}{C-c C-v}
 
-Commands you can run on the master file (with C-c C-c) or the region
-(with C-c C-r) include the following.
+Commands you can run on the master file (with \kbd{C-c C-c}) or the
+region (with \kbd{C-c C-r}) include the following (starred versions
+are not available in all modes):
 
-\key{\TeX}{TeX}
-\overfullrule=0pt %The next line is too wide.
-\key{Run \TeX{} Interactively}{TeX Interactive}
-\key{LaTeX}{LaTeX}
-\key{Run LaTeX Interactively}{LaTeX Interactive}
-\key{SliTeX}{SliTeX}
-\key{A previewer}{View}
-\key{Printing the DVI file}{Print}
+\def\star{\llap{\rm*}}
+\key{\TeX}{\star TeX}
+\key{\LaTeX}{\star LaTeX}
+\key{Con\TeX{}t (once)}{\star ConTeXt}
+\key{Con\TeX{}t Full}{\star ConTeXt Full}
+\key{Makeinfo}{\star Makeinfo}
+\key{Makeinfo with HTML output}{\star Makeinfo HTML}
+\key{Appropriate previewer}{View}
+\key{Print the output}{Print}
 \key{Bib\TeX}{BibTeX}
 \key{MakeIndex}{Index}
 \key{LaCheck}{Check}
-\key{(PostScript) File}{File}
-\key{Ispell}{Spell} 
+\key{Make (PostScript) File}{File}
+\key{Ispell}{Spell}
+
+\section{\TeX ing options}
+\TeX\ runs can come in various types, which may be toggled and are
+indicated in the mode line.
+
+\key{$\Omega$ mode}{C-c C-t C-o}
+\key{PDF/DVI mode}{C-c C-t C-p}
+\key{Stop on errors (Interactive mode)}{C-c C-t C-i}
+\key{Use Source Specials for viewer control}{C-c C-t C-s}
+
+\section{Miscellaneous}
+
+\key{Read AUC\TeX\ manual}{C-c TAB}
+\key{Math Mode}{C-c \string~}
+\key{Reset Buffer}{C-c C-n}
+\key{Reset AUC\TeX}{C-u C-c C-n}
+
+\section{Multifile Handling}
+
+\key{Save Document}{C-c C-d}
+\key{Switch to master file or active buffer}{C-c ^}
+\key{Query for a master file}{C-c \_}
 
 \section{Command Insertion}
 
 \key{Insert Section}{C-c C-s}
-\key{Insert LaTeX environment}{C-c C-e}
+\key{Insert \LaTeX\ environment}{C-c C-e}
 \key{Insert item}{C-c LFD}
-\key{Close LaTeX environment}{C-c ]}
+\key{Insert item (alias)}{M-RET}
+\key{Close \LaTeX\ environment}{C-c ]}
 \key{Insert \TeX\ macro \kbd{\\\{\}} }{C-c C-m}
 \key{Insert double brace}{C-c \{}
 \key{Complete \TeX\ macro}{M-TAB}
@@ -256,14 +298,15 @@ Commands you can run on the master file (with C-c C-c) or the region
   
 \section{Font Selection}
 
-\key{Insert {\bf bold} text}{C-c C-f C-b}
+\key{Insert {\bf bold\/} text}{C-c C-f C-b}
 \key{Insert {\it italics\/} text}{C-c C-f C-i}
 \key{Insert {\rm roman} text}{C-c C-f C-r}
-\key{Insert {\it emphasized} text}{C-c C-f C-e}
-\key{Insert {\tt typewriter} text}{C-c C-f C-t}
+\key{Insert {\it emphasized\/} text}{C-c C-f C-e}
+\key{Insert {\tt typewriter\/} text}{C-c C-f C-t}
 \key{Insert {\sl slanted\/} text}{C-c C-f C-s}
+\key{Insert {\sc Small Caps\/} text}{C-c C-f C-c}
 \key{Delete font}{C-c C-f C-d}
-\key{Replace font}{C-u C-c C-f <KEY>}
+\key{Replace font}{C-u C-c C-f \<key>}
 
 \section{Source Formatting}
 
@@ -278,18 +321,127 @@ Commands you can run on the master file (with C-c C-c) or the region
 \key{Mark an environment}{C-c .}
 \key{Mark a section}{C-c *}
 
-\key{Comment region}{C-c ;}
-\key{Comment paragraph}{C-c \%}
-\key{Uncomment region}{C-u - C-c ;}
-\key{Uncomment paragraph}{C-u - C-c \%}
+\key{Comment or uncomment region}{C-c ;}
+\key{Comment or uncomment paragraph}{C-c \%}
+
+\section{Source Display}
+
+\key{Toggle folding mode}{C-c C-o C-f}
+\key{Hide all items in buffer}{C-c C-o C-b}
+\key{Hide current macro}{C-c C-o C-m}
+\key{Hide current environment}{C-c C-o C-e}
+\key{Show all items in buffer permanently}{C-c C-o C-x}
+\key{Show current item permanently}{C-c C-o C-c}
+
+\copyrightnotice
+\penalty-9000
+\title{Math Mode}
+
+\section{Variables}
+
+All math mode commands are under the prefix key specified by
+LaTeX-math-abbrev-prefix, default is "`".
+
+You can define your own math mode commands by setting the variable
+LaTeX-math-list before loading LaTeX-math-mode.
+
+\section{Greek Letters}
+
+\def\disp#1{\hbox to 6ex{$#1$\hfill}}
+\def\twocol#1\par{{%
+  \def\key##1##2{##1&##2\cr}%
+  \setbox0\vbox{\halign to 0.45\hsize{\tabskip0ptplus1fil\relax
+    ##\hfil&\kbd{##}\hfil\cr\vrule width0ptheight\ht\strutbox#1}}%
+  \line{%
+  \splittopskip=\ht\strutbox
+  \dimen0\ht0
+  \advance\dimen0\baselineskip
+  \setbox2\vsplit0to0.5\dimen0
+  \vtop{\unvbox2}\hfill\raise \ht\strutbox \vtop {\unvbox0}}}}
+\def\keycs#1#2#{\keycsii#1{#2}}
+\def\keycsii#1#2#3{\key{\disp{#1#2} ({\tt\string#1})}{#3}}
+
+\twocol
+\keycs\alpha{a}
+\keycs\beta{b}
+\keycs\gamma{g}
+\keycs\delta{d}
+\keycs\epsilon{e}
+\keycs\zeta{z}
+\keycs\eta{h}
+\keycs\theta{j}
+\keycs\kappa{k}
+\keycs\lambda{l}
+\keycs\mu{m}
+\keycs\nu{n}
+\keycs\xi{x}
+\keycs\pi{p}
+\keycs\rho{r}
+\keycs\sigma{s}
+\keycs\tau{t}
+\keycs\upsilon{u}
+\keycs\phi{f}
+\keycs\chi{q}
+\keycs\psi{y}
+\keycs\omega{w}
+\keycs\Delta{D}
+\keycs\Gamma{G}
+\keycs\Theta{Q}
+\keycs\Lambda{L}
+\keycs\Pi{P}
+\keycs\Sigma{S}
+\keycs\Upsilon{U}
+\keycs\Phi{F}
+\keycs\Psi{Y}
+\keycs\Omega{W}
+
+\section{Symbols}
+
+\twocol
+\keycs\rightarrow{C-f}
+\keycs\leftarrow{C-b}
+\keycs\uparrow{C-p}
+\keycs\downarrow{C-n}
+\keycs\leq{<}
+\keycs\geq{>}
+\keycs\tilde x{\string~}
+\keycs\nabla{N}
+\keycs\infty{I}
+\keycs\forall{A}
+\keycs\exists{E}
+\keycs\not \ {/}
+\keycs\in{i}
+\keycs\times{*}
+\keycs\cdot{.}
+\keycs\subset{\{}
+\keycs\supset{\}}
+\keycs\subseteq{[}
+\keycs\supseteq{]}
+\keycs\emptyset{0}
+\keycs\setminus{\\}
+\keycs\cup{+}
+\keycs\cap{-}
+\keycs\langle{(}
+\keycs\rangle{)}
+\keycs\exp{C-e}
+\keycs\sin{C-s}
+\keycs\cos{C-c}
+\keycs\sup{C-^}
+\keycs\inf{C-_}
+\keycs\det{C-d}
+\keycs\lim{C-l}
+\keycs\tan{C-t}
+\keycs\hat x{^}
+\keycs\vee{|}
+\keycs\wedge{\&}
 
 \section{Miscellaneous}
 
-\key{Math Mode}{C-c \~{}}
-\key{Reset AUC TeX}{C-c C-n}
-
-\copyrightnotice
+\key{cal letters}{c \<letter>}
 
 \bye
-
-% End:
+
+%%% Local Variables: 
+%%% mode: plain-TeX
+%%% TeX-master: t
+%%% End: 

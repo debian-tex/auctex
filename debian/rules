@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.52 2004/05/25 09:39:58 salve Exp $
+# $Id: rules.in,v 1.20 2004/05/25 09:29:42 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04 by Davide Giovanni
 # Maria Salvetti.
@@ -66,7 +66,7 @@ build: $(DFILES)
 	test -x ./autogen.sh && ./autogen.sh || true
 	./configure --infodir=/usr/share/info/
 	cd doc && $(MAKE) auctex
-	cd doc && $(MAKE) auc-tex_toc.html
+	cd doc && $(MAKE) auctex_toc.html
 	cd doc && $(MAKE) README CHANGES HISTORY
 	touch build
 

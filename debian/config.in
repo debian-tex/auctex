@@ -13,7 +13,7 @@ db_version 2.0
 
 case "${1}" in
     (configure|reconfigure)
-    if egrep "\brequire[[:space:]]+[^)]*'tex-site\b" <:=${SSEL}:> \
+    if egrep "\brequire[[:space:]]+[^)]*'tex-site\b" <:=${SSEL}:> 2>/dev/null\
 	| egrep -v ";.*\brequire\b" &>/dev/null; then
 	db_set <:=${PACKAGE}:>/default false || true
 	db_text low <:=${PACKAGE}:>/alreadydefault || true

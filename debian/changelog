@@ -1,3 +1,16 @@
+auctex (11.14-really11.52-0.1) unstable; urgency=low
+
+  * NMU because the maintainer seems to be kind of MIA, with a version
+    number that allows easy reverting, should he show up again before the
+    freeze.
+  * New stable upstream release (closes: #265598)
+  * This also fixes the following bugs (closes:
+    #257496, #244336, #245388, #246908, #120031, #244342, #239799)
+  * Don't display an error message in a fresh install - patch is in BTS
+    (Closes: #258304).
+
+ -- Frank Küster <frank@debian.org>  Sat, 21 Aug 2004 20:39:36 +0200
+
 auctex (11.14+CVS.2004.05.25.1-1) UNRELEASED; urgency=low
 
   * New CVS upstream source.

@@ -1,8 +1,8 @@
-;;; jura.el --- AUCTeX style for `jura.cls'
+;;; nicefrac.el --- AUCTeX style for the LaTeX package `nicefrac.sty' (v0.9b)
 
 ;; Copyright (C) 2004 Free Software Foundation, Inc.
 
-;; Author: Frank Küster <frank@kuesterei.ch>
+;; Author: Christian Schlauer <cschl@arcor.de>
 ;; Maintainer: auc-tex@sunsite.dk
 ;; Keywords: tex
 
@@ -25,15 +25,18 @@
 
 ;;; Commentary:
 
-;; This file adds support for `jura.cls'.
+;; This file adds support for `nicefrac.sty'.
 
 ;;; Code:
 
 (TeX-add-style-hook
- "jura"
- (lambda ()
-   (TeX-run-style-hooks "alphanum")))
+ "nicefrac"
+ (function
+  (lambda ()
+    (TeX-add-symbols
+     '("nicefrac" [ "Font changing command" ] "Numerator" "Denominator"))
+    ;; enable fontifying
+    (add-to-list 'font-latex-match-textual-keywords-local "nicefrac")
+    (font-latex-match-textual-make))))
 
-;; Local Variables:
-;; coding: iso-8859-1
-;; End:
+;;; nicefrac.el ends here

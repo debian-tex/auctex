@@ -53,7 +53,7 @@ build: $(DFILES)
 	test -x ./autogen.sh && ./autogen.sh || true
 	./configure --infodir=<:=${info}:>
 	cd doc && $(MAKE) auctex
-	cd doc && $(MAKE) auc-tex_toc.html
+	cd doc && $(MAKE) auctex_toc.html
 	cd doc && $(MAKE) <:=${DOCS}:>
 	touch build
 

@@ -1,0 +1,44 @@
+Frequently Asked Questions about AUCTeX
+***************************************
+
+  1. What versions of Emacs and XEmacs are supported?
+
+     AUCTeX was tested with Emacs 21 and XEmacs 21.4.15.  Older
+     versions may work but are unsupported.  Older versions of XEmacs
+     might possibly made to work by updating the `xemacs-base' package
+     through the XEmacs package system.
+
+  2. Why doesn't the completion or multifile stuff work?
+
+     It must be enabled first, insert this in your emacs:
+
+          (setq-default TeX-master nil)
+          (setq TeX-parse-self t)
+          (setq TeX-auto-save t)
+
+     Read also the chapters about parsing and multifile documents in the
+     manual.
+
+  3. Why doesn't `TeX-save-document' work?
+
+     `TeX-check-path' has to contain "./" somewhere.
+
+  4. Why is the information in `foo.tex' forgotten when I save
+     `foo.bib'?
+
+     For various reasons, AUCTeX ignores the extension when it stores
+     information about a file, so you should use unique base names for
+     your files.  E.g. rename `foo.bib' to `foob.bib'.
+
+  5. Why doesn't AUCTeX signal when processing a document is done?
+
+     If the message in the minibuffer stays "Type `C-c C-l' to display
+     results of compilation.", you probably have a misconfiguration in
+     your init file (`.emacs', `init.el' or similar).  To track this
+     down either search in the `*Messages*' buffer for an error message
+     or put `(setq debug-on-error t)' as the first line into your init
+     file, restart Emacs and open a LaTeX file.  Emacs will complain
+     loudly by opening a debugging buffer as soon as an error occurs.
+     The information in the debugging buffer can help you find the
+     cause of the error in your init file.
+

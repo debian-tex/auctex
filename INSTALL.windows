@@ -5,18 +5,20 @@ resolve the issues involved. Please report success/failure to us at
   1. The installation of AUCTeX will require the MSYS tool set from
      `http://www.mingw.org'. If you have the Cygwin tool set from
      `http://cygwin.com' installed, that should do just fine as well,
-     but it is quite larger and slower. If you need to compile
-     Emacs/XEmacs from source, you'll also need compilers and stuff
-     that are also available for both of those tool sets. Compiling
-     Emacs is outside of the scope of this manual: good luck. AUCTeX
-     itself does not require a C compiler for installation. Without
-     either of those tool sets, however, you would need to generate
-     your various `Makefile' copies from the respective `Makefile.in'
-     files by hand, and that would mean quite a lot of guesswork. There
-     is no sense going into too much details here: the instructions
-     would change severely between versions, and the above tool sets
-     are easy enough to acquire to make manual configuration
-     unnecessary.
+     but it is quite larger and slower.
+
+     If you are installing AUCTeX with one of those sets for an Emacs
+     compiled in a different one, you should try to avoid tool-specific
+     path names like `/cygwin/c'.  Instead, use the `c:' syntax.  It
+     might also help to use forward slashes instead of the backward
+     slashes more typical for MS Windows: while backward slashes are
+     supposed to work if properly escaped in the shell, this is one
+     area easily overlooked by the developers.  The same holds for file
+     or directory names with spaces in them.  Of course, we want to
+     hear about any problems in that area.
+
+     Compiling Emacs is outside of the scope of this manual.  AUCTeX
+     itself does not require a C compiler for installation.
 
   2. Install GNU Emacs from `http://ftp.gnu.org/pub/gnu/windows/emacs/'
      or XEmacs from `http://www.xemacs.org'.
@@ -40,6 +42,18 @@ resolve the issues involved. Please report success/failure to us at
      call `./configure' with appropriate options.
 
      Typical options you'll want to specify will be
+    `--prefix=DRIVE:/PATH/TO/EMACS-DIRECTORY'
+          which makes sure that (1) the AUCTeX manual will be installed
+          in the `info/' directory of your Emacs installation and (2)
+          the automatically generated global style hooks will be
+          installed in the `var/' directory of your Emacs installation.
+          If you are collecting stuff like that in a central directory
+          hierarchy (not untypical with Cygwin), you might want to
+          specify that here instead.  You stand a good chance that this
+          will be the only option you need to supply, as long as your
+          TeX-related executables are in your system path, which they
+          better be for AUCTeX's operation, anyway.
+
     `--with-emacs'
           if you are installing Emacs. You can use
           `--with-emacs=/PATH/TO/EMACS' to specify the name of the
@@ -49,7 +63,9 @@ resolve the issues involved. Please report success/failure to us at
 
     `--with-xemacs'
           If you are using XEmacs, of course use `--with-xemacs' in the
-          same manner.
+          same manner.  It may also be necessary to specify this option
+          if a copy of Emacs is in your path, but you would like to
+          install AUCTeX for XEmacs, too.
 
     `--with-lispdir=/DIR'
           This may be needed for GNU Emacs installation, but hopefully
@@ -67,12 +83,15 @@ resolve the issues involved. Please report success/failure to us at
           file names.  They will be used in the variable
           `TeX-macro-global'.
 
-          `configure' will try to determine the right value for this
+          `configure' will usually figure out the right value for this
           option but will only succeed if it finds the necessary
-          programs of the TeX system in the system path.
+          programs of the TeX system in the system path.  Which should
+          be there for running AUCTeX, anyway.
 
     `--with-auto-dir=/DIR'
           Directory containing automatically generated information.
+          You should not normally need to set this, as `--prefix'
+          should take care of this.
 
      Some additional information about the above options may be found in
      the `Configure' section in the `INSTALL' file.
@@ -91,6 +110,16 @@ resolve the issues involved. Please report success/failure to us at
      following line to your `.emacs' file:
 
           (require 'tex-site)
+
+     The configuration for Windows systems is probably not quite
+     fitting.  Instead of loading `tex-site.el' in that manner, you
+     might want to load `tex-mik.el' (for MikTeX) or `tex-fptex' (for
+     fpTeX) instead.  Those will lead to somewhat more appropriate
+     values for your system.  You can always use
+
+            M-x customize-group <RET> AUCTeX <RET>
+
+     in order to customize more stuff, or use the `Customize' menu.
 
  10. Load a `.tex' file Emacs or XEmacs and see if you get the
      `Command' menu. Try using that to LaTeX the file.
