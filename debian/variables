@@ -1,5 +1,5 @@
 <:# Copyright (C) 1999, 2000, 01, 02, 03, 04 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: variables,v 1.16 2004/06/14 08:04:03 salve Exp $:>//
+<:# $Id: variables,v 1.18 2004/08/26 15:10:02 salve Exp $:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
 <:$DOCS="README CHANGES FAQ HISTORY":>//

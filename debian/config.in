@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # config configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: config.in,v 1.12 2004/05/19 09:27:14 salve Exp $
+# $Id: config.in,v 1.13 2004/08/26 14:38:28 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -13,7 +13,8 @@ db_version 2.0
 
 case "${1}" in
     (configure|reconfigure)
-    if egrep "\brequire[[:space:]]+[^)]*'tex-site\b" <:=${SSEL}:> \
+    if egrep "\brequire[[:space:]]+[^)]*'tex-site\b" \
+	<:=${SSEL}:> 2>/dev/null \
 	| egrep -v ";.*\brequire\b" &>/dev/null; then
 	db_set <:=${PACKAGE}:>/default false || true
 	db_text low <:=${PACKAGE}:>/alreadydefault || true

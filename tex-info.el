@@ -1,7 +1,7 @@
 ;;; tex-info.el --- Support for editing Texinfo source.
 
-;; Copyright (C) 1993, 1994, 1997, 2000, 2001 Per Abrahamsen 
-;; Copyright (C) 2004 Free Software Foundation, Inc.
+;; Copyright (C) 1993, 1994, 1997, 2000, 2001,
+;;               2004 Free Software Foundation, Inc.
 
 ;; Maintainer: auc-tex@sunsite.dk
 ;; Keywords: tex
@@ -32,33 +32,35 @@
 
 ;;; Environments:
 
-(defvar TeXinfo-environment-list
-  '(("cartouche")
-    ("defcv")
-    ("deffn") ("defivar") ("defmac")
-    ("defmethod") ("defop") ("defopt") ("defspec") ("deftp")
-    ("deftypefn") ("deftypefun") ("deftypevar") ("deftypevr")
-    ("defun") ("defvar") ("defvr") ("description") ("display")
-    ("enumerate") ("example") ("ifset") ("ifclear") ("flushleft")
-    ("flushright") ("format") ("ftable") ("group") ("iftex") ("itemize")
-    ("ifhtml") ("ifinfo") ("ifnothtml") ("ifnotinfo") ("ifnottex") ("macro")
-    ("lisp") ("quotation") ("smallexample") ("smalllisp") ("table")
-    ("tex") ("titlepage") ("vtable")) 
-  "Alist of TeXinfo environments.")
+(defvar Texinfo-environment-list
+  '(("cartouche") ("copying") ("defcv") ("deffn") ("defivar")
+    ("defmac") ("defmethod") ("defop") ("defopt") ("defspec")
+    ("deftp") ("deftypefn") ("deftypefun") ("deftypevar") ("deftypevr")
+    ("defun") ("defvar") ("defvr") ("description") ("detailmenu")
+    ("direntry") ("display") ("documentdescription") ("enumerate")
+    ("example") ("flushleft") ("flushright") ("format") ("ftable")
+    ("group") ("ifclear") ("ifdocbook") ("ifhtml") ("ifinfo")
+    ("ifnotdocbook") ("ifnothtml") ("ifnotinfo") ("ifnotplaintext")
+    ("ifnottex") ("ifnotxml") ("ifplaintext") ("ifset") ("iftex")
+    ("ifxml") ("ignore") ("itemize") ("lisp") ("macro") ("menu")
+    ("multitable") ("quotation") ("smalldisplay") ("smallexample")
+    ("smallformat") ("smalllisp") ("table") ("tex") ("titlepage")
+    ("verbatim") ("vtable")) 
+  "Alist of Texinfo environments.")
 
 (defconst texinfo-environment-regexp
   ;; Overwrite version from `texinfo.el'.
   (concat "^@\\("
-	  (mapconcat 'car TeXinfo-environment-list "\\|")
+	  (mapconcat 'car Texinfo-environment-list "\\|")
 	  "\\|end\\)")
-  "Regexp for environment-like TeXinfo list commands.
+  "Regexp for environment-like Texinfo list commands.
 Subexpression 1 is what goes into the corresponding `@end' statement.")
 
-(defun TeXinfo-insert-environment (env)
-  "Insert TeXinfo environment ENV.
+(defun Texinfo-insert-environment (env)
+  "Insert Texinfo environment ENV.
 When called interactively, prompt for an environment."
   (interactive (list (completing-read "Environment: "
-				      TeXinfo-environment-list)))
+				      Texinfo-environment-list)))
   (if (and (TeX-active-mark)
 	   (not (eq (mark) (point))))
       (progn
@@ -75,120 +77,142 @@ When called interactively, prompt for an environment."
 	(save-excursion (newline))
 	(end-of-line 0))
     (insert "@" env "\n\n@end " env "\n")
-    (if (null (cdr-safe (assoc "defcv" TeXinfo-environment-list)))
+    (if (null (cdr-safe (assoc "defcv" Texinfo-environment-list)))
 	(forward-line -2))))
+
+(defun Texinfo-find-env-end ()
+  "Move point to the end of the current environment."
+  (interactive)
+  (let* ((envs (mapcar 'car Texinfo-environment-list))
+	 (regexp (concat "^[ \t]*" (regexp-quote TeX-esc) "\\(end \\)*"
+			 (regexp-opt envs t) "\\b"))
+	 (level 1)
+	 case-fold-search)
+    (save-restriction
+      (save-excursion
+	(save-excursion
+	  (beginning-of-line)
+	  (when (and (looking-at regexp)
+		     (match-string 1))
+	    (setq level 0)))
+	(while (and (> level 0) (re-search-forward regexp nil t))
+	  (if (match-string 1)
+	      (setq level (1- level))
+	    (setq level (1+ level)))))
+      (if (= level 0)
+	  (goto-char (match-end 0))
+	(error "Can't locate end of current environment")))))
+      
+(defun Texinfo-find-env-start ()
+  "Move point to the start of the current environment."
+  (interactive)
+  (let* ((envs (mapcar 'car Texinfo-environment-list))
+	 (regexp (concat "^[ \t]*" (regexp-quote TeX-esc) "\\(end \\)*"
+			 (regexp-opt envs t) "\\b"))
+	 (level 1)
+	 case-fold-search)
+    (save-restriction
+      (save-excursion
+	(save-excursion
+	  (beginning-of-line)
+	  (when (and (looking-at regexp)
+		     (not (match-string 1)))
+	    (setq level 0)))
+	(while (and (> level 0) (re-search-backward regexp nil t))
+	  (if (match-string 1)
+	      (setq level (1+ level))
+	    (setq level (1- level)))))
+      (if (= level 0)
+	  (goto-char (match-beginning 0))
+	(error "Can't locate start of current environment")))))
+
 
 ;;; Keymap:
 
-(defvar TeXinfo-mode-map nil
-  "Keymap for TeXinfo mode.")
+(defvar Texinfo-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map TeX-mode-map)
 
-(if TeXinfo-mode-map
-    ()
-  (setq TeXinfo-mode-map (make-sparse-keymap))
+    ;; From texinfo.el
+    ;; bindings for updating nodes and menus
+    (define-key map "\C-c\C-um"      'texinfo-master-menu)
+    (define-key map "\C-c\C-u\C-m"   'texinfo-make-menu)
+    (define-key map "\C-c\C-u\C-n"   'texinfo-update-node)
+    (define-key map "\C-c\C-u\C-e"   'texinfo-every-node-update)
+    (define-key map "\C-c\C-u\C-a"   'texinfo-all-menus-update)
 
-  ;; From texinfo.el
+    ;; Simulating LaTeX-mode
+    (define-key map "\C-c\C-e" 'Texinfo-insert-environment)
+    (define-key map "\C-c\n"   'texinfo-insert-@item)
+    (or (key-binding "\e\r")
+	(define-key map "\e\r" 'texinfo-insert-@item)) ;*** Alias
+    (define-key map "\C-c\C-s" 'texinfo-insert-@node)
+    (define-key map "\C-c]" 'texinfo-insert-@end)
+    map)
+  "Keymap for Texinfo mode.")
 
-  ;; bindings for updating nodes and menus
-  (define-key TeXinfo-mode-map "\C-c\C-um"      'texinfo-master-menu)
-  (define-key TeXinfo-mode-map "\C-c\C-u\C-m"   'texinfo-make-menu)
-  (define-key TeXinfo-mode-map "\C-c\C-u\C-n"   'texinfo-update-node)
-  (define-key TeXinfo-mode-map "\C-c\C-u\C-e"   'texinfo-every-node-update)
-  (define-key TeXinfo-mode-map "\C-c\C-u\C-a"   'texinfo-all-menus-update)
-
-  ;; From TeX-mode
-
-  ;; Standard
-  (define-key TeXinfo-mode-map "\177"     'backward-delete-char-untabify)
-  (define-key TeXinfo-mode-map "\C-c}"    'up-list)
-  (define-key TeXinfo-mode-map "\C-c#"    'TeX-normal-mode)
-  (define-key TeXinfo-mode-map "\C-c\C-n" 'TeX-normal-mode)
-  (define-key TeXinfo-mode-map "\C-c?"    'describe-mode)
-  
-  ;; From tex.el
-  (define-key TeXinfo-mode-map "\C-c{"    'TeX-insert-braces)
-  (define-key TeXinfo-mode-map "\C-c\C-f" 'TeX-font)
-  (define-key TeXinfo-mode-map "\C-c\C-m" 'TeX-insert-macro)
-  (define-key TeXinfo-mode-map "\e\t"     'TeX-complete-symbol) 
-
-  (define-key TeXinfo-mode-map "\C-c;"    'TeX-comment-or-uncomment-region)
-  (define-key TeXinfo-mode-map "\C-c%"    'TeX-comment-or-uncomment-paragraph)
-  (define-key TeXinfo-mode-map "\C-c'"    'TeX-comment-or-uncomment-paragraph) ;*** Old way
-  (define-key TeXinfo-mode-map "\C-c:"    'TeX-comment-or-uncomment-region) ;*** Old way
-  (define-key TeXinfo-mode-map "\C-c\""   'TeX-uncomment) ;*** Old way
-
-  ;; From tex-buf.el
-  (define-key TeXinfo-mode-map "\C-c\C-c" 'TeX-command-master)
-  (define-key TeXinfo-mode-map "\C-c\C-k" 'TeX-kill-job)
-  (define-key TeXinfo-mode-map "\C-c\C-l" 'TeX-recenter-output-buffer)
-  (define-key TeXinfo-mode-map "\C-c^" 'TeX-home-buffer)
-  (define-key TeXinfo-mode-map "\C-c`"    'TeX-next-error)
-  (define-key TeXinfo-mode-map "\C-c\C-w" 'TeX-toggle-debug-boxes)
-
-  ;; From tex.cpl.el
-
-  ;; Simulating LaTeX-mode
-
-  (define-key TeXinfo-mode-map "\C-c\C-e" 'TeXinfo-insert-environment)
-  (define-key TeXinfo-mode-map "\C-c\n"   'texinfo-insert-@item)
-  (or (key-binding "\e\r")
-      (define-key TeXinfo-mode-map "\e\r" 'texinfo-insert-@item)) ;*** Alias
-  (define-key TeXinfo-mode-map "\C-c\C-s" 'texinfo-insert-@node)
-  (define-key TeXinfo-mode-map "\C-c]" 'texinfo-insert-@end))
-
-(easy-menu-define TeXinfo-command-menu
-  TeXinfo-mode-map
-  "Menu used in TeXinfo mode for external commands."
+(easy-menu-define Texinfo-command-menu
+  Texinfo-mode-map
+  "Menu used in Texinfo mode for external commands."
   (TeX-mode-specific-command-menu 'texinfo-mode))
 
-(easy-menu-define TeXinfo-mode-menu
-    TeXinfo-mode-map
-    "Menu used in TeXinfo mode."
-  (list "Texinfo"
-	["Environment..." TeXinfo-insert-environment t]
-	["Node..." texinfo-insert-@node t]
-	["Macro..." TeX-insert-macro t]
-	["Complete" TeX-complete-symbol t]
-	["Item" texinfo-insert-@item t]
-	(list "Insert Font"
-	      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
-	      ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
-	      ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
-	      ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
-	      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
-	      ["Sample"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
-	      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"])
-	(list "Replace Font"
-	      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
-	      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
-	      ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
-	      ["Small Caps" (TeX-font t ?\C-c) :keys "C-u C-c C-f C-c"]
-	      ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
-	      ["Sample"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
-	      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"])
-	"-"
-	["Save Document" TeX-save-document t]
-	["Next Error" TeX-next-error t]
-	(list "TeX Output"
-	      ["Kill Job" TeX-kill-job t]
-	      ["Debug Bad Boxes" TeX-toggle-debug-boxes
-	        :style toggle :selected TeX-debug-bad-boxes ]
-	      ["Switch to original file" TeX-home-buffer t]
-	      ["Recenter Output Buffer" TeX-recenter-output-buffer t])
-	"--"
-	["Create Master Menu" texinfo-master-menu t]
-	["Create Menu" texinfo-make-menu t]
-	["Update Node" texinfo-update-node t]
-	["Update Every Node" texinfo-every-node-update t]
-	["Update All Menus" texinfo-all-menus-update t]
-	["Comment Region" TeX-comment-region t]
-	["Uncomment Region" TeX-uncomment-region t]
-	["Switch to Master file" TeX-home-buffer t]
-	["Submit bug report" TeX-submit-bug-report t]
-	["Reset Buffer" TeX-normal-mode t]
-	["Reset AUCTeX" (TeX-normal-mode t) :keys "C-u C-c C-n"]))
+(easy-menu-define Texinfo-mode-menu
+  Texinfo-mode-map
+  "Menu used in Texinfo mode."
+  (TeX-menu-with-help
+   `("Texinfo"
+     ["Node ..." texinfo-insert-@node
+      :help "Insert a node"]
+     ["Macro ..." TeX-insert-macro
+      :help "Insert a macro and possibly arguments"]
+     ["Complete Macro" TeX-complete-symbol
+      :help "Complete the current macro"]
+     ["Environment ..." Texinfo-insert-environment
+      :help "Insert an environment"]
+     ["Item" texinfo-insert-@item
+      :help "Insert an @item"]
+     "-"
+     ("Insert Font"
+      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
+      ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
+      ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
+      ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
+      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
+      ["Sample"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
+      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"])
+     ("Replace Font"
+      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
+      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
+      ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
+      ["Small Caps" (TeX-font t ?\C-c) :keys "C-u C-c C-f C-c"]
+      ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
+      ["Sample"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
+      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"])
+     ["Delete Font" (TeX-font t ?\C-d) :keys "C-c C-f C-d"]
+     "-"
+     ["Create Master Menu" texinfo-master-menu
+      :help "Make a master menu for the whole Texinfo file"]
+     ["Create Menu" texinfo-make-menu
+      :help "Make or update the menu for the current section"]
+     ["Update Node" texinfo-update-node
+      :help "Update the current node"]
+     ["Update Every Node" texinfo-every-node-update
+      :help "Update every node in the current file"]
+     ["Update All Menus" texinfo-all-menus-update
+      :help "Update every menu in the current file"]
+     "-"
+     ("Commenting"
+      ["Comment or Uncomment Region"
+       TeX-comment-or-uncomment-region
+       :help "Comment or uncomment the currently selected region"]
+      ["Comment or Uncomment Paragraph"
+       TeX-comment-or-uncomment-paragraph
+       :help "Comment or uncomment the current paragraph"])
+     ,TeX-fold-menu
+     "-"
+     . ,TeX-common-menu-entries)))
 
-(defvar TeXinfo-font-list
+(defvar Texinfo-font-list
   '((?\C-b "@b{" "}")
     (?\C-c "@sc{" "}")
     (?\C-e "@emph{" "}")
@@ -205,25 +229,26 @@ When called interactively, prompt for an environment."
     (?c    "@code{" "}")
     (?C    "@cite{" "}")
     (?\C-d "" "" t))
-  "Font commands used in TeXinfo mode.  See `TeX-font-list'.")
+  "Font commands used in Texinfo mode.  See `TeX-font-list'.")
   
 ;;; Mode:
 
 ;;; Do not ;;;###autoload because of conflict with standard texinfo.el.
-(defun texinfo-mode ()
-  "Major mode for editing files of input for TeXinfo.
+(TeX-defun texinfo-mode ()
+  "Major mode in %s for editing Texinfo files.
 
 Special commands:
-\\{TeXinfo-mode-map}
+\\{Texinfo-mode-map}
 
-Entering TeXinfo mode calls the value of `text-mode-hook'  and then the
-value of `TeXinfo-mode-hook'."
+Entering Texinfo mode calls the value of `text-mode-hook'  and then the
+value of `Texinfo-mode-hook'."
   (interactive)
   (kill-all-local-variables)
+  (setq TeX-mode-p t)
   ;; Mostly stolen from texinfo.el
-  (setq mode-name "Texinfo")
+  (setq TeX-base-mode-name "Texinfo")
   (setq major-mode 'texinfo-mode)
-  (use-local-map TeXinfo-mode-map)
+  (use-local-map Texinfo-mode-map)
   (set-syntax-table texinfo-mode-syntax-table)
   (make-local-variable 'page-delimiter)
   (setq page-delimiter 
@@ -275,8 +300,8 @@ value of `TeXinfo-mode-hook'."
     (setq outline-level 'texinfo-outline-level))
   
   ;; Mostly AUCTeX stuff
-  (easy-menu-add TeXinfo-command-menu TeXinfo-mode-map)
-  (easy-menu-add TeXinfo-mode-menu TeXinfo-mode-map)
+  (easy-menu-add Texinfo-mode-menu Texinfo-mode-map)
+  (easy-menu-add Texinfo-command-menu Texinfo-mode-map)
   (make-local-variable 'TeX-command-current)
   (setq TeX-command-current 'TeX-command-master)
 
@@ -299,10 +324,14 @@ value of `TeXinfo-mode-hook'."
 	      (list "" TeX-complete-word)))
 
   (make-local-variable 'TeX-font-list)
-  (setq TeX-font-list TeXinfo-font-list)
+  (setq TeX-font-list Texinfo-font-list)
   (make-local-variable 'TeX-font-replace-function)
   (setq TeX-font-replace-function 'TeX-font-replace-macro)
   
+  (add-hook 'find-file-hooks (lambda ()
+			       (unless (file-exists-p (buffer-file-name))
+				 (TeX-master-file nil nil t))) nil t)
+
   (TeX-add-symbols
    '("appendix" "Title")
    '("appendixsec" "Title")
@@ -334,10 +363,10 @@ value of `TeXinfo-mode-hook'."
    '("emph" "Text")
    '("equiv")
    '("error")
-   '("evenfooting" TeXinfo-lrc-argument-hook)
-   '("evenheading" TeXinfo-lrc-argument-hook)
-   '("everyfooting" TeXinfo-lrc-argument-hook)
-   '("everyheading" TeXinfo-lrc-argument-hook)
+   '("evenfooting" Texinfo-lrc-argument-hook)
+   '("evenheading" Texinfo-lrc-argument-hook)
+   '("everyfooting" Texinfo-lrc-argument-hook)
+   '("everyheading" Texinfo-lrc-argument-hook)
    '("exdent" "Line-of-text")
    '("expansion")
    '("file" "Filename")
@@ -363,8 +392,8 @@ value of `TeXinfo-mode-hook'."
    '("need" "N")
    '("node" "Name" "Next" "Previous" "Up")
    '("noindent")
-   '("oddfooting" TeXinfo-lrc-argument-hook)
-   '("oddheading" TeXinfo-lrc-argument-hook)
+   '("oddfooting" Texinfo-lrc-argument-hook)
+   '("oddheading" Texinfo-lrc-argument-hook)
    '("page")
    '("paragraphindent" "Indent")
    '("pindex" "Entry")
@@ -417,7 +446,8 @@ value of `TeXinfo-mode-hook'."
    '("vskip" "Amount")
    '("w" "Text"))
   
-  (run-hooks 'text-mode-hook 'TeXinfo-mode-hook))
+  (run-hooks 'text-mode-hook 'Texinfo-mode-hook)
+  (TeX-set-mode-name))
   
 (provide 'tex-info)
   

@@ -8,7 +8,8 @@ The following sections describe future development of @AUCTeX{}.
 Besides mid-term goals, bug reports and requests we cannot fix or honor
 right away are being gathered here.  If you have some time for Emacs
 Lisp hacking, you are encouraged to try to provide a solution to one of
-the following problems.  It might be a good idea to discuss proposed
+the following problems.  If you don't know Lisp, you may help us to
+improve the documentation.  It might be a good idea to discuss proposed
 changes on the mailing list of @AUCTeX{} first.
 
 @ifclear rawfile
@@ -23,10 +24,10 @@ changes on the mailing list of @AUCTeX{} first.
 @section Mid-term Goals
 
 @itemize @bullet
-@item Integration of preview-latex into @AUCTeX{}
+@item Integration of @previewlatex{} into @AUCTeX{}
 
 @AUCTeX{} users will thereby get the functionality provided by
-preview-latex without the hassle of an additional installation.
+@previewlatex{} without the hassle of an additional installation.
 
 Looking at the backend, the integration involves folding of error
 parsing and task management of both packages which will ease
@@ -36,18 +37,64 @@ development efforts and avoid redundant work.
 
 The current state of command handling with @code{TeX-command-list} is
 not very flexible because there is no distinction between executables
-and command line options to be passed to them.  This is problematic if
-macro processors should be called with dynamically determined options.
-Additionally, the current scheme does not allow changes in command
-handling without possibly breaking customizations made by users.  A new
-scheme will facilitate the (automatic) customization of macro processors
-and viewers at install time as well.
+and command line options to be passed to them.
+
+Customization of @code{TeX-command-list} by the user will interfere with
+updates of @AUCTeX{}.
+
+@item Error help catalogs
+
+Currently, the help for errors is more or less hardwired into
+@file{tex.el}.  For supporting error help in other languages, it would
+be sensible to instead arrange error messages in language-specific
+files, make a common info file from all such catalogs in a given
+language and look the error texts up in an appropriate index.  The user
+would then specify a preference list of languages, and the errors would
+be looked up in the catalogs in sequence until the were identified.
+
+@item Combining @samp{docTeX} with RefTeX
+
+Macro cross references should also be usable for document navigation
+using RefTeX.
+
+
 @end itemize
 
 @node Wishlist, Bugs, Mid-term Goals, ToDo
 @section Wishlist
 
 @itemize @bullet
+@item Quick error overviews
+
+An error overview window (extract from the log file with just the error
+lines, clickable like a ``grep'' buffer) and/or fringe indicators for
+errors in the main text would be nice.
+
+@item A math entry grid
+
+A separate frame with a table of math character graphics to click on in
+order to insert the respective sequence into the buffer (cf. the
+``grid'' of x-symbol).
+
+@item Crossreferencing support
+
+It would be nice if you could index process your favorite collection of
+@file{.dtx} files (such as the LaTeX source), just call a command on
+arbitrary control sequence, and get either the DVI viewer opened right
+at the definition of that macro (using Source Specials), or the source
+code of the @file{.dtx} file.
+
+@item Better plain TeX support
+For starters, @code{LaTeX-math-mode} is not very @LaTeX{}-specific in
+the first place, and similar holds for indentation and formatting.
+
+@item Poor man's Source Specials
+In particular in PDF mode (and where Source Specials cause problems),
+alternatives would be desirable.  One could implement inverse search by
+something like Heiko Oberdiek's @file{vpe.sty}, and forward search by
+using the @file{.aux} file info to correlate labels in the text
+(possibly in cooperation with Ref@TeX{}) with previewer pages.
+
 @item
 Page count when compiling should (optionally) go to modeline of the
 window where the compilation command was invoked, instead of the output
@@ -60,6 +107,11 @@ point from the current location.  Suggested by
 "Jeffrey C. Ely" <ely@@nwu.edu>.
 
 @item
+A database of all commands defined in all stylefiles.  When a command or
+environment gets entered that is provided in one of the styles, insert
+the appropriate @code{\usepackage} in the preamble.
+
+@item
 A way to add and overwrite math mode entries in style files, and to
 decide where they should be.  Suggested by Remo Badii <Remo.Badii@@psi.ch>.
 
@@ -67,6 +119,7 @@ decide where they should be.  Suggested by Remo Badii <Remo.Badii@@psi.ch>.
 Create template for (first) line of tabular environment.
 
 @item
+@c Already fixed?
 I think prompting for the master is the intended behaviour.  It
 corresponds to a `shared' value for TeX-master.
 
@@ -84,7 +137,7 @@ ought to make @kbd{,} special for these kind of completions.
 Suggest @samp{makindex} when appropriate.
 
 @item
-@AUCTeX{} should be able to parse La@TeX{}2e @file{.cls} files.  Here
+@AUCTeX{} should be able to parse @LaTeX{}2e @file{.cls} files.  Here
 are the regexps by @samp{<thiemann@@informatik.uni-tuebingen.de>} Peter
 Thiemann.
 
@@ -202,13 +255,13 @@ At least, support headers, trailers, as well as TeX-outline-extra.
 We might want these, just for fun (and outlines)
 
 @item
-Plain @TeX{} and La@TeX{} specific header and trailer expressions.
+Plain @TeX{} and @LaTeX{} specific header and trailer expressions.
 
 We should have a way to globally specify the default value of the header
 and trailer regexps.
 
 @item
-Add support for original @code{TeX-mode} keybindings.
+Get closer to original @code{TeX-mode} keybindings.
 
 A third initialization file (@file{tex-mode.el}) containing an emulator
 of the standard @code{TeX-mode} would help convince some people to
@@ -221,26 +274,24 @@ with regard to line numbers and changed files.  This is what
 @code{next-error} does. (Or did, until Emacs 19).
 
 @item
-When @code{LaTeX-environment} is given an argument, change the current
-environment.  Be smart about @samp{\item[]} versus @samp{\item } and
-labels like @samp{fig:} versus @samp{tab:}.
-
-@item
 Finish the Texinfo mode.  For one thing, many Texinfo mode commands do
 not accept braces around their arguments.
 
 @item
-Support for AMSLaTeX style files.
-
-@item
-Hook up the letter environment with `bbdb.el'.
+Hook up the letter environment with @file{bbdb.el}.
 
 @end itemize
 
 @node Bugs, , Wishlist, ToDo
 @section Bugs
 
+@c FIXME: Are those bugs still present?  Especially the filling bugs?
+
 @itemize @bullet
+@item The parsed files and style hooks for @file{example.dtx},
+@file{example.sty}, @file{example.drv} and @file{example.bib} all
+clash.  Bad.
+
 @item
 Filling messes up comments, but only at the end of the file.  Reported
 by Juergen Reiss <psy3022@@rzbox.uni-wuerzburg.de>.
@@ -250,7 +301,7 @@ by Juergen Reiss <psy3022@@rzbox.uni-wuerzburg.de>.
 Reported by  "Robert B. Love"  <rlove@@raptor.rmNUG.ORG>.
 
 @item
-@kbd{C-c '} should always stay in the current window, also when it find
+@kbd{C-c `} should always stay in the current window, also when it find
 a new file.
 
 @item
@@ -266,7 +317,7 @@ Maybe the regexp for matching a TeX symbol during parsing should be
 @AUCTeX{} should not parse verbatim environments.
 
 @item
-La@TeX{} formatting should skip @code{verbatim} environments.
+@LaTeX{} formatting should skip @code{verbatim} environments.
 
 @item
 The argument to @samp{\verb} may be broken when filling if it contains a
@@ -299,4 +350,7 @@ programming languages in @samp{lstlisting} environments as well.
 Unfortunately such conditional font locking is not provided yet by
 Emacs.  As a workaround you can insert @samp{%$} after the end of the
 environment in concern.
+@c Might be fixed as described in
+@c <news:v9smle4ge8.fsf@marauder.physik.uni-ulm.de>
+@c http://thread.gmane.org/gmane.emacs.auc-tex/1018
 @end itemize

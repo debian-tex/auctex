@@ -8,7 +8,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian <:=${PACKAGE}:> package.
-# $Id: rules.in,v 1.20 2004/05/25 09:29:42 salve Exp $
+# $Id: rules.in,v 1.21 2004/08/26 14:39:19 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -53,7 +53,7 @@ build: $(DFILES)
 	test -x ./autogen.sh && ./autogen.sh || true
 	./configure --infodir=<:=${info}:>
 	cd doc && $(MAKE) auctex
-	cd doc && $(MAKE) auc-tex_toc.html
+	cd doc && $(MAKE) auctex_toc.html
 	cd doc && $(MAKE) <:=${DOCS}:>
 	touch build
 
@@ -99,7 +99,7 @@ binary-indep: checkroot build
 	ln -sf ChangeLog.gz $(tmp)/<:=${doc}:>/changelog.gz
 	$(INSTDATA) debian/copyright $(tmp)/<:=${doc}:>
 	$(INSTDATA) doc/*.html $(tmp)/<:=${html}:>
-	ln -snf auc-tex_toc.html $(tmp)/<:=${html}:>/index.html
+	ln -snf auctex_toc.html $(tmp)/<:=${html}:>/index.html
 	$(INSTDATA) debian/<:=${UPDATE_ELISP}:>.8 $(tmp)/<:=${man}:>/man8/
 	$(INSTDATA) debian/<:=${UPDATE_INSTALL}:>.8 $(tmp)/<:=${man}:>/man8/
 	gzip -9frv $(tmp)/<:=${man}:>
