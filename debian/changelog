@@ -1,6 +1,12 @@
+auctex (11.14+CVS.2004.05.14.1-1) UNRELEASED; urgency=low
+
+  * New CVS upstream source.  (Closes: #244336, #245388, #246908, #244342)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 14 May 2004 21:30:25 +0200
+
 auctex (11.14+CVS.2004.05.13.1-1) UNRELEASED; urgency=low
   
-  * New CVS upstream source.  (Closes: #244336, #245388, #246908, #244342)
+  * New CVS upstream source.
   * ../latex.el: Upstream updated, reverted.
   * ../doc/Makefile: Reverted to upstream.
   * ../doc/auc-tex.texi: Reverted to upstream.
