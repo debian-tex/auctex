@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=$PACKAGE:> package.
-# $Id: install.in,v 1.12 2001/01/14 16:33:08 salve Exp $
+# $Id: install.in,v 1.13 2001/07/28 14:14:47 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -16,10 +16,10 @@ EMULEFLAGS="--no-site-file --no-init-file --batch  --load=lpath-jp.el --funcall=
 # This shouldn't compile without X, and we have font-latex.el anyway: <:=$XSRC:>.
 
 case "$FLAVOR" in
-    emacs)
+    (emacs)
 	:
     ;;
-    emacs20|emacs21|mule2)
+    (emacs20|emacs21|mule2)
 	echo -n "install/<:=$PACKAGE:>: Byte-compiling for $FLAVOR... "
 	install -m 755 -d <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
 	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
@@ -55,7 +55,7 @@ case "$FLAVOR" in
 	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.el
 	echo "done."
     ;;
-    *)
+    (*)
 	echo "install/<:=$PACKAGE:>: Ignoring emacsen flavor $FLAVOR."
     ;;
 esac

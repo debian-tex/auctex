@@ -2,14 +2,14 @@
 #!/bin/bash -e
 #
 # postrm configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postrm.in,v 1.4 1999/10/31 22:01:57 salve Exp $
+# $Id: postrm.in,v 1.5 2001/07/28 14:14:47 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 case "$1" in
-    abort-install|abort-upgrade|failed-upgrade|remove|upgrade)
+    (abort-install|abort-upgrade|failed-upgrade|remove|upgrade)
     <:# abort-install ${2:oldver}
       # (if $2 conffiles were there, or, if there aren't any)
       # abort-install
@@ -24,7 +24,7 @@ case "$1" in
       # (old prerm upgrade and new preinst upgrade have been called, clean up):>//
 	:
     ;;
-    disappear|purge)
+    (disappear|purge)
     <:# disappear ${2:overwriter}
       # (dregistered files and conffiles have been overwritten, clean up):>//
     <:# purge
@@ -34,7 +34,7 @@ case "$1" in
 	    then source <:=$CONFMODULE:>; db_version 2.0; db_purge
 	fi
     ;;
-    *)
+    (*)
 	echo "${0##*/}: Called with unknown argument \`$1'." >&2
     ;;
 esac

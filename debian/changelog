@@ -1,6 +1,15 @@
+auctex (10.0g-4) unstable; urgency=low
+
+  * control(Standards-Version): Updated to 3.5.5.
+  * remove: Changed `|| true' after `rmdir' to `test -d && rmdir'.
+  * templates(alreadydefault): Type changed from `text' to `note'.
+    (Closes: #106329)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat, 28 Jul 2001 14:57:24 +0200
+
 auctex (10.0g-3) unstable; urgency=low
 
-  * remove: Added || true after rmdir; thanks to Timshel Knoll.
+  * remove: Added `|| true' after `rmdir'; thanks to Timshel Knoll.
   (Closes: #101067)
 
  -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat, 16 Jun 2001 13:47:34 +0200

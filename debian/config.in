@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # config configuration file for Debian <:=$PACKAGE:> package.
-# $Id: config.in,v 1.8 2001/01/18 12:42:11 salve Exp $
+# $Id: config.in,v 1.9 2001/07/28 14:14:47 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -12,7 +12,7 @@ source <:=$CONFMODULE:>
 db_version 2.0
 
 case "$1" in
-    configure|reconfigure)
+    (configure|reconfigure)
 	if egrep "\brequire[[:space:]]+[^)]*'tex-site\b" <:=$SSEL:> \
 	| egrep -v ";.*\brequire\b" &>/dev/null; then
 	    db_set <:=$PACKAGE:>/default false || true
@@ -40,7 +40,7 @@ case "$1" in
 	    db_go || true
 	fi
     ;;
-    *)
+    (*)
 	echo "${0##*/}: Called with unknown argument \`$1'." >&2
     ;;
 esac

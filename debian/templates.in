@@ -38,7 +38,7 @@ Description-de: Soll AUC-TeX systemweit automatisch geladen werden?
  "(require 'tex-site)" in ihr "~/.emacs" einfügen.
 
 Template: <:=$PACKAGE:>/alreadydefault
-Type: text
+Type: note
 Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
  By inspection of the file "<:=$SSEL:>" AUC-TeX seems to be
  already auto-loaded by default at your site.

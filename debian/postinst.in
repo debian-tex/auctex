@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postinst.in,v 1.11 2001/01/18 12:42:11 salve Exp $
+# $Id: postinst.in,v 1.12 2001/07/28 14:14:47 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -53,16 +53,16 @@ do_auto () {
     LOGFILE=$RET
     db_get <:=$PACKAGE:>/doauto || true
     case "$RET" in
-	Foreground)
+	(Foreground)
 	    <:# Ask another time the user, if she really wants to shoot:>//
 	    <:# herself in the foot.  Just to be sure.:>//
 	    db_get <:=$PACKAGE:>/doautofg || true
 	    case "$RET" in
-		Console)
+		(Console)
 		    rm -f ${LOGFILE}
 	    	    <:="$sbin/$UPDATE":>
 		;;
-		File)
+		(File)
 		    echo -n "<:=$UPDATE:>: "
 		    echo "Further output will appear in: ${LOGFILE}"
 		    echo -n "<:=$PACKAGE:>: "
@@ -70,26 +70,26 @@ do_auto () {
 	    	    <:="$sbin/$UPDATE":> &> ${LOGFILE}
 		    echo "done."
 		;;
-		*)
+		(*)
 		    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2
 		;;
 	    esac
 	;;
-	Background)
+	(Background)
 	    # Closing fd 3 is debconf important.
-	    <:# debconf's frontend wait for its standard input to be closed:>//
+	    <:# debconf\'s frontend wait for its standard input to be closed:>//
 	    <:# before dying, and that means fd 3:>//
-	    <:# better don't close fd 0: emacs doesn't take it very well:>//
-	    <:# WARNING: DON'T CLOSE FD'S TO BE WRITTEN TO!:>//
-	    <:# WARNING: DON'T CLOSE FD'S TO BE READ TO!:>//
+	    <:# better don\'t close fd 0: emacs doesn\'t take it very well:>//
+	    <:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO!:>//
+	    <:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO!:>//
 	    <:="$sbin/$UPDATE":> &> ${LOGFILE} 3>&- &
 	    echo -n "<:=$UPDATE:>[$!]: "
 	    echo "Further output will appear in: ${LOGFILE}"
 	;;
-	None)
+	(None)
 	    rm -f ${LOGFILE}
 	;;
-	*)
+	(*)
 	    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2
 	;;
     esac
@@ -104,7 +104,7 @@ do_link () {
 }
 
 case "$1" in
-    abort-remove|abort-upgrade|configure)
+    (abort-remove|abort-upgrade|configure)
     <:# abort-remove in-favour ${3:newpkg} ${4:newver}
       # (undo prerm remove in-favour $3 $4):>//
     <:# abort-upgrade ${2:newver}
@@ -128,13 +128,13 @@ case "$1" in
 	<:# put or remove emacs startup file:>//
 	conf_autoload
     ;;
-    abort-deconfigure)
+    (abort-deconfigure)
     <:# abort-deconfigure in-favour ${3:newpkg} ${4:newver} removing ${6:oldpkg} ${7:oldver}
       # (undo prerm deconfigure in-favour $3 $4 removing $6 $7):>//
 	<:# put or remove emacs startup file:>//
 	conf_autoload
     ;;
-    *)
+    (*)
 	echo "${0##*/}: Called with unknown argument \`$1'." >&2
     ;;
 esac

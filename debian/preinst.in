@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # preinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: preinst.in,v 1.3 1999/10/31 22:01:57 salve Exp $
+# $Id: preinst.in,v 1.4 2001/07/28 14:14:47 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -12,7 +12,7 @@ source <:=$CONFMODULE:>
 db_version 2.0
 
 case "$1" in
-    abort-upgrade|install|upgrade)
+    (abort-upgrade|install|upgrade)
     <:# abort-upgrade ${2:newver}
       # (undo postrm upgrade $2 effects):>//
     <:# install ${2:oldver}
@@ -23,7 +23,7 @@ case "$1" in
       # (old-prerm upgrade has been called):>//
 	:
     ;;
-    *)
+    (*)
 	echo "${0##*/}: Called with unknown argument \`$1'." >&2
     ;;
 esac
