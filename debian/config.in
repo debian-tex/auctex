@@ -1,0 +1,33 @@
+#include "variables"
+#!/bin/bash -e
+#
+# config configuration file for Debian auctex package.
+# $Id: config.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+source <:=$CONFMODULE:>
+
+# It seems dpkg doesn't pass $1 to config, so this case is willingly fake.
+# Maybe this is a documentation bug for debconf?
+case "$1" in
+    configure|reconfigure|*)
+	LOGFILE=$(mktemp <:=$TMPMASK:>)
+	db_subst <:=$PACKAGE:>/doauto LOGFILE $LOGFILE
+	db_register <:=$PACKAGE:>/doauto <:=$PACKAGE:>/logfile
+	db_set <:=$PACKAGE:>/logfile $LOGFILE
+	db_input low <:=$PACKAGE:>/doauto; db_go
+    ;;
+    unknown_and_impossible_armageddon)
+	echo "${0##*/}: Called with unknown argument \`$1'." >&2
+    ;;
+esac
+
+exit 0
+<:
+# Local Variables:
+# mode: shell-script
+# End:
+:>//

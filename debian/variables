@@ -1,0 +1,62 @@
+<:$PACKAGE="auctex":>//
+<:# Documentation:>//
+<:$DOCS="CHANGES README PROBLEMS":>//
+<:# Documentation sources:>//
+<:$DOCSRC="doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,"
+	. "math-ref.tex,tex-ref.tex}":>//
+<:# AUC TeX sources:>//
+<:$SOURCES="auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el":>//
+<:# Contributed sources:>//
+<:$SOURCES="$SOURCES bib-cite.el font-latex.el":>//
+<:# Mule requiring sources:>//
+<:$MULESRC="tex-jp.el":>//
+<:# X requiring sources:>//
+<:$XSRC="hilit-LaTeX.el":>//
+<:# Canned styles:>//
+<:$STYLES="style/slides.el    style/foils.el    style/amstex.el "
+	. "style/article.el   style/book.el     style/letter.el "
+	. "style/report.el    style/amsart.el   style/amsbook.el "
+	. "style/epsf.el      style/psfig.el    style/latexinfo.el "
+	. "style/dutch.el     style/german.el   style/dk.el "
+	. "style/j-article.el style/j-book.el   style/j-report.el "
+	. "style/jarticle.el  style/jbook.el    style/jreport.el "
+	. "style/dinbrief.el  style/virtex.el   style/plfonts.el "
+	. "style/plhb.el      style/harvard.el	style/swedish.el "
+	. "style/danish.el    style/slovak.el   style/czech.el "
+	. "style/amsmath.el   style/amstext.el  style/amsbsy.el "
+	. "style/amsopn.el    style/amsthm.el	style/natbib.el":>//
+<:# Misc package variables:>//
+<:$UPDATE="update-auctex-elisp":>//
+<:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
+<:$ELCLOG="CompilationLog":>//
+<:$MENUSEC="Apps/Editors":>//
+<:$INFOSEC="Document Preparation":>//
+<:# Directories:>//
+<:$debian="/DEBIAN/":>//
+<:$cron="/etc/cron.weekly/":>//
+<:$usr="/usr/":>//
+<:$ecode="/usr/lib/emacsen-common/packages/":>//
+<:$sbin="/usr/sbin/":>//
+<:$share="/usr/share/":>//
+<:$doc="/usr/share/doc/$PACKAGE/":>//
+<:$docsrc="$doc/doc/":>//
+<:$html="$doc/HTML":>//
+<:$docbase="/usr/share/doc-base/":>//
+<:$slisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
+<:$style="$slisp/style/":>//
+<:$info="/usr/share/info/":>//
+<:$man8="/usr/share/man/man8/":>//
+<:$varauc="/var/lib/$PACKAGE/":>//
+<:# Programs and Data:>//
+<:$GPL="/usr/share/common-licenses/GPL":>//
+<:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>:>//
+<:$SSEL="/etc/emacs/site-start.el":>//
+<:$CONFMODULE="/usr/share/debconf/confmodule.sh":>//
+<:$EPINSTALL="/usr/lib/emacsen-common/emacs-package-install":>//
+<:$EPREMOVE="/usr/lib/emacsen-common/emacs-package-remove":>//
+<:$DBINSTALL="/usr/sbin/install-docs":>//
+<:
+# Local variables:
+# mode: shell-script
+# end:
+:>//

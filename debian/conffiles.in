@@ -1,0 +1,2 @@
+#include "variables"
+<:=if($_="$cron/$PACKAGE")=~tr|/|/|s:>

@@ -1,3 +1,4 @@
+#include "variables"
 .\" Well, you know... this is an -*- nroff -*- source file.
 .\"
 .\" Man page for update-auctex-elisp.
@@ -19,19 +20,20 @@
  \" USA. 
 .\"
 .\" On Debian GNU/Linux System you can find a copy of the GNU General
- \" Public License in /usr/share/common-licenses/GPL.
+ \" Public License in "<:=$GPL:>".
 .\"
 .TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
 .SH NAME
 update\-auctex\-elisp \- update AUC TeX automatically generated TeX
-information.
+macros and LaTeX styles informations.
 .SH SYNOPSIS
 .B update\-auctex\-elisp
 .SH DESCRIPTION
 The
 .B update\-auctex\-elisp
-scripts updates the automatically generated TeX information used by AUC TeX and stored in
-.B /var/lib/auctex/.
+scripts updates the automatically generated TeX and LaTeX informations
+used by AUC TeX and stored in
+.B <:=$varauc:>
 .PP
 It should be called after each major (La)TeX style files installation or upgrade.
 .PP
@@ -39,11 +41,11 @@ On Debian GNU/Linux system
 .B update\-auctex\-elisp
 is called weekly by a
 .BR cron (8)
-driven mechanism, to ensure having up-to-date information.
+driven mechanism, to ensure up-to-date informations.
 .SH BUGS
 None known.
 .SH FILES
-.B /var/lib/auctex/
+.B <:=$varauc:>
 the directory containing the byte-compiled files.
 .SH SEE ALSO
 .BR emacs (1),

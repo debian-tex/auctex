@@ -1,7 +1,9 @@
 #! /usr/bin/make -f
 #
+# BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
+#
 # rules file for Debian auctex package.
-# $Id: rules,v 1.29 1999/10/07 15:55:43 salve Exp $
+# $Id: rules,v 1.30 1999/10/09 16:39:25 salve Exp $
 #
 # Copyright © Davide G. M. Salvetti <salve@debian.org>, 1997, 1998, 1999.
 #
@@ -20,47 +22,9 @@
 # 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 #
 # On Debian GNU/Linux System you can find a copy of the GNU General Public
-# License in /usr/share/common-licenses/GPL.
-
-package	:= auctex
-#-=-
-DOCS	:= CHANGES README PROBLEMS \
-	doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,math-ref.tex,tex-ref.tex}
-AUCSRC	:= auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el
-CONTRIB	:= bib-cite.el font-latex.el tex-jp.el hilit-LaTeX.el
-#	   tex-jp.el		# Doesn't compile without MULE
-#	   hilit-LaTeX.el	# Doesn't compile without X
-STYLES	:= style/slides.el    style/foils.el    style/amstex.el \
-	   style/article.el   style/book.el     style/letter.el \
-	   style/report.el    style/amsart.el   style/amsbook.el \
-	   style/epsf.el      style/psfig.el    style/latexinfo.el \
-	   style/dutch.el     style/german.el   style/dk.el \
-	   style/j-article.el style/j-book.el   style/j-report.el \
-	   style/jarticle.el  style/jbook.el    style/jreport.el \
-	   style/dinbrief.el  style/virtex.el   style/plfonts.el \
-	   style/plhb.el      style/harvard.el	style/swedish.el \
-	   style/danish.el    style/slovak.el   style/czech.el \
-	   style/amsmath.el   style/amstext.el  style/amsbsy.el \
-	   style/amsopn.el    style/amsthm.el	style/natbib.el
-#-=-
+# License in "/usr/share/common-licenses/GPL".
 
 tmp	:= $(shell pwd)/debian/tmp/
-usr	:= $(tmp)/usr/
-share	:= $(usr)/share/
-info	:= $(share)/info/
-slisp	:= $(share)/emacs/site-lisp/
-lisp	:= $(slisp)/$(package)/
-style	:= $(lisp)/style
-
-DEBIAN 	:= $(tmp)/DEBIAN/
-doc	:= $(share)/doc/$(package)/
-html	:= $(doc)/$(package).html/
-man8	:= $(share)/man/man8/
-cron	:= $(tmp)/etc/cron.weekly/
-docbase	:= $(usr)/share/doc-base/
-emacsen	:= $(usr)/lib/emacsen-common/packages/
-sbin	:= $(usr)/sbin/
-varauc	:= $(tmp)/var/lib/auctex/
 
 SHELL		:= /bin/bash
 INSTDIR		:= install -m 755 -d
@@ -68,19 +32,32 @@ INSTPROG	:= install -m 755 -s
 INSTDATA	:= install -m 644
 INSTSCRIPT	:= install -m 755
 
-build:
+DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
+		debian/cron debian/docbase debian/install debian/postinst \
+		debian/postrm debian/prerm debian/remove debian/templates \
+		debian/update-auctex-elisp debian/update-auctex-elisp.8
+# WARNING: The man page should be manually fixed in case of $UPDATE variations.
+# WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
+# (it's CVS registered), lest it will be deleted by clean.
+# Beside, it's automatically remade by make
+
+# Eperl is simply great: thanks, Ralf!
+% :: %.in
+	eperl -P -o $@ $<
+
+build: $(DFILES) debian/variables
 	$(checkdir)
-	-cat debian/japanese-patch | patch --forward --reject-file=trashcan
+	-cat japanese-patch | patch --forward --reject-file=trashcan
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
 	touch build
 
 clean:
 	$(checkdir)
-	-rm -rf build core $(tmp) debian/files* debian/substvars
+	-rm -rf build core trashcan $(tmp) debian/{files*,substvars}
+	-rm -f $(DFILES)
 	-rm -f $$(find . -name \*.elc)
-	-cat debian/japanese-patch | patch --forward --reverse --reject-file=trashcan
-	-rm -f trashcan
+	-cat japanese-patch | patch --forward --reverse --reject-file=trashcan
 	-$(MAKE) clean
 
 binary: binary-indep binary-arch
@@ -93,48 +70,55 @@ binary-indep: checkroot build
 	-rm -rf $(tmp)
 
 # install package
-	$(INSTDIR) $(info) $(lisp) $(style)
-	$(INSTDATA) $(AUCSRC) $(lisp)
-	$(INSTDATA) $(STYLES) $(style)
-	$(INSTDATA) $(CONTRIB) $(lisp)
-	cd doc && $(MAKE) install infodir=$(info)
+	$(INSTDIR) $(tmp)//usr/share/info/ $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//usr/share/emacs/site-lisp/auctex//style/
+	$(INSTDATA) auc-old.el tex.el tex-buf.el latex.el tex-info.el texmathp.el multi-prompt.el bib-cite.el font-latex.el $(tmp)//usr/share/emacs/site-lisp/auctex/
+	$(INSTDATA) tex-jp.el $(tmp)//usr/share/emacs/site-lisp/auctex/
+	$(INSTDATA) hilit-LaTeX.el $(tmp)//usr/share/emacs/site-lisp/auctex/
+	$(INSTDATA) style/slides.el    style/foils.el    style/amstex.el style/article.el   style/book.el     style/letter.el style/report.el    style/amsart.el   style/amsbook.el style/epsf.el      style/psfig.el    style/latexinfo.el style/dutch.el     style/german.el   style/dk.el style/j-article.el style/j-book.el   style/j-report.el style/jarticle.el  style/jbook.el    style/jreport.el style/dinbrief.el  style/virtex.el   style/plfonts.el style/plhb.el      style/harvard.el	style/swedish.el style/danish.el    style/slovak.el   style/czech.el style/amsmath.el   style/amstext.el  style/amsbsy.el style/amsopn.el    style/amsthm.el	style/natbib.el $(tmp)//usr/share/emacs/site-lisp/auctex//style/
+	cd doc && $(MAKE) install infodir=$(tmp)//usr/share/info/
 #       Consistency rule.
-	cd $(info) && for i in auctex*; do mv -f -- $$i auctex.info$${i#auctex}; done
-	gzip -9frv $(info)
+	cd $(tmp)//usr/share/info/ && for i in auctex*; \
+		do mv -f -- $$i auctex.info$${i#auctex}; \
+	done
+	gzip -9frv $(tmp)//usr/share/info/
 
 # install Debian doc
-	$(INSTDIR) $(doc) $(html) $(man8)
-	$(INSTDATA) $(DOCS) $(doc)
-	$(INSTDATA) debian/README $(doc)/README.Debian
-	$(INSTDATA) ChangeLog $(doc)/changelog
-	$(INSTDATA) debian/changelog $(doc)/changelog.Debian
-	$(INSTDATA) debian/japanese-patch{,-copyright} $(doc)
-	gzip -9frv $(doc)
-	$(INSTDATA) debian/copyright $(doc)
-	$(INSTDATA) doc/*.html $(html)
-	ln -snf auc-tex_toc.html $(html)/index.html
-	$(INSTDATA) debian/update-auctex-elisp.8 $(man8)
-	gzip -9frv $(man8)
+	$(INSTDIR) $(tmp)//usr/share/doc/auctex/ $(tmp)//usr/share/doc/auctex//doc/ $(tmp)//usr/share/doc/auctex//HTML $(tmp)//usr/share/man/man8/
+	$(INSTDATA) CHANGES README PROBLEMS $(tmp)//usr/share/doc/auctex/
+	$(INSTDATA) doc/{auc-tex.texi,changes.texi,history.texi,install.texi,intro.texi,math-ref.tex,tex-ref.tex} $(tmp)//usr/share/doc/auctex//doc/
+	$(INSTDATA) debian/README $(tmp)//usr/share/doc/auctex//README.Debian
+	$(INSTDATA) ChangeLog $(tmp)//usr/share/doc/auctex/
+	$(INSTDATA) debian/changelog $(tmp)//usr/share/doc/auctex//changelog.Debian
+	$(INSTDATA) debian/japanese-patch{,-copyright} $(tmp)//usr/share/doc/auctex/
+	gzip -9frv $(tmp)//usr/share/doc/auctex/
+	ln -sf ChangeLog.gz $(tmp)//usr/share/doc/auctex//changelog.gz
+	$(INSTDATA) debian/copyright $(tmp)//usr/share/doc/auctex/
+	$(INSTDATA) doc/*.html $(tmp)//usr/share/doc/auctex//HTML
+	ln -snf auc-tex_toc.html $(tmp)//usr/share/doc/auctex//HTML/index.html
+	$(INSTDATA) debian/update-auctex-elisp.8 $(tmp)//usr/share/man/man8/
+	gzip -9frv $(tmp)//usr/share/man/man8/
 
 # install Debian system files
-	$(INSTDIR) $(slisp) $(cron) $(sbin) $(emacsen)/{install,remove} $(docbase) $(varauc)
-	$(INSTDATA) tex-site.el $(slisp)
-	$(INSTDATA) debian/docbase $(docbase)/$(package)
-	$(INSTSCRIPT) debian/cron $(cron)/$(package)
-	$(INSTSCRIPT) debian/update-auctex-elisp $(sbin)
-	$(INSTSCRIPT) debian/install $(emacsen)/install/$(package)
-	$(INSTSCRIPT) debian/remove $(emacsen)/remove/$(package)
+	$(INSTDIR) $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//etc/cron.weekly/ $(tmp)//usr/sbin/ \
+		$(tmp)//usr/lib/emacsen-common/packages//{install,remove} $(tmp)//usr/share/doc-base/ \
+		$(tmp)//var/lib/auctex/
+	$(INSTDATA) tex-site.el $(tmp)//usr/share/emacs/site-lisp/auctex//../
+	$(INSTDATA) debian/docbase $(tmp)//usr/share/doc-base//auctex
+	$(INSTSCRIPT) debian/cron $(tmp)//etc/cron.weekly//auctex
+	$(INSTSCRIPT) debian/update-auctex-elisp $(tmp)//usr/sbin/
+	$(INSTSCRIPT) debian/install $(tmp)//usr/lib/emacsen-common/packages//install/auctex
+	$(INSTSCRIPT) debian/remove $(tmp)//usr/lib/emacsen-common/packages//remove/auctex
 
 # install Debian control files
-	$(INSTDIR) $(DEBIAN)
-	$(INSTDATA) debian/conffiles $(DEBIAN)
-	$(INSTSCRIPT) debian/{preinst,postinst,prerm} $(DEBIAN)
+	$(INSTDIR) $(tmp)//DEBIAN/
+	$(INSTDATA) debian/{conffiles,templates} $(tmp)//DEBIAN/
+	$(INSTSCRIPT) debian/{config,postinst,postrm,prerm} $(tmp)//DEBIAN/
 
 # standard stuff
-#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(DEBIAN)/du
+#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(tmp)//DEBIAN//du
 	cd $(tmp) && md5sum \
 		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
-		| sort -k 2 -o $(DEBIAN)/md5sums
+		| sort -k 2 -o $(tmp)//DEBIAN//md5sums
 	dpkg-gencontrol
 	chown -R root.root $(tmp)
 	chmod -R go=rX $(tmp)
@@ -150,7 +134,3 @@ source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
 .PHONY: binary binary-arch binary-indep clean checkroot
-
-### Local Variables:
-### mode: makefile
-### End:

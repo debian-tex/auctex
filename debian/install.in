@@ -1,0 +1,64 @@
+#include "variables"
+#!/bin/bash -e
+#
+# elisp install file for Debian auctex package.
+# $Id: install.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+FLAVOR=$1
+
+EFLAGS="--no-site-file --no-init-file --batch --load=lpath.el --funcall=batch-byte-compile"
+EMULEFLAGS="--no-site-file --no-init-file --batch  --load=lpath-jp.el --funcall=batch-byte-compile"
+
+# This shouldn't compile without X, and we have font-latex.el anyway: <:=$XSRC:>.
+
+case "$FLAVOR" in
+    emacs19|emacs20)
+	echo -n "install/<:=$PACKAGE:>: Byte-compiling for $FLAVOR... "
+	install -m 755 -d <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:> \
+	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
+	for i in <:=$SOURCES:> <:=$STYLES:>
+	    do cp <:=$slisp:>/$i <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/$i
+	done
+	cat <<-EOF ><:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/lpath.el
+		(setq load-path (cons "." load-path)
+		    TeX-lisp-directory "<none>")
+	EOF
+	(cd <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:> \
+	    && $FLAVOR $EFLAGS <:=$SOURCES:> <:=$STYLES:> 2>&1 \
+	    | gzip -9qf > <:=$ELCLOG:>.gz)
+	if [ "$FLAVOR" = "emacs20" ]; then
+		# We have MULE.
+		for i in <:=$MULESRC:>
+		    do cp <:=$slisp:>/$i \
+			<:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/$i
+		done
+		# This contains an hack to allow byte-compiling
+		# with japanese multibyte chars
+		cat <<-EOF ><:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/lpath-jp.el
+			(setq load-path (cons "." load-path)
+				TeX-lisp-directory "<none>")
+			(set-language-environment 'Japanese);') <- beauty stuff
+		EOF
+		(cd <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:> \
+		    && $FLAVOR $EMULEFLAGS <:=$MULESRC:> 2>&1 \
+		    | gzip -9qf >> <:=$ELCLOG:>.gz)
+	fi
+	rm -f <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/*.el \
+	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.el
+	echo "done."
+    ;;
+    *)
+	echo "install/<:=$PACKAGE:>: Ignoring emacsen flavor $FLAVOR."
+    ;;
+esac
+
+exit 0
+<:
+# Local Variables:
+# mode: shell-script
+# End:
+:>//

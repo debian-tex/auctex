@@ -1,0 +1,31 @@
+#include "variables"
+#!/bin/bash -e
+#
+# postrm configuration file for Debian auctex package.
+# $Id: postrm.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+case "$1" in
+    remove|upgrade)
+	:
+    ;;
+    purge|disappear)
+	test -e <:=$CONFMODULE:> && source <:=$CONFMODULE:> && db_purge
+    ;;
+    failed-upgrade|abort-install|abort-upgrade)
+	:
+    ;;
+    *)
+	echo "${0##*/}: Called with unknown argument \`$1'." >&2
+    ;;
+esac
+
+exit 0
+<:
+# Local Variables:
+# mode: shell-script
+# End:
+:>//

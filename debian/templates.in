@@ -1,0 +1,20 @@
+#include "variables"
+Template: <:=$PACKAGE:>/doauto
+Type: select
+Choices: Foreground, Background, None
+Default: Background
+Description: How should (La)TeX macros be parsed?
+ To greatly improve AUC TeX performances, every TeX macro package and
+ LaTeX style file currently installed on your system will be parsed.
+ .
+ This may take a lot of time, so it should be probably done in
+ background, but you may also choose to have it done in foreground, or
+ to skip the parsing at all instead.  If you choose Background, you
+ will find a detailed log of the process in the file:
+    ${LOGFILE}
+ .
+ A weekly cron job will also take care of upgrading the informations
+ collected now, so usually you won't need to worry about them when you
+ install new (La)TeX packages or remove old ones.
+ .
+ Anyway, you can update them by hand running <:=$UPDATE:>.

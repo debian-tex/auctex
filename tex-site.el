@@ -65,7 +65,10 @@ Full documentation will be available after autoloading the function."
   :group 'TeX-file
   :type 'directory)
 
-(defcustom TeX-macro-global '("/usr/local/lib/texmf/tex/" "/usr/lib/texmf/tex/")
+(defcustom TeX-macro-global '("/usr/local/share/texmf/tex/"
+			      "/usr/local/lib/texmf/tex/"
+			      "/usr/share/texmf/tex/"
+			      "/usr/lib/texmf/tex/")
   "Directories containing the sites TeX macro files and style files.
 The directory names *must* end with a slash."
   :group 'TeX-file

@@ -1,0 +1,129 @@
+#include "variables"
+<:##############################################################################:>//
+<:# WARNING: The rules file AUTOMATICALLY REGENERATE itself from this very one #:>//
+<:#     Read the GNU Make Manual if you don't understand Makefile Remaking!    #:>//
+<:##############################################################################:>//
+#! /usr/bin/make -f
+#
+# BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
+#
+# rules file for Debian auctex package.
+# $Id: rules.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+#
+<:=@COPYRIGHT:>//
+
+tmp	:= $(shell pwd)/debian/tmp/
+
+SHELL		:= /bin/bash
+INSTDIR		:= install -m 755 -d
+INSTPROG	:= install -m 755 -s
+INSTDATA	:= install -m 644
+INSTSCRIPT	:= install -m 755
+
+DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
+		debian/cron debian/docbase debian/install debian/postinst \
+		debian/postrm debian/prerm debian/remove debian/templates \
+		debian/<:=$UPDATE:> debian/<:=$UPDATE:>.8
+# WARNING: The man page should be manually fixed in case of $UPDATE variations.
+# WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
+# (it's CVS registered), lest it will be deleted by clean.
+# Beside, it's automatically remade by make
+
+# Eperl is simply great: thanks, Ralf!
+% :: %.in
+	eperl -P -o $@ $<
+
+build: $(DFILES) debian/variables
+	$(checkdir)
+	-cat japanese-patch | patch --forward --reject-file=trashcan
+	cd doc && $(MAKE) auctex
+	cd doc && $(MAKE) auc-tex_toc.html
+	touch build
+
+clean:
+	$(checkdir)
+	-rm -rf build core trashcan $(tmp) debian/{files*,substvars}
+	-rm -f $(DFILES)
+	-rm -f $$(find . -name \*.elc)
+	-cat japanese-patch | patch --forward --reverse --reject-file=trashcan
+	-$(MAKE) clean
+
+binary: binary-indep binary-arch
+
+binary-arch: checkroot build
+	$(checkdir)
+
+binary-indep: checkroot build
+	$(checkdir)
+	-rm -rf $(tmp)
+
+# install package
+	$(INSTDIR) $(tmp)/<:=$info:> $(tmp)/<:=$slisp:> $(tmp)/<:=$style:>
+	$(INSTDATA) <:=$SOURCES:> $(tmp)/<:=$slisp:>
+	$(INSTDATA) <:=$MULESRC:> $(tmp)/<:=$slisp:>
+	$(INSTDATA) <:=$XSRC:> $(tmp)/<:=$slisp:>
+	$(INSTDATA) <:=$STYLES:> $(tmp)/<:=$style:>
+	cd doc && $(MAKE) install infodir=$(tmp)/<:=$info:>
+#       Consistency rule.
+	cd $(tmp)/<:=$info:> && for i in auctex*; \
+		do mv -f -- $$i auctex.info$${i#auctex}; \
+	done
+	gzip -9frv $(tmp)/<:=$info:>
+
+# install Debian doc
+	$(INSTDIR) $(tmp)/<:=$doc:> $(tmp)/<:=$docsrc:> $(tmp)/<:=$html:> $(tmp)/<:=$man8:>
+	$(INSTDATA) <:=$DOCS:> $(tmp)/<:=$doc:>
+	$(INSTDATA) <:=$DOCSRC:> $(tmp)/<:=$docsrc:>
+	$(INSTDATA) debian/README $(tmp)/<:=$doc:>/README.Debian
+	$(INSTDATA) ChangeLog $(tmp)/<:=$doc:>
+	$(INSTDATA) debian/changelog $(tmp)/<:=$doc:>/changelog.Debian
+	$(INSTDATA) debian/japanese-patch{,-copyright} $(tmp)/<:=$doc:>
+	gzip -9frv $(tmp)/<:=$doc:>
+	ln -sf ChangeLog.gz $(tmp)/<:=$doc:>/changelog.gz
+	$(INSTDATA) debian/copyright $(tmp)/<:=$doc:>
+	$(INSTDATA) doc/*.html $(tmp)/<:=$html:>
+	ln -snf auc-tex_toc.html $(tmp)/<:=$html:>/index.html
+	$(INSTDATA) debian/<:=$UPDATE:>.8 $(tmp)/<:=$man8:>
+	gzip -9frv $(tmp)/<:=$man8:>
+
+# install Debian system files
+	$(INSTDIR) $(tmp)/<:=$slisp:> $(tmp)/<:=$cron:> $(tmp)/<:=$sbin:> \
+		$(tmp)/<:=$ecode:>/{install,remove} $(tmp)/<:=$docbase:> \
+		$(tmp)/<:=$varauc:>
+	$(INSTDATA) tex-site.el $(tmp)/<:=$slisp:>/../
+	$(INSTDATA) debian/docbase $(tmp)/<:=$docbase:>/<:=$PACKAGE:>
+	$(INSTSCRIPT) debian/cron $(tmp)/<:=$cron:>/<:=$PACKAGE:>
+	$(INSTSCRIPT) debian/<:=$UPDATE:> $(tmp)/<:=$sbin:>
+	$(INSTSCRIPT) debian/install $(tmp)/<:=$ecode:>/install/<:=$PACKAGE:>
+	$(INSTSCRIPT) debian/remove $(tmp)/<:=$ecode:>/remove/<:=$PACKAGE:>
+
+# install Debian control files
+	$(INSTDIR) $(tmp)/<:=$debian:>
+	$(INSTDATA) debian/{conffiles,templates} $(tmp)/<:=$debian:>
+	$(INSTSCRIPT) debian/{config,postinst,postrm,prerm} $(tmp)/<:=$debian:>
+
+# standard stuff
+#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(tmp)/<:=$debian:>/du
+	cd $(tmp) && md5sum \
+		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
+		| sort -k 2 -o $(tmp)/<:=$debian:>/md5sums
+	dpkg-gencontrol
+	chown -R root.root $(tmp)
+	chmod -R go=rX $(tmp)
+	dpkg --build $(tmp) ..
+
+checkdir = test -f debian/rules
+
+checkroot:
+	$(checkdir)
+	test root = "$$(whoami)"
+
+source diff:
+	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
+
+.PHONY: binary binary-arch binary-indep clean checkroot
+<:
+# Local Variables:
+# mode: makefile
+# End:
+:>//

@@ -1,3 +1,23 @@
+auctex (9.9p-6) unstable; urgency=low
+
+  * Debconf support added.
+  * Eperl handling of Debian files.
+  * ../tex-site.el: Macros directory updated.
+  * COPYRIGHT: New file.
+  * README: Added note for TeX/TeXInfo sources.
+  * config: New file.
+  * control: Dependence on debconf added.
+  * emacsen.install: Renamed to install.
+  * emacsen.remove: Renamed to remove.
+  * postinst: Old hacks removed.
+  * postrm: New file.
+  * preinst: File removed (hopefully we need those old hacks no more).
+  * rules: Debconf support added; new doc directory for TeX/TeXInfo
+    sources.
+  * templates: New file.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat,  9 Oct 1999 18:35:47 +0200
+
 auctex (9.9p-5) unstable; urgency=low
 
   * Docbase support added.

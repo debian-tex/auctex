@@ -1,3 +1,4 @@
+#include "variables"
 The Debian package auctex
 -------------------------
 
@@ -9,30 +10,31 @@ Users will need to put "(require 'tex-site)" in their "~/.emacs" to load
 AUC TeX.
 
 System Administrators wanting to start AUC TeX by default on their site
-should put "(require 'tex-site)" in "/etc/emacs/site-start.el".
+should put "(require 'tex-site)" in "<:=$SSEL:>".
 
 
 Online Documentation
 ====================
 
 Online documentation may be found in the info or HTML manual, and the
-update-auctex-elisp(8) manual page.
+<:=$UPDATE:>(8) manual page.
+
+The TeXInfo sources may be found in the "<:=if($_=$docsrc)=~tr|/|/|s:>"
+directory.
 
 
 Notes to System Administrators
 ==============================
 
 A) To improve its performance AUC TeX stores informations about
-(La)TeX style files available on the system in "/var/lib/auctex/".
+(La)TeX style files available on the system in "<:=$varauc:>".
 AUC TeX updates these informations weekly, by a cron script;
-nevertheless, you may want to run "/usr/sbin/update-auctex-elisp"
-manually after installing new style files under
-"/usr/local/lib/texmf".  (Formerly "update-auctex-elisp" was named
-"auctex-auto-load").
+nevertheless, you may want to run "<:=if($_="$sbin/$UPDATE")=~tr|/|/|s:>"
+manually after installing new style files under "/usr/local/share/texmf".
 
 B) You may probably want to customize the list of printers available
 at your site.  This could be accomplished by declaring it in
-"/etc/emacs/site-start.el" (along with the default printer), for
+"<:=$SSEL:>" (along with the default printer), for
 example:
 
 (setq TeX-printer-list
@@ -44,7 +46,7 @@ example:
 
 Please, look at the online documentation, type `C-h v TeX-printer-list
 RET' from within Emacs (load auctex first), or browse through
-"/usr/share/emacs/site-lisp/auctex/tex.el" for more information on
+"<:=if($_="$slisp/tex.el")=~tr|/|/|s:>" for more information on
 this topic.
 
 
@@ -70,9 +72,9 @@ Read the comments in the start of each file for more information
 about how to load, what they do, and who wrote and maintains them.
 
 
-Davide G. M. Salvetti <salve@debian.org>, Fri, 02 Jul 1999 16:21:58 CEST
-
-
-Local variables:
-mode: text
-end:
+Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>
+<:
+# Local variables:
+# mode: text
+# End:
+:>//

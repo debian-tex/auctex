@@ -1,0 +1,75 @@
+#include "variables"
+#!/bin/bash -e
+#
+# postinst configuration file for Debian auctex package.
+# $Id: postinst.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+source <:=$CONFMODULE:>
+
+case "$1" in
+    configure)
+#---B-E-G-I-N---O-L-D---S-T-U-F-F---(keep-it,-it-doesn't-hurt)-----------------
+	# Delete these relicts if empty.
+	for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
+	    if test -d $i; then
+		rm -rf $i
+	    fi
+	done
+	for i in /usr/lib/emacs/common/auctex /usr/lib/emacs/common; do
+	    if [ -d $i ]; then
+		find ${i%/*} -name ${i##*/} -type d -empty \
+		    | xargs --no-run-if-empty rmdir
+	    fi
+	done
+#---E-N-D---O-L-D---S-T-U-F-F--------------------------------------------------
+	<:=$EPINSTALL:> <:=$PACKAGE:>
+	install-info --section "<:=$INFOSEC:>" "<:=$INFOSEC:>" \
+		     --menuentry="AUC TeX" \
+		     --description="An integrated environment for TeX and LaTeX." \
+		     --quiet <:="$info/$PACKAGE.info.gz":>
+	test -x <:=$DBINSTALL:> && <:=$DBINSTALL:> --install <:="$docbase/$PACKAGE":>
+	# Compatibility link.
+	test -d /usr/doc -a ! -e /usr/doc/<:=$PACKAGE:> -a -d /usr/share/doc/<:=$PACKAGE:> \
+	    && ln -sf ../share/doc/pkg /usr/doc/<:=$PACKAGE:>
+	db_get <:=$PACKAGE:>/logfile
+	LOGFILE=$RET
+	db_get <:=$PACKAGE:>/doauto
+	case "$RET" in
+	    Foreground)
+		rm -f $LOGFILE
+		<:="$sbin/$UPDATE":>
+	    ;;
+	    Background)
+		# Redirecting fd 3 to /dev/null is really important:
+		# debconf's frontend wait for its standard input to be closed
+		# before dying, and that means fd 3.
+		<:="$sbin/$UPDATE":> 3>/dev/null &> $LOGFILE &
+		echo -n "update-auctex-elisp[$!]: "
+		echo "Further output will appear in: $LOGFILE"
+	    ;;
+	    None)
+		rm -f $LOGFILE
+	    ;;
+	    *)
+		echo "${0##*/}: Debconf passed unknow value \`$RET'." >&2
+	    ;;
+	esac
+    ;;
+    abort-upgrade|abort-deconfigure|abort-remove)
+	:
+    ;;
+    *)
+	echo "${0##*/}: Called with unknown argument \`$1'." >&2
+    ;;
+esac
+
+exit 0
+<:
+# Local Variables:
+# mode: shell-script
+# End:
+:>//

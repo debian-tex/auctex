@@ -1,0 +1,28 @@
+#include "variables"
+#!/bin/bash -e
+#
+# Update AucTeX auto-loads.
+# $Id: update-auctex-elisp.in,v 1.1 1999/10/09 16:39:25 salve Exp $
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+# We generate AUC TeX lisp files just for GNU/Emacs, 'cause XEmacs comes
+# with its own AUC TeX.
+for FLAVOR in emacs19 emacs20; do
+    if [ -x /usr/bin/$FLAVOR ]; then
+	$FLAVOR --no-site-file --no-init-file --batch \
+	        --load=/usr/share/emacs/site-lisp/tex-site.el \
+                --funcall=TeX-auto-generate-global
+    fi
+done
+
+# I gues it's better to remove auto generated .el files now that .elc have
+# been generated, in order to save some disk space.
+rm -f $(find <:=$varauc:> -type f -name \*.el)
+<:
+# Local Variables:
+# mode: shell-script
+# End:
+:>//

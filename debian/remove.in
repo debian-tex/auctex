@@ -1,0 +1,29 @@
+#include "variables"
+#!/bin/bash -e
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+FLAVOR=$1
+
+case "$FLAVOR" in 
+    emacs19|emacs20)
+	echo -n "remove/<:=$PACKAGE:>: Removing for $FLAVOR... "
+	rm -f <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>/{*.elc,<:=$ELCLOG:>.gz}
+	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.elc
+	rmdir --ignore-fail-on-non-empty <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
+	rmdir --ignore-fail-on-non-empty <:=if($_=$slisp)=~s|emacs|\$FLAVOR|:>
+	echo "done."
+    ;;
+    *)
+	echo "remove/<:=$PACKAGE:>: Ignoring emacsen flavor $FLAVOR."
+    ;;
+esac
+
+exit 0
+<:
+# Local Variables:
+# mode: shell-script
+# End:
+:>//
