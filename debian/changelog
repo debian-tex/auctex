@@ -1,3 +1,13 @@
+auctex (9.9p-11) unstable; urgency=low
+
+  * control: Added mule2 support.
+  * install: Added mule2 support.
+  * remove: Added mule2 support.
+  * rules: Rule to update system.variables added.
+  * update-auctex-elisp: Added mule2 support.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 22 Oct 1999 21:55:20 +0200
+
 auctex (9.9p-10) unstable; urgency=low
 
   * postinst,prerm: Fixed typo. (Closes: #47418)
