@@ -632,8 +632,8 @@ Also does other stuff."
 (eval-and-compile
   (defconst AUCTeX-version
     (eval-when-compile
-      (let ((name "$Name: release_11_54 $")
-	    (rev "$Revision: 5.475 $"))
+      (let ((name "$Name: release_11_55 $")
+	    (rev "$Revision: 5.482 $"))
 	(or (when (string-match "\\`[$]Name: *\\(release_\\)?\\([^ ]+\\) *[$]\\'"
 				name)
 	      (setq name (match-string 2 name))
@@ -648,14 +648,13 @@ If not a regular release, CVS revision of `tex.el'."))
 
 (defconst AUCTeX-date
   (eval-when-compile
-    (let ((date "$Date: 2005/01/06 18:25:57 $"))
+    (let ((date "$Date: 2005/02/01 16:22:19 $"))
       (string-match
        "\\`[$]Date: *\\([0-9]+\\)/\\([0-9]+\\)/\\([0-9]+\\)"
        date)
-      (format "%s.%s%s" (match-string 1 date) (match-string 2 date)
+      (format "%s-%s-%s" (match-string 1 date) (match-string 2 date)
 	      (match-string 3 date))))
-  "AUCTeX release date.
-In the form of yyyy.mmdd")
+  "AUCTeX release date using the ISO 8601 format, yyyy-mm-dd.")
 
 (defconst AUC-TeX-version AUCTeX-version
   "Obsolete.  Replaced by `AUCTeX-version'.")
@@ -669,9 +668,9 @@ The function NAME with argument ARGS and version-specific
 DOC string gets defined as BODY.  An occurence of %s in the
 DOC string gets replaced with a string like \"AUCTeX 5.1\"."
 ;;   (declare (indent defun) (debug &declare name name
-;;				 lambda-list args
-;;				 arg doc
-;;				 def-body body))
+;; 				 lambda-list args
+;; 				 arg doc
+;; 				 def-body body))
   `(defun ,name ,args ,(format doc
 			       (concat "AUCTeX " AUCTeX-version))
      ,@body))
@@ -687,14 +686,11 @@ DOC string gets replaced with a string like \"AUCTeX 5.1\"."
   "Call minor mode function if minor mode variable is found."
   (let ((var (ad-get-arg 0))
 	(val (ad-get-arg 1)))
-    (when (if (boundp 'minor-mode-list)
-	      ;; Test which does not require maintenance but `minor-mode-list'.
-	      (and (memq var minor-mode-list)
-		   (string-match "^\\(La\\)*TeX-.+-mode$" (symbol-name var)))
-	    ;; "Manual" test requiring adaption when minor modes change.
-	    (memq var '(TeX-PDF-mode TeX-source-specials-mode
-				     TeX-interactive-mode TeX-Omega-mode
-				     TeX-fold-mode LaTeX-math-mode)))
+    ;; Instead of checking for each mode explicitely `minor-mode-list'
+    ;; could be used.  But this may make the byte compiler pop up.
+    (when (memq var '(TeX-PDF-mode
+		      TeX-source-specials-mode TeX-interactive-mode
+		      TeX-Omega-mode TeX-fold-mode LaTeX-math-mode))
       (if (symbol-value val) (funcall var 1) (funcall var 0)))))
 
 
@@ -1441,6 +1437,56 @@ If REGEXP is nil, or \"\", an error will occur."
 	  (setq answers (cons entry answers))))
     answers))
 
+(defun TeX-macro-global ()
+  "Return directories containing the site's TeX macro and style files."
+  (let ((tree-list '("$SYSTEXMF" "$TEXMFLOCAL" "$TEXMFMAIN" "$TEXMFDIST"))
+	path-list path exit-status input-dir-list)
+    (condition-case nil
+	(catch 'success
+	  (dotimes (i (safe-length tree-list))
+	    (setq path (with-output-to-string
+			 (setq exit-status
+			       (call-process
+				"kpsewhich"  nil
+				(list standard-output nil) nil
+				"--progname" "latex"
+				"--expand-braces" (nth i tree-list)))))
+	    (if (zerop exit-status)
+		(progn (add-to-list 'path-list path)
+		       (when (zerop i) (throw 'success nil)))
+	      (setq path (with-output-to-string
+			   (setq exit-status
+				 (call-process
+				  "kpsewhich"  nil
+				  (list standard-output nil) nil
+				  "--progname" "latex"
+				  "--expand-path" (nth i tree-list)))))
+	      (when (zerop exit-status) (add-to-list 'path-list path)))))
+      (error nil))
+    (dolist (elt path-list)
+      (let ((separators (if (string-match "^[A-Za-z]:" elt)
+			    "[\n\r;]"
+			  "[\n\r:]")))
+	(dolist (item (condition-case nil
+			  (split-string elt separators t)
+			;; COMPATIBILITY for XEmacs <= 21.4.15
+			(error (delete "" (split-string elt separators)))))
+	  (when (string-match "^!+" item)
+	    (setq item (substring item (match-end 0) (length item))))
+	  (when (string-match "/+$" item)
+	    (setq item (substring item 0 (match-beginning 0))))
+	  (dolist (subdir '("/tex/" "/bibtex/bst/"))
+	    (when (file-exists-p (file-name-as-directory (concat item subdir)))
+	      (add-to-list 'input-dir-list (concat item subdir)))))))
+    (or input-dir-list
+	'("/usr/share/texmf/tex/" "/usr/share/texmf/bibtex/bst/"))))
+
+(defcustom TeX-macro-global (TeX-macro-global)
+  "Directories containing the site's TeX macro and style files.
+The directory names *must* end with a directory separator."
+  :group 'TeX-file
+  :type '(repeat (directory :format "%v")))
+
 (defcustom TeX-macro-private (append (TeX-parse-path "TEXINPUTS")
 				     (TeX-parse-path "BIBINPUTS"))
   "Directories where you store your personal TeX macros.
@@ -2128,7 +2174,7 @@ The algorithm is as follows:
   (setq ispell-parser 'tex)
   (make-local-variable 'ispell-tex-p)
   (setq ispell-tex-p t)
-
+  
   ;; Redefine some standard variables
   (make-local-variable 'paragraph-start)
   (make-local-variable 'paragraph-separate)
@@ -3170,7 +3216,7 @@ be bound to `TeX-electric-macro'."
     (define-key map "\C-c?"    'describe-mode)
     (define-key map "\C-c\C-i" 'TeX-goto-info-page)
     (define-key map "\r"       'TeX-newline)
-
+    
     ;; From tex.el
     (define-key map "\""       'TeX-insert-quote)
     (define-key map "$"        'TeX-insert-dollar)
@@ -3183,14 +3229,14 @@ be bound to `TeX-electric-macro'."
     (if TeX-electric-escape
 	(define-key map "\\" 'TeX-electric-macro))
     (define-key map "\e\t"   'TeX-complete-symbol) ;*** Emacs 19 way
-
+    
     (define-key map "\C-c'"    'TeX-comment-or-uncomment-paragraph) ;*** Old way
     (define-key map "\C-c:"    'TeX-comment-or-uncomment-region) ;*** Old way
     (define-key map "\C-c\""   'TeX-uncomment) ;*** Old way
-
+    
     (define-key map "\C-c;"    'TeX-comment-or-uncomment-region)
     (define-key map "\C-c%"    'TeX-comment-or-uncomment-paragraph)
-
+    
     (define-key map "\C-c\C-t\C-o"   'TeX-Omega-mode)
     (define-key map "\C-c\C-t\C-p"   'TeX-PDF-mode)
     (define-key map "\C-c\C-t\C-i"   'TeX-interactive-mode)
@@ -3736,8 +3782,12 @@ regardless of its data type."
   (let ((table (make-syntax-table (make-char-table (if (featurep 'xemacs)
 						       'syntax
 						     'syntax-table)))))
-    (modify-syntax-entry ?\f ">" table)
-    (modify-syntax-entry ?\n ">" table)
+    ;; Preset mode-independent syntax entries.  (Mode-dependent
+    ;; entries are set in the function `TeX-search-syntax-table'.)
+    ;; ?\" explicitely gets whitespace syntax because Emacs 21.3 and
+    ;; XEmacs don't generate a completely empty syntax table.
+    (dolist (elt '((?\f . ">") (?\n . ">") (?\" . " ")))
+      (modify-syntax-entry (car elt) (cdr elt) table))
     table)
   "Syntax table used for searching purposes.
 It should be accessed through the function `TeX-search-syntax-table'.")
@@ -3747,32 +3797,22 @@ It should be accessed through the function `TeX-search-syntax-table'.")
 ARGS may be a list of characters.  For each of them the
 respective predefined syntax is set.  Currently the parenthetical
 characters ?{, ?}, ?[, and ?] are supported.  The syntax of each
-of these characters not specified will be reset to \" \".
-Besides the escape characters ?\\\\ and ?@ as well as the comment
-character ?% may be specified.  This should not be necessary as
-they are set automatically if they are omitted."
-  (let ((char-syntax-alist '((?\\ . "\\")
-			     (?\@ . "\\")
-			     (?\% . "<")
-			     (?\{ . "(}")
+of these characters not specified will be reset to \" \"."
+  (let ((char-syntax-alist '((?\{ . "(}")
 			     (?\} . "){")
 			     (?\[ . "(]")
 			     (?\] . ")["))))
-    ;; First clean up.
-    (dolist (item char-syntax-alist)
-      (modify-syntax-entry (car item) " " TeX-search-syntax-table))
-    ;; Set the escape character automatically if it is not specified
-    ;; explicitely.  (This could be done as well once when the mode is
-    ;; being initialized.)
-    (unless (or (memq ?\\ args) (memq ?\@ args))
-      (modify-syntax-entry (string-to-char TeX-esc) "\\"
-			   TeX-search-syntax-table))
-    ;; Same for comment character.
-    (unless (and (memq ?\% args) (eq major-mode 'texinfo-mode))
+    ;; Preset mode-dependent syntax entries.  (Mode-independent entries
+    ;; are set when the variable `TeX-search-syntax-table' is created.)
+    (modify-syntax-entry (string-to-char TeX-esc) "\\" TeX-search-syntax-table)
+    (unless (eq major-mode 'texinfo-mode)
       (modify-syntax-entry ?\% "<" TeX-search-syntax-table))
+    ;; Clean up the entries which can be specified as arguments.
+    (dolist (elt char-syntax-alist)
+      (modify-syntax-entry (car elt) " " TeX-search-syntax-table))
     ;; Now set what we got.
-    (dolist (item args)
-      (modify-syntax-entry item (cdr (assoc item char-syntax-alist))
+    (dolist (elt args)
+      (modify-syntax-entry elt (cdr (assoc elt char-syntax-alist))
 			   TeX-search-syntax-table))
     ;; Return the syntax table.
     TeX-search-syntax-table))
@@ -3876,7 +3916,7 @@ those will be considered part of it."
 	(cond
 	 ;; Skip over pairs of square brackets
 	 ((or (looking-at "[ \t]*\n?\\(\\[\\)") ; Be conservative: Consider
-						; only consecutive lines.
+					        ; only consecutive lines.
 	      (and (looking-at (concat "[ \t]*" TeX-comment-start-regexp))
 		   (save-excursion
 		     (forward-line 1)
@@ -4328,7 +4368,10 @@ configuration."
   (require 'reporter)
   (reporter-submit-bug-report
    "auc-tex@sunsite.dk"
-   (concat "AUCTeX " AUCTeX-version)
+   (concat "AUCTeX " AUCTeX-version
+	   (if (string-match "^CVS-" AUCTeX-version)
+	       (format " (%s)" AUCTeX-date)
+	     ""))
    (list 'window-system
 	 'LaTeX-version
 	 'TeX-style-path

@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.56 2005/01/15 12:46:10 salve Exp $
+# $Id: rules,v 1.57 2005/02/05 02:40:35 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04 by Davide Giovanni
 # Maria Salvetti.
@@ -66,7 +66,7 @@ build: $(DFILES)
 	test -x ./autogen.sh && ./autogen.sh || true
 	./configure --infodir=/usr/share/info/
 	cd doc && $(MAKE) auctex.info
-	cd doc && $(MAKE) auctex_toc.html
+	cd doc && $(MAKE) html/auctex_toc.html
 	cd doc && $(MAKE) README CHANGES FAQ HISTORY
 	touch build
 
@@ -107,11 +107,12 @@ binary-indep: checkroot build
 	$(INSTDATA) doc/*.tex{,i} $(tmp)//usr/share/doc/auctex//src/
 	$(INSTDATA) debian/README $(tmp)//usr/share/doc/auctex//README.Debian
 	$(INSTDATA) ChangeLog $(tmp)//usr/share/doc/auctex/
+	$(INSTDATA) RELEASE $(tmp)//usr/share/doc/auctex/
 	$(INSTDATA) debian/changelog $(tmp)//usr/share/doc/auctex//changelog.Debian
 	gzip -9frv $(tmp)//usr/share/doc/auctex/
 	ln -sf ChangeLog.gz $(tmp)//usr/share/doc/auctex//changelog.gz
 	$(INSTDATA) debian/copyright $(tmp)//usr/share/doc/auctex/
-	$(INSTDATA) doc/*.html $(tmp)//usr/share/doc/auctex//HTML
+	$(INSTDATA) doc/html/*.html $(tmp)//usr/share/doc/auctex//HTML
 	ln -snf auctex.html $(tmp)//usr/share/doc/auctex//HTML/index.html
 	$(INSTDATA) debian/update-auctex-elisp.8 $(tmp)//usr/share/man//man8/
 	$(INSTDATA) debian/update-auctex-install.8 $(tmp)//usr/share/man//man8/

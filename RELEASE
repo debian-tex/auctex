@@ -1,4 +1,4 @@
-Release notes for AUCTeX 11.54
+Release notes for AUCTeX 11.55
 ==============================
 
 AUCTeX provides by far the most wide-spread and sophisticated
@@ -20,24 +20,21 @@ reference material, sleuth work, testing.
 New features and fixed bugs in this release
 -------------------------------------------
 
-AUCTeX 11.54 is mainly a bug-fix release which takes care of problems
-introduced by new features in the 11.5x series, like the overlays-at
-bug in XEmacs and some performance issues with font locking and
-filling, but also other, long-standing issues, like broken
-fontification of verbatim environments.
+AUCTeX 11.55 includes fixes for the following bugs:
 
-Besides bug-fixes some new features crept in.  Font locking can now be
-customized to a great extent and support for the LaTeX packages url,
-listings, jurabib and csquotes was added.  The parser now understands
-additional commands common in LaTeX packages and classes, like
-\DeclareRobustCommand.
+  * Erroneous insertion of trailing whitespace during filling.
 
-Two new sections were added to the manual.  The section "Quick Start"
-gives a short introduction for beginners and serves as a starting
-point for diving into the more sophisticated chapters of the manual
-once one is acquainted with the basic workings of AUCTeX.  The section
-"Font Locking" describes syntax highlighting in AUCTeX and its
-customization options.
+  * Unwanted display of *Compile-Log* buffer when the first LaTeX file
+    in an Emacs session is loaded.
+
+  * `File mode specification error: (error "Variable binding depth
+    exceeds max-specpdl-size")' if an outdated Emacspeak package is
+    installed.  But since both Emacs and XEmacs contain a correct
+    version of `regexp-opt.el', simply removing any such file within
+    your copy of Emacspeak appears safer.
+
+More detailed information can be found in the CHANGES file included in
+the distribution or the "Changes" section in the manual.
 
 IMPORTANT: Many of the new features in the 11.5x series rely on
 special properties in the variable `TeX-command-list' and will not
@@ -58,7 +55,10 @@ dated 02/02/2004 or newer for compiling AUCTeX because of non-trivial
 changes in easy-mmode.el: please use the XEmacs package system for
 upgrading if necessary.  The current developers don't have the
 resources for providing backward compatibility to earlier versions.
-
+Warning: release 21.4.16 of XEmacs is severely broken.  This leads to
+crashes and hangs; since AUCTeX 11.55 is more likely to trigger this
+problem than previous AUCTeX releases, don't upgrade it if you can't
+use a different XEmacs version.
 
 Availability
 ------------
@@ -80,12 +80,12 @@ Future development and additional information
 
 AUCTeX is proceeding as a GNU project with the long-term intent of
 merging it into Emacs (and merging with preview-latex
-<URL:http://preview-latex.sourceforge.net/> probably next year).  For
-that reason, all new contributors need to assign copyright to their
-contributions to the FSF (the usual procedure for Emacs contributors).
-The same holds for past contributors.  The principal authors and
-maintainers have already done so, but it would require a diligent and
-diplomatic volunteer to find and ask the rest.
+<URL:http://preview-latex.sourceforge.net/> soon).  For that reason,
+all new contributors need to assign copyright to their contributions
+to the FSF (the usual procedure for Emacs contributors).  The same
+holds for past contributors.  The principal authors and maintainers
+have already done so, but it would require a diligent and diplomatic
+volunteer to find and ask the rest.
 
 Current project manager is David Kastrup <mailto:dak@gnu.org>.  While
 Paypal contributions are appreciated, volunteering for tasks remains

@@ -1,3 +1,15 @@
+auctex (11.55-1) unstable; urgency=medium
+
+  * New upstream release.
+  * ../latex.el: Revert to upstream.
+  * ../tex-buf.el: Revert to upstream.
+  * ../tex.el: Revert to upstream.
+  * rules (build, binary-indep): Reflect upstream change in html build
+    directory.
+  * rules (binary-indep): Add "RELEASE" to "/usr/share/doc/auctex/".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat,  5 Feb 2005 03:35:55 +0100
+
 auctex (11.54-5) unstable; urgency=high
 
   * Urgency high: fixes an important bug.  (See: #292886)

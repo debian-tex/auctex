@@ -80,17 +80,6 @@ resolve the issues involved. Please report success/failure to us at
           where stuff should be installed. Again, hopefully this is not
           necessary to specify.
 
-    `--with-tex-input-dirs="/DIR-1/;/DIR-2/;...;/DIR-N/"'
-          This option allows to specify the directories to be used for
-          file searches, e.g. for completion of LaTeX or BibTeX style
-          file names.  They will be used in the variable
-          `TeX-macro-global'.
-
-          `configure' will usually figure out the right value for this
-          option but will only succeed if it finds the necessary
-          programs of the TeX system in the system path.  Which should
-          be there for running AUCTeX, anyway.
-
     `--with-auto-dir=/DIR'
           Directory containing automatically generated information.
           You should not normally need to set this, as `--prefix'
