@@ -1,11 +1,11 @@
 ;;; tex.el --- Support for TeX documents.
 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.06
+;; Version: 11.11
 ;; Keywords: wp
 ;; X-URL: http://sunsite.dk/auctex
 
-;; Copyright (C) 1985, 1986, 2000, 2001 Free Software Foundation, Inc.
+;; Copyright (C) 1985, 1986, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;; Copyright (C) 1987 Lars Peter Fischer
 ;; Copyright (C) 1991 Kresten Krab Thorup
 ;; Copyright (C) 1993, 1994, 1996, 1997, 1999 Per Abrahamsen 
@@ -223,8 +223,8 @@ LaTeX version 2e."
 		(string :tag "Other")))
 		
 
-;; You may want special options to the view command depending on the
-;; style options.  Only works if parsing is enabled.
+;; Use different compilation commands depending on style.
+;; Only works if parsing is enabled.
 
 (defcustom LaTeX-command-style
   (if (string-equal LaTeX-version "2")
@@ -429,10 +429,10 @@ Full documentation will be available after autoloading the function."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "11.06"
+(defconst AUC-TeX-version "11.11"
   "AUC TeX version number.")
 
-(defconst AUC-TeX-date "Mon Oct 15 17:10:13 CEST 2001"
+(defconst AUC-TeX-date "Thu Jan 24 10:52:34 CET 2002"
   "AUC TeX release date.")
 
 ;;; Buffer
@@ -1296,7 +1296,7 @@ Unless optional argument COMPLETE is non-nil, ``: '' will be appended."
 
 (defvar TeX-format-list
   '(("JLATEX" japanese-latex-mode
-     "\\\\\\(documentstyle[^%\n]*{j\\|documentclass[^%\n]*{j\\)")
+     "\\\\\\(documentstyle\\|documentclass\\)[^%\n]*{\\(j[s-]?\\|t\\)\\(article\\|report\\|book\\|slides\\)")
     ("JTEX" japanese-plain-tex-mode
      "-- string likely in Japanese TeX --")
     ("AMSTEX" ams-tex-mode
@@ -1444,8 +1444,10 @@ Choose `ignore' if you don't want AUC TeX to install support for font locking."
 	 (regexp-quote TeX-esc)
 	 (regexp-quote TeX-esc)
 	 "\\)*\\)\\(%+ *\\)"))
-  (make-local-variable 'comment-indent-hook)
-  (setq comment-indent-hook 'TeX-comment-indent)
+  (make-local-variable 'comment-add)
+  (setq comment-add 1)			;default to `%%' in comment-region
+  (make-local-variable 'comment-indent-function)
+  (setq comment-indent-function 'TeX-comment-indent)
   (make-local-variable 'comment-multi-line)
   (setq comment-multi-line nil)
   (make-local-variable 'compile-command)

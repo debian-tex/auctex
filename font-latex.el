@@ -1,17 +1,17 @@
 ;;; font-latex.el --- LaTeX fontification for Font Lock mode.
 
-;; Copyright (C) 1996-2000 Peter S. Galbraith
+;; Copyright (C) 1996-2001 Peter S. Galbraith
  
-;; Authors:    Peter S. Galbraith <GalbraithP@df0-mpo.gc.ca>
+;; Authors:    Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                                <psg@debian.org>
 ;;             Simon Marshall <Simon.Marshall@esrin.esa.it>
-;; Maintainer: Peter S. Galbraith <GalbraithP@df0-mpo.gc.ca>
+;; Maintainer: Peter S. Galbraith <GalbraithP@dfo-mpo.gc.ca>
 ;;                                <psg@debian.org>
 ;; Created:    06 July 1996
-;; Version:    0.701 (30 March 2000)
+;; Version:    0.800 (01 November 2001)
 ;; Keywords:   LaTeX faces
 
-;; RCS $Id: font-latex.el,v 5.9 2000/05/03 15:22:01 psg Exp $
+;; RCS $Id: font-latex.el,v 5.11 2002/01/21 14:22:54 psg Exp $
 ;; Note: RCS version number does not correspond to release number.
 
 ;;; This file is not part of GNU Emacs.
@@ -35,7 +35,8 @@
 ;;  This package enhances font-lock fontification patterns for LaTeX.
 
 ;; New versions of this package (if they exist) may be found at:
-;;  ftp://ftp.phys.ocean.dal.ca/users/rhogee/elisp/font-latex.el
+;;  http://people.debian.org/~psg/elisp/font-latex.el
+;; or in auc-tex's CVS archive.
 
 ;; ** Infinite loops !? **
 ;;  If you get an infinite loop, send me a bug report!
@@ -53,21 +54,29 @@
 
 ;; Installation instructions:
 ;;
-;;  Put this file in your emacs load-path, and byte-compile it:
-;;    M-x byte-compile-file
-;;  ** It runs faster when you byte-compile it! **
+;;  AUC-TeX users:   http://mirrors.sunsite.dk/auctex/www/auctex
+;;   You don't have to do anything special as it gets installed
+;;   along with the rest of AUC-TeX and gets enabled by default via the
+;;   customizable variable TeX-install-font-lock.
 ;;
-;;  Then all you need to do is add this form to your .emacs file:
-;;
-;;    (if window-system
-;;        (require 'font-latex))
+;;  Other users:
+;;   You should byte-compile font-latex.el (It runs faster when you
+;;   byte-compile it!) :
+;;     M-x byte-compile-file
+;;   and put the resulting font-latex.elc file in a directory listed in your
+;;   emacs load-path.  You may then enable it by adding this form to your
+;;   ~/.emacs file:
+;;     (if window-system
+;;         (require 'font-latex))
 ;;
 ;; Turning on font-latex:
 ;;
-;;   After font-latex is loaded (or `required'), it will be automatically
-;;   used whenever you enter `font-lock-mode' on a LaTeX buffer. Therefore,
-;;   I direct you to the file font-lock.el that comes with Emacs for more
-;;   info.
+;;  After font-latex is loaded (or `required'), it will be automatically
+;;  used whenever you enter `font-lock-mode' on a LaTeX buffer.  This
+;;  fontification is done automatically in recent versions of Emacs and
+;;  XEmacs, e.g. via a toggle switch in the menu-bar's Option menu, or by
+;;  customizing the variable global-font-lock-mode in Emacs:
+;;    M-x customize-variable RET global-font-lock-mode RET
 ;;
 ;; Fontification Levels:
 ;;
@@ -77,7 +86,8 @@
 ;;  uses font-lock, but if you are unsure and are running on a fast enough
 ;;  machine, try putting this in your ~/.emacs file: 
 ;;    (setq font-lock-maximum-decoration t) 
-;;  It probably best to put it before the (require 'font-latex) statement.
+;;  It probably best to put it before the `(require 'font-latex)' statement
+;;  if you use that.
 ;;
 ;; Changing colours
 ;;
@@ -88,64 +98,16 @@
 ;;    Emacs.font-latex-math-face.attributeForeground: blue
 ;;  without the semi-colon I'm using here ascomment delimiters, of course.
 ;;
-;; Turning on Font-lock automatically:
-;;
-;;  Note: Recent versions of GNU Emacs uses a better mecanish to turn
-;;        on fontification for all buffer:
-;;
-;;    (if window-system
-;;        (global-font-lock-mode t nil))
-;;
-;;  For older Emacsen:
-;;
-;;  If you choose to turn-on font-lock by default using a mode-hook,
-;;  there is an order to respect with-respect-to loading font-latex.  
-;;  Do either:
-;;
-;;    (if window-system
-;;        (progn
-;;          (require 'font-latex)
-;;          (add-hook 'latex-mode-hook 'turn-on-font-lock 'append)
-;;          (add-hook 'LaTeX-mode-hook 'turn-on-font-lock 'append)))
-;;  or
-;;    (if window-system
-;;        (progn
-;;          (add-hook 'latex-mode-hook 'turn-on-font-lock)
-;;          (add-hook 'LaTeX-mode-hook 'turn-on-font-lock)
-;;          (require 'font-latex)))
-;;
-;;  It's probably not a bad idea to always append 'turn-on-font-lock
-;;  such that it is always sure to be last.
-;;
-;; Lazy-lock users:
-;;
-;;  lazy-lock and font-latex don't work too well together (up to Emacs 19.33
-;;  and XEmacs 19.14 anyway).  font-latex uses functions to find text to
-;;  fontify that may span more than one line, and this doesn't suit
-;;  lazy-lock's search limits too well.  Recent versions of font-latex are
-;;  a bit better, and perhaps you can live with the occasional 
-;;  mis-fontification.
-;;
-;; Old hilit19 (and hilit-LaTeX) users:
-;;
-;;  If you are upgrading from using hilit-LaTeX.el or were using hilit19,
-;;  you must disable hilit19 (at least for latex mode) in order to use
-;;  font-latex.el.  Here's how:
-;;  
-;;  - If you don't care to use hilit19 at all, don't `load' or `require' it 
-;;    in your ~/.emacs file by removing the "(require 'hilit-LaTeX)" line.
-;;  - If you wish to use hilit19 everywhere but in latex mode, add the 
-;;    following before your `load' or `require' hilit19:
-;;
-;;    (setq hilit-mode-enable-list  '(not latex-mode))
-;;
-;;  You can tell you are using font-latex instead of hilit-LaTeX because:
-;;
-;;  - colours will be different 
-;;  - You'll see a message like `Fontifying font-latex.tex...done' 
-;;    instead of `highlighting 1: \(^\|[^\\]\)\(\\[a-zA-Z\\]+\)'
 ;; ----------------------------------------------------------------------------
 ;;; Change log:
+;; V0.800 01Nov01 PSG
+;;  - Added font-lock-syntactic-keywords to font-lock-defaults to handle
+;;    verbatim environment, as suggested by Stefan Monnier 5 years ago (!)
+;; V0.702 15Oct01 PSG
+;;  - remove LaTeX-mode-hook self-installation, since auc-tex can now install
+;;    font-latex by itself. 
+;;  - cleanup the docs a bit, deleting stuff relevant only for emacs19
+;;    since it's now more likely to confuse users.
 ;; V0.701 30Mar00 Stefan Monnier <monnier@rum.cs.yale.edu> (RCS V1.63)
 ;;    Removed tests against specific versions of Emacs, testing for 
 ;;    functions instead.
@@ -592,7 +554,11 @@ prone to infinite loop bugs.")))
 	'((font-latex-keywords font-latex-keywords-1 font-latex-keywords-2)
 	  nil nil ((?\( . ".") (?\) . ".") (?$ . "\"")) nil
 	  (font-lock-comment-start-regexp . "%")
-	  (font-lock-mark-block-function . mark-paragraph))))
+	  (font-lock-mark-block-function . mark-paragraph)
+          (font-lock-syntactic-keywords 
+           . (("\\\\begin{verbatim}\\(\n\\)" (1 '(7)))
+              ("\\(\n\\)\\\\end{verbatim}" (1 '(7)))))
+          )))
 
 ;; Should not be necessary since XEmacs' font-lock also supports
 ;; Emacs' use of the `font-lock-defaults' local variable.   -Stefan
@@ -744,6 +710,13 @@ prone to infinite loop bugs.")))
 ;;;    is found or set another cache at the new limit
 ;;;  - the scheme must allow a newline to be correctly fontified, and well
 ;;;    as new characters on the same line as the first cache.  (How?)
+
+;;; Hacker's note (2001-11-02) : It's possible that the caching system is
+;;; no longer needed using font-lock-multiline in Emacs21.  I should
+;;; disable it and try.  Also, now that I look at this, I wonder why I
+;;; didn't use text-properties to be able to set many unterminated
+;;; fontification matches in a given buffer.  Perhaps it was portability to
+;;; XEmacs?
 
 (defun font-latex-set-cache (cache-id kbeg kend limit keywords match-list)
   "cache in symbol CACHE-ID the following info:
@@ -1128,9 +1101,7 @@ The \\begin{equation} and \\end{equation are not fontified here."
       (store-match-data (list beg (point)))
       t)))
 
-;; Install ourselves
-
-(add-hook 'LaTeX-mode-hook 'font-latex-setup)
+;; Install ourselves for non AUC-TeX
 (add-hook 'latex-mode-hook 'font-latex-setup)
 ;; If font-latex is loaded using a latex-mode-hook, then the add-hook above
 ;; won't be called this time around.  Check for this now:
@@ -1138,7 +1109,6 @@ The \\begin{equation} and \\end{equation are not fontified here."
     (font-latex-setup))
 
 ;; Provide ourselves:
-
 (provide 'font-latex)
 
 ;;; font-latex.el ends here

@@ -202,15 +202,51 @@ Japanese TeX
 
    To write Japanese text with AUC TeX you need to have versions of TeX
 and Emacs that support Japanese.  There exist at least two variants of
-TeX for Japanese text, and AUC TeX can be used with both, as well as
-with the two Japanese-aware Emacses, NEMACS and MULE.
+TeX for Japanese text (jTeX and pTeX), and AUC TeX can be used with
+MULE supported Emacsens.
+
+   To install Japanese support for AUC TeX, copy `tex-jp.el' to AUC TeX
+installed directory.  Next two commands will automatically install
+contributed files.
+
+     make contrib
+     make install-contrib
+
+   See `INSTALLATION' and `Makefile' for more information.
 
    To use the Japanese TeX variants, simply enter `japanese-tex-mode',
 `japanese-latex-mode', or `japanese-slitex-mode', and everything should
 work.  If not, send mail to Shinji Kobayashi
-(`<koba@flab.fujitsu.co.jp>', who kindly donated the code for
-supporting Japanese in AUC TeX.  None of the primary AUC TeX
-maintainers understand Japanese, so they can not help you.
+`<koba@flab.fujitsu.co.jp>', who kindly donated the code for supporting
+Japanese in AUC TeX.  None of the primary AUC TeX maintainers
+understand Japanese, so they can not help you.
+
+   If you usually use AUC TeX in Japanese, setting following variables
+is useful.
+
+ - User Option: TeX-default-mode
+     Mode to enter for a new file when it can't be determined whether
+     the file is plain TeX or LaTeX or what.
+
+     To use Japanese TeX always, set japanese command for example:
+          (setq TeX-default-mode 'japanese-latex-mode)
+
+ - User Option: japanese-TeX-command-default
+     The default command for TeX-command in japanese TeX mode.
+
+     The default value is `jTeX'.
+
+ - User Option: japanese-LaTeX-command-default
+     The default command for TeX-command in japanese LaTeX mode.
+
+     The default value is `jLaTeX'.
+
+ - User Option: japanese-LaTeX-default-style
+     The default style/class when creating new japanese LaTeX document.
+
+     The default value is `j-article'.
+
+   See `tex-jp.el' for more information.
 
 
 File: auctex,  Node: Automatic,  Next: Style Files,  Prev: I18n,  Up: Top
@@ -890,17 +926,11 @@ included in the distribution in case they are useful.
 `hilit-LaTeX.el'
      Better highlighting for the obsolete `hilit19' package.
 
-`font-latex.el'
-     Better highlighting for the FONT-LOCK package.
-
 `bib-cite.el'
      Better support for bibliographies and much more.
 
 `tex-jp.el'
      Support for Japanese.
-
-`func-doc.el'
-     Support for context sensitive online help for various languages.
 
    Read the comments in the start of each file for more information
 about how to install, what they do, and who wrote and maintains them.
@@ -913,8 +943,14 @@ The History of AUC TeX
 
    See the file `history.texi' for older changes.
 
-News in 11.01
-=============
+News in 11
+==========
+
+   * Support for `prosper.sty', see <http://prosper.sourceforge.net/>.
+     Contributed by Phillip Lord <p.lord@russet.org.uk>.
+
+   * `comment-region' now inserts %% by default.  Suggested by "Davide
+     G. M. Salvetti" <salve@debian.org>.
 
    * You can now switch between using the `font-latex' (all emacsen),
      the `tex-font' (Emacs 21 only) or no special package for font

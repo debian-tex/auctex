@@ -16,37 +16,48 @@ Description: Should AUC-TeX be auto-loaded by default at your site?
 Description-it: Abilitare AUC-TeX automaticamente su questa macchina?
  Emacs normalmente ha i propri modi maggiori originali per (La)TeX; se si
  risponde affermativamente a questa domanda, questi verranno globalmente
- sostituiti da quelli di AUC-TeX (sostituiti, cioè, per tutti gli utenti di
+ sostituiti da quelli di AUC-TeX (sostituiti, cio.bŽè, per tutti gli utenti di
  questa macchina).
  .
- In genere questa è una buona cosa, perché i modi di AUC-TeX sono molto
- migliori degli originali; può darsi, tuttavia, che si preferisca lasciare a
+ In genere questa Žè una buona cosa, perchŽé i modi di AUC-TeX sono molto
+ migliori degli originali; puŽò darsi, tuttavia, che si preferisca lasciare a
  ciascun singolo utente la decisione di far uso o meno di questo pacchetto.
  .
- Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
+ Se la risposta sarŽà negativa, gli utenti che ne vorranno far uso dovranno
  mettere manualmente la stringa "(require 'tex-site)" nel loro "~/.emacs" per
  abilitare AUC-TeX.
 Description-de: Soll AUC-TeX systemweit automatisch geladen werden?
- Emacs hat standardmäßige (La)TeX-Modi, die global (also für alle Nutzer auf
- Ihrem System) überschrieben werden, wenn Sie diese Frage bejahen.
+ Emacs hat standardmŽäŽßige (La)TeX-Modi, die global (also fŽür alle Nutzer auf
+ Ihrem System) Žüberschrieben werden, wenn Sie diese Frage bejahen.
  .
  Das ist generell ein gutes Ding, da AUC-TeX 'ne Ecke besser ist -- wie auch
- immer, Sie könnten das nicht mögen und jedem Nutzer die Wahl lassen wollen,
+ immer, Sie kŽönnten das nicht mŽögen und jedem Nutzer die Wahl lassen wollen,
  ob sie das Paket einbinden.
  .
- Wenn Sie die Frage verneinen, müssen Nutzer, die AUC-TeX nutzen wollen,
- "(require 'tex-site)" in ihr "~/.emacs" einfügen.
-Description-es: ¿Debe cargarse AUC-TeX por defecto en su sistema?
- Emacs tiene sus modos (La)TeX estándar que serán reemplazados globalmente
- (para todos los usuarios del sistema) por AUC-TeX si responde Sí a esta
+ Wenn Sie die Frage verneinen, mŽüssen Nutzer, die AUC-TeX nutzen wollen,
+ "(require 'tex-site)" in ihr "~/.emacs" einfŽügen.
+Description-es: Ž¿Debe cargarse AUC-TeX por defecto en su sistema?
+ Emacs tiene sus modos (La)TeX estŽándar que serŽán reemplazados globalmente
+ (para todos los usuarios del sistema) por AUC-TeX si responde SŽí a esta
  pregunta.
  .
  Generalmente es una buena idea ya que AUC-TeX es mucho mejor.  Sin embargo
  puede que no le guste la idea y prefiera que los usuarios de su sistema
- decidan por sí mismos si quieren cargar este paquete.
+ decidan por sŽí mismos si quieren cargar este paquete.
  .
- Si responde No la gente que quiera usarlo deberá incluir la cadena
+ Si responde No la gente que quiera usarlo deberŽá incluir la cadena
  "(require 'tex-site)" en su "~/.emacs" para cargarlo.
+Description-pt_BR: AUC-TeX deve ser auto-carregado por padr.AŽão em seu sistema?
+ Emacs tem seus prŽóprios modos (La)TeX padrŽões, que serŽão cancelados
+ globalmente (isto Žé, para todos os usuŽários deste sistema) pelo AUC-TeX se
+ vocŽê responder sim a esta questŽão.
+ .
+ Isto geralmente Žé algo bom, jŽá que o AUC-TeX Žé muito melhor; entretanto vocŽê
+ pode nŽão querer que isso aconteŽça, e ao invŽés disso deixar que os usuŽários de
+ seu sistema escolham por si prŽóprios se devem carregar este pacote.
+ .
+ Se vocŽê responder nŽão, as pessoas que desejarem usŽá-lo terŽão que colocar as
+ palavras "(require 'tex-site)" em seus "~/.emacs" para carregŽá-lo.
 
 Template: <:=${PACKAGE}:>/alreadydefault
 Type: note
@@ -57,34 +68,43 @@ Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
  If this is not true, or if it's not what you want, please search that file
  looking for "(require 'tex-site)" resembling forms and fix them; then run
  "dpkg-reconfigure <:=${PACKAGE}:>" if needed (recommended).
-Description-it: AUC-TeX sembra già automaticamente abilitato su questa macchina.  Bene.
- Controllando il file "<:=${SSEL}:>", pare che AUC-TeX sia già automaticamente
+Description-it: AUC-TeX sembra gi.bŽà automaticamente abilitato su questa macchina.  Bene.
+ Controllando il file "<:=${SSEL}:>", pare che AUC-TeX sia giŽà automaticamente
  abilitato su questa macchina.
  .
- Se questo non è vero, o se non è quel che si desidera, si vadano a cercare in
+ Se questo non Žè vero, o se non Žè quel che si desidera, si vadano a cercare in
  quel file Lisp form del tipo "(require 'tex-site)" e li si correggano;
  poi si faccia girare "dpkg-reconfigure <:=${PACKAGE}:>" per configurare di
  nuovo AUC-TeX.
-Description-de: AUC-TeX scheint schon standardmäßig eingebunden zu sein. Fein.
+Description-de: AUC-TeX scheint schon standardmŽäŽßig eingebunden zu sein. Fein.
  Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint AUC-TeX bereits
- standardmäßig auf Ihrem System eingebunden zu werden.
+ standardmŽäŽßig auf Ihrem System eingebunden zu werden.
  .
  Wenn das nicht stimmt oder wenn das nicht das ist, was Sie wollen, dann
  entfernen Sie bitte die "(require 'tex-site)"-Aufrufe in der genannten
  Datei. Danach wird der Aufruf von "dpkg-reconfigure auctex" empfohlen.
-Description-es: Parece que AUC-TeX ya se está cargando automáticamente. Bien
+Description-es: Parece que AUC-TeX ya se estŽá cargando automŽáticamente. Bien
  Tras inspeccionar el fichero "/etc/emacs/site-start.el" parece que AUC-TeX
  esta ya configurado para cargarse por defecto en su sistema.
  .
  Si no es verdad o si no lo quiere, por favor, busque en el fichero la frase
- "(require 'tex-site)" y modifíquela.
- Después ejecute "dpkg-reconfigure auctex" si es necesario (recomendado).
+ "(require 'tex-site)" y modifŽíquela.
+ DespuŽés ejecute "dpkg-reconfigure auctex" si es necesario (recomendado).
+Description-pt_BR: AUC-TeX parece j.AŽá estar se carregando automaticamente. Bom.
+ Inspecionando o arquivo "/etc/emacs/site-start.el", AUC-TeX parece jŽá estar
+ se carregando automaticamente por padrŽão em seu sistema.
+ .
+ Se isso nŽão for verdadeiro, ou se nŽão Žé o que vocŽê quer, por favor, procure
+ nesse arquivo por algo como "(require 'tex-site)" e corrija-o; entŽão execute
+ "dpkg-reconfigure auctex" se necessŽário (recomendado).
 
 Template: <:=${PACKAGE}:>/doauto
 Type: select
 Choices: Background, Foreground, None
 Choices-it: Sottofondo, Primo piano, Nessuno
+Choices-de: Hintergund, Vordergrund, nicht
 Choices-es: Segundo plano, Primer plano, Omitir
+Choices-pt_BR: Background, Foreground, Nenhum
 Default: Background
 Description: How should (La)TeX macros be parsed?
  To greatly improve AUC-TeX performances, every TeX macro package and LaTeX
@@ -101,18 +121,18 @@ Description: How should (La)TeX macros be parsed?
  .
  Anyway, you can update them by hand running <:=${UPDATE}:>.
 Description-it: In che modo si deve effettuare la scansione delle macro per (La)TeX?
- Per migliorare grandemente le proprie prestazioni, AUC-TeX scandirà tutti i
+ Per migliorare grandemente le proprie prestazioni, AUC-TeX scandir.bŽà tutti i
  pacchetti di macro per TeX ed i file di stile per LaTeX attualmente
  installati su questa macchina.
  .
- Questa operazione potrebbe richiedere molto tempo ed è quindi probabilmente
- preferibile eseguirla in sottofondo; tuttavia, si può anche scegliere di
+ Questa operazione potrebbe richiedere molto tempo ed Žè quindi probabilmente
+ preferibile eseguirla in sottofondo; tuttavia, si puŽò anche scegliere di
  eseguirla in primo piano o di non eseguirla affatto.  Se si sceglie
- Sottofondo verrà generata una cronistoria dettagliata dell'operazione nel
+ Sottofondo verrŽà generata una cronistoria dettagliata dell'operazione nel
  file: ${LOGFILE}.
  .
  Le informazioni raccolte adesso saranno aggiornate settimanalmente per mezzo
- del demone cron, di modo che normalmente non sarà necessario preoccuparsene
+ del demone cron, di modo che normalmente non sarŽà necessario preoccuparsene
  di persona al momento dell'installazione o della rimozione di pacchetti
  aggiuntivi per (La)TeX.
  .
@@ -124,76 +144,104 @@ Description-de: Wie sollen (La)TeX-Makros behandelt werden?
  .
  Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund
  empfohlen. Die Bearbeitung kann allerdings auch im Vordergrund erfolgen --
- die weitere Installation wird dann allerdings bis zum Abschluß der
+ die weitere Installation wird dann allerdings bis zum AbschluŽß der
  Bearbeitung unterbrochen. Die Voraus-Bearbeitung kann auch ganz
- unterbleiben. Wenn Sie die Bearbeitung im Hintergrund wählen, finden Sie
+ unterbleiben. Wenn Sie die Bearbeitung im Hintergrund wŽählen, finden Sie
  eine detaillierte Protokollausgabe in ${LOGFILE}.
  .
- Weiterhin wird ein wöchentlicher cron-Job auf die Fortschreibung der nun
- erhobenen Informationen achten, so daß Sie sich für gewöhnlich nicht weiter
- darum kümmern müssen, wenn Sie LaTeX-Pakete installieren oder entfernen.
+ Weiterhin wird ein wŽöchentlicher cron-Job auf die Fortschreibung der nun
+ erhobenen Informationen achten, so daŽß Sie sich fŽür gewŽöhnlich nicht weiter
+ darum kŽümmern mŽüssen, wenn Sie LaTeX-Pakete installieren oder entfernen.
  .
  Die Aktualisierung kann zudem von Hand durch Aufruf von
  "update-auctex-elisp" erfolgen.
-Description-es: ¿Como deben analizarse las macros (La)TeX?
- Para mejorar el rendimiento de AUC-TeX se analizará el contenido de cada
+Description-es: Ž¿Como deben analizarse las macros (La)TeX?
+ Para mejorar el rendimiento de AUC-TeX se analizarŽá el contenido de cada
  paquete de macros TeX y ficheros de estilo LaTeX instalado en su sistema.
  .
- Esto puede tardar mucho tiempo, por lo que se debería hacer en segundo
+ Esto puede tardar mucho tiempo, por lo que se deberŽía hacer en segundo
  plano.  Sin embargo puede elegir hacerlo en primer plano u omitir este
- paso.  Si elige hacerlo en segundo plano encontrará un detallado registro
+ paso.  Si elige hacerlo en segundo plano encontrarŽá un detallado registro
  del proceso en el fichero: ${LOGFILE}.
  .
- Así mismo, una tarea semanal actualizará la información recolectada en esta
- sesión por lo que no se tiene que preocupar cuando instale nuevos paquetes
+ AsŽí mismo, una tarea semanal actualizarŽá la informaciŽón recolectada en esta
+ sesiŽón por lo que no se tiene que preocupar cuando instale nuevos paquetes
  de (La)TeX o borre los antiguos.
  .
  De cualquier forma puede actualizarlos ejecutando update-auctex-elisp en
  cualquier momento.
+Description-pt_BR: Como macros (La)TeX devem ser interpretados?
+ Para melhorar enormemente a performance de AUC-TeX, todo pacote de macro TeX
+ e arquivo de estilo LaTeX instalados atualmente em seu sistema ser.AŽão
+ interpretados.
+ .
+ Isso pode consumir um bom tempo, entŽão pode ser feito provavelmente em
+ background; entretanto, vocŽê pode optar por ter isso feito em foreground, ou
+ ao invŽés disso pular o processo de interpretaŽçŽão. Se vocŽê escolher
+ Background, encontrarŽá um log detalhado do processo no arquivo: ${LOGFILE}.
+ .
+ Um trabalho semanal do cron tambŽém tomarŽá o cuidado de atualizar as
+ informaŽçŽões obtidas agora, entŽão vocŽê normalmente nŽão precisarŽá preocupar-se
+ com elas mesmo quando instalar novos pacotes (La)TeX ou remover antigos.
+ .
+ De qualquer forma, vocŽê pode atualizŽá-las manualmente executando
+ update-auctex-elisp.
 
 Template: <:=${PACKAGE}:>/doautofg
 Type: select
 Choices: Console, File
 Choices-it: Video, File
+Choices-de: Konsole, Datei
 Choices-es: Consola, Fichero
+Choices-pt_BR: Console, Arquivo
 Default: File
 Description: Where should parsing output go?
-  You chose to parse TeX macro packages and LaTeX style files in foreground.
-  This is ok, but normally it will also generate quite a lot of output.
-  .
-  By default -- i.e., answering File to this question -- further output from
-  the parsing process will go to a file named: ${LOGFILE}.
-  .
-  If you answer Console, you will see all of the (boring) output right on your
-  terminal.
+ You chose to parse TeX macro packages and LaTeX style files in foreground.
+ This is ok, but normally it will also generate quite a lot of output.
+ .
+ By default -- i.e., answering File to this question -- further output from
+ the parsing process will go to a file named: ${LOGFILE}.
+ .
+ If you answer Console, you will see all of the (boring) output right on your
+ terminal.
 Description-it: Dove vanno inviati i messaggi della scansione?
-  I pacchetti di macro per TeX ed i file di stile per LaTeX saranno scanditi
-  in primo piano come è stato richiesto.  Questo va bene, ma di solito produce
-  molti messaggi informativi.
-  .
-  Rispondendo File a questa domanda i messaggi originati dalla scansione
-  verranno scritti in un file di nome ${LOGFILE}.
-  .
-  Rispondendo Video, i messaggi (noiosi) verranno visualizzati sul proprio
-  terminale.
+ I pacchetti di macro per TeX ed i file di stile per LaTeX saranno scanditi
+ in primo piano come .bŽè stato richiesto.  Questo va bene, ma di solito produce
+ molti messaggi informativi.
+ .
+ Rispondendo File a questa domanda i messaggi originati dalla scansione
+ verranno scritti in un file di nome ${LOGFILE}.
+ .
+ Rispondendo Video, i messaggi (noiosi) verranno visualizzati sul proprio
+ terminale.
 Description-de: Wo soll die Protokoll-Ausgabe hingehen?
- Sie wählten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund.
- Das ist schon in Ordnung, aber für gewöhnlich wird dabei eine Menge
+ Sie wŽählten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund.
+ Das ist schon in Ordnung, aber fŽür gewŽöhnlich wird dabei eine Menge
  langweiliger Kram ausgegeben.
  .
- Standardmäßig (also bei der Wahl von "Datei") wird die weitere Ausgabe des
+ StandardmŽäŽßig (also bei der Wahl von "Datei") wird die weitere Ausgabe des
  Bearbeitungsprozesses in die Datei ${LOGFILE} umgeleitet.
  .
  Wenn Sie mit "Konsole" antworten, wird die gesamte Ausgabe direkt auf Ihrem
  Terminal erscheinen.
-Description-es: ¿A donde se debe enviar la información al analizar?
+Description-es: Ž¿A donde se debe enviar la informaciŽón al analizar?
  Ha elegido analizar los paquetes de macros TeX y ficheros de estilo LaTeX
  en primer plano.
  .
  Por defecto, respondiendo Fichero a esta pregunta, los mensajes del
- proceso de analizado se guardarán en un fichero llamado: ${LOGFILE}.
+ proceso de analizado se guardarŽán en un fichero llamado: ${LOGFILE}.
  .
- Si responde Consola, verá todos los (aburridos) mensajes en su terminal.
+ Si responde Consola, verŽá todos los (aburridos) mensajes en su terminal.
+Description-pt_BR: Onde deve ir a sa.AŽída da interpretaŽçŽão?
+ VocŽê escolheu interpretar pacotes de macros TeX e arquivos de estilo LaTeX em
+ foreground.  Isto estŽá bem, mas normalmente isso tambŽém gerarŽá bastante
+ saŽída.
+ .
+ Por padrŽão -- isto Žé, respondendo Arquivo a esta questŽão -- a saŽída adicional
+ do processo de interpretaŽçŽão irŽá para um arquivo nomeado: ${LOGFILE}.
+ .
+ Se vocŽê responder Console, verŽá toda a saŽída (cansativa) direto em seu
+ terminal.
 
 <:
 # Local variables:

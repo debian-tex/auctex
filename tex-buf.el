@@ -1,7 +1,7 @@
 ;;; tex-buf.el - External commands for AUC TeX.
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.06
+;; Version: 11.11
 
 ;; Copyright (C) 1993, 1996, 2001 Per Abrahamsen 
 ;; Copyright (C) 1991 Kresten Krab Thorup
@@ -620,7 +620,7 @@ Error parsing on C-x ` should work with a bit of luck."
 	     
 	     ;; Append post-mortem information to the buffer
 	     (goto-char (point-max))
-	     (insert "\n" mode-name " " msg)
+	     (insert-before-markers "\n" mode-name " " msg)
 	     (forward-char -1)
 	     (insert " at "
 		     (substring (current-time-string) 0 -5))
@@ -771,17 +771,18 @@ Return nil iff no process buffer exist."
   "Check if a process for the TeX document NAME already exist.
 If so, give the user the choice of aborting the process or the current
 command."
-  (let ((process (TeX-process name)))
-    (cond ((null process))
-	  ((not (eq (process-status process) 'run)))
-	  ((yes-or-no-p (concat "Process `"
-				(process-name process)
-				"' for document `"
-				name
-				"' running, kill it? "))
-	   (delete-process process))
-	  ((eq (process-status process) 'run)
-	   (error "Cannot have two processes for the same document")))))
+  (let (process)
+    (while (and (setq process (TeX-process name))
+		(eq (process-status process) 'run))
+      (cond
+       ((yes-or-no-p (concat "Process `"
+			     (process-name process)
+			     "' for document `"
+			     name
+			     "' running, kill it? "))
+	(delete-process process))
+       ((eq (process-status process) 'run)
+	   (error "Cannot have two processes for the same document"))))))
 
 (defun TeX-process-buffer-name (name)
   "Return name of AUC TeX buffer associated with the document NAME."

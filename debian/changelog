@@ -1,3 +1,17 @@
+auctex (11.11-1) unstable; urgency=medium
+
+  * New upstream CVS version.
+    (Closes: #81522, #118305, #118307, #122259, #125849)
+  * Not really a bug. (Closes: #150718)
+  * ../tex-site.el: A lot of changes.  (Closes: #118400)
+  * copyright: Updated.
+  * templates: Added brazilian portuguese; thanks to Paulo R. Ormenese.
+    (Closes: #144630)
+    (doauto, doautofg): Added forgotten Choices-de strings.
+  * variables(STYLES): Added "style/prosper.el".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 22 Sep 2002 11:20:38 +0200
+
 auctex (11.06-1) unstable; urgency=low
 
   * New upstream CVS version.  (Closes: #115660, #109114)
@@ -33,7 +47,7 @@ auctex (11.06-1) unstable; urgency=low
     (Contributed sources): Removed font-latex.el, added tex-fptex.el.
     (Styles): Added verbatim.el.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 18 Jan 2002 16:30:43 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 18 Jan 2002 16:30:43 +0100
 
 auctex (10.0g-4) unstable; urgency=low
 
@@ -42,21 +56,21 @@ auctex (10.0g-4) unstable; urgency=low
   * templates(alreadydefault): Type changed from `text' to `note'.
     (Closes: #106329)
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat, 28 Jul 2001 14:57:24 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 28 Jul 2001 14:57:24 +0200
 
 auctex (10.0g-3) unstable; urgency=low
 
   * remove: Added `|| true' after `rmdir'; thanks to Timshel Knoll.
     (Closes: #101067)
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat, 16 Jun 2001 13:47:34 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 16 Jun 2001 13:47:34 +0200
 
 auctex (10.0g-2) unstable; urgency=high
 
   * rules (build): Removed debian/rules from deps.
     (debian/rules): Removed debian/system.variables from deps.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed, 16 May 2001 14:48:51 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 16 May 2001 14:48:51 +0200
 
 auctex (10.0g-1) unstable; urgency=low
 
@@ -67,7 +81,7 @@ auctex (10.0g-1) unstable; urgency=low
   * rules (build): Added debian/rules.
   * templates: Added German; thanks to Knut Suebert.  (Closes: #93686)
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat,  5 May 2001 15:47:53 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat,  5 May 2001 15:47:53 +0200
 
 auctex (10.0d-1) unstable; urgency=medium
 
@@ -84,7 +98,7 @@ auctex (10.0d-1) unstable; urgency=medium
   * update-auctex-elisp.8: Updated copyright.
   * variables: Updated $STYLES.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 18 Jan 2001 13:18:19 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 18 Jan 2001 13:18:19 +0100
 
 auctex (9.10t-3) unstable; urgency=low
 
@@ -100,7 +114,7 @@ auctex (9.10t-3) unstable; urgency=low
   * update-auctex-elisp: Added support for emacs21.
   * update-auctex-elisp: Cosmetic fix.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri,  5 Jan 2001 02:33:35 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri,  5 Jan 2001 02:33:35 +0100
 
 auctex (9.10t-2) unstable; urgency=low
 
@@ -114,7 +128,7 @@ auctex (9.10t-2) unstable; urgency=low
   * rules: Added -isp to dpkg-gencontrol.
   * templates: Wording improved.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed, 15 Nov 2000 17:29:18 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 15 Nov 2000 17:29:18 +0100
 
 auctex (9.10t-1) unstable; urgency=low
 
@@ -136,7 +150,7 @@ auctex (9.10t-1) unstable; urgency=low
   * updated-auctex-elisp.8: Updated.
   * variables: Added tex-mik.el and various new styles.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 20 Oct 2000 02:14:58 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 20 Oct 2000 02:14:58 +0200
 
 auctex (9.9p-13) frozen unstable; urgency=medium
 
@@ -147,13 +161,13 @@ auctex (9.9p-13) frozen unstable; urgency=medium
   * update-auctex-elisp: mule2 ad hoc rule added; thanks to Takuo
     Kitame.  (Closes: #52016)
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 20 Jan 2000 15:32:38 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 20 Jan 2000 15:32:38 +0100
 
 auctex (9.9p-12) unstable; urgency=low
 
   * Debconf support updated.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Sun, 31 Oct 1999 22:49:57 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 31 Oct 1999 22:49:57 +0100
 
 auctex (9.9p-11) unstable; urgency=low
 
@@ -163,13 +177,13 @@ auctex (9.9p-11) unstable; urgency=low
   * rules: Rule to update system.variables added.
   * update-auctex-elisp: Added mule2 support.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 22 Oct 1999 21:55:20 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 22 Oct 1999 21:55:20 +0200
 
 auctex (9.9p-10) unstable; urgency=low
 
   * postinst,prerm: Fixed typo.  (Closes: #47418)
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 14 Oct 1999 21:09:16 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 14 Oct 1999 21:09:16 +0200
 
 auctex (9.9p-9) unstable; urgency=low
 
@@ -179,7 +193,7 @@ auctex (9.9p-9) unstable; urgency=low
   * preinst: New file.
   * variables: Split generic stuff to system.variables.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu, 14 Oct 1999 16:38:37 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 14 Oct 1999 16:38:37 +0200
 
 auctex (9.9p-8) unstable; urgency=high
 
@@ -188,7 +202,7 @@ auctex (9.9p-8) unstable; urgency=high
   * remove: Really ignore emacs.
   * rules: Fixed japanese-patch mistake.  (Closes: #47189)
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Tue, 12 Oct 1999 16:34:45 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 12 Oct 1999 16:34:45 +0200
 
 auctex (9.9p-7) unstable; urgency=low
 
@@ -199,7 +213,7 @@ auctex (9.9p-7) unstable; urgency=low
   * prerm: Default autoloading rule added.
   * templates: Default autoloading questions added.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Mon, 11 Oct 1999 10:13:43 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Mon, 11 Oct 1999 10:13:43 +0200
 
 auctex (9.9p-6) unstable; urgency=low
 
@@ -219,7 +233,7 @@ auctex (9.9p-6) unstable; urgency=low
     sources.
   * templates: New file.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat,  9 Oct 1999 18:35:47 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat,  9 Oct 1999 18:35:47 +0200
 
 auctex (9.9p-5) unstable; urgency=low
 
@@ -235,7 +249,7 @@ auctex (9.9p-5) unstable; urgency=low
   * postinst: Docbase support added.
   * rules: Docbase support added.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Thu,  7 Oct 1999 17:48:43 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu,  7 Oct 1999 17:48:43 +0200
 
 auctex (9.9p-4) unstable; urgency=low
 
@@ -244,7 +258,7 @@ auctex (9.9p-4) unstable; urgency=low
   * prerm: Updated accordingly.
   * rules: Updated accordingly.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed,  6 Oct 1999 01:17:04 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed,  6 Oct 1999 01:17:04 +0200
 
 auctex (9.9p-3) unstable; urgency=low
 
@@ -254,7 +268,7 @@ auctex (9.9p-3) unstable; urgency=low
   * prerm: Added dhelp support.
   * rules: Added auctex.dhelp rule.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Tue,  5 Oct 1999 20:09:42 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue,  5 Oct 1999 20:09:42 +0200
 
 auctex (9.9p-2) unstable; urgency=low
 
@@ -266,7 +280,7 @@ auctex (9.9p-2) unstable; urgency=low
   * japanese-patch-copyright: added.
   * rules: updated to support japanese-patch.
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 16 Jul 1999 18:21:11 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 16 Jul 1999 18:21:11 +0200
 
 auctex (9.9p-1) unstable; urgency=low
 
@@ -282,7 +296,7 @@ auctex (9.9p-1) unstable; urgency=low
   * ../tex-jp.el: reverted to upstream version, waiting for Japaneese
     patches to be tested against it (see: #39547).
 
- -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri,  2 Jul 1999 17:53:45 +0200
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri,  2 Jul 1999 17:53:45 +0200
 
 auctex (9.9o-1) unstable; urgency=low
 
@@ -482,7 +496,3 @@ auctex (9.7l-1) unstable; urgency=medium
   * added weekly cron entry for auctex-auto-generate
 
  -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Sat, 15 Mar 1997 15:30:00 +0100
-
-Local Variables:
-mode: debian-changelog
-End:

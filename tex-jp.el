@@ -2,7 +2,7 @@
 ;;
 
 ;; Maintainer: Hidenobu Nabetani <nabe@debian.or.jp>
-;; Version: 11.06
+;; Version: 11.11
 
 ;;; Commentary: 
 ;; This file was written by KOBAYASHI Shinji <koba@flab.fujitsu.co.jp>
@@ -32,7 +32,7 @@
 	      'TeX-run-TeX nil t)
 	(list "pLaTeX" "platex '\\nonstopmode\\input{%t}'"
 	      'TeX-run-LaTeX nil t)
-	(list "Mendex" "memdex %s" 'TeX-run-command nil t)		    
+	(list "Mendex" "mendex %s" 'TeX-run-command nil t)		    
 	(list "jBibTeX" "jbibtex %s" 'TeX-run-BibTeX nil nil))
   "Additional list of commands to execute in japanese-LaTeX-mode")
 
@@ -66,8 +66,7 @@
 		    ("^jslides$" "jslitex")
 		    ("^j-?\\(article\\|report\\|book\\)$" "jlatex"))
                 '(("^j-\\(article\\|report\\|book\\)$" "jlatex")
-                  ("^j\\(article\\|report\\|book\\)$" "platex")
-                  ("." "jlatex")))
+                  ("^[jt]s?\\(article\\|report\\|book\\)$" "platex")))
 	      LaTeX-command-style))
 
 (setcdr (assoc "%l" TeX-expand-list)
@@ -105,7 +104,7 @@
   "The default command for TeX-command in the japanese-LaTeX mode.")
 (make-variable-buffer-local 'japanese-LaTeX-command-default)
 
-(defvar japanese-LaTeX-default-style "jarticle"
+(defvar japanese-LaTeX-default-style "j-article"
   "*Default when creating new Japanese documents.")
 (make-variable-buffer-local 'japanese-LaTeX-default-style)
 
@@ -121,7 +120,10 @@
     ("j-article")
     ("jslides")
     ("jreport")
-    ("j-report"))
+    ("j-report")
+    ("tarticle")
+    ("treport")
+    ("tbook"))
   "*List of Japanese document styles.")
 (make-variable-buffer-local 'japanese-LaTeX-style-list)
 

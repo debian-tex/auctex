@@ -1,5 +1,5 @@
 <:# Copyright (C) 1999, 2000, 01, 02 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: variables,v 1.9 2002/01/18 16:04:10 salve Exp $:>//
+<:# $Id: variables,v 1.10 2002/09/22 09:45:17 salve Exp $:>//
 <:# BEWARE: The file ../tex-site.el is not yet EPerled!:>//
 <:$PACKAGE="auctex":>//
 <:# Documentation:>//
@@ -16,7 +16,8 @@
 <:# X requiring sources:>//
 <:$XSRC="hilit-LaTeX.el":>//
 <:# Canned styles:>//
-<:$STYLES="style/slides.el    style/foils.el    style/amstex.el "
+<:$STYLES="style/prosper.el "
+	. "style/slides.el    style/foils.el    style/amstex.el "
 	. "style/article.el   style/book.el     style/letter.el "
 	. "style/report.el    style/amsart.el   style/amsbook.el "
 	. "style/epsf.el      style/psfig.el    style/latexinfo.el "
