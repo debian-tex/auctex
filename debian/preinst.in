@@ -1,35 +1,26 @@
 #include "variables"
 #!/bin/bash -e
 #
-# preinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: preinst.in,v 1.4 2001/07/28 14:14:47 salve Exp $
+# preinst configuration file for Debian <:=${PACKAGE}:> package.
+# $Id: preinst.in,v 1.5 2002/01/18 16:04:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-source <:=$CONFMODULE:>
-db_version 2.0
-
-case "$1" in
+case "${1}" in
     (abort-upgrade|install|upgrade)
     <:# abort-upgrade ${2:newver}
-      # (undo postrm upgrade $2 effects):>//
+      # (undo postrm upgrade ${2} effects):>//
     <:# install ${2:oldver}
-      # (of, if there aren't conffiles from $2)
+      # (of, if there aren't conffiles from ${2})
       # install
       # (we can add diversion here, for example):>//
     <:# upgrade ${2:oldver}
       # (old-prerm upgrade has been called):>//
-	:
-    ;;
-    (*)
-	echo "${0##*/}: Called with unknown argument \`$1'." >&2
-    ;;
+    : ;;
+    (*) echo >&2 "${0##*/}: Called with unknown argument \`${1}'." ;;
 esac
-
-<:# to be sure debconf moves on:>//
-db_stop
 
 exit 0
 <:

@@ -2,14 +2,14 @@
 #!/bin/bash -e
 #
 # Update AucTeX auto-loads.
-# Installed by the Debian <:=$PACKAGE:> package.
-# $Id: cron.in,v 1.2 1999/10/14 19:11:32 salve Exp $
+# Installed by the Debian <:=${PACKAGE}:> package.
+# $Id: cron.in,v 1.3 2002/01/18 16:04:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-test -x <:=if($_="$sbin/$UPDATE")=~tr|/|/|s:> && <:=$UPDATE:> &>/dev/null
+test -x <:=if($_="${sbin}/${UPDATE}")=~tr|/|/|s:> && <:=${UPDATE}:> &>/dev/null
 
 exit 0
 <:

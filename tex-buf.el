@@ -1,14 +1,14 @@
 ;;; tex-buf.el - External commands for AUC TeX.
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 10.0g
+;; Version: 11.06
 
+;; Copyright (C) 1993, 1996, 2001 Per Abrahamsen 
 ;; Copyright (C) 1991 Kresten Krab Thorup
-;; Copyright (C) 1993, 1996 Per Abrahamsen 
 ;; 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 1, or (at your option)
+;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
 ;; 
 ;; This program is distributed in the hope that it will be useful,
@@ -90,6 +90,17 @@ Return non-nil if document need to be re-TeX'ed."
 (make-variable-buffer-local 'TeX-command-region-begin)
 (make-variable-buffer-local 'TeX-command-region-end)
 
+(defun TeX-current-offset (&optional pos)
+  "Calculate line offset of POS, or of point if POS is nil."
+  (save-restriction
+    (widen)
+    (save-excursion
+      (let ((inhibit-point-motion-hooks t)
+	    (inhibit-field-text-motion t))
+	(if pos (goto-char pos))
+	(+ (count-lines (point-min) (point))
+	   (if (bolp) 0 -1))))))
+
 (defun TeX-command-region (&optional old)
   "Run TeX on the current region.
 
@@ -123,8 +134,7 @@ all text after TeX-trailer-start."
     (TeX-region-create (TeX-region-file TeX-default-extension)
 		       (buffer-substring begin end)
 		       (file-name-nondirectory (buffer-file-name))
-		       (count-lines (save-restriction (widen) (point-min))
-				    begin)))
+		       (TeX-current-offset begin)))
   (TeX-command (TeX-command-query (TeX-region-file)) 'TeX-region-file))
 
 (defun TeX-command-buffer ()
@@ -408,12 +418,14 @@ Used by Japanese TeX to set the coding system.")
 Return the new process."
   (let ((default TeX-command-default)
 	(buffer (TeX-process-buffer-name file))
-	(dir (TeX-master-directory)))
+	(dir (TeX-master-directory))
+	(command-buff (current-buffer)))
     (TeX-process-check file)		; Check that no process is running
-    (setq TeX-command-buffer (current-buffer))
+    (setq-default TeX-command-buffer command-buff)
     (get-buffer-create buffer)
     (set-buffer buffer)
     (erase-buffer)
+    (set (make-local-variable 'TeX-command-buffer) command-buff)
     (if dir (cd dir))
     (insert "Running `" name "' on `" file "' with ``" command "''\n")
     (setq mode-name name)
@@ -546,11 +558,13 @@ Error parsing on C-x ` should work with a bit of luck."
   (let ((default TeX-command-default)
 	(buffer (TeX-process-buffer-name file))
 	(process nil)
-	(dir (TeX-master-directory)))
+	(dir (TeX-master-directory))
+	(command-buff (current-buffer)))
     (TeX-process-check file)		; Check that no process is running
-    (setq TeX-command-buffer (current-buffer))
+    (setq-default TeX-command-buffer command-buff)
     (with-output-to-temp-buffer buffer)
     (set-buffer buffer)
+    (set (make-local-variable 'TeX-command-buffer) command-buff)
     (setq buffer-read-only nil)
     (if dir (cd dir))
     (insert "Running `" name "' on `" file "' with ``" command "''\n")
@@ -675,17 +689,16 @@ Return nil ifs no errors were found."
 		(or
                  (re-search-forward "^LaTeX Warning: Citation" nil t)
                  (re-search-forward "^Package natbib Warning: Citation" nil t)))
-	      (let ((current (current-buffer)))
-		(set-buffer TeX-command-buffer)
-		(prog1 (and (LaTeX-bibliography-list)
-			    (TeX-check-files (TeX-master-file "bbl")
-					    (TeX-style-list)
-					    (append TeX-file-extensions
-						    BibTeX-file-extensions)))
-		  (set-buffer current))))
+	      (with-current-buffer TeX-command-buffer
+		(and (LaTeX-bibliography-list)
+		     (TeX-check-files (TeX-master-file "bbl")
+				      (TeX-style-list)
+				      (append TeX-file-extensions
+					      BibTeX-file-extensions)))))
 	 (message (concat "You should run BibTeX to get citations right, "
                           (TeX-current-pages)))
-	 (setq TeX-command-next TeX-command-BibTeX))
+	 (setq TeX-command-next (with-current-buffer TeX-command-buffer
+				  TeX-command-BibTeX)))
 	((or
           (re-search-forward "^LaTeX Warning: Label(s)" nil t)
           (re-search-forward "^Package natbib Warning: Citation(s)" nil t))
@@ -767,7 +780,7 @@ command."
 				name
 				"' running, kill it? "))
 	   (delete-process process))
-	  (t
+	  ((eq (process-status process) 'run)
 	   (error "Cannot have two processes for the same document")))))
 
 (defun TeX-process-buffer-name (name)
@@ -946,8 +959,7 @@ original file."
 				""
 			      ;;(beginning-of-line 1)
 			      (re-search-backward "[\r\n]" nil t)
-			      (setq trailer-offset
-				    (count-lines (point-min) (point)))
+			      (setq trailer-offset (TeX-current-offset))
 			      (buffer-substring (point) (point-max))))))))))
     (save-excursion
       (set-buffer file-buffer)
@@ -959,12 +971,12 @@ original file."
 	      TeX-region-extra
 	      "\n\\message{ !name(" original ") !offset(")
       (insert (int-to-string (- offset
-				(count-lines (point-min) (point))))
+				(1+ (TeX-current-offset))))
 	      ") }\n"
 	      region
 	      "\n\\message{ !name("  master-name ") !offset(")
       (insert (int-to-string (- trailer-offset
-				(count-lines (point-min) (point))))
+				(1+ (TeX-current-offset))))
 	      ") }\n"
 	      trailer)
       (run-hooks 'TeX-region-hook)
@@ -1237,7 +1249,7 @@ Return nil if we gave a report."
 
   (let ((old-buffer (current-buffer))
 	(log-file (TeX-active-master "log"))
-	(TeX-error-pointer 1))
+	(TeX-error-pointer 0))
 
     ;; Find help text entry.
     (while (not (string-match (car (nth TeX-error-pointer 

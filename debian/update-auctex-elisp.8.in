@@ -17,10 +17,10 @@
 .\" You should have received a copy of the GNU General Public License
  \" along with this manual page; if not, write to: The Free Software
  \" Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307,
- \" USA. 
+ \" USA.
 .\"
 .\" On Debian GNU/Linux System you can find a copy of the GNU General
- \" Public License in "<:=$GPL:>".
+ \" Public License in "<:=${GPL}:>".
 .\"
 .TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
 .SH NAME
@@ -28,14 +28,19 @@ update\-auctex\-elisp \- update AUC TeX automatically generated TeX
 macros and LaTeX styles informations.
 .SH SYNOPSIS
 .B update\-auctex\-elisp
+.RI [ FLAVOR .\|.\|. ]
 .SH DESCRIPTION
 The
 .B update\-auctex\-elisp
 scripts updates the automatically generated TeX and LaTeX informations
 used by AUC TeX and stored in
-.B <:=$var:>
+.B <:=${var}:>
 .PP
 It should be called after each major (La)TeX style files installation or upgrade.
+.PP
+If no arguments are specified, update\-auctex\-elisp caters to every
+supported Emacs flavor installed on the system; else it updates only the
+specified flavors, if they are installed.
 .PP
 On Debian GNU/Linux system
 .B update\-auctex\-elisp
@@ -45,7 +50,7 @@ driven mechanism, to ensure up-to-date informations.
 .SH BUGS
 None known.
 .SH FILES
-.B <:=$var:>
+.B <:=${var}:>:
 the directory containing the byte-compiled files.
 .SH SEE ALSO
 .BR emacs (1),

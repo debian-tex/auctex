@@ -1,7 +1,7 @@
 ;;; tex.el --- Support for TeX documents.
 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 10.0g
+;; Version: 11.06
 ;; Keywords: wp
 ;; X-URL: http://sunsite.dk/auctex
 
@@ -115,7 +115,7 @@ performed as specified in TeX-expand-list."
 	(if (or window-system (getenv "DISPLAY"))
 	    (list "View" "%v " 'TeX-run-silent t nil)
 	  (list "View" "dvi2tty -q -w 132 %s " 'TeX-run-command t nil))
-	(list "Print" "%p " 'TeX-run-command t nil)
+	(list "Print" "%p %r " 'TeX-run-command t nil)
 	(list "Queue" "%q" 'TeX-run-background nil nil)
 	(list "File" "dvips %d -o %f " 'TeX-run-command t nil)
 	(list "BibTeX" "bibtex %s" 'TeX-run-BibTeX nil nil)
@@ -308,6 +308,19 @@ string."
   :group 'TeX-command
   :type '(repeat (group regexp (string :tag "Command"))))
 
+;;Same for printing.
+
+(defcustom TeX-print-style '(("^landscape$" "-t landscape"))
+  "List of style options and print options.
+
+If the first element (a regular expresion) matches the name of one of
+the style files, any occurrence of the string %r in a command in
+TeX-command-list will be replaced with the second element.  The first
+match is used, if no match is found the %r is replaced with the empty
+string."
+  :group 'TeX-command
+  :type '(repeat (group regexp (string :tag "Command"))))
+
 ;; This is the list of expansion for the commands in
 ;; TeX-command-list.  Not likely to be changed, but you may e.g. want
 ;; to handle .ps files. 
@@ -318,6 +331,8 @@ string."
 		     (TeX-printer-query TeX-queue-command 2))))
 	(list "%v" (lambda () 
 		     (TeX-style-check TeX-view-style)))
+	(list "%r" (lambda () 
+		     (TeX-style-check TeX-print-style)))
 	(list "%l" (lambda ()
 		     (TeX-style-check LaTeX-command-style)))
 	(list "%s" 'file nil t)
@@ -414,10 +429,10 @@ Full documentation will be available after autoloading the function."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "10.0g"
+(defconst AUC-TeX-version "11.06"
   "AUC TeX version number.")
 
-(defconst AUC-TeX-date "Wed Apr 11 13:51:05 CEST 2001"
+(defconst AUC-TeX-date "Mon Oct 15 17:10:13 CEST 2001"
   "AUC TeX release date.")
 
 ;;; Buffer
@@ -476,6 +491,7 @@ Must be the car of an entry in TeX-command-list."
 (autoload 'TeX-next-error "tex-buf" no-doc t)
 (autoload 'TeX-toggle-debug-boxes "tex-buf" no-doc t)
 (autoload 'TeX-region-file "tex-buf" no-doc nil)
+(autoload 'TeX-current-offset "tex-buf" no-doc nil)
 
 (defvar TeX-trailer-start nil
   "Regular expression delimiting start of trailer in a TeX file.")
@@ -706,7 +722,8 @@ These correspond to TeX macros shared by all users of a site."
   "*Directory containing automatically generated TeX information.
 Must end with a slash.
 
-This correspond to TeX macros found in the current directory."
+This correspond to TeX macros found in the current directory, and must
+be relative to that."
   :group 'TeX-file
   :type 'string)
 
@@ -714,7 +731,8 @@ This correspond to TeX macros found in the current directory."
   "*Directory containing hand generated TeX information.
 Must end with a slash.
 
-These correspond to TeX macros found in the current directory."
+These correspond to TeX macros found in the current directory, and must
+be relative to that."
   :group 'TeX-file
   :type 'string)
 
@@ -1274,126 +1292,6 @@ Unless optional argument COMPLETE is non-nil, ``: '' will be appended."
 	  (if prompt prompt default)
 	  (if complete "" ": ")))
 
-;;; Font-Lock support
-;;
-;; Stolen from Emacs 21.
-
-(eval-and-compile
-  (unless (or (featurep 'xemacs) (< emacs-major-version 21))
-    (defconst tex-font-lock-keywords-1
-      (eval-when-compile
-	(let* (;; Names of commands whose arg should be fontified as heading, etc.
-	       (headings (regexp-opt
-			  '("title"  "begin" "end" "chapter" "part"
-			    "section" "subsection" "subsubsection"
-			    "paragraph" "subparagraph" "subsubparagraph"
-			    "newcommand" "renewcommand" "newenvironment"
-			    "newtheorem")
-			  t))
-	       (variables (regexp-opt
-			   '("newcounter" "newcounter*" "setcounter" "addtocounter"
-			     "setlength" "addtolength" "settowidth")
-			   t))
-	       (includes (regexp-opt
-			  '("input" "include" "includeonly" "bibliography"
-			    "epsfig" "psfig" "epsf" "nofiles" "usepackage"
-			    "includegraphics" "includegraphics*")
-			  t))
-	       ;; Miscellany.
-	       (slash "\\\\")
-	       (opt "\\(\\[[^]]*\\]\\)?")
-	       (arg "{\\(\\(?:[^{}\\]+\\|\\\\.\\|{[^}]*}\\)+\\)"))
-	  (list
-	   ;; Heading args.
-	   (list (concat slash headings "\\*?" opt arg)
-		 ;; If ARG ends up matching too much (if the {} don't match, f.ex)
-		 ;; jit-lock will do funny things: when updating the buffer
-		 ;; the re-highlighting is only done locally so it will just
-		 ;; match the local line, but defer-contextually will
-		 ;; match more lines at a time, so ARG will end up matching
-		 ;; a lot more, which might suddenly include a comment
-		 ;; so you get things highlighted bold when you type them
-		 ;; but they get turned back to normal a little while later
-		 ;; because "there's already a face there".
-		 ;; Using `keep' works around this un-intuitive behavior as well
-		 ;; as improves the behavior in the very rare case where you do have
-		 ;; a comment in ARG.
-		 3 'font-lock-function-name-face 'keep)
-	   ;; Variable args.
-	   (list (concat slash variables arg) 2 'font-lock-variable-name-face)
-	   ;; Include args.
-	   (list (concat slash includes opt arg) 3 'font-lock-builtin-face)
-	   ;; Definitions.  I think.
-	   '("^[ \t]*\\\\def\\\\\\(\\(\\w\\|@\\)+\\)"
-	     1 font-lock-function-name-face))))
-      "Subdued expressions to highlight in TeX modes.")
-
-    (defconst tex-font-lock-keywords-2
-      (append tex-font-lock-keywords-1
-	      (eval-when-compile
-		(let* (;;
-		       ;; Names of commands whose arg should be fontified with fonts.
-		       (bold (regexp-opt '("textbf" "textsc" "textup"
-					   "boldsymbol" "pmb") t))
-		       (italic (regexp-opt '("textit" "textsl" "emph") t))
-		       (type (regexp-opt '("texttt" "textmd" "textrm" "textsf") t))
-		       ;;
-		       ;; Names of commands whose arg should be fontified as a citation.
-		       (citations (regexp-opt
-				   '("label" "ref" "pageref" "vref" "eqref"
-				     "cite" "nocite" "index" "glossary"
-				     ;; These are text, rather than citations.
-				     ;; "caption" "footnote" "footnotemark" "footnotetext"
-				     )
-				   t))
-		       ;;
-		       ;; Names of commands that should be fontified.
-		       (specials (regexp-opt
-				  '("\\"
-				    "linebreak" "nolinebreak" "pagebreak" "nopagebreak"
-				    "newline" "newpage" "clearpage" "cleardoublepage"
-				    "displaybreak" "allowdisplaybreaks" "enlargethispage")
-				  t))
-		       (general "\\([a-zA-Z@]+\\**\\|[^ \t\n]\\)")
-		       ;;
-		       ;; Miscellany.
-		       (slash "\\\\")
-		       (opt "\\(\\[[^]]*\\]\\)?")
-		       (arg "{\\(\\(?:[^{}\\]+\\|\\\\.\\|{[^}]*}\\)+\\)"))
-		  (list
-		   ;;
-		   ;; Citation args.
-		   (list (concat slash citations opt arg) 3 'font-lock-constant-face)
-		   ;;
-		   ;; Command names, special and general.
-		   (cons (concat slash specials) 'font-lock-warning-face)
-		   (concat slash general)
-		   ;;
-		   ;; Font environments.  It seems a bit dubious to use `bold' etc. faces
-		   ;; since we might not be able to display those fonts.
-		   (list (concat slash bold arg) 2 '(quote bold) 'append)
-		   (list (concat slash italic arg) 2 '(quote italic) 'append)
-		   ;; (list (concat slash type arg) 2 '(quote bold-italic) 'append)
-		   ;;
-		   ;; Old-style bf/em/it/sl.  Stop at `\\' and un-escaped `&', for tables.
-		   (list (concat "\\\\\\(\\(bf\\)\\|em\\|it\\|sl\\)\\>"
-				 "\\(\\([^}&\\]\\|\\\\[^\\]\\)+\\)")
-			 3 '(if (match-beginning 2) 'bold 'italic) 'append)))))
-      "Gaudy expressions to highlight in TeX modes.")
-
-    (defvar tex-font-lock-keywords tex-font-lock-keywords-1
-      "Default expressions to highlight in TeX modes.")
-
-
-    (defface tex-math-face
-      '((t :inherit font-lock-string-face))
-      "Face used to highlight TeX math expressions.")
-    (defvar tex-math-face 'tex-math-face)
-
-    ;; Use string syntax but math face for $...$.
-    (defun tex-font-lock-syntactic-face-function (state)
-      (if (nth 3 state) tex-math-face font-lock-comment-face))
-    ))
 ;;; The Mode
 
 (defvar TeX-format-list
@@ -1506,6 +1404,22 @@ of AmS-TeX-mode-hook."
   (setq TeX-command-default "AmSTeX")
   (run-hooks 'text-mode-hook 'TeX-mode-hook 'AmS-TeX-mode-hook))
 
+(autoload 'font-latex-setup "font-latex" 
+  "Font locking optimized for LaTeX.
+Should work with all Emacsen." t)
+(autoload 'tex-font-setup "tex-font" 
+  "Copy of Emacs 21 standard tex-mode font lock support.
+This only works with Emacs 21." t)
+
+(defcustom TeX-install-font-lock 'font-latex-setup
+  "Function to call to install font lock support.
+Choose `ignore' if you don't want AUC TeX to install support for font locking."
+  :group 'AUC-TeX
+  :type '(radio (function-item font-latex-setup)
+		(function-item tex-font-setup)
+		(function-item ignore)
+		(function :tag "Other")))
+
 (defun VirTeX-common-initialization ()
   ;; Initialize
   (kill-all-local-variables)
@@ -1555,16 +1469,7 @@ of AmS-TeX-mode-hook."
 		    1 'TeX-symbol-list (if TeX-insert-braces "{}"))
 	      (list "" TeX-complete-word)))
   
-  ;; Support Font Lock for Emacs 21+.
-  (unless (or (featurep 'xemacs) (< emacs-major-version 21))
-    (set (make-local-variable 'font-lock-defaults)
-	 '((tex-font-lock-keywords
-	    tex-font-lock-keywords-1 tex-font-lock-keywords-2)
-	   nil nil ((?$ . "\"")) nil
-	   ;; Who ever uses that anyway ???
-	   (font-lock-mark-block-function . mark-paragraph)
-	   (font-lock-syntactic-face-function
-	    . tex-font-lock-syntactic-face-function))))
+  (funcall TeX-install-font-lock)
 
   ;; We want this to be early in the list, so we do not add it before
   ;; we enter TeX mode  the first time.
@@ -2267,7 +2172,7 @@ See match-data for details."
 
 (defun TeX-current-line ()
   "The current line number."
-  (format "%d" (count-lines (point-min) (point))))
+  (format "%d" (1+ (TeX-current-offset))))
 
 (defun TeX-current-file-name-nondirectory ()
   "Return current filename, without path."

@@ -11,31 +11,25 @@ AUC-TeX, unless the local system administrator chose to start it by default.
 
 System administrators wanting to start AUC-TeX by default on their site should
 answer accordingly at the appropriate configuration time question (and may
-issue "dpkg-reconfigure <:=$PACKAGE:>" if they change their minds afterwards).
+issue "dpkg-reconfigure <:=${PACKAGE}:>" if they change their minds afterwards).
 
 
-Font LaTeX
+Font-LaTeX
 ==========
 
-Users will need to put something like:
-
-(when (or window-system (>= emacs-major-version 21)) (require 'font-latex))
-
-in their "~/.emacs" to load Font LaTeX, unless the local system administrator
-chose to start it by default.
-
-System administrators wanting to start Font LaTeX by default on their site
-should answer accordingly at the appropriate configuration time question (and
-may issue "dpkg-reconfigure <:=$PACKAGE:>" if they later change their minds).
+Starting with AUC-TeX 11.01, a new user customizable variable appeared:
+"TeX-install-font-lock".  Font-LaTeX it's now the default choice, so users
+need not doing anything special to load it anymore.  Emacs 21 users may choose
+"tex-font" instead, should they wish it.
 
 
 Online Documentation
 ====================
 
 Online documentation may be found in the info or HTML manual, and the
-<:=$UPDATE:>(8) manual page.
+<:=${UPDATE}:>(8) manual page.
 
-TeXInfo sources may be found in the "<:=if($_="$docsrc")=~tr|/|/|s:>"
+TeXInfo sources may be found in the "<:=if($_="${docsrc}")=~tr|/|/|s:>"
 directory.
 
 
@@ -43,16 +37,16 @@ Notes to System Administrators
 ==============================
 
 A) To improve its performance AUC-TeX stores informations about TeX macros and
-LaTeX styles available on the system in the "<:=$var:>" directory.
+LaTeX styles available on the system in the "<:=${var}:>" directory.
 
 AUC-TeX updates these informations weekly, by mean of a cron script;
-nevertheless, you may want to run "<:=if($_="$sbin/$UPDATE")=~tr|/|/|s:>"
+nevertheless, you may want to run "<:=if($_="${sbin}/${UPDATE}")=~tr|/|/|s:>"
 manually after installing new style files under "/usr/local/share/texmf".
 
 B) You may probably want to customize the list of printers available at your
 site.
 
-This could be easily accomplished by declaring it in "<:=$SSEL:>"
+This could be easily accomplished by declaring it in "<:=${SSEL}:>"
 (along with the default printer), for example:
 
 (setq TeX-printer-list
@@ -64,7 +58,7 @@ This could be easily accomplished by declaring it in "<:=$SSEL:>"
 
 Please, look at the online documentation, type `C-h v TeX-printer-list RET'
 from within Emacs (load auctex first), or browse through the file
-"<:=if($_="$lisp/tex.el")=~tr|/|/|s:>" for more information on this topic.
+"<:=if($_="${lisp}/tex.el")=~tr|/|/|s:>" for more information on this topic.
 
 
 Contributed Files

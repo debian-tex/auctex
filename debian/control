@@ -1,13 +1,13 @@
 Source: auctex
 Section: tex
 Priority: optional
-Build-Depends: eperl, texinfo, texi2html
+Build-Depends-Indep: eperl, texinfo, texi2html
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
-Standards-Version: 3.5.5
+Standards-Version: 3.5.6
 
 Package: auctex
 Architecture: all
-Depends: debconf, debianutils (>= 1.7), emacs20|emacs21|mule2
+Depends: debconf, debianutils (>= 1.7), emacs20|emacs21
 Recommends: tetex-base
 Suggests: lacheck
 Description: An integrated environment for writing TeX/LaTeX documents.
@@ -23,5 +23,5 @@ Description: An integrated environment for writing TeX/LaTeX documents.
  document is spread over several files.
  .
  Currently XEmacs ships with its own AUC TeX, so this package should only
- be used with GNU/Emacs.  (I.e. you don't need to install this package if
+ be used with GNU/Emacs.  (I.e., you don't need to install this package if
  your site uses only XEmacs.)

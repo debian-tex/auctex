@@ -1,7 +1,7 @@
 ;;; auc-old.el - Compatibility with AUC TeX 6.*
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 10.0g
+;; Version: 11.06
 ;;
 ;; Copyright (C) 1991 Kresten Krab Thorup 
 ;; Copyright (C) 1993 Per Abrahamsen 
@@ -78,7 +78,7 @@
       (TeX-region-create (TeX-region-file "tex")
 			 (buffer-substring begin end)
 			 (file-name-nondirectory (buffer-file-name))
-			 (count-lines (point-min) begin)))
+			 (TeX-current-offset begin)))
   (TeX-command TeX-command-default 'TeX-region-file))
 
 (defun TeX-buffer ()

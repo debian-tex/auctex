@@ -1,3 +1,40 @@
+auctex (11.06-1) unstable; urgency=low
+
+  * New upstream CVS version.  (Closes: #115660, #109114)
+  * ../tex-site.el(TeX-macro-global): Removed old ".../lib/texmf/" items;
+    added "/usr/local/share/texmf/bibtex/" and
+    "/usr/share/texmf/bibtex/"; thanks to Matt Hodges.  (Closes: #125715)
+  * COPYRIGHT: Updated.
+  * README(Font-LaTeX): Documented new default.  (Closes: #115694)
+  * config: Removed fldefault and flalreadydefault, see
+    README(Font-LaTeX).  (Closes: #115694)
+  * control(Dependes): Removed no longer existing mule2.
+    (Standards-Version): Updated to 3.5.6.
+    Build-Depends -> Build-Depends-Indep.
+  * copyright: Updated.
+  * install: Removed no longer existing mule2.
+    Added do_auto from postinst.
+  * postinst: Removed fldefault code, see README(Font-LaTeX).
+    (Closes: #115694)
+    Moved do_auto to install.
+  * postrm: Removed no more needed debconf sourcing.
+  * preinst: Removed no more needed debconf sourcing.
+  * prerem: Moved undo_auto to remove.
+  * remove: Removed no longer existing mule2.
+    Added undo_auto from remove; thanks to Julian D. Gilbey.
+    (Closes: #117047)
+  * templates: Added Spanish; thanks to Gorka Olaizola.  (Closes: #108211)
+    Removed fldefault and flalreadydefault, see README(Font-LaTeX).
+    (Closes: #115694)
+  * update-auctex-elisp: Removed no longer existing mule2.
+    Added flavor arguments; thanks to Julian D. Gilbey.  (Closes: #117047)
+  * update-auctex-elisp.8: Documented new command-line arguments.
+  * variables(AUC TeX sources): Added font-latex.el, tex-font.el.
+    (Contributed sources): Removed font-latex.el, added tex-fptex.el.
+    (Styles): Added verbatim.el.
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Fri, 18 Jan 2002 16:30:43 +0100
+
 auctex (10.0g-4) unstable; urgency=low
 
   * control(Standards-Version): Updated to 3.5.5.
@@ -10,14 +47,14 @@ auctex (10.0g-4) unstable; urgency=low
 auctex (10.0g-3) unstable; urgency=low
 
   * remove: Added `|| true' after `rmdir'; thanks to Timshel Knoll.
-  (Closes: #101067)
+    (Closes: #101067)
 
  -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat, 16 Jun 2001 13:47:34 +0200
 
 auctex (10.0g-2) unstable; urgency=high
 
   * rules (build): Removed debian/rules from deps.
-  (debian/rules): Removed debian/system.variables from deps.
+    (debian/rules): Removed debian/system.variables from deps.
 
  -- Davide G. M. Salvetti <salve@hal.linux.it>  Wed, 16 May 2001 14:48:51 +0200
 
@@ -39,10 +76,10 @@ auctex (10.0d-1) unstable; urgency=medium
   * README: Added font-latex support.
   * config: Added font-latex support.
   * control (Depends): added emacs21;
-            (Build-Depends): added texinfo, texi2html.
+    (Build-Depends): added texinfo, texi2html.
   * install: Removed no more needed beauty stuff.
   * postinst: Removed no more needed beauty stuff.
-              Added font-latex support.
+    Added font-latex support.
   * templates: Added font-latex support.
   * update-auctex-elisp.8: Updated copyright.
   * variables: Updated $STYLES.

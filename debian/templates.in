@@ -1,5 +1,5 @@
 #include "variables"
-Template: <:=$PACKAGE:>/default
+Template: <:=${PACKAGE}:>/default
 Type: boolean
 Default: true
 Description: Should AUC-TeX be auto-loaded by default at your site?
@@ -36,23 +36,34 @@ Description-de: Soll AUC-TeX systemweit automatisch geladen werden?
  .
  Wenn Sie die Frage verneinen, müssen Nutzer, die AUC-TeX nutzen wollen,
  "(require 'tex-site)" in ihr "~/.emacs" einfügen.
+Description-es: ¿Debe cargarse AUC-TeX por defecto en su sistema?
+ Emacs tiene sus modos (La)TeX estándar que serán reemplazados globalmente
+ (para todos los usuarios del sistema) por AUC-TeX si responde Sí a esta
+ pregunta.
+ .
+ Generalmente es una buena idea ya que AUC-TeX es mucho mejor.  Sin embargo
+ puede que no le guste la idea y prefiera que los usuarios de su sistema
+ decidan por sí mismos si quieren cargar este paquete.
+ .
+ Si responde No la gente que quiera usarlo deberá incluir la cadena
+ "(require 'tex-site)" en su "~/.emacs" para cargarlo.
 
-Template: <:=$PACKAGE:>/alreadydefault
+Template: <:=${PACKAGE}:>/alreadydefault
 Type: note
 Description: AUC-TeX seems to be already auto-loaded at your site.  Good.
- By inspection of the file "<:=$SSEL:>" AUC-TeX seems to be
+ By inspection of the file "<:=${SSEL}:>" AUC-TeX seems to be
  already auto-loaded by default at your site.
  .
  If this is not true, or if it's not what you want, please search that file
  looking for "(require 'tex-site)" resembling forms and fix them; then run
- "dpkg-reconfigure <:=$PACKAGE:>" if needed (recommended).
+ "dpkg-reconfigure <:=${PACKAGE}:>" if needed (recommended).
 Description-it: AUC-TeX sembra già automaticamente abilitato su questa macchina.  Bene.
- Controllando il file "<:=$SSEL:>", pare che AUC-TeX sia già automaticamente
+ Controllando il file "<:=${SSEL}:>", pare che AUC-TeX sia già automaticamente
  abilitato su questa macchina.
  .
  Se questo non è vero, o se non è quel che si desidera, si vadano a cercare in
  quel file Lisp form del tipo "(require 'tex-site)" e li si correggano;
- poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
+ poi si faccia girare "dpkg-reconfigure <:=${PACKAGE}:>" per configurare di
  nuovo AUC-TeX.
 Description-de: AUC-TeX scheint schon standardmäßig eingebunden zu sein. Fein.
  Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint AUC-TeX bereits
@@ -61,83 +72,19 @@ Description-de: AUC-TeX scheint schon standardmäßig eingebunden zu sein. Fein.
  Wenn das nicht stimmt oder wenn das nicht das ist, was Sie wollen, dann
  entfernen Sie bitte die "(require 'tex-site)"-Aufrufe in der genannten
  Datei. Danach wird der Aufruf von "dpkg-reconfigure auctex" empfohlen.
+Description-es: Parece que AUC-TeX ya se está cargando automáticamente. Bien
+ Tras inspeccionar el fichero "/etc/emacs/site-start.el" parece que AUC-TeX
+ esta ya configurado para cargarse por defecto en su sistema.
+ .
+ Si no es verdad o si no lo quiere, por favor, busque en el fichero la frase
+ "(require 'tex-site)" y modifíquela.
+ Después ejecute "dpkg-reconfigure auctex" si es necesario (recomendado).
 
-Template: <:=$PACKAGE:>/fldefault
-Type: boolean
-Default: true
-Description: Should Font LaTeX be auto-loaded by default at your site?
- Font LaTeX is a set of fontification definitions for LaTeX files.
- .
- Emacs has its own standard Font Lock mode for LaTeX, that will be globally
- (i.e., for all users on this site) overridden by Font LaTeX if you answer yes
- to this question.
- .
- This is generally a good thing, since Font LaTeX is so much better; however
- you may not want it to happen, and instead let single users at your site
- decide by themselves if they should load this package.
- .
- If you answer no, people who desire to use it will have to put the string
- "(require 'font-latex)" in their "~/.emacs" to load it.
-Description-it: Abilitare Font LaTeX automaticamente su questa macchina?
- Font LaTeX è una collezione di definizioni per evidenziare visivamente la
- sintassi dei documenti LaTeX.
- .
- Emacs normalmente ha le proprie definizioni originali per evidenziare
- visivamente i documenti LaTeX; se si risponde affermativamente a questa
- domanda, queste verranno globalmente sostituite da quelli di Font LaTeX
- (sostituiti, cioè, per tutti gli utenti di questa macchina).
- .
- In genere questa è una buona cosa, perché le definizioni di Font LaTeX sono
- molto migliori di quelle originali; può darsi, tuttavia, che si preferisca
- lasciare a ciascun singolo utente la decisione di far uso o meno di questo
- pacchetto.
- .
- Se la risposta sarà negativa, gli utenti che ne vorranno far uso dovranno
- mettere manualmente la stringa "(require 'font-latex)" nel loro "~/.emacs"
- per abilitare Font LaTeX.
-Description-de: Soll "Font LaTeX" standardmäßig eingebunden werden?
- "Font LaTeX" verschönert die Darstellung von LaTeX-Dateien.
- .
- Emacs hat seinen eigenen standardmäßigen "Font Lock Mode" für LaTeX, der
- global (also für alle Nutzer auf Ihrem System) überschrieben wird, wenn Sie
- diese Frage bejahen.
- .
- Das ist generell ein gutes Ding, da Font LaTeX 'ne Ecke besser ist -- wie
- auch immer, Sie könnten das nicht mögen und jedem Nutzer die Wahl lassen
- wollen, ob sie das Paket einbinden.
- .
- Wenn Sie die Frage verneinen, müssen Nutzer, die Font LaTeX nutzen wollen,
- "(require 'font-latex)" in ihr "~/.emacs" einfügen.
-
-Template: <:=$PACKAGE:>/flalreadydefault
-Type: text
-Description: Font LaTeX seems to be already auto-loaded at your site.  Good.
- By inspection of the file "<:=$SSEL:>" Font LaTeX seems to be
- already auto-loaded by default at your site.
- .
- If this is not true, or if it's not what you want, please search that file
- looking for "(require 'font-latex)" resembling forms and fix them; then run
- "dpkg-reconfigure <:=$PACKAGE:>" if needed (recommended).
-Description-it: Font LaTeX sembra già automaticamente abilitato su questa macchina.  Bene.
- Controllando il file "<:=$SSEL:>", pare che Font LaTeX sia già
- automaticamente abilitato su questa macchina.
- .
- Se questo non è vero, o se non è quel che si desidera, si vadano a cercare in
- quel file Lisp form del tipo "(require 'font-latex)" e li si correggano;
- poi si faccia girare "dpkg-reconfigure <:=$PACKAGE:>" per configurare di
- nuovo Font LaTeX.
-Description-de: Font LaTeX scheint schon eingebunden zu sein. Fein.
- Nach Kontrolle der Datei "/etc/emacs/site-start.el" scheint Font LaTeX
- bereits standardmäßig auf Ihrem System eingebunden zu werden.
- .
- Wenn das nicht stimmt oder wenn das nicht das ist, was Sie wollen, dann
- entfernen Sie bitte die "(require 'font-latex)"-Aufrufe in der genannten
- Datei. Danach wird der Aufruf von "dpkg-reconfigure auctex" empfohlen.
-
-Template: <:=$PACKAGE:>/doauto
+Template: <:=${PACKAGE}:>/doauto
 Type: select
 Choices: Background, Foreground, None
 Choices-it: Sottofondo, Primo piano, Nessuno
+Choices-es: Segundo plano, Primer plano, Omitir
 Default: Background
 Description: How should (La)TeX macros be parsed?
  To greatly improve AUC-TeX performances, every TeX macro package and LaTeX
@@ -152,7 +99,7 @@ Description: How should (La)TeX macros be parsed?
  collected, so usually you won't need to worry about them whenever you install
  new (La)TeX packages or remove old ones.
  .
- Anyway, you can update them by hand running <:=$UPDATE:>.
+ Anyway, you can update them by hand running <:=${UPDATE}:>.
 Description-it: In che modo si deve effettuare la scansione delle macro per (La)TeX?
  Per migliorare grandemente le proprie prestazioni, AUC-TeX scandirà tutti i
  pacchetti di macro per TeX ed i file di stile per LaTeX attualmente
@@ -170,7 +117,7 @@ Description-it: In che modo si deve effettuare la scansione delle macro per (La)
  aggiuntivi per (La)TeX.
  .
  In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando
- <:=$UPDATE:>.
+ <:=${UPDATE}:>.
 Description-de: Wie sollen (La)TeX-Makros behandelt werden?
  Zur Beschleunigung von AUC-TeX kann jedes installierte TeX-Makro und jeder
  LaTeX-Style im Voraus bearbeitet werden.
@@ -188,11 +135,27 @@ Description-de: Wie sollen (La)TeX-Makros behandelt werden?
  .
  Die Aktualisierung kann zudem von Hand durch Aufruf von
  "update-auctex-elisp" erfolgen.
+Description-es: ¿Como deben analizarse las macros (La)TeX?
+ Para mejorar el rendimiento de AUC-TeX se analizará el contenido de cada
+ paquete de macros TeX y ficheros de estilo LaTeX instalado en su sistema.
+ .
+ Esto puede tardar mucho tiempo, por lo que se debería hacer en segundo
+ plano.  Sin embargo puede elegir hacerlo en primer plano u omitir este
+ paso.  Si elige hacerlo en segundo plano encontrará un detallado registro
+ del proceso en el fichero: ${LOGFILE}.
+ .
+ Así mismo, una tarea semanal actualizará la información recolectada en esta
+ sesión por lo que no se tiene que preocupar cuando instale nuevos paquetes
+ de (La)TeX o borre los antiguos.
+ .
+ De cualquier forma puede actualizarlos ejecutando update-auctex-elisp en
+ cualquier momento.
 
-Template: <:=$PACKAGE:>/doautofg
+Template: <:=${PACKAGE}:>/doautofg
 Type: select
 Choices: Console, File
 Choices-it: Video, File
+Choices-es: Consola, Fichero
 Default: File
 Description: Where should parsing output go?
   You chose to parse TeX macro packages and LaTeX style files in foreground.
@@ -223,6 +186,14 @@ Description-de: Wo soll die Protokoll-Ausgabe hingehen?
  .
  Wenn Sie mit "Konsole" antworten, wird die gesamte Ausgabe direkt auf Ihrem
  Terminal erscheinen.
+Description-es: ¿A donde se debe enviar la información al analizar?
+ Ha elegido analizar los paquetes de macros TeX y ficheros de estilo LaTeX
+ en primer plano.
+ .
+ Por defecto, respondiendo Fichero a esta pregunta, los mensajes del
+ proceso de analizado se guardarán en un fichero llamado: ${LOGFILE}.
+ .
+ Si responde Consola, verá todos los (aburridos) mensajes en su terminal.
 
 <:
 # Local variables:

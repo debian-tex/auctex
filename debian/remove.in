@@ -1,35 +1,43 @@
 #include "variables"
 #!/bin/bash -e
 #
-# elisp remove file for Debian <:=$PACKAGE:> package.
-# $Id: remove.in,v 1.10 2001/07/28 14:14:47 salve Exp $
+# elisp remove file for Debian <:=${PACKAGE}:> package.
+# $Id: remove.in,v 1.11 2002/01/18 16:04:10 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-FLAVOR=$1
+FLAVOR=${1}
 
-case "$FLAVOR" in
-    (emacs)
-	:
-    ;;
-    (emacs20|emacs21|mule2)
-	echo -n "remove/<:=$PACKAGE:>: Removing for $FLAVOR... "
-	rm -f <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/{*.elc,<:=$ELCLOG:>.gz}
-	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.elc
-	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/.nosearch
-	test -d <:=if($_=$style)=~s|emacs|\$FLAVOR|:> && \
-	    rmdir --ignore-fail-on-non-empty \
-	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
-	test -d <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> && \
-	    rmdir --ignore-fail-on-non-empty \
-	    <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>
-	echo "done."
-    ;;
-    (*)
-	echo "remove/<:=$PACKAGE:>: Ignoring emacsen flavor $FLAVOR."
-    ;;
+undo_byte_compile () {
+    echo >&2 -n "remove/<:=${PACKAGE}:>: Removing for ${FLAVOR}... "
+    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/{*.elc,<:=${ELCLOG}:>.gz}
+    rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/*.elc
+    rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/.nosearch
+    test -d <:=if($_=${style})=~s|emacs|\${FLAVOR}|:> && \
+	rmdir --ignore-fail-on-non-empty \
+	<:=if($_=${style})=~s|emacs|\${FLAVOR}|:>
+    test -d <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> && \
+	rmdir --ignore-fail-on-non-empty \
+	<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
+    echo >&2 "done."
+    return 0
+}
+
+undo_auto () {
+    rm -rf <:="${var}/\${FLAVOR}/":>
+    return 0
+}
+
+case "${FLAVOR}" in
+    (emacs) : ;;
+    (emacs20|emacs21)
+    <:# remove all parsed information files:>//
+    undo_auto
+    <:# undo byte compilation:>//
+    undo_byte_compile ;;
+    (*) echo >&2 "remove/<:=${PACKAGE}:>: Ignoring emacsen flavor ${FLAVOR}." ;;
 esac
 
 exit 0

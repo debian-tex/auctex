@@ -913,71 +913,36 @@ The History of AUC TeX
 
    See the file `history.texi' for older changes.
 
-News in 10.0
-============
+News in 11.01
+=============
 
-   * Disabled `LaTeX-hide-environment'.  Suggested by Christopher Allen
-     <cpcallen@ruah.dyndns.org>.
+   * You can now switch between using the `font-latex' (all emacsen),
+     the `tex-font' (Emacs 21 only) or no special package for font
+     locking.  Customize `TeX-install-font-lock' for this.
 
-   * Changed default to lazy evaluation of `TeX-view-style' and
-     `LaTeX-command-style'.  Suggested by Peter Neergaard
-     <turtle@cs.bu.edu>.
+   * Now use -t landscape by default when landscape option appears.
+     Suggested by Erik Frisk <frisk@isy.liu.se>.
 
-   * Backindent when brace is at the start of a line.  Patch by Masashi
-     Shimbo <shimbo@cis.ibaraki.ac.jp>.
+   * Use `tex-fptex.el' for fpTeX support.  Contributed by Fabrice
+     Popineau <Fabrice.Popineau@supelec.fr>.
 
-   * Added Emacs 21 font lock support.
+   * New user option `LaTeX-top-caption-list' specifies environments
+     where the caption should go at top.  Contributed by
+     ataka@milk.freemail.ne.jp (Masayuki Ataka).
 
-   * `,' and `.' no longer removes italic correction.
+   * Allow explicit dimensions in `graphicx.sty'.  Contributed by
+     ataka@milk.freemail.ne.jp (Masayuki Ataka).
 
-   * `graphicx' and `graphics' style support.  Donated by Ryuichi
-     Arafune <arafune@ushioda.riec.tohoku.ac.jp>.
+   * Limited support for `verbatim.sty'.  Contributed by
+     ataka@milk.freemail.ne.jp (Masayuki Ataka).
 
-   * `LaTeX-math-abbrev-prefix' now accepts vector value.  Reported by
-     Jan Vroonhof <vroonhof@math.ethz.ch>.
+   * Better support for asmmath items.  Patch by
+     ataka@milk.freemail.ne.jp (Masayuki Ataka).
 
-   * Improved Texinfo support(more environments and html).  Patch by
-     Akim Demaille <akim@epita.fr>.
+   * More accurate error parsing.  Added by David Kastrup
+     <David.Kastrup@t-online.de>.
 
-   * `danish' quotes support.  Suggested by arne@daimi.au.dk (Arne
-     Joergensen).
-
-   * Some PDF support.
-
-   * New `tex-mik.el' file for MikTeX support.
-
-   * Some commands now have their own history.  Suggested by Werner
-     LEMBERG <sx0005@sx2.HRZ.Uni-Dortmund.DE>.
-
-   * Use `\centering' instead of center environment in figures.  Patch
-     by Stefan Monnier <foo@acm.com>.
-
-   * New `dwim' setting for `TeX-master' attempts to guess a default
-     master for new files.  Patch by Stefan Monnier <foo@acm.com>.
-
-   * `ngerman' style support.  Just a copy of the german style support.
-
-   * Removed support for Emacs 18 and 19.
-
-   * `mdwlist' support.  Patch by Stephen Heilbronner
-     <heilbron@nm.informatik.uni-muenchen.de>.
-
-   * Fixed various bugs with the babel package.
-
-   * `amsart' and `amsbook' now loads `amsthm' by default.  Patch by
-     Rune Kleveland <runekl@math.uio.no>.
-
-   * Fixed bug with file searching.  Reported by Berwin Turlach
-     <bturlach@maths.adelaide.edu.au>.
-
-   * Finalized index support, added index-related style files.  Patch
-     by Carsten Dominik <dominik@strw.leidenuniv.nl>.
-
-   * New style files for `varioref.sty' and `fancyref.sty'.  Patch by
-     Carsten Dominik <dominik@strw.leidenuniv.nl>.
-
-   * `texmathp' recognizes additional macros like `\fbox'.  Patch by
-     Ulrik Vieth <vieth@thphy.uni-duesseldorf.de>.
+   * Bug fixes.
 
 
 

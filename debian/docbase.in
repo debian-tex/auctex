@@ -1,5 +1,5 @@
 #include "variables"
-Document: <:=$PACKAGE:>
+Document: <:=${PACKAGE}:>
 Title: AUC TeX: An integrated environment for writing TeX/LaTeX documents.
 Author: Kresten Krab Thorup, Per Abrahamsen
 Abstract: AUC TeX can indent your text as you write it, let you run TeX/LaTeX
@@ -12,18 +12,18 @@ Abstract: AUC TeX can indent your text as you write it, let you run TeX/LaTeX
  moves the cursor directly to the reported error and displays documentation
  for that particular error.  This will even work when the document is spread
  over several files.
-Section: <:=$MENUSEC:>
+Section: <:=${MENUSEC}:>
 
 Format: texinfo
-Files: <:=if($_="$docsrc/*.texi.gz")=~tr|/|/|s:>
+Files: <:=if($_="${docsrc}/*.texi.gz")=~tr|/|/|s:>
 
 Format: info
-Index: <:=if($_="$info/$PACKAGE.info.gz")=~tr|/|/|s:>
-Files: <:=if($_="$info/$PACKAGE.info*")=~tr|/|/|s:>
+Index: <:=if($_="${info}/${PACKAGE}.info.gz")=~tr|/|/|s:>
+Files: <:=if($_="${info}/${PACKAGE}.info*")=~tr|/|/|s:>
 
 Format: HTML
-Index: <:=if($_="$html/index.html")=~tr|/|/|s:>
-Files: <:=if($_="$html/*.html")=~tr|/|/|s:>
+Index: <:=if($_="${html}/index.html")=~tr|/|/|s:>
+Files: <:=if($_="${html}/*.html")=~tr|/|/|s:>
 <:
 # Local variables:
 # mode: text

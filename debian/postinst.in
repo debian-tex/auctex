@@ -1,24 +1,26 @@
 #include "variables"
 #!/bin/bash -e
 #
-# postinst configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postinst.in,v 1.12 2001/07/28 14:14:47 salve Exp $
+# postinst configuration file for Debian <:=${PACKAGE}:> package.
+# $Id: postinst.in,v 1.13 2002/01/18 16:04:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-source <:=$CONFMODULE:>
+<:# parse debconf database:>//
+source <:=${CONFMODULE}:>
 db_version 2.0
+db_get <:=${PACKAGE}:>/default || true; _db_default=${RET}
 
 #---B-E-G-I-N---O-L-D---S-T-U-F-F---keep-it,-it-doesn't-hurt-------------------
 for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
-    if test -d $i
-	then rm -rf $i
+    if test -d ${i}
+	then rm -rf ${i}
     fi
 done
 for i in /usr/lib/emacs/common/auctex /usr/lib/emacs/common; do
-    if test -d $i
+    if test -d ${i}
 	then find ${i%/*} -name ${i##*/} -type d -empty \
 	    | xargs --no-run-if-empty rmdir
     fi
@@ -27,120 +29,56 @@ done
 
 conf_autoload () {
     unset -v AUTOLOAD || true
-    db_get <:=$PACKAGE:>/default || true
-    if [ $RET = "true" ]
+    if [ ${_db_default} = "true" ]
 	then AUTOLOAD="(require 'tex-site)"
     fi
-    db_get <:=$PACKAGE:>/fldefault || true
-    if [ $RET = "true" ]
-	then AUTOLOAD="$AUTOLOAD\
-             (when (or window-system (>= emacs-major-version 21))\
-             (require 'font-latex))"
-    fi
-    if [ ! -z "$AUTOLOAD" ]; then umask 022;
-	cat <<-EOF ><:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
-		$(echo $AUTOLOAD | tr -s " ")
+    if [ ! -z "${AUTOLOAD}" ]; then umask 022;
+	cat <<-EOF ><:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
+		$(echo ${AUTOLOAD} | tr -s " ")
 	EOF
-	chmod 644 <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
+	chmod 644 <:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
     else
-	rm -f <:=$sstartd:>/<:=$EPRIORITY:><:=$PACKAGE:>.el
+	rm -f <:="${sstartd}/${EPRIORITY}${PACKAGE}.el":>
     fi
-    return 0
-}
-
-do_auto () {
-    db_get <:=$PACKAGE:>/logfile || true
-    LOGFILE=$RET
-    db_get <:=$PACKAGE:>/doauto || true
-    case "$RET" in
-	(Foreground)
-	    <:# Ask another time the user, if she really wants to shoot:>//
-	    <:# herself in the foot.  Just to be sure.:>//
-	    db_get <:=$PACKAGE:>/doautofg || true
-	    case "$RET" in
-		(Console)
-		    rm -f ${LOGFILE}
-	    	    <:="$sbin/$UPDATE":>
-		;;
-		(File)
-		    echo -n "<:=$UPDATE:>: "
-		    echo "Further output will appear in: ${LOGFILE}"
-		    echo -n "<:=$PACKAGE:>: "
-		    echo -n "Waiting for <:=$UPDATE:> to terminate... "
-	    	    <:="$sbin/$UPDATE":> &> ${LOGFILE}
-		    echo "done."
-		;;
-		(*)
-		    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2
-		;;
-	    esac
-	;;
-	(Background)
-	    # Closing fd 3 is debconf important.
-	    <:# debconf\'s frontend wait for its standard input to be closed:>//
-	    <:# before dying, and that means fd 3:>//
-	    <:# better don\'t close fd 0: emacs doesn\'t take it very well:>//
-	    <:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO!:>//
-	    <:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO!:>//
-	    <:="$sbin/$UPDATE":> &> ${LOGFILE} 3>&- &
-	    echo -n "<:=$UPDATE:>[$!]: "
-	    echo "Further output will appear in: ${LOGFILE}"
-	;;
-	(None)
-	    rm -f ${LOGFILE}
-	;;
-	(*)
-	    echo "${0##*/}: Debconf passed unknown value \`$RET'." >&2
-	;;
-    esac
     return 0
 }
 
 do_link () {
-    test -d /usr/doc -a ! -e /usr/doc/<:=$PACKAGE:> \
-	 -a -d /usr/share/doc/<:=$PACKAGE:> \
-	 && ln -sf ../share/doc/<:=$PACKAGE:> /usr/doc/<:=$PACKAGE:>
+    test -d /usr/doc -a ! -e /usr/doc/<:=${PACKAGE}:> \
+	 -a -d /usr/share/doc/<:=${PACKAGE}:> \
+	 && ln -sf ../share/doc/<:=${PACKAGE}:> /usr/doc/<:=${PACKAGE}:>
     return 0
 }
 
-case "$1" in
+case "${1}" in
     (abort-remove|abort-upgrade|configure)
     <:# abort-remove in-favour ${3:newpkg} ${4:newver}
-      # (undo prerm remove in-favour $3 $4):>//
+      # (undo prerm remove in-favour ${3} ${4}):>//
     <:# abort-upgrade ${2:newver}
-      # (undo prerm upgrade $2):>//
+      # (undo prerm upgrade ${2}):>//
     <:# configure ${2:lastconfver}
       # (or, if there wasn't an old version at all)
       # configure ${2=""|"<unknow>"}
       # (or, if dpkg version is very old)
       # configure
       # (dregistered files and conffiles have been installed):>//
-	<:# install byte compiled lisp:>//
-	<:=$EINSTALL:> <:=$PACKAGE:>
-	<:# parse TeX macros and LaTeX styles:>//
-	do_auto
-	<:# install compatibility link:>//
-	do_link
-	<:# install info menu into info dir:>//
-	<:=$DINSTALL:> <:="$docbase/$PACKAGE":>
-	<:# install info menu into info dir:>//
-	<:=$IINSTALL:> <:="$info/$PACKAGE.info.gz":>
-	<:# put or remove emacs startup file:>//
-	conf_autoload
-    ;;
+    <:# install byte compiled lisp and do auto:>//
+    <:=${EINSTALL}:> <:=${PACKAGE}:>
+    <:# install compatibility link:>//
+    do_link
+    <:# install info menu into info dir:>//
+    <:=${DINSTALL}:> <:="${docbase}/${PACKAGE}":>
+    <:# install info menu into info dir:>//
+    <:=${IINSTALL}:> <:="${info}/${PACKAGE}.info.gz":>
+    <:# put or remove emacs startup file:>//
+    conf_autoload ;;
     (abort-deconfigure)
     <:# abort-deconfigure in-favour ${3:newpkg} ${4:newver} removing ${6:oldpkg} ${7:oldver}
-      # (undo prerm deconfigure in-favour $3 $4 removing $6 $7):>//
-	<:# put or remove emacs startup file:>//
-	conf_autoload
-    ;;
-    (*)
-	echo "${0##*/}: Called with unknown argument \`$1'." >&2
-    ;;
+      # (undo prerm deconfigure in-favour ${3} ${4} removing ${6} ${7}):>//
+    <:# put or remove emacs startup file:>//
+    conf_autoload ;;
+    (*) echo >&2 "${0##*/}: Called with unknown argument \`${1}'." ;;
 esac
-
-<:# to be sure debconf moves on:>//
-db_stop
 
 exit 0
 <:

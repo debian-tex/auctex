@@ -6,7 +6,7 @@ The current release of this package was assembled by:
 		   Davide G. M. Salvetti <salve@debian.org>
 using sources obtained from:
 	  <ftp://ftp.dina.kvl.dk/pub/Staff/Per.Abrahamsen/auctex/>,
-(file: "5b115bf49f79b63b9a71dec3301c4707 auctex-10.0g.tar.gz").
+(file: "6be0a11750cd4ed2166ead4a1e9d3cf1 auctex_11.06.tar.gz").
 
 The official upstream ftp site is:
 		   <ftp://sunsite.auc.dk/packages/auctex/>,
@@ -38,7 +38,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307, USA.
 
 On Debian GNU/Linux system you can find a copy of the GNU General Public
-License in "<:=$GPL:>".
+License in "<:=${GPL}:>".
 <:
 # Local variables:
 # mode: text

@@ -7,8 +7,8 @@
 #
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
-# rules file for Debian <:=$PACKAGE:> package.
-# $Id: rules.in,v 1.13 2001/05/16 12:54:07 salve Exp $
+# rules file for Debian <:=${PACKAGE}:> package.
+# $Id: rules.in,v 1.14 2002/01/18 16:04:10 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -23,8 +23,8 @@ INSTSCRIPT	:= install -m 755
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/cron debian/docbase debian/install debian/preinst \
 		debian/postinst debian/prerm debian/postrm debian/remove \
-		debian/templates debian/<:=$UPDATE:> debian/<:=$UPDATE:>.8
-# WARNING: The man page should be manually fixed in case of $UPDATE variations.
+		debian/templates debian/<:=${UPDATE}:> debian/<:=${UPDATE}:>.8
+# WARNING: The man page should be manually fixed in case of ${UPDATE} variations.
 # WARNING: debian/rules SHOULD NOT be in $(DFILES), for Debian policy
 # (it's CVS registered), lest it will be deleted by clean.
 # Beside, it's automatically remade by make
@@ -61,59 +61,61 @@ binary-indep: checkroot build
 	-rm -rf $(tmp)
 
 # install package
-	$(INSTDIR) $(tmp)/<:=$info:> $(tmp)/<:=$lisp:> $(tmp)/<:=$style:>
-	$(INSTDATA) <:=$SOURCES:> $(tmp)/<:=$lisp:>
-	$(INSTDATA) <:=$MULESRC:> $(tmp)/<:=$lisp:>
-	$(INSTDATA) <:=$XSRC:> $(tmp)/<:=$lisp:>
-	$(INSTDATA) <:=$STYLES:> $(tmp)/<:=$style:>
-#       This one prevents $style from being added to load-path by
+	$(INSTDIR) $(tmp)/<:=${info}:> $(tmp)/<:=${lisp}:> $(tmp)/<:=${style}:>
+	$(INSTDATA) <:=${SOURCES}:> $(tmp)/<:=${lisp}:>
+	$(INSTDATA) <:=${MULESRC}:> $(tmp)/<:=${lisp}:>
+	$(INSTDATA) <:=${XSRC}:> $(tmp)/<:=${lisp}:>
+	$(INSTDATA) <:=${STYLES}:> $(tmp)/<:=${style}:>
+#       This one prevents ${style} from being added to load-path by
 #       normal-top-level-add-subdirs-to-load-path (see subdirs.el)
-	(umask 022 && touch $(tmp)/<:=$style:>/.nosearch)
-	cd doc && $(MAKE) install infodir=$(tmp)/<:=$info:>
+	(umask 022 && touch $(tmp)/<:=${style}:>/.nosearch)
+	cd doc && $(MAKE) install infodir=$(tmp)/<:=${info}:>
 #       Consistency rule.
-	cd $(tmp)/<:=$info:> \
+	cd $(tmp)/<:=${info}:> \
 	&& echo -e ",s/auctex-/auctex.info-/g\n,wq" | ed auctex \
 	&& for i in auctex*; \
-		do mv -f -- $$i auctex.info$${i#auctex}; \
+		do mv -f -- $${i} auctex.info$${i#auctex}; \
 	done
-	gzip -9frv $(tmp)/<:=$info:>
+	gzip -9frv $(tmp)/<:=${info}:>
 
 # install Debian doc
-	$(INSTDIR) $(tmp)/<:=$doc:> $(tmp)/<:=$docsrc:> $(tmp)/<:=$html:> $(tmp)/<:=$man:>/man8/
-	$(INSTDATA) <:=$DOCS:> $(tmp)/<:=$doc:>
-	$(INSTDATA) <:=$DOCSRC:> $(tmp)/<:=$docsrc:>
-	$(INSTDATA) debian/README $(tmp)/<:=$doc:>/README.Debian
-	$(INSTDATA) ChangeLog $(tmp)/<:=$doc:>
-	$(INSTDATA) debian/changelog $(tmp)/<:=$doc:>/changelog.Debian
-	gzip -9frv $(tmp)/<:=$doc:>
-	ln -sf ChangeLog.gz $(tmp)/<:=$doc:>/changelog.gz
-	$(INSTDATA) debian/copyright $(tmp)/<:=$doc:>
-	$(INSTDATA) doc/*.html $(tmp)/<:=$html:>
-	ln -snf auc-tex_toc.html $(tmp)/<:=$html:>/index.html
-	$(INSTDATA) debian/<:=$UPDATE:>.8 $(tmp)/<:=$man:>/man8/
-	gzip -9frv $(tmp)/<:=$man:>
+	$(INSTDIR) $(tmp)/<:=${doc}:> $(tmp)/<:=${docsrc}:> \
+		$(tmp)/<:=${html}:> $(tmp)/<:=${man}:>/man8/
+	$(INSTDATA) <:=${DOCS}:> $(tmp)/<:=${doc}:>
+	$(INSTDATA) <:=${DOCSRC}:> $(tmp)/<:=${docsrc}:>
+	$(INSTDATA) debian/README $(tmp)/<:=${doc}:>/README.Debian
+	$(INSTDATA) ChangeLog $(tmp)/<:=${doc}:>
+	$(INSTDATA) debian/changelog $(tmp)/<:=${doc}:>/changelog.Debian
+	gzip -9frv $(tmp)/<:=${doc}:>
+	ln -sf ChangeLog.gz $(tmp)/<:=${doc}:>/changelog.gz
+	$(INSTDATA) debian/copyright $(tmp)/<:=${doc}:>
+	$(INSTDATA) doc/*.html $(tmp)/<:=${html}:>
+	ln -snf auc-tex_toc.html $(tmp)/<:=${html}:>/index.html
+	$(INSTDATA) debian/<:=${UPDATE}:>.8 $(tmp)/<:=${man}:>/man8/
+	gzip -9frv $(tmp)/<:=${man}:>
 
 # install Debian system files
-	$(INSTDIR) $(tmp)/<:=$lisp:> $(tmp)/<:=$cron_weekly:> $(tmp)/<:=$sbin:> \
-		$(tmp)/<:=$ecode:>/{install,remove} $(tmp)/<:=$docbase:> \
-		$(tmp)/<:=$var:>
-	$(INSTDATA) tex-site.el $(tmp)/<:=$lisp:>/../
-	$(INSTDATA) debian/docbase $(tmp)/<:=$docbase:>/<:=$PACKAGE:>
-	$(INSTSCRIPT) debian/cron $(tmp)/<:=$cron_weekly:>/<:=$PACKAGE:>
-	$(INSTSCRIPT) debian/<:=$UPDATE:> $(tmp)/<:=$sbin:>
-	$(INSTSCRIPT) debian/install $(tmp)/<:=$ecode:>/install/<:=$PACKAGE:>
-	$(INSTSCRIPT) debian/remove $(tmp)/<:=$ecode:>/remove/<:=$PACKAGE:>
+	$(INSTDIR) $(tmp)/<:=${lisp}:> $(tmp)/<:=${cron_weekly}:> \
+		$(tmp)/<:=${sbin}:> $(tmp)/<:=${ecode}:>/{install,remove} \
+		$(tmp)/<:=${docbase}:> $(tmp)/<:=${var}:>
+	$(INSTDATA) tex-site.el $(tmp)/<:=${lisp}:>/../
+	$(INSTDATA) debian/docbase $(tmp)/<:=${docbase}:>/<:=${PACKAGE}:>
+	$(INSTSCRIPT) debian/cron $(tmp)/<:=${cron_weekly}:>/<:=${PACKAGE}:>
+	$(INSTSCRIPT) debian/<:=${UPDATE}:> $(tmp)/<:=${sbin}:>
+	$(INSTSCRIPT) debian/install $(tmp)/<:=${ecode}:>/install/<:=${PACKAGE}:>
+	$(INSTSCRIPT) debian/remove $(tmp)/<:=${ecode}:>/remove/<:=${PACKAGE}:>
 
 # install Debian control files
-	$(INSTDIR) $(tmp)/<:=$debian:>
-	$(INSTDATA) debian/{conffiles,templates} $(tmp)/<:=$debian:>
-	$(INSTSCRIPT) debian/{config,preinst,postinst,postrm,prerm} $(tmp)/<:=$debian:>
+	$(INSTDIR) $(tmp)/<:=${debian}:>
+	$(INSTDATA) debian/{conffiles,templates} $(tmp)/<:=${debian}:>
+	$(INSTSCRIPT) debian/{config,preinst,postinst,postrm,prerm} \
+		$(tmp)/<:=${debian}:>
 
 # standard stuff
-#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(tmp)/<:=$debian:>/du
+#-#	cd $(tmp) && du -k * | grep -v 'DEBIAN' | sort -k 2 -o $(tmp)/<:=${debian}:>/du
 	cd $(tmp) && md5sum \
 		$$(find ./ -path './DEBIAN' -prune -o -type f -printf "%P\n") \
-		| sort -k 2 -o $(tmp)/<:=$debian:>/md5sums
+		| sort -k 2 -o $(tmp)/<:=${debian}:>/md5sums
 	dpkg-gencontrol -isp
 	chown -R root.root $(tmp)
 	chmod -R go=rX $(tmp)

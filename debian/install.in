@@ -1,63 +1,110 @@
 #include "variables"
 #!/bin/bash -e
 #
-# elisp install file for Debian <:=$PACKAGE:> package.
-# $Id: install.in,v 1.13 2001/07/28 14:14:47 salve Exp $
+# elisp install file for Debian <:=${PACKAGE}:> package.
+# $Id: install.in,v 1.14 2002/01/18 16:04:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-FLAVOR=$1
+<:# parse debconf database:>//
+source <:=${CONFMODULE}:>
+db_version 2.0
+db_get <:=${PACKAGE}:>/logfile || true; _db_logfile=${RET}
+db_get <:=${PACKAGE}:>/doauto || true; _db_doauto=${RET}
+db_get <:=${PACKAGE}:>/doautofg || true; _db_doautofg=${RET}
 
-EFLAGS="--no-site-file --no-init-file --batch --load=lpath.el --funcall=batch-byte-compile"
-EMULEFLAGS="--no-site-file --no-init-file --batch  --load=lpath-jp.el --funcall=batch-byte-compile"
+FLAVOR=${1}
 
-# This shouldn't compile without X, and we have font-latex.el anyway: <:=$XSRC:>.
+do_byte_compile () {
+    EFLAGS="--no-site-file --no-init-file --batch --load=lpath.el \
+	--funcall=batch-byte-compile"
+    EMULEFLAGS="--no-site-file --no-init-file --batch --load=lpath-jp.el \
+	--funcall=batch-byte-compile"
 
-case "$FLAVOR" in
-    (emacs)
-	:
-    ;;
-    (emacs20|emacs21|mule2)
-	echo -n "install/<:=$PACKAGE:>: Byte-compiling for $FLAVOR... "
-	install -m 755 -d <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
-	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
-	# This one prevents $style from being added to load-path by
-        # normal-top-level-add-subdirs-to-load-path (see subdirs.el)
-	(umask 022 && touch <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/.nosearch)
-	for i in <:=$SOURCES:> <:=$STYLES:>
-	    do cp <:=$lisp:>/$i <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/$i
-	done
-	cat <<-EOF ><:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/lpath.el
+    # <:=${XSRC}:>:
+    # this shouldn't compile without X, and we have font-latex.el anyway.
+
+    echo >&2 -n "install/<:=${PACKAGE}:>: Byte-compiling for ${1}... "
+    install -m 755 -d <:=if($_=${lisp})=~s|emacs|\${1}|:> \
+	<:=if($_=${style})=~s|emacs|\${1}|:>
+    # This one prevents ${style} from being added to load-path by
+    # normal-top-level-add-subdirs-to-load-path (see subdirs.el)
+    (umask 022 && touch <:=if($_=${style})=~s|emacs|\${1}|:>/.nosearch)
+    for i in <:=${SOURCES}:> <:=${STYLES}:>
+      do cp <:=${lisp}:>/${i} <:=if($_=${lisp})=~s|emacs|\${1}|:>/${i}
+    done
+    cat <<-EOF ><:=if($_=${lisp})=~s|emacs|\${1}|:>/lpath.el
 		(setq load-path (cons "." load-path)
 		    TeX-lisp-directory "<none>")
 	EOF
-	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
-	    && $FLAVOR $EFLAGS <:=$SOURCES:> <:=$STYLES:> 2>&1 \
-	    | gzip -9qf > <:=$ELCLOG:>.gz)
+    (cd <:=if($_=${lisp})=~s|emacs|\${1}|:> \
+	&& ${1} ${EFLAGS} <:=${SOURCES}:> <:=${STYLES}:> 2>&1 \
+	| gzip -9qf > <:=${ELCLOG}:>.gz)
 	# We always have MULE, as we don't support emacs19 anymore.
-	for i in <:=$MULESRC:>
-	    do cp <:=$lisp:>/$i \
-	        <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/$i
-	done
+    for i in <:=${MULESRC}:>
+      do cp <:=${lisp}:>/${i} \
+	  <:=if($_=${lisp})=~s|emacs|\${1}|:>/${i}
+    done
 	# This contains an hack to allow byte-compiling
 	# with japanese multibyte chars
-        cat <<-EOF ><:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/lpath-jp.el
+    cat <<-EOF ><:=if($_=${lisp})=~s|emacs|\${1}|:>/lpath-jp.el
 		(setq load-path (cons "." load-path)
 			TeX-lisp-directory "<none>")
 		(set-language-environment 'Japanese);')
 	EOF
-	(cd <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> \
-	    && $FLAVOR $EMULEFLAGS <:=$MULESRC:> 2>&1 \
-	    | gzip -9qf >> <:=$ELCLOG:>.gz)
-	rm -f <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/*.el \
-	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.el
-	echo "done."
-    ;;
-    (*)
-	echo "install/<:=$PACKAGE:>: Ignoring emacsen flavor $FLAVOR."
-    ;;
+    (cd <:=if($_=${lisp})=~s|emacs|\${1}|:> \
+	&& ${1} ${EMULEFLAGS} <:=${MULESRC}:> 2>&1 \
+	| gzip -9qf >> <:=${ELCLOG}:>.gz)
+    rm -f <:=if($_=${lisp})=~s|emacs|\${1}|:>/*.el \
+	<:=if($_=${style})=~s|emacs|\${1}|:>/*.el
+    echo >&2 "done."
+    return 0
+}
+
+do_auto () {
+    case "${_db_doauto}" in
+	(Foreground)
+	case "${_db_doautofg}" in
+	    (Console)
+	    rm -f ${_db_logfile}
+	    <:="${sbin}/${UPDATE}":> ${1} ;;
+	    (File)
+	    echo >&2 -n "<:=${UPDATE}:>: "
+	    echo >&2 "Further output will appear in: ${_db_logfile}."
+	    echo >&2 -n "<:=${PACKAGE}:>: "
+	    echo >&2 -n "Waiting for <:=${UPDATE}:> to terminate... "
+	    <:="${sbin}/${UPDATE}":> ${1} &> ${_db_logfile}
+	    echo >&2 "done." ;;
+	    (*) echo >&2 \
+		"${0##*/}: Debconf passed unknown value \`${_db_doautofg}'." ;;
+	esac ;;
+	(Background)
+	# Closing fd 3 is debconf important.
+	<:# debconf\'s frontend wait for its standard input to be closed:>//
+	<:# before dying, and that means fd 3:>//
+	<:# better don\'t close fd 0: emacs doesn\'t take it very well:>//
+	<:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO!:>//
+	<:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO!:>//
+	<:="${sbin}/${UPDATE}":> ${1} &> ${_db_logfile} 3>&- &
+	echo >&2 -n "<:=${UPDATE}:>[${!}]: "
+	echo >&2 "Further output will appear in: ${_db_logfile}." ;;
+	(None) rm -f ${_db_logfile} ;;
+	(*) echo >&2 \
+	    "${0##*/}: Debconf passed unknown value \`${_db_doauto}'." ;;
+    esac
+    return 0
+}
+
+case "${FLAVOR}" in
+    (emacs) : ;;
+    (emacs20|emacs21)
+    <:# byte compile:>//
+    do_byte_compile ${FLAVOR}
+    <:# parse TeX macros and LaTeX styles:>//
+    do_auto ${FLAVOR} ;;
+    (*) echo >&2 "install/<:=${PACKAGE}:>: Ignoring emacsen flavor ${FLAVOR}." ;;
 esac
 
 exit 0

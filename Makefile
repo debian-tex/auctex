@@ -1,7 +1,7 @@
 # Makefile - for the AUC TeX distribution.
 #
 # Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-# Version: 10.0g
+# Version: 11.06
 #
 # Edit the makefile, type `make', and follow the instructions.
 
@@ -71,13 +71,13 @@ REMOVE =  MSDOS VMS OS2 WIN-NT
 
 MINMAPSRC = auc-menu.el maniac.el outln-18.el all.el multi-prompt.el
 
-CONTRIB = hilit-LaTeX.el bib-cite.el tex-jp.el font-latex.el
-CONTRIBELC = bib-cite.elc font-latex.elc
+CONTRIB = hilit-LaTeX.el bib-cite.el tex-jp.el tex-fptex.el
+CONTRIBELC = bib-cite.elc 
 
 AUCSRC = auc-old.el tex.el tex-buf.el latex.el tex-info.el \
-	texmathp.el multi-prompt.el tex-mik.el
+	texmathp.el multi-prompt.el tex-mik.el font-latex.el tex-font.el
 AUCELC = auc-old.elc tex.elc tex-buf.elc latex.elc tex-info.elc \
-	texmathp.elc multi-prompt.elc tex-mik.elc
+	texmathp.elc multi-prompt.elc tex-mik.elc font-latex.elc tex-font.elc
 
 
 STYLESRC = style/slides.el    style/foils.el    style/amstex.el \
@@ -94,7 +94,8 @@ STYLESRC = style/slides.el    style/foils.el    style/amstex.el \
 	   style/amsopn.el    style/amsthm.el	style/natbib.el \
 	   style/index.el     style/makeidx.el  style/multind.el \
 	   style/varioref.el  style/fancyref.el	style/mdwlist.el \
-	   style/ngerman.el   style/graphicx.el	style/graphics.el
+	   style/ngerman.el   style/graphicx.el	style/graphics.el \
+	   style/verbatim.el
 
 DOCFILES = doc/Makefile doc/auc-tex.texi doc/intro.texi doc/install.texi \
 	doc/changes.texi doc/tex-ref.tex doc/math-ref.tex doc/history.texi
@@ -183,19 +184,19 @@ dist:
 	echo "	* Version" $(TAG) released. >> ChangeLog
 	echo >> ChangeLog
 	cat ChangeLog.old >> ChangeLog
-	auc commit -m 'Release_$(OLD)++' tex.el
+	cvs commit -m 'Release_$(OLD)++' tex.el
 	rm -f tex.el.orig
 	mv tex.el tex.el.orig
 	sed -e '/defconst AUC-TeX-date/s/"[^"]*"/"'"`date`"'"/' \
 	    -e '/defconst AUC-TeX-version/s/"[^"]*"/"'$(TAG)'"/' \
 	    < tex.el.orig > tex.el
 	rm -f $(REMOVE) 
-	-auc remove $(REMOVE) 
-	-auc add $(AUCSRC) $(EXTRAFILES)
+	-cvs remove $(REMOVE) 
+	-cvs add $(AUCSRC) $(EXTRAFILES)
 	-(cd doc; auc add `echo $(DOCFILES) | sed -e s@doc/@@g` )
 	-(cd style; auc add `echo $(STYLESRC) | sed -e s@style/@@g` )
-	auc commit -m 'Release_$(TAG)'
-	auc tag release_`echo $(TAG) | sed -e 's/[.]/_/g'`
+	cvs commit -m 'Release_$(TAG)'
+	cvs tag release_`echo $(TAG) | sed -e 's/[.]/_/g'`
 	mkdir auctex-$(TAG) 
 	mkdir auctex-$(TAG)/style
 	mkdir auctex-$(TAG)/doc 
@@ -214,18 +215,20 @@ dist:
 	tar -cf - auctex-$(TAG) | gzip --best > $(FTPDIR)/auctex-$(TAG).tar.gz
 	-zip -r $(FTPDIR)/auctex auctex-$(TAG)
 	(cd $(FTPDIR); ln -s auctex-$(TAG).tar.gz auctex.tar.gz)
-	auc diff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
-	         -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
-		> $(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch ;  exit 0
-#	auc rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+	diff -u auctex-$(OLD) auctex-$(TAG) > \
+		$(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch; exit 0
+#	cvs diff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
+#	         -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
+#		> $(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch ;  exit 0
+#	cvs rdiff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
 #	          -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex \
 #		> $(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch ;  exit 0
 
 patch:
-	auc diff -r release_`echo $(OLD) | sed -e 's/[.]/_/g'` \
-	         -r release_`echo $(TAG) | sed -e 's/[.]/_/g'` auctex
+	diff -u auctex-$(OLD) auctex-$(TAG) > \
+		$(FTPDIR)/auctex-$(OLD)-to-$(TAG).patch; exit 0
 
 min-map:
-	-auc add $(MINMAPSRC) 
-	auc commit -m "Update"
+	-cvs add $(MINMAPSRC) 
+	cvs commit -m "Update"
 	cp $(MINMAPSRC) doc/math-ref.tex $(FTPDIR) 

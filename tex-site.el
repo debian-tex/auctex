@@ -1,23 +1,23 @@
 ;;; tex-site.el - Site specific variables.
 
-;; Copyright (C) 1991, 2000, 2001 Kresten Krab Thorup 
-;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen 
+;; Copyright (C) 1991, 2000, 2001 Kresten Krab Thorup
+;; Copyright (C) 1993, 1994, 1997, 1999 Per Abrahamsen
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 10.0g
+;; Version: 11.06
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
-;; 
+;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-;; 
+;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, write to the Free Software
 ;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -59,9 +59,9 @@ Full documentation will be available after autoloading the function."
   :type 'directory)
 
 (defcustom TeX-macro-global '("/usr/local/share/texmf/tex/"
-			      "/usr/local/lib/texmf/tex/"
+			      "/usr/local/share/texmf/bibtex/"
 			      "/usr/share/texmf/tex/"
-			      "/usr/lib/texmf/tex/")
+			      "/usr/share/texmf/bibtex/")
   "Directories containing the sites TeX macro files and style files.
 The directory names *must* end with a slash."
   :group 'TeX-file

@@ -1,17 +1,17 @@
 #include "variables"
 #!/bin/bash -e
 #
-# postrm configuration file for Debian <:=$PACKAGE:> package.
-# $Id: postrm.in,v 1.5 2001/07/28 14:14:47 salve Exp $
+# postrm configuration file for Debian <:=${PACKAGE}:> package.
+# $Id: postrm.in,v 1.6 2002/01/18 16:04:09 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-case "$1" in
+case "${1}" in
     (abort-install|abort-upgrade|failed-upgrade|remove|upgrade)
     <:# abort-install ${2:oldver}
-      # (if $2 conffiles were there, or, if there aren't any)
+      # (if ${2} conffiles were there, or, if there aren't any)
       # abort-install
       # (undo preinst install effects):>//
     <:# abort-upgrade ${2:oldver}
@@ -22,21 +22,17 @@ case "$1" in
       # (dregistered files have been removed, clean up):>//
     <:# upgrade ${2:newver}
       # (old prerm upgrade and new preinst upgrade have been called, clean up):>//
-	:
-    ;;
+    : ;;
     (disappear|purge)
     <:# disappear ${2:overwriter}
       # (dregistered files and conffiles have been overwritten, clean up):>//
     <:# purge
       # (dregistered files and conffiles have been purged, clean up):>//
-	<:# purge package from debconf database:>//
-	if test -e <:=$CONFMODULE:>;
-	    then source <:=$CONFMODULE:>; db_version 2.0; db_purge
-	fi
-    ;;
-    (*)
-	echo "${0##*/}: Called with unknown argument \`$1'." >&2
-    ;;
+    <:# purge package from debconf database:>//
+    if test -e <:=${CONFMODULE}:>;
+	then source <:=${CONFMODULE}:>; db_version 2.0; db_purge
+    fi ;;
+    (*) echo >&2 "${0##*/}: Called with unknown argument \`${1}'." ;;
 esac
 
 exit 0
