@@ -176,7 +176,7 @@ all text after TeX-trailer-start."
 		       (buffer-substring begin end)
 		       (file-name-nondirectory (buffer-file-name))
 		       (TeX-current-offset begin)))
-  (TeX-command (TeX-command-query (TeX-region-file)) 'TeX-region-file
+  (TeX-command (TeX-command-query (TeX-region-file nil t)) 'TeX-region-file
 	       override-confirm))
 
 (defun TeX-command-buffer (&optional override-confirm)

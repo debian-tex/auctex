@@ -1,3 +1,9 @@
+auctex (11.54-2) unstable; urgency=low
+
+  * ../tex-buf.el: Apply a patch from Ralf Angeli.  (Closes: #258686)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 18 Jan 2005 14:24:53 +0100
+
 auctex (11.54-1) unstable; urgency=medium
 
   * New upstream release.  (Closes: #290263)
