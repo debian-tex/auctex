@@ -1,3 +1,10 @@
+auctex (10.0g-3) unstable; urgency=low
+
+  * remove: Added || true after rmdir; thanks to Timshel Knoll.
+  (Closes: #101067)
+
+ -- Davide G. M. Salvetti <salve@hal.linux.it>  Sat, 16 Jun 2001 13:47:34 +0200
+
 auctex (10.0g-2) unstable; urgency=high
 
   * rules (build): Removed debian/rules from deps.

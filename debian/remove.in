@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp remove file for Debian <:=$PACKAGE:> package.
-# $Id: remove.in,v 1.8 2001/01/05 08:49:03 salve Exp $
+# $Id: remove.in,v 1.9 2001/06/16 11:45:34 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -19,8 +19,10 @@ case "$FLAVOR" in
 	rm -f <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>/{*.elc,<:=$ELCLOG:>.gz}
 	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/*.elc
 	rm -f <:=if($_=$style)=~s|emacs|\$FLAVOR|:>/.nosearch
-	rmdir --ignore-fail-on-non-empty <:=if($_=$style)=~s|emacs|\$FLAVOR|:>
-	rmdir --ignore-fail-on-non-empty <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:>
+	rmdir --ignore-fail-on-non-empty \
+	    <:=if($_=$style)=~s|emacs|\$FLAVOR|:> || true
+	rmdir --ignore-fail-on-non-empty \
+	    <:=if($_=$lisp)=~s|emacs|\$FLAVOR|:> || true
 	echo "done."
     ;;
     *)
