@@ -1,3 +1,10 @@
+auctex (11.14+CVS.2004.06.16.1-1) UNRELEASED; urgency=low
+
+  * New CVS upstream source.
+  * variables: Added "FAQ".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Mon, 14 Jun 2004 10:03:59 +0200
+
 auctex (11.14+CVS.2004.05.25.1-1) UNRELEASED; urgency=low
 
   * New CVS upstream source.

@@ -63,6 +63,7 @@ bugs if possible.
 * Installation::                How to install AUCTeX
 * History::                     The History of AUCTeX
 * ToDo::                        Future Development
+* FAQ::                         Frequently Asked Questions
 * Key Index::                   Key Index
 * Function Index::              Function Index
 * Variable Index::              Variable Index
@@ -163,19 +164,19 @@ License' and may therefore almost freely be copied and redistributed.
 For further information, refer to the built-in online documentation of
 AUCTeX.
 
-Indentation and formatting
-==========================
+Indentation and filling
+=======================
 
 AUCTeX may automatically indent your document as you write it. By
-pressing <lfd> instead of <ret> at the end of a line, the current line
+pressing <LFD> instead of <RET> at the end of a line, the current line
 is indented by two spaces according to the current environment level,
-and the cursor is moved down one line.  By pressing <tab>, the current
+and the cursor is moved down one line.  By pressing <TAB>, the current
 line is indented, and the cursor stays where it is.  The well-known
-Emacs feature `format-paragraph' (`M-q') is reimplemented especially
-for AUCTeX to follow the indentation.  A special command
-`LaTeX-fill-buffer' lets you indent an entire document like the
-well-known C utility indent (this time, only according to the LaTeX
-structure :-).
+Emacs feature `fill-paragraph' (`M-q') is reimplemented especially for
+AUCTeX to follow the indentation (even in commented parts of the
+document).  A special command `LaTeX-fill-buffer' lets you indent an
+entire document like the well-known C utility indent (this time, only
+according to the LaTeX structure :-).
 
 Completion
 ==========
@@ -187,7 +188,7 @@ commands you should be able to use in this particular document.  This
 `knowledge' of AUCTeX is used for two purposes.
 
   1. To make you able to `complete' partly written LaTeX commands. You
-     may e.g. write `\renew' and press `M-<tab>'
+     may e.g. write `\renew' and press `M-<TAB>'
      (`TeX-complete-symbol'), and then AUCTeX will complete the word
      `\renewcommand' for you. In case of ambiguity it will display a
      list of possible completions.
@@ -706,15 +707,17 @@ Advanced Editing Features
 
 The previous chapter described how to write the main body of the text
 easily and with a minimum of errors.  In this chapter we will describe
-some features for entering more specialized sorts of text, and for
-indenting and navigating through the document.
+some features for entering more specialized sorts of text, for
+formatting the source by indenting and filling and for navigating
+through the document.
 
 * Menu:
 
 * Mathematics::                 Entering Mathematics
-* Completion::                  Completion
-* Commenting::                  Commenting
-* Marking and formatting::      Marking, Formatting and Indenting
+* Completion::                  Completion of macros
+* Commenting::                  Commenting text
+* Indenting::                   Reflecting syntactic constructs with whitespace
+* Filling::                     Automatic and manual line breaking
 * Outline::                     Hiding text
 
 
@@ -828,7 +831,7 @@ after you enabled automatic parsing on save, and that the basename of
 the BibTeX file does not conflict with the basename of one of TeX files.
 
 
-File: auctex,  Node: Commenting,  Next: Marking and formatting,  Prev: Completion,  Up: Advanced Features
+File: auctex,  Node: Commenting,  Next: Indenting,  Prev: Completion,  Up: Advanced Features
 
 Commenting
 ==========
@@ -856,89 +859,86 @@ or remove a single `%' respectively.
      starting with a `%', until the first non-comment line.
 
 
-File: auctex,  Node: Marking and formatting,  Next: Outline,  Prev: Commenting,  Up: Advanced Features
+File: auctex,  Node: Indenting,  Next: Filling,  Prev: Commenting,  Up: Advanced Features
 
-Marking, Formatting and Indenting
-=================================
+Indenting
+=========
 
-The word `formatting' is used with two meanings in this document.
-Either letting TeX format the document, or letting AUCTeX make the
-LaTeX source look better.  This section deals with the latter.
-
-   AUCTeX contains very advanced functionality for formatting the LaTeX
-source which comprises indentation and filling and can be done
-automatically or on demand.
-
-   Filling deals with the insertion of line breaks to prevent lines from
-becoming wider than what is specified in `fill-column'.  The linebreaks
-will be inserted automatically if `auto-fill-mode' is enabled.  In this
-case the source is not only filled but also indented automatically as
-you write it.
+Indentation means the addition of whitespace at the beginning of lines
+to reflect special syntactical constructs.  This makes it easier to see
+the structure of the document, and to catch errors such as a missing
+closing brace.  Thus, the indentation is done for precisely the same
+reasons that you would indent ordinary computer programs.
 
    Indentation is done by LaTeX environments and by TeX groups, that is
 the body of an environment is indented by the value of
 `LaTeX-indent-level' (default 2).  Also, items of an `itemize-like'
 environment are indented by the value of `LaTeX-item-indent', default
--2.  This indentation makes it easier to see the structure of the
-document, and to catch errors such as a missing close brace.  Thus, the
-indentation is done for precisely the same reasons that you would
-indent ordinary computer programs.
+-2.  If more environments are nested, they are indented `accumulated'
+just like most programming languages usually are seen indented in
+nested constructs.
 
-   The following is a short sample of an itemize environment indented by
-AUCTeX.  If more environments are nested, they are indented
-`accumulated' just like most programming languages usually are seen
-indented in nested constructs.
+   You can explicitely indent single lines, usually by pressing <TAB>,
+or marked regions by calling `indent-region' on it.  If you have
+`auto-fill-mode' enabled and a line is broken while you type it, Emacs
+automatically cares about the indentation in the following line.  If
+you want to have a similar behavior upon hitting <RET>, you can
+customize the variable `TeX-newline-function' and change the default of
+`newline' which does no indentation to `newline-and-indent' which
+indents the new line or `reindent-then-newline-and-indent' which
+indents both the current and the new line.
 
-     \begin{itemize}
-     \item Insertion of templates for logical-structural compositions such as
-       environments and sections.
-     \item Hot-keys for easy access to certain often used constructs, e.g.,
-       font changes, accented letters, and mathematical symbols.
-     \item Running application programs (such as \TeX), and then parsing
-       the output so that errors in the document may be located
-       easily.
-     \item Support for multi-file documents.
-     \item Online help for \AllTeX\ error messages.
-     \item Outlining\Dash i.e., manipulating the document as a composition
-       of nested/sequential logical constructs.
-     \item Instant formatting and indentation of the \ascii-document in
-       order to make it easier to read.
-     \item `Completion' (and thereby spell-checking) of partially written
-       control sequences.
-     \end{itemize}
+   There are certain LaTeX environments which should be indented in a
+special way, like `tabular' or `verbatim'.  Those environments may be
+specified in the variable `LaTeX-indent-environment-list' together with
+their special indentation functions.  Taking the `verbatim' environment
+as an example you can see that `current-indentation' is used as the
+indentation function.  This will stop AUCTeX from doing any indentation
+in the environment if you hit <TAB> for example.
 
-   You can format and indent single lines, paragraphs, environments, or
-sections.
+   There are environments in `LaTeX-indent-environment-list' which do
+not bring a special indentation function with them.  This is due to the
+fact that first the respective functions are not implemented yet and
+second that filling will be disabled for the specified environments.
+This shall prevent the source code from being messed up by accidently
+filling those environments with the standard filling routine.  If you
+think that providing special filling routines for such environments
+would be an appropriate and challenging task for you, you are invited to
+contribute. (*Note Filling::, for further information about the filling
+functionality)
+
+   The check for the indentation function may be enabled or disabled by
+customizing the variable `LaTeX-indent-environment-check'.
+
+   As a side note with regard to formatting special environments: Newer
+Emacsen include `align.el' and therefore provide some support for
+formatting `tabular' and `tabbing' environments with the function
+`align-current' which will nicely align columns in the source code.
+
+   AUCTeX is able to format commented parts of your code just as any
+other part.  This means LaTeX environments and TeX groups in comments
+will be indented syntactically correct if the variable
+`LaTeX-syntactic-comments' is set to t.  If you disable it, comments
+will be filled like normal text and no syntactic indentation will be
+done.
+
+   Following you will find a list of most commands and variables related
+to indenting with a small summary in each case:
 
 `<TAB>'
      `LaTeX-indent-line' will indent the current line.
 
 `<LFD>'
-     `reindent-then-newline-and-indent' indents the current line, and
-     then inserts a new line (much like <RET>) and move the cursor to an
-     appropriate position by the left margin.
+     `newline-and-indent' inserts a new line (much like <RET>) and
+     moves the cursor to an appropriate position by the left margin.
 
-`M-q'
-     Alias for `C-c C-q C-p'
+     Most keyboards nowadays don't have a linefeed key and `C-j' is
+     tedious to type.  Therefore you can customize AUCTeX to perform
+     indentation (or to make coffee) upon pressing <RET> as well.  The
+     respective option is called `TeX-newline-function'.
 
-`C-c C-q C-p'
-     `LaTeX-fill-paragraph' will reformat or `fill' the current
-     paragraph.
-
-`C-c C-q C-e'
-     `LaTeX-fill-environment' will reformat or `fill' the current
-     environment.  This may e.g. be the `document' environment, in
-     which case the entire document will be formatted.
-
-`C-c C-q C-s'
-     `LaTeX-fill-section' will reformat or `fill' the current logical
-     sectional unit.
-
-`M-g'
-     Alias for `C-c C-q C-r'
-
-`C-c C-q C-r'
-     `LaTeX-fill-region' will format or `fill' the current region.
+`C-j'
+     Alias for <LFD>
 
  - User Option: LaTeX-indent-environment-list
      List of environments with special indentation.  The second element
@@ -967,8 +967,129 @@ sections.
      If non-nil comments will be filled and indented according to LaTeX
      syntax.  Otherwise they will be filled like normal text.
 
+ - User Option: TeX-newline-function
+     Used to specify the function which is called when <RET> is pressed.
+     This will normally be `newline' which simply inserts a new line.
+     In case you want to have AUCTeX do indentation as well when you
+     press <RET>, use the built-in functions `newline-and-indent' or
+     `reindent-then-newline-and-indent'.  The former inserts a new line
+     and indents the following line, i.e. it moves the cursor to the
+     right position and therefore acts as if you pressed <LFD>.  The
+     latter function additionally indents the current line.  If you
+     choose `Other', you can specify your own fancy function to be
+     called when <RET> is pressed.
+
+
+File: auctex,  Node: Filling,  Next: Outline,  Prev: Indenting,  Up: Advanced Features
+
+Filling
+=======
+
+Filling deals with the insertion of line breaks to prevent lines from
+becoming wider than what is specified in `fill-column'.  The linebreaks
+will be inserted automatically if `auto-fill-mode' is enabled.  In this
+case the source is not only filled but also indented automatically as
+you write it.
+
+   `auto-fill-mode' can be enabled for AUCTeX by calling
+`turn-on-auto-fill' in one of the hooks AUCTeX is running.  For all
+text modes with `text-mode-hook', for all AUCTeX modes with
+`TeX-mode-hook' or for specific modes with `plain-TeX-mode-hook',
+`LaTeX-mode-hook', `ConTeXt-mode-hook' or `docTeX-mode-hook'.  As an
+example, if you want to enable `auto-fill-mode' in `LaTeX-mode', put the
+following into your init file:
+
+     (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
+
+   You can manually fill explicitely marked regions, paragraphs,
+environments, complete sections, or the whole buffer.  (Note that manual
+filling in AUCTeX will indent the start of the region to be filled in
+contrast to many other Emacs modes.)
+
+   There are some syntactical constructs which are handled specially
+with regard to filling.  These are so-called code comments and paragraph
+commands.
+
+   Code comments are comments preceded by code or text in the same line.
+Upon filling a region, code comments themselves will not get filled.
+Filling is done from the start of the region to the line with the code
+comment and continues after it.  In order to prevent overfull lines in
+the source code, a linebreak will be inserted before the last
+non-comment word by default.  This can be changed by customizing
+`LaTeX-fill-break-before-code-comments'.  If you have overfull lines
+with code comments you can fill those explicitely by calling
+`LaTeX-fill-paragraph' or pressing `M-q' with the cursor positioned on
+them.  This will add linebreaks in the comment and indent subsequent
+comment lines to the column of the comment in the first line of the
+code comment.  In this special case `M-q' only acts on the current line
+and not on the whole paragraph.
+
+   Lines with `\par' are treated similarly to code comments, i.e.
+`\par' will be treated as paragraph boundary which should not be
+followed by other code or text.  But it is not treated as a real
+paragraph boundary like an empty line where filling a paragraph would
+stop.
+
+   Paragraph commands like `\section' or `\noindent' (the list of
+commands is defined by `LaTeX-paragraph-commands') are often to be
+placed in their own line(s).  This means they should not be consecuted
+with any preceding or following adjacent lines of text.  AUCTeX will
+prevent this from happening if you do not put any text except another
+macro after the end of the last brace of the respective macro.  If
+there is other text after the macro, AUCTeX regards this as a sign that
+the macro is part of the following paragraph.
+
+   Here are some examples:
+
+     \begin{quote}
+       text text text text
+
+     \begin{quote}\label{foo}
+       text text text text
+
+   If you press `M-q' on the first line in both examples, nothing will
+change.  But if you write
+
+     \begin{quote} text
+       text text text text
+
+   and press `M-q', you will get
+
+     \begin{quote} text text text text text
+
+   Besides code comments and paragraph commands, another speciality of
+filling in AUCTeX involves commented lines.  You should be aware that
+these comments are treated as islands in the rest of the LaTeX code if
+syntactic filling is enabled.  This means, for example, if you try to
+fill an environment with `LaTeX-fill-environment' and have the cursor
+placed on a commented line which does not have a surrounding
+environment inside the comment, AUCTeX will report an error.
+
+   The relevant commands and variables with regard to filling are:
+
+`C-c C-q C-p'
+     `LaTeX-fill-paragraph' will fill and indent the current paragraph.
+
+`M-q'
+     Alias for `C-c C-q C-p'
+
+`C-c C-q C-e'
+     `LaTeX-fill-environment' will fill and indent the current
+     environment.  This may e.g. be the `document' environment, in
+     which case the entire document will be formatted.
+
+`C-c C-q C-s'
+     `LaTeX-fill-section' will fill and indent the current logical
+     sectional unit.
+
+`C-c C-q C-r'
+     `LaTeX-fill-region' will fill and indent the current region.
+
+`M-g'
+     Alias for `C-c C-q C-r'
+
  - User Option: LaTeX-fill-break-at-separators
-     List of separators before or after which respectively line breaks
+     List of separators before or after which respectively linebreaks
      will be inserted if they do not fit into one line.  The separators
      can be curly braces, brackets, switches for inline math (`$', `\(',
      `\)') and switches for display math (`\[', `\]').  Such formatting
@@ -988,7 +1109,7 @@ sections.
      chance that the line becomes overfull.
 
 
-File: auctex,  Node: Outline,  Prev: Marking and formatting,  Up: Advanced Features
+File: auctex,  Node: Outline,  Prev: Filling,  Up: Advanced Features
 
 Outlining the Document
 ======================
@@ -2658,33 +2779,57 @@ The History of AUCTeX
 
 See the file `history.texi' for older changes.
 
-News in 12
-==========
+News in 11.50
+=============
 
    * The content of the command menu now depends on the mode (plain TeX,
      LaTeX, ConTeXt etc.).  Any former customization of the variable
      `TeX-command-menu' has to be erased.  Otherwise the command menu
      and the customization will not work correctly.
 
+   * Limited support for `doc.sty' (`dtx' files) was added.  The new
+     docTeX mode provides functionality for editing documentation
+     parts.  This includes formatting (indenting and filling), adding
+     macros and environments while staying in comments as well as syntax
+     highlighting.  Please note that the mode is by for not finished
+     yet.
+
+   * Support for ConTeXt with a separate ConTeXt mode is now included.
+     Macro definitions for completion are available in Dutch and
+     English.
+
+   * The filling and indentation code was overhauled and is now able to
+     format commented parts of the source syntactically correct.  Newly
+     available functionality and customization options are explained in
+     the manual.
+
    * If `TeX-master' is set to `t', AUCTeX will now query for a master
      file only when a new file is opened.  Existing files will be left
-     alone.  The new function `TeX-master-file-ask' is provided for
-     adding the variable manually.
+     alone.  The new function `TeX-master-file-ask' (bound to `C-c _'
+     is provided for adding the variable manually.
 
-   * Sectioning commands are now shown in a larger font.  The variable
+   * Sectioning commands are now shown in a larger font on display
+     devices which support such fontification.  The variable
      `font-latex-title-fontity' can be customized to restore the old
      appearance, i.e. the usage of a different color instead of a
      change in size.
 
    * Support for `alphanum.sty', `beamer.cls', `booktabs.sty',
-     `emp.sty' and `paralist.sty' was added.
+     `emp.sty' and `paralist.sty' was added.  Credits go to the authors
+     mentioned in the respective AUCTeX style files.
 
-   * AUCTeX may now be customized to fontify either >>German<< or
-     <<French>> quotes by changing the variable `font-latex-quotes'.
+   * The commenting functionality was fixed.  The separate functions for
+     commenting and uncommenting were unified in one function for
+     paragraphs and regions respectively which do both.
 
-   * Certain TeX/LaTeX function, reference, variable and warning
-     keywords will now be fontified.  Own keywords may be added by
-     customizing the variables `font-latex-match-function-keywords',
+   * Syntax highlighting can be customized to fontify quotes delimited
+     by either >>German<< or <<French>> quotation marks by changing the
+     variable `font-latex-quotes'.
+
+   * Certain TeX/LaTeX keywords for functions, references, variables
+     and warnings will now be fontified specially.  You may add your own
+     keywords by customizing the variables
+     `font-latex-match-function-keywords',
      `font-latex-match-reference-keywords',
      `font-latex-match-variable-keywords' and
      `font-latex-match-warning-keywords'.
@@ -2696,10 +2841,8 @@ News in 12
      `TeX-close-quote' and `TeX-quote-after-quote' if you want to
      influence the type of quote insertion.
 
-   * AUCTeX now includes support for ConTeXt.
-
-   * AUCTeX now is able to determine automatically which viewer to
-     choose and what parameters to pass to it by looking at the
+   * Upon viewing an output file, the right viewer and command line
+     options for it are now determined automatically by looking at the
      extension of the output file and certain options used in the
      source file.  The behavior can be adapted or extended respectively
      by customizing the variable `TeX-output-view-style'.
@@ -2709,24 +2852,51 @@ News in 12
 
    * The build process was enhanced and is now based on `autoconf'.
 
-   * Support for the KOMA-Script classes.  Contributed by Mark Trettin
-     <Mark.Trettin@gmx.de>.
+News in 11.14
+=============
 
    * Many more LaTeX and LaTeX2e commands are supported.  Done by
      Masayuki Ataka  <ataka@milk.freemail.ne.jp>
 
+News in 11.12
+=============
+
+   * Support for the KOMA-Script classes.  Contributed by Mark Trettin
+     <Mark.Trettin@gmx.de>.
+
+News in 11.11
+=============
+
    * Support for `prosper.sty', see <http://prosper.sourceforge.net/>.
      Contributed by Phillip Lord <p.lord@russet.org.uk>.
+
+News in 11.10
+=============
+
+   * `comment-region' now inserts %% by default.  Suggested by "Davide
+     G. M. Salvetti" <salve@debian.org>.
+
+News in 11.06
+=============
 
    * You can now switch between using the `font-latex' (all emacsen),
      the `tex-font' (Emacs 21 only) or no special package for font
      locking.  Customize `TeX-install-font-lock' for this.
 
+News in 11.04
+=============
+
    * Now use -t landscape by default when landscape option appears.
      Suggested by Erik Frisk <frisk@isy.liu.se>.
 
+News in 11.03
+=============
+
    * Use `tex-fptex.el' for fpTeX support.  Contributed by Fabrice
      Popineau <Fabrice.Popineau@supelec.fr>.
+
+News in 11.02
+=============
 
    * New user option `LaTeX-top-caption-list' specifies environments
      where the caption should go at top.  Contributed by
@@ -2744,11 +2914,13 @@ News in 12
    * More accurate error parsing.  Added by David Kastrup
      <David.Kastrup@t-online.de>.
 
+News in 11.01
+=============
+
    * Bug fixes.
 
-
 
-File: auctex,  Node: ToDo,  Next: Key Index,  Prev: History,  Up: Top
+File: auctex,  Node: ToDo,  Next: FAQ,  Prev: History,  Up: Top
 
 ToDo
 ****
@@ -2993,9 +3165,63 @@ Bugs
    * Correct indentation for tabular, tabbing, table, math, and array
      environments.
 
+   * If there are unmatched $ characters in `verbatim' or similar
+     environments, the rest of the buffer gets fontified with the math
+     face (usually in brown).  A good way to fix this bug would be to
+     have conditional font locking, i.e. different (syntactical)
+     keywords are used inside certain environments.  This would allow
+     special fontification of programming languages in `lstlisting'
+     environments as well.  Unfortunately such conditional font locking
+     is not provided yet by Emacs.  As a workaround you can insert `%$'
+     after the end of the environment in concern.
 
 
-File: auctex,  Node: Key Index,  Next: Function Index,  Prev: ToDo,  Up: Top
+File: auctex,  Node: FAQ,  Next: Key Index,  Prev: ToDo,  Up: Top
+
+Frequently Asked Questions
+**************************
+
+  1. What versions of Emacs and XEmacs are supported?
+
+     AUCTeX was tested with Emacs 20.7 and XEmacs 21.4.  Older versions
+     may work but are unsupported.
+
+  2. Why doesn't the completion or multifile stuff work?
+
+     It must be enabled first, insert this in your emacs:
+
+          (setq-default TeX-master nil)
+          (setq TeX-parse-self t)
+          (setq TeX-auto-save t)
+
+     Read also the chapters about parsing and multifile documents in the
+     manual.
+
+  3. Why doesn't `TeX-save-document' work?
+
+     `TeX-check-path' has to contain "./" somewhere.
+
+  4. Why is the information in `foo.tex' forgotten when I save
+     `foo.bib'?
+
+     For various reasons, AUCTeX ignores the extension when it stores
+     information about a file, so you should use unique base names for
+     your files.  E.g. rename `foo.bib' to `foob.bib'.
+
+  5. Why doesn't AUCTeX signal when processing a document is done?
+
+     If the message in the minibuffer stays "Type `C-c C-l' to display
+     results of compilation.", you probably have a misconfiguration in
+     your init file (`.emacs', `init.el' or similar).  To track this
+     down either search in the `*Messages*' buffer for an error message
+     or put `(setq debug-on-error t)' as the first line into your init
+     file, restart Emacs and open a LaTeX file.  Emacs will complain
+     loudly by opening a debugging buffer as soon as an error occurs.
+     The information in the debugging buffer can help you find the
+     cause of the error in your init file.
+
+
+File: auctex,  Node: Key Index,  Next: Function Index,  Prev: FAQ,  Up: Top
 
 Key Index
 *********
@@ -3004,8 +3230,8 @@ Key Index
 
 * ":                                     Quotes.
 * $:                                     Quotes.
-* <LFD>:                                 Marking and formatting.
-* <TAB>:                                 Marking and formatting.
+* <LFD>:                                 Indenting.
+* <TAB>:                                 Indenting.
 * C-c %:                                 Commenting.
 * C-c ;:                                 Commenting.
 * C-c <LFD>:                             Itemize-like.
@@ -3028,18 +3254,19 @@ Key Index
 * C-c C-l:                               Control.
 * C-c C-m:                               Completion.
 * C-c C-n:                               Parsing Files.
-* C-c C-q C-e:                           Marking and formatting.
-* C-c C-q C-p:                           Marking and formatting.
-* C-c C-q C-r:                           Marking and formatting.
-* C-c C-q C-s:                           Marking and formatting.
+* C-c C-q C-e:                           Filling.
+* C-c C-q C-p:                           Filling.
+* C-c C-q C-r:                           Filling.
+* C-c C-q C-s:                           Filling.
 * C-c C-r:                               Commands.
 * C-c C-s:                               Sectioning.
 * C-c C-w:                               Debugging.
 * C-c {:                                 Quotes.
 * C-c ~:                                 Mathematics.
+* C-j:                                   Indenting.
 * M-<TAB>:                               Completion.
-* M-g:                                   Marking and formatting.
-* M-q:                                   Marking and formatting.
+* M-g:                                   Filling.
+* M-q:                                   Filling.
 
 
 File: auctex,  Node: Function Index,  Next: Variable Index,  Prev: Key Index,  Up: Top
@@ -3055,11 +3282,11 @@ Function Index
 * LaTeX-close-environment:               Environments.
 * LaTeX-env-item:                        Adding Environments.
 * LaTeX-environment:                     Environments.
-* LaTeX-fill-environment:                Marking and formatting.
-* LaTeX-fill-paragraph:                  Marking and formatting.
-* LaTeX-fill-region:                     Marking and formatting.
-* LaTeX-fill-section:                    Marking and formatting.
-* LaTeX-indent-line:                     Marking and formatting.
+* LaTeX-fill-environment:                Filling.
+* LaTeX-fill-paragraph:                  Filling.
+* LaTeX-fill-region:                     Filling.
+* LaTeX-fill-section:                    Filling.
+* LaTeX-indent-line:                     Indenting.
 * LaTeX-insert-environment:              Adding Environments.
 * LaTeX-insert-item:                     Itemize-like.
 * LaTeX-math-mode:                       Mathematics.
@@ -3140,17 +3367,19 @@ Variable Index
 * LaTeX-eqnarray-label:                  Equations.
 * LaTeX-equation-label:                  Equations.
 * LaTeX-figure-label:                    Floats.
-* LaTeX-fill-break-at-separators:        Marking and formatting.
-* LaTeX-fill-break-before-code-comments: Marking and formatting.
+* LaTeX-fill-break-at-separators:        Filling.
+* LaTeX-fill-break-before-code-comments: Filling.
 * LaTeX-float:                           Floats.
-* LaTeX-indent-environment-list:         Marking and formatting.
-* LaTeX-indent-level:                    Marking and formatting.
-* LaTeX-item-indent:                     Marking and formatting.
+* LaTeX-indent-environment-check:        Indenting.
+* LaTeX-indent-environment-list:         Indenting.
+* LaTeX-indent-level:                    Indenting.
+* LaTeX-item-indent:                     Indenting.
 * LaTeX-math-abbrev-prefix:              Mathematics.
 * LaTeX-math-list:                       Mathematics.
+* LaTeX-paragraph-commands:              Filling.
 * LaTeX-section-hook:                    Sectioning.
 * LaTeX-section-label:                   Sectioning.
-* LaTeX-syntactic-comments:              Marking and formatting.
+* LaTeX-syntactic-comments:              Indenting.
 * LaTeX-table-label:                     Floats.
 * plain-TeX-auto-regexp-list:            Parsing Files.
 * TeX-auto-cleanup-hook:                 Hacking the Parser.
@@ -3165,7 +3394,7 @@ Variable Index
 * TeX-auto-regexp-list:                  Parsing Files.
 * TeX-auto-save:                         Parsing Files.
 * TeX-auto-untabify:                     Parsing Files.
-* TeX-brace-indent-level:                Marking and formatting.
+* TeX-brace-indent-level:                Indenting.
 * TeX-check-path:                        Commands.
 * TeX-close-quote:                       Quotes.
 * TeX-command-default:                   Commands.
@@ -3186,6 +3415,7 @@ Variable Index
 * TeX-macro-private:                     Automatic Private.
 * TeX-master <1>:                        Multifile.
 * TeX-master:                            Commands.
+* TeX-newline-function:                  Indenting.
 * TeX-one-master:                        Multifile.
 * TeX-open-quote:                        Quotes.
 * TeX-outline-extra:                     Outline.
@@ -3306,7 +3536,7 @@ Concept Index
 * Figure environment:                    Floats.
 * Figures:                               Floats.
 * File Variables:                        Commands.
-* Filling:                               Marking and formatting.
+* Filling:                               Filling.
 * Finding errors:                        Checking.
 * Finding the current file:              Control.
 * Finding the master file:               Control.
@@ -3315,7 +3545,8 @@ Concept Index
 * Font macros:                           Font Specifiers.
 * Fonts:                                 Font Specifiers.
 * Formatting <1>:                        Commands.
-* Formatting:                            Marking and formatting.
+* Formatting <2>:                        Filling.
+* Formatting:                            Indenting.
 * Free:                                  Copying.
 * Free software:                         Copying.
 * General Public License:                Copying.
@@ -3330,7 +3561,8 @@ Concept Index
 * Headers:                               Outline.
 * Holland:                               European.
 * Including:                             Multifile.
-* Indenting:                             Marking and formatting.
+* Indentation:                           Indenting.
+* Indenting:                             Indenting.
 * Indexing:                              Commands.
 * Initialization:                        Customizing.
 * Inputing:                              Multifile.
@@ -3413,10 +3645,12 @@ Concept Index
 * pTeX:                                  Japanese.
 * Quotes:                                Quotes.
 * Redisplay output:                      Control.
-* Reformatting:                          Marking and formatting.
+* Refilling:                             Filling.
+* Reformatting <1>:                      Filling.
+* Reformatting:                          Indenting.
 * Region:                                Commands.
 * Region file:                           Commands.
-* Reindenting:                           Marking and formatting.
+* Reindenting:                           Indenting.
 * Right:                                 Copying.
 * Running BibTeX:                        Commands.
 * Running chktex:                        Checking.
@@ -3469,62 +3703,64 @@ Concept Index
 
 Tag Table:
 Node: Top220
-Node: Copying2789
-Node: Introduction4731
-Node: Frequently Used Commands11464
-Node: Quotes12229
-Node: Font Specifiers15000
-Node: Sectioning16619
-Node: Environments20934
-Node: Equations23264
-Node: Floats23856
-Node: Itemize-like25004
-Node: Tabular-like25502
-Node: Customizing environments26086
-Node: Advanced Features26309
-Node: Mathematics26994
-Node: Completion28389
-Node: Commenting31802
-Node: Marking and formatting33138
-Node: Outline38727
-Node: Running TeX and friends40248
-Node: Commands41003
-Node: Viewing45294
-Node: Debugging47217
-Node: Checking48419
-Node: Control49740
-Node: Multifile50449
-Node: Parsing Files55139
-Node: I18n59463
-Node: European59981
-Node: Japanese62399
-Node: Automatic64191
-Node: Automatic Global66673
-Node: Automatic Private67832
-Node: Automatic Local69065
-Node: Style Files70134
-Node: Simple Style70925
-Node: Adding Macros72057
-Node: Adding Environments77617
-Node: Adding Other80185
-Node: Hacking the Parser80753
-Node: Installation84687
-Node: Prerequisites85296
-Node: Configure86172
-Node: Build/install89205
-Node: Loading the package89653
-Node: Advice for package providers91099
-Node: Advice for non-privileged users92389
-Node: Installation under MS Windows96406
-Node: Customizing101109
-Node: History103653
-Node: ToDo107460
-Node: Mid-term Goals107986
-Node: Wishlist109076
-Node: Bugs115012
-Node: Key Index116397
-Node: Function Index118639
-Node: Variable Index122593
-Node: Concept Index126792
+Node: Copying2848
+Node: Introduction4790
+Node: Frequently Used Commands11557
+Node: Quotes12322
+Node: Font Specifiers15093
+Node: Sectioning16712
+Node: Environments21027
+Node: Equations23357
+Node: Floats23949
+Node: Itemize-like25097
+Node: Tabular-like25595
+Node: Customizing environments26179
+Node: Advanced Features26402
+Node: Mathematics27220
+Node: Completion28615
+Node: Commenting32028
+Node: Indenting33351
+Node: Filling39087
+Node: Outline44622
+Node: Running TeX and friends46128
+Node: Commands46883
+Node: Viewing51174
+Node: Debugging53097
+Node: Checking54299
+Node: Control55620
+Node: Multifile56329
+Node: Parsing Files61019
+Node: I18n65343
+Node: European65861
+Node: Japanese68279
+Node: Automatic70071
+Node: Automatic Global72553
+Node: Automatic Private73712
+Node: Automatic Local74945
+Node: Style Files76014
+Node: Simple Style76805
+Node: Adding Macros77937
+Node: Adding Environments83497
+Node: Adding Other86065
+Node: Hacking the Parser86633
+Node: Installation90567
+Node: Prerequisites91176
+Node: Configure92052
+Node: Build/install95085
+Node: Loading the package95533
+Node: Advice for package providers96979
+Node: Advice for non-privileged users98269
+Node: Installation under MS Windows102286
+Node: Customizing106989
+Node: History109533
+Node: ToDo114844
+Node: Mid-term Goals115364
+Node: Wishlist116454
+Node: Bugs122390
+Node: FAQ124379
+Node: Key Index126025
+Node: Function Index128202
+Node: Variable Index132083
+Node: Concept Index136341
 
 End Tag Table

@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.52 2004/05/25 09:39:58 salve Exp $
+# $Id: rules,v 1.53 2004/06/16 09:28:27 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04 by Davide Giovanni
 # Maria Salvetti.
@@ -67,7 +67,7 @@ build: $(DFILES)
 	./configure --infodir=/usr/share/info/
 	cd doc && $(MAKE) auctex
 	cd doc && $(MAKE) auc-tex_toc.html
-	cd doc && $(MAKE) README CHANGES HISTORY
+	cd doc && $(MAKE) README CHANGES FAQ HISTORY
 	touch build
 
 clean:
@@ -102,7 +102,7 @@ binary-indep: checkroot build
 # install Debian doc
 	$(INSTDIR) $(tmp)//usr/share/doc/auctex/ $(tmp)//usr/share/doc/auctex//src/ \
 		$(tmp)//usr/share/doc/auctex//HTML $(tmp)//usr/share/man//man8/
-	$(INSTDATA) doc/README doc/CHANGES doc/HISTORY  \
+	$(INSTDATA) doc/README doc/CHANGES doc/FAQ doc/HISTORY  \
 		$(tmp)//usr/share/doc/auctex/
 	$(INSTDATA) doc/*.tex{,i} $(tmp)//usr/share/doc/auctex//src/
 	$(INSTDATA) debian/README $(tmp)//usr/share/doc/auctex//README.Debian

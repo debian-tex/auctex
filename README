@@ -49,19 +49,19 @@ License' and may therefore almost freely be copied and redistributed.
 For further information, refer to the built-in online documentation of
 AUCTeX.
 
-Indentation and formatting
-==========================
+Indentation and filling
+=======================
 
 AUCTeX may automatically indent your document as you write it. By
-pressing <lfd> instead of <ret> at the end of a line, the current line
+pressing <LFD> instead of <RET> at the end of a line, the current line
 is indented by two spaces according to the current environment level,
-and the cursor is moved down one line.  By pressing <tab>, the current
+and the cursor is moved down one line.  By pressing <TAB>, the current
 line is indented, and the cursor stays where it is.  The well-known
-Emacs feature `format-paragraph' (`M-q') is reimplemented especially
-for AUCTeX to follow the indentation.  A special command
-`LaTeX-fill-buffer' lets you indent an entire document like the
-well-known C utility indent (this time, only according to the LaTeX
-structure :-).
+Emacs feature `fill-paragraph' (`M-q') is reimplemented especially for
+AUCTeX to follow the indentation (even in commented parts of the
+document).  A special command `LaTeX-fill-buffer' lets you indent an
+entire document like the well-known C utility indent (this time, only
+according to the LaTeX structure :-).
 
 Completion
 ==========
@@ -73,7 +73,7 @@ commands you should be able to use in this particular document.  This
 `knowledge' of AUCTeX is used for two purposes.
 
   1. To make you able to `complete' partly written LaTeX commands. You
-     may e.g. write `\renew' and press `M-<tab>'
+     may e.g. write `\renew' and press `M-<TAB>'
      (`TeX-complete-symbol'), and then AUCTeX will complete the word
      `\renewcommand' for you. In case of ambiguity it will display a
      list of possible completions.

@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1991 Kresten Krab Thorup
 ;; Copyright (C) 1993, 1994, 1995, 1996, 1997, 1999, 2000 Per Abrahamsen
-;; Copyright (C) 2003, 2004 Free Software Foundation
+;; Copyright (C) 2003, 2004 Free Software Foundation, Inc.
 
 ;; Maintainer: auc-tex@sunsite.dk
 ;; Keywords: tex
@@ -53,7 +53,7 @@ A list of strings."
   :group 'LaTeX-environment
   :type '(repeat (string :format "%v")))
 
- (make-variable-buffer-local 'LaTeX-default-options)
+(make-variable-buffer-local 'LaTeX-default-options)
 
 (defcustom LaTeX-insert-into-comments t
   "*Whether insertion commands stay in comments.
@@ -66,7 +66,22 @@ the lines are outcommented, like in dtx files."
   "Start a new line potentially staying within comments.
 This depends on `LaTeX-insert-into-comments'."
   (if LaTeX-insert-into-comments
-      (indent-new-comment-line)
+      (cond ((and (looking-at (concat "[ \t]*" comment-start "+"))
+		  (TeX-looking-at-backward "^[ \t]*"))
+	     (beginning-of-line)
+	     (looking-at (concat "[ \t]*" comment-start "+"))
+	     (insert (match-string 0))
+	     (newline))
+	    ((and (not (bolp))
+		  (not (TeX-looking-at-backward
+			(concat "\\("
+				(regexp-quote TeX-esc) (regexp-quote TeX-esc)
+				"\\)*" (regexp-quote TeX-esc))))
+		  (looking-at (concat "[ \t]*" comment-start "+[ \t]*")))
+	     (delete-region (match-beginning 0) (match-end 0))
+	     (indent-new-comment-line))
+	    (t
+	     (indent-new-comment-line)))
     (newline)))
 
 ;;; Syntax Table
@@ -548,8 +563,11 @@ It may be customized with the following variables:
       (progn
 	(if (< (mark) (point))
 	    (exchange-point-and-mark))
-	(or (TeX-looking-at-backward "^[ \t]*")
-	    (LaTeX-newline))
+	(unless (TeX-looking-at-backward "^[ \t]*")
+	  (LaTeX-newline))
+	(when (and LaTeX-insert-into-comments
+		   (looking-at (concat "[ \t]*\\(" comment-start "+\\)")))
+	  (insert (match-string 1) (TeX-comment-padding-string)))
 	(insert TeX-esc "begin" TeX-grop environment TeX-grcl)
 	(indent-according-to-mode)
 	(if extra (insert extra))
@@ -557,10 +575,14 @@ It may be customized with the following variables:
 	(goto-char (mark))
 	(unless (TeX-looking-at-backward
 		  (if (and LaTeX-insert-into-comments
-			   (TeX-in-commented-line))
+			   (TeX-in-commented-line)
+			   (not (bolp)))
 		      (concat "^" comment-start-skip "[ \t]*")
 		    "^[ \t]*"))
 	    (LaTeX-newline))
+	(when (and LaTeX-insert-into-comments
+		   (looking-at (concat "[ \t]*\\(" comment-start "+\\)")))
+	  (insert (match-string 1) (TeX-comment-padding-string)))
 	(insert TeX-esc "end" TeX-grop environment TeX-grcl)
 	(or (looking-at "[ \t]*$")
 	    (save-excursion (LaTeX-newline) (indent-according-to-mode)))
@@ -570,19 +592,26 @@ It may be customized with the following variables:
 	    (LaTeX-fill-environment nil)))
     (unless (TeX-looking-at-backward
 	     (if (and LaTeX-insert-into-comments
-		      (TeX-in-commented-line))
+		      (TeX-in-commented-line)
+		      (not (bolp)))
 		 (concat "^" comment-start-skip "[ \t]*")
 	       "^[ \t]*"))
       (LaTeX-newline))
+    (when (and LaTeX-insert-into-comments
+	       (looking-at (concat "[ \t]*\\(" comment-start "+\\)")))
+      (insert (match-string 1) (TeX-comment-padding-string)))
     (insert TeX-esc "begin" TeX-grop environment TeX-grcl)
     (indent-according-to-mode)
     (if extra (insert extra))
     (LaTeX-newline)
     (LaTeX-newline)
+    (when (and LaTeX-insert-into-comments
+	       (looking-at (concat "[ \t]*\\(" comment-start "+\\)")))
+      (insert (match-string 1) (TeX-comment-padding-string)))
     (insert TeX-esc "end" TeX-grop environment TeX-grcl)
+    (indent-according-to-mode)
     (or (looking-at "[ \t]*$")
 	(save-excursion (LaTeX-newline) (indent-according-to-mode)))
-    (indent-according-to-mode)
     (end-of-line 0)
     (indent-according-to-mode)))
 
@@ -1803,8 +1832,8 @@ value."
 The items consist of three parts.  The first is a regular
 expression which should match the respective string.  The second
 is the amount of spaces to be used for indentation.  The third
-toggles if comment padding is relevant or not.  If `t' padding is
-part of the amount given, if `nil' the amount of spaces will be
+toggles if comment padding is relevant or not.  If t padding is
+part of the amount given, if nil the amount of spaces will be
 inserted after potential padding.")
 
 (defun LaTeX-indent-line ()
@@ -1823,12 +1852,7 @@ Lines starting with an item is given an extra indentation of
 			     (looking-at (concat "[ \t]*" comment-start "+"))
 			     (concat
 			      (match-string 0)
-			      ;; `comment-padding' formerly was an
-			      ;; integer and now can also be defined
-			      ;; as a string.  We support both.
-			      (if (integerp comment-padding)
-				  (make-string comment-padding ? )
-				comment-padding))))))
+			      (TeX-comment-padding-string))))))
     (save-excursion
       (cond ((and fill-prefix
 		  (TeX-in-line-comment)
@@ -2094,9 +2118,10 @@ outer indentation in case of a commented line.  The symbols
 			(t 0))))))))
 
 (defun LaTeX-current-indentation (&optional force-type)
-  "Return the indentation of line.  FORCE-TYPE can be used to
-force the calculation of an inner or outer indentation in case of
-a commented line.  The symbols 'inner and 'outer are recognized."
+  "Return the indentation of a line.
+FORCE-TYPE can be used to force the calculation of an inner or
+outer indentation in case of a commented line.  The symbols
+'inner and 'outer are recognized."
   (if (and fill-prefix
 	   (or (and force-type
 		    (eq force-type 'inner))
@@ -2242,7 +2267,7 @@ pass args FROM, TO and JUSTIFY-FLAG."
 
 (defun LaTeX-fill-region-as-para-do (from to &optional justify
 					  nosqueeze squeeze-after)
-  "Fill the region as one paragraph.
+  "Fill the region defined by FROM and TO as one paragraph.
 It removes any paragraph breaks in the region and extra newlines at the end,
 indents and fills lines between the margins given by the
 `current-left-margin' and `current-fill-column' functions.
@@ -2374,7 +2399,7 @@ space does not end a sentence, so don't break a line there."
 	  (unless (and nosqueeze (not (eq justify 'full)))
 	    (canonically-space-region (or squeeze-after (point)) to)
 	    ;; Remove trailing whitespace.
-	    (goto-char (point-max))
+	    (goto-char (line-end-position))
 	    (delete-char (- (skip-chars-backward " \t")))))
 
 	;; This is the actual FILLING LOOP.
@@ -2484,9 +2509,13 @@ space does not end a sentence, so don't break a line there."
   (if (fboundp 'fill-move-to-break-point)
       (fill-move-to-break-point linebeg)
     (skip-chars-backward "^ \n")
+    ;; Prevent infinite loops: If we cannot find a place to break
+    ;; while searching backward, search forward again.
     (cond ((bolp)
 	   (skip-chars-forward "^ \n" (point-max)))
-	  ((TeX-looking-at-backward "^[ \t]+" (1- (line-beginning-position)))
+	  ((TeX-looking-at-backward
+	    (concat "^[ \t]+\\|^[ \t]*" comment-start "+[ \t]*")
+	    (1- (line-beginning-position)))
 	   (goto-char (match-end 0))
 	   (skip-chars-forward "^ \n" (point-max)))))
   (when LaTeX-fill-break-at-separators
@@ -2653,11 +2682,10 @@ space does not end a sentence, so don't break a line there."
 
 (defun LaTeX-fill-newline ()
   "Replace whitespace here with one newline and indent the line."
+  (skip-chars-backward " \t")
+  (newline)
   ;; COMPATIBILITY for XEmacs
-  (if (and (featurep 'xemacs) (not (fboundp 'char-in-category-p)))
-      (newline-and-indent)
-    (skip-chars-backward " \t")
-    (insert ?\n)
+  (unless (featurep 'xemacs)
     ;; Give newline the properties of the space(s) it replaces
     (set-text-properties (1- (point)) (point)
 			 (text-properties-at (point)))
@@ -2674,13 +2702,13 @@ space does not end a sentence, so don't break a line there."
       ;; an invisible newline.
       (if fill-nobreak-invisible
 	  (remove-text-properties (1- (point)) (point)
-				  '(invisible t))))
-    ;; Insert the fill prefix.
-    (and fill-prefix (not (equal fill-prefix ""))
-	 ;; Markers that were after the whitespace are now at point: insert
-	 ;; before them so they don't get stuck before the prefix.
-	 (insert-before-markers-and-inherit fill-prefix))
-    (indent-according-to-mode)))
+				  '(invisible t)))))
+  ;; Insert the fill prefix.
+  (and fill-prefix (not (equal fill-prefix ""))
+       ;; Markers that were after the whitespace are now at point: insert
+       ;; before them so they don't get stuck before the prefix.
+       (insert-before-markers-and-inherit fill-prefix))
+  (indent-according-to-mode))
 
 (defun LaTeX-fill-paragraph (&optional justify)
   "Like \\[fill-paragraph], but handle LaTeX comments.
@@ -2860,9 +2888,9 @@ depends on the value of `LaTeX-syntactic-comments'."
 
 
 (defun LaTeX-fill-region (from to &optional justify what)
-  "Fill and indent each of the paragraphs in the region as LaTeX text.
-Prefix arg (non-nil third arg, if called from program)
-means justify as well. Fourth arg WHAT is a word to be displayed when
+  "Fill and indent the text in region from FROM to TO as LaTeX text.
+Prefix arg (non-nil third arg JUSTIFY, if called from program)
+means justify as well.  Fourth arg WHAT is a word to be displayed when
 formatting."
   (interactive "*r\nP")
   (save-restriction
@@ -2964,8 +2992,8 @@ see the documentation of `LaTeX-current-environment'."
 	  (error "Can't locate beginning of current environment")))))
 
 (defun LaTeX-mark-environment ()
-  "Set mark to end of current environment and point to the matching begin
-will not work properly if there are unbalanced begin-end pairs in
+  "Set mark to end of current environment and point to the matching begin.
+Will not work properly if there are unbalanced begin-end pairs in
 comments and verbatim environments"
   (interactive)
   (let ((cur (point)))
@@ -3029,7 +3057,28 @@ comments and verbatim environments"
 If COUNT is non-nil, do it COUNT times."
   (or count (setq count 1))
   (dotimes (i count)
-    (let (macro-end)
+    (let* ((macro-start (LaTeX-find-macro-start))
+	   (paragraph-command-start
+	    (cond
+	     ;; Point is inside of a paragraph command.
+	     ((and macro-start
+		   (save-excursion
+		     (goto-char macro-start)
+		     (looking-at
+		      (concat (regexp-quote TeX-esc)
+			      "\\(" LaTeX-paragraph-commands "\\)"))))
+	      (match-beginning 0))
+	     ;; Point is before a paragraph command in the same line.
+	     ((and (not macro-start)
+		   (save-excursion
+		     (beginning-of-line)
+		     (looking-at
+		      (concat "[ \t]*" comment-start "*[ \t]*"
+			      "\\(" (regexp-quote TeX-esc) "\\)"
+			      "\\(" LaTeX-paragraph-commands "\\)"))))
+	      (match-beginning 1))
+	     (t nil)))
+	   macro-end)
       ;; If a paragraph command is encountered there are two cases to be
       ;; distinguished:
       ;; 1) If the end of the paragraph command coincides (apart from
@@ -3039,19 +3088,19 @@ If COUNT is non-nil, do it COUNT times."
       ;; 2) If the end of the paragraph command is followed by other
       ;;    code, it is assumed that it should be included with the rest
       ;;    of the paragraph.
-      (if (and (LaTeX-paragraph-command-p)
+      (if (and paragraph-command-start
 	       (save-excursion
-		 (beginning-of-line)
-		 (looking-at
-		  (concat
-		   "[ \t]*" comment-start "*[ \t]*" (regexp-quote TeX-esc)
-		   "\\(" LaTeX-paragraph-commands "\\)"))
-		 (goto-char (match-beginning 1))
+		 (goto-char paragraph-command-start)
 		 (setq macro-end (goto-char (LaTeX-find-macro-end)))
 		 (looking-at (concat (regexp-quote TeX-esc) "[@A-Za-z]+\\|"
 				     "[ \t]*\\($\\|" comment-start "\\)"))))
 	  (progn
 	    (goto-char macro-end)
+	    ;; If the paragraph command is followed directly by
+	    ;; another macro, regard the latter as part of the
+	    ;; paragraph command's paragraph.
+	    (when (looking-at (concat (regexp-quote TeX-esc) "[@A-Za-z]+"))
+	      (goto-char (LaTeX-find-macro-end)))
 	    (forward-line))
 	(let (limit)
 	  (goto-char (min (save-excursion
@@ -3066,72 +3115,73 @@ If COUNT is non-nil, do it COUNT times."
 If COUNT is non-nil, do it COUNT times."
   (or count (setq count 1))
   (dotimes (i count)
-    (if (and (not (bolp))
-	     (LaTeX-paragraph-command-p))
-	(re-search-backward
-	 (concat "^[ \t]*" comment-start "*[ \t]*"
-		 (regexp-quote TeX-esc)
-		 "\\(" LaTeX-paragraph-commands "\\)"))
-      (let (limit
-	    (start (line-beginning-position)))
-	(goto-char (max (save-excursion
-			  (backward-paragraph)
-			  (setq limit (point)))
-			;; Search for possible transitions from
-			;; commented to uncommented regions and vice
-			;; versa.
+    (let* ((macro-start (LaTeX-find-macro-start))
+	   (paragraph-command-start
+	    (cond
+	     ;; Point is inside of a paragraph command.
+	     ((and macro-start
+		   (save-excursion
+		     (goto-char macro-start)
+		     (looking-at
+		      (concat (regexp-quote TeX-esc)
+			      "\\(" LaTeX-paragraph-commands "\\)"))))
+	      (match-beginning 0))
+	     (t nil))))
+      (if (and paragraph-command-start
+	       ;; Point really has to be inside of the macro, not before it.
+	       (not (= paragraph-command-start (point))))
+	  (progn
+	    (goto-char paragraph-command-start)
+	    (beginning-of-line))
+	(let (limit
+	      (start (line-beginning-position)))
+	  (goto-char
+	   (max (save-excursion
+		  (backward-paragraph)
+		  (setq limit (point)))
+		;; Search for possible transitions from commented to
+		;; uncommented regions and vice versa.
+		(save-excursion
+		  (TeX-backward-comment-skip 1 limit)
+		  (point))
+		;; Search for possible paragraph commands.
+		(save-excursion
+		  (let (break-flag
+			end-point)
+		    (while (and (> (point) limit)
+				(not (bobp))
+				(forward-line -1)
+				(not break-flag))
+		      (when (looking-at
+			     (concat "^[ \t]*" comment-start "*[ \t]*"
+				     "\\(" (regexp-quote TeX-esc) "\\)"
+				     "\\(" LaTeX-paragraph-commands "\\)"))
 			(save-excursion
-			  (TeX-backward-comment-skip 1 limit)
-			  (point))
-			;; Search for possible paragraph commands.
-			(save-excursion
-			  (let (break-flag
-				end-point)
-			    (while (and (> (point) limit)
-					(not (bobp))
-					(forward-line -1)
-					(not break-flag))
-			      (when (looking-at
-				     (concat
-				      "^[ \t]*" comment-start "*[ \t]*"
-				      "\\(" (regexp-quote TeX-esc) "\\)"
-				      "\\(" LaTeX-paragraph-commands "\\)"))
-				(save-excursion
-				  (goto-char (match-end 1))
-				  (save-match-data
-				    (goto-char (LaTeX-find-macro-end)))
-				  ;; For an explanation of this
-				  ;; distinction see
-				  ;; `LaTeX-forward-paragraph'.
-				  (if (save-match-data
-					(and (not (eolp))
-					     (looking-at
-					      (concat
-					       (regexp-quote TeX-esc)
-					       "[@A-Za-z]+\\|"
-					       "[ \t]*\\($\\|" comment-start
-					       "\\)"))))
-				      (progn
-					(forward-line 1)
-					(setq end-point (if (< (point) start)
-							    (point)
-							  0)))
-				    (setq end-point (match-beginning 0))))
-				(setq break-flag t)))
-			    (if end-point
-				end-point
-			      0))))))
-      (beginning-of-line))))
-
-(defun LaTeX-paragraph-command-p ()
-  "Determine if point is in a line containing a paragraph command.
-Paragraph commands, i.e. commands included in
-`LaTeX-paragraph-commands', should be placed in their own line."
-  (save-excursion
-    (beginning-of-line)
-    (looking-at
-     (concat "[ \t]*" comment-start "*[ \t]*" (regexp-quote TeX-esc)
-	     "\\(" LaTeX-paragraph-commands "\\)"))))
+			  (goto-char (match-end 1))
+			  (save-match-data
+			    (goto-char (LaTeX-find-macro-end)))
+			  ;; For an explanation of this distinction
+			  ;; see `LaTeX-forward-paragraph'.
+			  (if (save-match-data
+				(looking-at
+				 (concat (regexp-quote TeX-esc) "[@A-Za-z]+\\|"
+					 "[ \t]*\\($\\|"
+					 comment-start "\\)")))
+			      (progn
+				(when (looking-at
+				       (concat (regexp-quote TeX-esc)
+					       "[@A-Za-z]+"))
+				  (goto-char (LaTeX-find-macro-end)))
+				(forward-line 1)
+				(setq end-point (if (< (point) start)
+						    (point)
+						  0)))
+			    (setq end-point (match-beginning 0))))
+			(setq break-flag t)))
+		    (if end-point
+			end-point
+		      0))))))
+	(beginning-of-line)))))
 
 (defun LaTeX-find-macro-start (&optional arg)
   "Find the start of a macro.
@@ -3141,42 +3191,53 @@ the macro.  If ARG is non-nil, find the end of a macro."
     (let ((orig-point (point))
 	  start-point
 	  found-end-flag)
-      (if (not (and (re-search-backward
-		     (concat "\\(^\\|[^" TeX-esc "\n]\\)\\("
-			     (regexp-quote (concat TeX-esc TeX-esc))
-			     "\\)*"
-			     "\\(" (regexp-quote TeX-esc) "\\)")
-		     nil t)
-		    (save-excursion
-		      (goto-char (match-end 3))
-		      (not (looking-at (regexp-quote TeX-esc))))))
-	nil
-      (setq start-point (match-beginning 3))
-      (goto-char (match-end 3))
-      (skip-chars-forward (concat "^ \t{[\n" (regexp-quote TeX-esc)))
-      (while (not found-end-flag)
-	(cond
-	 ((or (looking-at "[ \t]*\\(\\[\\)")
-	      (and (looking-at (concat "[ \t]*" comment-start))
-		   (save-excursion
-		     (forward-line 1)
-		     (looking-at "[ \t]*\\(\\[\\)"))))
-	  (goto-char (match-beginning 1))
-	  (forward-sexp))
-	 ((or (looking-at "[ \t]*{")
-	      (and (looking-at (concat "[ \t]*" comment-start))
-		   (save-excursion
-		     (forward-line 1)
-		     (looking-at "[ \t]*{"))))
-	  (goto-char (match-end 0))
-	  (goto-char (TeX-find-closing-brace)))
-	 (t
-	  (setq found-end-flag t))))
-      (if (< orig-point (point))
-	  (if arg
-	      (point)
-	    start-point)
-	nil)))))
+      (cond
+       ;; Point is located directly at the start of a macro.
+       ((and (looking-at (concat "\\(" (regexp-quote TeX-esc) "\\)[@A-Za-z]+"))
+	     (save-match-data
+	       (not (TeX-looking-at-backward
+		     (concat "\\(" (regexp-quote (concat TeX-esc TeX-esc)) "\\)*"
+			     "\\(" (regexp-quote TeX-esc) "\\)")))))
+	(setq start-point (point))
+	(goto-char (match-end 1)))
+       ;; Search backward for a macro start.
+       ((and (re-search-backward
+	      (concat "\\(^\\|[^" TeX-esc "\n]\\)"
+		      "\\(" (regexp-quote (concat TeX-esc TeX-esc)) "\\)*"
+		      "\\(" (regexp-quote TeX-esc) "\\)")
+	      nil t)
+	     (save-excursion
+	       (goto-char (match-end 3))
+	       (not (looking-at (regexp-quote TeX-esc)))))
+	(setq start-point (match-beginning 3))
+	(goto-char (match-end 3))))
+      (if (not start-point)
+	  nil
+	;; Search forward for the end of the macro.
+	(skip-chars-forward (concat "^ \t{[\n" (regexp-quote TeX-esc)))
+	(while (not found-end-flag)
+	  (cond
+	   ((or (looking-at "[ \t]*\\(\\[\\)")
+		(and (looking-at (concat "[ \t]*" comment-start))
+		     (save-excursion
+		       (forward-line 1)
+		       (looking-at "[ \t]*\\(\\[\\)"))))
+	    (goto-char (match-beginning 1))
+	    (forward-sexp))
+	   ((or (looking-at "[ \t]*{")
+		(and (looking-at (concat "[ \t]*" comment-start))
+		     (save-excursion
+		       (forward-line 1)
+		       (looking-at "[ \t]*{"))))
+	    (goto-char (match-end 0))
+	    (goto-char (TeX-find-closing-brace)))
+	   (t
+	    (setq found-end-flag t))))
+	(if (< orig-point (point))
+	    (if arg
+		(point)
+	      start-point)
+	  nil)))))
 
 (defun LaTeX-find-macro-end ()
   "Find the end of a macro.
@@ -3869,7 +3930,8 @@ commands are defined:
 ;;; Keymap
 
 (defvar LaTeX-mode-map
-  (let ((map (copy-keymap TeX-mode-map)))
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map TeX-mode-map)
 
     ;; Standard
     (define-key map "\n"      'reindent-then-newline-and-indent)
@@ -4478,7 +4540,8 @@ runs the hooks in `doctex-mode-hook'."
    '("hspace" "Length")
    '("mbox" t)
    '("newsavebox" TeX-arg-define-savebox)
-   '("parbox" [ TeX-arg-tb ] "Width" t)
+   '("parbox" [ TeX-arg-tb ] [ "Height" ] [ TeX-arg-tb "Inner position" ]
+     "Width" t)
    '("raisebox" "Raise" [ "Height above" ] [ "Depth below" ] t)
    '("rule" [ "Raise" ] "Width" "Thickness")
    '("sbox" TeX-arg-define-savebox t)
@@ -4597,6 +4660,64 @@ runs the hooks in `doctex-mode-hook'."
 
   (set (make-local-variable 'imenu-create-index-function)
        'LaTeX-imenu-create-index-function))
+
+(defcustom LaTeX-includegraphics-extensions
+  '("eps" "jpe?g" "pdf" "png")
+  "Extensions for images files used by \\includegraphics."
+  :group 'LaTeX-macro
+  :type '(list (set :inline t
+		    (const "eps")
+		    (const "jpe?g")
+		    (const "pdf")
+		    (const "png"))
+	       (repeat :inline t
+		       :tag "Other"
+		       (string))))
+
+(defcustom LaTeX-includegraphics-options-alist
+  '((0 width)
+    ;; (1 width height clip)
+    ;; (2 width height keepaspectratio clip)
+    (4) ;; --> (4 nil)
+    (5 trim)
+    (16
+     ;; Table 1 in epslatex.ps: ``includegraphics Options''
+     height totalheight width scale angle origin bb
+     ;; Table 2 in epslatex.ps: ``cropping Options''
+     viewport trim
+     ;; Table 3 in epslatex.ps: ``Boolean Options''
+     ;; [not implemented:] noclip draft final
+     clip keepaspectratio))
+  "Controls for which optional arguments of \\includegraphics you get prompted.
+
+An alist, consisting of \(NUMBER . LIST\) pairs.  Valid elements of LIST are
+`width', `height', `keepaspectratio', `clip', `angle', `totalheight', `trim'
+and `bb' \(Bounding Box\).
+
+The list corresponding to 0 is used if no prefix is given.  Note that 4 \(one
+\\[universal-argument]\) and 16 \(two \\[universal-argument]'s\) are easy to
+type and should be used for frequently needed combinations."
+  :group 'LaTeX-macro
+  :type '(repeat (cons (integer :tag "Argument")
+		       (list (set :inline t
+				  (const height)
+				  (const totalheight)
+				  (const width)
+				  (const scale)
+				  (const angle)
+				  (const origin)
+				  (const :tag "Bounding Box" bb)
+				  ;;
+				  (const viewport)
+				  (const trim)
+				  ;;
+				  (const clip)
+				  (const keepaspectratio))))))
+
+(defcustom LaTeX-includegraphics-strip-extension-flag t
+  "Non-nil means to strip known extensions from image file name."
+  :group 'LaTeX-macro
+  :type 'boolean)
 
 (defun LaTeX-imenu-create-index-function ()
   "Imenu support function for LaTeX."
