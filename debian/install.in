@@ -2,7 +2,7 @@
 #!/bin/bash -e
 #
 # elisp install file for Debian <:=${PACKAGE}:> package.
-# $Id: install.in,v 1.24 2005/01/15 12:46:10 salve Exp $
+# $Id: install.in,v 1.25 2005/04/23 17:50:32 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
@@ -31,7 +31,7 @@ do_install () {
 	--with-lispdir=<:$_=${lisp}; s|/+${PACKAGE}/*|/|;
 			 s|emacs|\${FLAVOR}|; s|/+|/|g; print:> \
 	--with-auto-dir=<:$_=${var}; s|/+|/|g;
-			 s|/$||; print:>/${FLAVOR} \
+			 s|/$||; print:>/${FLAVOR}/ \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
 	install-lisp install-contrib \

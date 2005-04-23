@@ -1,3 +1,15 @@
+auctex (11.55-2) unstable; urgency=low
+
+  * bug.presubj, bug.script: New files; thanks to Frank Küster.
+    (Closes: #293139)
+  * install (do_install): Add a directory separator at the end of
+    "--with-auto-dir"; thanks to Reuben Thomas.  (Closes: #302916)
+  * rules (binary-indep): Handle "bug.presubj" and "bug.script".
+  * rules (binary-indep): Remove "tex-site.el", which is not needed;
+    thanks to Reuben Thomas.  (Closes: #302915)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 23 Apr 2005 19:47:40 +0200
+
 auctex (11.55-1) unstable; urgency=medium
 
   * New upstream release.

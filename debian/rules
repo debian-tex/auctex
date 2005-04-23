@@ -3,7 +3,7 @@
 # BEWARE: The rules file is AUTOMATICALLY GENERATED from rules.in
 #
 # rules file for Debian auctex package.
-# $Id: rules,v 1.57 2005/02/05 02:40:35 salve Exp $
+# $Id: rules,v 1.58 2005/04/23 17:53:46 salve Exp $
 #
 # Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04 by Davide Giovanni
 # Maria Salvetti.
@@ -36,7 +36,7 @@ INSTSCRIPT	:= install -m 755
 DFILES	:=	debian/README debian/conffiles debian/config debian/copyright \
 		debian/cron debian/docbase debian/install debian/preinst \
 		debian/postinst debian/prerm debian/postrm debian/remove \
-		debian/templates \
+		debian/templates debian/bug.script \
 		debian/update-auctex-elisp debian/update-auctex-elisp.8 \
 		debian/update-auctex-install debian/update-auctex-install.8
 # WARNING: The man pages should be manually fixed in case of ${UPDATE_ELISP}
@@ -89,6 +89,8 @@ binary-indep: checkroot build
 	$(INSTDIR) $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//usr/share/emacs/site-lisp/auctex//style/ $(auctexdoc)
 	$(INSTSCRIPT) $(AUCTEXSCRIPTS) $(tmp)//usr/share/emacs/site-lisp/auctex//
 	$(INSTDATA) $(AUCTEXSRC) $(tmp)//usr/share/emacs/site-lisp/auctex//
+#       "tex-site.el" should not be installed
+	rm -f $(tmp)//usr/share/emacs/site-lisp/auctex//tex-site.el
 	$(INSTDATA) $(AUCTEXSTYLES) $(tmp)//usr/share/emacs/site-lisp/auctex//style//
 	umask 0022; echo -e "clean distclean:\n\trm -f Makefile\n" \
 		> $(auctexdoc)/$(AUCTEXDOC)
@@ -121,13 +123,15 @@ binary-indep: checkroot build
 # install Debian system files
 	$(INSTDIR) $(tmp)//usr/share/emacs/site-lisp/auctex/ $(tmp)//etc/cron.weekly/ \
 		$(tmp)//usr/sbin/ $(tmp)//usr/lib/emacsen-common/packages//{install,remove} \
-		$(tmp)//usr/share/doc-base/ $(tmp)//var/lib/auctex/
+		$(tmp)//usr/share/doc-base/ $(tmp)//usr/share/bug/auctex/ $(tmp)//var/lib/auctex/
 	$(INSTDATA) debian/docbase $(tmp)//usr/share/doc-base//auctex
 	$(INSTSCRIPT) debian/cron $(tmp)//etc/cron.weekly//auctex
 	$(INSTSCRIPT) debian/update-auctex-elisp $(tmp)//usr/sbin/
 	$(INSTSCRIPT) debian/update-auctex-install $(tmp)//usr/sbin/
 	$(INSTSCRIPT) debian/install $(tmp)//usr/lib/emacsen-common/packages//install/auctex
 	$(INSTSCRIPT) debian/remove $(tmp)//usr/lib/emacsen-common/packages//remove/auctex
+	$(INSTDATA) debian/bug.presubj $(tmp)//usr/share/bug/auctex//presubj
+	$(INSTSCRIPT) debian/bug.script $(tmp)//usr/share/bug/auctex//script
 
 # install Debian control files
 	$(INSTDIR) $(tmp)//DEBIAN/

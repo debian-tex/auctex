@@ -1,0 +1,17 @@
+Remember to cover the basics, that is, what you expected to happen and
+what in fact did happen.
+
+If the bug (or problem) is triggered by a specific (La)TeX
+file, you should try to produce a minimal sample file showing the
+problem and include it in your report.
+
+Your bug report will NOT be automatically posted to the AUCTeX mailing
+list.  It will be sent to the Debian Bug Tracking System instead, where
+the Debian AUCTeX package maintainer will receive it and eventually
+forward it to the AUCTeX mailing list if he thinks it related to AUCTeX
+upstream sources rather than to the AUCTeX package for Debian.
+
+If you think that your bug report is not specifically related to the
+Debian package and would like to send it directly to the AUCTeX mailing
+list, abort this bug reporting procedure now, start Emacs and type
+`M-x TeX-submit-bug-report RET'.
