@@ -1,18 +1,18 @@
 #include "variables"
-.\" Well, you know... this is an -*- nroff -*- source file.
+.\" Emacs, you know, this is an -*- nroff -*- source file.
 .\"
 .\" Man page for update-auctex-install.
-.\" Copyright 2004 Davide Giovanni Maria Salvetti.
+.\" Copyright (C) 2004, 05 by Davide Giovanni Maria Salvetti.
 .\"
 .\" This manual page is free software; you can redistribute it and/or
- \" modify it under the terms of the GNU General Public License as
- \" published by the Free Software Foundation; either version 2 of the
- \" License, or (at your option) any later version.
+ \" modify it under the terms of the GNU General Public License as published
+ \" by the Free Software Foundation; either version 2 of the License, or (at
+ \" your option) any later version.
 .\"
 .\" This manual page is distributed in the hope that it will be useful,
  \" but WITHOUT ANY WARRANTY; without even the implied warranty of
- \" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- \" General Public License for more details.
+ \" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ \" Public License for more details.
 .\"
 .\" You should have received a copy of the GNU General Public License
  \" along with this manual page; if not, write to: The Free Software
@@ -61,9 +61,11 @@ the hierarchy containing AUCTeX installed files.
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
 <:
-# Local variables:
-# mode: nroff
-# fill-column: 76
-# End:
 # LocalWords:  auctex GPL AUCTeX cron tex usr postinst
+# arch-tag: 70d3ef3a-3f7d-4568-8a3d-5bd8f38effb0
+# local variables:
+# mode: nroff
+# fill-column: 78
+# ispell-local-dictionary: "american"
+# end:
 :>//

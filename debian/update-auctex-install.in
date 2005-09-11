@@ -1,19 +1,18 @@
 #include "variables"
-#!/bin/bash -e
+#! /bin/bash -e
 #
 # Update AUCTeX installation.
 # Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: update-auctex-install.in,v 1.1 2004/05/19 09:29:47 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-<:# parse debconf database:>//
+<:# parse debconf database :>//
 source <:=${CONFMODULE}:>
 db_version 2.0
 
-<:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX.:>//
+<:# Default flavors: only GNU, XEmacs comes with its own AUCTeX.:>//
 FLAVORS=${*:-"emacs21 emacs-snapshot"}
 
 for FLAVOR in ${FLAVORS}; do
@@ -26,7 +25,11 @@ for FLAVOR in ${FLAVORS}; do
 done
 
 <:
-# Local Variables:
+# LocalWords:  AUCTeX debconf
+# arch-tag: 8367175f-2821-4e25-aefd-10ff9157886f
+# local variables:
 # mode: shell-script
-# End:
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
 :>//

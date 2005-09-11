@@ -1,15 +1,16 @@
 #include "variables"
-#!/bin/bash -e
+#! /bin/bash -e
 #
-# postinst configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: postinst.in,v 1.18 2005/01/15 11:41:09 salve Exp $
+# <% postinst %> script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-<:# parse debconf database: do not remove, even if we make no further use
-  #  of it here:>//
+<:
+# parse <% debconf %> database: do not remove,
+# even if no further use of it is made here
+:>//
 source <:=${CONFMODULE}:>
 db_version 2.0
 
@@ -28,34 +29,25 @@ done
 #---E-N-D---O-L-D---S-T-U-F-F--------------------------------------------------
 
 case "${1}" in
-    (abort-remove|abort-upgrade|configure)
-    <:# abort-remove in-favour ${3:newpkg} ${4:newver}
-      # (undo prerm remove in-favour ${3} ${4}):>//
-    <:# abort-upgrade ${2:newver}
-      # (undo prerm upgrade ${2}):>//
-    <:# configure ${2:lastconfver}
-      # (or, if there wasn't an old version at all)
-      # configure ${2=""|"<unknow>"}
-      # (or, if dpkg version is very old)
-      # configure
-      # (dregistered files and conffiles have been installed):>//
-    <:# install byte compiled lisp and do auto:>//
+    (abort-deconfigure|abort-remove|abort-upgrade|configure)
+    <:# emacs install :>//
     <:=${EINSTALL}:> <:=${PACKAGE}:>
-    <:# register doc with doc-base:>//
-    <:=${DINSTALL}:> <:="${docbase}/${PACKAGE}":>
-    <:# install info menu into info dir:>//
+    <:# register documentation with <% doc-base %> :>//
+    <:=${DINSTALL}:> <:=if($_="${docbase}/${PACKAGE}")=~tr|/|/|s:>
+    <:# install <% info %> menu into <% info %> directory :>//
     <:=${IINSTALL}:> <:="${info}/${PACKAGE}.info.gz":>
     ;;
-    (abort-deconfigure)
-    <:# abort-deconfigure in-favour ${3:newpkg} ${4:newver} removing ${6:oldpkg} ${7:oldver}
-      # (undo prerm deconfigure in-favour ${3} ${4} removing ${6} ${7}):>//
-    : ;;
-    (*) echo >&2 "${0##*/}: Called with unknown argument \`${1}'." ;;
+    (*) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
+	"Unknown argument: \"${1}\""
+    ;;
 esac
 
 exit 0
 <:
-# Local Variables:
+# local variables:
 # mode: shell-script
-# End:
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+# arch-tag: 3b9edfc5-752f-46b3-a095-3346d42ba686
 :>//

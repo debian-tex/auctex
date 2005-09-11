@@ -1,20 +1,21 @@
 #include "variables"
-#!/bin/bash -e
+#! /bin/bash -e
 #
-# Update AUCTeX auto-loads.
-# Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: cron.in,v 1.5 2004/05/19 09:27:37 salve Exp $
+# <% cron %> script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-test -x <:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:><:
-:> && <:=${UPDATE_ELISP}:> &>/dev/null
+test -x <:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:> \
+    && <:=${UPDATE_ELISP}:> &>/dev/null
 
 exit 0
 <:
-# Local Variables:
+# arch-tag: 126ab2bf-e5ae-4853-a264-827e624d587d
+# local variables:
 # mode: shell-script
-# End:
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
 :>//

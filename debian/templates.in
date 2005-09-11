@@ -242,12 +242,12 @@ Description-pt_BR: Onde deve ir a sa.Aída da interpretação?
  .
  Se você responder Console, verá toda a saída (cansativa) direto em seu
  terminal.
-
 <:
-# Local variables:
-# mode: text
-# fill-column: 78
-# End:
 # LocalWords:  tex alreadydefault SSEL dpkg doauto LOGFILE cron AUCTeX
 # LocalWords:  require tex-site form dpkg-reconfigure PACKAGE UPDATE_ELISP
+# arch-tag: f0377964-4347-46dc-a310-3f371380b170
+# local variables:
+# mode: text
+# fill-column: 78
+# end:
 :>//

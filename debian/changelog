@@ -1,3 +1,10 @@
+auctex (11.55-3) unstable; urgency=low
+
+  * General overhaul of the debian directory.
+  * preinst: Deleted.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 11 Sep 2005 16:41:07 +0200
+
 auctex (11.55-2) unstable; urgency=low
 
   * bug.presubj, bug.script: New files; thanks to Frank Küster.
@@ -106,8 +113,8 @@ auctex (11.52-1) unstable; urgency=high
   * New upstream release, urgency set to high due to release date
     approaching and very high number of closed bugs.
     (Closes: #244336, #244342, #245388, #246908, #257496, #265598)
-  * config (configure, reconfigure): Don't display ignorable egrep error
-    messages; thanks to Frank Küster.  (Closes: #258304)
+  * config (configure, reconfigure): Do not display egrep error messages;
+    thanks to Frank Küster.  (Closes: #258304)
   * control (Build-Depends-Indep): Added "emacs21 | emacs-snapshot";
     thanks to Frank Küster.
   * rules (build, binary-indep): Rename "auc-tex_toc.html" to
@@ -148,7 +155,7 @@ auctex (11.14+CVS.2004.05.19.1-1) UNRELEASED; urgency=low
 auctex (11.14+CVS.2004.05.18.1-1) UNRELEASED; urgency=low
 
   * New CVS upstream source.
-  * control (Standars-Version): Updated to 3.6.1.
+  * control (Standards-Version): Updated to 3.6.1.
     (Depends): Added emacs-snapshot as a supported Emacs flavor.
   * install: Added emacs-snapshot as a supported Emacs flavor.
   * remove: Added emacs-snapshot as a supported Emacs flavor.
@@ -277,7 +284,7 @@ auctex (11.11-1) unstable; urgency=medium
   * Not really a bug. (Closes: #150718)
   * ../tex-site.el: A lot of changes.  (Closes: #118400)
   * copyright: Updated.
-  * templates: Added brazilian portuguese; thanks to Paulo R. Ormenese.
+  * templates: Added Brazilian Portuguese; thanks to Paulo R. Ormenese.
     (Closes: #144630)
     (doauto, doautofg): Added forgotten Choices-de strings.
   * variables (STYLES): Added "style/prosper.el".
@@ -294,7 +301,7 @@ auctex (11.06-1) unstable; urgency=low
   * README (Font-LaTeX): Documented new default.  (Closes: #115694)
   * config: Removed fldefault and flalreadydefault, see
     README (Font-LaTeX).  (Closes: #115694)
-  * control (Dependes): Removed no longer existing mule2.
+  * control (Depends): Removed no longer existing mule2.
     (Standards-Version): Updated to 3.5.6.
     Build-Depends -> Build-Depends-Indep.
   * copyright: Updated.
@@ -303,9 +310,9 @@ auctex (11.06-1) unstable; urgency=low
   * postinst: Removed fldefault code, see README (Font-LaTeX).
     (Closes: #115694)
     Moved do_auto to install.
-  * postrm: Removed no more needed debconf sourcing.
-  * preinst: Removed no more needed debconf sourcing.
-  * prerem: Moved undo_auto to remove.
+  * postrm: Removed no more needed debconf inclusion.
+  * preinst: Removed no more needed debconf inclusion.
+  * prerm: Moved undo_auto to remove.
   * remove: Removed no longer existing mule2.
     Added undo_auto from remove; thanks to Julian D. Gilbey.
     (Closes: #117047)
@@ -426,7 +433,7 @@ auctex (9.10t-1) unstable; urgency=low
 
 auctex (9.9p-13) frozen unstable; urgency=medium
 
-  * control (Sandards-Version): Updated to 3.0.0.
+  * control (Standards-Version): Updated to 3.0.0.
   * postinst: Fixed typo.
   * rules: Fixed info files renaming rule; thanks to Ryuichi
     Arafune.  (Closes: #51364)
@@ -525,7 +532,7 @@ auctex (9.9p-5) unstable; urgency=low
 
 auctex (9.9p-4) unstable; urgency=low
 
-  * control: Sandards-Version: 3.0.0.
+  * control: Standards-Version: 3.0.0.
   * postinst: Updated accordingly.
   * prerm: Updated accordingly.
   * rules: Updated accordingly.
@@ -565,7 +572,7 @@ auctex (9.9p-1) unstable; urgency=low
   * update-auctex-elisp: $FLAVOR flags switched to long style option and
     `--no-site-file' added (side effects on the `custom' emacs19 add-on
     package expected; sigh!).  (Closes: #39095)
-  * ../tex-jp.el: reverted to upstream version, waiting for Japaneese
+  * ../tex-jp.el: reverted to upstream version, waiting for Japanese
     patches to be tested against it.  (See: #39547)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri,  2 Jul 1999 17:53:45 +0200
@@ -577,7 +584,7 @@ auctex (9.9o-1) unstable; urgency=low
     already byte compile stuff without it.  This should allow AUC TeX to
     make good use of the `custom' add-on package with `emacs19'; however,
     it may well have some nasty side effects on non-standard sites, since
-    this way we're going to compile things in an (potentially) unknow
+    this way we're going to compile things in an (potentially) unknown
     environment, due to the fact we let `site-start.el' to be loaded on
     startup as well.  Well, we'll see; thanks to Martin Stjernholm for
     this fix.  (Closes: #30419)
@@ -614,7 +621,7 @@ auctex (9.9b-4) stable unstable; urgency=low
 
   * README: Added a note about `TeX-printer-list'; added a note about
     contributed files.
-  * postinst: Delete old relicts if empty.  (Closes: #22734)
+  * postinst: Delete old relics if empty.  (Closes: #22734)
   * preinst: Added `--no-run-if-empty' to `xargs rmdir'.  (Closes: #22734)
     Move old byte-compiled files along with their sources.
 
@@ -664,7 +671,7 @@ auctex (9.9a-2) unstable; urgency=low
 auctex (9.9a-1) unstable; urgency=low
 
   * New upstream version.
-  * emacsen.intall: Added tex-jp.elc rule for emacs20.
+  * emacsen.install: Added tex-jp.elc rule for emacs20.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Mon, 23 Feb 1998 17:38:35 +0100
 
@@ -725,7 +732,7 @@ auctex (9.8i-1) unstable; urgency=low
     location of tex-site.el.  (Closes: #12111)
     Changed old version upgrade test. (Closes: #12111)
     run_auto_generate is now correctly called.
-  * preinst: Warn the user before trying to remove old AucTeX directory.
+  * preinst: Warn the user before trying to remove old AUCTeX directory.
     (Closes: #12111)
   * rules: Heavily rewritten; don't compress copyright anymore.  (Closes:
     #14395)
@@ -761,7 +768,7 @@ auctex (9.7l-1) unstable; urgency=medium
   * unmaintained release for bo (Debian 1.3)
   * new Debian packaging standard used
   * new location for auctex: /usr/lib/emacs/common/auctex
-  * lacheck no longer part of the package -> (not-yet-existant) lacheck package
+  * lacheck no longer part of the package -> (not-yet-existent) lacheck package
   * changes to support the new TeX packages based on teTeX
   * fixed several bugs
   * TeX-auto-generate{,-global} now is aware of already parsed files. This
@@ -770,3 +777,21 @@ auctex (9.7l-1) unstable; urgency=medium
   * added weekly cron entry for auctex-auto-generate
 
  -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Sat, 15 Mar 1997 15:30:00 +0100
+<%
+# LocalWords:  auctex debian presubj ster dir indep tex html Ralf Angeli sarge
+# LocalWords:  emacspeak Frings docbase prerm postinst AUCTeX CVS nosearch Sep
+# LocalWords:  Unharmful config egrep auc toc FAQ README cron ELISP elisp hilit
+# LocalWords:  conf autoload deconf DOCSRC MULESRC XSRC INFODESC bibtex bst
+# LocalWords:  db logfile doautofg Yannick Roehlly defvar defcustom catdvi de
+# LocalWords:  Gilbey RefTeX fptex Paulo Ormenese doauto fldefault postrm deps
+# LocalWords:  flalreadydefault debconf preinst Gorka Olaizola rmdir Timshel
+# LocalWords:  alreadydefault eperl md Knut Suebert texinfo texi subdirs isp
+# LocalWords:  dpkg gencontrol japanese mik Ryuichi Arafune Takuo Kitame fd jp
+# LocalWords:  umask TeXInfo emacsen dhelp Hidenobu Nabetani Stjernholm lpath
+# LocalWords:  texmathp AUCSRC xargs debianutils nop mv symlink mktemp elc var
+# LocalWords:  conffiles usr Geyer xemacs bo lacheck teTeX regexp
+# arch-tag: 3b0f7922-dfa2-4938-9f0e-1492f3528a80
+# local variables:
+# ispell-local-dictionary: "american"
+# end:
+%>

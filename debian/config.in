@@ -1,8 +1,7 @@
 #include "variables"
-#!/bin/bash -e
+#! /bin/bash -e
 #
-# config configuration file for Debian <:=${PACKAGE}:> package.
-# $Id: config.in,v 1.13 2004/08/26 14:38:28 salve Exp $
+# <% config %> script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
@@ -31,17 +30,23 @@ case "${1}" in
     db_go || true
     db_get <:=${PACKAGE}:>/doauto || true
     if [ "${RET}" = "Foreground" ]; then
-	<:# Ask another time the user, if she really wants to shoot:>//
-	<:# herself in the foot.  Just to be sure.:>//
+	<:# Ask another time the user, if she really wants to shoot :>//
+	<:# her very feet.  Just to be sure. :>//
 	db_input low <:=${PACKAGE}:>/doautofg || true
 	db_go || true
-    fi ;;
-    (*) echo >&2 "${0##*/}: Called with unknown argument \`${1}'." ;;
+    fi
+    ;;
+    (*) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
+	"Unknown argument: \"${1}\""
+    ;;
 esac
 
 exit 0
 <:
-# Local Variables:
+# local variables:
 # mode: shell-script
-# End:
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+# arch-tag: 0c222277-b851-436c-912e-b5c8e4468867
 :>//

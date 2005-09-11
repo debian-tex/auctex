@@ -1,9 +1,11 @@
-<:# Copyright (C) 1999, 2000, 01, 02, 03, 04 by Davide Giovanni Maria Salvetti.:>//
-<:# $Id: variables,v 1.18 2004/08/26 15:10:02 salve Exp $:>//
+<:
+# Copyright (C) 1999, 2000, 01, 02, 03, 04, 05
+# by Davide G. M. Salvetti.
+:>//
 <:$PACKAGE="auctex":>//
-<:# Documentation:>//
+<:# documentation :>//
 <:$DOCS="README CHANGES FAQ HISTORY":>//
-<:# Misc package variables:>//
+<:# misc package variables :>//
 <:$UPDATE_ELISP="update-auctex-elisp":>//
 <:$UPDATE_INSTALL="update-auctex-install":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
@@ -12,11 +14,51 @@
 <:$INFOMENU="AUCTeX":>//
 <:$INFODESC="An integrated environment for TeX and LaTeX":>//
 <:$EPRIORITY="50":>//
-#include "system.variables"
+<:# Debian packaging specific :>//
+<:$debian="/DEBIAN/":>//
+<:$doc="/usr/share/doc/$PACKAGE/":>//
 <:$docsrc="$doc/src/":>//
+<:$html="$doc/HTML":>//
+<:$var="/var/lib/$PACKAGE/":>//
+<:# <% usr %> and friends :>//
+<:$usr="/usr/":>//
+<:$bin="/usr/bin/":>//
+<:$man="/usr/share/man/":>//
+<:$sbin="/usr/sbin/":>//
+<:# <% cron %> :>//
+<:$cron_weekly="/etc/cron.weekly/":>//
+<:# <% debconf %> :>//
+<:$CONFMODULE="/usr/share/debconf/confmodule":>//
+<:# <% docbase %> :>//
+<:$DINSTALL="test -x /usr/sbin/install-docs && install-docs --install":>//
+<:$DREMOVE="test -x /usr/sbin/install-docs && install-docs --remove":>//
+<:$docbase="/usr/share/doc-base/":>//
+<:# <% emacs %> :>//
+<:$ELCLOG="CompilationLog":>//
+<:$EINSTALL="/usr/lib/emacsen-common/emacs-package-install":>//
+<:$EREMOVE="/usr/lib/emacsen-common/emacs-package-remove":>//
+<:$SSEL="/etc/emacs/site-start.el":>//
+<:$sstartd="/etc/emacs/site-start.d/":>//
+<:$ecode="/usr/lib/emacsen-common/packages/":>//
+<:$lisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
 <:$style="$lisp/style/":>//
+<:# <% info %> :>//
+<:$IINSTALL="install-info --section \"$INFOSEC\" \"$INFOSEC\""
+	  . " --menuentry=\"$INFOMENU\""
+	  . " --description=\"$INFODESC\""
+	  . " --quiet":>//
+<:$IREMOVE="install-info --quiet --remove":>//
+<:$info="/usr/share/info/":>//
+<:# <% reportbug %> :>//
+<:$bug="/usr/share/bug/$PACKAGE/":>//
+<:# <% misc %> :>//
+<:$GPL="/usr/share/common-licenses/GPL":>//
+<:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>;close(COPYRIGHT):>//
 <:
-# Local variables:
+# local variables:
 # mode: shell-script
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
 # end:
+# arch-tag: b01c14c9-57be-47ff-abb7-de12aebfc520
 :>//

@@ -1,46 +1,47 @@
 #include "variables"
-.\" Well, you know... this is an -*- nroff -*- source file.
+.\" Emacs, you know, this is an -*- nroff -*- source file.
 .\"
 .\" Man page for update-auctex-elisp.
-.\" Copyright 1998, 99, 2000, 01, 04 Davide Giovanni Maria Salvetti.
+.\" Copyright (C) 1998, 99, 2000, 01, 04, 05
+.\" by Davide Giovanni Maria Salvetti.
 .\"
 .\" This manual page is free software; you can redistribute it and/or
- \" modify it under the terms of the GNU General Public License as
- \" published by the Free Software Foundation; either version 2 of the
- \" License, or (at your option) any later version.
+ \" modify it under the terms of the GNU General Public License as published
+ \" by the Free Software Foundation; either version 2 of the License, or (at
+ \" your option) any later version.
 .\"
 .\" This manual page is distributed in the hope that it will be useful,
  \" but WITHOUT ANY WARRANTY; without even the implied warranty of
- \" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- \" General Public License for more details.
+ \" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ \" Public License for more details.
 .\"
-.\" You should have received a copy of the GNU General Public License
- \" along with this manual page; if not, write to: The Free Software
- \" Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307,
- \" USA.
+.\" You should have received a copy of the GNU General Public License along
+ \" with this manual page; if not, write to: The Free Software Foundation,
+ \" Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 .\"
 .\" On Debian GNU/Linux System you can find a copy of the GNU General
  \" Public License in "<:=${GPL}:>".
 .\"
 .TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
 .SH NAME
-update\-auctex\-elisp \- update AUCTeX automatically generated TeX
-macros and LaTeX styles informations.
+update\-auctex\-elisp \- update AUCTeX automatically generated TeX macros and
+LaTeX styles informations.
 .SH SYNOPSIS
 .B update\-auctex\-elisp
 .RI [ FLAVOR .\|.\|. ]
 .SH DESCRIPTION
 The
 .B update\-auctex\-elisp
-script updates the automatically generated TeX and LaTeX informations
-used by AUCTeX and stored in
+script updates the automatically generated TeX and LaTeX informations used by
+AUCTeX and stored in
 .B <:=${var}:>.
 .PP
-It should be called after each major (La)TeX style files installation or upgrade.
+It should be called after each major (La)TeX style files installation or
+upgrade.
 .PP
-If no arguments are specified, update\-auctex\-elisp caters to every
-supported Emacs flavor installed on the system; else it updates only the
-specified flavors, if they are installed.
+If no arguments are specified, update\-auctex\-elisp caters to every supported
+Emacs flavor installed on the system; else it updates only the specified
+flavors, if they are installed.
 .PP
 On Debian GNU/Linux system
 .B update\-auctex\-elisp
@@ -59,9 +60,11 @@ the hierarchy containing the byte-compiled files.
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
 <:
-# Local variables:
-# mode: nroff
-# fill-column: 76
-# End:
 # LocalWords:  auctex elisp GPL AUCTeX varauc cron tex var
+# arch-tag: 407a516c-7fbb-444d-b798-2768d02129cb
+# local variables:
+# mode: nroff
+# fill-column: 78
+# ispell-local-dictionary: "american"
+# end:
 :>//

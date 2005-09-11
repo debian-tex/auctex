@@ -1,17 +1,11 @@
 #include "variables"
-This is the Debian GNU/Linux prepackaged version of the AUCTeX Emacs lisp
-package.
+This is the Debian package <:=${PACKAGE}:>, maintained by
 
-The current release of this package was assembled by:
-		   Davide G. M. Salvetti <salve@debian.org>
-using sources obtained from the AUCTeX project web page
-(http://www.gnu.org/software/auctex/).
+  Davide G. M. Salvetti <salve@debian.org>
 
-The current AUCTeX upstream maintainer is:
-                 David Kastrup <auc-tex_mgr@sunsite.auc.dk>.
+using sources obtained from
 
-The original AUCTeX Debian package was assembled by:
-	      Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>.
+  <URL:http://www.gnu.org/software/auctex/>.
 
 
 COPYRIGHT
@@ -27,16 +21,36 @@ FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
 details.
 
 You should have received a copy of the GNU General Public License along with
-this program; if not, write to the Free Software Foundation, Inc., 59 Temple
-Place, Suite 330, Boston, MA 02111-1307, USA.
+this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
+St, Fifth Floor, Boston, MA 02110-1301, USA.
 
-On Debian GNU/Linux system you can find a copy of the GNU General Public
+
+DEBIAN SPECIFIC CHANGES
+=======================
+
+The Debian specific changes are free software
+
+  Copyright (C) 1997, 98, 99, 00, 01, 02, 03, 04, 05
+  by Davide G. M. Salvetti
+
+and you can redistribute it and/or modify it under the terms of the GNU
+General Public License as published by the Free Software Foundation;
+either version 2 of the License, or (at your option) any later version.
+
+On Debian GNU/Linux System you can find a copy of the GNU General Public
 License in "<:=${GPL}:>".
+
+A copy of the GNU General Public License is also available at
+
+  <URL:http://www.gnu.org/copyleft/gpl.html>.
+
+You may also obtain it by writing to the Free Software Foundation, Inc., 51
+Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
 <:
-# Local variables:
+# local variables:
 # mode: text
 # fill-column: 78
-# End:
-# LocalWords:  AUCTeX dbef ftp README auc tex Geyer japanese jlatex
-# LocalWords:  platex GPL Kastrup jp
+# ispell-local-dictionary: "american"
+# end:
+# arch-tag: 93e24830-7374-49ac-afc2-22236497e636
 :>//

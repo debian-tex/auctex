@@ -1,15 +1,14 @@
 #include "variables"
-#!/bin/bash -e
+#! /bin/bash -e
 #
 # Update AUCTeX auto-loads.
 # Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: update-auctex-elisp.in,v 1.12 2004/05/18 14:05:52 salve Exp $
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
-<:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX.:>//
+<:# Default flavors: only GNU, XEmacs comes with its own AUCTeX. :>//
 FLAVORS=${*:-"emacs21 emacs-snapshot"}
 
 for FLAVOR in ${FLAVORS}; do
@@ -20,10 +19,14 @@ for FLAVOR in ${FLAVORS}; do
     fi
 done
 
-<:# better to remove .el files now that .elc have been done:>//
+<:# save space, keep only byte compiled style files :>//
 rm -f $(find <:=${var}:> -type f -name \*.el)
 <:
-# Local Variables:
+# LocalWords:  AUCTeX
+# arch-tag: 9e3a877b-8471-4e26-9909-1ea4c690fa00
+# local variables:
 # mode: shell-script
-# End:
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
 :>//

@@ -1,9 +1,9 @@
 Source: auctex
-Section: tex
 Priority: optional
-Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, texinfo, texi2html
+Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Standards-Version: 3.6.1
+Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, texinfo, texi2html
 
 Package: auctex
 Architecture: all

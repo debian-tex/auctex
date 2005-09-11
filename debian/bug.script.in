@@ -1,9 +1,7 @@
 #include "variables"
-#!/bin/bash -e
+#! /bin/bash -e
 #
-# Reportbug script.
-# Installed by the Debian <:=${PACKAGE}:> package.
-# $Id: bug.script.in,v 1.1 2005/04/23 17:52:40 salve Exp $
+# bug reporting script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
@@ -79,9 +77,12 @@ EOF
 EOF
     fi
 done
-
 <:
-# Local Variables:
+# LocalWords:  Emacsen AUCTeX
+# local variables:
 # mode: shell-script
-# End:
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+# arch-tag: dd9ae462-97f1-4931-b52a-141c3215354b
 :>//
