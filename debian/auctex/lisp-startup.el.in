@@ -1,0 +1,46 @@
+;;; This is a conffile: you can edit it if you like; however,
+;;; please note that if you do not want AUCTeX to override the standard
+;;; Emacs TeX mode, you may unload AUCTeX completely by evaluating the
+;;; form "(unload-feature 'tex-site)" (i.e., put that string into your
+;;; "~/.emacs" to disable AUCTeX completely).
+
+(if (fboundp 'debian-pkg-add-load-path-item)
+    (progn (debian-pkg-add-load-path-item
+	    (concat "/usr/share/"
+		    (symbol-name debian-emacs-flavor)
+		    "/site-lisp/auctex/"))
+	   (debian-pkg-add-load-path-item
+	    (concat "/usr/share/"
+		    (symbol-name debian-emacs-flavor)
+		    "/site-lisp/preview/"))
+	   (debian-pkg-add-load-path-item
+	    "/usr/share/emacs/site-lisp/auctex/")
+	   (debian-pkg-add-load-path-item
+	    "/usr/share/emacs/site-lisp/auctex/preview/"))
+  (progn (add-to-list 'load-path
+		      (concat "/usr/share/"
+			      (symbol-name debian-emacs-flavor)
+			      "/site-lisp/auctex/")
+		      'append)
+	 (add-to-list 'load-path
+		      (concat "/usr/share/"
+			      (symbol-name debian-emacs-flavor)
+			      "/site-lisp/preview/")
+		      'append)
+	 (add-to-list 'load-path
+		      "/usr/share/emacs/site-lisp/auctex/" 'append)
+	 (add-to-list 'load-path
+		      "/usr/share/emacs/site-lisp/auctex/preview/" 'append)))
+
+(load "auctex.el")
+(load "preview-latex.el")
+<:
+# LocalWords:  conffile AUCTeX tex
+# local variables:
+# mode: emacs-lisp
+# coding: emacs-mule
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+# arch-tag: eb7b1761-2d85-4ffe-b81c-c9b4a0f29a68
+:>//

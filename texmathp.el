@@ -136,9 +136,12 @@
     ("eqnarray"      env-on)      ("eqnarray*"     env-on)
     ("math"          env-on)
     ("displaymath"   env-on)
+    ("minipage"      env-off)
     ("\\fbox"        arg-off)
     ("\\mbox"        arg-off)
+    ("\\framebox"    arg-off)
     ("\\label"       arg-off)
+    ("\\textrm"      arg-off)
     ("\\("           sw-on)       ("\\)"           sw-off)
     ("\\["           sw-on)       ("\\]"           sw-off)
     ("\\ensuremath"  arg-on)
@@ -314,7 +317,7 @@ Limit searched to BOUND.  The return value is like (\"equation\" . (point))."
     (save-excursion
       (and (null texmathp-environments) (throw 'exit nil))
       (let (end-list env)
-	(while (re-search-backward "\\\\\\(begin\\|end\\){\\([^}]+\\)}"
+	(while (re-search-backward "\\\\\\(begin\\|end\\)[ \t]*{\\([^}]+\\)}"
 				   bound t)
 	  (setq env (buffer-substring-no-properties
 		     (match-beginning 2) (match-end 2)))
@@ -381,6 +384,7 @@ Limit searches to BOUND.  The return value is like (\"\\macro\" . (point))."
 	      (throw 'exit nil)))
 	(set-syntax-table syntax-table)))))
 
+;;;###autoload
 (defun texmathp-match-switch (bound)
   "Search backward for any of the math switches.
 Limit searched to BOUND."

@@ -48,26 +48,67 @@
 ;		 "-- string likely in Japanese TeX --"))
 ;	      TeX-format-list))
 
-(defvar japanese-TeX-command-list
+(defcustom japanese-TeX-command-list
   ;; Changed to double quotes for Windows afflicted people.  I don't
   ;; use the %(latex) and %(tex) shorthands here because I have not
   ;; clue whether Omega-related versions exist.  --dak
   '(("jTeX" "%(PDF)jtex %S%(PDFout) \"%(mode)\\input %t\""
-     TeX-run-TeX nil (plain-tex-mode))
+     TeX-run-TeX nil (plain-tex-mode) :help "Run NTT jTeX")
     ("jLaTeX" "%(PDF)jlatex %S%(PDFout) \"%(mode)\\input{%t}\""
-     TeX-run-LaTeX nil (latex-mode))
+     TeX-run-TeX nil (latex-mode) :help "Run NTT jLaTeX")
     ("pTeX" "%(PDF)ptex %S%(PDFout) \"%(mode)\\input %t\""
-     TeX-run-TeX nil (plain-tex-mode))
+     TeX-run-TeX nil (plain-tex-mode) :help "Run ASCII pTeX")
     ("pLaTeX" "%(PDF)platex %S%(PDFout) \"%(mode)\\input{%t}\""
-     TeX-run-LaTeX nil (latex-mode))
-    ("Mendex" "mendex %s" TeX-run-command nil t)
-    ("jBibTeX" "jbibtex %s" TeX-run-BibTeX nil t))
-  "Additional list of commands to execute in japanese-LaTeX-mode")
+     TeX-run-TeX nil (latex-mode) :help "Run ASCII pLaTeX")
+    ("Mendex" "mendex %s" TeX-run-command nil t :help "Create index file with mendex")
+    ("jBibTeX" "jbibtex %s" TeX-run-BibTeX nil t :help "Run jBibTeX"))
+  "Additional list of commands, especially for Japanese.
+For detail, see `TeX-command-list', which this list is appended to."
+  :group 'AUCTeX-jp
+  :type '(repeat (group :value ("" "" TeX-run-command nil t)
+			(string :tag "Name")
+			(string :tag "Command")
+			(choice :tag "How"
+				:value TeX-run-command
+				(function-item TeX-run-command)
+				(function-item TeX-run-format)
+				(function-item TeX-run-TeX)
+				;; leave the following line in
+				;; customization? Replaced (but still
+				;; available) with TeX-run-TeX --pg
+				(function-item TeX-run-LaTeX)
+				(function-item TeX-run-interactive)
+				(function-item TeX-run-BibTeX)
+				(function-item TeX-run-compile)
+				(function-item TeX-run-shell)
+				(function-item TeX-run-discard)
+				(function-item TeX-run-background)
+				(function-item TeX-run-silent)
+				(function-item TeX-run-dviout)
+				(function :tag "Other"))
+			(boolean :tag "Prompt")
+			(choice :tag "Modes"
+				(const :tag "All" t)
+				(set (const :tag "Plain TeX" plain-tex-mode)
+				     (const :tag "LaTeX" latex-mode)
+				     (const :tag "DocTeX" doctex-mode)
+				     (const :tag "ConTeXt" context-mode)
+				     (const :tag "Texinfo" texinfo-mode)
+				     (const :tag "AmSTeX" ams-tex-mode)))
+			(repeat :tag "Menu elements" :inline t sexp))))
 
 (setq TeX-command-list
       (append japanese-TeX-command-list
 	      '(("-" "" nil nil t)) ;; separator for command menu
 	      TeX-command-list))
+
+(mapcar (lambda (dir) (add-to-list 'TeX-macro-global dir t))
+  (TeX-macro-global-internal "platex" '("/ptex/" "/jbibtex/bst/")
+    '("/usr/share/texmf/ptex/" "/usr/share/texmf/jbibtex/bst/")))
+
+(mapcar (lambda (dir) (add-to-list 'TeX-macro-global dir t))
+  (TeX-macro-global-internal "jlatex" '("/jtex/" "/jbibtex/bst/")
+    '("/usr/share/texmf/jtex/" "/usr/share/texmf/jbibtex/bst/")))
 
 ;; Menus
 
@@ -88,35 +129,41 @@
 		 "%(PDF)platex %S%(PDFout)"))
 	      LaTeX-command-style))
 
-(setcdr (assoc "%l" TeX-expand-list)
-	(list 'TeX-style-check LaTeX-command-style))
+(defcustom japanese-TeX-error-messages t
+  "*If non-nil, explain TeX error messages in Japanese."
+  :group 'AUCTeX-jp
+  :type 'boolean)
 
-(defvar japanese-TeX-error-messages t
-  "If non-nil, explain TeX error messages in Japanese.")
+(when (featurep 'mule)
 
-(if (featurep 'mule)
-    (if (featurep 'xemacs)
-	(progn
-	  (defvar TeX-japanese-process-input-coding-system
-	    (find-coding-system 'euc-japan)
-	    "TeX-process' coding system with standard input.")
-	  (defvar TeX-japanese-process-output-coding-system
-	    (find-coding-system 'junet)
-	    "TeX-process' coding system with standard output."))
-      ;; FSF Emacs 20 or later.
-      (defvar TeX-japanese-process-input-coding-system 'euc-japan
-	"TeX-process' coding system with standard input.")
-      (defvar TeX-japanese-process-output-coding-system 'junet
-	"TeX-process' coding system with standard output.")))
+(defcustom TeX-japanese-process-input-coding-system
+  (if (boundp 'default-process-coding-system)
+      (cdr default-process-coding-system)
+    ;; Old XEmacs < 21.5?
+    'euc-jp)
+  "TeX-process' coding system with standard input."
+  :group 'AUCTeX-jp
+  :type 'coding-system)
+
+(defcustom TeX-japanese-process-output-coding-system
+  (if (boundp 'default-process-coding-system)
+      (car default-process-coding-system)
+    ;; Old XEmacs < 21.5?
+    'iso-2022-jp)
+  "TeX-process' coding system with standard output."
+  :group 'AUCTeX-jp
+  :type 'coding-system)
+
+)
 
 (defcustom japanese-TeX-command-default "pTeX"
-  "*The default command for TeX-command in the japanese-TeX mode."
+  "*The default command for `TeX-command' in the japanese-TeX mode."
   :group 'AUCTeX-jp
   :type 'string)
   (make-variable-buffer-local 'japanese-TeX-command-default)
 
 (defcustom japanese-LaTeX-command-default "LaTeX"
-  "*The default command for TeX-command in the japanese-LaTeX mode."
+  "*The default command for `TeX-command' in the japanese-LaTeX mode."
   :group 'AUCTeX-jp
   :type 'string)
   (make-variable-buffer-local 'japanese-LaTeX-command-default)
@@ -148,16 +195,14 @@
 
 ;;; Coding system
 
-(if (and (featurep 'xemacs)
-	 (featurep 'mule))
-    (setq TeX-after-start-process-function
-	  (lambda (process)
-	    (set-process-input-coding-system
-	     process
-	     TeX-japanese-process-input-coding-system)
-	    (set-process-output-coding-system
-	     process
-	     TeX-japanese-process-output-coding-system))))
+(when (featurep 'mule)
+
+(setq TeX-after-start-process-function
+      (lambda (process)
+	(set-process-coding-system process
+	 TeX-japanese-process-output-coding-system
+	 TeX-japanese-process-input-coding-system)))
+)
 
 ;;; Japanese Parsing
 
@@ -180,32 +225,28 @@
       1 TeX-auto-file)
      ("\\\\include{\\(\\.*[^#}%\\\\\\.\n\r]+\\)\\(\\.[^#}%\\\\\\.\n\r]+\\)?}"
       1 TeX-auto-file)
-     ("\\\\use\\(package\\)\\(\\[\\([^\]\\\\]*\\)\\]\\)?\{\\(\\([^#}\\\\\\.%]\\|%[^\n\r]*[\n\r]\\)+\\)}"
-      (3 4 1) LaTeX-auto-style)
      ("\\\\bibitem{\\(\\([a-zA-Z]\\|\\cj\\)[^, \n\r\t%\"#'()={}]*\\)}" 1 LaTeX-auto-bibitem)
      ("\\\\bibitem\\[[^][\n\r]+\\]{\\(\\([a-zA-Z]\\|\\cj\\)[^, \n\r\t%\"#'()={}]*\\)}"
       1 LaTeX-auto-bibitem)
      ("\\\\bibliography{\\([^#}\\\\\n\r]+\\)}" 1 LaTeX-auto-bibliography))
+   LaTeX-auto-class-regexp-list
    LaTeX-auto-label-regexp-list
    LaTeX-auto-index-regexp-list
    LaTeX-auto-minimal-regexp-list)
   "List of regular expression matching common LaTeX macro definitions.")
 
 (defconst plain-TeX-auto-regexp-list
-  '(("\\\\def\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1
-     TeX-auto-symbol-check)
-    ("\\\\let\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1
-     TeX-auto-symbol-check)
+  '(("\\\\def\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1 TeX-auto-symbol-check)
+    ("\\\\let\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1 TeX-auto-symbol-check)
     ("\\\\font\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1 TeX-auto-symbol)
     ("\\\\chardef\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1 TeX-auto-symbol)
-    ("\\\\new\\(count|dimen|muskip|skip\\)\\\\\\(\\([a-z]\\|\\cj\\)+\\)[^a-zA-Z@]"
+    ("\\\\new\\(count\\|dimen\\|muskip\\|skip\\)\\\\\\(\\([a-z]\\|\\cj\\)+\\)[^a-zA-Z@]"
      2 TeX-auto-symbol)
     ("\\\\newfont{?\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)}?" 1 TeX-auto-symbol)
     ("\\\\typein\\[\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)\\]" 1 TeX-auto-symbol)
     ("\\\\input +\\(\\.*[^#%\\\\\\.\n\r]+\\)\\(\\.[^#%\\\\\\.\n\r]+\\)?"
      1 TeX-auto-file)
-    ("\\\\mathchardef\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1
-     TeX-auto-symbol))
+    ("\\\\mathchardef\\\\\\(\\([a-zA-Z]\\|\\cj\\)+\\)[^a-zA-Z@]" 1 TeX-auto-symbol))
   "List of regular expression matching common LaTeX macro definitions.")
 
 (defconst BibTeX-auto-regexp-list
@@ -223,41 +264,41 @@
 ;;; Japanese TeX modes
 
 (defvar japanese-TeX-mode nil
-  "Flag to determine if Japanese initialization is needed.")
+  "Flag to determine if the current buffer is Japanese TeX/LaTeX.")
+(make-variable-buffer-local 'japanese-TeX-mode)
+(put 'japanese-TeX-mode 'permanent-local t)
+
+;;;###autoload
+(defun japanese-plain-tex-mode ()
+  "Major mode in AUCTeX for editing Japanese plain TeX files.
+Set japanese-TeX-mode to t, and enters plain-tex-mode."
+  (interactive)
+  (setq japanese-TeX-mode t)
+  (TeX-plain-tex-mode))
+
+(defun japanese-plain-tex-mode-initialization ()
+  "Japanese plain-TeX specific initializations."
+  (when japanese-TeX-mode
+    (setq TeX-command-default japanese-TeX-command-default)))
 
 (add-hook 'plain-TeX-mode-hook 'japanese-plain-tex-mode-initialization)
 
 ;;;###autoload
-(TeX-defun japanese-plain-tex-mode ()
-  "Major mode in %s for editing Japanese plain TeX files.
-Set japanese-TeX-mode to t, and enters plain-tex-mode."
-  (interactive)
-  (setq japanese-TeX-mode t)
-  (plain-tex-mode))
-
-(defun japanese-plain-tex-mode-initialization ()
-  "Japanese plain-TeX specific initializations."
-  (if japanese-TeX-mode
-      (setq TeX-command-default japanese-TeX-command-default)))
-
-(add-hook 'LaTeX-mode-hook 'japanese-latex-mode-initialization)
-
-;;;###autoload
-(TeX-defun japanese-latex-mode ()
-  "Major mode in %s for editing Japanese LaTeX files.
+(defun japanese-latex-mode ()
+  "Major mode in AUCTeX for editing Japanese LaTeX files.
 Set japanese-TeX-mode to t, and enters latex-mode."
   (interactive)
   (setq japanese-TeX-mode t)
-  (latex-mode))
+  (TeX-latex-mode))
 
 (defun japanese-latex-mode-initialization ()
   "Japanese LaTeX specific initializations."
-  (if japanese-TeX-mode
-      (progn
-	(setq TeX-command-default japanese-LaTeX-command-default)
-	(setq LaTeX-default-style japanese-LaTeX-default-style)
-	(setq TeX-command-BibTeX "jBibTeX")
-	(setq japanese-TeX-mode nil))))
+  (when japanese-TeX-mode
+    (setq TeX-command-default japanese-LaTeX-command-default)
+    (setq LaTeX-default-style japanese-LaTeX-default-style)
+    (setq TeX-command-BibTeX "jBibTeX")))
+
+(add-hook 'LaTeX-mode-hook 'japanese-latex-mode-initialization)
 
 
 ;;; Support for various self-insert-command

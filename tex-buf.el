@@ -4,7 +4,7 @@
 ;;   2005 Free Software Foundation, Inc.
 ;; Copyright (C) 1991 Kresten Krab Thorup
 
-;; Maintainer: auc-tex@sunsite.dk
+;; Maintainer: auctex-devel@gnu.org
 ;; Keywords: tex, wp
 
 ;; This file is part of AUCTeX.
@@ -236,9 +236,16 @@ the master file."
 Prefix by C-u to start from the beginning of the errors."
   (interactive "P")
   (if (null (TeX-active-buffer))
-      (error "No TeX output buffer")
+      (next-error reparse)
     (funcall (TeX-process-get-variable (TeX-active-master) 'TeX-parse-function)
 	     reparse)))
+
+(defun TeX-previous-error (arg)
+  "Find the previous error in the TeX output buffer."
+  (interactive "P")
+  (if (null (TeX-active-buffer))
+      (previous-error arg)
+    (error "Jumping to previous error not supported")))
 
 (defun TeX-toggle-debug-boxes ()
   "Toggle if the debugger should display \"bad boxes\" too."
@@ -253,14 +260,21 @@ Prefix by C-u to start from the beginning of the errors."
 ;;; Command Query
 
 (defun TeX-command (name file &optional override-confirm)
-  "Run command NAME on the file you get by calling FILE.
+  "Run command NAME on the file returned by calling FILE.
 
-FILE is a function return a file name.  It has one optional argument,
-the extension to use on the file.
-Use the information in `TeX-command-list' to determine how to run the
-command.  If OVERRIDE-CONFIRM is a prefix argument, confirmation will be
+FILE is the symbol of a function returning a file name.  The
+function has one optional argument, the extension to use on the
+file.
+
+Use the information in `TeX-command-list' to determine how to run
+the command.
+
+If OVERRIDE-CONFIRM is a prefix argument, confirmation will be
 asked if it is positive, and suppressed if it is not."
-  (setq TeX-current-process-region-p (eq file 'TeX-region-file))
+  (cond ((eq file 'TeX-region-file)
+	 (setq TeX-current-process-region-p t))
+	((eq file 'TeX-master-file)
+	 (setq TeX-current-process-region-p nil)))
   (let ((command (TeX-command-expand (nth 1 (assoc name TeX-command-list))
 				     file))
 	(hook (nth 2 (assoc name TeX-command-list)))
@@ -317,7 +331,9 @@ in TeX-check-path."
   (let ((found nil)
 	(regexp (concat "\\`\\("
 			(mapconcat (lambda (dir)
-				     (regexp-quote (expand-file-name dir)))
+				     (regexp-quote
+				      (expand-file-name
+				       (file-name-as-directory dir))))
 				   TeX-check-path "\\|")
 			"\\).*\\("
 			(mapconcat 'regexp-quote originals "\\|")
@@ -342,12 +358,12 @@ in TeX-check-path."
     found))
 
 (defun TeX-run-ispell-on-document (command ignored name)
-  "Run ispell on  all files belonging to the current document."
+  "Run ispell on all open files belonging to the current document."
   (interactive)
   (TeX-ispell-document ""))
 
 (defun TeX-ispell-document (name)
-  "Run ispell on  all files belonging to the current document."
+  "Run ispell on all open files belonging to the current document."
   (interactive (list (TeX-master-file)))
   (if (string-equal name "")
       (setq name (TeX-master-file)))
@@ -355,10 +371,17 @@ in TeX-check-path."
   (let ((found nil)
 	(regexp (concat "\\`\\("
 			(mapconcat (lambda (dir)
-				     (regexp-quote (expand-file-name dir)))
-				   TeX-check-path "\\|")
+				     (regexp-quote
+				      (expand-file-name 
+				       (file-name-as-directory dir))))
+				   (append (when (file-name-directory name)
+					     (list (file-name-directory name)))
+					   TeX-check-path)
+				   "\\|")
 			"\\).*\\("
-			(mapconcat 'regexp-quote (cons name (TeX-style-list)) "\\|")
+			(mapconcat 'regexp-quote
+				   (cons (file-name-nondirectory name)
+					 (TeX-style-list)) "\\|")
 			"\\)\\.\\("
 			(mapconcat 'regexp-quote TeX-file-extensions "\\|")
 			"\\)\\'"))
@@ -486,17 +509,10 @@ QUEUE is non-nil when we are checking for the printer queue."
 The viewer is started either on region or master file,
 depending on the last command issued."
   (interactive)
-  (let ((output-file (concat (if TeX-current-process-region-p
-				 (TeX-region-file)
-			       (TeX-master-file)) "." (TeX-output-extension))))
-    (cond ((and TeX-current-process-region-p
-		(file-exists-p output-file))
-	   (TeX-command "View" 'TeX-region-file 0))
-	  ((and (not TeX-current-process-region-p)
-		(file-exists-p output-file))
-	   (TeX-command "View" 'TeX-master-file 0))
-	  (t
-	   (message "Output file %S does not exist." output-file)))))
+  (let ((output-file (TeX-active-master (TeX-output-extension))))
+    (if (file-exists-p output-file)
+	(TeX-command "View" 'TeX-active-master 0)
+      (message "Output file %S does not exist." output-file))))
 
 (defun TeX-output-style-check (styles)
   "Check STYLES compared to the current view output file extension and
@@ -735,6 +751,7 @@ Error parsing on C-x ` should work with a bit of luck."
     (comint-exec buffer name TeX-shell nil
 		 (list TeX-shell-command-option command))
     (comint-mode)
+    (add-hook 'comint-output-filter-functions 'TeX-interactive-goto-prompt)
     (setq mode-name name)
     (setq TeX-command-default default)
     (setq process (get-buffer-process buffer))
@@ -774,7 +791,11 @@ Error parsing on C-x ` should work with a bit of luck."
 
 (defun TeX-command-sentinel (process msg)
   "Process TeX command output buffer after the process dies."
-  (let* ((buffer (process-buffer process))
+  ;; Set `TeX-transient-master' here because `preview-parse-messages'
+  ;; may open files and thereby trigger master file questions which we
+  ;; don't want and need because we already know the master.
+  (let* ((TeX-transient-master (TeX-active-master))
+	 (buffer (process-buffer process))
 	 (name (process-name process)))
     (cond ((null (buffer-name buffer))	; buffer killed
 	   (set-process-buffer process nil)
@@ -1013,34 +1034,30 @@ command."
 (defun TeX-format-filter (process string)
   "Filter to process TeX output."
   (with-current-buffer (process-buffer process)
-    (let (old-match str pos end (pt (marker-position (process-mark process))))
-      (unwind-protect
-	  (save-excursion
-	    (goto-char pt)
-	    (insert-before-markers string)
-	    (set-marker (process-mark process) (point))
-	    (while (and pt
-			(skip-chars-backward "^]" pt)
-			(> (point) pt))
-	      (setq end (point))
-	      (backward-char)
-	      (skip-chars-backward "-0-9\n." (max (point-min) (- pt 128)))
-	      (when (and (eq ?\[ (char-before))
-			 (not (eq ?\] (char-after)))
-			 (progn
-			   (unless old-match
-			     (setq old-match (list (match-data))))
-			   (setq str (buffer-substring (1- (point)) end)
-				 pos nil)
-			   (while (setq pos (string-match "\n" str pos))
-			     (setq str (replace-match "" t t str)))
-			   (string-match
-			    "\\`\\[-?[0-9]+\\(\\.-?[0-9]+\\)\\{0,9\\}\\]\\'"
-			    str)))
-		(setq TeX-current-page str
-		      pt nil)
-		(TeX-format-mode-line process))))
-	(when old-match (set-match-data (car old-match)))))))
+    (let (str pos end (pt (marker-position (process-mark process))))
+      (save-excursion
+	(goto-char pt)
+	(insert-before-markers string)
+	(set-marker (process-mark process) (point))
+	(while (and pt
+		    (skip-chars-backward "^]" pt)
+		    (> (point) pt))
+	  (setq end (point))
+	  (backward-char)
+	  (skip-chars-backward "-0-9\n." (max (point-min) (- pt 128)))
+	  (when (and (eq ?\[ (char-before))
+		     (not (eq ?\] (char-after)))
+		     (progn
+		       (setq str (buffer-substring (1- (point)) end)
+			     pos nil)
+		       (while (setq pos (string-match "\n" str pos))
+			 (setq str (replace-match "" t t str)))
+		       (string-match
+			"\\`\\[-?[0-9]+\\(\\.-?[0-9]+\\)\\{0,9\\}\\]\\'"
+			str)))
+	    (setq TeX-current-page str
+		  pt nil)
+	    (TeX-format-mode-line process)))))))
 
 (defvar TeX-parse-function nil
   "Function to call to parse content of TeX output buffer.")
@@ -1055,6 +1072,26 @@ command."
     (insert string)
     (select-window old-window)))
 
+;; Copy and adaption of `comint-postoutput-scroll-to-bottom' from CVS
+;; Emacs of 2005-04-24.
+(defun TeX-interactive-goto-prompt (string)
+  "Move point to prompt of an interactive TeX run."
+  (let* ((selected (selected-window))
+	 (current (current-buffer))
+	 (process (get-buffer-process current)))
+    (unwind-protect
+	(when process
+	  (walk-windows
+	   (lambda (window)
+	     (when (eq (window-buffer window) current)
+	       (select-window window)
+	       (when (and (< (point) (process-mark process))
+			  (string-match "^\\? $" string))
+		 (goto-char (process-mark process)))
+	       (select-window selected)))
+	   nil t))
+      (set-buffer current))))
+
 
 ;;; Active Process
 
@@ -1063,15 +1100,11 @@ command."
 
 (defun TeX-active-process ()
   "Return the active process for the current buffer."
-  (if TeX-current-process-region-p
-      (TeX-process (TeX-region-file))
-    (TeX-process (TeX-master-file))))
+  (TeX-process (TeX-active-master)))
 
 (defun TeX-active-buffer ()
   "Return the buffer of the active process for this buffer."
-  (if TeX-current-process-region-p
-      (TeX-process-buffer (TeX-region-file))
-    (TeX-process-buffer (TeX-master-file))))
+  (TeX-process-buffer (TeX-active-master)))
 
 (defun TeX-active-master (&optional extension nondirectory)
   "The master file currently being compiled.
@@ -1147,7 +1180,8 @@ original file."
 	 (font-lock-auto-fontify nil)
 	 (font-lock-mode-enable-list nil)
 	 ;; And insert them into the FILE buffer.
-	 (file-buffer (find-file-noselect file))
+	 (file-buffer (let ((TeX-transient-master t))
+			(find-file-noselect file)))
 	 ;; But remember original content.
 	 original-content
 
@@ -1198,6 +1232,9 @@ original file."
       (setq buffer-undo-list t)
       (setq original-content (buffer-string))
       (erase-buffer)
+      (when (boundp 'buffer-file-coding-system)
+	(setq buffer-file-coding-system
+	      (with-current-buffer master-buffer buffer-file-coding-system)))
       (insert "\\message{ !name(" master-name ")}"
 	      header
 	      TeX-region-extra
@@ -1392,16 +1429,21 @@ You might want to examine and modify the free variables `file',
     ;; Find the error.
     (if (null file)
 	(error "Error occured after last TeX file closed"))
-    (run-hooks 'TeX-translate-location-hook)
-    (find-file-other-window file)
-    (goto-line (+ offset line))
-    (if (not (string= string " "))
-	(search-forward string nil t))
-
-    ;; Explain the error.
-    (if TeX-display-help
-	(TeX-help-error error context)
-      (message (concat "! " error)))))
+    (let ((runbuf (current-buffer))
+	  (master (with-current-buffer
+		      TeX-command-buffer
+		    (expand-file-name (TeX-master-file)))))
+      (run-hooks 'TeX-translate-location-hook)
+      (find-file-other-window file)
+      (setq TeX-master master)
+      (goto-line (+ offset line))
+      (if (not (string= string " "))
+	  (search-forward string nil t))
+      
+      ;; Explain the error.
+      (if TeX-display-help
+	  (TeX-help-error error context runbuf)
+	(message (concat "! " error))))))
 
 (defun TeX-warning (string)
   "Display a warning for STRING.
@@ -1457,9 +1499,13 @@ Return nil if we gave a report."
 
     ;; Go back to TeX-buffer
     (if TeX-debug-bad-boxes
-	(progn
+	(let ((runbuf (current-buffer))
+	      (master (with-current-buffer
+			  TeX-command-buffer
+			(expand-file-name (TeX-master-file)))))
 	  (run-hooks 'TeX-translate-location-hook)
 	  (find-file-other-window file)
+	  (setq TeX-master master)
 	  ;; Find line and string
 	  (goto-line (+ offset line))
 	  (beginning-of-line 0)
@@ -1470,18 +1516,21 @@ Return nil if we gave a report."
 	    (search-forward string nil t))
 	  ;; Display help
 	  (if TeX-display-help
-	      (TeX-help-error error (if bad-box context (concat "\n" context)))
+	      (TeX-help-error error (if bad-box context (concat "\n" context))
+			      runbuf)
 	    (message (concat "! " error)))
 	  nil)
       t)))
 
 ;;; - Help
 
-(defun TeX-help-error (error output)
-  "Print ERROR in context OUTPUT in another window."
+(defun TeX-help-error (error output runbuffer)
+  "Print ERROR in context OUTPUT from RUNBUFFER in another window."
 
   (let ((old-buffer (current-buffer))
-	(log-file (TeX-active-master "log"))
+	(log-file (with-current-buffer runbuffer
+		    (with-current-buffer TeX-command-buffer
+		      (expand-file-name (TeX-active-master "log")))))
 	(TeX-error-pointer 0))
 
     ;; Find help text entry.

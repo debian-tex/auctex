@@ -1,3 +1,64 @@
+auctex (11.81-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * General overhaul of the build and installation procedure.
+  * control (Standards-Version): Updated to 3.6.2.
+    (Build-Depends-Indep): Added "gs | gs-aladdin", "po-debconf", and
+    "tetex-bin".  Declared "texi2html (>=1.76-1)", thanks to Frank Küster.
+    (auctex/Depends): Added "preview-latex-style".
+    (auctex/Suggests): Added "dvipng".
+    (auctex/Conflicts, auctex/Replaces): This auctex version completely
+    replaces the old package "preview-latex".
+    (auctex/Description): Updated.
+    (preview-latex-style): New binary section.  This binary package depends
+    on "tetex-bin", because it uses "mktexlsr" in its maintainer scripts.
+    Inherits the "Conflicts" field from previous versions with source
+    package "preview-latex".
+    (Depends): Modified the dependency on "debconf" to "debconf |
+    debconf-2.0" in order to allow the transition to cdebconf.
+    (Closes: #331751)
+  * rules.in: Heavily modified; it now builds two binary packages: "auctex"
+    and "preview-latex-style".
+    (binary-indep, binary-indep-auctex, binary-indep-pls): Split the
+    content of "binary-indep" between "binary-indep-auctex" and
+    "binary-indep-pls", one for each of the two binary packages.
+  * variables (PLSPKG): New variable, the name of "preview-latex-style",
+    the second binary package.
+    (DOCS): Updated.
+    (AUCTEX_INFOMENU, AUCTEX_INFODESC, PREVIEW_INFOMENU,
+    PREVIEW_INFODESC): New variables, split from INFOMENU and INFODESC to
+    cope with two distinct Info manuals, for AUCTeX and for preview-latex.
+    (IINSTALL): New function, replaces the variable ${IINSTALL}.
+  * NEWS.in: New file, suggested by Frank Küster.  Note that AUCTeX gets
+    now autoloaded by default.  Note that preview-latex is now included
+    into AUCTeX.
+  * conffiles.in: Add the lisp startup files for emacs-snapshot and
+    emacs21.
+  * config.in: Question about default loading ("alreadydefault" and
+    "default") removed.  Note "defaultchanged" added.
+  * docbase.auctex.in: Updated.
+  * docbase.preview.in: New file.
+  * install.in (debconf): Question "default" query removed.
+    (do_install): Updated to cater for the new 11.81 upstream release.
+  * lisp-startup.el.in: New file.
+  * remove.in (undo_install): Updated to cater for the new 11.81 upstream
+    release.
+  * postinst.in (DINSTALL, IINSTALL): Also register preview-latex.
+  * prerm.in (DREMOVE, DINSTALL, IREMOVE, IINSTALL): Also (de)register
+    preview-latex.
+  * templates: Renamed from template.in.  Adapted to po-debconf.
+    (default, alreadydefault): Removed.
+    (defaultchanged): New.  A note displayed to users upgrading from
+    versions older than 11.81-1 which states that AUCTeX gets now
+    autoloaded by default.
+  * po: New subdirectory.  Translations.
+  * po/POTFILES.in: New file.  Automatically managed by po-debconf.
+  * po/de.po, po/es.po, po/it.po, po/pt_BR.po: New files.  Localized
+    translations for templates, moved from templates.
+  * po/templates.pot: New file.  Automatically managed by po-debconf.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 30 Sep 2005 10:15:29 +0200
+
 auctex (11.55-3) unstable; urgency=low
 
   * General overhaul of the debian directory.

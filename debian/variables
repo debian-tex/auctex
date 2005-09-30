@@ -3,30 +3,42 @@
 # by Davide G. M. Salvetti.
 :>//
 <:$PACKAGE="auctex":>//
+<:$PLSPKG="preview-latex-style":>//
 <:# documentation :>//
-<:$DOCS="README CHANGES FAQ HISTORY":>//
-<:# misc package variables :>//
+<:$DOCS="README CHANGES FAQ TODO":>//
+<:# miscellaneous package variables :>//
 <:$UPDATE_ELISP="update-auctex-elisp":>//
 <:$UPDATE_INSTALL="update-auctex-install":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
 <:$MENUSEC="Apps/Editors":>//
 <:$INFOSEC="Document Preparation":>//
-<:$INFOMENU="AUCTeX":>//
-<:$INFODESC="An integrated environment for TeX and LaTeX":>//
+<:$AUCTEX_INFOMENU="AUCTeX":>//
+<:$AUCTEX_INFODESC="An integrated environment for editing LaTeX, ConTeXt,"
+	. " docTeX, Texinfo, and TeX files.":>//
+<:$PREVIEW_INFOMENU="preview-latex":>//
+<:$PREVIEW_INFODESC="A package embedding preview fragments into Emacs"
+	. " source buffers under the AUCTeX editing environment for"
+	. " LaTeX.":>//
 <:$EPRIORITY="50":>//
 <:# Debian packaging specific :>//
 <:$debian="/DEBIAN/":>//
+<:$etc="/etc/$PACKAGE/":>//
 <:$doc="/usr/share/doc/$PACKAGE/":>//
 <:$docsrc="$doc/src/":>//
+<:$examples="$doc/examples/":>//
 <:$html="$doc/HTML":>//
 <:$var="/var/lib/$PACKAGE/":>//
 <:# <% usr %> and friends :>//
 <:$usr="/usr/":>//
+<:$share="/usr/share/":>//
 <:$bin="/usr/bin/":>//
 <:$man="/usr/share/man/":>//
 <:$sbin="/usr/sbin/":>//
 <:# <% cron %> :>//
+<:$cron_d="/etc/cron.d/":>//
+<:$cron_daily="/etc/cron.daily/":>//
 <:$cron_weekly="/etc/cron.weekly/":>//
+<:$cron_monthly="/etc/cron.monthly/":>//
 <:# <% debconf %> :>//
 <:$CONFMODULE="/usr/share/debconf/confmodule":>//
 <:# <% docbase %> :>//
@@ -43,12 +55,28 @@
 <:$lisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
 <:$style="$lisp/style/":>//
 <:# <% info %> :>//
-<:$IINSTALL="install-info --section \"$INFOSEC\" \"$INFOSEC\""
-	  . " --menuentry=\"$INFOMENU\""
-	  . " --description=\"$INFODESC\""
-	  . " --quiet":>//
+<:sub IINSTALL {
+    my (${section}, ${menu}, ${description}) = @_;
+
+    ${section} = ${INFOSEC} unless ${section};
+    ${menu} = ${INFOMENU} unless ${menu};
+    ${description} = ${INFODESC} unless ${description};
+
+    return "install-info --section \"${section}\" \"${section}\""
+	. " --menuentry=\"${menu}\""
+	. " --description=\"${description}\""
+	. " --quiet";
+}:>//
 <:$IREMOVE="install-info --quiet --remove":>//
 <:$info="/usr/share/info/":>//
+<:# <% texmf %> :>//
+<:$texmf="/usr/share/texmf/":>//
+<:$MKTEXLSR="mktexlsr >/dev/null":>//
+<:# <% dictionaries-common %> :>//
+<:$dict="/usr/share/dict/":>//
+<:$winfo="/var/lib/dictionaries-common/wordlist/":>//
+<:$WREBUILD="/usr/sbin/update-default-wordlist --rebuild":>//
+<:$WREMOVE="/usr/sbin/remove-default-wordlist $PACKAGE":>//
 <:# <% reportbug %> :>//
 <:$bug="/usr/share/bug/$PACKAGE/":>//
 <:# <% misc %> :>//

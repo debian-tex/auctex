@@ -1,0 +1,48 @@
+Template: auctex/defaultchanged
+Type: note
+_Description: The autoload mechanism of AUCTeX has changed.
+ Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  If you do
+ not want AUCTeX to override the standard Emacs TeX-mode, you may unload
+ AUCTeX completely by evaluating the form "(unload-feature 'tex-site)"
+ (i.e., put that string into your "~/.emacs" to disable AUCTeX completely).
+
+Template: auctex/doauto
+Type: select
+__Choices: Background, Foreground, None
+Default: Background
+_Description: How should (La)TeX macros be parsed?
+ To greatly improve AUCTeX performances, every TeX macro package and LaTeX
+ style file currently installed at your site will be parsed.
+ .
+ This may take a lot of time, so it should be probably done in background;
+ however you may also choose to have it done in foreground, or to skip the
+ parsing at all instead.  If you choose Background, you will find a
+ detailed log of the process in the file: ${LOGFILE}.
+ .
+ A weekly cron job will also take care of updating the informations now
+ collected, so usually you won't need to worry about them whenever you
+ install new (La)TeX packages or remove old ones.
+ .
+ Anyway, you can update them by hand running update-auctex-elisp.
+
+Template: auctex/doautofg
+Type: select
+__Choices: Console, File
+Default: File
+_Description: Where should parsing output go?
+ You chose to parse TeX macro packages and LaTeX style files in foreground.
+ This is ok, but normally it will also generate quite a lot of output.
+ .
+ By default -- i.e., answering File to this question -- further output from
+ the parsing process will go to a file named: ${LOGFILE}.
+ .
+ If you answer Console, you will see all of the (boring) output right on
+ your terminal.
+# LocalWords:  defaultchanged autoload AUCTeX autoloaded tex doauto LOGFILE
+# LocalWords:  cron doautofg auctex elisp
+# arch-tag: f0377964-4347-46dc-a310-3f371380b170
+# local variables:
+# mode: text
+# fill-column: 76
+# ispell-local-dictionary: "american"
+# end:

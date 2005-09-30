@@ -145,31 +145,32 @@ the argument BUTTON-ALIST in function `toolbarx-install-toolbar'."
 	   :command (progn
 		      (TeX-save-document (TeX-master-file))
 		      (TeX-command "LaTeX" 'TeX-master-file -1))
-	   :help (lambda nil (TeX-bar-help-from-command-list "LaTeX")))
+	   :help (lambda (&rest ignored)
+		   (TeX-bar-help-from-command-list "LaTeX")))
     (pdflatex :image "pdftex"
 	      :command (progn
 			 (TeX-save-document (TeX-master-file))
 			 (TeX-command "PDFLaTeX" 'TeX-master-file -1))
-	      :help (lambda nil (TeX-bar-help-from-command-list "PDFLaTeX")))
+	      :help (lambda (&rest ignored)
+		      (TeX-bar-help-from-command-list "PDFLaTeX")))
     (next-error :image "error"
 		:command TeX-next-error
 		:enable (plist-get TeX-error-report-switches
 				   (intern (TeX-master-file)))
 		:visible (plist-get TeX-error-report-switches
 				    (intern (TeX-master-file))))
-    (view :image "view"
-	  ;; FIXME: Mode specific switching doesn't work yet, so keep general
-	  ;; image for now.
-	  ;;
-	  ;; (lambda nil (if TeX-PDF-mode "viewpdf" "viewdvi"))
+    (view :image (lambda nil (if TeX-PDF-mode "viewpdf" "viewdvi"))
 	  :command (TeX-command "View" 'TeX-master-file -1)
-	  :help (lambda nil (TeX-bar-help-from-command-list "View")))
+	  :help (lambda (&rest ignored)
+		  (TeX-bar-help-from-command-list "View")))
     (file :image "dvips"
 	  :command (TeX-command "File" 'TeX-master-file -1)
-	  :help (lambda nil (TeX-bar-help-from-command-list "File")))
+	  :help (lambda (&rest ignored)
+		  (TeX-bar-help-from-command-list "File")))
     (bibtex :image "bibtex"
 	    :command (TeX-command "BibTeX" 'TeX-master-file -1)
-	    :help (lambda nil (TeX-bar-help-from-command-list "BibTeX")))
+	    :help (lambda (&rest ignored)
+		    (TeX-bar-help-from-command-list "BibTeX")))
     (latex-symbols-experimental . (:alias :eval-group
 					  LaTeX-symbols-toolbar-switch-contents
 					  LaTeX-symbols-toolbar-contents)))
@@ -188,6 +189,10 @@ format of the argument MEANING-ALIST in the mentioned function."
 (defun LaTeX-install-toolbar ()
   "Install toolbar buttons for LaTeX mode."
   (interactive)
+  (require 'toolbar-x)
+  (add-to-list 'toolbarx-image-path
+	       (expand-file-name "images" TeX-data-directory))
+  (add-hook 'TeX-PDF-mode-hook 'toolbarx-refresh)
   (toolbarx-install-toolbar TeX-bar-LaTeX-buttons
 			    (let ((append-list))
 			      (dolist (elt TeX-bar-LaTeX-all-button-alists)
@@ -303,7 +308,7 @@ format of the argument MEANING-ALIST in the mentioned function."
 		  (toolbarx-refresh))
        ;; help message depends on if symb-toolbar is on or off, and in
        ;; the name of the current class of symbols
-       :help (lambda nil
+       :help (lambda (&rest ignore)
 	       (concat "Turn "
 		       (if LaTeX-symbols-toolbar-visible-flag "off " "on ")
 		       "the toolbar of LaTeX symbols (current class: "

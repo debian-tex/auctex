@@ -1,0 +1,31 @@
+#include "variables"
+The Debian package <:=${PACKAGE}:> news
+-------------------<:="-" x length (${PACKAGE}):>-----
+
+
+Loading AUCTeX
+===============
+
+Since Debian version 11.81-1, AUCTeX gets auto-loaded by default.  If you do
+not want AUCTeX to override the standard Emacs TeX-mode, you may unload AUCTeX
+completely by evaluating the form "(unload-feature 'tex-site)" (i.e., put that
+string into your "~/.emacs" to disable AUCTeX completely).
+
+
+preview-latex
+=============
+
+Since upstream version 11.81, preview-latex comes included with AUCTeX.  You
+do not need to do anything special to use it.
+
+
+-- Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
+<:
+# LocalWords:  AUCTeX tex emacs
+# local variables:
+# mode: text
+# fill-column: 78
+# ispell-local-dictionary: "american"
+# end:
+# arch-tag: 40ef55ea-fc75-4f6f-83af-a804f4d1b045
+:>//

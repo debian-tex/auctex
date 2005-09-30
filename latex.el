@@ -2,9 +2,9 @@
 
 ;; Copyright (C) 1991 Kresten Krab Thorup
 ;; Copyright (C) 1993, 1994, 1995, 1996, 1997, 1999, 2000,
-;;               2003, 2004, 2005 Free Software Foundation, Inc.
+;;   2003, 2004, 2005 Free Software Foundation, Inc.
 
-;; Maintainer: auc-tex@sunsite.dk
+;; Maintainer: auctex-devel@gnu.org
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
@@ -31,6 +31,7 @@
 ;;; Code:
 
 (require 'tex)
+(require 'tex-style)
 
 ;;; Syntax
 
@@ -85,6 +86,7 @@ This depends on `LaTeX-insert-into-comments'."
 	     (indent-new-comment-line)))
     (newline)))
 
+
 ;;; Syntax Table
 
 (defvar LaTeX-mode-syntax-table (copy-syntax-table TeX-mode-syntax-table)
@@ -102,7 +104,7 @@ This depends on `LaTeX-insert-into-comments'."
 
 (defun LaTeX-section (arg)
   "Insert a template for a LaTeX section.
-Determinate the type of section to be inserted, by the argument ARG.
+Determine the type of section to be inserted, by the argument ARG.
 
 If ARG is nil or missing, use the current level.
 If ARG is a list (selected by \\[universal-argument]), go downward one level.
@@ -138,8 +140,6 @@ The following variables can be set to customize:
 				      (region-end))
 		  ""))
 	 (done-mark (make-marker)))
-    (when (zerop (length title))
-      (LaTeX-newline))
     (run-hooks 'LaTeX-section-hook)
     (LaTeX-newline)
     (if (marker-position done-mark)
@@ -197,6 +197,29 @@ section."
 			     ("subparagraph" 6))
   "List which elements is the names of the sections used by LaTeX.")
 
+(defun LaTeX-section-list-add-locally (sections &optional clean)
+  "Add SECTIONS to `LaTeX-section-list'.
+SECTIONS can be a single list containing the section macro name
+as a string and the the level as an integer or a list of such
+lists.
+
+If optional argument CLEAN is non-nil, remove any existing
+entries from `LaTeX-section-list' before adding the new ones.
+
+The function will make `LaTeX-section-list' buffer-local and
+invalidate the section submenu in order to let the menu filter
+regenerate it.  It is mainly a convenience function which can be
+used in style files."
+  (when (stringp (car sections))
+    (setq sections (list sections)))
+  (make-local-variable 'LaTeX-section-list)
+  (when clean (setq LaTeX-section-list nil))
+  (dolist (elt sections) (add-to-list 'LaTeX-section-list elt t))
+  (setq LaTeX-section-list
+	(sort (copy-sequence LaTeX-section-list)
+	      (lambda (a b) (< (nth 1 a) (nth 1 b)))))
+  (setq LaTeX-section-menu nil))
+
 (defun LaTeX-section-name (level)
   "Return the name of the section corresponding to LEVEL."
   (let ((entry (TeX-member level LaTeX-section-list
@@ -252,6 +275,14 @@ header is at the start of a line."
 Run style hooks before it has not been done."
   (TeX-update-style)
   LaTeX-largest-level)
+
+(defun LaTeX-largest-level-set (section)
+  "Set `LaTeX-largest-level' to the level of SECTION.
+SECTION has to be a string contained in `LaTeX-section-list'.
+Additionally the function will invalidate the section submenu in
+order to let the menu filter regenerate it."
+  (setq LaTeX-largest-level (LaTeX-section-level section))
+  (setq LaTeX-section-menu nil))
 
 (defun LaTeX-outline-offset ()
   "Offset to add to `LaTeX-section-list' levels to get outline level."
@@ -326,7 +357,7 @@ LaTeX-section-toc: Query the user for the toc entry.  Modifies
 
 LaTeX-section-section: Insert LaTeX section command according to
 `name', `title', and `toc'.  If `toc' is nil, no toc entry is
-enserted.  If `toc' or `title' are empty strings, `done-mark' will be
+inserted.  If `toc' or `title' are empty strings, `done-mark' will be
 placed at the point they should be inserted.
 
 LaTeX-section-label: Insert a label after the section command.
@@ -386,7 +417,7 @@ no label is inserted."
 Insert this hook into `LaTeX-section-hook' to allow the user to change
 the name of the sectioning command inserted with `\\[LaTeX-section]'."
   (let ((string (completing-read
-		 (concat "Select level: (default " name ") ")
+		 (concat "Level: (default " name ") ")
 		 LaTeX-section-list
 		 nil nil nil)))
     ; Update name
@@ -399,13 +430,10 @@ the name of the sectioning command inserted with `\\[LaTeX-section]'."
   "Hook to prompt for LaTeX section title.
 Insert this hook into `LaTeX-section-hook' to allow the user to change
 the title of the section inserted with `\\[LaTeX-section]."
-  (if (zerop (length title))
-      (setq title (read-string "What title: "))
-    (let ((region (and (TeX-active-mark)
-		       (cons (region-beginning) (region-end)))))
-      (setq title (read-string "What title: " title))
-      (if region
-	  (delete-region (car region) (cdr region))))))
+  (setq title (read-string "Title: " title))
+  (let ((region (and (TeX-active-mark)
+		     (cons (region-beginning) (region-end)))))
+    (when region (delete-region (car region) (cdr region)))))
 
 (defun LaTeX-section-toc ()
   "Hook to prompt for the LaTeX section entry in the table of content .
@@ -417,25 +445,35 @@ a different entry for the section in the table of content."
 
 (defun LaTeX-section-section ()
   "Hook to insert LaTeX section command into the file.
-Insert this hook into `LaTeX-section-hook' after those hooks which sets
-the `name', `title', and `toc' variables, but before those hooks which
-assumes the section already is inserted."
-    (insert TeX-esc name)
-    (cond ((null toc))
-	  ((zerop (length toc))
-	   (insert LaTeX-optop)
-	   (set-marker done-mark (point))
-	   (insert LaTeX-optcl))
-	  (t
-	   (insert LaTeX-optop toc LaTeX-optcl)))
-    (insert TeX-grop)
-    (if (zerop (length title))
-	(set-marker done-mark (point)))
-    (insert title TeX-grcl)
-    (LaTeX-newline)
-    ;; If RefTeX is available, tell it that we've just made a new section
-    (and (fboundp 'reftex-notice-new-section)
-	 (reftex-notice-new-section)))
+Insert this hook into `LaTeX-section-hook' after those hooks that set
+the `name', `title', and `toc' variables, but before those hooks that
+assume that the section is already inserted."
+  ;; insert a new line if the current line and the previous line are
+  ;; not empty (except for whitespace), with one exception: do not
+  ;; insert a new line if the previous (or current, sigh) line starts
+  ;; an environment (i.e., starts with `[optional whitespace]\begin')
+  (unless (save-excursion
+	    (re-search-backward
+	     (concat "^\\s-*\n\\s-*\\=\\|^\\s-*" (regexp-quote TeX-esc)
+		     "begin")
+	     (line-beginning-position 0) t))
+    (LaTeX-newline))
+  (insert TeX-esc name)
+  (cond ((null toc))
+	((zerop (length toc))
+	 (insert LaTeX-optop)
+	 (set-marker done-mark (point))
+	 (insert LaTeX-optcl))
+	(t
+	 (insert LaTeX-optop toc LaTeX-optcl)))
+  (insert TeX-grop)
+  (if (zerop (length title))
+      (set-marker done-mark (point)))
+  (insert title TeX-grcl)
+  (LaTeX-newline)
+  ;; If RefTeX is available, tell it that we've just made a new section
+  (and (fboundp 'reftex-notice-new-section)
+       (reftex-notice-new-section)))
 
 (defun LaTeX-section-label ()
   "Hook to insert a label after the sectioning command.
@@ -459,6 +497,12 @@ The behaviour of this hook is controlled by variable `LaTeX-section-label'."
  (make-variable-buffer-local 'LaTeX-default-environment)
 
 (defvar LaTeX-environment-history nil)
+
+;; Variable used to cache the current environment, e.g. for repeated
+;; tasks in an environment, like indenting each line in a paragraph to
+;; be filled.  It must not have a non-nil value in general.  That
+;; means it is usually let-bound for such operations.
+(defvar LaTeX-current-environment nil)
 
 (defun LaTeX-environment (arg)
   "Make LaTeX environment (\\begin{...}-\\end{...} pair).
@@ -605,7 +649,8 @@ It may be customized with the following variables:
     (if active-mark
 	(or (assoc environment LaTeX-indent-environment-list)
 	    (LaTeX-fill-environment nil))
-      (indent-according-to-mode))))
+      (indent-according-to-mode)))
+  (TeX-math-input-method-off))
 
 (defun LaTeX-modify-environment (environment)
   "Modify current ENVIRONMENT."
@@ -631,72 +676,44 @@ It may be customized with the following variables:
 (defun LaTeX-current-environment (&optional arg)
   "Return the name (a string) of the enclosing LaTeX environment.
 With optional ARG>=1, find that outer level.
-The way the environment is determined depends on several factors.
 
-In LaTeX mode:
-* If function is called inside a comment and
-  `LaTeX-syntactic-comments' is enabled, try to find the
-  environment in the consecutive commented region.
-* If function is called inside a comment and
-  `LaTeX-syntactic-comments' is disabled, try to find the
-  environment outside the commented region.
+If function is called inside a comment and
+`LaTeX-syntactic-comments' is enabled, try to find the
+environment in commented regions with the same comment prefix.
 
-In docTeX mode:
-* If function is called inside a line comment and not in a
-  macrocode environment, i.e in a documentation part, search in
-  documentation parts (commented regions not in macrocode
-  environments) and skip non-comment regions.
-* If function is called inside a macrocode environment, do as in
-  LaTeX mode.
-
-The same rules are used for `LaTeX-find-matching-begin' and
-`LaTeX-find-matching-begin'."
+The functions `LaTeX-find-matching-begin' and `LaTeX-find-matching-end'
+work analogously."
   (setq arg (if arg (if (< arg 1) 1 arg) 1))
-  (let ((in-comment (TeX-in-commented-line)))
-    ;; We should probably be more restrictive and not only test for
-    ;; skips between comments and non-comments but for changes in the
-    ;; prefix as well which can indicate a new part.
-    (save-restriction
-      (when (or (and in-comment
-		     (eq major-mode 'latex-mode)
-		     LaTeX-syntactic-comments)
-		(and in-comment
-		     (eq major-mode 'doctex-mode)
-		     (docTeX-in-macrocode-p)))
-	(narrow-to-region (save-excursion
-			    (progn (TeX-forward-comment-skip) (point)))
-			  (save-excursion
-			    (progn (TeX-backward-comment-skip) (point)))))
-      (save-excursion
-	(while (and
-		(/= arg 0)
-		(re-search-backward
-		 (concat (regexp-quote TeX-esc) "begin" (regexp-quote TeX-grop)
-			 "\\|"
-			 (regexp-quote TeX-esc) "end" (regexp-quote TeX-grop))
-		 nil t 1)
-		;; We currently don't check if point is in a macrocode
-		;; environment in case the function is called in a
-		;; commented line and point is in a commented line.
-		;; As this seems to be a very rare case we currently
-		;; don't do those tests yet which would add complexity
-		;; and negatively influence performance.
-		(or (and LaTeX-syntactic-comments
-			 (eq in-comment (TeX-in-commented-line)))
-		    (and (not LaTeX-syntactic-comments)
-			 (not (TeX-in-commented-line)))))
-	  (cond ((looking-at (concat "[ \t]*" (regexp-quote TeX-esc)
-				     "end" (regexp-quote TeX-grop)))
-		 (setq arg (1+ arg)))
-		(t
-		 (setq arg (1- arg)))))
-	(if (/= arg 0)
-	    "document"
-	  (search-forward TeX-grop)
-	  (let ((beg (point)))
-	    (search-forward TeX-grcl)
-	    (backward-char 1)
-	    (buffer-substring-no-properties beg (point))))))))
+  (let* ((in-comment (TeX-in-commented-line))
+	 (comment-prefix (and in-comment (TeX-comment-prefix))))
+    (save-excursion
+      (while (and
+	      (/= arg 0)
+	      (re-search-backward
+	       (concat (regexp-quote TeX-esc) "begin" (regexp-quote TeX-grop)
+		       "\\|"
+		       (regexp-quote TeX-esc) "end" (regexp-quote TeX-grop))
+	       nil t 1)
+	      (or (and LaTeX-syntactic-comments
+		       (eq in-comment (TeX-in-commented-line))
+		       ;; If we are in a commented line, check if the
+		       ;; prefix matches the one we started out with.
+		       (or (not in-comment)
+			   (string= comment-prefix (TeX-comment-prefix))))
+		  (and (not LaTeX-syntactic-comments)
+		       (not (TeX-in-commented-line)))))
+	(cond ((looking-at (concat "[ \t]*" (regexp-quote TeX-esc)
+				   "end" (regexp-quote TeX-grop)))
+	       (setq arg (1+ arg)))
+	      (t
+	       (setq arg (1- arg)))))
+      (if (/= arg 0)
+	  "document"
+	(search-forward TeX-grop)
+	(let ((beg (point)))
+	  (search-forward TeX-grcl)
+	  (backward-char 1)
+	  (buffer-substring-no-properties beg (point)))))))
 
 (defun docTeX-in-macrocode-p ()
   "Determine if point is inside a macrocode environment."
@@ -781,9 +798,9 @@ the label inserted, or nil if no label was inserted."
 
 (defcustom LaTeX-default-position ""
   "Default position for array and tabular environments.
-If nil, act like the empty string is given, but don't prompt."
+If nil, act like the empty string is given, but do not prompt."
   :group 'LaTeX-environment
-  :type '(choice (const :tag "Don't prompt" nil)
+  :type '(choice (const :tag "Do not prompt" nil)
 		 (const :tag "Empty" "")
 		 string))
 (make-variable-buffer-local 'LaTeX-default-position)
@@ -879,20 +896,26 @@ job to this function."
 					; do not prompt
 		    (read-string "(Optional) Float position: " LaTeX-float)))
 	(caption (read-string "Caption: "))
-	(center (y-or-n-p "Center? ")))
-
+	(center (y-or-n-p "Center? "))
+	(active-mark (and (TeX-active-mark)
+			  (not (eq (mark) (point)))))
+	start-marker end-marker)
+    (when active-mark
+      (if (< (mark) (point))
+	  (exchange-point-and-mark))
+      (setq start-marker (point-marker))
+      (set-marker-insertion-type start-marker t)
+      (setq end-marker (copy-marker (mark))))
     (setq LaTeX-float float)
-
     (LaTeX-insert-environment environment
 			      (unless (zerop (length float))
 				(concat LaTeX-optop float
 					LaTeX-optcl)))
-
+    (when active-mark (goto-char start-marker))
     (when center
       (insert TeX-esc "centering")
       (indent-according-to-mode)
       (LaTeX-newline))
-
     (if (member environment LaTeX-top-caption-list)
 	;; top caption -- do nothing if user skips caption
 	(unless (zerop (length caption))
@@ -906,6 +929,7 @@ job to this function."
 	    (indent-according-to-mode)))
       ;; bottom caption (default) -- do nothing if user skips caption
       (unless (zerop (length caption))
+	(when active-mark (goto-char end-marker))
 	(LaTeX-newline)
 	(indent-according-to-mode)
 	(insert TeX-esc "caption" TeX-grop caption TeX-grcl)
@@ -913,7 +937,11 @@ job to this function."
 	(indent-according-to-mode)
 	;; ask for a label -- if user skips label, remove the last new
 	;; line again
-	(unless (LaTeX-label environment)
+	(if (LaTeX-label environment)
+	    (progn
+	      (unless (looking-at "[ \t]*$")
+		(LaTeX-newline)
+		(end-of-line 0)))
 	  (delete-blank-lines)
 	  (end-of-line 0))
 	;; if there is a caption or a label, move point upwards again
@@ -928,9 +956,11 @@ job to this function."
 		(line-beginning-position) t)
 	  (end-of-line 0)
 	  (indent-according-to-mode))))
-
-    (if (member environment '("table" "table*"))
-	(LaTeX-env-array "tabular"))))
+    (when (and (member environment '("table" "table*"))
+	       ;; Suppose an existing tabular environment should just
+	       ;; be wrapped into a table if there is an active region.
+	       (not active-mark))
+      (LaTeX-env-array "tabular"))))
 
 (defun LaTeX-env-array (environment)
   "Insert ENVIRONMENT with position and column specifications.
@@ -952,8 +982,7 @@ Just like array and tabular."
   (LaTeX-insert-environment environment)
   (when (LaTeX-label environment)
     (LaTeX-newline)
-    (indent-according-to-mode))
-  (TeX-math-input-method-off))
+    (indent-according-to-mode)))
 
 (defun LaTeX-env-list (environment)
   "Insert ENVIRONMENT and the first item."
@@ -1038,7 +1067,7 @@ Just like array and tabular."
 ;;; Item hooks
 
 (defvar LaTeX-item-list nil
-  "An list of environments where items have a special syntax.
+  "A list of environments where items have a special syntax.
 The cdr is the name of the function, used to insert this kind of items.")
 
 (defun LaTeX-insert-item ()
@@ -1065,11 +1094,11 @@ You may use `LaTeX-item-list' to change the routines used to insert the item."
 
 (defvar LaTeX-auto-minimal-regexp-list
   '(("\\\\document\\(style\\|class\\)\
-\\(\\[\\(\\([^#\\\\\\.%]\\|%[^\n\r]*[\n\r]\\)*\\)\\]\\)?\
+\\(\\[\\(\\([^#\\.%]\\|%[^\n\r]*[\n\r]\\)*\\)\\]\\)?\
 {\\([^#\\\\\\.\n\r]+?\\)}"
      (3 5 1) LaTeX-auto-style)
     ("\\\\use\\(package\\)\\(\\[\\([^\]\\\\]*\\)\\]\\)?\
-{\\(\\([^#}\\\\\\.%]\\|%[^\n\r]*[\n\r]\\)+?\\)}"
+{\\(\\([^#}\\.%]\\|%[^\n\r]*[\n\r]\\)+?\\)}"
      (3 4 1) LaTeX-auto-style))
   "Minimal list of regular expressions matching LaTeX macro definitions.")
 
@@ -1179,19 +1208,16 @@ This is necessary since index entries may contain commands and stuff.")
 	;; FIXME: Parse key=value options like "pdftitle={A Perfect
 	;; Day},colorlinks=false" correctly.  When this works, the
 	;; check for "=" can be removed again.
-	(setq options (unless (string-match "=" options)
-			(TeX-split-string
-			 "\\([ \t\r\n]\\|%[^\n\r]*[\n\r]\\|,\\)+"
-			 options)))
-
-	;; Strip empty options.
-	(if (string-equal (car options) "")
-	    (setq options (cdr options)))
-	(let ((index options))
-	  (while (cdr-safe index)
-	    (if (string-equal (car (cdr index)) "")
-		(setcdr index (cdr (cdr index)))
-	      (setq index (cdr index)))))
+	(setq options
+	      (let (opts)
+		(dolist (elt (TeX-split-string "\\(,\\|%[^\n\r]*[\n\r]\\)+"
+					       options))
+		  (unless (string-match "=" elt)
+		    ;; Strip whitespace.
+		    (dolist (item (TeX-split-string "[ \t\r\n]+" elt))
+		      (unless (string= item "")
+			(add-to-list 'opts item)))))
+		opts))
 
 	;; Add them, to the style list.
 	(dolist (elt options)
@@ -1302,9 +1328,12 @@ This is necessary since index entries may contain commands and stuff.")
 (fset 'LaTeX-add-environments-auto
       (symbol-function 'LaTeX-add-environments))
 (defun LaTeX-add-environments (&rest environments)
-  "Add ENVIRONMENTS to the list of known environments."
+  "Add ENVIRONMENTS to the list of known environments.
+Additionally invalidate the environment submenus to let them be
+regenerated by the respective menu filter."
   (apply 'LaTeX-add-environments-auto environments)
-  (setq LaTeX-menu-changed t))
+  (setq LaTeX-environment-menu nil)
+  (setq LaTeX-environment-modify-menu nil))
 
 ;;; BibTeX
 
@@ -1517,7 +1546,7 @@ May be reset with `C-u \\[TeX-normal-mode]'.")
 (defun TeX-arg-input-file (optionel &optional prompt local)
   "Prompt for a tex or sty file.
 
-First optional argument is the promt, the second is a flag.
+First optional argument is the prompt, the second is a flag.
 If the flag is set, only complete with local files."
   (unless (or TeX-global-input-files local)
     (message "Searching for files...")
@@ -1861,9 +1890,9 @@ value."
 
 (defvar docTeX-indent-inner-fixed
   `((,(concat (regexp-quote TeX-esc)
-	     "\\(begin\\|end\\)[ \t]*{macrocode}") 4 t)
+	     "\\(begin\\|end\\)[ \t]*{macrocode\\*?}") 4 t)
     (,(concat (regexp-quote TeX-esc)
-	     "\\(begin\\|end\\)[ \t]*{macro}") 0 nil))
+	     "\\(begin\\|end\\)[ \t]*{\\(macro\\|environment\\)\\*?}") 0 nil))
   "List of items which should have a fixed inner indentation.
 The items consist of three parts.  The first is a regular
 expression which should match the respective string.  The second
@@ -1998,7 +2027,8 @@ outer indentation in case of a commented line.  The symbols
 	     0)
 	    ((and LaTeX-indent-environment-check
 		  ;; Special environments.
-		  (let ((entry (assoc (LaTeX-current-environment)
+		  (let ((entry (assoc (or LaTeX-current-environment
+					  (LaTeX-current-environment))
 				      LaTeX-indent-environment-list)))
 		    (and entry
 			 (nth 1 entry)
@@ -2114,7 +2144,7 @@ outer indentation in case of a commented line.  The symbols
 	      (TeX-brace-count-line)))
 	  ((and (eq major-mode 'doctex-mode)
 		(looking-at (concat (regexp-quote TeX-esc)
-				    "end[ \t]*{macrocode}"))
+				    "end[ \t]*{macrocode\\*?}"))
 		fill-prefix
 		(TeX-in-line-comment))
 	   ;; Reset indentation to zero after a macrocode
@@ -2242,6 +2272,22 @@ be broken before the last non-comment word in case the comment
 does not fit into the line."
   :group 'LaTeX
   :type 'boolean)
+
+(defvar LaTeX-nospace-between-char-regexp
+  (if (featurep 'xemacs)
+    (if (and (boundp 'word-across-newline) word-across-newline)
+	word-across-newline
+      ;; NOTE: Ensure not to have a value of nil for such a rare case that
+      ;; somebody removes the mule test in `LaTeX-fill-delete-newlines' so that
+      ;; it could match only "\n" and this could lead to problem.  XEmacs does
+      ;; not have a category `\c|' and `\ct' means `Chinese Taiwan' in XEmacs.
+      "\\(\\cj\\|\\cc\\|\\ct\\)")
+    "\\c|")
+  "Regexp matching a character where no interword space is necessary.
+Words formed by such characters can be broken across newlines.")
+
+(defvar LaTeX-fill-newline-hook nil
+  "Hook run after `LaTeX-fill-newline' inserted and indented a new line.")
 
 (defun LaTeX-fill-region-as-paragraph (from to &optional justify-flag)
   "Fill region as one paragraph.
@@ -2399,7 +2445,7 @@ space does not end a sentence, so don't break a line there."
 	      (forward-line 1)))
 
 	(when use-hard-newlines
-	  (remove-list-of-text-properties from to '(hard)))
+	  (remove-text-properties from to '(hard nil)))
 	;; Make sure first line is indented (at least) to left margin...
 	(indent-according-to-mode)
 	;; COMPATIBILITY for Emacs <= 21.1
@@ -2423,84 +2469,61 @@ space does not end a sentence, so don't break a line there."
 	;; FROM, and point, are now before the text to fill,
 	;; but after any fill prefix on the first line.
 
-	;; COMPATIBILITY for Emacs <= 21.1
-	(if (fboundp 'fill-delete-newlines)
-	    (fill-delete-newlines from to justify nosqueeze squeeze-after)
-	  ;; Make sure sentences ending at end of line get an extra space.
-	  (if (or (not (boundp 'sentence-end-double-space))
-		  sentence-end-double-space)
-	      (progn
-		(goto-char from)
-		(while (re-search-forward "[.?!][]})\"']*$" to t)
-		  (insert ? ))))
-	  ;; Then change all newlines to spaces.
-	  (let ((point-max (progn
-			     (goto-char to)
-			     (skip-chars-backward "\n")
-			     (point))))
-	    (subst-char-in-region from point-max ?\n ?\ ))
-	  (goto-char from)
-	  (skip-chars-forward " \t")
-	  ;; Remove extra spaces between words.
-	  (unless (and nosqueeze (not (eq justify 'full)))
-	    (canonically-space-region (or squeeze-after (point)) to)
-	    ;; Remove trailing whitespace.
-	    (goto-char (line-end-position))
-	    (delete-char (- (skip-chars-backward " \t")))))
+	(LaTeX-fill-delete-newlines from to justify nosqueeze squeeze-after)
 
 	;; This is the actual FILLING LOOP.
 	(goto-char from)
-	(let (linebeg
-	      code-comment-flag)
-	  (setq code-comment-flag
+	(let* (linebeg
+	       (code-comment-flag
 		(save-excursion
 		  (LaTeX-back-to-indentation)
 		  (TeX-re-search-forward-unescaped TeX-comment-start-regexp
 						   (line-end-position) t)))
-	  (let ((end-marker
-		 (save-excursion
-		   (goto-char (if code-comment-flag
-				  ;; Get the position right after the
-				  ;; last non-comment-word.
-				  (save-excursion
-				    (goto-char (match-beginning 0))
-				    (skip-chars-backward " \t")
-				    (point))
-				to))
-		   (point-marker))))
-	    ;; Fill until point is greater than the end point.  If there
-	    ;; is a code comment, use the code comment's start as a
-	    ;; limit.
-	    (while (and (< (point) (marker-position end-marker))
-			(or (not code-comment-flag)
-			    (and code-comment-flag
-				 (> (- (marker-position end-marker)
-				       (line-beginning-position))
-				    fill-column))))
-	      (setq linebeg (point))
-	      (move-to-column (current-fill-column))
-	      (if (when (< (point) (marker-position end-marker))
-		    ;; Find the position where we'll break the line.
-		    (forward-char 1) ; Use an immediately following
-				     ; space, if any.
-		    (LaTeX-fill-move-to-break-point linebeg)
+	       (end-marker
+		(save-excursion
+		  (goto-char (if code-comment-flag
+				 ;; Get the position right after the
+				 ;; last non-comment-word.
+				 (save-excursion
+				   (goto-char (match-beginning 0))
+				   (skip-chars-backward " \t")
+				   (point))
+			       to))
+		  (point-marker)))
+	       (LaTeX-current-environment (LaTeX-current-environment)))
+	  ;; Fill until point is greater than the end point.  If there
+	  ;; is a code comment, use the code comment's start as a
+	  ;; limit.
+	  (while (and (< (point) (marker-position end-marker))
+		      (or (not code-comment-flag)
+			  (and code-comment-flag
+			       (> (- (marker-position end-marker)
+				     (line-beginning-position))
+				  fill-column))))
+	    (setq linebeg (point))
+	    (move-to-column (current-fill-column))
+	    (if (when (< (point) (marker-position end-marker))
+		  ;; Find the position where we'll break the line.
+		  (forward-char 1)	; Use an immediately following
+					; space, if any.
+		  (LaTeX-fill-move-to-break-point linebeg)
 
-		    ;; Check again to see if we got to the end of
-		    ;; the paragraph.
- 		    (skip-chars-forward " \t")
-		    (< (point) (marker-position end-marker)))
-		  ;; Found a place to cut.
-		  (progn
-		    (LaTeX-fill-newline)
-		    (when justify
-		      ;; Justify the line just ended, if desired.
-		      (save-excursion
-			(forward-line -1)
-			(justify-current-line justify nil t))))
+		  ;; Check again to see if we got to the end of
+		  ;; the paragraph.
+		  (skip-chars-forward " \t")
+		  (< (point) (marker-position end-marker)))
+		;; Found a place to cut.
+		(progn
+		  (LaTeX-fill-newline)
+		  (when justify
+		    ;; Justify the line just ended, if desired.
+		    (save-excursion
+		      (forward-line -1)
+		      (justify-current-line justify nil t))))
 
-		(goto-char end-marker)
-		;; Justify this last line, if desired.
-		(if justify (justify-current-line justify t t)))))
+	      (goto-char end-marker)
+	      ;; Justify this last line, if desired.
+	      (if justify (justify-current-line justify t t))))
 
 	  ;; Fill a code comment if necessary.  (Enable this code if
 	  ;; you want the comment part in lines with code comments to
@@ -2540,12 +2563,77 @@ space does not end a sentence, so don't break a line there."
       ;; Return the fill-prefix we used
       fill-prefix)))
 
+;; Following lines are copied from `fill.el' (CVS Emacs, March 2005).
+;;   The `fill-space' property carries the string with which a newline should be
+;;   replaced when unbreaking a line (in fill-delete-newlines).  It is added to
+;;   newline characters by fill-newline when the default behavior of
+;;   fill-delete-newlines is not what we want.
+(unless (featurep 'xemacs)
+  ;; COMPATIBILITY for Emacs < 22.1
+  (add-to-list 'text-property-default-nonsticky '(fill-space . t)))
+
+(defun LaTeX-fill-delete-newlines (from to justify nosqueeze squeeze-after)
+  ;; COMPATIBILITY for Emacs < 22.1 and XEmacs
+  (if (fboundp 'fill-delete-newlines)
+      (fill-delete-newlines from to justify nosqueeze squeeze-after)
+    (if (featurep 'xemacs)
+	(when (featurep 'mule)
+	  (goto-char from)
+	  (let ((unwished-newline (concat LaTeX-nospace-between-char-regexp "\n"
+					  LaTeX-nospace-between-char-regexp)))
+	    (while (re-search-forward unwished-newline to t)
+	      (skip-chars-backward "^\n")
+	      (delete-char -1))))
+      ;; This else-sentence was copied from the function `fill-delete-newlines'
+      ;; in `fill.el' (CVS Emacs, 2005-02-17) and adapted accordingly.
+      (while (search-forward "\n" to t)
+  	(if (get-text-property (match-beginning 0) 'fill-space)
+  	    (replace-match (get-text-property (match-beginning 0) 'fill-space))
+	  (let ((prev (char-before (match-beginning 0)))
+		(next (following-char)))
+	    (when (or (aref (char-category-set next) ?|)
+		      (aref (char-category-set prev) ?|))
+	      (delete-char -1))))))
+
+    ;; Make sure sentences ending at end of line get an extra space.
+    (if (or (not (boundp 'sentence-end-double-space))
+	    sentence-end-double-space)
+	(progn
+	  (goto-char from)
+	  (while (re-search-forward "[.?!][]})\"']*$" to t)
+	    (insert ? ))))
+    ;; Then change all newlines to spaces.
+    (let ((point-max (progn
+		       (goto-char to)
+		       (skip-chars-backward "\n")
+		       (point))))
+      (subst-char-in-region from point-max ?\n ?\ ))
+    (goto-char from)
+    (skip-chars-forward " \t")
+    ;; Remove extra spaces between words.
+    (unless (and nosqueeze (not (eq justify 'full)))
+      (canonically-space-region (or squeeze-after (point)) to)
+      ;; Remove trailing whitespace.
+      (goto-char (line-end-position))
+      (delete-char (- (skip-chars-backward " \t"))))))
+
 (defun LaTeX-fill-move-to-break-point (linebeg)
   "Move to the position where the line should be broken."
-  ;; COMPATIBILITY for Emacs <= 21.3 and XEmacs
+  ;; COMPATIBILITY for Emacs < 22.1 and XEmacs
   (if (fboundp 'fill-move-to-break-point)
       (fill-move-to-break-point linebeg)
-    (skip-chars-backward "^ \n")
+    (if (featurep 'mule)
+ 	(if (TeX-looking-at-backward
+	     (concat LaTeX-nospace-between-char-regexp ".?") 2)
+ 	    ;; Cancel `forward-char' which is called just before
+ 	    ;; `LaTeX-fill-move-to-break-point' if the char before point matches
+ 	    ;; `LaTeX-nospace-between-char-regexp'.
+ 	    (backward-char 1)
+ 	  (when (re-search-backward
+		 (concat " \\|\n\\|" LaTeX-nospace-between-char-regexp)
+		 linebeg 'move)
+	    (forward-char 1)))
+      (skip-chars-backward "^ \n"))
     ;; Prevent infinite loops: If we cannot find a place to break
     ;; while searching backward, search forward again.
     (cond ((bolp)
@@ -2554,7 +2642,42 @@ space does not end a sentence, so don't break a line there."
 	    (concat "^[ \t]+\\|^[ \t]*" TeX-comment-start-regexp "+[ \t]*")
 	    (1- (line-beginning-position)))
 	   (goto-char (match-end 0))
-	   (skip-chars-forward "^ \n" (point-max)))))
+	   (skip-chars-forward "^ \n" (point-max))))
+    ;; This code was copied from the function `fill-move-to-break-point'
+    ;; in `fill.el' (CVS Emacs, 2005-02-22) and adapted accordingly.
+    (when (and (< linebeg (point))
+	       ;; If we are going to break the line after or
+	       ;; before a non-ascii character, we may have to
+	       ;; run a special function for the charset of the
+	       ;; character to find the correct break point.
+	       (boundp 'enable-multibyte-characters)
+	       enable-multibyte-characters
+	       (fboundp 'charset-after) ; Non-MULE XEmacsen don't have this.
+	       (not (and (eq (charset-after (1- (point))) 'ascii)
+		         (eq (charset-after (point)) 'ascii))))
+      ;; Make sure we take SOMETHING after the fill prefix if any.
+      (if (fboundp 'fill-find-break-point)
+	  (fill-find-break-point linebeg)
+	(when (fboundp 'kinsoku-process) ;XEmacs
+	  (kinsoku-process)))))
+  ;; Prevent line break between 2-byte char and 1-byte char.
+  (when (and (featurep 'mule)
+	     enable-multibyte-characters
+	     (or (and (not (looking-at LaTeX-nospace-between-char-regexp))
+		      (TeX-looking-at-backward
+		       LaTeX-nospace-between-char-regexp 1))
+		 (and (not (TeX-looking-at-backward
+			    LaTeX-nospace-between-char-regexp 1))
+		      (looking-at LaTeX-nospace-between-char-regexp)))
+	     (re-search-backward
+	      (concat LaTeX-nospace-between-char-regexp
+		      LaTeX-nospace-between-char-regexp
+		      LaTeX-nospace-between-char-regexp
+		      "\\|"
+		      ".\\ca\\s +\\ca") linebeg t))
+    (if (looking-at "..\\c>")
+	(forward-char 1)
+      (forward-char 2)))
   ;; Cater for \verb|...| (and similar) contructs which should not be
   ;; broken. (FIXME: Make it work with shortvrb.sty (also loaded by
   ;; doc.sty) where |...| is allowed.  Arbitrary delimiters may be
@@ -2731,7 +2854,8 @@ space does not end a sentence, so don't break a line there."
        ;; Markers that were after the whitespace are now at point: insert
        ;; before them so they don't get stuck before the prefix.
        (insert-before-markers-and-inherit fill-prefix))
-  (indent-according-to-mode))
+  (indent-according-to-mode)
+  (run-hooks 'LaTeX-fill-newline-hook))
 
 (defun LaTeX-fill-paragraph (&optional justify)
   "Like \\[fill-paragraph], but handle LaTeX comments.
@@ -2769,10 +2893,12 @@ depends on the value of `LaTeX-syntactic-comments'."
 		comment-fill-prefix (buffer-substring (match-beginning 0)
 						      (match-end 0))))
 	 ;; A line with some code, followed by a comment?
-	 ((when (re-search-forward comment-start-skip (line-end-position) t)
-	    ;; See if there is at least one non-whitespace character
-	    ;; before the comment starts.
-	    (re-search-backward "[^ \t\n]" (line-beginning-position) t))
+	 ((and (re-search-forward comment-start-skip (line-end-position) t)
+	       ;; Don't treat trailing comment starters as code comments.
+	       (not (looking-at "$"))
+	       ;; See if there is at least one non-whitespace character
+	       ;; before the comment starts.
+	       (re-search-backward "[^ \t\n]" (line-beginning-position) t))
 	  (setq has-comment t
 		has-code-and-comment t))))
 
@@ -2879,7 +3005,6 @@ depends on the value of `LaTeX-syntactic-comments'."
 (defun LaTeX-fill-code-comment (&optional justify-flag)
   "Fill a line including code followed by a comment."
   (let ((beg (line-beginning-position))
-	(end (line-beginning-position 2))
 	fill-prefix)
     (indent-according-to-mode)
     (when (when (re-search-forward comment-start-skip (line-end-position) t)
@@ -2898,7 +3023,8 @@ depends on the value of `LaTeX-syntactic-comments'."
 	     (progn
 	       (looking-at (concat TeX-comment-start-regexp "+[ \t]*"))
 	       (buffer-substring (match-beginning 0) (match-end 0)))))
-      (fill-region-as-paragraph beg end justify-flag  nil
+      (fill-region-as-paragraph beg (line-beginning-position 2)
+				justify-flag  nil
 				(save-excursion
 				  (goto-char beg)
 				  (if (looking-at fill-prefix)
@@ -2941,78 +3067,69 @@ formatting."
 
 (defun LaTeX-find-matching-end ()
   "Move point to the \\end of the current environment.
-For the rules which govern the behavior of `LaTeX-find-matching-end'
-see the documentation of `LaTeX-current-environment'."
+
+If function is called inside a comment and
+`LaTeX-syntactic-comments' is enabled, try to find the
+environment in commented regions with the same comment prefix."
   (interactive)
-  (let ((regexp (concat (regexp-quote TeX-esc) "\\(begin\\|end\\)\\b"))
-	(level 1)
-	(in-comment (TeX-in-commented-line)))
-    (save-restriction
-      (when (or (and in-comment
-		     (eq major-mode 'latex-mode)
-		     LaTeX-syntactic-comments)
-		(and in-comment
-		     (eq major-mode 'doctex-mode)
-		     (docTeX-in-macrocode-p)))
-	(narrow-to-region (save-excursion
-			    (progn (TeX-forward-comment-skip) (point)))
-			  (save-excursion
-			    (progn (TeX-backward-comment-skip) (point)))))
-      (save-excursion
-	(skip-chars-backward "a-zA-Z \t{")
-	(unless (bolp)
-	  (backward-char 1)
-	  (and (looking-at regexp)
-	       (char-equal (char-after (1+ (match-beginning 0))) ?e)
-	       (setq level 0))))
-      (while (and (> level 0) (re-search-forward regexp nil t))
-	(when (or (and LaTeX-syntactic-comments
-		       (eq in-comment (TeX-in-commented-line)))
-		  (and (not LaTeX-syntactic-comments)
-		       (not (TeX-in-commented-line))))
-	  (if (= (char-after (1+ (match-beginning 0))) ?b) ;;begin
-	      (setq level (1+ level))
-	    (setq level (1- level)))))
-      (if (= level 0)
-	  (search-forward "}")
-	(error "Can't locate end of current environment")))))
+  (let* ((regexp (concat (regexp-quote TeX-esc) "\\(begin\\|end\\)\\b"))
+	 (level 1)
+	 (in-comment (TeX-in-commented-line))
+	 (comment-prefix (and in-comment (TeX-comment-prefix))))
+    (save-excursion
+      (skip-chars-backward "a-zA-Z \t{")
+      (unless (bolp)
+	(backward-char 1)
+	(and (looking-at regexp)
+	     (char-equal (char-after (1+ (match-beginning 0))) ?e)
+	     (setq level 0))))
+    (while (and (> level 0) (re-search-forward regexp nil t))
+      (when (or (and LaTeX-syntactic-comments
+		     (eq in-comment (TeX-in-commented-line))
+		     ;; If we are in a commented line, check if the
+		     ;; prefix matches the one we started out with.
+		     (or (not in-comment)
+			 (string= comment-prefix (TeX-comment-prefix))))
+		(and (not LaTeX-syntactic-comments)
+		     (not (TeX-in-commented-line))))
+	(if (= (char-after (1+ (match-beginning 0))) ?b) ;;begin
+	    (setq level (1+ level))
+	  (setq level (1- level)))))
+    (if (= level 0)
+	(search-forward "}")
+      (error "Can't locate end of current environment"))))
 
 (defun LaTeX-find-matching-begin ()
   "Move point to the \\begin of the current environment.
-For the rules which govern the behavior of `LaTeX-find-matching-begin'
-see the documentation of `LaTeX-current-environment'."
+
+If function is called inside a comment and
+`LaTeX-syntactic-comments' is enabled, try to find the
+environment in commented regions with the same comment prefix."
   (interactive)
-  (let ((regexp (concat (regexp-quote TeX-esc) "\\(begin\\|end\\)\\b"))
-	(level 1)
-	(in-comment (TeX-in-commented-line)))
-    (save-restriction
-      (when (or (and in-comment
-		     (eq major-mode 'latex-mode)
-		     LaTeX-syntactic-comments)
-		(and in-comment
-		     (eq major-mode 'doctex-mode)
-		     (docTeX-in-macrocode-p)))
-	(narrow-to-region (save-excursion
-			    (progn (TeX-forward-comment-skip) (point)))
-			  (save-excursion
-			    (progn (TeX-backward-comment-skip) (point)))))
-      (skip-chars-backward "a-zA-Z \t{")
-      (if (bolp)
-	  nil
-	(backward-char 1)
-	(and (looking-at regexp)
-	     (char-equal (char-after (1+ (match-beginning 0))) ?b)
-	     (setq level 0)))
-      (while (and (> level 0) (re-search-backward regexp nil t))
-	(when (or (and LaTeX-syntactic-comments
-		       (eq in-comment (TeX-in-commented-line)))
-		  (and (not LaTeX-syntactic-comments)
-		       (not (TeX-in-commented-line))))
-	  (if (= (char-after (1+ (match-beginning 0))) ?e) ;;end
-	      (setq level (1+ level))
-	    (setq level (1- level)))))
-      (or (= level 0)
-	  (error "Can't locate beginning of current environment")))))
+  (let* ((regexp (concat (regexp-quote TeX-esc) "\\(begin\\|end\\)\\b"))
+	 (level 1)
+	 (in-comment (TeX-in-commented-line))
+	 (comment-prefix (and in-comment (TeX-comment-prefix))))
+    (skip-chars-backward "a-zA-Z \t{")
+    (unless (bolp)
+      (backward-char 1)
+      (and (looking-at regexp)
+	   (char-equal (char-after (1+ (match-beginning 0))) ?b)
+	   (setq level 0)))
+    (while (and (> level 0) (re-search-backward regexp nil t))
+      (when (or (and LaTeX-syntactic-comments
+		     (eq in-comment (TeX-in-commented-line))
+		     ;; If we are in a commented line, check if the
+		     ;; prefix matches the one we started out with.
+		     (or (not in-comment)
+			 (string= comment-prefix (TeX-comment-prefix))))
+		(and (not LaTeX-syntactic-comments)
+		     (not (TeX-in-commented-line))))
+	(if (= (char-after (1+ (match-beginning 0))) ?e) ;;end
+	    (setq level (1+ level))
+	  (setq level (1- level)))))
+    (or (= level 0)
+	(error "Can't locate beginning of current environment"))))
 
 (defun LaTeX-mark-environment ()
   "Set mark to end of current environment and point to the matching begin.
@@ -3045,15 +3162,32 @@ comments and verbatim environments"
     (LaTeX-fill-region (region-beginning) (region-end) justify
 		       (concat " section " (TeX-match-buffer 1)))))
 
-(defun LaTeX-mark-section ()
-  "Set mark at end of current logical section, and point at top."
-  (interactive)
-  (re-search-forward (concat  "\\(" (LaTeX-outline-regexp)
-			      "\\|\\'\\)"))
-  (re-search-backward "^")
-  (set-mark (point))
-  (re-search-backward (concat "\\(" (LaTeX-outline-regexp)
-			      "\\|\\`\\)"))
+(defun LaTeX-mark-section (&optional no-subsections)
+  "Set mark at end of current logical section, and point at top.
+If optional argument NO-SUBSECTIONS is non-nil, mark only the
+region from the current section start to the next sectioning
+command.  Thereby subsections are not being marked.
+
+If the function `outline-mark-subtree' is not available,
+`LaTeX-mark-section' always behaves like this regardless of the
+value of NO-SUBSECTIONS."
+  (interactive "*P")
+  (if (or no-subsections
+	  (not (fboundp 'outline-mark-subtree)))
+      (progn
+	(re-search-forward (concat  "\\(" (LaTeX-outline-regexp)
+				    "\\|\\'\\)"))
+	(beginning-of-line)
+	(push-mark (point) nil t)
+	(re-search-backward (concat "\\(" (LaTeX-outline-regexp)
+				    "\\|\\`\\)")))
+    (outline-mark-subtree)
+    (when (and (boundp 'transient-mark-mode)
+	       transient-mark-mode
+	       (boundp 'mark-active)
+	       (not mark-active))
+      (setq mark-active t)
+      (run-hooks 'activate-mark-hook)))
   (TeX-activate-region))
 
 (defun LaTeX-fill-buffer (justify)
@@ -3076,10 +3210,13 @@ comments and verbatim environments"
     "subsection" "subsubsection" "tableofcontents")
   "Internal list of LaTeX macros that should have their own line.")
 
-(defvar LaTeX-paragraph-commands-regexp
+(defun LaTeX-paragraph-commands-regexp-make ()
+  "Return a regular expression matching defined paragraph commands."
   (concat (regexp-quote TeX-esc)
-	  (regexp-opt LaTeX-paragraph-commands-internal t))
-  "Regular expression matching LaTeX macros that should have their own line.")
+	  (regexp-opt LaTeX-paragraph-commands-internal t)))
+
+(defvar LaTeX-paragraph-commands-regexp (LaTeX-paragraph-commands-regexp-make)
+    "Regular expression matching LaTeX macros that should have their own line.")
 
 (defcustom LaTeX-paragraph-commands nil
   "List of LaTeX macros that should have their own line.
@@ -3089,10 +3226,21 @@ The list should contain macro names without the leading backslash."
   :set (lambda (symbol value)
          (set-default symbol value)
 	 (setq LaTeX-paragraph-commands-regexp
-	       (concat
-		(regexp-quote TeX-esc)
-		(regexp-opt (append LaTeX-paragraph-commands
-				    LaTeX-paragraph-commands-internal) t)))))
+	       (LaTeX-paragraph-commands-regexp-make))))
+
+(defun LaTeX-paragraph-commands-add-locally (commands)
+  "Make COMMANDS be recognized as paragraph commands.
+COMMANDS can be a single string or a list of strings which will
+be added to `LaTeX-paragraph-commands-internal'.  Additionally
+`LaTeX-paragraph-commands-regexp' will be updated and both
+variables will be made buffer-local.  This is mainly a
+convenience function which can be used in style files."
+  (make-local-variable 'LaTeX-paragraph-commands-internal)
+  (make-local-variable 'LaTeX-paragraph-commands-regexp)
+  (unless (listp commands) (setq commands (list commands)))
+  (dolist (elt commands)
+    (add-to-list 'LaTeX-paragraph-commands-internal elt))
+  (setq LaTeX-paragraph-commands-regexp (LaTeX-paragraph-commands-regexp-make)))
 
 (defun LaTeX-forward-paragraph (&optional count)
   "Move forward to end of paragraph.
@@ -3175,39 +3323,39 @@ If COUNT is non-nil, do it COUNT times."
 		  (point))
 		;; Search for possible paragraph commands.
 		(save-excursion
-		  (let (break-flag
-			end-point)
-		    (while (and (> (point) limit)
-				(not (bobp))
-				(forward-line -1)
-				(not break-flag))
-		      (when (looking-at
-			     (concat "^[ \t]*" TeX-comment-start-regexp "*"
-				     "[ \t]*\\("
-				     LaTeX-paragraph-commands-regexp "\\)"))
-			(save-excursion
-			  (goto-char (match-beginning 1))
-			  (save-match-data
-			    (goto-char (TeX-find-macro-end)))
-			  ;; For an explanation of this distinction
-			  ;; see `LaTeX-forward-paragraph'.
-			  (if (save-match-data
-				(looking-at
-				 (concat (regexp-quote TeX-esc) "[@A-Za-z]+\\|"
-					 "[ \t]*\\($\\|"
-					 TeX-comment-start-regexp "\\)")))
-			      (progn
-				(when (looking-at
-				       (concat (regexp-quote TeX-esc)
-					       "[@A-Za-z]+"))
-				  (goto-char (TeX-find-macro-end)))
-				(forward-line 1)
-				(setq end-point (if (< (point) start)
-						    (point)
-						  0)))
-			    (setq end-point (match-beginning 0))))
-			(setq break-flag t)))
-		    (if end-point
+		  (let (end-point)
+		    (catch 'found
+		      (while (and (> (point) limit)
+				  (not (bobp))
+				  (forward-line -1))
+			(when (looking-at
+			       (concat "^[ \t]*" TeX-comment-start-regexp "*"
+				       "[ \t]*\\("
+				       LaTeX-paragraph-commands-regexp "\\)"))
+			  (save-excursion
+			    (goto-char (match-beginning 1))
+			    (save-match-data
+			      (goto-char (TeX-find-macro-end)))
+			    ;; For an explanation of this distinction
+			    ;; see `LaTeX-forward-paragraph'.
+			    (if (save-match-data
+				  (looking-at
+				   (concat (regexp-quote TeX-esc) "[@A-Za-z]+"
+					   "\\|[ \t]*\\($\\|"
+					   TeX-comment-start-regexp "\\)")))
+				(progn
+				  (when (string=
+					 (buffer-substring-no-properties
+					  (point) (+ (point) (length TeX-esc)))
+					 TeX-esc)
+				    (goto-char (TeX-find-macro-end)))
+				  (forward-line 1)
+				  (setq end-point (if (< (point) start)
+						      (point)
+						    0)))
+			      (setq end-point (match-beginning 0))))
+			  (throw 'found nil))))
+		      (if end-point
 			end-point
 		      0))))))
 	(beginning-of-line)))))
@@ -3291,6 +3439,7 @@ See also `LaTeX-math-menu'."
     (?D "Delta" "Greek Uppercase" 916) ;; #X0394
     (?J "Theta" "Greek Uppercase" 920) ;; #X0398
     (?L "Lambda" "Greek Uppercase" 923) ;; #X039B
+    (?X "Xi" "Greek Uppercase" 926) ;; #X039E
     (?P "Pi" "Greek Uppercase" 928) ;; #X03A0
     (?S "Sigma" "Greek Uppercase" 931) ;; #X03A3
     (?U "Upsilon" "Greek Uppercase" 978) ;; #X03D2
@@ -3401,10 +3550,11 @@ See also `LaTeX-math-menu'."
     (nil "searrow" "Arrows" 8600) ;; #X2198
     (nil "swarrow" "Arrows" 8601) ;; #X2199
     (nil "nwarrow" "Arrows" 8598) ;; #X2196
-    (nil "ldots" "Misc Symbol" 8230) ;; #X2026
-    (nil "cdots" "Misc Symbol" 8943) ;; #X22EF
-    (nil "vdots" "Misc Symbol" 8942) ;; #X22EE
-    (nil "ddots" "Misc Symbol" 8945) ;; #X22F1
+    (nil "ldots" "Punctuation" 8230) ;; #X2026
+    (nil "cdots" "Punctuation" 8943) ;; #X22EF
+    (nil "vdots" "Punctuation" 8942) ;; #X22EE
+    (nil "ddots" "Punctuation" 8945) ;; #X22F1
+    (?: "colon" "Punctuation" 58) ;; #X003A
     (?N "nabla" "Misc Symbol" 8711) ;; #X2207
     (nil "aleph" "Misc Symbol" 8501) ;; #X2135
     (nil "prime" "Misc Symbol" 8242) ;; #X2032
@@ -3413,7 +3563,6 @@ See also `LaTeX-math-menu'."
     (nil "hbar" "Misc Symbol" 8463) ;; #X210F
     (?0 "emptyset" "Misc Symbol" 8709) ;; #X2205
     (?E "exists" "Misc Symbol" 8707) ;; #X2203
-    (nil "nabla" "Misc Symbol" 8711) ;; #X2207
     (nil "surd" "Misc Symbol" 8730) ;; #X221A
     (nil "Box" "Misc Symbol")
     (nil "triangle" "Misc Symbol" 9651) ;; #X25B3
@@ -3484,26 +3633,20 @@ See also `LaTeX-math-menu'."
     (?\C-^ "sup" "Log-like")
     (?\C-t "tan" "Log-like")
     (nil "tanh" "Log-like")
-    (nil "uparrow" "delimiters" 8593) ;; #X2191
-    (nil "Uparrow" "delimiters" 8657) ;; #X21D1
-    (nil "downarrow" "delimiters" 8595) ;; #X2193
-    (nil "Downarrow" "delimiters" 8659) ;; #X21D3
-    (nil "{" "delimiters")
-    (nil "}" "delimiters")
-    (nil "updownarrow" "delimiters" 8597) ;; #X2195
-    (nil "Updownarrow" "delimiters" 8661) ;; #X21D5
-    (nil "lfloor" "delimiters" 8970) ;; #X230A
-    (nil "rfloor" "delimiters" 8971) ;; #X230B
-    (nil "lceil" "delimiters" 8968) ;; #X2308
-    (nil "rceil" "delimiters" 8969) ;; #X2309
-    (?\( "langle" "delimiters" 10216) ;; #X27E8
-    (?\) "rangle" "delimiters" 10217) ;; #X27E9
-    (nil "backslash" "delimiters" 92) ;; #X005C
-    (nil "|" "delimiters")
+    (nil "{" "Delimiters")
+    (nil "}" "Delimiters")
+    (nil "lfloor" "Delimiters" 8970) ;; #X230A
+    (nil "rfloor" "Delimiters" 8971) ;; #X230B
+    (nil "lceil" "Delimiters" 8968) ;; #X2308
+    (nil "rceil" "Delimiters" 8969) ;; #X2309
+    (?\( "langle" "Delimiters" 10216) ;; #X27E8
+    (?\) "rangle" "Delimiters" 10217) ;; #X27E9
     (nil "rmoustache" "Delimiters" 9137) ;; #X23B1
     (nil "lmoustache" "Delimiters" 9136) ;; #X23B0
     (nil "rgroup" "Delimiters")
     (nil "lgroup" "Delimiters")
+    (nil "backslash" "Delimiters" 92) ;; #X005C
+    (nil "|" "Delimiters")
     (nil "arrowvert" "Delimiters")
     (nil "Arrowvert" "Delimiters")
     (nil "bracevert" "Delimiters")
@@ -3730,16 +3873,6 @@ See also `LaTeX-math-menu'."
     (nil "eth" ("AMS" "Misc") 240) ;; #X00F0
     (nil "diagup" ("AMS" "Misc") 9585) ;; #X2571
     (nil "diagdown" ("AMS" "Misc") 9586) ;; #X2572
-    (nil "Hat" ("AMS" "Accents"))
-    (nil "Check" ("AMS" "Accents"))
-    (nil "Tilde" ("AMS" "Accents"))
-    (nil "Acute" ("AMS" "Accents"))
-    (nil "Grave" ("AMS" "Accents"))
-    (nil "Dot" ("AMS" "Accents"))
-    (nil "Ddot" ("AMS" "Accents"))
-    (nil "Breve" ("AMS" "Accents"))
-    (nil "Bar" ("AMS" "Accents"))
-    (nil "Vec" ("AMS" "Accents"))
     (nil "dddot" ("AMS" "Accents") 8411) ;; #X20DB
     (nil "ddddot" ("AMS" "Accents") 8412) ;; #X20DC
     (nil "bigl" ("AMS" "Delimiters"))
@@ -3786,26 +3919,42 @@ Each entry should be a list with upto four elements, KEY, VALUE,
 MENU and CHARACTER, see `LaTeX-math-list' for details.")
 
 (defcustom LaTeX-math-abbrev-prefix "`"
-  "Prefix key for use in `LaTeX-math-mode'."
-  :group 'LaTeX-math
-  :type 'sexp)
+  "Prefix key for use in `LaTeX-math-mode'.
+This has to be a string representing a key sequence in a format
+understood by the `kbd' macro.  This corresponds to the syntax
+usually used in the Emacs and Elisp manuals.
 
-(defvar LaTeX-math-keymap (make-sparse-keymap)
+Setting this variable directly does not take effect;
+use \\[customize]."
+  :group 'LaTeX-math
+  :initialize 'custom-initialize-default
+  :set '(lambda (symbol value)
+	  (define-key LaTeX-math-mode-map (LaTeX-math-abbrev-prefix) t)
+	  (set-default symbol value)
+	  (define-key LaTeX-math-mode-map
+	    (LaTeX-math-abbrev-prefix) LaTeX-math-keymap))
+  :type '(string :tag "Key sequence"))
+
+(defun LaTeX-math-abbrev-prefix ()
+  "Make a key definition from the variable `LaTeX-math-abbrev-prefix'."
+  (if (stringp LaTeX-math-abbrev-prefix)
+      (read-kbd-macro LaTeX-math-abbrev-prefix)
+    LaTeX-math-abbrev-prefix))
+
+(defvar LaTeX-math-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map (LaTeX-math-abbrev-prefix) 'self-insert-command)
+    map)
   "Keymap used for `LaTeX-math-mode' commands.")
 
 (defvar LaTeX-math-menu
   '("Math"
     ("Greek Uppercase") ("Greek Lowercase") ("Binary Op") ("Relational")
-    ("Arrows") ("Misc Symbol") ("Var Symbol") ("Log-like") ("delimiters")
+    ("Arrows") ("Punctuation") ("Misc Symbol") ("Var Symbol") ("Log-like")
     ("Delimiters") ("Constructs") ("Accents") ("AMS"))
   "Menu containing LaTeX math commands.
 The menu entries will be generated dynamically, but you can specify
 the sequence by initializing this variable.")
-
-(define-key LaTeX-math-keymap
-  (apply 'vector (append LaTeX-math-abbrev-prefix
-			 LaTeX-math-abbrev-prefix nil))
-  'LaTeX-math-insert-prefix)
 
 (defcustom LaTeX-math-menu-unicode
   (and (string-match "\\<GTK\\>" (emacs-version)) t)
@@ -3814,7 +3963,7 @@ the sequence by initializing this variable.")
   :group 'LaTeX-math)
 
 (let ((math (reverse (append LaTeX-math-list LaTeX-math-default)))
-      (map (lookup-key LaTeX-math-keymap LaTeX-math-abbrev-prefix))
+      (map LaTeX-math-keymap)
       (unicode (and LaTeX-math-menu-unicode (fboundp 'decode-char))))
   (while math
     (let* ((entry (car math))
@@ -3868,33 +4017,25 @@ the sequence by initializing this variable.")
 				(vector menu name t))
 			      (cdr parent))))))))))
 
-(easy-menu-define LaTeX-math-mode-menu
-    LaTeX-math-keymap
-    "Menu used in math minor mode."
-  LaTeX-math-menu)
-
 (define-minor-mode LaTeX-math-mode
-  "A minor mode with easy acces to TeX math macros.
+  "A minor mode with easy access to TeX math macros.
 
 Easy insertion of LaTeX math symbols.  If you give a prefix argument,
 the symbols will be surrounded by dollar signs.  The following
 commands are defined:
 
-\\{LaTeX-math-keymap}"
-  nil nil LaTeX-math-keymap
+\\{LaTeX-math-mode-map}"
+  nil nil (list (cons (LaTeX-math-abbrev-prefix) LaTeX-math-keymap))
   (if LaTeX-math-mode
-      (easy-menu-add LaTeX-math-mode-menu LaTeX-math-keymap)
+      (easy-menu-add LaTeX-math-mode-menu LaTeX-math-mode-map)
     (easy-menu-remove LaTeX-math-mode-menu))
   (TeX-set-mode-name))
 (defalias 'latex-math-mode 'LaTeX-math-mode)
 
-(defun LaTeX-math-insert-prefix ()
-  "Insert the value of `LaTeX-math-abbrev-prefix'."
-  (interactive "*")
-  (let (LaTeX-math-mode)
-    (if (key-binding LaTeX-math-abbrev-prefix)
-	(call-interactively (key-binding LaTeX-math-abbrev-prefix))
-      (error "%S has no default binding" LaTeX-math-abbrev-prefix))))
+(easy-menu-define LaTeX-math-mode-menu
+    LaTeX-math-mode-map
+    "Menu used in math minor mode."
+  LaTeX-math-menu)
 
 (defcustom LaTeX-math-insert-function 'TeX-insert-macro
   "Function called with argument STRING to insert \\STRING."
@@ -3952,6 +4093,7 @@ commands are defined:
 
     (define-key map "\C-c~"    'LaTeX-math-mode) ;*** Dubious
 
+    (define-key map "-" 'LaTeX-babel-insert-hyphen)
     map)
   "Keymap used in `LaTeX-mode'.")
 
@@ -3973,9 +4115,10 @@ commands are defined:
 
 (defun LaTeX-section-enable (entry)
   "Enable or disable section ENTRY from `LaTeX-section-list'."
-  (let ((level (nth 1 entry)))
-    (set (LaTeX-section-enable-symbol level)
-	 (>= level LaTeX-largest-level))))
+  (let* ((level (nth 1 entry))
+	 (symbol (LaTeX-section-enable-symbol level)))
+    (set symbol (or (= level 0) (>= level LaTeX-largest-level)))
+    (make-variable-buffer-local symbol)))
 
 (defun LaTeX-section-menu (level)
   "Insert section from menu."
@@ -3986,17 +4129,7 @@ commands are defined:
 (defun LaTeX-section-menu-entry (entry)
   "Create an ENTRY for the section menu."
   (let ((enable (LaTeX-section-enable-symbol (nth 1 entry))))
-    (set enable t)
     (vector (car entry) (list 'LaTeX-section-menu (nth 1 entry)) enable)))
-
-(defun LaTeX-section-menu-create ()
-  "Create a menu over LaTeX sections."
-  (append '("Section  (C-c C-s)")
-	  (mapcar 'LaTeX-section-menu-entry LaTeX-section-list)))
-
-(defvar LaTeX-menu-changed nil)
-;; Need to update LaTeX menu.
-(make-variable-buffer-local 'LaTeX-menu-changed)
 
 (defcustom LaTeX-menu-max-items 25
   "*Maximum number of items in the menu for LaTeX environments.
@@ -4054,28 +4187,42 @@ the last entry in the menu."
 	    (if (= rest outer) (setq inner (1+ inner)))))
 	result))))
 
-(defun LaTeX-menu-update (&optional menu)
-  "Update entries on AUCTeX menu."
-  (or (not (memq major-mode '(latex-mode doctex-mode)))
-      (null LaTeX-menu-changed)
-      (not (fboundp 'easy-menu-change))
+(defvar LaTeX-section-menu nil)
+(make-variable-buffer-local 'LaTeX-section-menu)
+(defun LaTeX-section-menu-filter (ignored)
+  "Filter function for the section submenu in the mode menu.
+The argument IGNORED is not used in any way."
+  (TeX-update-style)
+  (or LaTeX-section-menu
       (progn
-	(TeX-update-style)
-	(setq LaTeX-menu-changed nil)
-	(message "Updating section menu...")
+	(setq LaTeX-section-list-changed nil)
 	(mapcar 'LaTeX-section-enable LaTeX-section-list)
-	(message "Updating environment menu...")
-	(easy-menu-change '("LaTeX") LaTeX-environment-menu-name
-			  (LaTeX-split-long-menu
-			   (mapcar 'LaTeX-environment-menu-entry
-				   (LaTeX-environment-list))))
-	(message "Updating modify environment menu...")
-	(easy-menu-change '("LaTeX") LaTeX-environment-modify-menu-name
-			  (LaTeX-split-long-menu
-			   (mapcar 'LaTeX-environment-modify-menu-entry
-				   (LaTeX-environment-list))))
-	(message "Updating...done")
-	(and menu (easy-menu-return-item LaTeX-mode-menu menu)))))
+	(setq LaTeX-section-menu
+	      (mapcar 'LaTeX-section-menu-entry LaTeX-section-list)))))
+
+(defvar LaTeX-environment-menu nil)
+(make-variable-buffer-local 'LaTeX-environment-menu)
+(defvar LaTeX-environment-modify-menu nil)
+(make-variable-buffer-local 'LaTeX-environment-modify-menu)
+(defun LaTeX-environment-menu-filter (menu)
+  "Filter function for the environment submenus in the mode menu.
+The argument MENU is the name of the submenu in concern and
+corresponds to the variables `LaTeX-environment-menu-name' and
+`LaTeX-environment-modify-menu-name'."
+  (TeX-update-style)
+  (cond
+   ((string= menu LaTeX-environment-menu-name)
+    (or LaTeX-environment-menu
+	(setq LaTeX-environment-menu
+	      (LaTeX-split-long-menu
+	       (mapcar 'LaTeX-environment-menu-entry
+		       (LaTeX-environment-list))))))
+   ((string= menu LaTeX-environment-modify-menu-name)
+    (or LaTeX-environment-modify-menu
+	(setq LaTeX-environment-modify-menu
+	      (LaTeX-split-long-menu
+	       (mapcar 'LaTeX-environment-modify-menu-entry
+		       (LaTeX-environment-list))))))))
 
 (easy-menu-define LaTeX-mode-command-menu
     LaTeX-mode-map
@@ -4087,21 +4234,24 @@ the last entry in the menu."
   "Menu used in LaTeX mode."
   (TeX-menu-with-help
    `("LaTeX"
-     ,(LaTeX-section-menu-create)
+     ("Section  (C-c C-s)" :filter LaTeX-section-menu-filter)
      ["Macro ..." TeX-insert-macro
       :help "Insert a macro and possibly arguments"]
      ["Complete Macro" TeX-complete-symbol
       :help "Complete the current macro or environment name"]
-     (,LaTeX-environment-menu-name)
-     (,LaTeX-environment-modify-menu-name)
+     ,(list LaTeX-environment-menu-name
+	    :filter (lambda (ignored) (LaTeX-environment-menu-filter
+				       LaTeX-environment-menu-name)))
+     ,(list LaTeX-environment-modify-menu-name
+	    :filter (lambda (ignored) (LaTeX-environment-menu-filter
+				       LaTeX-environment-modify-menu-name)))
      ["Close Environment" LaTeX-close-environment
       :help "Insert the \\end part of the current environment"]
      ["Item" LaTeX-insert-item
       :help "Insert a new \\item into current environment"]
      "-"
      ("Insert Font"
-      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"
-       :help ""]
+      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
       ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
       ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
       ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
@@ -4183,6 +4333,102 @@ the last entry in the menu."
 		     (string :tag "Math Prefix")
 		     (string :tag "Math Suffix")))
 	    (option (sexp :format "Replace\n" :value t)))))
+
+
+;;; Simple Commands
+
+(defcustom LaTeX-babel-hyphen "\"="
+  "String to be used when typing `-'.
+This usually is a hyphen alternative or hyphenation aid, like
+\"=, \"~ or \"-, provided by babel and the related language style
+files.
+
+Set it to an empty string or nil in order to disable this
+feature.  Alter `LaTeX-babel-hyphen-language-alist' in case you
+want to change the behavior for a specific language only."
+  :group 'LaTeX-macro
+  :type 'string)
+
+(defcustom LaTeX-babel-hyphen-after-hyphen t
+  "Control insertion of hyphen strings.
+If non-nil insert normal hyphen on first key press and swap it
+with the language-specific hyphen string specified in the
+variable `LaTeX-babel-hyphen' on second key press.  If nil do it
+the other way round."
+  :group 'LaTeX-macro
+  :type 'boolean)
+
+(defcustom LaTeX-babel-hyphen-language-alist nil
+  "Alist controlling hyphen insertion for specific languages.
+It may be used to override the defaults given by `LaTeX-babel-hyphen'
+and `LaTeX-babel-hyphen-after-hyphen' respectively.  The first item
+in each element is a string specifying the language as set by the
+language-specific style file.  The second item is the string to be
+used instead of `LaTeX-babel-hyphen'.  The third element is the
+value overriding `LaTeX-bybel-hyphen-after-hyphen'."
+  :group 'LaTeX-macro
+  :type '(alist :key-type (string :tag "Language")
+		:value-type (group (string :tag "Hyphen string")
+				   (boolean :tag "Insert plain hyphen first"
+					    :value t))))
+
+(defvar LaTeX-babel-hyphen-language nil
+  "String determining language-specific behavior of hyphen insertion.
+It serves as an indicator that the babel hyphenation string
+should be used and as a means to find a potential customization
+in `LaTeX-babel-hyphen-language-alist' related to the active
+language.  It is usually set by language-related style files.")
+(make-variable-buffer-local 'LaTeX-babel-hyphen-language)
+
+(defun LaTeX-babel-insert-hyphen (force)
+  "Insert a hyphen string.
+The string can be either a normal hyphen or the string specified
+in `LaTeX-babel-hyphen'.  Wether one or the other is chosen
+depends on the value of `LaTeX-babel-hyphen-after-hyphen' and
+the buffer context.
+If prefix argument FORCE is non-nil, always insert a regular hyphen."
+  (interactive "*P")
+  (if (or force
+	  (zerop (length LaTeX-babel-hyphen))
+	  (not LaTeX-babel-hyphen-language)
+	  ;; FIXME: It would be nice to check for verbatim constructs in the
+	  ;; non-font-locking case, but things like `LaTeX-current-environment'
+	  ;; are rather expensive in large buffers.
+	  (and (fboundp 'font-latex-faces-present-p)
+	       (font-latex-faces-present-p '(font-latex-verbatim-face
+					     font-latex-math-face
+					     font-lock-comment-face)))
+	  (texmathp)
+	  (TeX-in-comment))
+      (call-interactively 'self-insert-command)
+    (let* ((lang (assoc LaTeX-babel-hyphen-language
+			LaTeX-babel-hyphen-language-alist))
+	   (hyphen (if lang (nth 1 lang) LaTeX-babel-hyphen))
+	   (h-after-h (if lang (nth 2 lang) LaTeX-babel-hyphen-after-hyphen))
+	   (hyphen-length (length hyphen)))
+      (cond
+       ;; "= --> -- / -
+       ((string= (buffer-substring (- (point) hyphen-length) (point))
+		 hyphen)
+	(if h-after-h
+	    (progn (delete-backward-char hyphen-length)
+		   (insert "--"))
+	  (delete-backward-char hyphen-length)
+	  (call-interactively 'self-insert-command)))
+       ;; -- --> [+]-
+       ((string= (buffer-substring (- (point) 2) (point)) "--")
+	(call-interactively 'self-insert-command))
+       ;; - --> "= / [+]-
+       ((eq (char-before) ?-)
+	(if h-after-h
+	    (progn (delete-backward-char 1)
+		   (insert hyphen))
+	  (call-interactively 'self-insert-command)))
+       (h-after-h
+	(call-interactively 'self-insert-command))
+       (t (insert hyphen))))))
+
+
 ;;; Mode
 
 (defgroup LaTeX-macro nil
@@ -4218,9 +4464,12 @@ This happens when \\left is inserted."
   :type 'hook
   :group 'LaTeX)
 
-;;; Do not ;;;###autoload because of conflict with standard tex-mode.el.
-(TeX-defun latex-mode ()
-  "Major mode in %s for editing LaTeX files.
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.drv\\'" . latex-mode))
+
+;;;###autoload
+(defun TeX-latex-mode ()
+  "Major mode in AUCTeX for editing LaTeX files.
 See info under AUCTeX for full documentation.
 
 Special commands:
@@ -4234,7 +4483,7 @@ of `LaTeX-mode-hook'."
   (setq TeX-base-mode-name "LaTeX")
   (setq major-mode 'latex-mode)
   (setq TeX-command-default "LaTeX")
-  (run-hooks 'text-mode-hook 'TeX-mode-hook 'LaTeX-mode-hook)
+  (TeX-run-mode-hooks 'text-mode-hook 'TeX-mode-hook 'LaTeX-mode-hook)
   (TeX-set-mode-name)
   (setq TeX-sentinel-default-function 'TeX-LaTeX-sentinel)
   ;; Defeat filladapt
@@ -4242,16 +4491,34 @@ of `LaTeX-mode-hook'."
 	   filladapt-mode)
       (turn-off-filladapt-mode)))
 
-(define-derived-mode doctex-mode latex-mode "docTeX"
-  "Major mode for editing .dtx files derived from `LaTeX-mode'.
-Runs `latex-mode', sets a few variables and
-runs the hooks in `doctex-mode-hook'."
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.dtx\\'" . doctex-mode))
+
+;;;###autoload
+(define-derived-mode docTeX-mode TeX-latex-mode "docTeX"
+  "Major mode in AUCTeX for editing .dtx files derived from `LaTeX-mode'.
+Runs `LaTeX-mode', sets a few variables and
+runs the hooks in `docTeX-mode-hook'."
+  
+  (setq major-mode 'doctex-mode)
   (set (make-local-variable 'LaTeX-insert-into-comments) t)
   (set (make-local-variable 'LaTeX-syntactic-comments) t)
   (setq TeX-default-extension docTeX-default-extension)
   (setq TeX-base-mode-name "docTeX")
   (TeX-set-mode-name)
   (funcall TeX-install-font-lock))
+
+;;This is actually a mess: to fit the scheme properly, our derived
+;;mode definition would have had to be made for TeX-doctex-mode in the
+;;first place, but then we could not have used define-derived-mode, or
+;;all mode-specific variables would have gotten non-AUCTeX names.
+;;This solution has the advantage that documentation strings are
+;;provided in the autoloads, and has the disadvantage that docTeX-mode
+;;is not aliased to doctex-mode (not even when the AUCTeX version is
+;;disabled) as would be normal for our scheme.
+
+;;;###autoload
+(defalias 'TeX-doctex-mode 'docTeX-mode)
 
 (defvar LaTeX-header-end
   (concat (regexp-quote TeX-esc) "begin *" TeX-grop "document" TeX-grcl)
@@ -4276,10 +4543,6 @@ runs the hooks in `doctex-mode-hook'."
   (make-local-variable 'adaptive-fill-mode)
   (setq adaptive-fill-mode nil)
 
-  (use-local-map LaTeX-mode-map)
-  (easy-menu-add LaTeX-mode-menu LaTeX-mode-map)
-  (easy-menu-add LaTeX-mode-command-menu LaTeX-mode-map)
-
   (or LaTeX-largest-level
       (setq LaTeX-largest-level (LaTeX-section-level "section")))
 
@@ -4291,14 +4554,15 @@ runs the hooks in `doctex-mode-hook'."
   (setq outline-level 'LaTeX-outline-level)
   (make-local-variable 'outline-regexp)
   (setq outline-regexp (LaTeX-outline-regexp t))
+  (when (boundp 'outline-heading-alist)
+    (setq outline-heading-alist
+	  (mapcar (lambda (x)
+		    (cons (concat "\\" (nth 0 x)) (nth 1 x)))
+		  LaTeX-section-list)))
 
   (make-local-variable 'TeX-auto-full-regexp-list)
   (setq TeX-auto-full-regexp-list
 	(append LaTeX-auto-regexp-list plain-TeX-auto-regexp-list))
-
-  (if (= emacs-major-version 20)
-      (make-local-hook 'activate-menubar-hook))
-  (add-hook 'activate-menubar-hook 'LaTeX-menu-update nil t)
 
   (setq paragraph-start
 	(concat
@@ -4381,7 +4645,7 @@ runs the hooks in `doctex-mode-hook'."
    '("addtocounter" TeX-arg-counter "Value")
    '("alph" TeX-arg-counter)
    '("arabic" TeX-arg-counter)
-   '("fnsymbol" TeX-arg-define-counter)
+   '("fnsymbol" TeX-arg-counter)
    '("newcounter" TeX-arg-define-counter
      [ TeX-arg-counter "Within counter" ])
    '("roman" TeX-arg-counter)
@@ -4438,7 +4702,7 @@ runs the hooks in `doctex-mode-hook'."
      t)
    '("oval" TeX-arg-size [ TeX-arg-corner "Portion" ])
    '("put" TeX-arg-coordinate t)
-   '("savebox" TeX-arg-define-savebox
+   '("savebox" TeX-arg-savebox
      (TeX-arg-conditional
       (string-equal (LaTeX-current-environment) "picture")
       (TeX-arg-size [ TeX-arg-corner ] t)
@@ -4485,6 +4749,8 @@ runs the hooks in `doctex-mode-hook'."
    '("lefteqn" t)
    '("overbrace" t)
    '("overline" t)
+   '("overleftarrow" t)
+   '("overrightarrow" t)
    '("sqrt" [ "Root" ] t)
    '("underbrace" t)
    '("underline" t)
@@ -4509,7 +4775,7 @@ runs the hooks in `doctex-mode-hook'."
      "Width" t)
    '("raisebox" "Raise" [ "Height above" ] [ "Depth below" ] t)
    '("rule" [ "Raise" ] "Width" "Thickness")
-   '("sbox" TeX-arg-define-savebox t)
+   '("sbox" TeX-arg-savebox t)
    '("usebox" TeX-arg-savebox)
    '("vspace*" "Length")
    '("vspace" "Length")
@@ -4595,9 +4861,9 @@ runs the hooks in `doctex-mode-hook'."
        [ "Number of arguments" ] [ "Default value for first argument" ] t)
      '("renewcommand" TeX-arg-macro
        [ "Number of arguments" ] [ "Default value for first argument" ] t)
-     '("providecommand" TeX-arg-macro
+     '("providecommand" TeX-arg-define-macro
        [ "Number of arguments" ] [ "Default value for first argument" ] t)
-     '("providecommand*" TeX-arg-macro
+     '("providecommand*" TeX-arg-define-macro
        [ "Number of arguments" ] [ "Default value for first argument" ] t)
      '("newcommand*" TeX-arg-define-macro
        [ "Number of arguments" ] [ "Default value for first argument" ] t)
@@ -4642,106 +4908,15 @@ runs the hooks in `doctex-mode-hook'."
 ;; user overrode it.
 
   (set (make-local-variable 'imenu-create-index-function)
-       'LaTeX-imenu-create-index-function))
+       'LaTeX-imenu-create-index-function)
 
-(defcustom LaTeX-includegraphics-extensions
-  '("eps" "jpe?g" "pdf" "png")
-  "Extensions for images files used by \\includegraphics."
-  :group 'LaTeX-macro
-  :type '(list (set :inline t
-		    (const "eps")
-		    (const "jpe?g")
-		    (const "pdf")
-		    (const "png"))
-	       (repeat :inline t
-		       :tag "Other"
-		       (string))))
-
-(defcustom LaTeX-includegraphics-options-alist
-  '((0 width)
-    ;; (1 width height clip)
-    ;; (2 width height keepaspectratio clip)
-    (4) ;; --> (4 nil)
-    (5 trim)
-    (16
-     ;; Table 1 in epslatex.ps: ``includegraphics Options''
-     height totalheight width scale angle origin bb
-     ;; Table 2 in epslatex.ps: ``cropping Options''
-     viewport trim
-     ;; Table 3 in epslatex.ps: ``Boolean Options''
-     ;; [not implemented:] noclip draft final
-     clip keepaspectratio
-     ;; Only for PDF:
-     page))
-  "Controls for which optional arguments of \\includegraphics you get prompted.
-
-An alist, consisting of \(NUMBER . LIST\) pairs.  Valid elements of LIST are
-`width', `height', `keepaspectratio', `clip', `angle', `totalheight', `trim'
-and `bb' \(Bounding Box\).
-
-The list corresponding to 0 is used if no prefix is given.  Note that 4 \(one
-\\[universal-argument]\) and 16 \(two \\[universal-argument]'s\) are easy to
-type and should be used for frequently needed combinations."
-  :group 'LaTeX-macro
-  :type '(repeat (cons (integer :tag "Argument")
-		       (list (set :inline t
-				  (const height)
-				  (const totalheight)
-				  (const width)
-				  (const scale)
-				  (const angle)
-				  (const origin)
-				  (const :tag "Bounding Box" bb)
-				  ;;
-				  (const viewport)
-				  (const trim)
-				  ;;
-				  (const clip)
-				  (const keepaspectratio))))))
-
-(defcustom LaTeX-includegraphics-strip-extension-flag t
-  "Non-nil means to strip known extensions from image file name."
-  :group 'LaTeX-macro
-  :type 'boolean)
-
-(defcustom LaTeX-includegraphics-read-file
-  'LaTeX-includegraphics-read-file-TeX
-  "Function for reading \\includegraphics files.
-
-`LaTeX-includegraphics-read-file-TeX' lists all graphic files
-found in the TeX search path.
-
-`LaTeX-includegraphics-read-file-relative' lists all graphic files
-in the master directory and its subdirectories and inserts the
-relative file name.  This option doesn't works with Emacs 21.3 or
-XEmacs.
-
-The custom option `simple' works as
-`LaTeX-includegraphics-read-file-relative' but it lists all kind of
-files.
-
-Inserting the subdirectory in the filename (as
-`LaTeX-includegraphics-read-file-relative') is discouraged by
-`epslatex.ps'."
-;; ,----[ epslatex.ps; Section 12; (page 26) ]
-;; | Instead of embedding the subdirectory in the filename, there are two
-;; | other options
-;; |   1. The best method is to modify the TeX search path [...]
-;; |   2. Another method is to specify sub/ in a \graphicspath command
-;; |      [...].  However this is much less efficient than modifying the
-;; |      TeX search path
-;; `----
-;; See "Inefficiency" and "Unportability" in the same section for more
-;; information.
-  :group 'LaTeX-macro
-  :type '(choice (const :tag "TeX" LaTeX-includegraphics-read-file-TeX)
-		 (const :tag "relative"
-			LaTeX-includegraphics-read-file-relative)
-		 (const :tag "simple" (lambda ()
-					(file-relative-name
-					 (read-file-name "Image file: ")
-					 (TeX-master-directory))))
-		 (function :tag "other")))
+  (use-local-map LaTeX-mode-map)
+  ;; Calling `easy-menu-add' may result in the menu filters being
+  ;; executed which call `TeX-update-style'.  So this is placed very
+  ;; late in mode initialization to assure that all relevant variables
+  ;; are properly initialized before style files try to alter them.
+  (easy-menu-add LaTeX-mode-menu LaTeX-mode-map)
+  (easy-menu-add LaTeX-mode-command-menu LaTeX-mode-map))
 
 (defun LaTeX-imenu-create-index-function ()
   "Imenu support function for LaTeX."

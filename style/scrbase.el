@@ -1,11 +1,11 @@
 ;;; scrbase.el --- AUCTeX style for the KOMA-Script bundle.
 
 ;; Copyright (C) 2002 Mark Trettin
-;; Copyright (C) 2004 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005 Free Software Foundation, Inc.
 
 ;; Author: Mark Trettin <Mark.Trettin@gmx.de>
 ;; Created: 2002-09-26
-;; Version: $Id: scrbase.el,v 1.7 2004/10/10 11:02:24 angeli Exp $
+;; Version: $Id: scrbase.el,v 1.9 2005/06/05 18:32:07 angeli Exp $
 ;; Keywords: tex
 ;; License: GPL, see the file COPYING in the base directory of AUCTeX
 
@@ -110,12 +110,9 @@
 			      (format "[%s]%s" offset
 				      (if (y-or-n-p "Starred? ")
 					  "*" "")))))))))
-    (make-local-variable 'LaTeX-section-list)
-    (setq LaTeX-section-list (append
-			      LaTeX-section-list
-			      '(("addpart" 0)
-				("addsec" 2)
-				("minisec" 7))))
+    (LaTeX-section-list-add-locally '(("addpart" 0)
+				      ("addsec" 2)
+				      ("minisec" 7)))
     ;; This doesn't work. Maybe it's refTeX's label insertion?
     (make-local-variable 'LaTeX-section-label)
     (setq LaTeX-section-label (append
@@ -174,13 +171,13 @@
 		      "cleardoubleplainpage"
 		      "cleardoubleemptypage")))
       (font-latex-match-warning-make)
-      ;; Title keywords
-      (add-to-list 'font-latex-match-title-1-keywords-local "addpart")
-      (font-latex-match-title-1-make)
-      (add-to-list 'font-latex-match-title-2-keywords-local "addsec")
-      (font-latex-match-title-2-make)
-      (add-to-list 'font-latex-match-title-4-keywords-local "minisec")
-      (font-latex-match-title-4-make))))
+      ;; Sectioning keywords
+      (add-to-list 'font-latex-match-sectioning-1-keywords-local "addpart")
+      (font-latex-match-sectioning-1-make)
+      (add-to-list 'font-latex-match-sectioning-2-keywords-local "addsec")
+      (font-latex-match-sectioning-2-make)
+      (add-to-list 'font-latex-match-sectioning-4-keywords-local "minisec")
+      (font-latex-match-sectioning-4-make))))
 
 (defun TeX-arg-KOMA-setpreamble (optional &optional prompt)
   "Prompt for KOMA-Script's \\set*preamble position with completion."

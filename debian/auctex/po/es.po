@@ -1,0 +1,150 @@
+# Spanish translations of the "debian/auctex/templates" file
+# of the auctex Debian package.
+#
+# Copyright (C) 2005 by Davide G. M. Salvetti.
+#
+# This file is distributed under the same license as the auctex package.
+# Davide G. M. Salvetti <salve@debian.org>, 2005.
+#
+# arch-tag: 25041147-3f11-48a2-950f-801621be65ca
+msgid ""
+msgstr ""
+"Project-Id-Version: auctex 11.81-1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-09-30 02:31+0200\n"
+"PO-Revision-Date: 2005-10-02 15:11+0200\n"
+"Last-Translator: gorka@escomposlinux.org (Gorka Olaizola)\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: note
+#. Description
+#: ../templates:3
+msgid "The autoload mechanism of AUCTeX has changed."
+msgstr ""
+
+#. Type: note
+#. Description
+#: ../templates:3
+msgid ""
+"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  If you do "
+"not want AUCTeX to override the standard Emacs TeX-mode, you may unload "
+"AUCTeX completely by evaluating the form \"(unload-feature 'tex-site)\" (i."
+"e., put that string into your \"~/.emacs\" to disable AUCTeX completely)."
+msgstr ""
+
+#. Type: select
+#. Choices
+#: ../templates:11
+msgid "Background"
+msgstr "Segundo plano"
+
+#. Type: select
+#. Choices
+#: ../templates:11
+msgid "Foreground"
+msgstr "Primer plano"
+
+#. Type: select
+#. Choices
+#: ../templates:11
+msgid "None"
+msgstr "Omitir"
+
+#. Type: select
+#. Description
+#: ../templates:13
+msgid "How should (La)TeX macros be parsed?"
+msgstr "¿Como deben analizarse las macros (La)TeX?"
+
+#. Type: select
+#. Description
+#: ../templates:13
+msgid ""
+"To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
+"style file currently installed at your site will be parsed."
+msgstr ""
+"Para mejorar el rendimiento de AUCTeX se analizará el contenido de cada "
+"paquete de macros TeX y ficheros de estilo LaTeX instalado en su sistema."
+
+#. Type: select
+#. Description
+#: ../templates:13
+msgid ""
+"This may take a lot of time, so it should be probably done in background; "
+"however you may also choose to have it done in foreground, or to skip the "
+"parsing at all instead.  If you choose Background, you will find a detailed "
+"log of the process in the file: ${LOGFILE}."
+msgstr ""
+"Esto puede tardar mucho tiempo, por lo que se debería hacer en segundo "
+"plano.  Sin embargo puede elegir hacerlo en primer plano u omitir este "
+"paso.  Si elige hacerlo en segundo plano encontrará un detallado registro "
+"del proceso en el fichero: ${LOGFILE}."
+
+#. Type: select
+#. Description
+#: ../templates:13
+msgid ""
+"A weekly cron job will also take care of updating the informations now "
+"collected, so usually you won't need to worry about them whenever you "
+"install new (La)TeX packages or remove old ones."
+msgstr ""
+"Así mismo, una tarea semanal actualizará la información recolectada en esta "
+"sesión por lo que no se tiene que preocupar cuando instale nuevos paquetes "
+"de (La)TeX o borre los antiguos."
+
+#. Type: select
+#. Description
+#: ../templates:13
+msgid "Anyway, you can update them by hand running update-auctex-elisp."
+msgstr ""
+"De cualquier forma puede actualizarlos ejecutando update-auctex-elisp en "
+"cualquier momento."
+
+#. Type: select
+#. Choices
+#: ../templates:30
+msgid "Console"
+msgstr "Consola"
+
+#. Type: select
+#. Choices
+#: ../templates:30
+msgid "File"
+msgstr "Fichero"
+
+#. Type: select
+#. Description
+#: ../templates:32
+msgid "Where should parsing output go?"
+msgstr "¿A donde se debe enviar la información al analizar?"
+
+#. Type: select
+#. Description
+#: ../templates:32
+#, fuzzy
+msgid ""
+"You chose to parse TeX macro packages and LaTeX style files in foreground. "
+"This is ok, but normally it will also generate quite a lot of output."
+msgstr "Ha elegido analizar los paquetes de macros TeX y ficheros de estilo LaTeX en primer plano."
+
+#. Type: select
+#. Description
+#: ../templates:32
+msgid ""
+"By default -- i.e., answering File to this question -- further output from "
+"the parsing process will go to a file named: ${LOGFILE}."
+msgstr ""
+"Por defecto, respondiendo Fichero a esta pregunta, los mensajes del proceso "
+"de analizado se guardarán en un fichero llamado: ${LOGFILE}."
+
+#. Type: select
+#. Description
+#: ../templates:32
+msgid ""
+"If you answer Console, you will see all of the (boring) output right on your "
+"terminal."
+msgstr ""
+"Si responde Consola, verá todos los (aburridos) mensajes en su terminal."

@@ -1,0 +1,47 @@
+#include "variables"
+#! /bin/bash -e
+#
+# <% config %> script for <:=${PACKAGE}:>
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+source <:=${CONFMODULE}:>
+db_version 2.0
+
+case "${1}" in
+    (configure|reconfigure)
+    if dpkg --compare-versions "${2}" lt "11.81-1"; then
+	db_text medium <:=${PACKAGE}:>/defaultchanged || true
+	db_go || true
+    fi
+    LOGFILE=$(mktemp <:=${TMPMASK}:>)
+    db_register <:=${PACKAGE}:>/doauto <:=${PACKAGE}:>/logfile || true
+    db_set <:=${PACKAGE}:>/logfile ${LOGFILE} || true
+    db_subst <:=${PACKAGE}:>/doauto LOGFILE ${LOGFILE} || true
+    db_subst <:=${PACKAGE}:>/doautofg LOGFILE ${LOGFILE} || true
+    db_input low <:=${PACKAGE}:>/doauto || true
+    db_go || true
+    db_get <:=${PACKAGE}:>/doauto || true
+    if [ "${RET}" = "Foreground" ]; then
+	<:# Ask another time the user, if she really wants to shoot :>//
+	<:# her very feet.  Just to be sure. :>//
+	db_input low <:=${PACKAGE}:>/doautofg || true
+	db_go || true
+    fi
+    ;;
+    (*) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
+	"Unknown argument: \"${1}\"."
+    ;;
+esac
+
+exit 0
+<:
+# local variables:
+# mode: shell-script
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+# arch-tag: 0c222277-b851-436c-912e-b5c8e4468867
+:>//

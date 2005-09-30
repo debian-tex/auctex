@@ -3,7 +3,7 @@
 ;; Copyright (C) 2004 Free Software Foundation, Inc.
 
 ;; Author: Frank Küster <frank@kuesterei.ch>
-;; Maintainer: auc-tex@sunsite.dk
+;; Maintainer: auctex-devel@gnu.org
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
@@ -72,14 +72,14 @@
 (TeX-add-style-hook
  "alphanum"
  (lambda ()
-   (setq LaTeX-largest-level (LaTeX-section-level "chapter"))
+   (LaTeX-largest-level-set "chapter")
    (TeX-add-symbols '("levelup" TeX-arg-none))
    (make-local-variable 'LaTeX-section-list)
-   (setq LaTeX-section-list
-	 '(("part" 0)
-	   ;; the levels don't make sense with alphanum, I randomly chose 0...
-	   ("toc" 0)
-	   ("sub" 0)))
+   (LaTeX-section-list-add-locally
+    '(("part" 0)
+      ;; the levels don't make sense with alphanum, I randomly chose 0...
+      ("toc" 0)
+      ("sub" 0)) t)
    (setq LaTeX-section-label
 	 '(("part" . "part:")
 	   ("toc" . "sec:")
@@ -93,3 +93,7 @@
        (reftex-add-section-levels
 	'(("toc" .  reftex-get-section-level-alphanum)
 	  ("sub" .  reftex-get-section-level-alphanum))))))
+
+;; Local Variables:
+;; coding: iso-8859-1
+;; End:

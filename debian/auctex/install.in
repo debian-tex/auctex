@@ -1,0 +1,116 @@
+#include "variables"
+#! /bin/bash -e
+#
+# <% elisp %> emacs install script for <:=${PACKAGE}:>
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+<:# parse debconf database :>//
+source <:=${CONFMODULE}:>
+db_version 2.0
+db_get <:=${PACKAGE}:>/logfile || true; _db_logfile=${RET}
+db_get <:=${PACKAGE}:>/doauto || true; _db_doauto=${RET}
+db_get <:=${PACKAGE}:>/doautofg || true; _db_doautofg=${RET}
+
+FLAVOR=${1}
+
+INSTALL="install -o root -g root -m 644"
+INSTDIR="${INSTALL} -m 755 -d"
+
+do_install () {
+    echo >&2 -n "install/<:=${PACKAGE}:>: Setting up for ${FLAVOR}... "
+    cd <:=${lisp}:>; umask 0022;
+    <:# ensure that "configure" is up-to-date WRT "configure.ac" and
+      # "aclocal.m4":>//
+    touch --reference configure --date "-1 second" configure.ac
+    touch --reference configure --date "-1 second" aclocal.m4
+    ${INSTDIR} <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
+    ./configure --disable-build-dir-test \
+	--prefix=<:$_=${usr}; s|/+|/|g; print:> \
+	--with-emacs=${FLAVOR} \
+	--with-lispdir=<:$_=${lisp}; s|/+${PACKAGE}/*|/|;
+			 s|emacs|\${FLAVOR}|; s|/+|/|g; print:> \
+	--with-texmf-dir=<:=${texmf}:> \
+	--with-auto-dir=<:$_=${var}; s|/+|/|g;
+			 s|/$||; print:>/${FLAVOR}/ \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
+	install-lisp install-startup \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    ln -sf <:=${lisp}:>/images <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/
+    pushd preview \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
+	install-el install-nosearch install-startup \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    popd >> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    make maintainer-clean \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> \
+	-type f -name \*.el -print0 | xargs --null rm -f ,dummy, \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/ \
+	-type f -name \*.el -print0 | xargs --null rm -f ,dummy, \
+	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    gzip -9fq <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>
+    echo >&2 "done."
+    return 0
+}
+
+do_auto () {
+    case "${_db_doauto}" in
+	(Foreground)
+	case "${_db_doautofg}" in
+	    (Console)
+	    rm -f ${_db_logfile}
+	    <:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} ;;
+	    (File)
+	    echo >&2 -n "<:=${UPDATE_ELISP}:>: "
+	    echo >&2 "Further output will appear in: ${_db_logfile}."
+	    echo >&2 -n "<:=${PACKAGE}:>: "
+	    echo >&2 -n "Waiting for <:=${UPDATE_ELISP}:> to terminate... "
+	    <:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${_db_logfile} 2>&1
+	    echo >&2 "done." ;;
+	    (*) echo >&2 \
+		"${0##*/}: Debconf passed unknown value \`${_db_doautofg}'." ;;
+	esac ;;
+	(Background)
+	<:# Closing fd 3 is debconf important. :>//
+	<:# debconf\'s frontend wait for its standard input to be closed :>//
+	<:# before dying, and that means fd 3 :>//
+	<:# better don\'t close fd 0: emacs does not take it very well :>//
+	<:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO! :>//
+	<:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO! :>//
+	<:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${_db_logfile} 2>&1 3>&- &
+	echo >&2 -n "<:=${UPDATE_ELISP}:>[${!}]: "
+	echo >&2 "Further output will appear in: ${_db_logfile}." ;;
+	(None) rm -f ${_db_logfile} ;;
+	(*) echo >&2 \
+	    "${0##*/}: Debconf passed unknown value \`${_db_doauto}'." ;;
+    esac
+    return 0
+}
+
+case "${FLAVOR}" in
+    (emacs) : ;;
+    (emacs21|emacs-snapshot)
+    do_install ${FLAVOR}
+    <:# parse TeX macros and LaTeX styles :>//
+    do_auto ${FLAVOR} ;;
+    (*) echo >&2 "install/<:=${PACKAGE}:>:" \
+	"Ignoring emacsen flavor: \"${FLAVOR}\"."
+    ;;
+esac
+
+exit 0
+<:
+# LocalWords:  debconf fd frontend
+# local variables:
+# mode: shell-script
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+# arch-tag: 8f5878f2-a4b0-44a9-bb22-92f48baf39b3
+:>//
