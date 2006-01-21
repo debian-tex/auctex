@@ -2,6 +2,7 @@ Source: auctex
 Priority: optional
 Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
+Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 3.6.2
 Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, gs | gs-aladdin, po-debconf, tetex-bin, texinfo, texi2html (>=1.76-1)
 

@@ -1,6 +1,20 @@
+auctex (11.81-2) unstable; urgency=low
+
+  * First public release for the 11.81 series.
+  * control (Uploaders): Added "OHURA Makoto <ohura@debian.org>".
+  * update-auctex-elisp.in: Use the proper combination of "find" and "rm";
+    thanks to Norbert Preining.  (Closes: #347472)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 21 Jan 2006 12:27:13 +0100
+
 auctex (11.81-1) UNRELEASED; urgency=low
 
-  * New upstream release.
+  * New upstream release.  (Closes: #277885, #318114)
+  * This debian version supersedes and replaces the preview-latex package
+    (which is no longer a separate package) and provides the binary
+    package preview-latex-style (which remains a separate package).  This
+    is done in agreement with OHURA Makoto, preview-latex maintainers,
+    which becomes a comaintainer for auctex.  (Closes: #300933)
   * General overhaul of the build and installation procedure.
   * control (Standards-Version): Updated to 3.6.2.
     (Build-Depends-Indep): Added "gs | gs-aladdin", "po-debconf", and
