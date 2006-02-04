@@ -59,7 +59,8 @@ debian/rules: debian/variables
 
 <:# Eperl is simply great: thanks, Ralf! :>//
 % :: %.in
-	eperl -I $(shell pwd)/debian/ -P -o $@ $<
+	eperl -d DEBIAN_DIR="$(shell pwd)/debian/" \
+		-I "$(shell pwd)/debian/" -P -o $@ $<
 
 .PHONY: updatepo
 updatepo: debian/<:=${PACKAGE}:>/po/updatepo

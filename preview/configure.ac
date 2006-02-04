@@ -1,11 +1,12 @@
-AC_INIT(preview-latex,0.9.1,bug-auctex@gnu.org)
+AC_INIT(preview-latex,11.82,bug-auctex@gnu.org)
 
 AC_SET_MAKE
 AC_PROG_INSTALL
 
 # Import unquoted variables.
+TEX="$TEX_UNQUOTED"
 packagedir="$packagedir_unquoted"
-packagedatadir="$packagelispdir_unquoted"
+packagelispdir="$packagelispdir_unquoted"
 packagedatadir="$packagedatadir_unquoted"
 EMACS="$EMACS_UNQUOTED"
 
@@ -41,7 +42,7 @@ then
    EMACS_PATH_LISPDIR
    AC_MSG_CHECKING(what file to use for preview startup)
    AC_ARG_WITH(previewstartfile,
-   [[  --with-preview-startfile=FILE    What file to use for preview startup.]],
+   [[  --with-previewstartfile=FILE    What file to use for preview startup.]],
    [[ previewstartfile="${withval}" ]],
    [ _tmpdir_="${lispdir}"
      AC_FULL_EXPAND(_tmpdir_)
@@ -121,20 +122,20 @@ TEX_PATH_TEXMFDIR
 if test "x${texmfdir}" = "xno"
 then
   AC_MSG_CHECKING([kpathsea directory separator])
-  AC_ARG_WITH(kpathseaseparator,
-  [  --with-kpathsea-sep=@<:@:|;@:>@
+  AC_ARG_WITH(kpathseasep,
+  [  --with-kpathseasep=@<:@:|;@:>@
                       directory separator for kpathsea],
-  [[kpathseaseparator="${withval}"]],
+  [[kpathseasep="${withval}"]],
   [test "x${pathoutput}" != x || pathoutput="`kpsepath -n latex tex`"
-    case "${pathoutput}" in *\;*) kpathseaseparator=";" ;;
-      *:*) kpathseaseparator=":" ;;
+    case "${pathoutput}" in *\;*) kpathseasep=";" ;;
+      *:*) kpathseasep=":" ;;
       *) AC_MSG_ERROR([Can't determine kpathsea directory separator!
-Please use --with-kpathsea-sep=@<:@:|;@>:@ to specify it!])
+Please use --with-kpathseasep='@<:@:|;@:>@' to specify it!])
     esac])
-  AC_MSG_RESULT([["${kpathseaseparator}"]])
+  AC_MSG_RESULT([["${kpathseasep}"]])
   packagetexstyles="${packagedatadir}/latex"
   AC_LISPIFY_DIR(packagetexstyles,"${previewstartfile}")
-  lisppackagetexstyles="(defvar preview-TeX-style-dir (concat \".${kpathseaseparator}\" ${lisppackagetexstyles} \"${kpathseaseparator}\"))"
+  lisppackagetexstyles="(defvar preview-TeX-style-dir (concat \".${kpathseasep}\" ${lisppackagetexstyles} \"${kpathseasep}\"))"
   test "X${TEXHASH}" = X && TEXHASH=:
 else
   lisppackagetexstyles=

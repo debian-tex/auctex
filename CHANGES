@@ -1,6 +1,61 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.82
+=============
+
+   * Support for the MinionPro LaTeX package was added.
+
+   * Warnings and underfull/overfull boxes are now being indicated in
+     the echo area after a LaTeX run, if the respective debugging
+     options are activated with `TeX-toggle-debug-warnings' (`C-c C-t
+     C-w') or `TeX-toggle-debug-bad-boxes' (`C-c C-t C-b').  In this
+     case `TeX-next-error' will find these warnings in addition to
+     normal errors.
+
+     The key binding `C-c C-w' for `TeX-toggle-debug-bad-boxes' (which
+     was renamed from `TeX-toggle-debug-boxes') now is deprecated.
+
+   * AUCTeX now can automatically insert a pair of braces after typing
+     <_> or <^> in math constructs if the new variable
+     `TeX-electric-sub-and-superscript' is set to a non-nil value.
+
+   * Some language-specific support for French was added.  There now is
+     completion support for the commands provided by the `frenchb' (and
+     `francais') options of the babel LaTeX package and easier input of
+     French quotation marks (`\\og ...\\fg') which can now be inserted
+     by typing <">.
+
+   * Completion support for options of some LaTeX packages was added.
+
+   * Already in version 11.81 the way to activate AUCTeX changed
+     substantially.  This should now be done with `(load "auctex.el" nil
+     t t)' instead of the former `(require 'tex-site)'.  Related to this
+     change `tex-mik.el' does not load `tex-site.el' anymore.  That
+     means if you used only `(require 'tex-mik)' in order to activate
+     AUCTeX, you have to add `(load "auctex.el" nil t t)' before the
+     latter statement.  More detailed information can be found in the
+     installation instructions.
+
+   * Handling of verbatim constructs was consolidated across AUCTeX.
+     This resulted in the font-latex-specific variables
+     `font-latex-verb-like-commands', `font-latex-verbatim-macros', and
+     `font-latex-verbatim-environments' being removed and the more
+     general variables `LaTeX-verbatim-macros-with-delims',
+     `LaTeX-verbatim-macros-with-braces', and
+     `LaTeX-verbatim-environments' being added.
+
+   * The output of a BibTeX run is now checked for warnings and errors,
+     which are reported in the echo area.
+
+   * The aliases for `font-latex-title-fontify' were removed.  Use
+     `font-latex-fontify-sectioning' instead.
+
+   * The problem that Japanese macros where broken across lines was
+     fixed.
+
+   * Various bug fixes.
+
 News in 11.81
 =============
 
@@ -118,8 +173,8 @@ News in 11.54
 
    * Info files of the manual now have a .info extension.
 
-   * There is an experimental toolbar support now.  It is not activated
-     by default.  If you want to use it, add
+   * There is an experimental tool bar support now.  It is not
+     activated by default.  If you want to use it, add
           (add-hook 'LaTeX-mode-hook 'LaTeX-install-toolbar)
      to your init file.
 

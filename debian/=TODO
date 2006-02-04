@@ -61,6 +61,7 @@
     Fixed upstream, close it by debian/changelog.
 *** TODO #290635
 *** TODO #293161
+    Probably an old bug, which should be closed.
 *** TODO #295730
 *** TODO #300933: The clean target should work fine.
     Check the statement and close the bug via debian/changelog.
@@ -70,6 +71,7 @@
 *** DONE #318114: Fixed according to DAK.
     Check the statement and close the bug via debian/changelog.
 *** TODO #321069
+    To be tested with gs-esp.
 *** DONE #324358: emacs-snapshot is now a supported flavor.
     Close the bug.
 *** DONE #329061
@@ -88,6 +90,10 @@
     and close it.
 *** TODO #347472
     Fixed in 11.81-2, close it.
+*** DONE #349330, #349471, #349620
+    Closed by auctex 11.82-1.
+*** DONE #349662
+    Closed by auctex 11.82-1.
 
 ** Non bugs
    These are not bugs, even if they might look like as if they were such.
@@ -112,9 +118,11 @@
    Talk to Makoto OHURA <ohura@debian.org>.
 ** DGMS Patches to upstream sources
    Evaluate and discuss them with upstream developers.
-** TODO Install byte compiled preview-latex files under the auctex directory
-   Think about it.
-** TODO Test with new teTeX 3.0 and (in the future) with TeX-Live
+** DONE Install byte compiled preview-latex files under the auctex directory
+   Done upstream.
+** DONE Test with new teTeX 3.0
+** TODO Test with TeX-Live
+   Also add proper alternative dependencies.
 ** TODO /usr/sbin/update-auctex-install
    Get the proper packages (teTeX?, ...?) to use it, add perhaps a note in the
    README.Debian file.

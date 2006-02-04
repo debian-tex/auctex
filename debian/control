@@ -4,11 +4,11 @@ Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 3.6.2
-Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, gs | gs-aladdin, po-debconf, tetex-bin, texinfo, texi2html (>=1.76-1)
+Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, gs-gpl | gs, po-debconf, tetex-bin, texinfo, texi2html (>=1.76-1)
 
 Package: auctex
 Architecture: all
-Depends: debconf | debconf-2.0, debianutils (>= 1.7), emacs21 | emacs-snapshot, make, preview-latex-style
+Depends: debconf | debconf-2.0, debianutils (>= 1.7), emacs21 | emacs-snapshot, gs-gpl | gs, make, preview-latex-style
 Recommends: tetex-base, doc-base
 Suggests: catdvi, dvipng, lacheck
 Conflicts: emacspeak (<= 17.0-1), preview-latex
@@ -53,7 +53,7 @@ Description: An integrated environment for editing TeX and friends documents
 
 Package: preview-latex-style
 Architecture: all
-Depends: tetex-bin
+Depends: tetex-bin | texlive-latex-base
 Conflicts: preview-latex (<=0.7.3-2)
 Description: LaTeX style files for editor embedded preview of some environments
  These style files are allow previewing LaTeX environments such as math or

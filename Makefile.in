@@ -3,7 +3,6 @@
 # Makefile - for the AUCTeX distribution.
 #
 # Maintainer: auctex-devel@gnu.org
-# Version: initial try <jalar@mai.liu.se>
 #
 
 prefix = @prefix@$(null)
@@ -49,6 +48,8 @@ SHELL = /bin/sh
 DIST_PREFIX = /home/tmp/auctex-
 FTPDIR = $(DIST_PREFIX)ftp
 WWWDIR = $(DIST_PREFIX)www
+COMMITTER_NAME="David Kastrup"
+COMMITTER_EMAIL=dak@gnu.org
 RPMROOT = /usr/src/redhat
 
 MULESRC = @MULESRC@
@@ -85,7 +86,9 @@ STYLESRC = style/prosper.el \
 	   style/ltxdoc.el    style/ltx-base.el	 style/units.el \
 	   style/nicefrac.el  style/url.el       style/listings.el \
 	   style/jurabib.el   style/csquotes.el  style/jsarticle.el \
-	   style/jsbook.el    style/babel.el
+	   style/jsbook.el    style/babel.el     style/dk-bib.el \
+	   style/inputenc.el  style/frenchb.el   style/francais.el \
+	   style/MinionPro.el
 STYLEELC = $(STYLESRC:.el=.elc)
 
 DOCFILES = doc/Makefile.in doc/auctex.texi doc/intro.texi doc/install.texi \
@@ -178,7 +181,7 @@ install-el:
 	else rm -f $(DESTDIR)$(lispdir)/tex-site.el ; \
 	fi
 	-$(MKINSTALLDIRS) $(DESTDIR)$(packagelispdir)
-	for x in $(AUCSRC) ; do \
+	for x in $(AUCSRC) $(MULESRC); do \
 	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(packagelispdir)' ; \
 	  $(INSTALL_DATA) $$x $(DESTDIR)$(packagelispdir) ; \
 	done;
@@ -188,25 +191,17 @@ install-el:
 	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(styledir)' ; \
 	  $(INSTALL_DATA) $$x $(DESTDIR)$(styledir) ; \
 	done;
-	for x in $(MULESRC); do \
-	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(packagelispdir)' ; \
-	  $(INSTALL_DATA) $$x $(DESTDIR)$(packagelispdir) ; \
-	done;
 	-$(MKINSTALLDIRS) $(DESTDIR)$(autodir)
 	-$(INSTALL_DATA) $(NOSEARCH) $(DESTDIR)$(autodir)
 
 install-lisp: lisp install-el
-	for x in $(AUCSRC) ; do \
+	for x in $(AUCSRC) $(MULESRC); do \
 	  echo ' $(INSTALL_DATA)' $${x}c '$(DESTDIR)$(packagelispdir)' ; \
 	  $(INSTALL_DATA) $${x}c $(DESTDIR)$(packagelispdir) ; \
 	done;
 	for x in $(STYLESRC) ; do \
 	  echo ' $(INSTALL_DATA)' $${x}c '$(DESTDIR)$(styledir)' ; \
 	  $(INSTALL_DATA) $${x}c $(DESTDIR)$(styledir) ; \
-	done;
-	for x in $(MULEELC); do \
-	  echo ' $(INSTALL_DATA)' $$x '$(DESTDIR)$(packagelispdir)' ; \
-	  $(INSTALL_DATA) $$x $(DESTDIR)$(packagelispdir) ; \
 	done;
 
 install-images:
@@ -277,7 +272,7 @@ release-commit:
 	sleep 3
 	mv ChangeLog ChangeLog.old
 	echo `date "+%Y-%m-%d "` \
-	     " David Kastrup  <dak@gnu.org>" > ChangeLog
+	     " "${COMMITTER_NAME}"  <"${COMMITTER_EMAIL}">" > ChangeLog
 	echo >> ChangeLog
 	echo "	* Version" $(TAG) released. >> ChangeLog
 	echo >> ChangeLog
@@ -290,11 +285,9 @@ tar-ball:
 	mkdir auctex-$(TAG)
 	cvs export -d auctex-$(TAG) `echo $(TAG)|sed -e '/^\([-0-9]*[0-9]\)[-a-z]*$$/s//-D \1/' -e '/[.]/{s/^/-r release_/;s/[.]/_/g}'` auctex
 	cd auctex-$(TAG) && ./autogen.sh && rm $(CVSFILES)
-# Remove dysfunctional spec file.
-	cd auctex-$(TAG) && rm auctex.spec
 	chmod -R go-w+rX auctex-$(TAG)
-	rm -rf $(FTPDIR) $(WWWDIR)/doc
-	mkdir -p $(FTPDIR) $(WWWDIR)/doc
+	rm -rf $(FTPDIR)
+	mkdir -p $(FTPDIR)
 	tar -cf - --owner=root --group=root auctex-$(TAG) | gzip --best > $(FTPDIR)/auctex-$(TAG).tar.gz
 	-zip -r $(FTPDIR)/auctex-$(TAG).zip auctex-$(TAG)
 	cp auctex-$(TAG)/CHANGES $(FTPDIR)/CHANGES
@@ -302,7 +295,6 @@ tar-ball:
 	cd doc && $(MAKE) extradist
 	cp doc/auctex.ps doc/auctex.pdf doc/tex-ref.ps doc/tex-ref.pdf $(FTPDIR)
 	cp ChangeLog $(FTPDIR)
-	cp doc/html/*.html $(WWWDIR)/doc
 
 full-release:
 	rm -f $(FTPDIR)/*.{directive,asc,sig}
@@ -330,3 +322,18 @@ xemacs-package:
 	&& ./configure --with-xemacs --with-packagedir=`pwd`/xemacs-package --without-texmf-dir --with-auto-dir=etc/auctex/auto \
 	&& make all install-man install && cd xemacs-package && tar -cf - --owner=root --group=root . | gzip --best > $(FTPDIR)/auctex-$(TAG)-pkg.tar.gz
 	rm -rf xemacs-build
+
+www-doc:
+	rm -rf $(WWWDIR)
+	mkdir -p $(WWWDIR)/auctex-manual
+	mkdir -p $(WWWDIR)/preview-manual
+	cp doc/*.texi $(WWWDIR)/auctex-manual
+	cp doc/*.texi $(WWWDIR)/preview-manual
+	cd $(WWWDIR)/auctex-manual \
+	&& wget -O gendocs.sh 'http://savannah.gnu.org/cgi-bin/viewcvs/%2acheckout%2a/texinfo/texinfo/util/gendocs.sh?rev=HEAD' \
+	&& chmod u+x gendocs.sh \
+	&& wget -O gendocs_template 'http://savannah.gnu.org/cgi-bin/viewcvs/%2acheckout%2a/texinfo/texinfo/util/gendocs_template?rev=HEAD' \
+	&& ./gendocs.sh auctex "AUCTeX Manual" \
+	&& cp gendocs.sh gendocs_template $(WWWDIR)/preview-manual
+	cd $(WWWDIR)/preview-manual \
+	&& ./gendocs.sh preview-latex "preview-latex Manual"

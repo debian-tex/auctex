@@ -1,7 +1,7 @@
 #include "variables"
 #! /bin/bash -e
 #
-# <% elisp %> emacs remove script for <:=${PACKAGE}:>
+# <% elisp %> Emacs remove script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
@@ -24,10 +24,6 @@ undo_install () {
     test -d <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> && \
 	rmdir --ignore-fail-on-non-empty \
 	<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
-    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/*.elc
-    test -d <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/ && \
-	rmdir --ignore-fail-on-non-empty \
-	<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/
     echo >&2 "done."
     return 0
 }
@@ -51,10 +47,11 @@ esac
 
 exit 0
 <:
+# arch-tag: 02840558-59db-42e5-bc45-fe3cce8d379e
+#
 # local variables:
 # mode: shell-script
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
-# arch-tag: 02840558-59db-42e5-bc45-fe3cce8d379e
 :>//

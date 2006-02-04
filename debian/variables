@@ -1,5 +1,5 @@
 <:
-# Copyright (C) 1999, 2000, 01, 02, 03, 04, 05
+# Copyright (C) 1999, 2000, 01, 02, 03, 04, 05, 06
 # by Davide G. M. Salvetti.
 :>//
 <:$PACKAGE="auctex":>//
@@ -81,7 +81,9 @@
 <:$bug="/usr/share/bug/$PACKAGE/":>//
 <:# <% misc %> :>//
 <:$GPL="/usr/share/common-licenses/GPL":>//
-<:open(COPYRIGHT,'COPYRIGHT');@COPYRIGHT=<COPYRIGHT>;close(COPYRIGHT):>//
+<:open(COPYRIGHT,"${DEBIAN_DIR}/COPYRIGHT");
+  @COPYRIGHT=<COPYRIGHT>;
+  close(COPYRIGHT):>//
 <:
 # local variables:
 # mode: shell-script

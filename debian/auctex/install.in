@@ -1,7 +1,7 @@
 #include "variables"
 #! /bin/bash -e
 #
-# <% elisp %> emacs install script for <:=${PACKAGE}:>
+# <% elisp %> Emacs install script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
@@ -26,6 +26,7 @@ do_install () {
       # "aclocal.m4":>//
     touch --reference configure --date "-1 second" configure.ac
     touch --reference configure --date "-1 second" aclocal.m4
+    touch --reference configure --date "-1 second" preview/configure.ac
     ${INSTDIR} <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
     ./configure --disable-build-dir-test \
 	--prefix=<:$_=${usr}; s|/+|/|g; print:> \
@@ -49,9 +50,6 @@ do_install () {
     make maintainer-clean \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> \
-	-type f -name \*.el -print0 | xargs --null rm -f ,dummy, \
-	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
-    find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/ \
 	-type f -name \*.el -print0 | xargs --null rm -f ,dummy, \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     gzip -9fq <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>
@@ -80,7 +78,7 @@ do_auto () {
 	<:# Closing fd 3 is debconf important. :>//
 	<:# debconf\'s frontend wait for its standard input to be closed :>//
 	<:# before dying, and that means fd 3 :>//
-	<:# better don\'t close fd 0: emacs does not take it very well :>//
+	<:# better don\'t close fd 0: Emacs does not take it very well :>//
 	<:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO! :>//
 	<:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO! :>//
 	<:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${_db_logfile} 2>&1 3>&- &
@@ -93,9 +91,20 @@ do_auto () {
     return 0
 }
 
+do_clean_old_cruft () {
+    <:# ".../site-lisp/preview/" is obsolete :>//
+    rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/../preview/.nosearch
+    test -d <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/ && \
+	rmdir --ignore-fail-on-non-empty \
+	<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../preview/
+    return 0
+}
+
 case "${FLAVOR}" in
     (emacs) : ;;
     (emacs21|emacs-snapshot)
+    <:# clean old cruft :>//
+    do_clean_old_cruft ${FLAVOR}
     do_install ${FLAVOR}
     <:# parse TeX macros and LaTeX styles :>//
     do_auto ${FLAVOR} ;;
@@ -106,11 +115,13 @@ esac
 
 exit 0
 <:
-# LocalWords:  debconf fd frontend
+# arch-tag: 8f5878f2-a4b0-44a9-bb22-92f48baf39b3
+#
 # local variables:
 # mode: shell-script
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
-# arch-tag: 8f5878f2-a4b0-44a9-bb22-92f48baf39b3
+#
+# LocalWords:  debconf fd frontend aclocal LaTeX
 :>//
