@@ -1,8 +1,6 @@
 #include "variables"
-.\" Emacs, you know, this is an -*- nroff -*- source file.
-.\"
 .\" Man page for update-auctex-install.
-.\" Copyright (C) 2004, 05 by Davide Giovanni Maria Salvetti.
+.\" Copyright (C) 2004, 05, 06 by Davide Giovanni Maria Salvetti.
 .\"
 .\" This manual page is free software; you can redistribute it and/or
  \" modify it under the terms of the GNU General Public License as published
@@ -61,11 +59,14 @@ the hierarchy containing AUCTeX installed files.
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
 <:
-# LocalWords:  auctex GPL AUCTeX cron tex usr postinst
 # arch-tag: 70d3ef3a-3f7d-4568-8a3d-5bd8f38effb0
+#
 # local variables:
 # mode: nroff
+# coding: utf-8
 # fill-column: 78
 # ispell-local-dictionary: "american"
 # end:
+#
+# LocalWords:  auctex GPL AUCTeX cron tex usr postinst nroff emacs
 :>//

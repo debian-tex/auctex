@@ -20,11 +20,15 @@ Format: HTML
 Index: <:=if($_="${html}/preview-latex/index.html")=~tr|/|/|s:>
 Files: <:=if($_="${html}/preview-latex/*")=~tr|/|/|s:>
 <:
-# LocalWords:  WYSIWYG AUCTeX Kastrup Shutko ke Larsson Alcock texinfo HTML
+# arch-tag: cd74f632-6832-46da-82d7-f543f87fd63d
+#
 # local variables:
 # mode: text
 # fill-column: 78
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # end:
-# arch-tag: cd74f632-6832-46da-82d7-f543f87fd63d
+#
+# LocalWords:  WYSIWYG AUCTeX Kastrup Shutko ke Larsson Alcock texinfo HTML
+# LocalWords:  LaTeX Åke
 :>//

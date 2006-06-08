@@ -1,3 +1,51 @@
+auctex (11.83-1) unstable; urgency=low
+
+  * New upstream release.
+
+  * control (Standards-Version): Updated to 3.7.2.
+  * control (auctex/Description, preview-latex-style/Description): Added
+    upstream URL.
+
+  * control (Build-Depends-Indep): Add alternative "texlive-base".
+  * control (Recommends): Add alternative "texlive-base".
+
+  * rules.in (fixperms): New variable.  The command used to canonicalize
+    the whole tree permissions.
+    (clean): Use "$(fixperms)" to canonicalize permissions after cleaning.
+
+  * rules.in (%): Cater for ePerl "*.in" sources in subdirectories of
+    "debian".
+
+  * rules.in (checkdir, checkroot): Should not be implemented by means of
+    phony targets, otherwise targets which depend on them will never be
+    up-to-date.
+    (build, clean, binary-indep, binary-arch): Change accordingly.
+
+  * auctex/docbase.auctex.in (Abstract): Fixed typo.
+  
+  * auctex/templates.in: Renamed from "auctex/template".
+    (auctex/doauto, auctex/doautofg): Improved wording.
+  * po/de.po, po/es.po, po/it.po, po/pt_BR.po, po/templates.po: Updated
+    accordingly.
+  * rules.in (po-debconf): Refactored.
+    (clean): Updated.
+
+  * update-auctex-elisp.8.in: Improved wording.  Updated copyright.
+  * update-auctex-install.8.in: Updated copyright.
+
+  * debian/po: Moved from "debian/auctex/po"; thanks to Denis Barbier.
+    (Closes: #353146)
+  * debian/po/POTFILES.in: Updated accordingly.
+
+  * auctex/lintian.in: New file.
+  * rules.in (binary-indep-auctex): Install it.
+
+  * variables ($texmfdoc): New variable.
+  * rules.in (binary-indep-pls), preview-latex-style/docbase.in (DVI): Use
+    it.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu,  8 Jun 2006 13:47:12 +0200
+
 auctex (11.82-1) unstable; urgency=high
 
   * New upstream release.
@@ -98,6 +146,8 @@ auctex (11.81-1) UNRELEASED; urgency=low
   * po/de.po, po/es.po, po/it.po, po/pt_BR.po: New files.  Localized
     translations for templates, moved from templates.
   * po/templates.pot: New file.  Automatically managed by po-debconf.
+  * rules.in (DFILES, updatepo, po/updatepo, templates.merged,
+    binary-indep): Cater for po-debconf.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 30 Sep 2005 10:15:29 +0200
 
@@ -880,29 +930,35 @@ auctex (9.7l-1) unstable; urgency=medium
   * added weekly cron entry for auctex-auto-generate
 
  -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Sat, 15 Mar 1997 15:30:00 +0100
-<%
-  LocalWords:  auctex debian presubj ster dir indep tex html Ralf Angeli sarge
-  LocalWords:  emacspeak Frings docbase prerm postinst AUCTeX CVS nosearch Sep
-  LocalWords:  Unharmful config egrep auc toc FAQ README cron ELISP elisp hilit
-  LocalWords:  conf autoload deconf DOCSRC MULESRC XSRC INFODESC bibtex bst gpl
-  LocalWords:  db logfile doautofg Yannick Roehlly defvar defcustom catdvi de
-  LocalWords:  Gilbey RefTeX fptex Paulo Ormenese doauto fldefault postrm deps
-  LocalWords:  flalreadydefault debconf preinst Gorka Olaizola rmdir Timshel po
-  LocalWords:  alreadydefault eperl md Knut Suebert texinfo texi subdirs isp el
-  LocalWords:  dpkg gencontrol japanese mik Ryuichi Arafune Takuo Kitame fd jp
-  LocalWords:  umask TeXInfo emacsen dhelp Hidenobu Nabetani Stjernholm lpath
-  LocalWords:  texmathp AUCSRC xargs debianutils nop mv symlink mktemp elc var
-  LocalWords:  conffiles usr Geyer xemacs bo lacheck teTeX regexp texlive ePerl
-  LocalWords:  Preining Küster Ghostscript Uploaders OHURA Makoto aladdin
-  LocalWords:  tetex dvipng mktexlsr cdebconf pls PLSPKG INFOMENU IINSTALL hoc
-  LocalWords:  emacs defaultchanged DINSTALL DREMOVE IREMOVE LaTeX multicolumn
-  LocalWords:  Helmut
 
-  arch-tag: 3b0f7922-dfa2-4938-9f0e-1492f3528a80
+comment (0) UNRELEASED; urgency=low
 
-  local variables:
-  ispell-local-dictionary: "american"
-  end:
-%>
-   
- 
+  * This is not a changelog entry.
+
+  * local variables:
+  * mode: debian-changelog
+  * coding: utf-8
+  * ispell-local-dictionary: "american"
+  * end:
+
+  * LocalWords:  texlive fixperms canonicalize ePerl checkdir checkroot indep
+  * LocalWords:  doauto doautofg gpl Küster Ghostscript Preining Uploaders po
+  * LocalWords:  OHURA Makoto elisp aladdin debconf tetex texi html dvipng pls
+  * LocalWords:  mktexlsr cdebconf PLSPKG INFOMENU INFODESC AUCTeX IINSTALL de
+  * LocalWords:  conffiles emacs config alreadydefault defaultchanged postinst
+  * LocalWords:  DINSTALL prerm DREMOVE IREMOVE DFILES updatepo Sep preinst dir
+  * LocalWords:  tex el emacspeak Frings docbase CVS nosearch Unharmful egrep
+  * LocalWords:  auc toc README cron hilit LaTeX conf autoload deconf DOCSRC md
+  * LocalWords:  MULESRC XSRC multicolumn bibtex bst logfile Yannick Roehlly fd
+  * LocalWords:  defvar defcustom catdvi Gilbey RefTeX fptex Ormenese fldefault
+  * LocalWords:  flalreadydefault postrm Gorka Olaizola rmdir Timshel deps Knut
+  * LocalWords:  eperl Suebert texinfo subdirs isp dpkg gencontrol japanese mik
+  * LocalWords:  Ryuichi Arafune hoc Takuo Kitame umask TeXInfo emacsen dhelp
+  * LocalWords:  Hidenobu Nabetani Stjernholm lpath jp texmathp AUCSRC xargs mv
+  * LocalWords:  debianutils nop symlink mktemp elc usr Helmut Geyer xemacs bo
+  * LocalWords:  lacheck teTeX auctex debian refactored Barbier texmfdoc DVI
+  * LocalWords:  presubj
+  
+  * arch-tag: 3b0f7922-dfa2-4938-9f0e-1492f3528a80
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 01 Jan 1970 00:00:01 +0000

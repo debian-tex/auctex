@@ -16,6 +16,7 @@ undo_install () {
     rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>{,.gz}
     rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/images
     rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/*.elc
+    rm -f <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/.nosearch
     rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/*.elc
     rm -f <:=if($_=${style})=~s|emacs|\${FLAVOR}|:>/.nosearch
     test -d <:=if($_=${style})=~s|emacs|\${FLAVOR}|:> && \
@@ -51,6 +52,7 @@ exit 0
 #
 # local variables:
 # mode: shell-script
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:

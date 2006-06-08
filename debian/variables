@@ -71,6 +71,7 @@
 <:$info="/usr/share/info/":>//
 <:# <% texmf %> :>//
 <:$texmf="/usr/share/texmf/":>//
+<:$texmfdoc="/usr/share/doc/texmf/latex/styles/":>//
 <:$MKTEXLSR="mktexlsr >/dev/null":>//
 <:# <% dictionaries-common %> :>//
 <:$dict="/usr/share/dict/":>//
@@ -79,16 +80,20 @@
 <:$WREMOVE="/usr/sbin/remove-default-wordlist $PACKAGE":>//
 <:# <% reportbug %> :>//
 <:$bug="/usr/share/bug/$PACKAGE/":>//
+<:# <% lintian %> :>//
+<:$lintian="/usr/share/lintian/overrides/":>//
 <:# <% misc %> :>//
 <:$GPL="/usr/share/common-licenses/GPL":>//
 <:open(COPYRIGHT,"${DEBIAN_DIR}/COPYRIGHT");
   @COPYRIGHT=<COPYRIGHT>;
   close(COPYRIGHT):>//
 <:
+# arch-tag: b01c14c9-57be-47ff-abb7-de12aebfc520
+#
 # local variables:
 # mode: shell-script
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
-# arch-tag: b01c14c9-57be-47ff-abb7-de12aebfc520
 :>//

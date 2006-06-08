@@ -315,21 +315,23 @@ supported Unix-like installation:
 
 `auctex-emacs-tetex'
      This package will require the installation of `preview-tetex' and
-     will record in `TeX-macro-global' know where to find the TeX tree.
-     It is also a good idea to run
+     will record in `TeX-macro-global' where to find the TeX tree.  It
+     is also a good idea to run
           emacs -batch -f TeX-auto-generate-global
-     when either AUCTeX or teTeX get installed or upgraded.
+     when either AUCTeX or teTeX get installed or upgraded.  If your
+     users might want to work with a different TeX distribution
+     (nowadays pretty common), instead consider the following:
 
-`auctex-emacs-anytex'
+`auctex-emacs'
      This package will be compiled with `--without-texmf-dir' and will
      consequently contain the `preview' style files in its private
      directory.  It will probably not be possible to initialize
-     `TeX-macro-global' to a useful value, so running
+     `TeX-macro-global' to a sensible value, so running
      `TeX-auto-generate-global' does not appear useful.  This package
      would neither conflict with nor provide `preview-tetex'.
 
 `auctex-xemacs-tetex'
-`auctex-xemacs-anytex'
+`auctex-xemacs'
      Those are the obvious XEmacs equivalents.  For XEmacs, there is the
      additional problem that the XEmacs sumo package tree already
      possibly provides its own version of AUCTeX, and the user might
@@ -392,19 +394,19 @@ a big help already if things work from inside of Emacs.
 Making the Elisp available
 ==========================
 
-In XEmacs, you should ask the other users to add symbolic links in their
-`~/.xemacs/xemacs-packages/lisp', `~/.xemacs/xemacs-packages/info' and
-`~/.xemacs/xemacs-packages/etc' directories. (Alas, there is presently
-no easy programmatic way to do this, except to have a script do the
-symlinking for them.)
-
-   In GNU Emacs, It should be sufficient if people just do
+In GNU Emacs, it should be sufficient if people just do
 
      (load "~myself/share/emacs/site-lisp/auctex.el" nil t t)
      (load "~myself/share/emacs/site-lisp/preview-latex.el" nil t t)
 
    where the path points to your personal installation.  The rest of the
 package should be found relative from there without further ado.
+
+   In XEmacs, you should ask the other users to add symbolic links in
+the subdirectories `lisp', `info' and `etc' of their
+`~/.xemacs/xemacs-packages/' directory.  (Alas, there is presently no
+easy programmatic way to do this, except to have a script do the
+symlinking for them.)
 
 Making the Info files available
 ===============================

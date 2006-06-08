@@ -1,7 +1,7 @@
 ;;; tex.el --- Support for TeX documents.
 
 ;; Copyright (C) 1985, 1986, 1987, 1993, 1994, 1996, 1997, 1999, 2000,
-;;   2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+;;   2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 ;; Copyright (C) 1991 Kresten Krab Thorup
 
 ;; Maintainer: auctex-devel@gnu.org
@@ -21,8 +21,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -178,10 +178,6 @@ the printer has no corresponding command."
     ("ConTeXt Full" "texexec %(execopts)%t"
      TeX-run-TeX nil
      (context-mode) :help "Run ConTeXt until completion")
-    ;; --purge %s does not work on unix systems with current texutil
-    ;; check again october 2003 --pg
-    ("ConTeXt Clean" "texutil --purgeall" TeX-run-interactive nil
-     (context-mode) :help "Clean temporary ConTeXt files")
     ("BibTeX" "bibtex %s" TeX-run-BibTeX nil t :help "Run BibTeX")
     ,(if (or window-system (getenv "DISPLAY"))
 	'("View" "%V" TeX-run-discard t t :help "Run Viewer")
@@ -195,8 +191,12 @@ the printer has no corresponding command."
     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
     ("Check" "lacheck %s" TeX-run-compile nil (latex-mode)
      :help "Check LaTeX file for correctness")
-    ("Spell" "<ignored>" TeX-run-ispell-on-document nil t
+    ("Spell" "(TeX-ispell-document \"\")" TeX-run-function nil t
      :help "Spell-check the document")
+    ("Clean" "TeX-clean" TeX-run-function nil t
+     :help "Delete generated intermediate files")
+    ("Clean All" "(TeX-clean t)" TeX-run-function nil t
+     :help "Delete generated intermediate and output files")
     ("Other" "" TeX-run-command t t :help "Run an arbitrary command"))
   "List of commands to execute on the current document.
 
@@ -235,8 +235,12 @@ in other window.
 
 TeX-run-silent: Start the process in the background.
 
-TeX-run-dviout: Special hook for the Japanese dviout previewer for
-PC-9801.
+TeX-run-discard-foreground: Start the process in the foreground,
+discarding its output.
+
+TeX-run-function: Execute the Lisp function or function call
+specified by the string in the second element.  Consequently,
+this hook does not start a process.
 
 To create your own hook, define a function taking three arguments: The
 name of the command, the command string, and the name of the file to
@@ -269,8 +273,8 @@ Any additional elements get just transferred to the respective menu entries.
 				(function-item TeX-run-discard)
 				(function-item TeX-run-background)
 				(function-item TeX-run-silent)
-				(function-item TeX-run-dviout)
-				(function-item TeX-run-ispell-on-document)
+				(function-item TeX-run-discard-foreground)
+				(function-item TeX-run-function)
 				(function :tag "Other"))
 			(boolean :tag "Prompt")
 			(choice :tag "Modes"
@@ -443,7 +447,7 @@ is not recommended because it is more powerful than
     ("^dvi$" "^legalpaper$" "%(o?)xdvi %dS -paper legal %d")
     ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d")
     ("^dvi$" "." "%(o?)xdvi %dS %d")
-    ("^pdf$" "." "xpdf %o")
+    ("^pdf$" "." "xpdf -remote \"%s\" -raise %o %(outpage)")
     ("^html?$" "." "netscape %o"))
   "List of output file extensions and view options.
 
@@ -519,6 +523,9 @@ string."
     ("%S" TeX-source-specials-expand-options)
     ("%dS" TeX-source-specials-view-expand-options)
     ("%cS" TeX-source-specials-view-expand-client)
+    ("%(outpage)" (lambda () (if TeX-sync-output-page-function
+				 (funcall TeX-sync-output-page-function)
+			       "")))
     ;; `file' means to call `TeX-master-file' or `TeX-region-file'
     ("%s" file nil t)
     ("%t" file t t)
@@ -703,6 +710,20 @@ The XEmacs package edit-utils-2.32 includes `crm.el'."
     (multi-prompt "," nil prompt table predicate require-match initial-input
 		  hist)))
 
+(if (fboundp 'line-number-at-pos)
+    (defalias 'TeX-line-number-at-pos 'line-number-at-pos)
+  ;; `line-number-at-pos' from `simple.el' in Emacs CVS (2006-06-07)
+  (defun TeX-line-number-at-pos (&optional pos)
+    "Return (narrowed) buffer line number at position POS.
+If POS is nil, use current buffer location."
+    (let ((opoint (or pos (point))) start)
+      (save-excursion
+	(goto-char (point-min))
+	(setq start (point))
+	(goto-char opoint)
+	(forward-line 0)
+	(1+ (count-lines start (point)))))))
+
 ;;; Special support for GNU Emacs
 
 (unless (featurep 'xemacs)
@@ -773,7 +794,6 @@ Elements of KEEP-LIST are not removed even if duplicate."
 (defun TeX-sort-strings (list)
   "Return sorted list of all strings in LIST."
   (sort (copy-sequence list) #'string<))
-
 
 ;;; Buffer
 
@@ -889,6 +909,8 @@ See the the AUCTeX manual for details."
 			  TeX-source-specials-map))
   (TeX-set-mode-name 'TeX-source-specials-mode t t))
 (defalias 'tex-source-specials-mode 'TeX-source-specials-mode)
+
+(put 'TeX-source-specials-mode 'safe-local-variable 'TeX-booleanp)
 
 (setq minor-mode-map-alist (delq
 		       (assq 'TeX-source-specials-mode minor-mode-map-alist)
@@ -1031,6 +1053,12 @@ If this is nil, an empty string will be returned."
 		  (concat " " TeX-source-specials-view-editor-flags))))
     ""))
 
+(defvar TeX-sync-output-page-function nil
+  "Symbol of function returning an output page relating to buffer position.
+The function should take no arguments and return the page numer
+as a string.")
+(make-variable-buffer-local 'TeX-sync-output-page-function)
+
 ;;;
 
 (defvar TeX-mode-p nil
@@ -1045,6 +1073,7 @@ If this is nil, an empty string will be returned."
   :group 'TeX-command
   :set 'TeX-mode-set
   :type 'boolean)
+(put 'TeX-PDF-mode 'safe-local-variable 'TeX-booleanp)
 
 (define-minor-mode TeX-PDF-mode
   "Minor mode for using PDFTeX.
@@ -1172,6 +1201,61 @@ Must be the car of an entry in `TeX-command-list'."
   "The default command for `TeX-command' in the current major mode.")
 
  (make-variable-buffer-local 'TeX-command-default)
+
+(defvar TeX-clean-default-intermediate-suffixes
+  '("\\.aux" "\\.bbl" "\\.blg" "\\.brf" "\\.fot"
+    "\\.glo" "\\.gls" "\\.idx" "\\.ilg" "\\.ind"
+    "\\.lof" "\\.log" "\\.lot" "\\.out" "\\.toc" "\\.url")
+  "List of regexps matching suffixes of files to be cleaned.
+Used as a default in TeX, LaTeX and docTeX mode.")
+
+(defvar TeX-clean-default-output-suffixes
+  '("\\.dvi" "\\.pdf" "\\.ps")
+  "List of regexps matching suffixes of files to be cleaned.
+Used as a default in TeX, LaTeX and docTeX mode.")
+
+(defcustom TeX-clean-confirm t
+  "If non-nil, ask before deleting files."
+  :type 'boolean
+  :group 'TeX-command)
+
+(autoload 'dired-mark-pop-up "dired")
+
+(defun TeX-clean (&optional arg)
+  "Delete generated files associated with current master file.
+If prefix ARG is non-nil, not only remove intermediate but also
+output files."
+  (interactive "P")
+  (let* ((mode-prefix (cdr (assoc major-mode '((plain-tex-mode . "plain-TeX")
+					       (latex-mode . "LaTeX")
+					       (doctex-mode . "docTeX")
+					       (texinfo-mode . "Texinfo")
+					       (context-mode . "ConTeXt")))))
+	 (suffixes (append (symbol-value
+			    (intern (concat mode-prefix
+					    "-clean-intermediate-suffixes")))
+			   (when arg
+			     (symbol-value
+			      (intern (concat mode-prefix
+					      "-clean-output-suffixes"))))))
+	 (master (TeX-active-master))
+	 (regexp (concat (file-name-nondirectory master)
+			 "\\("
+			 (mapconcat 'identity suffixes "\\|")
+			 "\\)\\'"))
+	 (files (when regexp
+		  (directory-files (or (file-name-directory master) ".")
+				   nil regexp))))
+    (if files
+	(when (or (not TeX-clean-confirm)
+		  (dired-mark-pop-up " *Deletions*" 'delete
+				     (if (> (length files) 1) 
+					 files
+				       (cons t files))
+				     'y-or-n-p "Delete files? "))
+	  (dolist (file files)
+	    (delete-file file)))
+      (message "No files to be deleted"))))
 
 
 ;;; Master File
@@ -1366,8 +1450,11 @@ the Emacs manual) to set this variable permanently for each file."
 		 (const :tag "Shared" shared)
 		 (const :tag "Dwim" dwim)
 		 (string :format "%v")))
-
- (make-variable-buffer-local 'TeX-master)
+(make-variable-buffer-local 'TeX-master)
+(put 'TeX-master 'safe-local-variable
+     '(lambda (x)
+	(or (stringp x)
+	    (member x (quote (t nil shared dwim))))))
 
 (defvar TeX-convert-master t
   "*If not nil, automatically convert ``Master:'' lines to file variables.
@@ -1683,7 +1770,6 @@ active.")
 
 (defvar TeX-active-styles nil
   "List of styles currently active in the document.")
-
  (make-variable-buffer-local 'TeX-active-styles)
 
 (defun TeX-run-style-hooks (&rest styles)
@@ -1715,12 +1801,14 @@ active.")
   "Nil, unless the style specific hooks have been applied.")
  (make-variable-buffer-local 'TeX-style-hook-applied-p)
 
+(defvar TeX-update-style-hook nil
+  "Hook run as soon as style specific hooks were applied.")
+
 (defun TeX-update-style (&optional force)
   "Run style specific hooks for the current document.
 
 Only do this if it has not been done before, or if optional argument
 FORCE is not nil."
-
   (unless (or (and (boundp 'TeX-auto-update)
 		   (eq TeX-auto-update 'BibTeX)) ; Not a real TeX buffer
 	      (and (not force)
@@ -1734,12 +1822,11 @@ FORCE is not nil."
 		 (string-match TeX-one-master
 			       (file-name-nondirectory (buffer-file-name)))))
 	(TeX-run-style-hooks (TeX-master-file)))
-
     (if (and TeX-parse-self
 	     (null (cdr-safe (assoc (TeX-strip-extension nil nil t)
 				    TeX-style-hook-list))))
 	(TeX-auto-apply))
-
+    (run-hooks 'TeX-update-style-hook)
     (message "Applying style hooks... done")))
 
 (defvar TeX-remove-style-hook nil
@@ -1749,7 +1836,7 @@ FORCE is not nil."
 (defun TeX-remove-style ()
   "Remove all style specific information."
   (setq TeX-style-hook-applied-p nil)
-  (run-hooks 'TeX-remove-style-hooks)
+  (run-hooks 'TeX-remove-style-hook)
   (setq TeX-active-styles (list TeX-virgin-style)))
 
 (defun TeX-style-list ()
@@ -2158,13 +2245,17 @@ Choose `ignore' if you don't want AUCTeX to install support for font locking."
     ("AMSTEX" ams-tex-mode
      "\\\\document\\b")
     ("CONTEXT" context-mode
-     "\\(\\\\\\(starttext\\|starttekst\\)\\|%.*?interface=\\)")
+     "\\\\\\(start\\(text\\|tekst\\|proje[ck]t\\|proiect\\|\
+produ[ck]t\\|produs\\|environment\\|omgeving\\|umgebung\\|prostredi\\|mediu\\|\
+component\\|onderdeel\\|komponent[ea]\\|componenta\\)\
+\\|inizia\\(testo\\|progetto\\|prodotto\\|ambiente\\|componente\\)\
+\\)\\|%.*?interface=")
     ("LATEX" latex-mode
      "\\\\\\(begin\\|section\\|chapter\\|documentstyle\\|documentclass\\)\\b")
     ("TEX" plain-tex-mode "."))
   "*List of format packages to consider when choosing a TeX mode.
 
-A list with a entry for each format package available at the site.
+A list with an entry for each format package available at the site.
 
 Each entry is a list with three elements.
 
@@ -2173,7 +2264,7 @@ Each entry is a list with three elements.
 3. A regexp typically matched in the beginning of the file.
 
 When entering `tex-mode', each regexp is tried in turn in order to find
-when major mode to enter.")
+the major mode to be used.")
 
 (defcustom TeX-default-mode 'latex-mode
   "*Mode to enter for a new file when it can't be determined otherwise."
@@ -3003,6 +3094,9 @@ t means autodetect, nil means kpathsea is disabled."
 (defcustom TeX-kpathsea-format-alist
   '(("tex" "${TEXINPUTS.latex}" TeX-file-extensions)
     ("sty" "${TEXINPUTS.latex}" '("sty"))
+    ("dvi" "${TEXDOCS}" '("dvi" "pdf" "ps" "txt" "html"
+			  "dvi.gz" "pdf.gz" "ps.gz" "txt.gz" "html.gz"
+			  "dvi.bz2" "pdf.bz2" "ps.bz2" "txt.bz2" "html.bz2"))
     ("eps" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
     ("pdf" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
     ("png" "${TEXINPUTS}" LaTeX-includegraphics-extensions)
@@ -3025,7 +3119,7 @@ file extensions to match."
 ;; help of `TeX-kpathsea-format-alist'.  Out of these differences
 ;; arises a need to unify the behavior of `TeX-search-files' and
 ;; `TeX-search-files-kpathsea' and their treatment of parameters.
-;; Additionally `TeX-search-files-kpathses' should be made more
+;; Additionally `TeX-search-files-kpathsea' should be made more
 ;; general to work with other platforms and TeX systems as well.
 (defun TeX-search-files-kpathsea (extensions nodir strip)
   "The kpathsea-enabled version of `TeX-search-files'.
@@ -3142,6 +3236,13 @@ Return nil if ELT is not a member of LIST."
     (setq list (cdr list)))
   (car-safe list))
 
+(defun TeX-elt-of-list-member (elts list)
+  "Return non-nil if an element of ELTS is a member of LIST."
+  (catch 'found
+    (dolist (elt elts)
+      (when (member elt list)
+	(throw 'found t)))))
+
 (defun TeX-assoc (key list)
   "Return non-nil if KEY is `equal' to the car of an element of LIST.
 Like assoc, except case insensitive."
@@ -3166,6 +3267,10 @@ See `match-data' for details."
 	   (eq (car arg) 'lambda))
       (and (symbolp arg)
 	   (fboundp arg))))
+
+(defun TeX-booleanp (arg)
+  "Return non-nil if ARG is t or nil."
+  (memq arg '(t nil)))
 
 (defun TeX-looking-at-backward (regexp &optional limit)
   "Return non-nil if the text before point matches REGEXP.
@@ -3349,7 +3454,7 @@ Brace insertion is only done if point is in a math construct and
     (define-key map "\C-c}"    'up-list)
     (define-key map "\C-c#"    'TeX-normal-mode)
     (define-key map "\C-c\C-n" 'TeX-normal-mode)
-    (define-key map "\C-c?"    'describe-mode)
+    (define-key map "\C-c?"    'TeX-doc)
     (define-key map "\C-c\C-i" 'TeX-goto-info-page)
     (define-key map "\r"       'TeX-newline)
     
@@ -3580,6 +3685,10 @@ Brace insertion is only done if point is in a math construct and
        :help "Save and reparse the current buffer for style information"]
       ["Reset AUCTeX" (TeX-normal-mode t) :keys "C-u C-c C-n"
        :help "Reset buffer and reload AUCTeX style files"])
+     ["Find Documentation..." TeX-doc
+      :help "Get help on commands, packages, or TeX-related topics in general"]
+     ["Read the AUCTeX Manual" TeX-goto-info-page
+      :help "Everything worth reading"]
      ("Customize AUCTeX"
       ["Browse Options"
        (customize-group 'AUCTeX)
@@ -3592,15 +3701,13 @@ Brace insertion is only done if point is in a math construct and
 	      (setq TeX-customization-menu
 		    (customize-menu-create 'AUCTeX "Customize AUCTeX")))))
        :help "Make this menu a full-blown customization menu"])
-     ["Read the AUCTeX Manual" TeX-goto-info-page
-      :help "Everything worth reading"]
      ["Report AUCTeX Bug" TeX-submit-bug-report
       :help ,(format "Problems with AUCTeX %s? Mail us!"
 		     AUCTeX-version)])))
 
 (defvar plain-TeX-menu-entries
   (TeX-menu-with-help
-   `(["Macro ..." TeX-insert-macro
+   `(["Macro..." TeX-insert-macro
       :help "Insert a macro and possibly arguments"]
      ["Complete" TeX-complete-symbol
       :help "Complete the current macro"]
@@ -4580,11 +4687,6 @@ closing brace."
       (if arg (forward-sexp (prefix-numeric-value arg)))
       (insert TeX-grcl))))
 
-(defun TeX-goto-info-page ()
-  "Read documentation for AUCTeX in the info system."
-  (interactive)
-  (info "auctex"))
-
 ;;;###autoload
 (defun TeX-submit-bug-report ()
   "Submit a bug report on AUCTeX via mail.
@@ -4622,6 +4724,109 @@ showing the problem and include it in your report.
 Your bug report will be posted to the AUCTeX bug reporting list.
 ------------------------------------------------------------------------")))
 
+
+;;; Documentation
+
+(defun TeX-goto-info-page ()
+  "Read documentation for AUCTeX in the info system."
+  (interactive)
+  (info "auctex"))
+
+(autoload 'Info-find-file "info")
+(autoload 'info-lookup->completions "info-look")
+
+(defvar TeX-doc-backend-alist
+  '((texdoc (plain-tex-mode latex-mode doctex-mode ams-tex-mode context-mode)
+	    (lambda ()
+	      (when (executable-find "texdoc")
+		(TeX-search-files nil '("dvi" "pdf" "ps" "txt" "html") t t)))
+	    (lambda (doc)
+	      (call-process "texdoc" nil 0 nil doc)))
+    (latex-info (latex-mode)
+		(lambda ()
+		  (when (Info-find-file "latex" t)
+		    (mapcar (lambda (x)
+			      (let ((x (car x)))
+				(if (string-match "\\`\\\\" x)
+				    (substring x 1) x)))
+			    (info-lookup->completions 'symbol 'latex-mode))))
+		(lambda (doc)
+		  (info-lookup-symbol (concat "\\" doc) 'latex-mode)))
+    (texinfo-info (texinfo-mode)
+		  (lambda ()
+		    (when (Info-find-file "texinfo" t)
+		      (mapcar (lambda (x)
+				(let ((x (car x)))
+				  (if (string-match "\\`@" x)
+				      (substring x 1) x)))
+			      (info-lookup->completions 'symbol
+							'texinfo-mode))))
+		  (lambda (doc)
+		    (info-lookup-symbol (concat "@" doc) 'texinfo-mode))))
+  "Alist of backends used for looking up documentation.
+Each item consists of four elements.
+
+The first is a symbol describing the backend's name.
+
+The second is a list of modes the backend should be activated in.
+
+The third is a function returning a list of documents available
+to the backend.  It should return nil if the backend is not
+available, e.g. if a required executable is not present on the
+system in question.
+
+The fourth is a function for displaying the documentation.  The
+function should accept a single argument, the chosen package,
+command, or document name.")
+
+(defun TeX-doc (&optional name)
+  "Display documentation for string NAME.
+NAME may be a package, a command, or a document."
+  (interactive)
+  (let (docs)
+    ;; Build the lists of available documentation used for completion.
+    (dolist (elt TeX-doc-backend-alist)
+      (when (memq major-mode (nth 1 elt))
+	(let ((completions (funcall (nth 2 elt))))
+	  (unless (null completions)
+	    (add-to-list 'docs (cons completions (nth 0 elt)))))))
+    (if (null docs)
+	(message "No documentation found")
+      ;; Ask the user about the package, command, or document.
+      (when (and (called-interactively-p)
+		 (or (not name) (string= name "")))
+	(let ((symbol (thing-at-point 'symbol))
+	      contained completions doc)
+	  ;; Is the symbol at point contained in the lists of available
+	  ;; documentation?
+	  (setq contained (catch 'found
+			    (dolist (elt docs)
+			      (when (member symbol (car elt))
+				(throw 'found t)))))
+	  ;; Setup completion list in a format suitable for `completing-read'.
+	  (dolist (elt docs)
+	    (setq completions (nconc (mapcar 'list (car elt)) completions)))
+	  ;; Query user.
+	  (setq doc (completing-read
+		     (if contained
+			 (format "Package, command, or document (default %s): "
+				 symbol)
+		       "Package, command, or document: ")
+		     completions))
+	  (setq name (if (string= doc "") symbol doc))))
+      (if (not name)
+	  (message "No documentation specified")
+	;; XXX: Provide way to choose in case a symbol can be found in
+	;; more than one backend.
+	(let* ((backend (catch 'found
+			  (dolist (elt docs)
+			    (when (member name (car elt))
+			      (throw 'found (cdr elt)))))))
+	  (if backend
+	      (funcall (nth 3 (assoc backend TeX-doc-backend-alist)) name)
+	    (message "Documentation not found")))))))
+
+
 ;;; Ispell Support
 
 ;; FIXME: Document those functions and variables.  -- rs
@@ -4646,6 +4851,39 @@ Your bug report will be posted to the AUCTeX bug reporting list.
 	 (ispell))
 	(t
 	 (spell-buffer))))
+
+(defun TeX-ispell-document (name)
+  "Run ispell on all open files belonging to the current document."
+  (interactive (list (TeX-master-file)))
+  (if (string-equal name "")
+      (setq name (TeX-master-file)))
+
+  (let ((found nil)
+	(regexp (concat "\\`\\("
+			(mapconcat (lambda (dir)
+				     (regexp-quote
+				      (expand-file-name 
+				       (file-name-as-directory dir))))
+				   (append (when (file-name-directory name)
+					     (list (file-name-directory name)))
+					   TeX-check-path)
+				   "\\|")
+			"\\).*\\("
+			(mapconcat 'regexp-quote
+				   (cons (file-name-nondirectory name)
+					 (TeX-style-list)) "\\|")
+			"\\)\\.\\("
+			(mapconcat 'regexp-quote TeX-file-extensions "\\|")
+			"\\)\\'"))
+	(buffers (buffer-list)))
+    (while buffers
+      (let* ((buffer (car buffers))
+	     (name (buffer-file-name buffer)))
+	(setq buffers (cdr buffers))
+	(if (and name (string-match regexp name))
+	    (progn
+	      (save-excursion (switch-to-buffer buffer) (ispell-buffer))
+	      (setq found t)))))))
 
 ;; Some versions of ispell 3 use this.
 (defvar ispell-tex-major-modes nil)

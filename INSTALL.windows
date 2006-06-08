@@ -37,7 +37,12 @@ further below.
      configuration options can be found in the detailed installation
      instructions below.
 
-  4. If there were no error messages, type
+     If the configuration script failed to find all required programs,
+     make sure that these programs are in your system path and add
+     directories containing the programs to the `PATH' environment
+     variable if necessary.
+
+  4. If there were no further error messages, type
 
           make
 
@@ -218,7 +223,7 @@ used single quotes for that.
           image display.  This will be the case if you are using a
           native variant of Emacs 21.
 
-    `--with-texmf-dir=DRIVE:DIR'
+    `--with-texmf-dir=DRIVE:/DIR'
           This will specify the directory where your TeX installation
           sits.  If your TeX installation does not conform to the TDS
           (TeX directory standard), you may need to specify more
@@ -237,6 +242,12 @@ used single quotes for that.
      should work for this purpose.  `gswin32c.exe' is the usual name for
      the required _command line_ executable under Windows; in contrast,
      `gswin32.exe' is likely to fail.
+
+     As an alternative to specifying variables for the `configure' call
+     you can add directories containing the required executables to the
+     `PATH' variable of your Windows system.  This is especially a good
+     idea if Emacs has trouble finding the respective programs later
+     during normal operation.
 
   9. Run `make' in the installation directory.
 

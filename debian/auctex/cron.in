@@ -13,8 +13,10 @@ test -x <:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:> \
 exit 0
 <:
 # arch-tag: 126ab2bf-e5ae-4853-a264-827e624d587d
+#
 # local variables:
 # mode: shell-script
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:

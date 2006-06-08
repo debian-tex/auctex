@@ -51,6 +51,16 @@ changes on the mailing list of AUCTeX first.
 2 Wishlist
 **********
 
+   * Documentation lookup for macros
+
+     A parser could gather information about which macros are defined in
+     which LaTeX packages and store the information in a hashtable which
+     can be used in a backend for `TeX-doc' in order to open the
+     matching documentation for a given macro.  The information could
+     also be used to insert an appropriate `\usepackage' statement if
+     the user tries to insert a macro for which the respective package
+     has not been requested yet.
+
    * Spell checking of macros
 
      A special ispell dictionary for macros could be nice to have.
@@ -75,9 +85,10 @@ changes on the mailing list of AUCTeX first.
      viewer opened right at the definition of that macro (using Source
      Specials), or the source code of the `.dtx' file.
 
-   * Better plain TeX support For starters, `LaTeX-math-mode' is not
-     very LaTeX-specific in the first place, and similar holds for
-     indentation and formatting.
+   * Better plain TeX support
+
+     For starters, `LaTeX-math-mode' is not very LaTeX-specific in the
+     first place, and similar holds for indentation and formatting.
 
    * Poor man's Source Specials In particular in PDF mode (and where
      Source Specials cause problems), alternatives would be desirable.
@@ -85,6 +96,10 @@ changes on the mailing list of AUCTeX first.
      Oberdiek's `vpe.sty', and forward search by using the `.aux' file
      info to correlate labels in the text (possibly in cooperation with
      RefTeX) with previewer pages.
+
+     In AUCTeX 11.83, support for forward search with PDF files was
+     added.  Currently this only works if you use the pdfsync LaTeX
+     package and xpdf as your PDF viewer.
 
    * Page count when compiling should (optionally) go to modeline of the
      window where the compilation command was invoked, instead of the

@@ -1,8 +1,6 @@
 #include "variables"
-.\" Emacs, you know, this is an -*- nroff -*- source file.
-.\"
 .\" Man page for update-auctex-elisp.
-.\" Copyright (C) 1998, 99, 2000, 01, 04, 05
+.\" Copyright (C) 1998, 99, 2000, 01, 04, 05, 06
 .\" by Davide Giovanni Maria Salvetti.
 .\"
 .\" This manual page is free software; you can redistribute it and/or
@@ -25,14 +23,14 @@
 .TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
 .SH NAME
 update\-auctex\-elisp \- update AUCTeX automatically generated TeX macros and
-LaTeX styles informations.
+LaTeX styles data.
 .SH SYNOPSIS
 .B update\-auctex\-elisp
 .RI [ FLAVOR .\|.\|. ]
 .SH DESCRIPTION
 The
 .B update\-auctex\-elisp
-script updates the automatically generated TeX and LaTeX informations used by
+script updates the automatically generated TeX and LaTeX data used by
 AUCTeX and stored in
 .B <:=${var}:>.
 .PP
@@ -47,7 +45,7 @@ On Debian GNU/Linux system
 .B update\-auctex\-elisp
 is called weekly by a
 .BR cron (8)
-driven mechanism, to ensure up-to-date informations.
+driven mechanism, to ensure up-to-date data.
 .SH BUGS
 None known.
 .SH FILES
@@ -60,11 +58,14 @@ the hierarchy containing the byte-compiled files.
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
 <:
-# LocalWords:  auctex elisp GPL AUCTeX varauc cron tex var
 # arch-tag: 407a516c-7fbb-444d-b798-2768d02129cb
+#
 # local variables:
 # mode: nroff
+# coding: utf-8
 # fill-column: 78
 # ispell-local-dictionary: "american"
 # end:
+#
+# LocalWords:  auctex elisp GPL AUCTeX varauc cron tex var nroff LaTeX emacs
 :>//

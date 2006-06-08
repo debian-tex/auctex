@@ -1,18 +1,17 @@
 # Brazilian Portuguese translations of the "debian/auctex/templates" file
 # of the auctex Debian package.
 #
-# Copyright (C) 2005 by Davide G. M. Salvetti.
+# Copyright (C) 2005, 06 by Davide G. M. Salvetti.
 #
 # This file is distributed under the same license as the auctex package.
-# Davide G. M. Salvetti <salve@debian.org>, 2005.
 #
 # arch-tag: 07ed1bd4-5aa8-4122-80a8-2b1b9fcc6ef2
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.81-1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-30 02:31+0200\n"
-"PO-Revision-Date: 2005-09-30 02:39+0200\n"
+"Report-Msgid-Bugs-To: salve@debian.org\n"
+"POT-Creation-Date: 2006-06-08 01:08+0200\n"
+"PO-Revision-Date: 2006-06-04 00:20+0200\n"
 "Last-Translator: Knut \"Paulo R. Ormenese\" <pormenese@uol.com.br>\n"
 "Language-Team: German <pt_br@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,49 +20,51 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates:3
-msgid "The autoload mechanism of AUCTeX has changed."
+#: ../auctex/templates:3
+msgid "The autoload mechanism of AUCTeX has changed"
 msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates:3
+#: ../auctex/templates:3
 msgid ""
-"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  If you do "
-"not want AUCTeX to override the standard Emacs TeX-mode, you may unload "
-"AUCTeX completely by evaluating the form \"(unload-feature 'tex-site)\" (i."
-"e., put that string into your \"~/.emacs\" to disable AUCTeX completely)."
+"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users who "
+"do not want AUCTeX to override the standard Emacs TeX-mode may unload AUCTeX "
+"completely by evaluating the form \"(unload-feature 'tex-site)\" (i.e., let "
+"them put that string into their personal \"~/.emacs\" or \"~/.emacs.el\" "
+"file to disable AUCTeX completely)."
 msgstr ""
 
 #. Type: select
 #. Choices
-#: ../templates:11
+#: ../auctex/templates:12
 #, fuzzy
 msgid "Background"
 msgstr "Background"
 
 #. Type: select
 #. Choices
-#: ../templates:11
+#: ../auctex/templates:12
 #, fuzzy
 msgid "Foreground"
 msgstr "Foreground"
 
 #. Type: select
 #. Choices
-#: ../templates:11
+#: ../auctex/templates:12
 msgid "None"
 msgstr "Nenhum"
 
 #. Type: select
 #. Description
-#: ../templates:13
-msgid "How should (La)TeX macros be parsed?"
+#: ../auctex/templates:14
+#, fuzzy
+msgid "(La)TeX macros parsing mode:"
 msgstr "Como macros (La)TeX devem ser interpretados?"
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 msgid ""
 "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
 "style file currently installed at your site will be parsed."
@@ -74,13 +75,13 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 #, fuzzy
 msgid ""
-"This may take a lot of time, so it should be probably done in background; "
-"however you may also choose to have it done in foreground, or to skip the "
-"parsing at all instead.  If you choose Background, you will find a detailed "
-"log of the process in the file: ${LOGFILE}."
+"This may take a lot of time, so it should be probably done in the "
+"background; however you may also choose to have it done in the foreground, "
+"or to skip the parsing at all instead.  If you choose Background, you will "
+"find a detailed log of the process in the file: ${LOGFILE}."
 msgstr ""
 "Isso pode consumir um bom tempo, então pode ser feito provavelmente em "
 "background; entretanto, você pode optar por ter isso feito em foreground, ou "
@@ -89,11 +90,11 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 msgid ""
-"A weekly cron job will also take care of updating the informations now "
-"collected, so usually you won't need to worry about them whenever you "
-"install new (La)TeX packages or remove old ones."
+"A weekly cron job will also take care of updating the data collected now, so "
+"usually you won't need to worry about them whenever you install new (La)TeX "
+"packages or remove old ones."
 msgstr ""
 "Um trabalho semanal do cron também tomará o cuidado de atualizar as "
 "informações obtidas agora, então você normalmente não precisará preocupar-se "
@@ -101,8 +102,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:13
-#, fuzzy
+#: ../auctex/templates:14
 msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgstr ""
 "De qualquer forma, você pode atualizá-las manualmente executando update-"
@@ -110,30 +110,30 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../templates:30
+#: ../auctex/templates:31
 #, fuzzy
 msgid "Console"
 msgstr "Console"
 
 #. Type: select
 #. Choices
-#: ../templates:30
+#: ../auctex/templates:31
 msgid "File"
 msgstr "Arquivo"
 
 #. Type: select
 #. Description
-#: ../templates:32
-msgid "Where should parsing output go?"
-msgstr "Onde deve ir a saída da interpretação?"
+#: ../auctex/templates:33
+msgid "Parsing output destination:"
+msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:32
+#: ../auctex/templates:33
 #, fuzzy
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This is ok, but normally it will also generate quite a lot of output."
+"This is OK, but normally it will also generate quite a lot of output."
 msgstr ""
 "Você escolheu interpretar pacotes de macros TeX e arquivos de estilo LaTeX "
 "em foreground.  Isto está bem, mas normalmente isso também gerará bastante "
@@ -141,7 +141,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:32
+#: ../auctex/templates:33
 msgid ""
 "By default -- i.e., answering File to this question -- further output from "
 "the parsing process will go to a file named: ${LOGFILE}."
@@ -152,7 +152,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:32
+#: ../auctex/templates:33
 #, fuzzy
 msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
@@ -160,3 +160,6 @@ msgid ""
 msgstr ""
 "Se você responder Console, verá toda a saída (cansativa) direto em seu "
 "terminal."
+
+#~ msgid "Where should parsing output go?"
+#~ msgstr "Onde deve ir a saída da interpretação?"

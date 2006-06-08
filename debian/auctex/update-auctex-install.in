@@ -25,11 +25,14 @@ for FLAVOR in ${FLAVORS}; do
 done
 
 <:
-# LocalWords:  AUCTeX debconf
 # arch-tag: 8367175f-2821-4e25-aefd-10ff9157886f
+#
 # local variables:
 # mode: shell-script
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
+#
+# LocalWords:  AUCTeX debconf
 :>//

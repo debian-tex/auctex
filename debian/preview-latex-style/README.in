@@ -8,10 +8,12 @@ There are no special Debian notes for this package.
 
 -- Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
 <:
+# arch-tag: a9aeff50-cd75-470a-ac70-65b89b0abb04
+#
 # local variables:
 # mode: text
+# coding: utf-8
 # fill-column: 78
 # ispell-local-dictionary: "american"
 # end:
-# arch-tag: a9aeff50-cd75-470a-ac70-65b89b0abb04
 :>//

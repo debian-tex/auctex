@@ -21,11 +21,14 @@ do not need to do anything special to use it.
 
 -- Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
 <:
-# LocalWords:  AUCTeX tex emacs
+# arch-tag: 40ef55ea-fc75-4f6f-83af-a804f4d1b045
+#
 # local variables:
 # mode: text
+# coding: utf-8
 # fill-column: 78
 # ispell-local-dictionary: "american"
 # end:
-# arch-tag: 40ef55ea-fc75-4f6f-83af-a804f4d1b045
+#
+# LocalWords:  AUCTeX tex emacs
 :>//

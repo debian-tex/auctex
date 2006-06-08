@@ -22,11 +22,14 @@ done
 <:# save space, keep only byte compiled style files :>//
 find <:=${var}:> -type f -name \*.el -print0 | xargs -0 rm -f
 <:
-# LocalWords:  AUCTeX
 # arch-tag: 9e3a877b-8471-4e26-9909-1ea4c690fa00
+#
 # local variables:
 # mode: shell-script
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
+#
+# LocalWords:  AUCTeX
 :>//

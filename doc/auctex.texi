@@ -19,15 +19,15 @@
 @titlepage
 @title @AUCTeX{}
 @subtitle A sophisticated @TeX{} environment for Emacs.
-@subtitle Version 11.82
+@subtitle Version 11.83
 
 @author by Kresten Krab Thorup
 @author updates from 6.1 to 11.13 by Per Abrahamsen
 @author updates from 11.14 by David Kastrup
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1993, 1994, 1995,
-                       2001, 2002, 2004, 2005 Free Software Foundation, Inc.
+Copyright @copyright{} 1993, 1994, 1995, 2001, 2002, 2004,
+  2005, 2006 Free Software Foundation, Inc.
 Copyright @copyright{} 1992 Kresten Krab Thorup @*
 
 Permission is granted to make and distribute verbatim copies of
@@ -77,7 +77,7 @@ approved by the Free Software Foundation.
 @AUCTeX{} is an integrated environment for editing @LaTeX{}, @ConTeXt{},
 doc@TeX{}, Texinfo, and @TeX{} files.
 
-This file documents @AUCTeX{} version 11.82.
+This file documents @AUCTeX{} version 11.83.
 
 Although @AUCTeX{} contains a large number of features, there are no
 reasons to despair.  You can continue to write @TeX{} and @LaTeX{}
@@ -96,21 +96,14 @@ documents right away, insert the following in your @file{.emacs} file.
 (setq-default TeX-master nil)
 @end lisp
 
-@cindex tool bar, toolbar
-If you are using the tool bar, there is some tool bar support available
-for @LaTeX{} which you can enable with
+Another thing you should enable is Ref@TeX{}, a comprehensive solution
+for managing cross references, bibliographies, indices, document
+navigation and a few other things.  (@pxref{Installation,,,reftex,The
+Ref@TeX{} manual})
 
-@lisp
-(add-hook 'LaTeX-mode-hook #'LaTeX-install-toolbar)
-@end lisp
-
-Another thing you should enable is Ref@TeX{}
-(@pxref{Installation,,,reftex,The Ref@TeX{} manual}), a comprehensive
-solution for managing cross references, bibliographies, indices,
-document navigation and a few other things.
-
-Also check out @ref{Installation,,,preview-latex,The @previewlatex{}
-Manual}, for activating the @previewlatex{} subsystem of @AUCTeX{}.
+For detailed information about the @previewlatex{} subsystem of
+@AUCTeX{}, see @ref{Top,,Introduction,preview-latex,The @previewlatex{}
+Manual}.
 
 NOTE: This documentation is preliminary.  It should however cover most
 important points.  Corrections or perhaps rewrites of sections
@@ -155,6 +148,69 @@ sending ``subscribe'' in the subject of a mail to
 * Function Index::              Function Index
 * Variable Index::              Variable Index
 * Concept Index::               Concept Index
+
+@detailmenu
+ --- The Detailed Node Listing ---
+
+Inserting Frequently Used Commands
+
+* Quotes::                      Inserting double quotes
+* Font Specifiers::             Inserting Font Specifiers
+* Sectioning::                  Inserting chapters, sections, etc.
+* Environments::                Inserting Environment Templates
+
+Inserting Environment Templates
+
+* Equations::                   Equations
+* Floats::                      Floats
+* Itemize-like::                Itemize-like
+* Tabular-like::                Tabular-like
+* Customizing environments::    Customizing environments
+
+Advanced Editing Features
+
+* Mathematics::                 Entering Mathematics
+* Completion::                  Completion of macros
+* Commenting::                  Commenting text
+* Indenting::                   Reflecting syntactic constructs with whitespace
+* Filling::                     Automatic and manual line breaking
+
+Controlling Screen Display
+
+* Font Locking::                Font Locking
+* Folding::                     Folding Macros and Environments
+* Outline::                     Outlining the Document
+
+Starting Processors, Viewers and Other Programs
+
+* Commands::                    Invoking external commands.
+* Viewing::                     Invoking external viewers.
+* Debugging::                   Debugging @TeX{} and @LaTeX{} output.
+* Checking::                    Checking the document.
+* Control::                     Controlling the processes.
+* Cleaning::                    Cleaning intermediate and output files.
+* Documentation::               Documentation about macros and packages.
+
+Language Support
+
+* European::                    Using @AUCTeX{} with European Languages
+* Japanese::                    Using @AUCTeX{} with Japanese
+
+Automatic Customization
+
+* Automatic Global::            Automatic Customization for the Site
+* Automatic Private::           Automatic Customization for a User
+* Automatic Local::             Automatic Customization for a Directory
+
+Writing Your own Style Support
+
+* Simple Style::                A Simple Style File
+* Adding Macros::               Adding Support for Macros
+* Adding Environments::         Adding Support for Environments
+* Adding Other::                Adding Other Information
+* Hacking the Parser::          Automatic Extraction of New Things
+
+@end detailmenu
 @end menu
 
 @node Copying
@@ -170,7 +226,7 @@ sending ``subscribe'' in the subject of a mail to
 @cindex Right
 @cindex Warranty
 
-(This text stolen from the @TeX{}info 2.16 distribution).
+(This text stolen from the Texinfo 2.16 distribution).
 
 The programs currently being distributed that relate to @AUCTeX{}
 include lisp files for Emacs (and XEmacs).  These programs are
@@ -1559,13 +1615,21 @@ arguments''---which correspond with the macro types explained above.
 
 Text in quotation marks is displayed with the face
 @code{font-latex-string-face}.  Besides the various forms of opening and
-closing double and single quotation marks so-called guillemets (<<, >>)
+closing double and single quotation marks, so-called guillemets (<<, >>)
 can be used for quoting.  Because there are two styles of using
 them---French style: << text >>; German style: >>text<<---you can
 customize the variable @code{font-latex-quotes} to tell @fontlatex{}
-which type you are using.
+which type you are using if the correct value cannot be derived from
+document properties.
 
 @defopt font-latex-quotes
+The default value of @code{font-latex-quotes} is @samp{auto} which means
+that @fontlatex{} will try to derive the correct type of quotation mark
+matching from document properties like the language option supplied to
+the babel @LaTeX{} package.
+
+If the automatic detection fails for you and you mostly use one specific
+style you can set it to a specific language-dependent value as well.
 Set the value to @samp{german} if you are using >>German quotes<< and to
 @samp{french} if you are using << French quotes >>.  @fontlatex{} will
 recognize the different ways these quotes can be given in your source
@@ -1883,12 +1947,21 @@ run (La)@TeX{}/@ConTeXt{} and other external commands like Bib@TeX{} and
 @code{makeindex} from within Emacs, viewing and printing the results,
 and moreover allowing you to @emph{debug} your documents.
 
+@cindex tool bar, toolbar
+@vindex LaTeX-enable-toolbar
+If you are using the tool bar, @AUCTeX{} provides a special tool bar for
+@LaTeX{} which offers icons for the most important commands.  You can
+customize some tool bar features with @kbd{M-x customize-group RET
+TeX-tool-bar RET}.
+
 @menu
 * Commands::                    Invoking external commands.
 * Viewing::                     Invoking external viewers.
 * Debugging::                   Debugging @TeX{} and @LaTeX{} output.
 * Checking::                    Checking the document.
 * Control::                     Controlling the processes.
+* Cleaning::                    Cleaning intermediate and output files.
+* Documentation::               Documentation about macros and packages.
 @end menu
 
 @node Commands
@@ -2184,29 +2257,40 @@ for a viewer will be made.
 @cindex Forward search
 You can make use of forward and inverse searching if this is supported
 by your @acronym{DVI} viewer and you enabled
-@code{TeX-source-specials-mode} as described in @ref{Commands}.
-@AUCTeX{} will automatically pass the
-necessary command line options to the viewer in order to display the
-page containing the content you are currently editing (forward search).
+@code{TeX-source-specials-mode}.  @xref{Commands}, on how to do that.
+@AUCTeX{} will automatically pass the necessary command line options to
+the viewer in order to display the page containing the content you are
+currently editing (forward search).
+
 Upon opening the viewer you will be asked if you want to start a server
 process (Gnuserv or Emacs server) which is necessary for inverse search.
 This happens only if there is no server running already.  You can
 customize the variable @code{TeX-source-specials-view-start-server} to
 inhibit the question and always or never start the server respectively.
+
+@defopt TeX-source-specials-view-start-server
+If @code{TeX-source-specials-mode} is active and a @acronym{DVI} viewer
+is invoked, the default behavior is to ask if a server process should be
+started.  Set this variable to @code{t} if the question should be
+inhibited and the server should always be started.  Set it to @code{nil}
+if the server should never be started.  Inverse search will not be
+available in the latter case.
+@end defopt
+
 Once the server and the viewer are running you can use a mouse click in
 the viewer to jump to the corresponding part of your document in Emacs
 (inverse search).  Refer to the documentation of your viewer to find out
 what you have to do exactly.  In xdvi you usually have to use
 @kbd{C-down-mouse-1}.
 
-@defopt TeX-source-specials-view-start-server
-If @code{TeX-source-specials-mode} is active and a @acronym{DVI} viewer
-is invoked, the default behavior is to ask if a server process should be
-started.  Set this variable to @code{t} if the question should be
-inhibited and the server should be started always.  Set it to @code{nil}
-if the server should never be started.  Inverse search will not be
-available in the latter case.
-@end defopt
+For PDF output, forward search is availabe when using the pdfsync
+@LaTeX{} package and xpdf as PDF viewer.  With the pdfsync package
+forward search does not rely on source specials.  Therefore you don't
+have to bother about the provisions for source specials explained above.
+If document parsing is enabled, the functionality is usable immediately,
+e.g. by typing @kbd{C-c C-v} (@code{TeX-view}) which will open the
+viewer or bring it to front if it is already opened and display the
+output page corresponding to the position of point in the source file.
 
 @node Debugging
 @section Catching the errors
@@ -2321,6 +2405,63 @@ visible.
 (@kbd{C-c ^}) Go to the `master' file in the document associated with
 the current buffer, or if already there, to the file where the current
 process was started.
+@end deffn
+
+@node Cleaning
+@section Cleaning intermediate and output files
+@cindex Cleaning
+
+@deffn Command TeX-clean
+@vindex plain-TeX-clean-intermediate-suffixes
+@vindex plain-TeX-clean-output-suffixes
+@vindex LaTeX-clean-intermediate-suffixes
+@vindex LaTeX-clean-output-suffixes
+@vindex docTeX-clean-intermediate-suffixes
+@vindex docTeX-clean-output-suffixes
+@vindex Texinfo-clean-intermediate-suffixes
+@vindex Texinfo-clean-output-suffixes
+@vindex ConTeXt-clean-intermediate-suffixes
+@vindex ConTeXt-clean-output-suffixes
+Remove generated intermediate files.  In case a prefix argument is
+given, remove output files as well.
+
+Canonical access to the function is provided by the @samp{Clean} and
+@samp{Clean All} entries in @code{TeX-command-list}, invokable with
+@kbd{C-c C-c} or the Command menu.
+
+The patterns governing which files to remove can be adapted separately
+for each @AUCTeX{} mode by means of the variables
+@code{plain-TeX-clean-intermediate-suffixes},
+@code{plain-TeX-clean-output-suffixes},
+@code{LaTeX-clean-intermediate-suffixes},
+@code{LaTeX-clean-output-suffixes},
+@code{docTeX-clean-intermediate-suffixes},
+@code{docTeX-clean-output-suffixes},
+@code{Texinfo-clean-intermediate-suffixes},
+@code{Texinfo-clean-output-suffixes},
+@code{ConTeXt-clean-intermediate-suffixes} and
+@code{ConTeXt-clean-output-suffixes}.
+@end deffn
+
+@defopt TeX-clean-confirm
+Control if deletion of intermediate and output files has to be confirmed
+before it is actually done.  If non-nil, ask before deleting files.
+@end defopt
+
+@node Documentation
+@section Documentation about macros and packages
+@cindex Documentation
+
+@deffn Command TeX-doc
+@kindex C-c ?
+(@kbd{C-c ?})  Get documentation about macros, packages or @TeX{} &
+Co. in general.  The function will prompt for the name of a command or
+manual, providing a list of available keywords for completion.  If point
+is on a command or word with available documentation, this will be
+suggested as default.
+
+The command can be invoked by the key binding mentioned above as well as
+the @samp{Find Documentation...} entry in the mode menu.
 @end deffn
 
 @node Multifile

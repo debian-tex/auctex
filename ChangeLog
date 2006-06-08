@@ -1,3 +1,573 @@
+2006-06-07  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Version 11.83 released.
+
+2006-06-07  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (full-release): Remove duplicate pass phrase prompt.
+	(release-commit): Only commit ChangeLog.
+
+	* Makefile.in (rpm-packages): Rename from rpm-builds.
+
+	* RELEASE: Fix typo.
+
+	* Makefile.in (rpm-builds): Add preview-tetex.
+
+	* auctex.spec: Add "-n" for preview-tetex.
+	(%install): Create preview.cfg.
+
+2006-06-07  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Add info about preview RPM.
+
+	* doc/install.texi (Advice for package providers): Adapt package
+	advice to what we actually do for RPM files.
+
+	* auctex.spec: attempt to add preview-tetex package.
+
+2006-06-07  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (XEMACS_BUILD_DIR): New variable.
+	(xemacs-package): Use it.
+	(tar-ball-clean): Add XEMACS_BUILD_DIR.
+	(CP): New variable.
+	(tar-ball, www-doc): Use it.
+
+	* RELEASE: Update RPM stuff.
+
+	* tex.el (TeX-line-number-at-pos): New compatibility function.
+
+	* style/pdfsync.el (LaTeX-pdfsync-output-page): Use it.
+
+	* auctex.spec (Obsoletes): Remove preview-latex-common.
+
+2006-06-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/pdfsync.el (LaTeX-pdfsync-output-page): Initialize
+	`sync-record' with a non-nil value.
+
+	* doc/auctex.texi (Viewing): Fix reference to Commands node
+	looking ugly in info output.  Slightly rearrange forward/inverse
+	search section.  Document pdfsync support a bit more in detail.
+
+2006-06-06  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* RELEASE: Use "SUSE" instead of "SuSE".
+
+	* auctex.spec (Release): Bump to 1.
+	(%changelog): Add 11.83.
+
+	* doc/changes.texi: Add @xref for pdfsync.
+
+	* doc/auctex.texi (Viewing): Mention pdfsync.
+
+	* doc/todo.texi (Wishlist): Add newline.  Mention pdfsync.
+
+2006-06-06  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Add details about downloadable packages.  Beg harder.
+
+2006-06-05  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* RELEASE: Mention LaTeX tool bar.
+
+2006-06-05  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-quote-regexp-beg)
+	(font-latex-quotes-control): Make buffer-local.
+	(font-latex-add-quotes): Revert last change and do not make
+	`font-latex-quotes-control' buffer-local which it now already is.
+
+2006-06-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-add-quotes): Make
+	`font-latex-quote-regexp-beg' buffer-local.
+
+2006-06-04  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (rpm-builds): New target.
+	(full-release): Use gpg-agent if available.
+	(RPM_SIGN): New variable.
+	(rpm-builds): Use it.
+
+	* doc/install.texi (Advice for non-privileged users): Reword to
+	avoid underfull hbox.
+
+2006-06-03  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (top): Update master menu.
+	(Running TeX and friends): Update menu.
+	(Miscellaneous Commands): Remove.
+	(Cleaning, Documentation): New nodes.
+
+	* doc/changes.texi: Update references to documentation about
+	cleaning and documentation access.
+
+2006-06-02  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (Miscellaneous Commands): New node.
+
+	* doc/changes.texi: Add @xref-s.
+
+2006-06-02  David Kastrup  <dak@gnu.org>
+
+	* doc/changes.texi: Change one ref to xref.
+
+2006-05-31  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/changes.texi: Conditionalize reference.
+
+	* doc/Makefile.in (MAKEINFO_PLAIN): Remove --no-validate.
+
+	* auctex.spec (%files emacs): Remove %exclude.
+
+2006-05-30  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/Makefile.in (MAKEINFO_PLAIN): New.  Add --no-validate.
+
+	* doc/changes.texi: Add tool bar.
+
+	* doc/auctex.texi (top): Remove tool bar.
+	(Running TeX and friends): Add tool bar here.  Adjust.
+
+2006-05-25  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Mention file-line-error style messages.
+	Mention XyMTeX fix.
+
+	* doc/changes.texi: The same.
+
+
+2006-05-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-update-style-hook): New variable.
+	(TeX-update-style): Use it.
+	(TeX-remove-style): Fix typo.
+
+	* font-latex.el (font-latex-quotes-internal): New variable.
+	(font-latex-quotes-set-internal): New function.
+	(font-latex-match-quotation): Use it.  Use
+	`font-latex-quotes-internal' instead of `font-latex-quotes'.
+	(font-latex-setup): Remove code for figuring out type of
+	language-specific quotation mark matching which is now in
+	`font-latex-quotes-set-internal'.
+
+	* RELEASE: Update for 11.83.
+
+	* auctex.spec, configure.ac, doc/auctex.texi, doc/changes.texi,
+	doc/preview-latex.texi, doc/tex-ref.tex: Bump version number.
+
+	Update address of FSF in GPL notices.
+
+2006-05-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-quotes-fallback)
+	(font-latex-quote-style-list-french)
+	(font-latex-quote-style-list-german): New variables.
+	(font-latex-quotes): Add `auto' option.
+	(font-latex-setup): Try to derive type of quotation mark matching
+	from document properties.
+
+	* tex.el (TeX-elt-of-list-member): New function.
+
+	* doc/auctex.texi (Font Locking): Document `auto' option of
+	`font-latex-quotes'.
+
+2006-05-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-source-specials-mode): Mark as safe.
+	(TeX-PDF-mode): Use `TeX-booleanp'.
+	(TeX-booleanp): New function.
+
+	* font-latex.el (font-latex-quotes): Mark as safe.
+	(font-latex-fontify-script): Use `TeX-booleanp'.
+
+2006-05-17  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-forward-paragraph): Make regexp more efficient.
+
+2006-05-15  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-PDF-mode): Rewrite safe-local-variable property for
+	Emacs 21 compatibility.
+
+	* font-latex.el (font-latex-fontify-script): Ditto.
+
+2006-05-10  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-master): Quote safe-local-variable lambda expression
+	to avoid byte compilation.
+
+2006-05-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* font-latex.el (font-latex-fontify-script): Mark as
+	safe-local-variable.
+
+2006-05-07  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-PDF-mode): Mark as safe-local-variable.
+	(TeX-master): Don't use t in safe-local-variable declaration.
+	(TeX-doc): Clarify.
+
+2006-05-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-quotation): Do not match
+	quotation marks in math constructs.
+
+2006-05-05  Berend de Boer  <berend@pobox.com>
+
+	* context.el (ConTeXt-mode-common-initialization): Previous fix
+	still wrong. Problem is that all local variables were killed, so
+	added a save/restore around the common initialisation.
+
+2006-05-04  Berend de Boer  <berend@pobox.com>
+
+	* context-nl.el (context-nl-mode) and context-en.el
+	(context-en-mode): can now assume that ConTeXt-current-interface
+	is buffer local.
+
+	* context.el (ConTeXt-current-interface): this variable should
+	always be buffer local. With this and above two changes having
+	buffers with two interfaces at the same time works correctly
+	(again?).
+
+2006-04-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-TeX-sentinel-check, TeX-parse-error): Support
+	file-line-error error indicators.
+
+2006-04-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-format-list): Extend regexp for ConTeXt mode.
+
+2006-04-21  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (docTeX-mode): Make filling and indentation aware of
+	DocStrip guards.
+
+2006-04-20  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-warning): Don't balk if `string' is nil.
+
+2006-04-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-match-script): Fix matching of nested
+	braces.
+
+2006-04-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-babel-insert-hyphen): Do not error out at
+	beginning of buffer.
+
+2006-03-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (install-metadata): Do not use an inline test for
+	checking if preview is enabled.  Just to be on the safe side.
+
+2006-03-27  David Kastrup  <dak@gnu.org>
+
+	* doc/intro.texi (Introduction): refer to `below' instead of
+	probably non-existing `preview/README'.
+
+	* tex.el: tiny typo.
+
+	* latex.el (LaTeX-close-environment): Allow prefix argument to
+	reopen the environment.
+
+2006-03-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (install-metadata): Append preview/auto.el to start
+	file if configured with preview-latex.
+
+2006-03-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-insert-environment): Do not polute the kill
+	ring.
+
+2006-03-15  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (TeX-latex-mode): Set up tool bar correctly for XEmacs
+	and activate it for every buffer in Emacs.  Run mode hooks as late
+	as possible.
+
+2006-03-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Check for `make' and abort if not present.  Use
+	`AC_PROG_MAKE_SET' instead of deprecated `AC_SET_MAKE'.
+
+	* latex.el (LaTeX-common-initialization): Add \dots to supported
+	TeX symbols.
+
+2006-03-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-mode-map): Change `C-c ?' binding from
+	`describe-mode' to `TeX-doc'.
+	(TeX-common-menu-entries): Add `Find Documentation...' entry for
+	`TeX-doc'.
+	(plain-TeX-menu-entries): Remove space before ellipsis.
+	(TeX-doc-backend-alist): Make texdoc backend available in all
+	modes.
+
+	* latex.el (LaTeX-mode-menu): Remove space before ellipsis.
+
+	* doc/changes.texi: Advertise cleaning and documentation finding
+	functionality.
+
+2006-03-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-next-error, TeX-active-buffer): Get master from
+	the command buffer.
+	(TeX-error, TeX-warning): Do not set `TeX-master' but set
+	`TeX-command-buffer' to the right value instead.
+
+2006-02-17  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex-buf.el (TeX-error-description-list): Fix error messages.
+	Changed from `documentstyle' to `documentclass'.  The duplicated
+	entries `counter too large' are combined.  Add the name of
+	referenced book and the section number to the entry `Missing \\$
+	inserted'.
+
+	* tex-jp.el (TeX-error-description-list): Likewise.
+
+2006-02-16  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-master): Mark as safe.
+
+2006-02-09  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/wininstall.texi: Intersperse some information about PATH.
+
+2006-02-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-clean-default-intermediate-suffixes): Add .brf and
+	.out for hyperref.
+
+2006-02-08  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-kpathsea-format-alist): Add search specs for
+	documentation.
+	(Info-find-file, info-lookup->completions): Autoload.
+	(TeX-doc-backend-alist): New variable.
+	(TeX-doc): New function.
+
+	* doc/todo.texi (Wishlist): Add a few words about documentation
+	lookup for macros.
+
+2006-02-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-run-ispell-on-document): Reintroduce for
+	compatibility reasons.
+
+	* tex.el (TeX-command-list): Use `TeX-run-function' instead of
+	`TeX-run-ispell-on-document' for "Spell" option.  Remove
+	`TeX-run-ispell-on-document' as option for the third element of an
+	item.
+	(TeX-ispell-document): Move here from tex-buf.el.
+
+	* tex-buf.el (TeX-run-ispell-on-document): Remove.
+	(TeX-ispell-document): Move to tex.el.
+
+2006-02-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-command-list): Remove "ConTeXt Clean".  Add general
+	"Clean" and "Clean All" options.  Add `TeX-run-function' as an
+	option for the third element of an item and document it.
+	(TeX-clean-default-intermediate-suffixes)
+	(TeX-clean-default-output-suffixes, TeX-clean-confirm): New
+	variables.
+	(dired-mark-pop-up): Autoload.
+	(TeX-clean): New function.
+
+	* tex-buf.el (TeX-run-function): New function.
+
+	* tex-info.el (Texinfo-clean-intermediate-suffixes)
+	(Texinfo-clean-output-suffixes): New variables.
+
+	* latex.el (docTeX-clean-intermediate-suffixes)
+	(docTeX-clean-output-suffixes)
+	(LaTeX-clean-intermediate-suffixes, LaTeX-clean-output-suffixes):
+	New variables.
+
+	* context.el (ConTeXt-clean-intermediate-suffixes)
+	(ConTeXt-clean-output-suffixes): New variables.
+
+2006-02-04  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-make-sectioning-faces): Set the face
+	size for XEmacs again after `set-face-parent' was called which
+	erroneously overwrites the original size.  Without this fix
+	sectioning faces may be unscaled after starting XEmacs.
+
+2006-02-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi (top): Add detailed menu for better
+	accessibility.  Fix formatting/usage of references to RefTeX and
+	preview-latex manuals.
+
+2006-02-03  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (LaTeX-enable-toolbar): New variable.
+	(LaTeX-maybe-install-toolbar): New function.
+	(TeX-latex-mode): Add LaTeX-maybe-install-toolbar to
+	tool-bar-mode-on-hook.
+
+2006-01-31  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4: Check for {late,last,early}-package-hiearchies if
+	`late-packages' is not bound (which indicates we are dealing with
+	XEmacs 21.5).
+
+2006-01-28  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex-jp.el (TeX-command-list): Use function ignore insted of nil
+	for the third element of `separator for command menu' because
+	defcustom of TeX-command-list requires the third element function.
+	Reported by Ikumi Keita <ikumi@revery.net>.
+
+2006-01-28  Ikumi Keita  <ikumi@revery.net>
+
+	* tex-buf.el (TeX-run-discard-foreground): Renamed from
+	TeX-run-dviout.
+	(TeX-run-dviout): alias to TeX-run-discard-foreground.
+
+	* tex.el (TeX-command-list): Use TeX-run-discard-foreground
+	instead of TeX-run-dviout.
+
+2006-01-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/csquotes.el (LaTeX-csquotes-insert-environment): Set
+	prompt for mandatory arguments.
+	("csquotes"): Bring up to par with csquotes 3.2.
+
+	* style/url.el ("url"): Support the \path macro.
+
+2006-01-25  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex-buf.el (TeX-run-dviout): Undo previous change.
+
+	* tex.el (TeX-command-list): Ditto.
+
+2006-01-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-verbatim-macros-with-delims)
+	(LaTeX-verbatim-macros-with-delims-local)
+	(LaTeX-verbatim-macros-with-braces)
+	(LaTeX-verbatim-macros-with-braces-local): Doc fix.
+	(LaTeX-verbatim-environments, LaTeX-verbatim-environments-local):
+	Doc fix.  Make the correct variable buffer-local.
+	(LaTeX-verbatim-macros-with-delims)
+	(LaTeX-verbatim-macros-with-braces, LaTeX-verbatim-environments):
+	New functions.
+	(LaTeX-verbatim-macro-boundaries): Find macro in case point is
+	just in front of it.
+	(LaTeX-verbatim-p): Doc fix.  Correct macro lookup.
+	(LaTeX-fill-move-to-break-point): Do not break verbatim macros
+	with braces across lines (in addition to macros with delimiters).
+	For example in case of \lstinline{...} this would result in an
+	error and in case of \url{...} spaces would be messed up (in
+	conjunction with the `obeyspaces' package option).
+
+	* font-latex.el (font-latex-set-syntactic-keywords): Instead of
+	appending lists of verbatim macros and environments manually use
+	new LaTeX-verbatim-* functions.
+
+2006-01-24  Ikumi Keita  <ikumi@revery.net>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Fix previous change.
+
+2006-01-23  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in: Add CP_A.  Add coment on maintainer-only targets.
+	(xemacs-package): Use CP_A.
+
+2006-01-22  Ikumi Keita  <ikumi@revery.net>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Use TeX-espaced-p to
+	check TeX escape char.
+
+	* tex.el (TeX-command-list): Removed TeX-run-dviout because dviout
+	here is only work with Emacs on MS-DOS.
+
+	* tex-buf.el (TeX-run-dviout): Removed.
+
+	* tex-jp.el (japanese-TeX-command-list): Remove TeX-run-dviout.
+	Commented out easy-menu-define (plain-TeX|LaTeX)-mode-command-nemu.
+	(japanese-TeX-mode, japanese-plain-tex-mode)
+	(japanese-latex-mode): Doc fix.
+	(japanese-TeX-self-insert-command): Renamed from
+	tex-jp-self-insert-command.
+	(TeX-insert-punctuation): Follow the change.
+	(TeX-error-description-list): Doc fix.
+
+2006-01-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Fold pageref macro as
+	well.
+
+2006-01-16  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (xemacs-package): Don't clean up after building so
+	that we have a chance for debugging.
+
+2006-01-14  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: Don't check for INSTALL_INFO if already set.
+
+2006-01-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/changes.texi: Advertize pdfsync support.
+
+	* latex.el (LaTeX-header-end, LaTeX-trailer-start): Do not pick up
+	commented header end or trailer start respectively.
+
+2006-01-13  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (xemacs-package): Don't run `install-info' and
+	`texhash'
+
+2006-01-11  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (tar-ball): Fix use of TAG_EXPORT.
+
+2006-01-04  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex-fold.el (TeX-fold-mode): Autoload as an interactive
+	function.
+
+2005-12-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/pdfsync.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/pdfsync.el.
+
+	* tex.el (TeX-output-view-style): Add %(outpage) expander to xpdf
+	call.  Start xpdf in server mode.
+	(TeX-expand-list): New %(outpage) expander.
+	(TeX-sync-output-page-function): New variable.
+
+2005-12-28  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (tar-ball): Use TAG_EXPORT for snapshots.
+
+	* auctex.spec (description): Add preview-latex.
+	(install, files): Don't create preview directory.
+
+2005-12-21  Ikumi Keita  <ikumi@revery.net>
+
+	* latex.el (LaTeX-mark-section): Remove read-only mark `*' from
+	interactive.
+	(LaTeX-fill-move-to-break-point): Use `*' instead of `+' for
+	looking back Japanese Macro in order to prevent breaking line just
+	after TeX-esc, in other words, not to break TeX command `\JJJ'
+	into `\' and `JJJ'.  Use variable linebeg instead of function
+	line-beginning-position.
+
+2005-12-17  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec (Provides): Make emacs/site-lisp/preview.
+	(Release): Bump to 1.
+
 2005-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
 
 	* Version 11.82 released.
@@ -475,7 +1045,7 @@
 	section.
 	Suggested by Ikumi Keita <ikumi@revery.net>.
 
-2005-09-29  Ikumi Keita <ikumi@revery.net>
+2005-09-29  Ikumi Keita  <ikumi@revery.net>
 
 	* texmathp.el (texmathp-tex-commands-default): Remove "xxalignat*"
 	and add "boxed".
@@ -1245,7 +1815,7 @@
 
 	* doc/tex-ref.tex (section{Greek Letters}): Add \Xi.
 
-2005-05-18  Ikumi Keita <ikumi@revery.net>
+2005-05-18  Ikumi Keita  <ikumi@revery.net>
 
 	* style/amsmath.el (LaTeX-label-alist): Add "multline" environment.
 
@@ -1308,14 +1878,14 @@
 	(LaTeX-common-initialization): Call `easy-menu-add' as late as
 	possible.
 
-2005-05-15  Ikumi Keita <ikumi@revery.net>
+2005-05-15  Ikumi Keita  <ikumi@revery.net>
 
 	* Makefile.in (CLEANFILES): Add $(CONTRIBELC) and
 	$(CONTRIB_MULEELC).
 	(DISTCLEANFILES): Add auctex.el and auto-loads.el.
 	(auto-loads.el): Add $(COMPILE_MULE)
 
-2005-05-14  Ikumi Keita <ikumi@revery.net>
+2005-05-14  Ikumi Keita  <ikumi@revery.net>
 
 	* style/amsopn.el:
 	* style/amsmath.el: Move "mode"-like entries from amsopn.el to
@@ -1908,7 +2478,7 @@
 
 	* doc/changes.texi: Mention `TeX-fold-force-fontify'.
 
-2005-04-14  Ikumi Keita <ikumi@revery.net>
+2005-04-14  Ikumi Keita  <ikumi@revery.net>
 
 	* style/amsmath.el: Fix comment.
 	("amsmath"): Removed duplicate settings of "alignat*" and
@@ -2136,7 +2706,7 @@
 	* tex.el (TeX-submit-bug-report): Insert AUCTeX version into mail
 	subject.
 
-2005-03-30  Ikumi Keita <ikumi@revery.net>
+2005-03-30  Ikumi Keita  <ikumi@revery.net>
 
 	* latex.el (LaTeX-env-label): Remove `TeX-toggle-off-input-method'
 	because `TeX-math-input-method-off' is already called in
@@ -2300,7 +2870,7 @@
 	style/alphanum.el: Use new functions for setting
 	`LaTeX-largest-level' or `LaTeX-section-list' respectively.
 
-2005-03-16  Ikumi Keita <ikumi@revery.net>
+2005-03-16  Ikumi Keita  <ikumi@revery.net>
 
 	* latex.el (LaTeX-fill-move-to-break-point): Limit the max number
 	of characters to look backward for `TeX-looking-at-backward'.
@@ -2460,11 +3030,11 @@
 
 	* latex.el (LaTeX-beamer-themes): New variable.
 
-2005-03-05  Ikumi Keita <ikumi@revery.net>  (tiny change)
+2005-03-05  Ikumi Keita  <ikumi@revery.net>  (tiny change)
 
 	* tex-jp.el (japanese-TeX-command-list): Doc fix.
 
-2005-03-03  Ikumi Keita <ikumi@revery.net>
+2005-03-03  Ikumi Keita  <ikumi@revery.net>
 
 	* tex.el (TeX-macro-global-internal): New function.
 	(TeX-macro-global): Use it.
@@ -2522,11 +3092,11 @@
 
 	* bib-cite.el: Some doc fixes in the commentary section.
 
-2005-02-23  Ikumi Keita <ikumi@revery.net>  (tiny change)
+2005-02-23  Ikumi Keita  <ikumi@revery.net>  (tiny change)
 
 	* doc/auctex.texi (I18n): Removed FIXME comment.
 
-2005-02-22  Ikumi Keita <ikumi@revery.net>  (tiny change)
+2005-02-22  Ikumi Keita  <ikumi@revery.net>  (tiny change)
 
 	* latex.el (LaTeX-fill-delete-newlines): Call search-forward,
 	which is copied from `fill-delete-newlines', with BOUND TO.
@@ -2611,7 +3181,7 @@
 	text is written in Japanese (e.g. long Japanese line).
 	Reported by Ikumi Keita <ikumi@revery.net>.
 
-2005-02-14  Ikumi Keita <ikumi@revery.net>  (tiny change)
+2005-02-14  Ikumi Keita  <ikumi@revery.net>  (tiny change)
 
 	* tex-jp.el (LaTeX-auto-regexp-list): Use
 	`LaTeX-auto-class-regexp-list'.
@@ -3572,7 +4142,7 @@
 	* latex.el (LaTeX-math-list): Improve doc string and custom type.
 	(LaTeX-math-default): Added doc string.
 
-2004-10-26  Frank Küster <frank@kuesterei.ch>
+2004-10-26  Frank Küster  <frank@kuesterei.ch>
 
 	* doc/quickstart.texi: Don't use so many nodes.  Several fixes.
 
@@ -3648,7 +4218,7 @@
 
 	* doc/quickstart.texi: Fix markup.
 
-2004-10-18  Frank Küster <frank@kuesterei.ch>
+2004-10-18  Frank Küster  <frank@kuesterei.ch>
 
 	* doc/quickstart.texi: New chapter.
 
@@ -3672,7 +4242,7 @@
 
 	* doc/Makefile.in (TEXIFILES): Added quickstart.texi.
 
-2004-10-18  Frank Küster <frank@kuesterei.ch>
+2004-10-18  Frank Küster  <frank@kuesterei.ch>
 
 	* doc/Makefile.in (TEXIFILES): Add macros.texi.
 	(auctex.dvi, auctex.pdf): Depend on TEXIFILES.
@@ -7420,7 +7990,7 @@
 
 2003-10-18  Peter S Galbraith  <psg@debian.org>
 
-	* font-latex.el: checkdoc cleaning (alomost clean now).
+	* font-latex.el: checkdoc cleaning (almost clean now).
 
 2003-09-18  Peter S Galbraith  <psg@debian.org>
 
@@ -8597,7 +9167,7 @@
 
 	* tex.el (TeX-mode-map): Don't bind `.' and `,' by default.
 
-2000-05-03  Peter Galbraith <psg@debian.org>
+2000-05-03  Peter Galbraith  <psg@debian.org>
 
 	* font-latex.el: file was broken. Updated to 0.701 (30 Mar 2000).
 	* bib-cite.el: file was broken. Updated to 3.16 (20 Dec 99).
@@ -8654,11 +9224,11 @@
 
 	* font-latex.el: Updated to 0.700 (20 December 1999).
 
-2000-03-30  Peter Galbraith <psg@debian.org>
+2000-03-30  Peter Galbraith  <psg@debian.org>
 
 	* font-latex.el: Updated to 0.701 (30 Mar 2000).
 
-2000-01-14  Peter Galbraith <psg@debian.org>
+2000-01-14  Peter Galbraith  <psg@debian.org>
 
 	* bib-cite.el: Updated to 3.16 (20 Dec 99).
 	* font-latex.el: Updated to 0.700 (20 Dec 99).

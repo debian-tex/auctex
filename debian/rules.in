@@ -20,7 +20,7 @@ INSTDATA := install -m 644
 INSTSCRIPT := install -m 755
 STRIP := strip -R .note -R .comment
 
-<:# DO NOT include <% debian/rules %> :>//
+<:# DO NOT include <% debian/rules %> or <% debian/templates %> :>//
 DFILES := debian/<:=${PACKAGE}:>/README debian/copyright \
 debian/<:=${PACKAGE}:>/NEWS \
 debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/postinst \
@@ -28,7 +28,7 @@ debian/<:=${PACKAGE}:>/prerm debian/<:=${PACKAGE}:>/postrm \
 debian/<:=${PACKAGE}:>/conffiles debian/<:=${PACKAGE}:>/cron \
 debian/<:=${PACKAGE}:>/docbase.auctex \
 debian/<:=${PACKAGE}:>/docbase.preview \
-debian/<:=${PACKAGE}:>/templates.merged \
+debian/<:=${PACKAGE}:>/lintian \
 debian/<:=${PACKAGE}:>/bug.presubj debian/<:=${PACKAGE}:>/bug.script \
 debian/<:=${PACKAGE}:>/install debian/<:=${PACKAGE}:>/remove \
 debian/<:=${PACKAGE}:>/lisp-startup.el \
@@ -42,6 +42,10 @@ debian/<:=${PLSPKG}:>/prerm debian/<:=${PLSPKG}:>/postrm \
 debian/<:=${PLSPKG}:>/docbase \
 debian/<:=${PLSPKG}:>/bug.presubj
 
+<:# <% Debconf %> templates :>//
+DCSOURCES := $(shell cat debian/po/POTFILES.in \
+		| perl -pe 's|^\[[^]]+\] +(.*)$$|debian/$${1}|')
+DFILES += $(patsubst %templates, %templates.dcobj, $(DCSOURCES))
 
 AUCTEXSCRIPTS := configure install-sh
 AUCTEXSRCS := aclocal.m4 configure.ac *.in *.el
@@ -58,20 +62,16 @@ pre-build:
 debian/rules: debian/variables
 
 <:# Eperl is simply great: thanks, Ralf! :>//
-% :: %.in
+%:: %.in
 	eperl -d DEBIAN_DIR="$(shell pwd)/debian/" \
 		-I "$(shell pwd)/debian/" -P -o $@ $<
 
-.PHONY: updatepo
-updatepo: debian/<:=${PACKAGE}:>/po/updatepo
+debian/po/templates.pot: $(DCSOURCES)
+	umask 0022 && debconf-updatepo --verbose --podir=debian/po/
+	@touch $@
 
-debian/<:=${PACKAGE}:>/po/updatepo: debian/<:=${PACKAGE}:>/templates
-	umask 0022 && debconf-updatepo --verbose \
-		--podir=debian/<:=${PACKAGE}:>/po/
-	touch debian/<:=${PACKAGE}:>/po/updatepo
-
-debian/<:=${PACKAGE}:>/templates.merged: debian/<:=${PACKAGE}:>/po/updatepo
-	po2debconf --verbose debian/<:=${PACKAGE}:>/templates > $@
+%.dcobj: % debian/po/templates.pot
+	po2debconf --verbose --podir debian/po $< > $@
 
 build: $(DFILES)
 	$(checkdir)
@@ -90,7 +90,6 @@ build: $(DFILES)
 clean:
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
-	-rm -f debian/<:=${PACKAGE}:>/po/updatepo
 	-$(MAKE) distclean
 	-rm -f $(DFILES)
 	$(fixperms)
@@ -199,12 +198,15 @@ binary-indep-auctex: build
 		$(auctex)/<:=${bug}:>/presubj
 	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/bug.script \
 		$(auctex)/<:=${bug}:>/script
+	$(INSTDIR) $(auctex)/<:=${lintian}:>
+	$(INSTDATA) debian/<:=${PACKAGE}:>/lintian \
+		$(auctex)/<:=${lintian}:>/<:=${PACKAGE}:>
 
 <:# install Debian control files :>//
 	$(INSTDIR) $(auctex)/<:=${debian}:>
 	$(INSTDATA) debian/<:=${PACKAGE}:>/conffiles \
 		$(auctex)/<:=${debian}:>
-	$(INSTDATA) debian/<:=${PACKAGE}:>/templates.merged \
+	$(INSTDATA) debian/<:=${PACKAGE}:>/templates.dcobj \
 		$(auctex)/<:=${debian}:>/templates
 	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/{config,postinst,postrm,prerm} \
 		$(auctex)/<:=${debian}:>
@@ -228,9 +230,9 @@ binary-indep-pls: build
 <:# install package :>//
 	cd preview && $(MAKE) prefix=$(pls)/<:$_=${usr};
 		s|/+|/|g; print:> TEXHASH=: \
-		previewdocdir=$(pls)/<:="${doc}/../texmf/latex/styles/":> \
+		previewdocdir=$(pls)/<:=${texmfdoc}:> \
 		install-texmf
-	gzip -9frv $(pls)/<:="${doc}/../texmf/latex/styles/":>
+	gzip -9frv $(pls)/<:=${texmfdoc}:>
 
 <:# install Debian doc :>//
 	$(INSTDIR) $(pls)/<:$_=${doc};
@@ -291,12 +293,14 @@ build-package:
 source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
+# arch-tag: 7f6799c7-dca1-4d84-8038-1ad9c2888751<:='-child':>
 <:
-# LocalWords:  Eperl Ralf auctexdoc tex
 # local variables:
 # mode: makefile
+# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
+#
+# LocalWords:  Eperl Ralf auctexdoc tex ChangeLog
 :>//
-# arch-tag: 7f6799c7-dca1-4d84-8038-1ad9c2888751<:='-child':>

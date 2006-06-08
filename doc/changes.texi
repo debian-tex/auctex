@@ -4,6 +4,64 @@
 
 @end ifset
 
+@heading News in 11.83
+
+@itemize @bullet
+@item
+The new function @code{TeX-doc} provides easy access to documentation
+about commands and packages or information related to @TeX{} and friends
+in general.
+@ifset rawfile
+It is accessible with the key binding @kbd{C-c ?} or the
+@samp{Find Documentation...} entry in the mode menus.
+@end ifset
+@ifclear rawfile
+@xref{Documentation}.
+@end ifclear
+
+@item
+You can now get rid of generated intermediate and output files by means
+of the new @samp{Clean} and @samp{Clean All} entries in
+@code{TeX-command-list} accessible with @kbd{C-c C-c} or the Command
+menu.
+@ifclear rawfile
+@xref{Cleaning}.
+@end ifclear
+
+@item
+Support for forward search with PDF files was added.  That means you can
+jump to a place in the output file corresponding to the position in the
+source file.
+@ifset rawfile
+Currently this only works if you use the pdfsync @LaTeX{} package and
+xpdf as your PDF viewer.  The accuracy is in the range of +/-1 page.
+@end ifset
+@ifclear rawfile
+@xref{Viewing}.
+@end ifclear
+
+Adding support for this feature required the default value of the
+variable @code{TeX-output-view-style} to be changed.  Please make sure
+you either remove any customizations overriding the new default or
+incorporate the changes into your customizations if you want to use this
+feature.
+
+@item
+@TeX{} error messages of the @code{-file-line-error} kind are now
+understood in @AUCTeX{} and @previewlatex{} (parsers are still
+separate).
+
+@item
+Bug fix in XyM@TeX{} support.
+
+@item
+The @LaTeX{} tool bar is now enabled by default.
+@ifclear rawfile
+@xref{Running TeX and friends}.
+@end ifclear
+
+@end itemize
+
 @heading News in 11.82
 
 @itemize @bullet
@@ -147,7 +205,7 @@ the names of the variables holding the related keyword lists were
 changed from @code{font-latex-title-@var{N}-keywords} to
 @code{font-latex-sectioning-@var{N}-keywords}.
 @ifclear rawfile
-@ref{Font Locking} for details.
+@xref{Font Locking}, for details.
 @end ifclear
 Make sure to adjust your customizations.
 

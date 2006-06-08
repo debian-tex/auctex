@@ -18,14 +18,13 @@
     Do not display it if there was no auctex installed.  Also, Frank Küster:
     ``The debconf note "defaultchanged" is shown for all upgraders, but it
     isn't really that necessary for people who have enabled site-wide
-    autoloading, anyway.  One could grep for ^[[:space:]]*(require 'tex-site)
-    in /etc/emacs21/site-start.d/50auctex.el.''  DGMS replies: ``Not sure
-    about this: does that means that auctex would require a preinst script?
-    (I have to check this, but I think that file would have been overwritten
-    before the new postinst gets executed, or maybe removed by the old prerm.)
-    Also, how should this cope with sysadmins who enabled site-wide
-    auto-loading, but only for emacs21 and not for emacs-snapshot, or
-    viceversa?''
+    autoloading, anyway.  One could grep for ^[[:space:]]*(require 'tex-site) in
+    /etc/emacs21/site-start.d/50auctex.el.''  DGMS replies: ``Not sure about
+    this: does that means that auctex would require a preinst script?  (I have
+    to check this, but I think that file would have been overwritten before
+    the new postinst gets executed, or maybe removed by the old prerm.)  Also,
+    how should this cope with sysadmins who enabled site-wide auto-loading,
+    but only for emacs21 and not for emacs-snapshot, or viceversa?''
 *** TODO The uncompressed Changelog file in site-lisp/auctex
     Frank Küster: ``You install the uncompressed Changelog file in
     site-lisp/auctex, but the comment sounds as if you don't really like that.
@@ -114,14 +113,29 @@
 
 * Miscellaneous stuff
 
-** DGMS Consider comaintainingship
+** TODO Add some lintian override.
+   auctex: extra-license-file usr/share/doc/auctex/src/copying.texi.gz
+   auctex: doc-base-file-unknown-format auctex:38 texinfo
+   auctex: doc-base-file-unknown-format preview-latex:11 texinfo
+   auctex: executable-not-elf-or-script ./usr/share/emacs/site-lisp/auctex/install-sh
+   auctex: debconf-is-not-a-registry ./usr/sbin/update-auctex-install
+** TODO Lintian thingies
+   auctex: malformed-prompt-in-templates auctex/doauto
+   auctex: malformed-prompt-in-templates auctex/doautofg
+** TODO "auctex.el", "preview-latex.el", "tex-site.el"
+   Do we need those files (there)?  Wouldn't be better to move the code in
+   lisp-startup?  Should those files mess with "load-path"?  Make the unload
+   feature work.
+** TODO .nosearch
+   Do we really need "/usr/share/emacs-snapshot/site-lisp/auctex/.nosearch"?
+** DONE Consider comaintainingship
    Talk to Makoto OHURA <ohura@debian.org>.
 ** DGMS Patches to upstream sources
    Evaluate and discuss them with upstream developers.
 ** DONE Install byte compiled preview-latex files under the auctex directory
    Done upstream.
 ** DONE Test with new teTeX 3.0
-** TODO Test with TeX-Live
+** DONE Test with TeX Live
    Also add proper alternative dependencies.
 ** TODO /usr/sbin/update-auctex-install
    Get the proper packages (teTeX?, ...?) to use it, add perhaps a note in the
@@ -132,14 +146,20 @@
 
 
 
-LocalWords:  auctex README dep autoconf tex debian po debconf pt Uploaders TODO
-LocalWords:  comaintainingship teTeX TeXLive elisp DGMS AUCTeX BTS changelog md
-LocalWords:  DAK Makoto OHURA reportbug
 arch-tag: dff5e454-a005-4bef-8c59-5f609e66aa62
+
 local variables:
 mode: org
+coding: utf-8
 org-todo-keywords: ("TODO" "DGMS" "DONE")
 org-todo-interpretation: type
 fill-column: 78
 ispell-local-dictionary: "american"
 end:
+
+LocalWords:  auctex README dep autoconf tex debian po debconf pt Uploaders TODO
+LocalWords:  comaintainingship teTeX TeXLive elisp DGMS AUCTeX BTS changelog md
+LocalWords:  DAK Makoto OHURA reportbug autoload defcustoms defaultchanged CVS
+LocalWords:  upgraders autoloading preinst postinst prerm viceversa csplit kB
+LocalWords:  symlink dpkg dlocate wishlist wontfix nosearch Küster Cardenes
+LocalWords:  emacsen

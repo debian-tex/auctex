@@ -1,18 +1,17 @@
 # German translations of the "debian/auctex/templates" file
 # of the auctex Debian package.
 #
-# Copyright (C) 2005 by Davide G. M. Salvetti.
+# Copyright (C) 2005, 06 by Davide G. M. Salvetti.
 #
 # This file is distributed under the same license as the auctex package.
-# Davide G. M. Salvetti <salve@debian.org>, 2005.
 #
 # arch-tag: 9f94e80b-a3a0-43a6-a958-20be0e1ab270
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.81-1\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-09-30 02:31+0200\n"
-"PO-Revision-Date: 2005-09-30 02:39+0200\n"
+"Report-Msgid-Bugs-To: salve@debian.org\n"
+"POT-Creation-Date: 2006-06-08 01:08+0200\n"
+"PO-Revision-Date: 2006-06-04 00:19+0200\n"
 "Last-Translator: Knut Suebert <knut.suebert@web.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,47 +20,49 @@ msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates:3
-msgid "The autoload mechanism of AUCTeX has changed."
+#: ../auctex/templates:3
+msgid "The autoload mechanism of AUCTeX has changed"
 msgstr ""
 
 #. Type: note
 #. Description
-#: ../templates:3
+#: ../auctex/templates:3
 msgid ""
-"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  If you do "
-"not want AUCTeX to override the standard Emacs TeX-mode, you may unload "
-"AUCTeX completely by evaluating the form \"(unload-feature 'tex-site)\" (i."
-"e., put that string into your \"~/.emacs\" to disable AUCTeX completely)."
+"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users who "
+"do not want AUCTeX to override the standard Emacs TeX-mode may unload AUCTeX "
+"completely by evaluating the form \"(unload-feature 'tex-site)\" (i.e., let "
+"them put that string into their personal \"~/.emacs\" or \"~/.emacs.el\" "
+"file to disable AUCTeX completely)."
 msgstr ""
 
 #. Type: select
 #. Choices
-#: ../templates:11
+#: ../auctex/templates:12
 msgid "Background"
 msgstr "Hintergrund"
 
 #. Type: select
 #. Choices
-#: ../templates:11
+#: ../auctex/templates:12
 msgid "Foreground"
 msgstr "Vordergrund"
 
 #. Type: select
 #. Choices
-#: ../templates:11
+#: ../auctex/templates:12
 msgid "None"
 msgstr "Nicht"
 
 #. Type: select
 #. Description
-#: ../templates:13
-msgid "How should (La)TeX macros be parsed?"
+#: ../auctex/templates:14
+#, fuzzy
+msgid "(La)TeX macros parsing mode:"
 msgstr "Wie sollen (La)TeX-Makros behandelt werden?"
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 msgid ""
 "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
 "style file currently installed at your site will be parsed."
@@ -71,12 +72,12 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 msgid ""
-"This may take a lot of time, so it should be probably done in background; "
-"however you may also choose to have it done in foreground, or to skip the "
-"parsing at all instead.  If you choose Background, you will find a detailed "
-"log of the process in the file: ${LOGFILE}."
+"This may take a lot of time, so it should be probably done in the "
+"background; however you may also choose to have it done in the foreground, "
+"or to skip the parsing at all instead.  If you choose Background, you will "
+"find a detailed log of the process in the file: ${LOGFILE}."
 msgstr ""
 "Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund "
 "empfohlen.  Die Bearbeitung kann allerdings auch im Vordergrund erfolgen -- "
@@ -87,11 +88,11 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 msgid ""
-"A weekly cron job will also take care of updating the informations now "
-"collected, so usually you won't need to worry about them whenever you "
-"install new (La)TeX packages or remove old ones."
+"A weekly cron job will also take care of updating the data collected now, so "
+"usually you won't need to worry about them whenever you install new (La)TeX "
+"packages or remove old ones."
 msgstr ""
 "Weiterhin wird ein wöchentlicher cron-Job auf die Fortschreibung der nun "
 "erhobenen Informationen achten, so daß Sie sich für gewöhnlich nicht weiter "
@@ -99,7 +100,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:13
+#: ../auctex/templates:14
 msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgstr ""
 "Die Aktualisierung kann zudem von Hand durch Aufruf von update-auctex-elisp "
@@ -107,28 +108,28 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../templates:30
+#: ../auctex/templates:31
 msgid "Console"
 msgstr "Konsole"
 
 #. Type: select
 #. Choices
-#: ../templates:30
+#: ../auctex/templates:31
 msgid "File"
 msgstr "Datei"
 
 #. Type: select
 #. Description
-#: ../templates:32
-msgid "Where should parsing output go?"
-msgstr "Wo soll die Protokoll-Ausgabe hingehen?"
+#: ../auctex/templates:33
+msgid "Parsing output destination:"
+msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:32
+#: ../auctex/templates:33
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This is ok, but normally it will also generate quite a lot of output."
+"This is OK, but normally it will also generate quite a lot of output."
 msgstr ""
 "Sie wählten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund.  "
 "Das ist schon in Ordnung, aber für gewöhnlich wird dabei eine Menge "
@@ -136,7 +137,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:32
+#: ../auctex/templates:33
 msgid ""
 "By default -- i.e., answering File to this question -- further output from "
 "the parsing process will go to a file named: ${LOGFILE}."
@@ -146,10 +147,13 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../templates:32
+#: ../auctex/templates:33
 msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
 "terminal."
 msgstr ""
 "Wenn Sie mit \\\"Konsole\\\" antworten, wird die gesamte Ausgabe direkt auf "
 "Ihrem Terminal erscheinen."
+
+#~ msgid "Where should parsing output go?"
+#~ msgstr "Wo soll die Protokoll-Ausgabe hingehen?"

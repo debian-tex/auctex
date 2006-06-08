@@ -3,13 +3,13 @@ Priority: optional
 Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
-Standards-Version: 3.6.2
-Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, gs-gpl | gs, po-debconf, tetex-bin, texinfo, texi2html (>=1.76-1)
+Standards-Version: 3.7.2
+Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, gs-gpl | gs, po-debconf, tetex-bin | texlive-latex-base, texinfo, texi2html (>=1.76-1)
 
 Package: auctex
 Architecture: all
 Depends: debconf | debconf-2.0, debianutils (>= 1.7), emacs21 | emacs-snapshot, gs-gpl | gs, make, preview-latex-style
-Recommends: tetex-base, doc-base
+Recommends: tetex-base | texlive-base, doc-base
 Suggests: catdvi, dvipng, lacheck
 Conflicts: emacspeak (<= 17.0-1), preview-latex
 Replaces: preview-latex
@@ -50,6 +50,8 @@ Description: An integrated environment for editing TeX and friends documents
  Currently XEmacs ships with its own AUCTeX, so this package should only
  be used with GNU/Emacs.  (I.e., you don't need to install this package if
  your site uses only XEmacs.)
+ .
+ Homepage: http://www.gnu.org/software/auctex/
 
 Package: preview-latex-style
 Architecture: all
@@ -58,3 +60,5 @@ Conflicts: preview-latex (<=0.7.3-2)
 Description: LaTeX style files for editor embedded preview of some environments
  These style files are allow previewing LaTeX environments such as math or
  figures in editors which support it.
+ .
+ Homepage: http://www.gnu.org/software/auctex/preview-latex.html
