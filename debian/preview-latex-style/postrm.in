@@ -8,15 +8,20 @@
 set -o posix
 
 case "${1}" in
-    (abort-install|abort-upgrade|failed-upgrade|remove|upgrade)
+    (remove|upgrade|failed-upgrade)
+    <:# rebuild the <% TeX ls-R %> database :>
+    <:=${MKTEXLSR}:>
+    ;;
+    (abort-install|abort-upgrade)
     <:# rebuild the <% TeX ls-R %> database :>
     <:=${MKTEXLSR}:>
     ;;
     (disappear|purge)
     :
     ;;
-    (*) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
+    (*) echo >&2 "${0##*/}/<:=${PLSPKG}:>:" \
 	"Unknown argument: \"${1}\"."
+    exit 1
     ;;
 esac
 

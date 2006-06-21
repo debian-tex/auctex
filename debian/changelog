@@ -1,6 +1,23 @@
+auctex (11.83-2) unstable; urgency=low
+
+  * {auctex, preview-latex-style}/{postinst.in, postrm.in, prerm.in}:
+    Fixed typo; exit 1 if called with unknown argument; thanks to Justin
+    Pryzby.
+  * {auctex, preview-latex-style}/prerm.in (failed-upgrade): Was
+    backwards, fixed; thanks to Justin Pryzby.  (Closes: #372146)
+
+  * auctex/install.in (do_install): Pass "GS=gs" to configure, to skip the
+    associated test.  This is important when a Ghostscript providing
+    package has not already been configured ("/usr/bin/gs" is managed
+    through alternatives); thanks do David Kastrup.  (Closes: #372566)
+
+  * po/fr.po: New file; thanks to Steve Petruzzello.  (Closes: #374751)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 21 Jun 2006 11:39:43 +0200
+
 auctex (11.83-1) unstable; urgency=low
 
-  * New upstream release.
+  * New upstream release.  (Closes: #363643, #366255)
 
   * control (Standards-Version): Updated to 3.7.2.
   * control (auctex/Description, preview-latex-style/Description): Added

@@ -8,16 +8,13 @@
 set -o posix
 
 case "${1}" in
-    (deconfigure|remove|upgrade)
+    (deconfigure|remove|upgrade|failed-upgrade)
     <:# deregister documentation with <% doc-base %> :>//
     <:=${DREMOVE}:> <:=${PLSPKG}:>
     ;;
-    (failed-upgrade)
-    <:# register documentation with <% doc-base %> :>//
-    <:=${DINSTALL}:> <:=if($_="${docbase}/${PLSPKG}")=~tr|/|/|s:>
-    ;;
-    (*) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
+    (*) echo >&2 "${0##*/}/<:=${PLSPKG}:>:" \
 	"Unknown argument: \"${1}\"."
+    exit 1
     ;;
 esac
 

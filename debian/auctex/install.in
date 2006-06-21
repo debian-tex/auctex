@@ -28,7 +28,7 @@ do_install () {
     touch --reference configure --date "-1 second" aclocal.m4
     touch --reference configure --date "-1 second" preview/configure.ac
     ${INSTDIR} <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
-    ./configure --disable-build-dir-test \
+    ./configure --disable-build-dir-test GS=gs \
 	--prefix=<:$_=${usr}; s|/+|/|g; print:> \
 	--with-emacs=${FLAVOR} \
 	--with-lispdir=<:$_=${lisp}; s|/+${PACKAGE}/*|/|;
@@ -72,7 +72,7 @@ do_auto () {
 	    <:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${_db_logfile} 2>&1
 	    echo >&2 "done." ;;
 	    (*) echo >&2 \
-		"${0##*/}: Debconf passed unknown value \`${_db_doautofg}'." ;;
+		"${0##*/}: Unknown Debconf value doautofg = \"${_db_doautofg}\"." ;;
 	esac ;;
 	(Background)
 	<:# Closing fd 3 is debconf important. :>//
@@ -86,7 +86,7 @@ do_auto () {
 	echo >&2 "Further output will appear in: ${_db_logfile}." ;;
 	(None) rm -f ${_db_logfile} ;;
 	(*) echo >&2 \
-	    "${0##*/}: Debconf passed unknown value \`${_db_doauto}'." ;;
+	    "${0##*/}: Unknown Debconf value doauto = \"${_db_doauto}\"." ;;
     esac
     return 0
 }
