@@ -13,6 +13,7 @@ Recommends: tetex-base | texlive-base, doc-base
 Suggests: catdvi, dvipng, lacheck
 Conflicts: emacspeak (<= 17.0-1), preview-latex
 Replaces: preview-latex
+Provides: preview-latex
 Description: An integrated environment for editing TeX and friends documents
  AUCTeX is a comprehensive customizable integrated environment for writing
  input files for TeX/LaTeX/ConTeXt/Texinfo using Emacs.
