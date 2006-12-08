@@ -1,74 +1,53 @@
 # Italian translations of the "debian/auctex/templates" file
 # of the auctex Debian package.
 #
-# Copyright (C) 2005, 06 by Davide G. M. Salvetti.
+# Copyright (C) 2000, 01, 02, 03, 04, 05, 06 Davide G. M. Salvetti
 #
-# This file is distributed under the same license as the auctex package.
+# This file is distributed under the same license as the auctex Debian
+# package.
+#
+# Davide G. M. Salvetti <salve@debian.org>, 2000
 #
 # arch-tag: fac3722c-5cac-4ce1-a5a6-5b574c111e14
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.81-1\n"
 "Report-Msgid-Bugs-To: salve@debian.org\n"
-"POT-Creation-Date: 2006-06-08 01:08+0200\n"
-"PO-Revision-Date: 2006-06-08 22:58+0200\n"
+"POT-Creation-Date: 2006-12-08 16:38+0100\n"
+"PO-Revision-Date: 2006-10-16 19:02+0200\n"
 "Last-Translator: Davide G. M. Salvetti <salve@debian.org>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../auctex/templates:3
-msgid "The autoload mechanism of AUCTeX has changed"
-msgstr "Il meccanismo di caricamento automatico di AUCTeX è cambiato"
-
-#. Type: note
-#. Description
-#: ../auctex/templates:3
-msgid ""
-"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users who "
-"do not want AUCTeX to override the standard Emacs TeX-mode may unload AUCTeX "
-"completely by evaluating the form \"(unload-feature 'tex-site)\" (i.e., let "
-"them put that string into their personal \"~/.emacs\" or \"~/.emacs.el\" "
-"file to disable AUCTeX completely)."
-msgstr ""
-"Dalla versione Debian 11.81-1 AUCTeX viene caricato automaticamente in\n"
-"mancanza di scelte contrarie.  Gli utenti che non desiderano che AUCTeX\n"
-"sostituisca l'usuale TeX-mode di Emacs, possono scaricare AUCTeX\n"
-"completamente valutando l'espressione \"(unload-feature 'tex-site)\"\n"
-"(ovvero, per disabilitare completamente AUCTeX far scrivere loro la\n"
-"stringa precedente nel proprio file di inizializzazione \"~/.emacs\" o\n"
-"\"~/.emacs.el\")."
-
 #. Type: select
 #. Choices
-#: ../auctex/templates:12
+#: ../auctex/templates:1001
 msgid "Background"
 msgstr "Sottofondo"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:12
+#: ../auctex/templates:1001
 msgid "Foreground"
 msgstr "Primo piano"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:12
+#: ../auctex/templates:1001
 msgid "None"
 msgstr "Nessuno"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid "(La)TeX macros parsing mode:"
 msgstr "Modalità di scansione delle macro per (La)TeX:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid ""
 "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
 "style file currently installed at your site will be parsed."
@@ -79,7 +58,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid ""
 "This may take a lot of time, so it should be probably done in the "
 "background; however you may also choose to have it done in the foreground, "
@@ -94,7 +73,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid ""
 "A weekly cron job will also take care of updating the data collected now, so "
 "usually you won't need to worry about them whenever you install new (La)TeX "
@@ -107,7 +86,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgstr ""
 "In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando "
@@ -115,25 +94,25 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:31
+#: ../auctex/templates:2001
 msgid "Console"
 msgstr "Video"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:31
+#: ../auctex/templates:2001
 msgid "File"
 msgstr "File"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid "Parsing output destination:"
 msgstr "Destinazione dei messaggi della scansione:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This is OK, but normally it will also generate quite a lot of output."
@@ -144,7 +123,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid ""
 "By default -- i.e., answering File to this question -- further output from "
 "the parsing process will go to a file named: ${LOGFILE}."
@@ -155,13 +134,31 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
 "terminal."
 msgstr ""
 "Rispondendo Video, i (noiosi) messaggi verranno visualizzati direttamente "
 "sul proprio terminale."
+
+#~ msgid "The autoload mechanism of AUCTeX has changed"
+#~ msgstr "Il meccanismo di caricamento automatico di AUCTeX è cambiato"
+
+#~ msgid ""
+#~ "Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users "
+#~ "who do not want AUCTeX to override the standard Emacs TeX-mode may unload "
+#~ "AUCTeX completely by evaluating the form \"(unload-feature 'tex-site)"
+#~ "\" (i.e., let them put that string into their personal \"~/.emacs\" or "
+#~ "\"~/.emacs.el\" file to disable AUCTeX completely)."
+#~ msgstr ""
+#~ "Dalla versione Debian 11.81-1 AUCTeX viene caricato automaticamente in\n"
+#~ "mancanza di scelte contrarie.  Gli utenti che non desiderano che AUCTeX\n"
+#~ "sostituisca l'usuale TeX-mode di Emacs, possono scaricare AUCTeX\n"
+#~ "completamente valutando l'espressione \"(unload-feature 'tex-site)\"\n"
+#~ "(ovvero, per disabilitare completamente AUCTeX far scrivere loro la\n"
+#~ "stringa precedente nel proprio file di inizializzazione \"~/.emacs\" o\n"
+#~ "\"~/.emacs.el\")."
 
 #~ msgid "Where should parsing output go?"
 #~ msgstr "Dove vanno inviati i messaggi della scansione?"

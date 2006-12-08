@@ -1,68 +1,54 @@
 # German translations of the "debian/auctex/templates" file
 # of the auctex Debian package.
 #
-# Copyright (C) 2005, 06 by Davide G. M. Salvetti.
+# Copyright (C) 2001, 02, 03, 04, 05, 06 Davide G. M. Salvetti
 #
-# This file is distributed under the same license as the auctex package.
+# This file is distributed under the same license as the auctex Debian
+# package.
+#
+# Knut Suebert <knut.suebert@web.de>, 2001
 #
 # arch-tag: 9f94e80b-a3a0-43a6-a958-20be0e1ab270
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.81-1\n"
 "Report-Msgid-Bugs-To: salve@debian.org\n"
-"POT-Creation-Date: 2006-06-08 01:08+0200\n"
-"PO-Revision-Date: 2006-06-04 00:19+0200\n"
+"POT-Creation-Date: 2006-12-08 16:38+0100\n"
+"PO-Revision-Date: 2006-10-16 19:01+0200\n"
 "Last-Translator: Knut Suebert <knut.suebert@web.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#. Type: note
-#. Description
-#: ../auctex/templates:3
-msgid "The autoload mechanism of AUCTeX has changed"
-msgstr ""
-
-#. Type: note
-#. Description
-#: ../auctex/templates:3
-msgid ""
-"Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users who "
-"do not want AUCTeX to override the standard Emacs TeX-mode may unload AUCTeX "
-"completely by evaluating the form \"(unload-feature 'tex-site)\" (i.e., let "
-"them put that string into their personal \"~/.emacs\" or \"~/.emacs.el\" "
-"file to disable AUCTeX completely)."
-msgstr ""
-
 #. Type: select
 #. Choices
-#: ../auctex/templates:12
+#: ../auctex/templates:1001
 msgid "Background"
 msgstr "Hintergrund"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:12
+#: ../auctex/templates:1001
 msgid "Foreground"
 msgstr "Vordergrund"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:12
+#: ../auctex/templates:1001
 msgid "None"
 msgstr "Nicht"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 #, fuzzy
 msgid "(La)TeX macros parsing mode:"
 msgstr "Wie sollen (La)TeX-Makros behandelt werden?"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid ""
 "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
 "style file currently installed at your site will be parsed."
@@ -72,7 +58,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid ""
 "This may take a lot of time, so it should be probably done in the "
 "background; however you may also choose to have it done in the foreground, "
@@ -88,7 +74,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid ""
 "A weekly cron job will also take care of updating the data collected now, so "
 "usually you won't need to worry about them whenever you install new (La)TeX "
@@ -100,7 +86,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:14
+#: ../auctex/templates:1002
 msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgstr ""
 "Die Aktualisierung kann zudem von Hand durch Aufruf von update-auctex-elisp "
@@ -108,25 +94,25 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:31
+#: ../auctex/templates:2001
 msgid "Console"
 msgstr "Konsole"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:31
+#: ../auctex/templates:2001
 msgid "File"
 msgstr "Datei"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid "Parsing output destination:"
 msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This is OK, but normally it will also generate quite a lot of output."
@@ -137,7 +123,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid ""
 "By default -- i.e., answering File to this question -- further output from "
 "the parsing process will go to a file named: ${LOGFILE}."
@@ -147,7 +133,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:33
+#: ../auctex/templates:2002
 msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
 "terminal."

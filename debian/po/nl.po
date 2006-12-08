@@ -1,49 +1,49 @@
-# Spanish translations of the "debian/auctex/templates" file
-# of the auctex Debian package.
+# Dutch translations of the "debian/auctex/templates" file of the auctex
+# Debian package.
 #
-# Copyright (C) 2002, 03, 04, 05, 06 Davide G. M. Salvetti
+# Copyright (C) 2006 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
-# Gorka Olaizola <gorka@escomposlinux.org>, 2002
+# Vincent Zweije <zweije@xs4all.nl>, 2006.
 #
-# arch-tag: 25041147-3f11-48a2-950f-801621be65ca
+# arch-tag: 01fe7ac6-ecb4-42d2-9b17-2c06b03501ba
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex 11.83.2\n"
+"Project-Id-Version: auctex 11.83-2\n"
 "Report-Msgid-Bugs-To: salve@debian.org\n"
 "POT-Creation-Date: 2006-12-08 16:38+0100\n"
-"PO-Revision-Date: 2006-12-08 15:54+0100\n"
-"Last-Translator: Steve Lord Flaubert <stonescenter@gmail.com>\n"
-"Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"PO-Revision-Date: 2006-10-16 18:54+0200\n"
+"Last-Translator: Vincent Zweije <zweije@xs4all.nl>\n"
+"Language-Team: Debian-Dutch <debian-l10n-dutch@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
 msgid "Background"
-msgstr "Segundo plano"
+msgstr "Achtergrond"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
 msgid "Foreground"
-msgstr "Primer plano"
+msgstr "Voorgrond"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
 msgid "None"
-msgstr "Ninguno"
+msgstr "Geen"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid "(La)TeX macros parsing mode:"
-msgstr "Modo de interpretación de las macros (La)TeX:"
+msgstr "Modus voor het ontleden van (La)TeX macros:"
 
 #. Type: select
 #. Description
@@ -52,9 +52,8 @@ msgid ""
 "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
 "style file currently installed at your site will be parsed."
 msgstr ""
-"Para mejorar el rendimiento de AUCTeX se analizará el contenido de cada "
-"paquete de macros TeX y cada fichero de estilos LaTeX instalado en su "
-"sistema."
+"Om AUCTeX prestaties flink te verbeteren wordt ieder TeX-macropakket en "
+"LaTeX-stijlbestand dat momenteel op uw computer is ge�nstalleerd nu ontleed."
 
 #. Type: select
 #. Description
@@ -65,11 +64,11 @@ msgid ""
 "or to skip the parsing at all instead.  If you choose Background, you will "
 "find a detailed log of the process in the file: ${LOGFILE}."
 msgstr ""
-"Esto puede tardar mucho tiempo, por lo que probablemente debería\n"
-"realizarse en segundo plano; sin embargo puede elegir hacerlo en primer\n"
-"plano u omitir por completo el análisis. Si elige hacerlo en segundo\n"
-"plano, encontrará un registro detallado del proceso en el fichero:\n"
-"${LOGFILE}."
+"Dit kan veel tijd kosten: het verdient dus de voorkeur om dit in de "
+"achtergrond te laten doen. U kunt echter ook kiezen dit op de voorgrond te "
+"laten doen of om de ontleding geheel achterwege te laten. Indien u "
+"achtergrond kiest, kunt u een gedetailleerde log van het proces vinden in "
+"het bestand ${LOGFILE}."
 
 #. Type: select
 #. Description
@@ -79,35 +78,36 @@ msgid ""
 "usually you won't need to worry about them whenever you install new (La)TeX "
 "packages or remove old ones."
 msgstr ""
-"Una tarea semanal actualizará la información recolectada en esta sesión,\n"
-"por lo que no se tiene que preocupar cuando instale nuevos paquetes de\n"
-"(La)TeX o desinstale los antiguos."
+"Een wekelijkse cron-taak zal er voor zorgen dat de gegevens die nu worden "
+"verzameld ook worden bijgewerkt, dus normaal gesproken hoeft u zich daarover "
+"geen zorgen te maken wanner u nieuwe (La)TeX-pakketten installeert of oude "
+"verwijdert."
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgstr ""
-"De cualquier forma, puede actualizarlos manualmente ejecutando\n"
-"update-auctex-elisp."
+"Daarnaast kunt u ze altijd met de hand bijwerken door update-auctex-elisp "
+"uit te voeren"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:2001
 msgid "Console"
-msgstr "Consola"
+msgstr "Console"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:2001
 msgid "File"
-msgstr "Fichero"
+msgstr "Bestand"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:2002
 msgid "Parsing output destination:"
-msgstr "Destino de la salida del análisis:"
+msgstr "Uitvoerbestemming van het ontleden:"
 
 #. Type: select
 #. Description
@@ -116,9 +116,8 @@ msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This is OK, but normally it will also generate quite a lot of output."
 msgstr ""
-"Ha elegido analizar los paquetes de macros TeX y ficheros de estilos LaTeX\n"
-"en primer plano. Esto es correcto, pero normalmente también mostrará una\n"
-"gran cantidad de información."
+"U hebt gekozen om TeX-macropakketten en LaTeX-stijlbestanden in de voorgrond "
+"te ontleden. Dat is in orde, maar het genereert veel uitvoer."
 
 #. Type: select
 #. Description
@@ -127,9 +126,8 @@ msgid ""
 "By default -- i.e., answering File to this question -- further output from "
 "the parsing process will go to a file named: ${LOGFILE}."
 msgstr ""
-"Por omisión, esto es , respondiendo «Fichero» a esta pregunta, los\n"
-"siguientes mensajes del proceso de análisis se guardarán en un fichero\n"
-"llamado: ${LOGFILE}."
+"Standaard, dat wil zeggen, als u kiest voor Bestand, zal verdere uitvoer van "
+"het ontleedproces worden bewaard in een bestand genaamd ${LOGFILE}."
 
 #. Type: select
 #. Description
@@ -138,10 +136,11 @@ msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
 "terminal."
 msgstr ""
-"Si responde «Consola», verá todos los (aburridos) mensajes en su terminal."
+"Als u kiest voor Console, zult u al die (saaie) uitvoer hier op uw terminal "
+"zien."
 
 #~ msgid "The autoload mechanism of AUCTeX has changed"
-#~ msgstr "El mecanismo de carga automática de AUCTeX ha cambiado"
+#~ msgstr "Het automatische inleesmechanisme van AUCTeX is veranderd"
 
 #~ msgid ""
 #~ "Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users "
@@ -150,12 +149,9 @@ msgstr ""
 #~ "\" (i.e., let them put that string into their personal \"~/.emacs\" or "
 #~ "\"~/.emacs.el\" file to disable AUCTeX completely)."
 #~ msgstr ""
-#~ "Desde la versión Debian 11.81-1, AUCTeX se carga automáticamente por\n"
-#~ "omisión. Los usuarios que no deseen que AUCTeX sobreescriba el modo\n"
-#~ "TeX-mode estándar de Emacs pueden deshabilitar AUCTeX totalmente de la\n"
-#~ "siguiente forma «(unload-features 'tex-site')» (esto es, ponga la\n"
-#~ "siguiente cadena en su archivo de configuración personal «~/.emacs» o\n"
-#~ "«~/.emacs.el» para deshabilitar completamente AUCTeX)."
-
-#~ msgid "Where should parsing output go?"
-#~ msgstr "¿A donde se debe enviar la información al analizar?"
+#~ "Vanaf pakketversie 11.81-1 wordt AUCTeX standaard automatisch ingelezen. "
+#~ "Gebruikers die niet willen dat AUCTeX voorgaat op de standaard Emacs-TeX-"
+#~ "modus kunnen AUCTeX volledig deactiveren door de expressie \"(unload-"
+#~ "feature 'tex-site)\" te evalueren: dat wil zeggen, door hen die string in "
+#~ "hun persoonlijke \"~/.emacs\" of \"~/.emacs.el\" bestand te laten "
+#~ "plaatsen."

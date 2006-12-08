@@ -1,13 +1,4 @@
 #include "variables"
-Template: auctex/defaultchanged
-Type: note
-_Description: The autoload mechanism of AUCTeX has changed
- Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users who
- do not want AUCTeX to override the standard Emacs TeX-mode may unload
- AUCTeX completely by evaluating the form "(unload-feature 'tex-site)"
- (i.e., let them put that string into their personal "~/.emacs" or
- "~/.emacs.el" file to disable AUCTeX completely).
-
 Template: auctex/doauto
 Type: select
 __Choices: Background, Foreground, None

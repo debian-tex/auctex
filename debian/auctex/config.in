@@ -12,10 +12,6 @@ db_version 2.0
 
 case "${1}" in
     (configure|reconfigure)
-    if dpkg --compare-versions "${2}" lt "11.81-1"; then
-	db_text medium <:=${PACKAGE}:>/defaultchanged || true
-	db_go || true
-    fi
     LOGFILE=$(mktemp <:=${TMPMASK}:>)
     db_register <:=${PACKAGE}:>/doauto <:=${PACKAGE}:>/logfile || true
     db_set <:=${PACKAGE}:>/logfile ${LOGFILE} || true

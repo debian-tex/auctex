@@ -20,7 +20,7 @@ INSTDATA := install -m 644
 INSTSCRIPT := install -m 755
 STRIP := strip -R .note -R .comment
 
-<:# DO NOT include <% debian/rules %> or <% debian/templates %> :>//
+<:# DO NOT include <% debian/rules %> :>//
 DFILES := debian/<:=${PACKAGE}:>/README debian/copyright \
 debian/<:=${PACKAGE}:>/NEWS \
 debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/postinst \
@@ -36,6 +36,7 @@ debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:> \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:>.8 \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:> \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:>.8 \
+debian/<:=${PACKAGE}:>/templates \
 debian/<:=${PLSPKG}:>/README \
 debian/<:=${PLSPKG}:>/postinst \
 debian/<:=${PLSPKG}:>/prerm debian/<:=${PLSPKG}:>/postrm \

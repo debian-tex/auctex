@@ -52,6 +52,7 @@ debian/auctex/update-auctex-elisp \
 debian/auctex/update-auctex-elisp.8 \
 debian/auctex/update-auctex-install \
 debian/auctex/update-auctex-install.8 \
+debian/auctex/templates \
 debian/preview-latex-style/README \
 debian/preview-latex-style/postinst \
 debian/preview-latex-style/prerm debian/preview-latex-style/postrm \
