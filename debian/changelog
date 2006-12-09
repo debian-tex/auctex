@@ -1,3 +1,19 @@
+auctex (11.83-4) unstable; urgency=medium
+
+  * ../latex.el (TeX-latex-mode): Backport of diff between version 5.418
+    and 5.419; thanks to Luca Capello.  (Closes: #401119)
+
+  * rules.in (AUCTEXSRCS): Filter out "auctex.el".
+    (PREVIEWSRCS): Filter out "preview/auto.el".
+    Thanks to James R. Van Zandt, Andrea Mennucci, and Frank Küster.
+    (Closes: #352576)
+
+  * ../tex.el (Info-find-file, TeX-doc-backend-alist, TeX-doc): Backport
+    provided by Ralf Angeli; thanks to Ralf Stubner, Frank Küster, and
+    Ralf Angeli.  (Closes: #375264)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat,  9 Dec 2006 23:49:11 +0100
+
 auctex (11.83-3) unstable; urgency=medium
 
   * control (auctex/Build-Depends-Indep, auctex/Recommends,
@@ -24,10 +40,10 @@ auctex (11.83-3) unstable; urgency=medium
 
 auctex (11.83-2.1) unstable; urgency=high
 
-  * NMU to fix RC bug
+  * NMU to fix an RC bug.
   * control (auctex/Provides): Add "preview-latex".  The package actually
-    does this, and this will allow the RC-buggy preview-latex package to
-    be removed from etch.  (Closes: #395294)
+    does this, and declaring it will allow the RC-buggy preview-latex
+    package to be removed from etch.  (Closes: #395294)
 
  -- Frank Küster <frank@debian.org>  Thu, 26 Oct 2006 09:30:43 +0200
 

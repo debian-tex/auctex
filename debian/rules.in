@@ -49,12 +49,18 @@ DCSOURCES := $(shell cat debian/po/POTFILES.in \
 DFILES += $(patsubst %templates, %templates.dcobj, $(DCSOURCES))
 
 AUCTEXSCRIPTS := configure install-sh
-AUCTEXSRCS := aclocal.m4 configure.ac *.in *.el
+AUCTEXSRCS := $(filter-out auctex.el, \
+	$(wildcard aclocal.m4 configure.ac *.in *.el))
 STYLES := style/*.el style/.nosearch
 PREVIEWSCRIPTS := preview/configure
-PREVIEWSRCS := preview/configure.ac preview/*.in preview/*.el
+PREVIEWSRCS := $(filter-out preview/auto.el, \
+	$(wildcard preview/configure.ac preview/*.in preview/*.el))
 <:# Hacks needed by configure. :>//
 MAKEFILEHACKS := doc/Makefile.in preview/latex/Makefile.in
+
+test:
+	@echo $(AUCTEXSRCS)
+	@echo $(PREVIEWSRCS)
 
 .PHONY: pre-build
 pre-build:

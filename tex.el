@@ -4732,7 +4732,6 @@ Your bug report will be posted to the AUCTeX bug reporting list.
   (interactive)
   (info "auctex"))
 
-(autoload 'Info-find-file "info")
 (autoload 'info-lookup->completions "info-look")
 
 (defvar TeX-doc-backend-alist
@@ -4744,7 +4743,11 @@ Your bug report will be posted to the AUCTeX bug reporting list.
 	      (call-process "texdoc" nil 0 nil doc)))
     (latex-info (latex-mode)
 		(lambda ()
-		  (when (Info-find-file "latex" t)
+		  (when (condition-case nil
+			    (save-window-excursion
+			      (info "latex" (generate-new-buffer-name "*info*"))
+			      t)
+			  (error nil))
 		    (mapcar (lambda (x)
 			      (let ((x (car x)))
 				(if (string-match "\\`\\\\" x)
@@ -4754,7 +4757,12 @@ Your bug report will be posted to the AUCTeX bug reporting list.
 		  (info-lookup-symbol (concat "\\" doc) 'latex-mode)))
     (texinfo-info (texinfo-mode)
 		  (lambda ()
-		    (when (Info-find-file "texinfo" t)
+		    (when (condition-case nil
+			      (save-window-excursion
+				(info "texinfo"
+				      (generate-new-buffer-name "*info*"))
+				t)
+			    (error nil))
 		      (mapcar (lambda (x)
 				(let ((x (car x)))
 				  (if (string-match "\\`@" x)
@@ -4793,7 +4801,7 @@ NAME may be a package, a command, or a document."
     (if (null docs)
 	(message "No documentation found")
       ;; Ask the user about the package, command, or document.
-      (when (and (called-interactively-p)
+      (when (and (interactive-p)
 		 (or (not name) (string= name "")))
 	(let ((symbol (thing-at-point 'symbol))
 	      contained completions doc)

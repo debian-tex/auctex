@@ -14,17 +14,6 @@
     The scripts should also cater for preview-latex and for the new auctex.el
     and preview.el startup files.  In particular, the md5sum of the new
     startup files should be reported.
-*** TODO The "autoload has changed" message
-    Do not display it if there was no auctex installed.  Also, Frank Küster:
-    ``The debconf note "defaultchanged" is shown for all upgraders, but it
-    isn't really that necessary for people who have enabled site-wide
-    autoloading, anyway.  One could grep for ^[[:space:]]*(require 'tex-site) in
-    /etc/emacs21/site-start.d/50auctex.el.''  DGMS replies: ``Not sure about
-    this: does that means that auctex would require a preinst script?  (I have
-    to check this, but I think that file would have been overwritten before
-    the new postinst gets executed, or maybe removed by the old prerm.)  Also,
-    how should this cope with sysadmins who enabled site-wide auto-loading,
-    but only for emacs21 and not for emacs-snapshot, or viceversa?''
 *** TODO The uncompressed Changelog file in site-lisp/auctex
     Frank Küster: ``You install the uncompressed Changelog file in
     site-lisp/auctex, but the comment sounds as if you don't really like that.
@@ -37,62 +26,14 @@
     the most recent version statement gets included (I'm also thinking about
     CVS snapshots here, so that that statement might be not in the very first
     lines).  Comments?''
-*** DONE /usr/share/emacs/site-lisp/auctex/preview/autom4te.cache/
-    It should be cleaned after emacsen install.
-*** DONE Install preview-latex-style docs in the right place
-    Frank Küster: ``preview-latex-style installs files into
-    /usr/share/texmf/doc/latex/styles/; however /usr/share/texmf/doc is a
-    symlink (to ../doc/texfm).  The files end up in the right place because
-    dpkg just follows the symlink, but find reports them at a different
-    location that dlocate or dpkg -L.  The right location would be
-    /usr/share/doc/texmf/latex/styles/.''
 
 ** Open bugs
    These bugs should be checked to see if they still apply to the current
    release.
 *** TODO #120031
-*** DONE #144846
-    The preview-latex package has been absorbed by AUCTeX.  This bug is no
-    longer necessary, see also #63513.
-*** TODO #177237
+*** TODO #172237
 *** TODO #276102
-*** DONE #277885
-    Fixed upstream, close it by debian/changelog.
 *** TODO #290635
-*** TODO #293161
-    Probably an old bug, which should be closed.
-*** TODO #295730
-*** TODO #300933: The clean target should work fine.
-    Check the statement and close the bug via debian/changelog.
-*** TODO #311292
-    Analyze the bug and the provided patch.
-*** TODO #317610
-*** DONE #318114: Fixed according to DAK.
-    Check the statement and close the bug via debian/changelog.
-*** TODO #321069
-    To be tested with gs-esp.
-*** DONE #324358: emacs-snapshot is now a supported flavor.
-    Close the bug.
-*** DONE #329061
-    Old bug, close it.
-*** DONE #331751
-    Closed in 11.81-1.
-*** TODO #333925
-    Merge with #63513 (wishlist wontfix).
-*** TODO #335017
-    Submitter states this is no longer an open bug, close it.
-*** TODO #341213
-    Tag it wishlist upstream; upstream said it won't get fixed.
-*** TODO #344285
-    Packaging has changed: this bug no longer applies to auctex >= 11.81-1.
-    Thank Ricardo Javier Cardenes Medina <rcardenes@debian.org> for reporting
-    and close it.
-*** TODO #347472
-    Fixed in 11.81-2, close it.
-*** DONE #349330, #349471, #349620
-    Closed by auctex 11.82-1.
-*** DONE #349662
-    Closed by auctex 11.82-1.
 
 ** Non bugs
    These are not bugs, even if they might look like as if they were such.
@@ -128,15 +69,8 @@
    feature work.
 ** TODO .nosearch
    Do we really need "/usr/share/emacs-snapshot/site-lisp/auctex/.nosearch"?
-** DONE Consider comaintainingship
-   Talk to Makoto OHURA <ohura@debian.org>.
 ** DGMS Patches to upstream sources
    Evaluate and discuss them with upstream developers.
-** DONE Install byte compiled preview-latex files under the auctex directory
-   Done upstream.
-** DONE Test with new teTeX 3.0
-** DONE Test with TeX Live
-   Also add proper alternative dependencies.
 ** TODO /usr/sbin/update-auctex-install
    Get the proper packages (teTeX?, ...?) to use it, add perhaps a note in the
    README.Debian file.
