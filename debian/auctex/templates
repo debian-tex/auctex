@@ -1,4 +1,3 @@
-#include "variables"
 Template: auctex/doauto
 Type: select
 __Choices: Background, Foreground, None
@@ -32,17 +31,4 @@ _Description: Parsing output destination:
  If you answer Console, you will see all of the (boring) output right on
  your terminal.
 
-<:="# arch" . "-" . "tag: f0377964-4347-46dc-a310-3f371380b170-child":>
-<:
-# arch-tag: f0377964-4347-46dc-a310-3f371380b170
-#
-# local variables:
-# mode: text
-# coding: utf-8
-# fill-column: 76
-# ispell-local-dictionary: "american"
-# end:
-#
-# LocalWords:  defaultchanged autoload AUCTeX autoloaded tex doauto LOGFILE
-# LocalWords:  cron doautofg auctex elisp emacs LaTeX
-:>//
+# arch-tag: f0377964-4347-46dc-a310-3f371380b170-child

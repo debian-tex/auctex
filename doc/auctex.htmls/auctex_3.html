@@ -1,0 +1,1093 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>AUCTeX: 2. Installing AUCTeX</title>
+
+<meta name="description" content="AUCTeX: 2. Installing AUCTeX">
+<meta name="keywords" content="AUCTeX: 2. Installing AUCTeX">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Installation"></a>
+<a name="SEC7"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="auctex_2.html#SEC6" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC8" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex_2.html#SEC2" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 2. Installing AUCTeX </h1>
+
+<p>Installing AUCTeX should be simple: merely <code>./configure</code>,
+<code>make</code>, and <code>make install</code> for a standard site-wide
+installation (most other installations can be done by specifying a
+<samp>`--prefix=&hellip;'</samp> option).
+</p>
+<p>On many systems, this will already activate the package, making its
+modes the default instead of the built-in modes of Emacs.  If this is
+not the case, consult <a href="#SEC11">Loading the package</a>.  Please read through
+this document fully before installing anything.  The installation
+procedure has changed as compared to earlier versions.  Users of MS
+Windows are asked to consult
+See section <a href="#SEC17">Installation under MS Windows</a>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC8">2.1 Prerequisites</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC9">2.2 Configure</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC10">2.3 Build/install</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC11">2.4 Loading the package</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC12">2.5 Providing AUCTeX as a package</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC13">2.6 Installation for non-privileged users</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC17">2.7 Installation under MS Windows</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC20">2.8 Customizing</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+
+<hr size="6">
+<a name="Prerequisites"></a>
+<a name="SEC8"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC7" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC9" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.1 Prerequisites </h2>
+
+<ul>
+<li> A recent version of Emacs, alternatively XEmacs
+
+<p>Emacs 20 is no longer supported, and neither is XEmacs with a
+version of <code>xemacs-base</code> older than 1.84 (released in sumo from
+02/02/2004).  Using preview-latex requires a version of Emacs compiled
+with image support.  This means that Emacs 21 will work only in the
+version for X11: for Windows and MacOSX, you need to use Emacs 22
+(which is not yet released) or a developer version.  Since the developer
+version is quite stable by now and features four more years of
+development and bugfixes, we recommend its use even for X11-based
+platforms.  You can get it here:
+</p>
+<dl compact="compact">
+<dt> <b>Windows</b></dt>
+<dd><p>Precompiled versions are available from
+<a href="http://www.crasseux.com/emacs/">http://www.crasseux.com/emacs/</a> and <a href="http://nqmacs.sf.net/">http://nqmacs.sf.net/</a>.
+</p></dd>
+<dt> <b>MacOSX</b></dt>
+<dd><p>A precompiled version including an installer as well as preinstalled
+versions of AUCTeX and preview-latex is available from
+<a href="http://yaced.sf.net/">http://yaced.sf.net/</a>.  A different port is
+<a href="http://home.att.ne.jp/alpha/z123/emacs-mac-e.html">http://home.att.ne.jp/alpha/z123/emacs-mac-e.html</a>.
+</p></dd>
+<dt> <b>Debian Linux</b></dt>
+<dd><p>Debian provides <samp>`emacs-snapshot'</samp> and <samp>`emacs-snapshot-gtk'</samp>
+packages in its <samp>`unstable'</samp> distribution.
+</p></dd>
+<dt> <b>Fedora Linux</b></dt>
+<dd><p><a href="http://people.redhat.com/petersen/emacs/">http://people.redhat.com/petersen/emacs/</a>
+</p></dd>
+<dt> <b>Self-compiled</b></dt>
+<dd><p>Compiling Emacs yourself requires a C compiler and a number of tools and
+development libraries.  Details are beyond the scope of this manual.
+Instructions for checking out the source code can be found at
+<a href="http://savannah.gnu.org/cvs/?group=emacs">http://savannah.gnu.org/cvs/?group=emacs</a>.
+</p></dd>
+</dl>
+
+<p>If you really need to use Emacs 21 on platforms where this implies
+missing image support, you should disable the installation of
+preview-latex (see below).
+</p>
+<p>While XEmacs (version 21.4.15, 21.4.17 or later) is supported, doing
+this in a satisfactory manner has proven to be difficult.  This is
+mostly due to technical shortcomings and differing API's which are hard
+to come by.  If AUCTeX is your main application for XEmacs, you are
+likely to get better results and support by switching to Emacs.  Of
+course, you can improve support for your favorite editor by giving
+feedback in case you encounter bugs.
+</p>
+</li><li> A working TeX installation
+
+<p>Well, AUCTeX would be pointless without that.  Processing
+documentation requires TeX, LaTeX and Texinfo during installation.
+preview-latex requires Dvips for its operation in <acronym>DVI</acronym>
+mode.  The default configuration of AUCTeX is tailored for
+teTeX-based distributions, but can be adapted easily.
+</p>
+</li><li> A recent Ghostscript
+
+<p>This is needed for operation of preview-latex in both <acronym>DVI</acronym>
+and <acronym>PDF</acronym> mode.  Most versions of Ghostscript nowadays in use
+should work fine (version 7.0 and newer).  If you encounter problems,
+check
+<a href="../preview-latex/Problems-with-Ghostscript.html#Problems-with-Ghostscript">(preview-latex)Problems with Ghostscript</a> section `Problems with Ghostscript' in <cite>the preview-latex manual</cite>.
+</p>
+</li><li> The <code>texinfo</code> package
+
+<p>Strictly speaking, you can get away without it if you are building
+from the distribution tarball, have not modified any files and don't
+need a printed version of the manual: the pregenerated info file is
+included in the tarball.  At least version 4.0 is required.
+</p>
+</li></ul>
+
+<p>For some known issues with various software, see
+<a href="../preview-latex/Known-problems.html#Known-problems">(preview-latex)Known problems</a> section `Known problems' in <cite>the preview-latex manual</cite>.
+</p>
+<hr size="6">
+<a name="Configure"></a>
+<a name="SEC9"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC8" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC10" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.2 Configure </h2>
+
+<p>The first step is to configure the source code, telling it where
+various files will be.  To do so, run
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">./configure <var>options</var>
+</pre></td></tr></table>
+<p>(Note: if you have fetched AUCTeX from <acronym>CVS</acronym> rather than
+a regular release, you will have to first follow the instructions in
+<tt>`README.CVS'</tt>).
+</p>
+<p>On many machines, you will not need to specify any options, but if
+<code>configure</code> cannot determine something on its own, you'll need to
+help it out with one of these options:
+</p>
+<dl compact="compact">
+<dt> <code>--prefix=<tt>`/usr/local'</tt></code></dt>
+<dd><p>All automatic placements for package components will be chosen from
+sensible existing hierarchies below this: directories like <tt>`man'</tt>,
+<tt>`share'</tt> and <tt>`bin'</tt> are supposed to be directly below
+<var>prefix</var>.
+</p>
+<p>Only if no workable placement can be found there, in some cases an
+alternative search will be made in a prefix deduced from a suitable
+binary.
+</p>
+<p><tt>`/usr/local'</tt> is the default <var>prefix</var>, intended to be suitable
+for a site-wide installation.  If you are packaging this as an
+operating system component for distribution, the setting <tt>`/usr'</tt>
+will probably be the right choice.  If you are planning to install the
+package as a single non-priviledged user, you will typically set
+<var>prefix</var> to your home directory.
+</p>
+</dd>
+<dt> <code>--with-emacs[=<var>/path/to/emacs</var>]</code></dt>
+<dd><p>If you are using a pretest which isn't in your <code>$PATH</code>, or
+<code>configure</code> is not finding the right Emacs executable, you can
+specify it with this option.
+</p>
+</dd>
+<dt> <code>--with-xemacs[=<var>/path/to/xemacs</var>]</code></dt>
+<dd><p>Configure for generation under XEmacs (Emacs is the default).  Again,
+the name of the right XEmacs executable can be specified, complete with
+path if necessary.
+</p>
+</dd>
+<dt> <code>--with-packagedir=<var>/dir</var></code></dt>
+<dd><p>This XEmacs-only option configures the directory for XEmacs packages.  A
+typical user-local setting would be <tt>`~/.xemacs/xemacs-packages'</tt>.
+If this directory exists and is below <var>prefix</var>, it should be
+detected automatically.  This will install and activate the package.
+</p>
+</dd>
+<dt> <code>--without-packagedir</code></dt>
+<dd><p>This XEmacs-only option switches the detection of a package directory
+and corresponding installation off.  Consequently, the Emacs
+installation scheme will be used.  This might be appropriate if you are
+using a different package system/installer than the XEmacs one and want
+to avoid conflicts.
+</p>
+<p>The Emacs installation scheme has the following options:
+</p>
+</dd>
+<dt> <code>--with-lispdir=<var>/dir</var></code></dt>
+<dd><p>This Emacs-only option specifies the location of the <tt>`site-lisp'</tt>
+directory within <samp>`load-path'</samp> under which the files will get
+installed (the bulk will get installed in a subdirectory).
+<tt>`./configure'</tt> should figure this out by itself.
+</p>
+</dd>
+<dt> <code>--with-auctexstartfile=<tt>`auctex.el'</tt></code></dt>
+<dt> <code>--with-previewstartfile=<tt>`preview-latex.el'</tt></code></dt>
+<dd><p>This is the name of the respective startup files.  If <var>lispdir</var>
+contains a subdirectory <tt>`site-start.d'</tt>, the start files are
+placed there, and <tt>`site-start.el'</tt> should
+load them automatically.  Please be aware that you must not move the
+start files after installation since other files are found
+<em>relative</em> to them.
+</p>
+</dd>
+<dt> <code>--with-packagelispdir=<tt>`auctex'</tt></code></dt>
+<dd><p>This is the directory where the bulk of the package gets located.  The
+startfile adds this into <var>load-path</var>.
+</p>
+</dd>
+<dt> <code>--with-auto-dir=<var>/dir</var></code></dt>
+<dd><p>You can use this option to specify the directory containing
+automatically generated information.  It is not necessary for most
+TeX installs, but may be used if you don't like the directory that
+configure is suggesting.
+</p>
+</dd>
+<dt> <code>--help</code></dt>
+<dd><p>This is not an option specific to AUCTeX. A number of standard
+options to <code>configure</code> exist, and we do not have the room to
+describe them here; a short description of each is available, using
+<code>--help</code>.  If you use <samp>`--help=recursive'</samp>, then also
+preview-latex-specific options will get listed.
+</p>
+</dd>
+<dt> <code>--disable-preview</code></dt>
+<dd><p>This disables configuration and installation of preview-latex.  This
+option is not actually recommended.  If your Emacs does not support
+images, you should really upgrade to a newer version.  Distributors
+should, if possible, refrain from distributing AUCTeX and
+preview-latex separately in order to avoid confusion and upgrade
+hassles if users install partial packages on their own.
+</p>
+</dd>
+<dt> <code>--with-texmf-dir=<var>/dir</var><br><p>--without-texmf-dir
+</p></code></dt>
+<dd><a name="IDX1"></a>
+<p>This option is used for specifying a <acronym>TDS</acronym>-compliant directory
+hierarchy.  Using <code>--with-texmf-dir=<var>/dir</var></code> you can specify
+where the TeX <acronym>TDS</acronym> directory hierarchy resides, and the
+TeX files will get installed in
+<tt>`<var>/dir</var>/tex/latex/preview/'</tt>.
+</p>
+<p>If you use the <code>--without-texmf-dir</code> option, the TeX-related
+files will be kept in the Emacs Lisp tree, and at runtime the
+<code>TEXINPUTS</code> environment variable will be made to point there.  You
+can install those files into your own TeX tree at some later time
+with <kbd>M-x preview-install-styles RET</kbd>.
+</p>
+</dd>
+<dt> <code>--with-kpathseasep=<samp>`[:|;]'</samp></code></dt>
+<dd><p>Set this option if you use <code>--without-texmf-dir</code> and the
+configuration routine cannot figure out itself the directory separator
+used by the kpathsea library.
+</p>
+</dd>
+<dt> <code>--with-tex-dir=<var>/dir</var></code></dt>
+<dd><p>If you want to specify an exact directory for the preview TeX files,
+use <code>--with-tex-dir=<var>/dir</var></code>. In this case, the files will be
+placed in <tt>`<var>/dir</var>'</tt>, and you'll also need the following option:
+</p>
+</dd>
+<dt> <code>--with-doc-dir=<var>/dir</var></code></dt>
+<dd><p>This option may be used to specify where the TeX documentation goes.
+It is to be used when you are using <code>--with-tex-dir=<var>/dir</var></code>,
+but is normally not necessary otherwise.
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="Build_002finstall"></a>
+<a name="SEC10"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC9" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC11" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.3 Build/install </h2>
+
+
+<p>Once <code>configure</code> has been run, simply enter
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">make
+</pre></td></tr></table>
+
+<p>at the prompt to byte-compile the lisp files, extract the TeX files
+and build the documentation files.  To install the files into the
+locations chosen earlier, type
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">make install
+</pre></td></tr></table>
+<p>You may need special privileges to install, e.g., if you are installing
+into system directories.
+</p>
+<hr size="6">
+<a name="Loading-the-package"></a>
+<a name="SEC11"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC10" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.4 Loading the package </h2>
+
+<p>You can detect the successful activation of AUCTeX and
+preview-latex in the menus after loading a LaTeX file like
+<tt>`preview/circ.tex'</tt>: AUCTeX then gives you a <samp>`Command'</samp> menu,
+and preview-latex gives you a <samp>`Preview'</samp> menu.
+</p>
+<p>For XEmacs, if the installation occured into a valid package directory
+(which is the default), then this should work out of the box.
+</p>
+<p>With Emacs (or if you explicitly disabled use of the package system),
+the startup files <tt>`auctex.el'</tt> and <tt>`preview-latex.el'</tt> may
+already be in a directory of the <tt>`site-start.d/'</tt> variety if your
+Emacs installation provides it.  In that case they should be
+automatically loaded on startup and nothing else needs to be done.  If
+not, they should at least have been placed somewhere in your
+<code>load-path</code>.  You can then load them by placing the lines
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(load &quot;auctex.el&quot; nil t t)
+(load &quot;preview-latex.el&quot; nil t t)
+</pre></td></tr></table>
+<p>into your <tt>`~/.emacs'</tt> file.
+</p>
+<p>If you explicitly used <code>--with-lispdir</code>, you may need to add the
+specified directory into Emacs' <code>load-path</code> variable by adding
+something like
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(add-to-list 'load-path &quot;~/elisp&quot;)
+</pre></td></tr></table>
+<p>before the above lines into your Emacs startup file.
+</p>
+<p>For site-wide activation in GNU Emacs, see
+See section <a href="#SEC12">Providing AUCTeX as a package</a>.
+</p>
+<p>That is all.  There are other ways of achieving the equivalent thing,
+but we don't mention them here any more since they are not better, and
+people got confused into trying everything at once.
+</p>
+<hr size="6">
+<a name="Advice-for-package-providers"></a>
+<a name="SEC12"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC11" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC13" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.5 Providing AUCTeX as a package </h2>
+
+<p>As a package provider, you should make sure that your users will be
+served best according to their intentions, and keep in mind that a
+system might be used by more than one user, with different
+preferences.
+</p>
+<p>There are people that prefer the built-in Emacs modes for editing
+TeX files, in particular plain TeX users.  There are various
+ways to tell AUCTeX even after auto-activation that it should
+not get used, and they are described in
+<a href="auctex_2.html#SEC2">Introduction to AUCTeX</a>.
+</p>
+<p>So if you have users that don't want to use the preinstalled AUCTeX,
+they can easily get rid of it.  Activating AUCTeX by default is
+therefore a good choice.
+</p>
+<p>If the installation procedure did not achieve this already by placing
+<tt>`auctex.el'</tt> and <tt>`preview-latex.el'</tt> into a possibly existing
+<tt>`site-start.d'</tt> directory, you can do this by placing
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(load &quot;auctex.el&quot; nil t t)
+(load &quot;preview-latex.el&quot; nil t t)
+</pre></td></tr></table>
+<p>in the system-wide <tt>`site-start.el'</tt>.
+</p>
+<p>If your package is intended as an XEmacs package or to accompany a
+precompiled version of Emacs, you might not know which TeX system
+will be available when preview-latex gets used.  In this case you
+should build using the <code>--without-texmf-dir</code> option described
+previously.  This can also be convenient for systems that are intended
+to support more than a single TeX distribution.  Since more often than
+not TeX packages for operating system distributions are either much
+more outdated or much less complete than separately provided systems
+like TeX Live, this method may be generally preferable when
+providing packages.
+</p>
+<p>The following package structure would be adequate for a typical fully
+supported Unix-like installation:
+</p>
+<dl compact="compact">
+<dt> <samp>`preview-tetex'</samp></dt>
+<dd><p>Style files and documentation for <tt>`preview.sty'</tt>, placed into a
+TeX tree where it is accessible from the teTeX executables usually
+delivered with a system.  If there are other commonly used TeX system
+packages, it might be appropriate to provide separate packages for
+those.
+</p></dd>
+<dt> <samp>`auctex-emacs-tetex'</samp></dt>
+<dd><p>This package will require the installation of <samp>`preview-tetex'</samp> and
+will record in <samp>`TeX-macro-global'</samp> where to find the TeX tree.
+It is also a good idea to run
+</p><table><tr><td>&nbsp;</td><td><pre class="example">emacs -batch -f TeX-auto-generate-global
+</pre></td></tr></table><p>when either AUCTeX or teTeX get installed or upgraded.  If your
+users might want to work with a different TeX distribution (nowadays
+pretty common), instead consider the following:
+</p></dd>
+<dt> <samp>`auctex-emacs'</samp></dt>
+<dd><p>This package will be compiled with <samp>`--without-texmf-dir'</samp> and will
+consequently contain the <samp>`preview'</samp> style files in its private
+directory.  It will probably not be possible to initialize
+<samp>`TeX-macro-global'</samp> to a sensible value, so running
+<samp>`TeX-auto-generate-global'</samp> does not appear useful.  This package
+would neither conflict with nor provide <samp>`preview-tetex'</samp>.
+</p></dd>
+<dt> <samp>`auctex-xemacs-tetex'</samp></dt>
+<dt> <samp>`auctex-xemacs'</samp></dt>
+<dd><p>Those are the obvious XEmacs equivalents.  For XEmacs, there is the
+additional problem that the XEmacs sumo package tree already possibly
+provides its own version of AUCTeX, and the user might even have used
+the XEmacs package manager to updating this package, or even installing
+a private AUCTeX version.  So you should make sure that such a
+package will not conflict with existing XEmacs packages and will be
+at an appropriate place in the load order (after site-wide and
+user-specific locations, but before a distribution-specific sumo package
+tree).  Using the <code>--without-packagedir</code> option might be one idea
+to avoid conflicts.  Another might be to refrain from providing an
+XEmacs package and just rely on the user or system administrator to
+instead use the XEmacs package system.
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="Advice-for-non_002dprivileged-users"></a>
+<a name="SEC13"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC12" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC17" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.6 Installation for non-privileged users </h2>
+
+<p>Often people without system administration privileges want to install
+software for their private use.  In that case you need to pass more
+options to the <code>configure</code> script.  For XEmacs users, this is
+fairly easy, because the XEmacs package system has been designed to make
+this sort of thing practical: but GNU Emacs users (and XEmacs users for
+whom the package system is for some reason misbehaving) may need to do a
+little more work.
+</p>
+<p>The main expedient is using the <samp>`--prefix'</samp> option to the
+<tt>`configure'</tt> script, and let it point to the personal home
+directory.  In that way, resulting binaries will be installed under the
+<tt>`bin'</tt> subdirectory of your home directory, manual pages under
+<tt>`man'</tt> and so on.  It is reasonably easy to maintain a bunch of
+personal software, since the prefix argument is supported by most
+<tt>`configure'</tt> scripts.
+</p>
+<p>You'll have to add something like
+<tt>`/home/myself/share/emacs/site-lisp'</tt> to your <code>load-path</code>
+variable, if it isn't there already.
+</p>
+<p>XEmacs users can achieve the same end by pointing <code>configure</code> at an
+appropriate package directory (normally
+<samp>`--with-packagedir=~/.xemacs/xemacs-packages'</samp> will serve).  The
+package directory stands a good chance at being detected automatically
+as long as it is in a subtree of the specified <var>prefix</var>.
+</p>
+<p>Now here is another thing to ponder: perhaps you want to make it easy
+for other users to share parts of your personal Emacs configuration.  In
+general, you can do this by writing <samp>`~myself/'</samp> anywhere where you
+specify paths to something installed in your personal subdirectories,
+not merely <samp>`~/'</samp>, since the latter, when used by other users, will
+point to non-existent files.
+</p>
+<p>For yourself, it will do to manipulate environment variables in your
+<tt>`.profile'</tt> resp. <tt>`.login'</tt> files.  But if people will be
+copying just Elisp files, their copies will not work.  While it would
+in general be preferable if the added components where available from
+a shell level, too (like when you call the standalone info reader, or
+try using <tt>`preview.sty'</tt> for functionality besides of Emacs
+previews), it will be a big help already if things work from inside
+of Emacs.
+</p>
+<p>Here is how to do the various parts:
+</p>
+<a name="SEC14"></a>
+<h3 class="subheading"> Making the Elisp available </h3>
+
+<p>In GNU Emacs, it should be sufficient if people just do
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(load &quot;~myself/share/emacs/site-lisp/auctex.el&quot; nil t t)
+(load &quot;~myself/share/emacs/site-lisp/preview-latex.el&quot; nil t t)
+</pre></td></tr></table>
+<p>where the path points to your personal installation.  The rest of the
+package should be found relative from there without further ado.
+</p>
+<p>In XEmacs, you should ask the other users to add symbolic links in the
+subdirectories <tt>`lisp'</tt>, <tt>`info'</tt> and <tt>`etc'</tt> of their
+<tt>`~/.xemacs/xemacs-packages/'</tt> directory.  (Alas, there is presently
+no easy programmatic way to do this, except to have a script do the
+symlinking for them.)
+</p>
+<a name="SEC15"></a>
+<h3 class="subheading"> Making the Info files available </h3>
+
+<p>For making the info files accessible from within Elisp, something like
+the following might be convenient to add into your or other people's
+startup files:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(eval-after-load 'info
+   '(add-to-list 'Info-directory-list &quot;~myself/info&quot;))
+</pre></td></tr></table>
+<p>In XEmacs, as long as XEmacs can see the package, there should be no
+need to do anything at all; the info files should be immediately
+visible.  However, you might want to set <code>INFOPATH</code> anyway, for the
+sake of standalone readers outside of XEmacs. (The info files in XEmacs
+are normally in <tt>`~/.xemacs/xemacs-packages/info'</tt>.)
+</p>
+<a name="SEC16"></a>
+<h3 class="subheading"> Making the LaTeX style available </h3>
+
+<p>If you want others to be able to share your installation, you should
+configure it using <samp>`--without-texmf-dir'</samp>, in which case things
+should work as well for them as for you.
+</p>
+<hr size="6">
+<a name="Installation-under-MS-Windows"></a>
+<a name="SEC17"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC13" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC20" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.7 Installation under MS Windows </h2>
+
+
+<a name="SEC18"></a>
+<h3 class="subheading"> In a Nutshell </h3>
+
+<p>The following are brief installation instructions for the impatient.  In
+case you don't understand some of this, run into trouble of some sort,
+or need more elaborate information, refer to the detailed instructions
+further below.
+</p>
+<ol>
+<li>
+Install the prerequisites, i.e. GNU Emacs or XEmacs, MSYS or Cygwin, a
+TeX system, and Ghostscript.
+
+</li><li>
+Open the MSYS shell or a Cygwin shell and change to the directory
+containing the unzipped file contents.
+
+</li><li>
+Configure AUCTeX:
+
+<p>For GNU Emacs: Many people like to install AUCTeX into the pseudo
+file system hierarchy set up by the Emacs installation.  Assuming Emacs
+is installed in <tt>`C:/Program Files/Emacs'</tt> and the directory for
+local additions of your TeX system, e.g. MikTeX, is
+<tt>`C:/localtexmf'</tt>, you can do this by typing the following statement
+at the shell prompt:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">./configure --prefix='C:/Program Files/Emacs' \
+  --with-texmf-dir='C:/localtexmf'
+</pre></td></tr></table>
+<p>For XEmacs: You can install AUCTeX as an XEmacs package.  Assuming
+XEmacs is installed in <tt>`C:/Program Files/XEmacs'</tt> and the directory
+for local additions of your TeX system, e.g. MikTeX, is
+<tt>`C:/localtexmf'</tt>, you can do this by typing the following command at
+the shell prompt:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">./configure --with-xemacs='C:/Program Files/XEmacs/bin/xemacs' \
+  --with-texmf-dir='C:/localtexmf'
+</pre></td></tr></table>
+<p>The commands above are examples for common usage.  More on configuration
+options can be found in the detailed installation instructions below.
+</p>
+<p>If the configuration script failed to find all required programs, make
+sure that these programs are in your system path and add directories
+containing the programs to the <code>PATH</code> environment variable if
+necessary.
+</p>
+</li><li>
+If there were no further error messages, type
+
+<table><tr><td>&nbsp;</td><td><pre class="example">make
+</pre></td></tr></table>
+<p>In case there were, please refer to the detailed description below.
+</p>
+</li><li>
+Finish the installation by typing
+
+<table><tr><td>&nbsp;</td><td><pre class="example">make install
+</pre></td></tr></table></li></ol>
+
+<a name="SEC19"></a>
+<h3 class="subheading"> Detailed Installation Instructions </h3>
+
+<p>Installation of AUCTeX under Windows is in itself not more
+complicated than on other platforms.  However, meeting the prerequisites
+might require more work than on some other platforms, and feel less
+natural.
+</p>
+<p>If you are experiencing any problems, even if you think they are of your
+own making, be sure to report them to <a href="mailto:auctex-devel@gnu.org">auctex-devel@gnu.org</a> so
+that we can explain things better in future.
+</p>
+<p>Windows is a problematic platform for installation scripts.  The main
+problem is that the installation procedure requires consistent file
+names in order to find its way in the directory hierarchy, and Windows
+path names are a mess.
+</p>
+<p>The installation procedure tries finding stuff in system search paths
+and in Emacs paths.  For that to succeed, you have to use the same
+syntax and spelling and case of paths everywhere: in your system search
+paths, in Emacs' <code>load-path</code> variable, as argument to the scripts.
+If your path names contain spaces or other `shell-unfriendly'
+characters, most notably backslashes for directory separators, place the
+whole path in <samp>`&quot;double quote marks&quot;'</samp> whenever you specify it on a
+command line.
+</p>
+<p>Avoid `helpful' magic file names like <samp>`/cygdrive/c'</samp> and
+<samp>`C:\PROGRA~1\'</samp> like the plague.  It is quite unlikely that the
+scripts will be able to identify the actual file names involved.  Use
+the full paths, making use of normal Windows drive letters like
+<samp>` 'C:/Program Files/Emacs' '</samp> where required, and using the same
+combination of upper- and lowercase letters as in the actual files.
+File names containing shell-special characters like spaces or
+backslashes (if you prefer that syntax) need to get properly quoted to
+the shell: the above example used single quotes for that.
+</p>
+<p>Ok, now here are the steps to perform:
+</p>
+<ol>
+<li>
+You need to unpack the AUCTeX distribution (which you seemingly have
+done since you are reading this).  It must be unpacked in a separate
+installation directory outside of your Emacs file hierarchy: the
+installation will later copy all necessary files to their final
+destination, and you can ultimately remove the directory where you
+unpacked the files.
+
+<p>Line endings are a problem under Windows.  The distribution contains
+only text files, and theoretically most of the involved tools should get
+along with that.  However, the files are processed by various utilities,
+and it is conceivable that not all of them will use the same line ending
+conventions.  If you encounter problems, it might help if you try
+unpacking (or checking out) the files in binary mode, if your tools
+allow that.
+</p>
+<p>If you don't have a suitable unpacking tool, skip to the next step: this
+should provide you with a working <samp>`unzip'</samp> command.
+</p>
+</li><li>
+The installation of AUCTeX will require the MSYS tool set from
+<a href="http://www.mingw.org">http://www.mingw.org</a> or the Cygwin tool set from
+<a href="http://cygwin.com">http://cygwin.com</a>.  The latter is slower and larger (the download
+size of the base system is about 15 MB) but comes with a package manager
+that allows for updating the tool set and installing additional packages
+like, for example, the spell checker aspell.
+
+<p>If Cygwin specific paths like <samp>`/cygdrive/c'</samp> crop up in the course
+of the installation, using a non-Cygwin Emacs could conceivably cause
+trouble.  Using Cygwin either for everything or nothing might save
+headaches, <em>if</em> things don't work out.
+</p>
+</li><li>
+Install a current version of XEmacs from
+<a href="http://www.xemacs.org">http://www.xemacs.org</a> or try getting and compiling a developer
+version of Emacs 22 from
+<a href="http://savannah.gnu.org/cvs/?group=emacs">Savannah</a>.  Compiling
+Emacs is outside of the scope of this manual.  Precompiled versions
+currently happen to be available at
+<a href="http://www.crasseux.com/emacs/">http://www.crasseux.com/emacs/</a> and <a href="http://nqmacs.sf.net/">http://nqmacs.sf.net/</a>.
+
+<p>If you don't want to use a developer version and Emacs 22 has not
+yet been released, it is also possible to use an Emacs 21 binary
+from <a href="http://ftp.gnu.org/pub/gnu/windows/emacs/">http://ftp.gnu.org/pub/gnu/windows/emacs/</a>, but then you
+should disable the installation of preview-latex (it will not work).
+Since the developer version has seen quite a few improvements relevant
+also for other features of AUCTeX, we really recommend you give it a
+try.
+</p>
+</li><li>
+You need a working TeX installation.  One popular installation under
+Windows is <a href="http://www.miktex.org">MikTeX</a>.  Another much more
+extensive system is <a href="http://www.tug.org/texlive">TeX Live</a>
+which is rather close to its Unix cousins.
+
+</li><li>
+A working copy of <a href="http://www.cs.wisc.edu/~ghost">Ghostscript</a> is
+required for preview-latex operation.  Examining the output from
+<table><tr><td>&nbsp;</td><td><pre class="example">gswin32c -h
+</pre></td></tr></table><p>on a Windows command line should tell you whether your Ghostscript
+supports the <code>png16m</code> device needed for <acronym>PNG</acronym> support.
+MikTeX apparently comes with its own Ghostscript called <samp>`mgs.exe'</samp>.
+</p>
+</li><li>
+<a href="http://www.perl.org">Perl</a> is needed for rebuilding the
+documentation if you are working with a copy from <acronym>CVS</acronym> or have
+touched documentation source files in the preview-latex part.  If the
+line endings of the file <tt>`preview/latex/preview.dtx'</tt> don't
+correspond with what Perl calls <code>\n</code> when reading text files,
+you'll run into trouble.
+
+</li><li>
+Now the fun stuff starts.  If you have not yet done so, unpack the
+AUCTeX distribution into a separate directory after rereading the
+instructions for unpacking above.
+
+</li><li>
+Ready for takeoff. Start some shell (typically <code>bash</code>) capable of
+running <code>configure</code>, change into the installation directory and
+call <code>./configure</code> with appropriate options.
+
+<p>Typical options you'll want to specify will be
+</p><dl compact="compact">
+<dt> <code>--prefix=<var>drive:/path/to/emacs-hierarchy</var></code></dt>
+<dd><p>which tells <tt>`configure'</tt> where to perform the installation. It may
+also make <tt>`configure'</tt> find Emacs or XEmacs automatically; if this
+doesn't happen, try one of <samp>`--with-emacs'</samp> or <samp>`--with-xemacs'</samp>
+as described below.  All automatic detection of files and directories
+restricts itself to directories below the <var>prefix</var> or in the same
+hierarchy as the program accessing the files.  Usually, directories like
+<tt>`man'</tt>, <tt>`share'</tt> and <tt>`bin'</tt> will be situated right under
+<var>prefix</var>.
+</p>
+<p>This option also affects the defaults for placing the Texinfo
+documentation files and automatically generated style hooks.
+</p>
+<p>If you have a central directory hierarchy (not untypical with Cygwin)
+for such stuff, you might want to specify its root here.  You stand a
+good chance that this will be the only option you need to supply, as
+long as your TeX-related executables are in your system path, which
+they better be for AUCTeX's operation, anyway.
+</p>
+</dd>
+<dt> <code>--with-emacs</code></dt>
+<dd><p>if you are installing for a version of Emacs.  You can use
+<samp>`--with-emacs=<var>drive:/path/to/emacs</var>'</samp> to specify the name of the
+installed Emacs executable, complete with its path if necessary (if
+Emacs is not within a directory specified in your <code>PATH</code> environment
+setting).
+</p>
+</dd>
+<dt> <code>--with-xemacs</code></dt>
+<dd><p>if you are installing for a version of XEmacs.  Again, you can use
+<samp>`--with-xemacs=<var>drive:/path/to/xemacs</var>'</samp> to specify the name of the
+installed XEmacs executable complete with its path if necessary.  It may
+also be necessary to specify this option if a copy of Emacs is found in
+your <code>PATH</code> environment setting, but you still would like to install
+a copy of AUCTeX for XEmacs.
+</p>
+</dd>
+<dt> <code>--with-packagedir=<var>drive:/dir</var></code></dt>
+<dd><p>is an XEmacs-only option giving the location of the package directory.
+This will install and activate the package.  Emacs uses a different
+installation scheme:
+</p>
+</dd>
+<dt> <code>--with-lispdir=<var>drive:/path/to/site-lisp</var></code></dt>
+<dd><p>This Emacs-only option tells a place in <code>load-path</code> below which the
+files are situated.  The startup files <tt>`auctex.el'</tt> and
+<tt>`preview-latex.el'</tt> will get installed here unless a subdirectory
+<tt>`site-start.d'</tt> exists which will then be used instead.  The other
+files from AUCTeX will be installed in a subdirectory called
+<tt>`auctex'</tt>.
+</p>
+<p>If you think that you need a different setup, please refer to the full
+installation instructions in
+<a href="#SEC9">Configure</a>.
+</p>
+</dd>
+<dt> <code>--with-auto-dir=<var>drive:/dir</var></code></dt>
+<dd><p>Directory containing automatically generated information.  You should
+not normally need to set this, as <samp>`--prefix'</samp> should take care of
+this.
+</p>
+</dd>
+<dt> <code>--disable-preview</code></dt>
+<dd><p>Use this option if your Emacs version is unable to support image
+display.  This will be the case if you are using a native variant of
+Emacs 21.
+</p>
+</dd>
+<dt> <code>--with-texmf-dir=<var>drive:/dir</var></code></dt>
+<dd><p>This will specify the directory where your TeX installation sits.  If
+your TeX installation does not conform to the TDS (TeX directory
+standard), you may need to specify more options to get everything in
+place:
+</p></dd>
+</dl>
+
+<p>For more information about any of the above and additional options, see
+<a href="#SEC9">Configure</a>.
+</p>
+<p>Calling
+<tt>`./configure --help=recursive'</tt>
+will tell about other options, but those are almost never required.
+</p>
+<p>Some executables might not be found in your path.  That is not a good
+idea, but you can get around by specifying environment variables to
+<tt>`configure'</tt>:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">GS=&quot;<var>drive:/path/to/gswin32c.exe</var>&quot; ./configure &hellip;
+</pre></td></tr></table><p>should work for this purpose.  <tt>`gswin32c.exe'</tt> is the usual name for
+the required <em>command line</em> executable under Windows; in contrast,
+<tt>`gswin32.exe'</tt> is likely to fail.
+</p>
+<p>As an alternative to specifying variables for the <tt>`configure'</tt> call
+you can add directories containing the required executables to the
+<code>PATH</code> variable of your Windows system.  This is especially a good
+idea if Emacs has trouble finding the respective programs later during
+normal operation.
+</p>
+</li><li>
+Run <code>make</code> in the installation directory.
+	
+</li><li>
+Run <code>make install</code> in the installation directory.
+
+</li><li>
+With XEmacs, AUCTeX and preview-latex should now be active by
+default.  With Emacs, activation depends on a working
+<tt>`site-start.d'</tt> directory or similar setup, since then the startup
+files <tt>`auctex.el'</tt> and <tt>`preview-latex.el'</tt> will have been placed
+there.  If this has not been done, you should be able to load the
+startup files manually with
+<table><tr><td>&nbsp;</td><td><pre class="example">(load &quot;auctex.el&quot; nil t t)
+(load &quot;preview-latex.el&quot; nil t t)
+</pre></td></tr></table><p>in either a site-wide <tt>`site-start.el'</tt> or your personal startup file
+(usually accessible as <tt>`~/.emacs'</tt> from within Emacs and
+<tt>`~/.xemacs/init.el'</tt> from within XEmacs).
+</p>
+<p>The default configuration of AUCTeX is probably not the best fit for
+Windows systems.  You might want to additionally use
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(require 'tex-mik)
+</pre></td></tr></table><p>or
+</p><table><tr><td>&nbsp;</td><td><pre class="example">(require 'tex-fptex)
+</pre></td></tr></table><p>in order to get more appropriate values for MikTeX and fpTeX,
+respectively.
+</p>
+<p>You can always use
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"><kbd>M-x customize-group RET AUCTeX RET</kbd>
+</pre></td></tr></table>
+<p>in order to customize more stuff, or use the <samp>`Customize'</samp> menu.
+</p>
+</li><li>
+Load <tt>`preview/circ.tex'</tt> into Emacs or XEmacs and see if you get the
+<samp>`Command'</samp> menu. Try using it to LaTeX the file.
+
+</li><li>
+Check whether the <samp>`Preview'</samp> menu is available in this file.  Use it
+to generate previews for the document.
+
+<p>If this barfs and tells you that image type <samp>`png'</samp> is not
+supported, try adding the line
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(setq preview-image-type 'pnm)
+</pre></td></tr></table>
+<p>at the end of your installed version of <tt>`preview-latex.el'</tt>.  If
+this helps, complain to wherever you got your Emacs from: all current
+Emacs/XEmacs versions capable of running preview-latex by now can be
+compiled to support <acronym>PNG</acronym> images.  Which is important, because
+<acronym>PNM</acronym> files take away <strong>vast</strong> amounts of disk space, and
+thus also of load/save time.
+</p>
+</li></ol>
+<p>Well, that about is all.  Have fun!
+</p>
+<hr size="6">
+<a name="Customizing"></a>
+<a name="SEC20"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC17" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 2.8 Customizing </h2>
+<p>Most of the site-specific customization should already have happened
+during configuration of AUCTeX.  Any further customization can be
+done with customization buffers directly in Emacs.  Just type <kbd>M-x
+customize-group RET AUCTeX RET</kbd> to open the customization group for
+AUCTeX or use the menu entries provided in the mode menus.  Editing
+the file <tt>`tex-site.el'</tt> as suggested in former versions of AUCTeX
+should not be done anymore because the installation routine will
+overwrite those changes.
+</p>
+<p>You might check some variables with a special significance.  They are
+accessible directly by typing <kbd>M-x customize-variable RET &lt;variable&gt;
+RET</kbd>.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>TeX-macro-global</b>
+<a name="IDX2"></a>
+</dt>
+<dd><p>Directories containing the site's TeX style files.
+</p></dd></dl>
+
+<p>Normally, AUCTeX will only allow you to complete macros and
+environments which are built-in, specified in AUCTeX style files or
+defined by yourself.  If you issue the <kbd>M-x
+TeX-auto-generate-global</kbd> command after loading AUCTeX, you will be
+able to complete on all macros available in the standard style files
+used by your document.  To do this, you must set this variable to a list
+of directories where the standard style files are located.  The
+directories will be searched recursively, so there is no reason to list
+subdirectories explicitly.  Automatic configuration will already have
+set the variable for you if it could use the program <samp>`kpsewhich'</samp>.
+In this case you normally don't have to alter anything.
+</p>
+
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC7" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

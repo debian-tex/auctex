@@ -38,23 +38,23 @@ for FLAVOR in ${FLAVORS}; do
 Collecting package info for Emacs flavor '${FLAVOR}':
 ------------------------------------------------------------------------
 EOF
-	${FLAVOR} 2>/dev/null >&3 --no-site-file --no-init-file --batch \
-	    --eval "(require 'tex-site)" \
-	    --eval "$EMACS_COMMAND"
+	${FLAVOR} </dev/null 2>/dev/null >&3 \
+	    --no-site-file --no-init-file --batch \
+	    --eval "(require 'tex-site)" --eval "$EMACS_COMMAND"
 	cat >&3 <<EOF
 ------------------------------------------------------------------------
 Collecting system info for Emacs flavor '${FLAVOR}':
 ------------------------------------------------------------------------
 EOF
-	${FLAVOR} 2>/dev/null >&3 --no-init-file --batch \
-	    --eval "$EMACS_COMMAND"
+	${FLAVOR} </dev/null 2>/dev/null >&3 \
+	    --no-init-file --batch --eval "$EMACS_COMMAND"
 	cat >&3 <<EOF
 ------------------------------------------------------------------------
 Collecting user info for Emacs flavor '${FLAVOR}':
 ------------------------------------------------------------------------
 EOF
-	${FLAVOR} 2>/dev/null >&3 --batch \
-	    --eval "$EMACS_COMMAND"
+	${FLAVOR} </dev/null 2>/dev/null >&3 \
+	    --batch --eval "$EMACS_COMMAND"
 	cat >&3 <<EOF
 ------------------------------------------------------------------------
 Content of '<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>'

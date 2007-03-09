@@ -1,24 +1,25 @@
 # German translations of the "debian/auctex/templates" file
 # of the auctex Debian package.
 #
-# Copyright (C) 2001, 02, 03, 04, 05, 06 Davide G. M. Salvetti
+# Copyright (C) 2001, 02, 03, 04, 05, 06, 07 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
 # Knut Suebert <knut.suebert@web.de>, 2001
+# Helge Kreutzmann <debian@helgefjell.de>, 2007
 #
 # arch-tag: 9f94e80b-a3a0-43a6-a958-20be0e1ab270
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex 11.81-1\n"
+"Project-Id-Version: auctex 11.83-2.1\n"
 "Report-Msgid-Bugs-To: salve@debian.org\n"
 "POT-Creation-Date: 2006-12-08 16:38+0100\n"
-"PO-Revision-Date: 2006-10-16 19:01+0200\n"
-"Last-Translator: Knut Suebert <knut.suebert@web.de>\n"
-"Language-Team: German <de@li.org>\n"
+"PO-Revision-Date: 2007-03-03 22:42+0100\n"
+"Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
+"Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #. Type: select
@@ -42,9 +43,8 @@ msgstr "Nicht"
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
-#, fuzzy
 msgid "(La)TeX macros parsing mode:"
-msgstr "Wie sollen (La)TeX-Makros behandelt werden?"
+msgstr "(La)TeX-Makros Parsing-Modus:"
 
 #. Type: select
 #. Description
@@ -53,8 +53,9 @@ msgid ""
 "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
 "style file currently installed at your site will be parsed."
 msgstr ""
-"Zur Beschleunigung von AUCTeX kann jedes installierte TeX-Makro und jeder "
-"LaTeX-Style im Voraus bearbeitet werden."
+"Zur deutlichen Beschleunigung von AUCTeX kann jedes derzeit bei Ihnen "
+"installierte TeX-Makro-Paket und jede LaTeX-Style-Datei im Voraus eingelesen "
+"werden."
 
 #. Type: select
 #. Description
@@ -66,11 +67,10 @@ msgid ""
 "find a detailed log of the process in the file: ${LOGFILE}."
 msgstr ""
 "Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund "
-"empfohlen.  Die Bearbeitung kann allerdings auch im Vordergrund erfolgen -- "
-"die weitere Installation wird dann allerdings bis zum AbschluÃŸ der "
-"Bearbeitung unterbrochen.  Die Voraus-Bearbeitung kann auch ganz "
-"unterbleiben.  Wenn Sie die Bearbeitung im Hintergrund wÃ¤hlen, finden Sie "
-"eine detaillierte Protokollausgabe in ${LOGFILE}."
+"empfohlen. Die Bearbeitung kann allerdings auch im Vordergrund erfolgen, und "
+"die Voraus-Bearbeitung kann auch ganz unterbleiben. Wenn Sie die Bearbeitung "
+"im Hintergrund wählen, finden Sie eine detaillierte Protokollausgabe in "
+"${LOGFILE}."
 
 #. Type: select
 #. Description
@@ -80,9 +80,9 @@ msgid ""
 "usually you won't need to worry about them whenever you install new (La)TeX "
 "packages or remove old ones."
 msgstr ""
-"Weiterhin wird ein wÃ¶chentlicher cron-Job auf die Fortschreibung der nun "
-"erhobenen Informationen achten, so daÃŸ Sie sich fÃ¼r gewÃ¶hnlich nicht weiter "
-"darum kÃ¼mmern mÃ¼ssen, wenn Sie LaTeX-Pakete installieren oder entfernen."
+"Weiterhin wird ein wöchentlicher cron-Job auf die Fortschreibung der nun "
+"erhobenen Informationen achten, so dass Sie sich für gewöhnlich nicht weiter "
+"darum kümmern müssen, wenn Sie LaTeX-Pakete installieren oder entfernen."
 
 #. Type: select
 #. Description
@@ -108,7 +108,7 @@ msgstr "Datei"
 #. Description
 #: ../auctex/templates:2002
 msgid "Parsing output destination:"
-msgstr ""
+msgstr "Ziel der Parsing-Ausgabe:"
 
 #. Type: select
 #. Description
@@ -117,9 +117,9 @@ msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This is OK, but normally it will also generate quite a lot of output."
 msgstr ""
-"Sie wÃ¤hlten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund.  "
-"Das ist schon in Ordnung, aber fÃ¼r gewÃ¶hnlich wird dabei eine Menge "
-"langweiliger Kram ausgegeben."
+"Sie wählten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund. "
+"Das ist schon in Ordnung, aber für gewöhnlich wird dabei eine Menge Ausgabe "
+"erzeugt."
 
 #. Type: select
 #. Description
@@ -128,8 +128,8 @@ msgid ""
 "By default -- i.e., answering File to this question -- further output from "
 "the parsing process will go to a file named: ${LOGFILE}."
 msgstr ""
-"StandardmÃ¤ÃŸig (also bei der Wahl von \\\"Datei\\\") wird die weitere Ausgabe "
-"des Bearbeitungsprozesses in die Datei ${LOGFILE} umgeleitet."
+"Standardmäßig (also bei der Wahl von »Datei«) wird die weitere Ausgabe des "
+"Bearbeitungsprozesses in die Datei ${LOGFILE} umgeleitet."
 
 #. Type: select
 #. Description
@@ -138,8 +138,25 @@ msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
 "terminal."
 msgstr ""
-"Wenn Sie mit \\\"Konsole\\\" antworten, wird die gesamte Ausgabe direkt auf "
-"Ihrem Terminal erscheinen."
+"Wenn Sie mit »Konsole« antworten, wird die gesamte Ausgabe direkt auf Ihrem "
+"Terminal erscheinen."
+
+#~ msgid "The autoload mechanism of AUCTeX has changed"
+#~ msgstr "Der autoload-Mechanismus von AUCTeX hat sich geändert"
+
+#~ msgid ""
+#~ "Since Debian version 11.81-1, AUCTeX gets autoloaded by default.  Users "
+#~ "who do not want AUCTeX to override the standard Emacs TeX-mode may unload "
+#~ "AUCTeX completely by evaluating the form \"(unload-feature 'tex-site)"
+#~ "\" (i.e., let them put that string into their personal \"~/.emacs\" or "
+#~ "\"~/.emacs.el\" file to disable AUCTeX completely)."
+#~ msgstr ""
+#~ "Seit Debian-Version 11.81-1 wird AUCTeX standardmäßig automatisch "
+#~ "geladen. Benutzer, die nicht wollen, dass AUCTeX den Standard-Emacs-TeX-"
+#~ "Modus überschreibt können AUCTeX komplett entladen, indem sie Formel "
+#~ "»(unload-feature 'tex-site)« ausführen (d.h., dass sie diese Zeichenkette "
+#~ "in ihre persönliche »~/.emacs\\«- oder »~/.emacs.el«-Datei einfügen, um "
+#~ "AUCTeX komplett zu deaktivieren)."
 
 #~ msgid "Where should parsing output go?"
-#~ msgstr "Wo soll die Protokoll-Ausgabe hingehen?"
+#~ msgstr "Wohin soll die Parsing-Ausgabe gehen?"

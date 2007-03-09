@@ -20,7 +20,7 @@ INSTDATA := install -m 644
 INSTSCRIPT := install -m 755
 STRIP := strip -R .note -R .comment
 
-<:# DO NOT include <% debian/rules %> :>//
+<:# DO NOT include <% debian/rules %> and <% debian/templates %> :>//
 DFILES := debian/<:=${PACKAGE}:>/README debian/copyright \
 debian/<:=${PACKAGE}:>/NEWS \
 debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/postinst \
@@ -36,7 +36,6 @@ debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:> \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:>.8 \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:> \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:>.8 \
-debian/<:=${PACKAGE}:>/templates \
 debian/<:=${PLSPKG}:>/README \
 debian/<:=${PLSPKG}:>/postinst \
 debian/<:=${PLSPKG}:>/prerm debian/<:=${PLSPKG}:>/postrm \
@@ -80,7 +79,7 @@ debian/po/templates.pot: $(DCSOURCES)
 %.dcobj: % debian/po/templates.pot
 	po2debconf --verbose --podir debian/po $< > $@
 
-build: $(DFILES)
+build: $(DFILES) debian/po/templates.pot
 	$(checkdir)
 	./configure \
 		--prefix=<:$_=${usr}; s|/+|/|g; print:> \
@@ -94,7 +93,7 @@ build: $(DFILES)
 	touch build
 
 .PHONY: clean
-clean:
+clean: debian/po/templates.pot
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
 	-$(MAKE) distclean

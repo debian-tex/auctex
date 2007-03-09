@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: preview-latex</title>
+
+<meta name="description" content="preview-latex: preview-latex">
+<meta name="keywords" content="preview-latex: preview-latex">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Top"></a>
+<a name="SEC_Top"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="settitle">preview-latex</h1>
+ 
+<p>preview-latex is a package embedding preview fragments into Emacs
+source buffers under the AUCTeX editing environment for LaTeX.  It
+uses <tt>`preview.sty'</tt> for the extraction of certain environments (most
+notably displayed formulas).  Other applications of this style file are
+possible and exist.
+</p>
+<p>The name of the package is really <samp>`preview-latex'</samp>, all in
+lowercase letters, with a hyphen.  If you typeset it, you can use a
+sans-serif font to visually offset it.
+</p>
+<p>This file documents preview-latex version 11.83.
+</p>
+<p>This documentation should cover most important points.  However,
+corrections or perhaps rewrites of sections are <em>very welcome</em>.
+</p>
+<p>David Kastrup, Alan Shutko, Jan-&Aring;ke Larsson and Nick Alcock.
+</p>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="preview-latex_1.html#SEC1">1. Introduction</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                Getting started.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_2.html#SEC9">2. Installation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                Make Install.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_3.html#SEC10">3. Key bindings and user-level lisp functions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_4.html#SEC11">4. Simple customization</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">        To make it fit in.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_5.html#SEC12">5. Known problems</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              When things go wrong.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_6.html#SEC19">6. For advanced users</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">          Internals and more customizations.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_7.html#SEC26">A. ToDo</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                        Future development.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_8.html#SEC27">B. Frequently Asked Questions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  All about preview-latex
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_9.html#SEC53">C. License</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                     GPL.
+</td></tr>
+<tr><td align="left" valign="top"><a href="preview-latex_10.html#SEC54">Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                       A menu of many topics.             
+</td></tr>
+</table>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

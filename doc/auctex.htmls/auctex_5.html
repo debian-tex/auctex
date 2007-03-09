@@ -1,0 +1,844 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>AUCTeX: 4. Inserting Frequently Used Commands</title>
+
+<meta name="description" content="AUCTeX: 4. Inserting Frequently Used Commands">
+<meta name="keywords" content="AUCTeX: 4. Inserting Frequently Used Commands">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Frequently-Used-Commands"></a>
+<a name="SEC34"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="auctex_4.html#SEC33" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC35" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex_4.html#SEC21" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 4. Inserting Frequently Used Commands </h1>
+
+<p>The most commonly used commands/macros of AUCTeX are those which
+simply insert templates for often used TeX and/or LaTeX/ConTeXt
+constructs, like font changes, handling of environments, etc.  These
+features are very simple, and easy to learn, and help you avoid stupid
+mistakes like mismatched braces, or <samp>`\begin{}'</samp>-<samp>`\end{}'</samp>
+pairs.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC35">4.1 Insertion of Quotes, Dollars, and Braces</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                      Inserting double quotes
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC36">4.2 Inserting Font Specifiers</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC37">4.3 Inserting chapters, sections, etc.</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC38">4.4 Inserting Environment Templates</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<hr size="6">
+<a name="Quotes"></a>
+<a name="SEC35"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC34" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC36" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.1 Insertion of Quotes, Dollars, and Braces </h2>
+
+
+<p>In TeX, literal double quotes <samp>`&quot;like this&quot;'</samp> are seldom used,
+instead two single quotes are used <samp>```like this'''</samp>.  To help you
+insert these efficiently, AUCTeX allows you to continue to press
+<kbd>&quot;</kbd> to insert two single quotes.  To get a literal double quote,
+press <kbd>&quot;</kbd> twice.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-insert-quote</b><i> <var>count</var></i>
+<a name="IDX21"></a>
+</dt>
+<dd><a name="IDX22"></a>
+<p>(<kbd>&quot;</kbd>) Insert the appropriate quote marks for TeX.
+</p>
+<p>Inserts the value of <code>TeX-open-quote</code> (normally <samp>```'</samp>) or
+<code>TeX-close-quote</code> (normally <samp>`'''</samp>) depending on the context.
+With prefix argument, always inserts <samp>`&quot;'</samp> characters.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-open-quote</b>
+<a name="IDX23"></a>
+</dt>
+<dd><p>String inserted by typing <kbd>&quot;</kbd> to open a quotation.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-close-quote</b>
+<a name="IDX24"></a>
+</dt>
+<dd><p>String inserted by typing <kbd>&quot;</kbd> to close a quotation.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-quote-after-quote</b>
+<a name="IDX25"></a>
+</dt>
+<dd><p>Determines the behavior of <kbd>&quot;</kbd>.  If it is non-nil, typing <kbd>&quot;</kbd>
+will insert a literal double quote.  The respective values of
+<code>TeX-open-quote</code> and <code>TeX-close-quote</code> will be inserted
+after typing <kbd>&quot;</kbd> once again.
+</p></dd></dl>
+
+<p>The <samp>`babel'</samp> package provides special support for the requirements
+of typesetting quotation marks in many different languages.  If you use
+this package, either directly or by loading a language-specific style
+file, you should also use the special commands for quote insertion
+instead of the standard quotes shown above.  AUCTeX is able to
+recognize several of these languages and will change quote insertion
+accordingly.  See section <a href="auctex_11.html#SEC78">Using AUCTeX with European Languages</a>, for details about this feature and how to
+control it.
+</p>
+<a name="IDX26"></a>
+<a name="IDX27"></a>
+<a name="IDX28"></a>
+<p>In case you are using the <samp>`csquotes'</samp> package, you should customize
+<code>LaTeX-csquotes-open-quote</code>, <code>LaTeX-csquotes-close-quote</code> and
+<code>LaTeX-csquotes-quote-after-quote</code>.  The quotation characters will
+only be used if both variables--<code>LaTeX-csquotes-open-quote</code> and
+<code>LaTeX-csquotes-close-quote</code>--are non-empty strings.  But then the
+<samp>`csquotes'</samp>-related values will take precedence over the
+language-specific ones.
+</p>
+<p>In AUCTeX, dollar signs should match like they do in TeX.  This
+has been partially implemented, we assume dollar signs always match
+within a paragraph.  The first <samp>`$'</samp> you insert in a paragraph will
+do nothing special.  The second <samp>`$'</samp> will match the first.  This
+will be indicated by moving the cursor temporarily over the first dollar
+sign.  If you enter a dollar sign that matches a double dollar sign
+<samp>`$$'</samp> AUCTeX will automatically insert two dollar signs.  If you
+enter a second dollar sign that matches a single dollar sign, the single
+dollar sign will automatically be converted to a double dollar sign.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-insert-dollar</b><i> <var>arg</var></i>
+<a name="IDX29"></a>
+</dt>
+<dd><a name="IDX30"></a>
+<p>(<kbd>$</kbd>) Insert dollar sign.
+</p>
+<p>Show matching dollar sign if this dollar sign end the TeX math mode.
+Ensure double dollar signs match up correctly by inserting extra
+dollar signs when needed.
+</p>
+<p>With optional <var>arg</var>, insert that many dollar signs.
+</p></dd></dl>
+
+<p>To avoid unbalanced braces, it is useful to insert them pairwise.  You
+can do this by typing <kbd>C-c {</kbd>.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-insert-braces</b>
+<a name="IDX31"></a>
+</dt>
+<dd><a name="IDX32"></a>
+<p>(<kbd>C-c {</kbd>) Make a pair of braces and position the cursor
+to type inside of them.  If there is an active region, put braces around
+it and leave point after the closing brace.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Font-Specifiers"></a>
+<a name="SEC36"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC35" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC37" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.2 Inserting Font Specifiers </h2>
+
+
+<p>Perhaps the most used keyboard commands of AUCTeX are the short-cuts
+available for easy insertion of font changing macros.
+</p>
+<p>If you give an argument (that is, type <kbd>C-u</kbd>) to the font command,
+the innermost font will be replaced, i.e. the font in the TeX group
+around point will be changed.  The following table shows the available
+commands, with <code>&lowast;</code> indicating the position where the text
+will be inserted.
+</p>
+<dl compact="compact">
+<dt> <kbd>C-c C-f C-b</kbd></dt>
+<dd><a name="IDX33"></a>
+<a name="IDX34"></a>
+<p>Insert <b>bold face</b> <samp>`\textbf{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-i</kbd></dt>
+<dd><a name="IDX35"></a>
+<a name="IDX36"></a>
+<p>Insert <i>italics</i> <samp>`\textit{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-e</kbd></dt>
+<dd><a name="IDX37"></a>
+<a name="IDX38"></a>
+<p>Insert <i>emphasized</i> <samp>`\emph{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-s</kbd></dt>
+<dd><a name="IDX39"></a>
+<a name="IDX40"></a>
+<p>Insert <i>slanted</i> <samp>`\textsl{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-r</kbd></dt>
+<dd><a name="IDX41"></a>
+<a name="IDX42"></a>
+<p>Insert roman \textrm{&lowast;} text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-f</kbd></dt>
+<dd><a name="IDX43"></a>
+<a name="IDX44"></a>
+<p>Insert sans serif <samp>`\textsf{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-t</kbd></dt>
+<dd><a name="IDX45"></a>
+<a name="IDX46"></a>
+<p>Insert <tt>typewriter</tt> <samp>`\texttt{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-c</kbd></dt>
+<dd><a name="IDX47"></a>
+<a name="IDX48"></a>
+<p>Insert <small>SMALL CAPS</small> <samp>`\textsc{&lowast;}'</samp> text.
+</p>
+</dd>
+<dt> <kbd>C-c C-f C-d</kbd></dt>
+<dd><a name="IDX49"></a>
+<a name="IDX50"></a>
+<p>Delete the innermost font specification containing point.
+</p>
+</dd>
+</dl>
+
+<dl>
+<dt><u>Command:</u> <b>TeX-font</b><i> <var>arg</var></i>
+<a name="IDX51"></a>
+</dt>
+<dd><a name="IDX52"></a>
+<p>(<kbd>C-c C-f</kbd>) Insert template for font change command.
+</p>
+<p>If <var>replace</var> is not nil, replace current font.  <var>what</var>
+determines the font to use, as specified by <code>TeX-font-list</code>.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-font-list</b>
+<a name="IDX53"></a>
+</dt>
+<dd><p>List of fonts used by TeX-font.
+</p>
+<p>Each entry is a list with three elements.  The first element is the
+key to activate the font.  The second element is the string to insert
+before point, and the third element is the string to insert after
+point.  An optional fourth element means always replace if not nil.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Sectioning"></a>
+<a name="SEC37"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC36" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.3 Inserting chapters, sections, etc. </h2>
+
+<p>Insertion of sectioning macros, that is <samp>`\chapter'</samp>,
+<samp>`\section'</samp>, <samp>`\subsection'</samp>, etc. and accompanying
+<samp>`\label'</samp>'s may be eased by using <kbd>C-c C-s</kbd>.  This command is
+highly customizable, the following describes the default behavior.
+</p>
+<p>When invoking you will be asked for a section macro to insert.  An
+appropriate default is automatically selected by AUCTeX, that is
+either: at the top of the document; the top level sectioning for that
+document style, and any other place: The same as the last occurring
+sectioning command.
+</p>
+<p>Next, you will be asked for the actual name of that section, and
+last you will be asked for a label to be associated with that section.
+The label will be prefixed by the value specified in
+<code>LaTeX-section-hook</code>.
+</p>
+<dl>
+<dt><u>Command:</u> <b>LaTeX-section</b><i> <var>arg</var></i>
+<a name="IDX54"></a>
+</dt>
+<dd><a name="IDX55"></a>
+<p>(<kbd>C-c C-s</kbd>) Insert a sectioning command.
+</p>
+<p>Determine the type of section to be inserted, by the argument
+<var>arg</var>.
+</p>
+<ul>
+<li>
+If <var>arg</var> is nil or missing, use the current level.
+</li><li>
+If <var>arg</var> is a list (selected by C-u), go downward one level.
+</li><li>
+If <var>arg</var> is negative, go up that many levels.
+</li><li>
+If <var>arg</var> is positive or zero, use absolute level:
+<ul class="toc">
+<li> + 
+0 : part
+</li><li> + 
+1 : chapter
+</li><li> + 
+2 : section
+</li><li> + 
+3 : subsection
+</li><li> + 
+4 : subsubsection
+</li><li> + 
+5 : paragraph
+</li><li> + 
+6 : subparagraph
+</li></ul>
+</li></ul>
+
+<p>The following variables can be set to customize the function.
+</p>
+<dl compact="compact">
+<dt> <code>LaTeX-section-hook</code>
+<a name="IDX56"></a>
+</dt>
+<dd><p>Hooks to be run when inserting a section.
+</p></dd>
+<dt> <code>LaTeX-section-label</code>
+<a name="IDX57"></a>
+</dt>
+<dd><p>Prefix to all section references.
+</p></dd>
+</dl>
+
+</dd></dl>
+
+<p>The precise behavior of <code>LaTeX-section</code> is defined by the contents
+of <code>LaTeX-section-hook</code>.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-section-hook</b>
+<a name="IDX58"></a>
+</dt>
+<dd><p>List of hooks to run when a new section is inserted.
+</p>
+<p>The following variables are set before the hooks are run
+</p>
+<dl compact="compact">
+<dt> <var>level</var></dt>
+<dd><p>Numeric section level, default set by prefix arg to <code>LaTeX-section</code>.
+</p></dd>
+<dt> <var>name</var></dt>
+<dd><p>Name of the sectioning command, derived from <var>level</var>.
+</p></dd>
+<dt> <var>title</var></dt>
+<dd><p>The title of the section, default to an empty string.
+</p></dd>
+<dt> <var>toc</var></dt>
+<dd><p>Entry for the table of contents list, default nil.
+</p></dd>
+<dt> <var>done-mark</var></dt>
+<dd><p>Position of point afterwards, default nil meaning after the inserted
+text.
+</p></dd>
+</dl>
+
+<p>A number of hooks are already defined.  Most likely, you will be able to
+get the desired functionality by choosing from these hooks.
+</p>
+<dl compact="compact">
+<dt> <code>LaTeX-section-heading</code>
+<a name="IDX59"></a>
+</dt>
+<dd><p>Query the user about the name of the sectioning command.  Modifies
+<var>level</var> and <var>name</var>.
+</p></dd>
+<dt> <code>LaTeX-section-title</code>
+<a name="IDX60"></a>
+</dt>
+<dd><p>Query the user about the title of the section. Modifies <var>title</var>.
+</p></dd>
+<dt> <code>LaTeX-section-toc</code>
+<a name="IDX61"></a>
+</dt>
+<dd><p>Query the user for the toc entry.  Modifies <var>toc</var>.
+</p></dd>
+<dt> <code>LaTeX-section-section</code>
+<a name="IDX62"></a>
+</dt>
+<dd><p>Insert LaTeX section command according to <var>name</var>, <var>title</var>,
+and <var>toc</var>.  If <var>toc</var> is nil, no toc entry is inserted.  If
+<var>toc</var> or <var>title</var> are empty strings, <var>done-mark</var> will be
+placed at the point they should be inserted.
+</p></dd>
+<dt> <code>LaTeX-section-label</code>
+<a name="IDX63"></a>
+</dt>
+<dd><p>Insert a label after the section command.  Controlled by the variable
+<code>LaTeX-section-label</code>.
+</p></dd>
+</dl>
+
+<p>To get a full featured <code>LaTeX-section</code> command, insert
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(setq LaTeX-section-hook
+      '(LaTeX-section-heading
+	LaTeX-section-title
+	LaTeX-section-toc
+	LaTeX-section-section
+	LaTeX-section-label))
+</pre></td></tr></table>
+<p>in your <tt>`.emacs'</tt> file.
+</p></dd></dl>
+
+<p>The behavior of <code>LaTeX-section-label</code> is determined by the
+variable <code>LaTeX-section-label</code>.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-section-label</b>
+<a name="IDX64"></a>
+</dt>
+<dd><p>Default prefix when asking for a label.
+</p>
+<p>If it is a string, it is used unchanged for all kinds of sections.
+If it is nil, no label is inserted.
+If it is a list, the list is searched for a member whose car is equal
+to the name of the sectioning command being inserted.  The cdr is then
+used as the prefix.  If the name is not found, or if the cdr is nil,
+no label is inserted.
+</p>
+<a name="IDX65"></a>
+<a name="IDX66"></a>
+<a name="IDX67"></a>
+<p>By default, chapters have a prefix of <samp>`cha:'</samp> while sections and
+subsections have a prefix of <samp>`sec:'</samp>.  Labels are not automatically
+inserted for other types of sections.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Environments"></a>
+<a name="SEC38"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC37" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC39" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 4.4 Inserting Environment Templates </h2>
+
+<p>A large apparatus is available that supports insertions of environments,
+that is <samp>`\begin{}'</samp> -- <samp>`\end{}'</samp> pairs.
+</p>
+<p>AUCTeX is aware of most of the actual environments available in a
+specific document.  This is achieved by examining your
+<samp>`\documentclass'</samp> command, and consulting a precompiled list of
+environments available in a large number of styles.
+</p>
+<p>You insert an environment with <kbd>C-c C-e</kbd>, and select an environment
+type.  Depending on the environment, AUCTeX may ask more questions
+about the optional parts of the selected environment type.  With
+<kbd>C-u C-c C-e</kbd> you will change the current environment.
+</p>
+<dl>
+<dt><u>Command:</u> <b>LaTeX-environment</b><i> <var>arg</var></i>
+<a name="IDX68"></a>
+</dt>
+<dd><a name="IDX69"></a>
+<p>(<kbd>C-c C-e</kbd>)  AUCTeX will prompt you for an environment
+to insert.  At this prompt, you may press <kbd>TAB</kbd> or <kbd>SPC</kbd> to
+complete a partially written name, and/or to get a list of available
+environments.  After selection of a specific environment AUCTeX may
+prompt you for further specifications.
+</p>
+<p>If the optional argument <var>arg</var> is not-nil (i.e. you have given a
+prefix argument), the current environment is modified and no new
+environment is inserted.
+</p></dd></dl>
+
+<p>As a default selection, AUCTeX will suggest the environment last
+inserted or, as the first choice the value of the variable
+<code>LaTeX-default-environment</code>.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-default-environment</b>
+<a name="IDX70"></a>
+</dt>
+<dd><p>Default environment to insert when invoking <samp>`LaTeX-environment'</samp>
+first time.
+</p></dd></dl>
+
+<p>If the document is empty, or the cursor is placed at the top of the
+document, AUCTeX will default to insert a `document' environment.
+</p>
+<p>Most of these are described further in the following sections, and you
+may easily specify more.  See section <a href="#SEC43">Customizing environments</a>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC39">4.4.1 Equations</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC40">4.4.2 Floats</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC41">4.4.3 Itemize-like</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC42">4.4.4 Tabular-like</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC43">4.4.5 Customizing environments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<p>You can close the current environment with <kbd>C-c ]</kbd>, but we suggest
+that you use <kbd>C-c C-e</kbd> to insert complete environments instead.
+</p>
+<dl>
+<dt><u>Command:</u> <b>LaTeX-close-environment</b>
+<a name="IDX71"></a>
+</dt>
+<dd><a name="IDX72"></a>
+<p>(<kbd>C-c ]</kbd>) Insert an <samp>`\end'</samp> that matches the current environment.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Equations"></a>
+<a name="SEC39"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC38" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC40" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.4.1 Equations </h3>
+
+<p>When inserting equation-like environments, the <samp>`\label'</samp> will have a
+default prefix, which is controlled by the following variables:
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-equation-label</b>
+<a name="IDX73"></a>
+</dt>
+<dd><p>Prefix to use for `equation' labels.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-eqnarray-label</b>
+<a name="IDX74"></a>
+</dt>
+<dd><p>Prefix to use for `eqnarray' labels.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-amsmath-label</b>
+<a name="IDX75"></a>
+</dt>
+<dd><p>Prefix to use for amsmath equation labels.  Amsmath equations include
+<samp>`align'</samp>, <samp>`alignat'</samp>, <samp>`xalignat'</samp>, <samp>`aligned'</samp>,
+<samp>`flalign'</samp> and <samp>`gather'</samp>.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Floats"></a>
+<a name="SEC40"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC39" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC41" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.4.2 Floats </h3>
+
+<p>Figures and tables (i.e., floats) may also be inserted using AUCTeX.
+After choosing either `figure' or `table' in the environment list
+described above, you will be prompted for a number of additional things.
+</p>
+<dl compact="compact">
+<dt> <var>float position</var></dt>
+<dd><p>This is the optional argument of float environments that controls how
+they are placed in the final document.  In LaTeX this is a sequence
+of the letters <samp>`htbp'</samp> as described in the LaTeX manual.  The
+value will default to the value of <code>LaTeX-float</code>.
+<a name="IDX76"></a>
+</p>
+</dd>
+<dt> <var>caption</var></dt>
+<dd><p>This is the caption of the float.  The default is to insert the caption
+at the bottom of the float.  You can specify floats where the caption
+should be placed at the top with <code>LaTeX-top-caption-list</code>.
+<a name="IDX77"></a>
+</p>
+</dd>
+<dt> <var>label</var></dt>
+<dd><p>The label of this float.  The label will have a default prefix, which is
+controlled by the variables <code>LaTeX-figure-label</code> and
+<code>LaTeX-table-label</code>.
+<a name="IDX78"></a>
+<a name="IDX79"></a>
+<a name="IDX80"></a>
+<a name="IDX81"></a>
+<a name="IDX82"></a>
+</p></dd>
+</dl>
+
+<p>Moreover, you will be asked if you want the contents of the float
+environment to be horizontally centered.  Upon a positive answer a
+<samp>`\centering'</samp> macro will be inserted at the beginning of the float
+environment.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-float</b>
+<a name="IDX83"></a>
+</dt>
+<dd><p>Default placement for floats.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-figure-label</b>
+<a name="IDX84"></a>
+</dt>
+<dd><p>Prefix to use for figure labels.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-table-label</b>
+<a name="IDX85"></a>
+</dt>
+<dd><p>Prefix to use for table labels.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-top-caption-list</b>
+<a name="IDX86"></a>
+</dt>
+<dd><p>List of float environments with top caption.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Itemize_002dlike"></a>
+<a name="SEC41"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC40" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC42" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.4.3 Itemize-like </h3>
+
+<p>In an itemize-like environment, nodes (i.e., <samp>`\item'</samp>s) may be
+inserted using <kbd>C-c <kbd>LFD</kbd></kbd>.
+</p>
+<dl>
+<dt><u>Command:</u> <b>LaTeX-insert-item</b>
+<a name="IDX87"></a>
+</dt>
+<dd><a name="IDX88"></a>
+<p>(<kbd>C-c <kbd>LFD</kbd></kbd>) Close the current item, move to the next line and
+insert an appropriate <samp>`\item'</samp> for the current environment. That is,
+`itemize' and `enumerate' will have <samp>`\item '</samp> inserted, while
+`description' will have <samp>`\item[]'</samp> inserted.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Tabular_002dlike"></a>
+<a name="SEC42"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC41" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC43" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.4.4 Tabular-like </h3>
+
+<p>When inserting Tabular-like environments, that is, `tabular' `array'
+etc., you will be prompted for a template for that environment.
+Related variables:
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-default-format</b>
+<a name="IDX89"></a>
+</dt>
+<dd><p>Default format string for array and tabular environments.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-default-position</b>
+<a name="IDX90"></a>
+</dt>
+<dd><p>Default position string for array and tabular environments.  If nil,
+act like the empty string is given, but don't prompt for a position.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Customizing-environments"></a>
+<a name="SEC43"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC42" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC38" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 4.4.5 Customizing environments </h3>
+
+<p>See section <a href="auctex_13.html#SEC89">Adding Support for Environments</a>, for how to customize the list of known
+environments.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_6.html#SEC44" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

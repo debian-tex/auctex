@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>AUCTeX: AUCTeX</title>
+
+<meta name="description" content="AUCTeX: AUCTeX">
+<meta name="keywords" content="AUCTeX: AUCTeX">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Top"></a>
+<a name="SEC_Top"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="settitle">AUCTeX</h1>
+
+
+
+<p>AUCTeX is an integrated environment for editing LaTeX, ConTeXt,
+docTeX, Texinfo, and TeX files.
+</p>
+<p>This file documents AUCTeX version 11.83.
+</p>
+<p>Although AUCTeX contains a large number of features, there are no
+reasons to despair.  You can continue to write TeX and LaTeX
+documents the way you are used to, and only start using the multiple
+features in small steps.  AUCTeX is not monolithic, each feature
+described in this manual is useful by itself, but together they provide
+an environment where you will make very few LaTeX errors, and makes it
+easy to find the errors that may slip through anyway.
+</p>
+<p>If you want to make AUCTeX aware of style files and multi-file
+documents right away, insert the following in your <tt>`.emacs'</tt> file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+</pre></td></tr></table>
+<p>Another thing you should enable is RefTeX, a comprehensive solution
+for managing cross references, bibliographies, indices, document
+navigation and a few other things.  (see <a href="../reftex/Installation.html#Installation">(reftex)Installation</a> section `Installation' in <cite>The RefTeX manual</cite>)
+</p>
+<p>For detailed information about the preview-latex subsystem of
+AUCTeX, see <a href="../preview-latex/index.html#Top">(preview-latex)Top</a> section `Introduction' in <cite>The preview-latex Manual</cite>.
+</p>
+<p>NOTE: This documentation is preliminary.  It should however cover most
+important points.  Corrections or perhaps rewrites of sections
+are VERY WELCOME.
+</p>
+<p>Kresten Krab Thorup (6.0) <br>
+Per Abrahamsen (updates to 11.13) <br>
+David Kastrup (updates from 11.14)
+</p>
+<p>There is a mailing list for general discussion about AUCTeX: write a
+mail with &quot;subscribe&quot; in the subject to
+<a href="mailto:auctex-request@gnu.org">auctex-request@gnu.org</a> to join it.  Send contributions to
+<a href="mailto:auctex@gnu.org">auctex@gnu.org</a>.
+</p>
+<p>Bug reports should go to <a href="mailto:bug-auctex@gnu.org">bug-auctex@gnu.org</a>, suggestions for
+new features, and pleas for help should go to either
+<a href="mailto:auctex-devel@gnu.org">auctex-devel@gnu.org</a> (the AUCTeX developers), or to
+<a href="mailto:auctex@gnu.org">auctex@gnu.org</a> if they might have general interest.  Please use
+the command <kbd>M-x TeX-submit-bug-report RET</kbd> to report bugs if
+possible.  You can subscribe to a low-volume announcement list by
+sending &quot;subscribe&quot; in the subject of a mail to
+<a href="mailto:info-auctex-request@gnu.org">info-auctex-request@gnu.org</a>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="auctex_1.html#SEC1">Copying</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_2.html#SEC2">1. Introduction to AUCTeX</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_3.html#SEC7">2. Installing AUCTeX</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_4.html#SEC21">3. Quick Start</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC34">4. Inserting Frequently Used Commands</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_6.html#SEC44">5. Advanced Editing Features</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_7.html#SEC50">6. Controlling Screen Display</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC65">7. Starting Processors, Viewers and Other Programs</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_9.html#SEC75">8. Multifile Documents</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_10.html#SEC76">9. Automatic Parsing of TeX Files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_11.html#SEC77">10. Language Support</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_12.html#SEC82">11. Automatic Customization</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_13.html#SEC86">12. Writing Your own Style Support</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_14.html#SEC92">A. Changes and New Features</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_15.html#SEC112">B. Future Development</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_16.html#SEC116">C. Frequently Asked Questions</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_17.html#SEC117">Key Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_18.html#SEC118">Function Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_19.html#SEC119">Variable Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_20.html#SEC120">Concept Index</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+ --- The Detailed Node Listing ---
+
+Inserting Frequently Used Commands
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_5.html#SEC35">4.1 Insertion of Quotes, Dollars, and Braces</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                      Inserting double quotes
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC36">4.2 Inserting Font Specifiers</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC37">4.3 Inserting chapters, sections, etc.</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC38">4.4 Inserting Environment Templates</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Inserting Environment Templates
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_5.html#SEC39">4.4.1 Equations</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC40">4.4.2 Floats</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC41">4.4.3 Itemize-like</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC42">4.4.4 Tabular-like</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_5.html#SEC43">4.4.5 Customizing environments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Advanced Editing Features
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_6.html#SEC45">5.1 Entering Mathematics</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_6.html#SEC46">5.2 Completion</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                  Completion of macros
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_6.html#SEC47">5.3 Commenting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                  Commenting text
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_6.html#SEC48">5.4 Indenting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                   Reflecting syntactic constructs with whitespace
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_6.html#SEC49">5.5 Filling</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                     Automatic and manual line breaking
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Controlling Screen Display
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_7.html#SEC51">6.1 Font Locking</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_7.html#SEC63">6.2 Folding Macros and Environments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_7.html#SEC64">6.3 Outlining the Document</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Starting Processors, Viewers and Other Programs
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_8.html#SEC66">7.1 Executing Commands</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                    Invoking external commands.
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC67">7.2 Viewing the formatted output</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                     Invoking external viewers.
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC70">7.3 Catching the errors</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                   Debugging TeX and LaTeX output.
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC71">7.4 Checking for problems</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                    Checking the document.
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC72">7.5 Controlling the output</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                     Controlling the processes.
+</td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC73">7.6 Cleaning intermediate and output files</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_8.html#SEC74">7.7 Documentation about macros and packages</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Language Support
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_11.html#SEC78">10.1 Using AUCTeX with European Languages</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_11.html#SEC81">10.2 Using AUCTeX with Japanese TeX</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                    Using AUCTeX with Japanese
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Automatic Customization
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_12.html#SEC83">11.1 Automatic Customization for the Site</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_12.html#SEC84">11.2 Automatic Customization for a User</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_12.html#SEC85">11.3 Automatic Customization for a Directory</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+Writing Your own Style Support
+
+</pre></th></tr><tr><td align="left" valign="top"><a href="auctex_13.html#SEC87">12.1 A Simple Style File</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_13.html#SEC88">12.2 Adding Support for Macros</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_13.html#SEC89">12.3 Adding Support for Environments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_13.html#SEC90">12.4 Adding Other Information</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="auctex_13.html#SEC91">12.5 Automatic Extraction of New Things</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+</pre></th></tr></table>
+
+<hr size="1">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

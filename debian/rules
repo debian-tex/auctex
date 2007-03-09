@@ -52,7 +52,6 @@ debian/auctex/update-auctex-elisp \
 debian/auctex/update-auctex-elisp.8 \
 debian/auctex/update-auctex-install \
 debian/auctex/update-auctex-install.8 \
-debian/auctex/templates \
 debian/preview-latex-style/README \
 debian/preview-latex-style/postinst \
 debian/preview-latex-style/prerm debian/preview-latex-style/postrm \
@@ -93,7 +92,7 @@ debian/po/templates.pot: $(DCSOURCES)
 %.dcobj: % debian/po/templates.pot
 	po2debconf --verbose --podir debian/po $< > $@
 
-build: $(DFILES)
+build: $(DFILES) debian/po/templates.pot
 	$(checkdir)
 	./configure \
 		--prefix=/usr/ \
@@ -107,7 +106,7 @@ build: $(DFILES)
 	touch build
 
 .PHONY: clean
-clean:
+clean: debian/po/templates.pot
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
 	-$(MAKE) distclean

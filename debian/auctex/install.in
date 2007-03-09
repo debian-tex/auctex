@@ -20,7 +20,8 @@ INSTALL="install -o root -g root -m 644"
 INSTDIR="${INSTALL} -m 755 -d"
 
 do_install () {
-    echo >&2 -n "install/<:=${PACKAGE}:>: Setting up for ${FLAVOR}... "
+    echo >&2 -n "install/<:=${PACKAGE}:>: Setting up for ${FLAVOR} " \
+    "(log file: <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>)... "
     cd <:=${lisp}:>; umask 0022;
     <:# ensure that "configure" is up-to-date WRT "configure.ac" and
       # "aclocal.m4":>//

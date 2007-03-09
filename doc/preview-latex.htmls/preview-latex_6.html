@@ -1,0 +1,1087 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: 6. For advanced users</title>
+
+<meta name="description" content="preview-latex: 6. For advanced users">
+<meta name="keywords" content="preview-latex: 6. For advanced users">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="For-advanced-users"></a>
+<a name="SEC19"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_5.html#SEC18" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC20" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex_5.html#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 6. For advanced users </h1>
+
+<p>This package consists of two parts: a LaTeX style that splits the
+output into appropriate parts with one preview object on each page, and
+an Emacs-lisp part integrating the thing into Emacs (aided by
+AUCTeX).
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC20">6.1 The LaTeX style file</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">        
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC23">6.2 The Emacs interface</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">         
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC24">6.3 The preview images</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">             
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC25">6.4 Misplaced previews</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">          
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="The-LaTeX-style-file"></a>
+<a name="SEC20"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC19" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC21" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 6.1 The LaTeX style file </h2>
+
+<p>The main purpose of this package is the extraction of certain
+environments (most notably displayed formulas) from LaTeX sources
+as graphics.  This works with <acronym>DVI</acronym> files postprocessed by either
+Dvips and Ghostscript or dvipng, but it also works when you are
+using PDFTeXfor generating PDF files (usually also postprocessed
+by Ghostscript).
+</p>
+<p>Current uses of the package include the preview-latex package for
+WYSIWYG functionality in the AUCTeX editing environment,
+generation of previews in LyX, as part of the operation of the
+ps4pdf package, the tbook XML system and some other tools.
+</p>
+<p>Producing <acronym>EPS</acronym> files with Dvips and its derivatives using the
+<samp>`-E'</samp> option is not a good alternative: People make do by
+fiddling around with <code>\thispagestyle{empty}</code> and hoping for the best
+(namely, that the specified contents will indeed fit on single
+pages), and then trying to guess the baseline of the resulting code
+and stuff, but this is at best dissatisfactory.  The preview package
+provides an easy way to ensure that exactly one page per request
+gets shipped, with a well-defined baseline and no page decorations.
+While you still can use the preview package with the `classic'
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">dvips -E -i
+</pre></td></tr></table>
+
+<p>invocation, there are better ways available that don't rely on Dvips
+not getting confused by PostScript specials.
+</p>
+<p>For most applications, you'll want to make use of the <code>tightpage</code>
+option.  This will embed the page dimensions into the PostScript or
+PDF code, obliterating the need to use the <code>-E -i</code> options to Dvips.
+You can then produce all image files with a single run of
+Ghostscript from a single PDF or PostScript (as opposed to <acronym>EPS</acronym>)
+file.
+</p>
+<p>Various options exist that will pass TeX dimensions and other
+information about the respective shipped out material (including
+descender size) into the log file, where external applications might
+make use of it.
+</p>
+<p>The possibility for generating a whole set of graphics with a single
+run of Ghostscript (whether from LaTeX or PDFLaTeX) increases
+both speed and robustness of applications.  It is also feasible to
+use dvipng on a <acronym>DVI</acronym> file with the options
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">-picky -noghostscript
+</pre></td></tr></table>
+
+<p>to omit generating any image file that requires Ghostscript, then
+let a script generate all missing files using Dvips/Ghostscript.
+This will usually speed up the process significantly.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC21">6.1.1 Package options</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC22">6.1.2 Provided commands</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Package-options"></a>
+<a name="SEC21"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC20" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC22" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC20" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 6.1.1 Package options </h3>
+<p>The package is included with the customary
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\usepackage[<var>options</var>]{preview}
+</pre></td></tr></table>
+
+<p>You should usually load this package as the last one, since it
+redefines several things that other packages may also provide.
+</p>
+<p>The following options are available:
+</p>
+<dl compact="compact">
+<dt> <code>active</code></dt>
+<dd><p>is the most essential option.  If this option is not
+specified, the <code>preview</code> package will be inactive and the document
+will be typeset as if the <code>preview</code> package were not loaded,
+except that all declarations and environments defined by the
+package are still legal but have no effect.  This allows defining
+previewing characteristics in your document, and only activating
+them by calling LaTeX as
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">latex '\PassOptionsToPackage{active}{preview} \input{<var>filename</var>}'
+</pre></td></tr></table>
+</dd>
+<dt> <code>noconfig</code></dt>
+<dd><p>Usually the file <tt>`prdefault.cfg'</tt> gets loaded
+whenever the <code>preview</code> package gets activated.  <tt>`prdefault.cfg'</tt> is
+supposed to contain definitions that can cater for otherwise bad
+results, for example, if a certain document class would otherwise
+lead to trouble.  It also can be used to override any settings
+made in this package, since it is loaded at the very end of it.
+In addition, there may be configuration files specific for certain
+<code>preview</code> options like <code>auctex</code> which have more immediate needs.
+The <code>noconfig</code> option suppresses loading of those option files,
+too.
+</p></dd>
+<dt> <code>psfixbb</code></dt>
+<dd><p>Dvips determines the bounding boxes from the
+material in the <acronym>DVI</acronym> file it understands.  Lots of PostScript
+specials are not part of that.  Since the TeX boxes do not make
+it into the <acronym>DVI</acronym> file, but merely characters, rules and specials
+do, Dvips might include far too small areas.  The option <code>psfixbb</code>
+will include <tt>`/dev/null'</tt> as a graphic file in the ultimate upper
+left and lower right corner of the previewed box.  This will make
+Dvips generate an appropriate bounding box.
+</p></dd>
+<dt> <code>dvips</code></dt>
+<dd><p>If this option is specified as a class option or to
+other packages, several packages pass things like page size
+information to Dvips, or cause crop marks or draft messages
+written on pages.  This seriously hampers the usability of
+previews.  If this option is specified, the changes will be undone
+if possible.
+</p></dd>
+<dt> <code>pdftex</code></dt>
+<dd><p>If this option is set, PDFTeX is assumed as the
+output driver.  This mainly affects the <code>tightpage</code> option.
+</p></dd>
+<dt> <code>displaymath</code></dt>
+<dd><p>will make all displayed math environments
+subject to preview processing.  This will typically be the most
+desired option.
+</p></dd>
+<dt> <code>floats</code></dt>
+<dd><p>will make all float objects subject to preview
+processing.  If you want to be more selective about what floats to
+pass through to a preview, you should instead use the
+<code>\PreviewSnarfEnvironment</code> command on the floats you want to
+have previewed.
+</p></dd>
+<dt> <code>textmath</code></dt>
+<dd><p>will make all text math subject to previews.
+Since math mode is used throughly inside of LaTeX even for other
+purposes, this works by redefining <code>\(</code>, <code>\)</code>
+and <code>$</code> and the <code>math</code> environment (apparently some people use
+that).  Only occurences of these text math delimiters in later
+loaded packages and in the main document will thus be affected.
+</p></dd>
+<dt> <code>graphics</code></dt>
+<dd><p>will subject all <code>\includegraphics</code> commands
+to a preview.
+</p></dd>
+<dt> <code>sections</code></dt>
+<dd><p>will subject all section headers to a preview.
+</p></dd>
+<dt> <code>delayed</code></dt>
+<dd><p>will delay all activations and redefinitions the
+<code>preview</code> package makes until <code>\</code><code>begin{document}</code>.  The purpose
+of this is to cater for documents which should be subjected to the
+<code>preview</code> package without having been prepared for it.  You can
+process such documents with
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">latex '\RequirePackage[active,delayed,<var>options</var>]{preview}
+\input{<var>filename</var>}'
+</pre></td></tr></table>
+
+<p>This relaxes the requirement to be loading the <code>preview</code> package
+as last package.
+</p></dd>
+<dt> <var>driver</var></dt>
+<dd><p>loads a special driver file
+<tt>`pr<var>driver</var>.def'</tt>.  The remaining options are implemented
+through the use of driver files.
+</p></dd>
+<dt> <code>auctex</code></dt>
+<dd><p>This driver will produce fake error messages at the
+start and end of every preview environment that enable the Emacs
+package preview-latex in connection with AUCTeX to pinpoint
+the exact source location where the previews have originated.
+Unfortunately, there is no other reliable means of passing the
+current TeX input position <em>in</em> a line to external
+programs.  In order to make the parsing more robust, this option
+also switches off quite a few diagnostics that could be
+misinterpreted.
+</p>
+<p>You should not specify this option manually, since it will only be
+needed by automated runs that want to parse the pseudo error
+messages.  Those runs will then use <code>\PassOptionsToPackage</code> in
+order to effect the desired behaviour.  In addition,
+<tt>`prauctex.cfg'</tt> will get loaded unless inhibited by the <code>noconfig</code>
+option.  This caters for the most frequently encountered
+problematic commands.
+</p></dd>
+<dt> <code>showlabels</code></dt>
+<dd><p>During the editing process, some people like to
+see the label names in their equations, figures and the like.  Now
+if you are using Emacs for editing, and in particular
+preview-latex, I'd strongly recommend that you check out the
+RefTeX package which pretty much obliterates the need for this
+kind of functionality.  If you still want it, standard LaTeX
+provides it with the <code>showkeys</code> package, and there is also the
+less encompassing <code>showlabels</code> package.  Unfortunately, since
+those go to some pain not to change the page layout and spacing,
+they also don't change <code>preview</code>'s idea of the TeX dimensions of
+the involved boxes.  So if you are using <code>preview</code> for determing
+bounding boxes, those packages are mostly useless.  The option
+<code>showlabels</code> offers a substitute for them.
+</p></dd>
+<dt> <code>tightpage</code></dt>
+<dd><p>It is not uncommon to want to use the results of
+<code>preview</code> as graphic images for some other application.  One
+possibility is to generate a flurry of <acronym>EPS</acronym> files with
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">dvips -E -i -Pwww -o <var>outputfile</var>.000 <var>inputfile</var>
+</pre></td></tr></table>
+
+<p>However, in case those are to be processed further into graphic
+image files by Ghostscript, this process is inefficient since all
+of those files need to be processed one by one.  In addition, it
+is necessary to extract the bounding box comments from the <acronym>EPS</acronym>
+files and convert them into page dimension parameters for
+Ghostscript in order to avoid full-page graphics.  This is not
+even possible if you wanted to use Ghostscript in a <em>single</em>
+run for generating the files from a single PostScript file, since
+Dvips will in that case leave no bounding box information
+anywhere.
+</p>
+<p>The solution is to use the <code>tightpage</code> option.  That way a single
+command line like
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"><samp>`gs -sDEVICE=png16m -dTextAlphaBits=4 -r300
+-dGraphicsAlphaBits=4 -dSAFER -q -dNOPAUSE
+-sOutputFile=<var>outputfile</var>%d.png <var>inputfile</var>.ps'</samp>
+</pre></td></tr></table>
+
+<p>will be able to produce tight graphics from a single PostScript
+file generated with Dvips <em>without</em> use of the options
+<code>-E -i</code>, in a single run.
+</p>
+<p>The <code>tightpage</code> option actually also works when using the <code>pdftex</code>
+option and generating PDF files with PDFTeX.  The resulting PDF
+file has separate page dimensions for every page and can directly
+be converted with one run of Ghostscript into image files.
+</p>
+<p>If neither <code>dvips</code> or <code>pdftex</code> have been specified, the
+corresponding option will get autodetected and invoked.
+</p>
+<p>If you need this in a batch environment where you don't want to
+use <code>preview</code>'s automatic extraction facilities, no problem: just
+don't use any of the extraction options, and wrap everything to be
+previewed into <code>preview</code> environments.  This is how LyX does its
+math previews.
+</p>
+<p>If the pages under the <code>tightpage</code> option are just too tight, you
+can adjust by setting the length <code>\PreviewBorder</code> to a different
+value by using <code>\setlength</code>.  The default value is
+<tt>`0.50001bp'</tt>, which is half of a usual PostScript point, rounded
+up.  If you go below this value, the resulting page size may drop
+below <code>1bp</code>, and Ghostscript does not seem to like that.  If you
+need finer control, you can adjust the bounding box dimensions
+individually by changing the macro <code>\PreviewBbAdjust</code> with the
+help of <code>\renewcommand</code>.  Its default value is
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\newcommand \PreviewBbAdjust
+{-\PreviewBorder -\PreviewBorder
+\PreviewBorder  \PreviewBorder}
+</pre></td></tr></table>
+
+<p>This adjusts the left, lower, right and upper borders by the given
+amount.  The macro must contain 4 TeX dimensions after another,
+and you may not omit the units if you specify them explicitly
+instead of by register.  PostScript points have the unit <code>bp</code>.
+</p></dd>
+<dt> <code>lyx</code></dt>
+<dd><p>This option is for the sake of LyX developers.  It will
+output a few diagnostics relevant for the sake of LyX' preview
+functionality (at the time of writing, mostly implemented for math
+insets, in versions of LyX starting with 1.3.0).
+</p></dd>
+<dt> <code>counters</code></dt>
+<dd><p>This writes out diagnostics at the start and the
+end of previews.  Only the counters changed since the last output
+get written, and if no counters changed, nothing gets written at
+all.  The list consists of counter name and value, both enclosed
+in <code>{}</code> braces, followed by a space.  The last such pair is
+followed by a colon (<code>:</code>) if it is at the start of the preview
+snippet, and by a period (<tt>`.'</tt>) if it is at the end.  The order of
+different diagnostics like this being issued depends on the order
+of the specification of the options when calling the package.
+</p>
+<p>Systems like preview-latex use this for keeping counters accurate
+when single previews are regenerated.
+</p></dd>
+<dt> <code>footnotes</code></dt>
+<dd><p>This makes footnotes render as previews, and only
+as their footnote symbol.  A convenient editing feature inside of
+Emacs.
+</p></dd>
+</dl>
+
+<p>The following options are just for debugging purposes of the package
+and similar to the corresponding TeX commands they allude to:
+</p>
+<dl compact="compact">
+<dt> <code>tracingall</code></dt>
+<dd><p>causes lots of diagnostic output to appear in
+the log file during the preview collecting phases of TeX's
+operation.  In contrast to the similarly named TeX command, it
+will not switch to <code>\errorstopmode</code>, nor will it change the
+setting of <code>\tracingonline</code>.
+</p></dd>
+<dt> <code>showbox</code></dt>
+<dd><p>This option will show the contents of the boxes
+shipped out to the <acronym>DVI</acronym> files.  It also sets <code>\showboxbreadth</code> and
+<code>\showboxdepth</code> to their maximum values at the end of loading this
+package, but you may reset them if you don't like that.
+</p></dd>
+</dl>
+
+<hr size="6">
+<a name="Provided-commands"></a>
+<a name="SEC22"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC21" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC23" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC20" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection"> 6.1.2 Provided commands </h3>
+
+<dl compact="compact">
+<dt> <code>\begin{preview}&hellip;\end{preview}</code></dt>
+<dd><p>The <code>preview</code> environment causes its contents
+to be set as a single preview image.  Insertions like figures and
+footnotes (except those included in minipages) will typically lead
+to error messages or be lost.  In case the <code>preview</code> package has not
+been activated, the contents of this environment will be typeset
+normally.
+</p>
+</dd>
+<dt> <code>\begin{nopreview}&hellip;\end{nopreview}</code></dt>
+<dd><p>The <code>nopreview</code> environment will cause its
+contents not to undergo any special treatment by the <code>preview</code>
+package.  When <code>preview</code> is active, the contents will be discarded
+like all main text that does not trigger the <code>preview</code> hooks.  When
+<code>preview</code> is not active, the contents will be typeset just like the
+main text.
+</p>
+<p>Note that both of these environments typeset things as usual when
+preview is not active.  If you need something typeset conditionally,
+use the <code>\ifPreview</code> conditional for it.
+</p>
+</dd>
+<dt> <code>\PreviewMacro</code></dt>
+<dd><p>If you want to make a macro like
+<a name="IDX51"></a>
+<code>\includegraphics</code> (actually, this is what is done by the
+<code>graphics</code> option to <code>preview</code>) produce a preview image, you put a
+declaration like
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\PreviewMacro[*[[!]{\includegraphics}
+</pre></td></tr></table>
+
+<p>or, more readable,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\PreviewMacro[{*[][]{}}]{\includegraphics}
+</pre></td></tr></table>
+
+<p>into your preamble.  The optional argument to <code>\PreviewMacro</code>
+specifies the arguments <code>\includegraphics</code> accepts, since this
+is necessary information for properly ending the preview box.  Note
+that if you are using the more readable form, you have to enclose
+the argument in a <code>[{</code> and <code>}]</code> pair.  The inner braces are
+necessary to stop any included <code>[]</code> pairs from prematurely ending
+the optional argument, and to make a single <code>{}</code>
+denoting an optional argument not get stripped away by TeX's
+argument parsing.
+</p>
+<p>The letters simply mean
+</p>
+<dl compact="compact">
+<dt> <code>*</code></dt>
+<dd><p>indicates an optional <code>*</code> modifier, as in
+<code>\includegraphics*</code>.
+</p></dd>
+<dt> <code>[</code></dt>
+<dd><p>indicates an optional argument in brackets.  This syntax
+is somewhat baroque, but brief.
+</p></dd>
+<dt> <code>[]</code></dt>
+<dd><p>also indicates an optional argument in brackets.  Be
+sure to have encluded the entire optional argument specification
+in an additional pair of braces as described above.
+</p></dd>
+<dt> <code>!</code></dt>
+<dd><p>indicates a mandatory argument.
+</p></dd>
+<dt> <code>{}</code></dt>
+<dd><p>indicates the same.  Again, be sure to have
+that additional level of braces around the whole argument
+specification.
+</p></dd>
+<dt> <code>?</code><var>delimiter</var>{<var>true case</var>}{<var>false case</var>}</dt>
+<dd><p>is a
+conditional.  The next character is checked against being equal to
+<var>delimiter</var>.  If it is, the specification <var>true case</var> is
+used for the further parsing, otherwise <var>false case</var> will be
+employed.  In neither case is something consumed from the input,
+so {<var>true case</var>} will still have to deal with the upcoming
+delimiter.
+</p></dd>
+<dt> <code>@</code>{<var>literal sequence</var>}</dt>
+<dd><p>will insert the given sequence
+literally into the executed call of the command.
+</p></dd>
+<dt> <code>-</code></dt>
+<dd><p>will just drop the next token.  It will probably be most
+often used in the true branch of a <code>?</code> specification.
+</p></dd>
+<dt> <code>#</code>{<var>argument</var>}{<var>replacement</var>}</dt>
+<dd><p>is a transformation
+rule that calls a macro with the given argument and replacement
+text on the rest of the argument list.  The replacement is used in
+the executed call of the command.  This can be used for parsing
+arbitrary constructs.  For example, the <code>[]</code> option could manually
+be implemented with the option string <code>?[{#{[#1]}{[{#1}]}}{}</code>.
+PStricks users might enjoy this sort of flexibility.
+</p></dd>
+<dt> <code>:</code>{<var>argument</var>}{<var>replacement</var>}</dt>
+<dd><p>is again a
+transformation rule.  As opposed to <code>#</code>, however, the result of
+the transformation is parsed again.  You'll rarely need this.
+</p></dd>
+</dl>
+
+
+<p>There is a second optional argument in brackets that can be used to
+declare any default action to be taken instead.  This is mostly for
+the sake of macros that influence numbering: you would want to keep
+their effects in that respect.  The default action should use <code>#1</code>
+for referring to the original (not the patched) command with the
+parsed options appended.  Not specifying a second optional argument
+here is equivalent to specifying <code>[#1]</code>.
+</p>
+</dd>
+<dt> <code>\PreviewMacro*</code></dt>
+<dd><p>A similar invocation
+<code>\PreviewMacro*</code> simply throws the macro and all of its
+arguments declared in the manner above away.  This is mostly useful
+for having things like <code>\footnote</code> not do their magic on their
+arguments.  More often than not, you don't want to declare any
+arguments to scan to <code>\PreviewMacro*</code> since you would want the
+remaining arguments to be treated as usual text and typeset in that
+manner instead of being thrown away.  An exception might be, say,
+sort keys for <code>\cite</code>.
+</p>
+<p>A second optional argument in brackets can be used to declare any
+default action to be taken instead.  This is for the sake of macros
+that influence numbering: you would want to keep their effects in
+that respect.  The default action might use <code>#1</code> for referring to
+the original (not the patched) command with the parsed options
+appended.  Not specifying a second optional argument here is
+equivalent to specifying <code>[]</code> since the command usually gets thrown
+away.
+</p>
+<p>As an example for using this argument, you might want to specify
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\PreviewMacro*\footnote[{[]}][#1{}]
+</pre></td></tr></table>
+
+<p>This will replace a footnote by an empty footnote, but taking any
+optional parameter into account, since an optional paramter changes
+the numbering scheme.  That way the real argument for the footnote
+remains for processing by preview-latex.
+</p>
+</dd>
+<dt> <code>\PreviewEnvironment</code></dt>
+<dd><p>The macro
+<a name="IDX52"></a>
+<code>\PreviewEnvironment</code> works just as <code>\PreviewMacro</code> does,
+only for environments.  </p></dd>
+<dt> <code>\PreviewEnvironment*</code></dt>
+<dd><p>And the
+same goes for <code>\PreviewEnvironment*</code> as compared to
+<code>\PreviewMacro*</code>.
+</p>
+</dd>
+<dt> <code>\PreviewSnarfEnvironment</code></dt>
+<dd><p>This macro does not typeset
+the original environment inside of a preview box, but instead
+typesets just the contents of the original environment inside of the
+preview box, leaving nothing for the original environment.  This has
+to be used for figures, for example, since they would
+</p>
+<ol>
+<li> produce insertion material that cannot be extracted to the
+preview properly,
+</li><li> complain with an error message about not being in outer par
+mode.
+</li></ol>
+
+
+</dd>
+<dt> <code>\PreviewOpen</code></dt>
+<dt> <code>\PreviewClose</code></dt>
+<dd><p>Those Macros form a matched preview pair.  This is for macros that
+behave similar as <code>\begin</code> and <code>\end</code> of an environment.  It
+is essential for the operation of <code>\PreviewOpen</code> that the macro
+treated with it will open an additional group even when the preview
+falls inside of another preview or inside of a <code>nopreview</code>
+environment.  Similarly, the macro treated with <code>PreviewClose</code>
+will close an environment even when inactive.
+</p>
+</dd>
+<dt> <code>\ifPreview</code></dt>
+<dd><p>In case you need to know whether
+<code>preview</code> is active, you can use the conditional <code>\ifPreview</code>
+together with <code>\else</code> and <code>\fi</code>.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="The-Emacs-interface"></a>
+<a name="SEC23"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC22" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC24" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 6.2 The Emacs interface </h2>
+
+<p>You can use <kbd>M-x customize-group <kbd>RET</kbd> preview-latex <kbd>RET</kbd></kbd>
+in order to customize these variables, or use the menus for it.  We
+explain the various available options together with explaining how they
+work together in making preview-latex work as intended.
+</p>
+<dl compact="compact">
+<dt> <code>preview-LaTeX-command</code>
+<a name="IDX53"></a>
+</dt>
+<dd><p>When you generate previews on a buffer or a region, the command in
+<code>preview-LaTeX-command</code> gets run (that variable should only be
+changed with Customize since its structure is somewhat peculiar, though
+expressive).  As usual with AUCTeX, you can continue working while
+this is going on.  It is not a good idea to change the file until after
+preview-latex has established where to place the previews which it can
+only do after the LaTeX run completes.  This run produces a host of
+pseudo-error messages that get parsed by preview-latex at the end of
+the LaTeX run and give it the necessary information about where in
+the source file the LaTeX code for the various previews is located
+exactly. The parsing takes a moment and will render Emacs busy.
+</p>
+</dd>
+<dt> <code>preview-LaTeX-command-replacements</code>
+<a name="IDX54"></a>
+</dt>
+<dd><p>This variable specifies transformations to be used before calling the
+configured command.  One possibility is to have <samp>`\pdfoutput=0 '</samp>
+appended to every command starting with <samp>`pdf'</samp>.  This particular
+setting is available as the shortcut
+<samp>`preview-LaTeX-disable-pdfoutput'</samp>.  Since preview-latex can work
+with <acronym>PDF</acronym> files by now, there is little incentive for using
+this option, anymore (for projects not requiring <acronym>PDF</acronym> output,
+the added speed of <samp>`dvipng'</samp> might make this somewhat attractive).
+</p>
+</dd>
+<dt> <code>preview-required-option-list</code>
+<a name="IDX55"></a>
+</dt>
+<dd><p><code>preview-LaTeX-command</code> uses <code>preview-required-option-list</code> in
+order to pass options such as <samp>`auctex'</samp>, <samp>`active'</samp> and
+<samp>`dvips'</samp> to the <tt>`preview'</tt> package.  This means that the user
+need (and should) not supply these in the document itself in case he
+wants to be able to still compile his document without it turning into
+an incoherent mass of little pictures.  These options even get passed
+in when the user loads <tt>`preview'</tt> explicitly in his document.
+</p>
+<p>The default includes an option <code>counters</code> that is controlled by the
+boolean variable
+</p>
+</dd>
+<dt> <code>preview-preserve-counters</code>
+<a name="IDX56"></a>
+</dt>
+<dd><p>This option will cause the <tt>`preview'</tt> package to emit information
+that will assist in keeping things like equation counters and section
+numbers reasonably correct even when you are regenerating only single
+previews.
+</p>
+</dd>
+<dt> <code>preview-default-option-list</code>
+<a name="IDX57"></a>
+</dt>
+<dt> <code>preview-default-preamble</code>
+<a name="IDX58"></a>
+</dt>
+<dd><p>If the document does not call in the package <code>preview</code> itself (via
+<code>\usepackage</code>) in the preamble, the preview package is loaded using
+default options from <code>preview-default-option-list</code> and additional
+commands specified in <code>preview-default-preamble</code>.
+</p>
+</dd>
+<dt> <code>preview-fast-conversion</code>
+<a name="IDX59"></a>
+</dt>
+<dd><p>This is relevant only for <acronym>DVI</acronym> mode.  It defaults to `On' and
+results in the whole document being processed as one large PostScript
+file from which the single images are extracted with the help of parsing
+the PostScript for use of so-called <acronym>DSC</acronym> comments.  The
+bounding boxes are extracted with the help of TeX instead of getting
+them from Dvips.  If you are experiencing bounding box problems, try
+setting this option to `Off'.
+</p>
+</dd>
+<dt> <code>preview-prefer-TeX-bb</code>
+<a name="IDX60"></a>
+</dt>
+<dd><p>If this option is `On', it tells preview-latex never to try to extract
+bounding boxes from the bounding box comments of <acronym>EPS</acronym> files,
+but rather rely on the boxes it gets from TeX.  If you activated
+<code>preview-fast-conversion</code>, this is done, anyhow, since there are no
+<acronym>EPS</acronym> files from which to read this information.  The option
+defaults to `Off', simply because about the only conceivable reason to
+switch off <code>preview-fast-conversion</code> would be that you have some
+bounding box problem and want to get Dvips' angle on that matter.
+</p>
+</dd>
+<dt> <code>preview-scale-function</code>
+<a name="IDX61"></a>
+</dt>
+<dt> <code>preview-reference-face</code>
+<a name="IDX62"></a>
+</dt>
+<dt> <code>preview-document-pt-list</code>
+<a name="IDX63"></a>
+</dt>
+<dt> <code>preview-default-document-pt</code>
+<a name="IDX64"></a>
+</dt>
+<dd><p><code>preview-scale-function</code> determines by what factor
+images should be scaled when appearing on the screen.  If you specify a
+numerical value here, the physical size on the screen will be that of
+the original paper output scaled by the specified factor, at least if
+Emacs' information about screen size and resolution are correct.  The
+default is to let <code>preview-scale-from-face</code> determine the scale
+function.  This function determines the scale factor by making the
+size of the default font in the document match that of the on-screen
+fonts.
+</p>
+<p>The size of the screen fonts is deduced from the font
+<code>preview-reference-face</code> (usually the default face used for
+display), the size of the default font for the document is determined
+by calling <code>preview-document-pt</code>.
+<a name="IDX65"></a>
+This function consults the members of <code>preview-document-pt-list</code> in
+turn until it gets the desired information.  The default consults first
+<code>preview-parsed-font-size</code>,
+<a name="IDX66"></a>
+then calls <code>preview-auctex-font-size</code>
+<a name="IDX67"></a>
+which asks AUCTeX about any size specification like <samp>`12pt'</samp> to
+the documentclass that it might have detected when parsing the document, and
+finally reverts to just assuming <code>preview-default-document-pt</code> as
+the size used in the document (defaulting to 10pt).
+</p>
+<p>If you find that the size of previews and the other Emacs display
+clashes, something goes wrong.  <code>preview-parsed-font-size</code> is
+determined at <code>\begin{document}</code> time; if the default font size
+changes after that, it will not get reported.  If you have an outdated
+version of <tt>`preview.sty'</tt> in your path, the size might not be
+reported at all.  If in this case AUCTeX is unable to find a size
+specification, and if you are using a document class with a different
+default value (like KomaScript), the default fallback assumption will
+probably be wrong and preview-latex will scale up things too large.
+So better specify those size options even when you know that LaTeX
+does not need them: preview-latex might benefit from them.  Another
+possibility for error is that you have not enabled AUCTeX's document
+parsing options.  The fallback method of asking AUCTeX about the size
+might be disabled in future versions of preview-latex since in
+general it is more reliable to get this information from the LaTeX
+run itself.
+</p>
+</dd>
+<dt> <code>preview-fast-dvips-command</code>
+<a name="IDX68"></a>
+</dt>
+<dt> <code>preview-dvips-command</code>
+<a name="IDX69"></a>
+</dt>
+<dd><p>The regular command for turning a <acronym>DVI</acronym> file into a single
+PostScript file is <code>preview-fast-dvips-command</code>, while
+<code>preview-dvips-command</code> is used for cranking out a <acronym>DVI</acronym>
+file where every preview is in a separate <acronym>EPS</acronym> file.  Which of
+the two commands gets used depends on the setting of
+<code>preview-fast-conversion</code>.  The printer specified here by default
+is <samp>`-Pwww'</samp> by default, which will usually get you scalable fonts
+where available. If you are experiencing problems, you might want to try
+playing around with Dvips options (See <a href="../dvips/Command_002dline-options.html#Command_002dline-options">(dvips)Command-line options</a>).
+</p>
+<p>The conversion of the previews into PostScript or <acronym>EPS</acronym> files
+gets started after the LaTeX run completes when Emacs recognizes the
+first image while parsing the error messages.  When Emacs has finished
+parsing the error messages, it activates all detected previews.  This
+entails throwing away any previous previews covering the same areas, and
+then replacing the text in its visual appearance by a placeholder
+looking like a roadworks sign.
+</p>
+</dd>
+<dt> <code>preview-nonready-icon-specs</code>
+<a name="IDX70"></a>
+</dt>
+<dd><p>This is the roadworks sign displayed while previews are being prepared.
+You may want to customize the font sizes at which preview-latex
+switches over between different icon sizes, and the ascent ratio which
+determines how high above the base line the icon gets placed.
+</p>
+</dd>
+<dt> <code>preview-error-icon-specs</code>
+<a name="IDX71"></a>
+</dt>
+<dt> <code>preview-icon-specs</code>
+<a name="IDX72"></a>
+</dt>
+<dd><p>Those are icons placed before the source code of an opened preview and,
+respectively, the image specs to be used for PostScript errors, and a
+normal open preview in text representation.
+</p>
+</dd>
+<dt> <code>preview-inner-environments</code>
+<a name="IDX73"></a>
+</dt>
+<dd><p>This is a list of environments that are regarded as inner levels of an
+outer environment when doing <code>preview-environment</code>. One example
+when this is needed is in
+<code>\begin{equation}\begin{split}&hellip;\end{split}\end{equation}</code>, and
+accordingly <code>split</code> is one entry in
+<code>preview-inner-environments</code>.
+</p>
+</dd>
+<dt> <code>preview-use-balloon-help</code>
+<a name="IDX74"></a>
+</dt>
+<dd><p>If you turn this XEmacs-only option `on', then moving the mouse over
+previews and icons will show appropriate help texts.  This works by
+switching on <code>balloon-help-mode</code> in the buffer if it is not already
+enabled.  The default now is `off' since some users reported problems
+with their version of XEmacs.  GNU Emacs has its corresponding
+<code>tooltip-mode</code> enabled by default and in usable condition.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<a name="The-preview-images"></a>
+<a name="SEC24"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC23" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC25" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 6.3 The preview images </h2>
+
+<dl compact="compact">
+<dt> <code>preview-image-type</code>
+<a name="IDX75"></a>
+</dt>
+<dt> <code>preview-image-creators</code>
+<a name="IDX76"></a>
+</dt>
+<dt> <code>preview-gs-image-type-alist</code>
+<a name="IDX77"></a>
+</dt>
+<dd><p>What happens when LaTeX is finished depends on the configuration of
+<code>preview-image-type</code>.  What to do for each of the various settings
+is specified in the variable <code>preview-image-creators</code>.  The options
+to pass into Ghostscript and what Emacs image type to use is specified
+in <code>preview-gs-image-type-alist</code>.
+</p>
+<p><code>preview-image-type</code> defaults to <code>png</code>.  For this to work,
+your version of Ghostscript needs to support the <samp>`png16m'</samp> device.
+If you are experiencing problems here, you might want to reconfigure
+<code>gs-image-type-alist</code> or <code>preview-image-type</code>.  Reconfiguring
+<code>preview-image-creators</code> is only necessary for adding additional
+image types.
+</p>
+<p>Most devices make preview-latex start up a single Ghostscript process
+for the entire preview run (as opposed to one per image) and feed it
+either sections of a <acronym>PDF</acronym> file (if PDFLaTeX was used), or
+(after running Dvips) sections of a single PostScript file or separate
+<acronym>EPS</acronym> files in sequence for conversion into <acronym>PNG</acronym> format
+which can be displayed much faster by Emacs.  Actually, not in sequence
+but backwards since you are most likely editing at the end of the
+document.  And as an added convenience, any preview that happens to be
+on-screen is given higher priority so that preview-latex will first
+cater for the images that are displayed. There are various options
+customizable concerning aspects of that operation, see the customization
+group <code>Preview Gs</code> for this.
+</p>
+<p>Another noteworthy setting of <code>preview-image-type</code> is
+<samp>`dvipng'</samp>: in this case, the <samp>`dvipng'</samp>will get run on <acronym>DVI</acronym> output (see below for <acronym>PDF</acronym>).
+This is in general much faster than Dvips and Ghostscript.  In that
+case, the option
+</p>
+</dd>
+<dt> <code>preview-dvipng-command</code>
+<a name="IDX78"></a>
+</dt>
+<dd><p>will get run for doing the conversion, and it is expected that
+</p>
+</dd>
+<dt> <code>preview-dvipng-image-type</code>
+<a name="IDX79"></a>
+</dt>
+<dd><p>images get produced (<samp>`dvipng'</samp> might be configured for other image
+types as well).  You will notice that <code>preview-gs-image-type-alist</code>
+contains an entry for <code>dvipng</code>: this actually has nothing to with
+<samp>`dvipng'</samp> itself but specifies the image type and Ghostscript device
+option to use when <samp>`dvipng'</samp> can't be used.  This will obviously be
+the case for <acronym>PDF</acronym> output by PDFLaTeX, but it will also happen
+if the <acronym>DVI</acronym> file contains PostScript specials in which case the
+affected images will get run through Dvips and Ghostscript once
+<samp>`dvipng'</samp> finishes.
+</p>
+</dd>
+<dt> <code>preview-gs-options</code>
+<a name="IDX80"></a>
+</dt>
+<dd><p>Most interesting to the user perhaps is the setting of this variable.
+It contains the default antialiasing settings <samp>`-dTextAlphaBits=4'</samp>
+and <samp>`-dGraphicsAlphaBits=4'</samp>.  Decreasing those values to 2 or
+1 might increase Ghostscript's performance if you find it lacking.
+</p></dd>
+</dl>
+
+<p>Running and feeding Ghostscript from preview-latex happens
+asynchronously again: you can resume editing while the images arrive.
+While those pretty pictures filling in the blanks on screen tend to
+make one marvel instead of work, rendering the non-displayed images
+afterwards will not take away your attention and will eventually
+guarantee that jumping around in the document will encounter only
+prerendered images.
+</p>
+<hr size="6">
+<a name="Misplaced-previews"></a>
+<a name="SEC25"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC24" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC19" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 6.4 Misplaced previews </h2>
+
+<p>If you are reading this section, the first thing is to check that your
+problem is not caused by x-symbol in connection with an installation not
+supporting 8-bit characters (see section <a href="preview-latex_5.html#SEC17">x-symbol interoperation</a>).  If not,
+here's the beef:
+</p>
+<p>As explained previously, Emacs uses pseudo-error messages generated by
+the <samp>`preview'</samp> package in order to pinpoint the exact source
+location where a preview originated.  This works in running text, but
+fails when preview material happens to lie in macro arguments, like the
+contents of <code>\emph</code>. Those macros first read in their entire
+argument, munge it through, perhaps transform it somehow, process it and
+perhaps then typeset something. When they finally typeset something,
+where is the location where the stuff originated? TeX, having read in
+the entire argument before, does not know and actually there would be no
+sane way of defining it.
+</p>
+<p>For previews contained inside such a macro argument, the default
+behaviour of preview-latex is to use a position immediately after the
+closing brace of the argument. All the previews get placed there, all at
+a zero-width position, which means that Emacs displays it in an order
+that preview-latex cannot influence (currently in Emacs it is even
+possible that the order changes between runs). And since the placement
+of those previews is goofed up, you will not be able to regenerate them
+by clicking on them. The default behaviour is thus somewhat undesirable.
+</p>
+<p>The solution (like with other preview problems) is to tell the LaTeX
+<samp>`preview'</samp> package how to tackle this problem (see section <a href="#SEC20">The LaTeX style file</a>).  Simply, you don't need <code>\emph</code> do anything at all
+during previews! You only want the text math previewed, so the solution
+is to use <code>\PreviewMacro*\emph</code> in the preamble of your document
+which will make LaTeX ignore <code>\emph</code> completely as long as it is
+not part of a larger preview (in which case it gets typeset as
+usual). Its argument thus becomes ordinary text and gets treated like
+ordinary text.
+</p>
+<p>Note that it would be a bad idea to declare
+<code>\PreviewMacro*[{{}}]\emph</code> since then both <code>\emph</code> as
+well as its argument would be ignored instead of previewed. For
+user-level macros, this is almost never wanted, but there may be
+internal macros where you might want to ignore internal arguments.
+</p>
+<p>The same mechanism can be used for a number of other text-formatting
+commands like <code>\textrm</code>, <code>\textit</code> and the like. While they
+all use the same internal macro <code>\text@command</code>, it will not do to
+redefine just that, since they call it only after having read their
+argument in, and then it already is too late. So you need to disable
+every of those commands by hand in your document preamble.
+</p>
+<p>Actually, we wrote all of the above just to scare you.  At least all of
+the above mentioned macros and a few more are already catered for by a
+configuration file <tt>`prauctex.cfg'</tt> that gets loaded by default
+unless the <samp>`preview'</samp> package gets loaded with the <samp>`noconfig'</samp>
+option.  You can make your own copy of this file in a local directory
+and edit it in case of need.  You can also add loading of a file of your
+liking to <code>preview-default-preamble</code>,
+<a name="IDX81"></a>
+or alternatively do the
+manual disabling of your favorite macro in
+<code>preview-default-preamble</code>,
+<a name="IDX82"></a>
+which is customizable in the Preview Latex group.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_7.html#SEC26" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

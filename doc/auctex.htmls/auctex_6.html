@@ -1,0 +1,748 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>AUCTeX: 5. Advanced Editing Features</title>
+
+<meta name="description" content="AUCTeX: 5. Advanced Editing Features">
+<meta name="keywords" content="AUCTeX: 5. Advanced Editing Features">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Advanced-Features"></a>
+<a name="SEC44"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="auctex_5.html#SEC43" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC45" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex_5.html#SEC34" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 5. Advanced Editing Features </h1>
+
+<p>The previous chapter described how to write the main body of the text
+easily and with a minimum of errors.  In this chapter we will describe
+some features for entering more specialized sorts of text, for
+formatting the source by indenting and filling and for navigating
+through the document.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC45">5.1 Entering Mathematics</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC46">5.2 Completion</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                  Completion of macros
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC47">5.3 Commenting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                  Commenting text
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC48">5.4 Indenting</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                   Reflecting syntactic constructs with whitespace
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC49">5.5 Filling</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">                     Automatic and manual line breaking
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="Mathematics"></a>
+<a name="SEC45"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC44" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC46" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.1 Entering Mathematics </h2>
+
+<p>TeX is written by a mathematician, and has always contained good
+support for formatting mathematical text.  AUCTeX supports this
+tradition, by offering a special minor mode for entering text with many
+mathematical symbols.  You can enter this mode by typing <kbd>C-c
+~</kbd>.
+</p>
+<dl>
+<dt><u>Command:</u> <b>LaTeX-math-mode</b>
+<a name="IDX91"></a>
+</dt>
+<dd><a name="IDX92"></a>
+<p>(<kbd>C-c ~</kbd>) Toggle LaTeX-math-mode.  This is a minor mode rebinding
+the key <code>LaTeX-math-abbrev-prefix</code> to allow easy typing of
+mathematical symbols.  <kbd>`</kbd> will read a character from the keyboard,
+and insert the symbol as specified in <code>LaTeX-math-list</code>.  If given a
+prefix argument, the symbol will be surrounded by dollar signs.
+</p></dd></dl>
+
+<p>You can use another prefix key (instead of <kbd>`</kbd>) by  setting the
+variable <code>LaTeX-math-abbrev-prefix</code>.
+</p>
+<p>To enable LaTeX-math-mode by default, add the following in your
+<tt>`.emacs'</tt> file:
+</p><table><tr><td>&nbsp;</td><td><pre class="lisp">(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+</pre></td></tr></table>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-math-abbrev-prefix</b>
+<a name="IDX93"></a>
+</dt>
+<dd><p>A string containing the prefix of <code>LaTeX-math-mode</code> commands; This
+value defaults to <kbd>`</kbd>.
+</p>
+<p>The string has to be a key or key sequence in a format understood by the
+<code>kbd</code> macro.  This corresponds to the syntax usually used in the
+Emacs and Elisp manuals.
+</p></dd></dl>
+
+<p>The variable <code>LaTeX-math-list</code> holds the actual mapping.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-math-list</b>
+<a name="IDX94"></a>
+</dt>
+<dd><p>A list containing key command mappings to use in <code>LaTeX-math-mode</code>.
+The car of each element is the key and the cdr is the macro name.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-math-menu-unicode</b>
+<a name="IDX95"></a>
+</dt>
+<dd><p>Whether the LaTeX menu should try using Unicode for effect.  Your Emacs
+built must be able to display include Unicode characters in menus for
+this feature.
+</p></dd></dl>
+
+<p>AUCTeX's reference card <tt>`tex-ref.tex'</tt> includes a list of all
+math mode commands.
+</p>
+<p>AUCTeX can help you write subscripts and superscripts in math
+constructs by automatically inserting a pair of braces after typing
+<kbd>_</kbd> or <kbd>^</kbd> respectively and putting point between the braces.
+In order to enable this feature, set the variable
+<code>TeX-electric-sub-and-superscript</code> to a non-nil value.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>TeX-electric-sub-and-superscript</b>
+<a name="IDX96"></a>
+</dt>
+<dd><p>If non-nil, insert braces after typing <kbd>^</kbd> and <kbd>_</kbd> in math mode.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Completion"></a>
+<a name="SEC46"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC45" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC47" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.2 Completion </h2>
+
+<p>Emacs lisp programmers probably know the <code>lisp-complete-symbol</code>
+command, usually bound to <kbd>M-<kbd>TAB</kbd></kbd>.  Users of the wonderful
+ispell mode know and love the <code>ispell-complete-word</code> command from
+that package.  Similarly, AUCTeX has a <code>TeX-complete-symbol</code>
+command, usually bound to <kbd>M-<kbd>TAB</kbd></kbd>.  Using
+<code>LaTeX-complete-symbol</code> makes it easier to type and remember the
+names of long LaTeX macros.
+</p>
+<p>In order to use <code>TeX-complete-symbol</code>, you should write a backslash
+and the start of the macro.  Typing <kbd>M-<kbd>TAB</kbd></kbd> will now complete
+as much of the macro, as it unambiguously can.  For example, if you type
+`<samp>`\renewc'</samp>' and then <kbd>M-<kbd>TAB</kbd></kbd>, it will expand to
+`<samp>`\renewcommand'</samp>'.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-complete-symbol</b>
+<a name="IDX97"></a>
+</dt>
+<dd><a name="IDX98"></a>
+<p>(<kbd>M-<kbd>TAB</kbd></kbd>)  Complete TeX symbol before point.
+</p></dd></dl>
+
+<p>A more direct way to insert a macro is with <code>TeX-insert-macro</code>,
+bound to <kbd>C-c C-m</kbd>.  It has the advantage over completion that it
+knows about the argument of most standard LaTeX macros, and will
+prompt for them.  It also knows about the type of the arguments, so it
+will for example give completion for the argument to <samp>`\include'</samp>.
+Some examples are listed below.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-insert-macro</b>
+<a name="IDX99"></a>
+</dt>
+<dd><a name="IDX100"></a>
+<p>(<kbd>C-c C-m</kbd> or <kbd>C-c RET</kbd>) Prompt (with completion) for the name
+of a TeX macro, and if AUCTeX knows the macro, prompt for each
+argument.
+</p></dd></dl>
+
+<p>As a default selection, AUCTeX will suggest the macro last inserted
+or, as the first choice the value of the variable
+<code>TeX-default-macro</code>.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>TeX-insert-macro-default-style</b>
+<a name="IDX101"></a>
+</dt>
+<dd><p>Specifies whether <code>TeX-insert-macro</code> will ask for all optional
+arguments.
+</p>
+<p>If set to the symbol <code>show-optional-args</code>, <code>TeX-insert-macro</code>
+asks for optional arguments of TeX macros.  If set to
+<code>mandatory-args-only</code>, <code>TeX-insert-macro</code> asks only for
+mandatory arguments.  When <code>TeX-insert-macro</code> is called with prefix
+argument (<kbd>C-u</kbd>), it's the other way round.
+</p>
+<p>Note that for some macros, there are special mechanisms, e.g.
+<code>LaTeX-includegraphics-options-alist</code>.
+</p>
+</dd></dl>
+
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-default-macro</b>
+<a name="IDX102"></a>
+</dt>
+<dd><p>Default macro to insert when invoking <code>TeX-insert-macro</code> first time.
+</p></dd></dl>
+
+<p>A faster alternative is to bind the function <code>TeX-electric-macro</code>
+to <samp>`\'</samp>.  This can be done by setting the variable
+<code>TeX-electric-escape</code>
+</p>
+<dl>
+<dt><u>User Option:</u> <b>TeX-electric-escape</b>
+<a name="IDX103"></a>
+</dt>
+<dd><p>If this is non-nil when AUCTeX is loaded, the TeX escape
+character <samp>`\'</samp> will be bound to <code>TeX-electric-macro</code>
+</p></dd></dl>
+
+<p>The difference between <code>TeX-insert-macro</code> and
+<code>TeX-electric-macro</code> is that space will complete and exit from the
+minibuffer in <code>TeX-electric-macro</code>.  Use <kbd>TAB</kbd> if you merely
+want to complete.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-electric-macro</b>
+<a name="IDX104"></a>
+</dt>
+<dd><p>Prompt (with completion) for the name of a TeX macro,
+and if AUCTeX knows the macro, prompt for each argument.
+Space will complete and exit.
+</p></dd></dl>
+
+<p>By default AUCTeX will put an empty set braces <samp>`{}'</samp> after a
+macro with no arguments to stop it from eating the next whitespace.
+This can be stopped by entering <code>LaTeX-math-mode</code>,
+see section <a href="#SEC45">Entering Mathematics</a>, or by setting <code>TeX-insert-braces</code> to nil.
+</p>
+<dl>
+<dt><u>User Option:</u> <b>TeX-insert-braces</b>
+<a name="IDX105"></a>
+</dt>
+<dd><p>If non-nil, append a empty pair of braces after inserting a macro.
+</p></dd></dl>
+
+<p>Completions work because AUCTeX can analyze TeX files, and store
+symbols in emacs lisp files for later retrieval.  See section <a href="auctex_12.html#SEC82">Automatic Customization</a>, for
+more information.
+</p>
+<a name="IDX106"></a>
+<a name="IDX107"></a>
+<a name="IDX108"></a>
+<a name="IDX109"></a>
+<a name="IDX110"></a>
+<a name="IDX111"></a>
+<a name="IDX112"></a>
+<a name="IDX113"></a>
+<p>AUCTeX will also make completion for many macro arguments, for
+example existing labels when you enter a <samp>`\ref'</samp> macro with
+<code>TeX-insert-macro</code> or <code>TeX-electric-macro</code>, and BibTeX
+entries when you enter a <samp>`\cite'</samp> macro.  For this kind of
+completion to work, parsing must be enabled as described in
+see section <a href="auctex_10.html#SEC76">Automatic Parsing of TeX Files</a>.  For <samp>`\cite'</samp> you must also make sure that
+the BibTeX files have been saved at least once after you enabled
+automatic parsing on save, and that the basename of the BibTeX file
+does not conflict with the basename of one of TeX files.
+</p>
+<hr size="6">
+<a name="Commenting"></a>
+<a name="SEC47"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC46" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC48" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.3 Commenting </h2>
+
+<p>It is often necessary to comment out temporarily a region of TeX or
+LaTeX code.  This can be done with the commands <kbd>C-c ;</kbd> and
+<kbd>C-c %</kbd>.  <kbd>C-c ;</kbd> will comment out all lines in the current
+region, while <kbd>C-c %</kbd> will comment out the current paragraph.
+Type <kbd>C-c ;</kbd> again to uncomment all lines of a commented region,
+or <kbd>C-c %</kbd> again to uncomment all comment lines around point.
+These commands will insert or remove a single <samp>`%'</samp> respectively.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-comment-or-uncomment-region</b>
+<a name="IDX114"></a>
+</dt>
+<dd><a name="IDX115"></a>
+<p>(<kbd>C-c ;</kbd>) Add or remove <samp>`%'</samp> from the beginning of each line
+in the current region.  Uncommenting works only if the region encloses
+solely commented lines.  If AUCTeX should not try to guess if the
+region should be commented or uncommented the commands
+<code>TeX-comment-region</code> and <code>TeX-uncomment-region</code> can be used
+to explicitly comment or uncomment the region in concern.
+</p></dd></dl>
+
+<dl>
+<dt><u>Command:</u> <b>TeX-comment-or-uncomment-paragraph</b>
+<a name="IDX116"></a>
+</dt>
+<dd><a name="IDX117"></a>
+<p>(<kbd>C-c %</kbd>) Add or remove <samp>`%'</samp> from the beginning of each line
+in the current paragraph.  When removing <samp>`%'</samp> characters the
+paragraph is considered to consist of all preceding and succeeding
+lines starting with a <samp>`%'</samp>, until the first non-comment line.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Indenting"></a>
+<a name="SEC48"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC47" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC49" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.4 Indenting </h2>
+
+<p>Indentation means the addition of whitespace at the beginning of lines
+to reflect special syntactical constructs.  This makes it easier to see
+the structure of the document, and to catch errors such as a missing
+closing brace.  Thus, the indentation is done for precisely the same
+reasons that you would indent ordinary computer programs.
+</p>
+<p>Indentation is done by LaTeX environments and by TeX groups, that
+is the body of an environment is indented by the value of
+<code>LaTeX-indent-level</code> (default 2).  Also, items of an `itemize-like'
+environment are indented by the value of <code>LaTeX-item-indent</code>,
+default -2.  If more environments are nested, they are indented
+`accumulated' just like most programming languages usually are seen
+indented in nested constructs.
+<a name="IDX118"></a>
+<a name="IDX119"></a>
+</p>
+<p>You can explicitely indent single lines, usually by pressing <kbd>TAB</kbd>,
+or marked regions by calling <code>indent-region</code> on it.  If you have
+<code>auto-fill-mode</code> enabled and a line is broken while you type it,
+Emacs automatically cares about the indentation in the following line.
+If you want to have a similar behavior upon typing <kbd>RET</kbd>, you can
+customize the variable <code>TeX-newline-function</code> and change the
+default of <code>newline</code> which does no indentation to
+<code>newline-and-indent</code> which indents the new line or
+<code>reindent-then-newline-and-indent</code> which indents both the current
+and the new line.
+<a name="IDX120"></a>
+</p>
+<p>There are certain LaTeX environments which should be indented in a
+special way, like <samp>`tabular'</samp> or <samp>`verbatim'</samp>.  Those environments
+may be specified in the variable <code>LaTeX-indent-environment-list</code>
+together with their special indentation functions.  Taking the
+<samp>`verbatim'</samp> environment as an example you can see that
+<code>current-indentation</code> is used as the indentation function.  This
+will stop AUCTeX from doing any indentation in the environment if you
+hit <kbd>TAB</kbd> for example.
+<a name="IDX121"></a>
+</p>
+<p>There are environments in <code>LaTeX-indent-environment-list</code> which do
+not bring a special indentation function with them.  This is due to the
+fact that first the respective functions are not implemented yet and
+second that filling will be disabled for the specified environments.
+This shall prevent the source code from being messed up by accidently
+filling those environments with the standard filling routine.  If you
+think that providing special filling routines for such environments
+would be an appropriate and challenging task for you, you are invited to
+contribute. (See section <a href="#SEC49">Filling</a>, for further information about the filling
+functionality)
+<a name="IDX122"></a>
+</p>
+<p>The check for the indentation function may be enabled or disabled by
+customizing the variable <code>LaTeX-indent-environment-check</code>.
+<a name="IDX123"></a>
+</p>
+<p>As a side note with regard to formatting special environments: Newer
+Emacsen include <tt>`align.el'</tt> and therefore provide some support for
+formatting <samp>`tabular'</samp> and <samp>`tabbing'</samp> environments with the
+function <code>align-current</code> which will nicely align columns in the
+source code.
+</p>
+<p>AUCTeX is able to format commented parts of your code just as any
+other part.  This means LaTeX environments and TeX groups in
+comments will be indented syntactically correct if the variable
+<code>LaTeX-syntactic-comments</code> is set to t.  If you disable it,
+comments will be filled like normal text and no syntactic indentation
+will be done.
+<a name="IDX124"></a>
+</p>
+<p>Following you will find a list of most commands and variables related
+to indenting with a small summary in each case:
+</p>
+<dl compact="compact">
+<dt> <kbd><kbd>TAB</kbd></kbd></dt>
+<dd><a name="IDX125"></a>
+<a name="IDX126"></a>
+<p><code>LaTeX-indent-line</code> will indent the current line.
+</p>
+</dd>
+<dt> <kbd><kbd>LFD</kbd></kbd></dt>
+<dd><a name="IDX127"></a>
+<p><code>newline-and-indent</code> inserts a new line (much like <kbd>RET</kbd>) and
+moves the cursor to an appropriate position by the left margin.
+</p>
+<p>Most keyboards nowadays don't have a linefeed key and <kbd>C-j</kbd> is
+tedious to type.  Therefore you can customize AUCTeX to perform
+indentation (or to make coffee) upon typing <kbd>RET</kbd> as well.  The
+respective option is called <code>TeX-newline-function</code>.
+</p>
+</dd>
+<dt> <kbd>C-j</kbd></dt>
+<dd><a name="IDX128"></a>
+<p>Alias for <kbd>LFD</kbd>
+</p></dd>
+</dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-indent-environment-list</b>
+<a name="IDX129"></a>
+</dt>
+<dd><p>List of environments with special indentation.  The second element in
+each entry is the function to calculate the indentation level in
+columns.
+</p>
+<p>The filling code currently cannot handle tabular-like environments
+which will be completely messed-up if you try to format them.  This is
+why most of these environments are included in this customization
+option without a special indentation function.  This will prevent that
+they get filled.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-indent-level</b>
+<a name="IDX130"></a>
+</dt>
+<dd><p>Number of spaces to add to the indentation for each <samp>`\begin'</samp> not
+matched by a <samp>`\end'</samp>.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-item-indent</b>
+<a name="IDX131"></a>
+</dt>
+<dd><p>Number of spaces to add to the indentation for <samp>`\item'</samp>'s in list
+environments.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-brace-indent-level</b>
+<a name="IDX132"></a>
+</dt>
+<dd><p>Number of spaces to add to the indentation for each <samp>`{'</samp> not
+matched by a <samp>`}'</samp>.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-syntactic-comments</b>
+<a name="IDX133"></a>
+</dt>
+<dd><p>If non-nil comments will be filled and indented according to LaTeX
+syntax.  Otherwise they will be filled like normal text.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-newline-function</b>
+<a name="IDX134"></a>
+</dt>
+<dd><p>Used to specify the function which is called when <kbd>RET</kbd> is pressed.
+This will normally be <code>newline</code> which simply inserts a new line.
+In case you want to have AUCTeX do indentation as well when you press
+<kbd>RET</kbd>, use the built-in functions <code>newline-and-indent</code> or
+<code>reindent-then-newline-and-indent</code>.  The former inserts a new line
+and indents the following line, i.e. it moves the cursor to the right
+position and therefore acts as if you pressed <kbd>LFD</kbd>.  The latter
+function additionally indents the current line.  If you choose
+<samp>`Other'</samp>, you can specify your own fancy function to be called when
+<kbd>RET</kbd> is pressed.
+</p></dd></dl>
+
+
+<hr size="6">
+<a name="Filling"></a>
+<a name="SEC49"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC48" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC44" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.5 Filling </h2>
+
+<p>Filling deals with the insertion of line breaks to prevent lines from
+becoming wider than what is specified in <code>fill-column</code>.  The
+linebreaks will be inserted automatically if <code>auto-fill-mode</code> is
+enabled.  In this case the source is not only filled but also indented
+automatically as you write it.
+</p>
+
+<p><code>auto-fill-mode</code> can be enabled for AUCTeX by calling
+<code>turn-on-auto-fill</code> in one of the hooks AUCTeX is running.  For
+all text modes with <code>text-mode-hook</code>, for all AUCTeX modes with
+<code>TeX-mode-hook</code> or for specific modes with
+<code>plain-TeX-mode-hook</code>, <code>LaTeX-mode-hook</code>,
+<code>ConTeXt-mode-hook</code> or <code>docTeX-mode-hook</code>.  As an example, if
+you want to enable <code>auto-fill-mode</code> in <code>LaTeX-mode</code>, put the
+following into your init file:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
+</pre></td></tr></table>
+<p>You can manually fill explicitely marked regions, paragraphs,
+environments, complete sections, or the whole buffer.  (Note that manual
+filling in AUCTeX will indent the start of the region to be filled in
+contrast to many other Emacs modes.)
+</p>
+<p>There are some syntactical constructs which are handled specially with
+regard to filling.  These are so-called code comments and paragraph
+commands.
+</p>
+<p>Code comments are comments preceded by code or text in the same line.
+Upon filling a region, code comments themselves will not get filled.
+Filling is done from the start of the region to the line with the code
+comment and continues after it.  In order to prevent overfull lines in
+the source code, a linebreak will be inserted before the last
+non-comment word by default.  This can be changed by customizing
+<code>LaTeX-fill-break-before-code-comments</code>.  If you have overfull
+lines with code comments you can fill those explicitely by calling
+<code>LaTeX-fill-paragraph</code> or pressing <kbd>M-q</kbd> with the cursor
+positioned on them.  This will add linebreaks in the comment and indent
+subsequent comment lines to the column of the comment in the first line
+of the code comment.  In this special case <kbd>M-q</kbd> only acts on the
+current line and not on the whole paragraph.
+</p>
+<p>Lines with <samp>`\par'</samp> are treated similarly to code comments,
+i.e. <samp>`\par'</samp> will be treated as paragraph boundary which should not
+be followed by other code or text.  But it is not treated as a real
+paragraph boundary like an empty line where filling a paragraph would
+stop.
+</p>
+<p>Paragraph commands like <samp>`\section'</samp> or <samp>`\noindent'</samp> (the list of
+commands is defined by <code>LaTeX-paragraph-commands</code>) are often to be
+placed in their own line(s).  This means they should not be consecuted
+with any preceding or following adjacent lines of text.  AUCTeX will
+prevent this from happening if you do not put any text except another
+macro after the end of the last brace of the respective macro.  If
+there is other text after the macro, AUCTeX regards this as a sign
+that the macro is part of the following paragraph.
+<a name="IDX135"></a>
+</p>
+<p>Here are some examples:
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\begin{quote}
+  text text text text
+</pre></td></tr></table>
+<table><tr><td>&nbsp;</td><td><pre class="example">\begin{quote}\label{foo}
+  text text text text
+</pre></td></tr></table>
+<p>If you press <kbd>M-q</kbd> on the first line in both examples, nothing will
+change.  But if you write
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\begin{quote} text
+  text text text text
+</pre></td></tr></table>
+<p>and press <kbd>M-q</kbd>, you will get
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\begin{quote} text text text text text
+</pre></td></tr></table>
+<p>Besides code comments and paragraph commands, another speciality of
+filling in AUCTeX involves commented lines.  You should be aware that
+these comments are treated as islands in the rest of the LaTeX code
+if syntactic filling is enabled.  This means, for example, if you try to
+fill an environment with <code>LaTeX-fill-environment</code> and have the
+cursor placed on a commented line which does not have a surrounding
+environment inside the comment, AUCTeX will report an error.
+<a name="IDX136"></a>
+</p>
+<p>The relevant commands and variables with regard to filling are:
+</p>
+<dl compact="compact">
+<dt> <kbd>C-c C-q C-p</kbd></dt>
+<dd><a name="IDX137"></a>
+<a name="IDX138"></a>
+<p><code>LaTeX-fill-paragraph</code> will fill and indent the current paragraph.
+</p>
+</dd>
+<dt> <kbd>M-q</kbd></dt>
+<dd><a name="IDX139"></a>
+<p>Alias for <kbd>C-c C-q C-p</kbd>
+</p>
+</dd>
+<dt> <kbd>C-c C-q C-e</kbd></dt>
+<dd><a name="IDX140"></a>
+<a name="IDX141"></a>
+<p><code>LaTeX-fill-environment</code> will fill and indent the current
+environment.  This may e.g. be the `document' environment, in which case
+the entire document will be formatted.
+</p>
+</dd>
+<dt> <kbd>C-c C-q C-s</kbd></dt>
+<dd><a name="IDX142"></a>
+<a name="IDX143"></a>
+<p><code>LaTeX-fill-section</code> will fill and indent the current logical
+sectional unit.
+</p>
+</dd>
+<dt> <kbd>C-c C-q C-r</kbd></dt>
+<dd><a name="IDX144"></a>
+<a name="IDX145"></a>
+<p><code>LaTeX-fill-region</code> will fill and indent the current region.
+</p></dd>
+</dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-fill-break-at-separators</b>
+<a name="IDX146"></a>
+</dt>
+<dd><p>List of separators before or after which respectively linebreaks will
+be inserted if they do not fit into one line.  The separators can be
+curly braces, brackets, switches for inline math (<samp>`$'</samp>, <samp>`\('</samp>,
+<samp>`\)'</samp>) and switches for display math (<samp>`\['</samp>, <samp>`\]'</samp>).  Such
+formatting can be useful to make macros and math more visible or to
+prevent overfull lines in the LaTeX source in case a package for
+displaying formatted TeX output inside the Emacs buffer, like
+preview-latex, is used.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>LaTeX-fill-break-before-code-comments</b>
+<a name="IDX147"></a>
+</dt>
+<dd><p>Code comments are comments preceded by some other text in the same line.
+When a paragraph containing such a comment is to be filled, the comment
+start will be seen as a border after which no line breaks will be
+inserted in the same line.  If the option
+<code>LaTeX-fill-break-before-code-comments</code> is enabled (which is the
+default) and the comment does not fit into the line, a line break will
+be inserted before the last non-comment word to minimize the chance that
+the line becomes overfull.
+</p></dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC44" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_7.html#SEC50" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

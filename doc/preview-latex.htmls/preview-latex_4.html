@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: 4. Simple customization</title>
+
+<meta name="description" content="preview-latex: 4. Simple customization">
+<meta name="keywords" content="preview-latex: 4. Simple customization">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Simple-customization"></a>
+<a name="SEC11"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_3.html#SEC10" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_5.html#SEC12" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex_3.html#SEC10" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_5.html#SEC12" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 4. Simple customization </h1>
+
+<p>Customization options can be found by typing <kbd>M-x customize-group
+<kbd>RET</kbd> preview <kbd>RET</kbd></kbd>. Remember to set the option when you have
+changed it. The list of suggestions can be made very long (and is
+covered in detail in <a href="preview-latex_6.html#SEC19">For advanced users</a>), but some are:
+</p>
+<ul>
+<li> Change the color of the preview background
+
+<p>If you use a non-white background in Emacs, you might have color
+artifacts at the edges of your previews.  Playing around with the option
+<code>preview-transparent-color</code> in the <code>Preview Appearance</code> group
+might improve things.  With some settings, the cursor may cover the
+whole background of a preview, however.
+</p>
+<p>This option is specific to the display engine in use.  Its default is
+different in Emacs 21 and Emacs 22, and it is not available in
+XEmacs.
+</p>
+</li><li> Showing <code>\label</code>s
+<a name="IDX42"></a>
+
+<p>When using preview-latex, the <code>\label</code>s are hidden by the
+previews.  It is possible to make them visible in the output
+by using the LaTeX package <code>showkeys</code> alternatively
+<code>showlabels</code>.  However, the boxes of these labels will be outside
+the region preview-latex considers as the preview image.  To enable a
+similar mechanism internal to preview-latex, enable the
+<code>showlabels</code> option in the variable
+<code>preview-default-option-list</code> in the <code>Preview Latex</code> group.
+</p>
+<p>It must be noted, however, that a much better idea may be to use the
+RefTeX package for managing references.  See <a href="../reftex/RefTeX-in-a-Nutshell.html#RefTeX-in-a-Nutshell">(reftex)RefTeX in a Nutshell</a> section `RefTeX in a Nutshell' in <cite>The RefTeX Manual</cite>.
+</p>
+</li><li> Open previews automatically
+
+<p>The current default is to open previews automatically when you enter
+them with cursor left/right motions.  Auto-opened previews will close
+again once the cursor leaves them again (this is also done when doing
+incremental search, or query-replace operations), unless you changed
+anything in it.  In that case, you will have to regenerate the preview
+(via e.g., <kbd>C-c C-p C-p</kbd>).  Other options for
+<code>preview-auto-reveal</code> are available via <code>customize</code>.
+</p>
+</li><li> Automatically cache preambles
+
+<p>Currently preview-latex asks you whether you want to cache the
+document preamble (everything before <code>\begin{document}</code>) before
+it generates previews for a buffer the first time.  Caching the preamble
+will significantly speed up regeneration of previews.  The larger your
+preamble is, the more this will be apparent.  Once a preamble is cached,
+preview-latex will try to keep track of when it is changed, and dump
+a fresh format in that case.  If you experience problems with this, or
+if you want it to happen without asking you the first time, you can
+customize the variable <code>preview-auto-cache-preamble</code>.
+<a name="IDX43"></a>
+<a name="IDX44"></a>
+</p>
+</li><li> Attempt to keep counters accurate when editing
+
+<a name="IDX45"></a>
+<a name="IDX46"></a>
+<p>Since preview-latex frequently runs only small regions through
+LaTeX, values like equation counters are not consistent from run to
+run.  If this bothers you, customize the variable
+<code>preview-preserve-counters</code> to <code>t</code> (this is consulted by
+<code>preview-required-option-list</code>).  LaTeX will then output a load
+of counter information during compilation, and this information will be
+used on subsequent updates to keep counters set to useful values.  The
+additional information takes additional time to analyze, but this is
+relevant mostly only when you are regenerating all previews at once, and
+maybe you will be less tempted to do so when counters appear more or
+less correct.
+</p>
+</li><li> Preview your favourite LaTeX constructs
+
+<p>If you have a certain macro or environment that you want to preview,
+first check if it can be chosen by cutomizing
+<code>preview-default-options-list</code> in the <code>Preview Latex</code> group.
+</p>
+<p>If it is not available there, you can add it to
+<code>preview-default-preamble</code> also in the <code>Preview Latex</code> group,
+by adding a <code>\PreviewMacro</code> or <code>\PreviewEnvironment</code> entry
+(see section <a href="preview-latex_6.html#SEC22">Provided commands</a>) <em>after</em> the <code>\RequirePackage</code>
+line.  For example, if you want to preview the <code>center</code>
+environment, press the <kbd>Show</kbd> button and the last <kbd>INS</kbd> button,
+then add
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\PreviewEnvironment{center}
+</pre></td></tr></table>
+<p>in the space that just opened.  Note that since <code>center</code> is a
+generic formatting construct of LaTeX, a general configuration like
+that is not quite prudent.  You better to do this on a per-document
+base so that it is easy to disable this behavior when you find this
+particular entry gives you trouble.
+</p>
+<p>One possibility is to save such settings in the corresponding file-local
+variable instead of your global configuration (see <a href="../emacs/File-Variables.html#File-Variables">(emacs)File Variables</a> section `Local Variables in Files' in <cite>GNU Emacs Manual</cite>).  A perhaps
+more convenient place for such options would be in a configuration file
+in the same directory with your project (see section <a href="preview-latex_6.html#SEC21">Package options</a>).
+</p>
+<p>The usual file for preview-latex preconfiguration is
+<tt>`prauctex.cfg'</tt>.  If you also want to keep the systemwide defaults,
+you should add a line
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\InputIfFileExists{preview/prauctex.cfg}{}{}
+</pre></td></tr></table>
+<p>to your own version of <tt>`prauctex.cfg'</tt> (this is assuming that
+global files relating to the <code>preview</code> package are installed in a
+subdirectory <tt>`preview'</tt>, the default behavior).
+</p>
+</li><li> Don't preview inline math
+<a name="IDX47"></a>
+
+<p>If you have performance problems because your document is full of inline
+math (<code>$&hellip;$</code>), or if your usage of <code>$</code> conflicts with
+preview-latex's, you can turn off inline math previews. In the
+<code>Preview Latex</code> group, remove <code>textmath</code> from
+<code>preview-default-option-list</code> by customizing this variable.
+</p></li></ul>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_3.html#SEC10" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_5.html#SEC12" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

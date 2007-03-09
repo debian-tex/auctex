@@ -1,0 +1,137 @@
+# Galician translation of the "debian/auctex/templates" file of auctex
+# Debian package.
+#
+# Copyright (C) 2007 Davide G. M. Salvetti
+#
+# This file is distributed under the same license as the auctex Debian
+# package.
+#
+# Jacobo Tarrio <jtarrio@debian.org>, 2007.
+#
+# arch-tag: 064cce3f-a101-4556-9b8e-575547e24ca0
+msgid ""
+msgstr ""
+"Project-Id-Version: auctex\n"
+"Report-Msgid-Bugs-To: salve@debian.org\n"
+"POT-Creation-Date: 2006-12-08 16:38+0100\n"
+"PO-Revision-Date: 2007-03-03 22:27+0100\n"
+"Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
+"Language-Team: Galician <proxecto@trasno.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "Background"
+msgstr "Fondo"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "Foreground"
+msgstr "Primeiro plano"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "None"
+msgstr "Ningún"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "(La)TeX macros parsing mode:"
+msgstr "Modo de análise de macros de (La)TeX:"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid ""
+"To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
+"style file currently installed at your site will be parsed."
+msgstr ""
+"Para mellorar moito o rendemento de AUCTeX, hanse analizar tódolos paquetes "
+"de macros de TeX e ficheiros de estilos de LaTeX instalados actualmente no "
+"seu sitio."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid ""
+"This may take a lot of time, so it should be probably done in the "
+"background; however you may also choose to have it done in the foreground, "
+"or to skip the parsing at all instead.  If you choose Background, you will "
+"find a detailed log of the process in the file: ${LOGFILE}."
+msgstr ""
+"Isto pode levar moito tempo, así que seguramente sexa mellor facelo coma "
+"tarefa de fondo; nembargantes tamén pode facelo coma tarefa de primeiro "
+"plano, ou omitir completamente a análise. Se escolle \"Fondo\", ha ter un "
+"rexistro detallado do proceso no ficheiro ${LOGFILE}."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid ""
+"A weekly cron job will also take care of updating the data collected now, so "
+"usually you won't need to worry about them whenever you install new (La)TeX "
+"packages or remove old ones."
+msgstr ""
+"Unha tarefa de cron semanal tamén se ha encargar de actualizar os datos que "
+"se colleiten agora, así que normalmente non ha ter que se preocupar por eles "
+"ao instalar novos paquetes de (La)TeX ou eliminar paquetes antigos."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "Anyway, you can update them by hand running update-auctex-elisp."
+msgstr ""
+"De tódolos xeitos, pode actualizalos á man executando update-auctex-elisp."
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:2001
+msgid "Console"
+msgstr "Consola"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:2001
+msgid "File"
+msgstr "Ficheiro"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid "Parsing output destination:"
+msgstr "Destino da saída da análise:"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid ""
+"You chose to parse TeX macro packages and LaTeX style files in foreground. "
+"This is OK, but normally it will also generate quite a lot of output."
+msgstr ""
+"Decidiu analizar os paquetes de macros de TeX e os ficheiros de estilos de "
+"LaTeX nunha tarefa de fondo. Isto é correcto, pero normalmente tamén xera "
+"moita saída."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid ""
+"By default -- i.e., answering File to this question -- further output from "
+"the parsing process will go to a file named: ${LOGFILE}."
+msgstr ""
+"Por defecto -- é dicir, se resposta \"Ficheiro\" a esta pregunta --, a saída "
+"do proceso de análise ha ir a un ficheiro chamado ${LOGFILE}."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid ""
+"If you answer Console, you will see all of the (boring) output right on your "
+"terminal."
+msgstr "Se resposta \"Consola\" ha ver toda a saída no seu terminal."

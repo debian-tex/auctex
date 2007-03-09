@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: 5. Known problems</title>
+
+<meta name="description" content="preview-latex: 5. Known problems">
+<meta name="keywords" content="preview-latex: 5. Known problems">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Known-problems"></a>
+<a name="SEC12"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_4.html#SEC11" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC13" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex_4.html#SEC11" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 5. Known problems </h1>
+
+
+<p>A number of issues are known concerning the interoperation with various
+other software. Some of the known problems can be solved by moving to
+newer versions of the problematic software or by simple patches.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC13">5.1 Problems with Ghostscript</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">   
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC14">5.2 Font problems with Dvips</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC15">5.3 Emacs problems</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC16">5.4 Too small bounding boxes</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">    
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC17">5.5 x-symbol interoperation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">     
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC18">5.6 Middle-clicks paste instead of toggling</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">  
+</td></tr>
+</table>
+
+<p>If you find something not mentioned here, please send a bug report using
+<kbd>M-x preview-report-bug <kbd>RET</kbd></kbd>, which will fill in a lot of
+information interesting to us and send it to the
+<a href="mailto:bug-auctex@gnu.org">bug-auctex@gnu.org</a> list.  Please use the bug reporting commands
+if at all possible.
+</p>
+<hr size="6">
+<a name="Problems-with-Ghostscript"></a>
+<a name="SEC13"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC12" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC14" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.1 Problems with Ghostscript </h2>
+
+<p>Most of the problems encountered come from interaction with Ghostscript.
+It is a good idea to have a fairly recent version of Ghostscript
+installed.  One problem occurs if you have specified the wrong
+executable under Windows: the command line version of Ghostscript is
+called <tt>`GSWIN32C.EXE'</tt>, not <tt>`GSWIN32.EXE'</tt>.
+</p>
+<p>When Ghostscript fails, the necessary information and messages from
+Ghostscript go somewhere.  If Ghostscript fails before starting to
+process images, you'll find the information at the end of the process
+buffer you can see with <kbd>C-c C-l</kbd>.  If Ghostscript fails while
+processing a particular image, this image will be tagged with clickable
+buttons for the error description and for the corresponding source file.
+</p>
+<p>The default options configurable with
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display"><kbd>M-x customize-variable <kbd>RET</kbd> preview-gs-options <kbd>RET</kbd></kbd>
+</pre></td></tr></table><a name="IDX48"></a>
+
+<p>include the options <samp>`-dTextAlphaBits=4'</samp> and
+<samp>`-dGraphicsAlphaBits=4'</samp>.  These options have been reported to
+make Ghostscript 5.50 fail, but should work under Ghostscript 6.51 and
+later.  If you are experiencing problems, it might help to customize
+them away.  Of course, this also takes away the joy of antialiasing, so
+upgrading Ghostscript might not be the worst idea after all.
+</p>
+<p>The device names have changed over time, so when using an old
+Ghostscript, you may have problems with the devices demanded by the
+customizable variable <code>preview-image-creators</code>.
+<a name="IDX49"></a>
+In that case, make sure they fit your version of Ghostscript, at least
+the entry corresponding to the current value of
+<code>preview-image-type</code>.
+<a name="IDX50"></a>
+While not being best in file size and image quality, setting
+<code>preview-image-creators</code> to <code>jpeg</code> should probably be one of
+the best bets for the purpose of checking basic operation, since that
+device name has not changed in quite some time.  But <acronym>JPEG</acronym> is
+not intended for text, but for photographic images.  On a more
+permanent time scale, the best choice is to use <acronym>PNG</acronym> and
+complain to your suppliers if either Emacs or Ghostscript fail to
+properly accommodate this format.
+</p>
+<hr size="6">
+<a name="Font-problems-with-Dvips"></a>
+<a name="SEC14"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC13" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC15" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.2 Font problems with Dvips </h2>
+<p>Some fonts have been reported to produce wrong characters with
+preview-latex.  preview-latex calls Dvips by default with the option
+<samp>`-Pwww'</samp> in order to get scalable fonts for nice results.  If you
+are using antialiasing, however, the results might be sufficiently nice
+with bitmapped fonts, anyway.  You might try <samp>`-Ppdf'</samp> for another
+stab at scalable fonts, or other printer definitions.  Use
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="display"><kbd>M-x customize-variable <kbd>RET</kbd> preview-fast-dvips-command <kbd>RET</kbd></kbd>
+</pre></td></tr></table>
+<p>and
+</p><table><tr><td>&nbsp;</td><td><pre class="display"><kbd>M-x customize-variable <kbd>RET</kbd> preview-dvips-command <kbd>RET</kbd></kbd>
+</pre></td></tr></table>
+<p>in order to customize this.
+</p>
+<p>One particular problem is that several printer setup files (typically in
+a file called <tt>`/usr/share/texmf/dvips/config/config.pdf'</tt> if you are
+using the <samp>`-Ppdf'</samp> switch) contain the <samp>`G'</samp> option for
+`character shifting'.  This option will result in <samp>`fi'</samp> being
+rendered as <samp>`&pound;'</samp> (British Pounds sign) in several fonts,
+unless your version of Dvips has a long-standing bug in its
+implementation fixed (only very recent versions of Dvips have).
+</p>
+<hr size="6">
+<a name="Emacs-problems"></a>
+<a name="SEC15"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC14" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC16" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.3 Emacs problems </h2>
+
+<ul>
+<li> GNU Emacs versions
+
+<p>Don't use Emacsen older than 21.3 on X11-based systems.  On most other
+systems, you'll need at least Emacs 22.1 or one of the developer
+versions leading up to it.  Details can be found in
+<a href="../auctex/Prerequisites.html#Prerequisites">(auctex)Prerequisites</a> section `Prerequisites' in <cite>the AUCTeX manual</cite>.
+</p>
+</li><li> Emacsen on Windows operating systems
+
+<p>For Emacs 21, no image support is available in Emacs under Windows.
+Without images, preview-latex is useless.  The current <acronym>CVS</acronym>
+version of Emacs available from
+<a href="http://savannah.gnu.org/projects/emacs">http://savannah.gnu.org/projects/emacs</a> now supports images
+including the <acronym>PNG</acronym> format, so Emacs 22 should work out of
+the box once it is released.  Precompiled versions are available from
+<a href="http://crasseux.com/emacs">http://crasseux.com/emacs</a> and <a href="http://nqmacs.sf.net">http://nqmacs.sf.net</a>.
+</p>
+<p>For detailed installation instructions for Windows, see
+<a href="../auctex/Installation-under-MS-Windows.html#Installation-under-MS-Windows">(auctex)Installation under MS Windows</a> section `Installation under MS Windows' in <cite>the AUCTeX manual</cite>.
+</p>
+</li><li> XEmacs
+
+<p>There is are two larger problems known with older XEmacs releases.  One
+leads to seriously mispositioned baselines and previews hanging far
+above other text on the same line.  This should be fixed as of
+XEmacs-21.4.9.
+</p>
+<p>The other core bug causes a huge delay when XEmacs's idea of the state of
+processes (like ghostscript) is wrong, and can lead to nasty spurious
+error messages.  It should be fixed in version 21.4.8.
+</p>
+<p>Previews will only remain from one session to the next if you have
+version 1.81 or above of the <tt>`edit-utils'</tt> package, first released
+in the 2002-03-12 sumo tarball.
+</p></li></ul>
+
+<hr size="6">
+<a name="Too-small-bounding-boxes"></a>
+<a name="SEC16"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC15" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC17" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.4 Too small bounding boxes </h2>
+<p>The bounding box of a preview is determined by the LaTeX package
+using the pure TeX bounding boxes.  If there is material extending
+outside of the TeX box, that material will be missing from the
+preview image.  This happens for the label-showing boxes from
+the <code>showkeys</code> package.  This particular problem can be
+circumvented by using the <code>showlabels</code> option of the preview
+package.
+</p>
+<p>In general, you should try to fix the problem in the TeX code, like
+avoiding drawing outside of the picture with PSTricks.
+</p>
+<p>One possible remedy is to set
+<code>preview-fast-conversion</code> to `Off' 
+(see section <a href="preview-latex_6.html#SEC23">The Emacs interface</a>).
+The conversion will take more time, but will then use the bounding boxes
+from <acronym>EPS</acronym> files generated by Dvips.
+</p>
+<p>Dvips generally does not miss things, but it does not understand
+PostScript constructs like <code>\resizebox</code> or <code>\rotate</code> commands,
+so will generate rather wrong boxes for those.  Dvips can be helped with
+the <code>psfixbb</code> package option to preview 
+(see section <a href="preview-latex_6.html#SEC20">The LaTeX style file</a>),
+which will tag the corners of the included TeX box.  This will mostly
+be convenient for <em>pure</em> PostScript stuff like that created by
+PSTricks, which Dvips would otherwise reserve no space for.
+</p>
+<hr size="6">
+<a name="x_002dsymbol-interoperation"></a>
+<a name="SEC17"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC16" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC18" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.5 x-symbol interoperation </h2>
+
+<p>Thanks to the work of Christoph Wedler, starting with version
+<samp>`4.0h/beta'</samp> of x-symbol, the line parsing of AUCTeX and
+preview-latex is fully supported.  Earlier versions exhibit problems.
+However, versions before 4.2.2 will cause a drastic slowdown of
+preview-latex's parsing pass, so we don't recommend to use versions
+earlier than that.
+</p>
+<p>If you wonder what x-symbol is, it is a package that transforms various
+tokens and subscripts to a more readable form while editing and offers a
+few input methods handy especially for dealing with math. Take a look at
+<a href="http://x-symbol.sourceforge.net">http://x-symbol.sourceforge.net</a>.
+</p>
+<p>x-symbol versions up to 4.5.1-beta at least require an 8bit-clean TeX
+implementation (meaning that its terminal output should not use
+<samp>`^^'</samp>-started escape sequences) for cooperation with
+preview-latex.  Later versions may get along without it, like
+preview-latex does now.
+</p>
+<p>If you experience problems with <tt>`circ.tex'</tt> in connection with both
+x-symbol and Latin-1 characters, you may need to change your language
+environment or, as a last resort, customize the variable
+<code>LaTeX-command-style</code> by replacing the command <code>latex</code> with
+<code>latex -translate-file=cp8bit</code>.
+</p>
+<hr size="6">
+<a name="Middle_002dclicks-paste-instead-of-toggling"></a>
+<a name="SEC18"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC17" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC12" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 5.6 Middle-clicks paste instead of toggling </h2>
+
+<p>This is probably the fault of your favorite package.  <tt>`flyspell.el'</tt>
+and <tt>`mouse-drag.el'</tt> are known to be affected in versions before
+Emacs 21.3.  Upgrade to the most recent version.  What version of
+XEmacs might contain the fixes is unknown.
+</p>
+<p><tt>`isearch.el'</tt> also shows this effect while searches are in progress,
+but the code is such a complicated mess that no patch is in sight.
+Better just end the search with <kbd><kbd>RET</kbd></kbd> before toggling and
+resume with <kbd>C-s C-s</kbd> or similar afterwards.  Since previews over
+the current match will auto-open, anyway, this should not be much of a
+problem in practice.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC12" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

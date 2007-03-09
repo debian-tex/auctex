@@ -9,7 +9,7 @@ Build-Depends-Indep: ed, emacs21 | emacs-snapshot, eperl, gs-gpl | gs, po-debcon
 Package: auctex
 Architecture: all
 Depends: debconf | debconf-2.0, debianutils (>= 1.7), emacs21 | emacs-snapshot, gs-gpl | gs, make, preview-latex-style
-Recommends: tetex-base | texlive-latex-recommended, doc-base
+Recommends: tetex-base | texlive-latex-recommended, doc-base, xpdf | pdf-viewer
 Suggests: catdvi, dvipng, lacheck
 Conflicts: emacspeak (<= 17.0-1), preview-latex
 Replaces: preview-latex

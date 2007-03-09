@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>AUCTeX: 8. Multifile Documents</title>
+
+<meta name="description" content="AUCTeX: 8. Multifile Documents">
+<meta name="keywords" content="AUCTeX: 8. Multifile Documents">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Multifile"></a>
+<a name="SEC75"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="auctex_8.html#SEC74" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_10.html#SEC76" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex_8.html#SEC65" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_10.html#SEC76" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 8. Multifile Documents </h1>
+
+<p>You may wish to spread a document over many files (as you are likely to do if
+there are multiple authors, or if you have not yet discovered the power
+of the outline commands (see section <a href="auctex_7.html#SEC64">Outlining the Document</a>)).  This can be done by having a
+&quot;master&quot; file in which you include the various files with the TeX
+macro <samp>`\input'</samp> or the LaTeX macro <samp>`\include'</samp>.  These
+files may also include other files themselves.  However, to format the
+document you must run the commands on the top level master file.
+</p>
+<p>When you, for example, ask AUCTeX to run a command on the master file,
+it has no way of knowing the name of the master file.  By default,
+it will assume that the current file is the master file.  If you insert
+the following in your <tt>`.emacs'</tt> file AUCTeX will use a more
+advanced algorithm.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(setq-default TeX-master nil) ; Query for master file.
+</pre></td></tr></table>
+<p>If AUCTeX finds the line indicating the end of the header in a master
+file (<code>TeX-header-end</code>), it can figure out for itself that this is
+a master file.  Otherwise, it will ask for the name of the master file
+associated with the buffer.  To avoid asking you again, AUCTeX will
+automatically insert the name of the master file as a file variable
+(see <a href="../emacs/File-Variables.html#File-Variables">(emacs)File Variables</a> section `File Variables' in <cite>The Emacs Editor</cite>).  You can also insert
+the file variable yourself, by putting the following text at the end of
+your files.
+<a name="IDX275"></a>
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">%%% Local Variables:
+%%% TeX-master: &quot;master&quot;
+%%% End:
+</pre></td></tr></table>
+<p>You should always set this variable to the name of the top level document.  If
+you always use the same name for your top level documents, you can set
+<code>TeX-master</code> in your <tt>`.emacs'</tt> file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(setq-default TeX-master &quot;master&quot;) ; All master files called &quot;master&quot;.
+</pre></td></tr></table>
+<dl>
+<dt><u>User Option:</u> <b>TeX-master</b>
+<a name="IDX276"></a>
+</dt>
+<dd><p>The master file associated with the current buffer.  If the file being
+edited is actually included from another file, then you can tell AUCTeX
+the name of the master file by setting this variable.  If there are
+multiple levels of nesting, specify the top level file.
+</p>
+<p>If this variable is <code>nil</code>, AUCTeX will query you for the
+name.
+</p>
+<p>If the variable is <code>t</code>, then AUCTeX will assume the file is a master
+file itself.
+</p>
+<p>If the variable is <code>shared</code>, then AUCTeX will query for the name,
+but will not change the file.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-one-master</b>
+<a name="IDX277"></a>
+</dt>
+<dd><p>Regular expression matching ordinary TeX files.
+</p>
+<p>You should set this variable to match the name of all files, for which
+it is a good idea to append a <code>TeX-master</code> file variable entry
+automatically.  When AUCTeX adds the name of the master file as a
+file variable, it does not need to ask next time you edit the file.
+</p>
+<p>If you dislike AUCTeX automatically modifying your files, you can
+set this variable to <samp>`&quot;&lt;none&gt;&quot;'</samp>.  By default, AUCTeX will modify
+any file with an extension of <samp>`.tex'</samp>.
+</p></dd></dl>
+
+<dl>
+<dt><u>Command:</u> <b>TeX-master-file-ask</b>
+<a name="IDX278"></a>
+</dt>
+<dd><a name="IDX279"></a>
+<p>(<kbd>C-c _</kbd>) Query for the name of a master file and add the respective
+File Variables (see <a href="../emacs/File-Variables.html#File-Variables">(emacs)File Variables</a> section `File Variables' in <cite>The Emacs Editor</cite>) to the
+file for setting this variable permanently.
+</p>
+<p>AUCTeX will not ask for a master file when it encounters existing
+files.  This function shall give you the possibility to insert the
+variable manually.
+</p></dd></dl>
+
+<p>AUCTeX keeps track of macros, environments, labels, and style
+files that are used in a given document.  For this to work with
+multifile documents, AUCTeX has to have a place to put the
+information about the files in the document.  This is done by having an
+<tt>`auto'</tt> subdirectory placed in the directory where your document is
+located.  Each time you save a file, AUCTeX will write information
+about the file into the <tt>`auto'</tt> directory.  When you load a file,
+AUCTeX will read the information in the <tt>`auto'</tt> directory
+about the file you loaded <em>and the master file specified by
+<code>TeX-master</code></em>.  Since the master file (perhaps indirectly) includes
+all other files in the document, AUCTeX will get information from
+all files in the document.  This means that you will get from each file,
+for example, completion for all labels defined anywhere in the document.
+</p>
+<p>AUCTeX will create the <tt>`auto'</tt> directory automatically if
+<code>TeX-auto-save</code> is non-nil.  Without it, the files in the document
+will not know anything about each other, except for the name of the
+master file.  See section <a href="auctex_12.html#SEC85">Automatic Customization for a Directory</a>.
+</p>
+<dl>
+<dt><u>Command:</u> <b>TeX-save-document</b>
+<a name="IDX280"></a>
+</dt>
+<dd><a name="IDX281"></a>
+<p>(<kbd>C-c C-d</kbd>) Save all buffers known to belong to the current document.
+</p></dd></dl>
+
+<dl>
+<dt><u>User Option:</u> <b>TeX-save-query</b>
+<a name="IDX282"></a>
+</dt>
+<dd><p>If non-nil, then query the user before saving each file with
+<code>TeX-save-document</code>.
+</p></dd></dl>
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="auctex_8.html#SEC65" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_10.html#SEC76" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

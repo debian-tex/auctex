@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: 1. Introduction</title>
+
+<meta name="description" content="preview-latex: 1. Introduction">
+<meta name="keywords" content="preview-latex: 1. Introduction">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Introduction"></a>
+<a name="SEC1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC2" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[ &lt;&lt; ]</td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 1. Introduction </h1>
+
+
+<p>Does your neck hurt from turning between previewer windows and the
+source too often? This AUCTeX component will render your displayed
+LaTeX equations right into the editing window where they belong.
+</p>
+<p>The purpose of preview-latex is to embed LaTeX environments such as
+display math or figures into the source buffers and switch conveniently
+between source and image representation.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC2">1.1 What use is it?</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC3">1.2 Activating preview-latex</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC4">1.3 Getting started</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC5">1.4 Basic modes of operation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC6">1.5 More documentation</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC7">1.6 Availability</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top"><a href="#SEC8">1.7 Contacts</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="What-use-is-it_003f"></a>
+<a name="SEC2"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC1" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC3" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.1 What use is it? </h2>
+<p><acronym>WYSIWYG</acronym> (what you see is what you get) sometimes is considered
+all the rage, sometimes frowned upon.  Do we really want it?  Wrong
+question.  The right question is <em>what</em> we want from it.  Except
+when finetuning the layout, we don't want to use printer fonts for
+on-screen text editing.  The low resolution and contrast of a computer
+screen render all but the coarsest printer fonts (those for low-quality
+newsprint) unappealing, and the margins and pagination of the print are
+not wanted on the screen, either.  On the other hand, more complex
+visual compositions like math formulas and tables can't easily be taken
+in when seen only in the source.  preview-latex strikes a balance: it
+only uses graphic renditions of the output for certain, configurable
+constructs, does this only when told, and then right in the source code.
+Switching back and forth between the source and preview is easy and
+natural and can be done for each image independently.  Behind the scenes
+of preview-latex, a sophisticated framework of other programs like
+<samp>`dvipng'</samp>, Dvips and Ghostscript are employed together with a
+special LaTeX style file for extracting the material of interest in
+the background and providing fast interactive response.
+</p>
+<hr size="6">
+<a name="Activating-preview_002dlatex"></a>
+<a name="SEC3"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC2" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC4" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.2 Activating preview-latex </h2>
+<p>After installation, the package may need to be activated (and remember
+to activate AUCTeX too).  In XEmacs, and in any prepackaged versions
+worth their salt, activation should be automatic upon installation.  If
+this seems not the case, complain to your installation provider.
+</p>
+<p>The usual activation (if it is not done automatically) would be
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">(load &quot;preview-latex.el&quot; nil t t)
+</pre></td></tr></table>
+<p>If you still don't get a &quot;Preview&quot; menu in LaTeX mode in spite
+of AUCTeX showing its &quot;Command&quot;, your installation is broken.  One
+possible cause are duplicate Lisp files that might be detectable with
+<kbd><kbd>M-x</kbd> list-load-path-shadows <kbd>RET</kbd></kbd>.
+</p>
+<hr size="6">
+<a name="Getting-started"></a>
+<a name="SEC4"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC3" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC5" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.3 Getting started </h2>
+
+<p>Once activated, preview-latex and its documentation will be accessible
+via its menus (note that preview-latex requires AUCTeX to be
+loaded).  When you have loaded a LaTeX document (a
+sample document <tt>`circ.tex'</tt> is included in the distribution, but
+most documents including math and/or figures should do), you can use
+its menu or <kbd>C-c C-p C-d</kbd> (for <samp>`Preview/Document'</samp>).
+Previews will now be generated for various objects in your document.
+You can use the time to take a short look at the other menu entries and
+key bindings in the <samp>`Preview'</samp> menu.  You'll see the previewed
+objects change into a roadworks sign when preview-latex has determined
+just what it is going to preview.  Note that you can freely navigate the
+buffer while this is going on.  When the process is finished you will
+see the objects typeset in your buffer.
+</p>
+<p>It is a bad idea, however, to edit the buffer before the roadworks signs
+appear, since that is the moment when the correlation between the
+original text and the buffer locations gets established.  If the buffer
+changes before that point of time, the previews will not be placed where
+they belong. If you do want to change some obvious error you just
+spotted, we recommend you stop the background process by pressing
+<kbd>C-c C-k</kbd>.
+</p>
+<p>To see/edit the LaTeX code for a specific object, put the point (the
+cursor) on it and press <kbd>C-c C-p C-p</kbd> (for <samp>`Preview/at point'</samp>).
+It will also do to click with the middle mouse button on the preview.
+Now you can edit the code, and generate a new preview by again pressing
+<kbd>C-c C-p C-p</kbd> (or by clicking with the middle mouse button on the
+icon before the edited text).
+</p>
+<p>If you are using the <code>desktop</code> package, previews will remain from
+one session to the next as long as you don't kill your buffer.  If you
+are using XEmacs, you will probably need to upgrade the package to
+the newest one; things are being fixed just as I am writing this.
+</p>
+<hr size="6">
+<a name="Basic-modes-of-operation"></a>
+<a name="SEC5"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC4" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC6" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.4 Basic modes of operation </h2>
+
+<p>preview-latex has a number of methods for generating its graphics.
+Its default operation is equivalent to using the `LaTeX' command from
+AUCTeX.  If this happens to be a call of PDFLaTeX generating
+<acronym>PDF</acronym> output (you need at least AUCTeX 11.51 for this),
+then Ghostscript will be called directly on the resulting <acronym>PDF</acronym>
+file.  If a <acronym>DVI</acronym> file gets produced, first Dvips and then
+Ghostscript get called by default.
+</p>
+<p>The image type to be generated by Ghostscript can be configured with
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example"><kbd>M-x</kbd> customize-variable <kbd>RET</kbd> preview-image-type <kbd>RET</kbd>
+</pre></td></tr></table><a name="IDX1"></a>
+
+
+<p>The default is <samp>`png'</samp> (the most efficient image type).  A special
+setting is <samp>`dvipng'</samp> in case you have the <samp>`dvipng'</samp>
+<a name="IDX2"></a>
+<a name="IDX3"></a>
+program installed.  In this case, <samp>`dvipng'</samp> will be used for
+converting <acronym>DVI</acronym> files and Ghostscript (with a <samp>`PNG'</samp>
+device) for converting <acronym>PDF</acronym> files.  <samp>`dvipng'</samp> is much
+faster than the combination of Dvips and Ghostscript.  You can get
+downloads, access to its <acronym>CVS</acronym> archive and further information
+from its <a href="http://savannah.nongnu.org/projects/dvipng">project site</a>.
+</p>
+<hr size="6">
+<a name="More-documentation"></a>
+<a name="SEC6"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC5" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC7" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.5 More documentation </h2>
+<p>After the installation, documentation in the form of 
+an
+info manual will be available.  You can access it with the standalone
+info reader with
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">info preview-latex
+</pre></td></tr></table>
+
+<p>or by pressing <kbd>C-h i d m preview-latex <kbd>RET</kbd></kbd> in Emacs.  Once
+preview-latex is activated, you can instead use <kbd>C-c C-p
+<kbd>TAB</kbd></kbd> (or the menu entry <samp>`Preview/Read documentation'</samp>).
+</p>
+<p>Depending on your installation, 
+a printable 
+manual may also be available in the form of <tt>`preview-latex.dvi'</tt> or
+<tt>`preview-latex.ps'</tt>.
+</p>
+<p>Detailed documentation for the LaTeX style used for extracting the
+preview images is placed in <tt>`preview.dvi'</tt> in a suitable directory
+during installation; on typical teTeX-based systems,
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">texdoc preview
+</pre></td></tr></table>
+
+<p>will display it.
+</p>
+<hr size="6">
+<a name="Availability"></a>
+<a name="SEC7"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC6" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC8" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.6 Availability </h2>
+
+<p>The preview-latex project is now part of AUCTeX and accessible as
+part of the <a href="http://savannah.gnu.org/projects/auctex">AUCTeX project page</a>.  You can get its files from the
+<a href="ftp://ftp.gnu.org/pub/gnu/auctex">AUCTeX download area</a>.  As of
+AUCTeX 11.81, preview-latex should already be integrated into
+AUCTeX, so no separate download will be necessary.
+</p>
+<p>You will also find <tt>`.rpm'</tt> files there for Fedora and possibly
+SuSE. Anonymous <acronym>CVS</acronym> is available as well.
+</p>
+<hr size="6">
+<a name="Contacts"></a>
+<a name="SEC8"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC7" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 1.7 Contacts </h2>
+
+<p>Bug reports should be sent by using <kbd>M-x preview-report-bug
+<kbd>RET</kbd></kbd>, as this will fill in a lot of information interesting to
+us.  If the installation fails (but this should be a rare event), report
+bugs to <a href="mailto:bug-auctex@gnu.org">bug-auctex@gnu.org</a>.
+</p>
+<p>There is a general discussion list for AUCTeX which also
+covers preview-latex, look at
+<a href="http://lists.gnu.org/mailman/listinfo/auctex">http://lists.gnu.org/mailman/listinfo/auctex</a>.  For more
+information on the mailing list, send a message with just the word
+&quot;help&quot; as subject or body to <a href="mailto:auctex-request@gnu.org">auctex-request@gnu.org</a>.  For the
+developers, there is the <a href="mailto:auctex-devel@gnu.org">auctex-devel@gnu.org</a> list; it would
+probably make sense to direct feature requests and questions about
+internal details there.  There is a low-volume read-only announcement
+list available to which you can subscribe by sending a mail with
+&quot;subscribe&quot; in the subject to <a href="mailto:info-auctex-request@gnu.org">info-auctex-request@gnu.org</a>.
+</p>
+<p>Offers to support further development will be appreciated.  If you want
+to show your appreciation with a donation to the main developer, you can
+do so via PayPal to <a href="mailto:dak@gnu.org">dak@gnu.org</a>, and of course you can arrange
+for service contracts or for added functionality.  Take a look at the
+<tt>`TODO'</tt> list for suggestions in that area.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

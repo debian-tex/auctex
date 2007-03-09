@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: 3. Key bindings and user-level lisp functions</title>
+
+<meta name="description" content="preview-latex: 3. Key bindings and user-level lisp functions">
+<meta name="keywords" content="preview-latex: 3. Key bindings and user-level lisp functions">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Keys-and-lisp"></a>
+<a name="SEC10"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_4.html#SEC11" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_4.html#SEC11" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 3. Key bindings and user-level lisp functions </h1>
+
+<p>preview-latex adds key bindings starting with <kbd>C-c C-p</kbd> to the
+supported modes of AUCTeX (See <a href="../auctex/Key-Index.html#Key-Index">(auctex)Key Index</a>).  It will
+also add its own <samp>`Preview'</samp> menu in the menu bar, as well as an icon
+in the toolbar.
+</p>
+<p>The following only describes the interactive use: view the documentation
+strings with <kbd>C-h f</kbd> if you need the Lisp information.
+</p>
+<dl compact="compact">
+<dt> <kbd>C-c C-p C-p</kbd></dt>
+<dt> <code>preview-at-point</code></dt>
+<dt> Preview/Generate previews (or toggle) at point</dt>
+<dd><p>If the cursor is positioned on or inside of a preview area, this
+toggles its visibility, regenerating the preview if necessary. If not,
+it will run the surroundings through preview. The surroundings include
+all areas up to the next valid preview, unless invalid previews occur
+before, in which case the area will include the last such preview in
+either direction.  And overriding any other
+action, if a region is active (<code>transient-mark-mode</code> or
+<code>zmacs-regions</code>), it is run through <code>preview-region</code>.
+<a name="IDX4"></a>
+<a name="IDX5"></a>
+</p>
+</dd>
+<dt> <kbd>&lt;mouse-2&gt;</kbd></dt>
+<dd><p>The middle mouse button has a similar action bound to it as
+<code>preview-at-point</code>, only that it knows which preview to apply it to
+according to the position of the click.  You can click either anywhere
+on a previewed image, or when the preview is opened and showing the
+source text, you can click on the icon preceding the source text.  In
+other areas, the usual mouse key action (typically: paste) is not
+affected.
+</p>
+</dd>
+<dt> <kbd>&lt;mouse-3&gt;</kbd></dt>
+<dd><p>The right mouse key pops up a context menu with several options:
+toggling the preview, regenerating it, removing it (leaving the
+unpreviewed text), copying the text inside of the preview, and copying
+it in a form suitable for copying as an image into a mail or news
+article.  This is a one-image variant of the following command:
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-w</kbd></dt>
+<dt> <code>preview-copy-region-as-mml</code></dt>
+<dt> Copy a region as MML</dt>
+<dd><a name="IDX6"></a>
+<a name="IDX7"></a>
+<p>This command is also available as a variant in the context menu on the
+right mouse button (where the region is the preview that has been
+clicked on).  It copies the current region into the kill buffer in a
+form suitable for copying as a text including images into a mail or news
+article using mml-mode (see <a href="../emacs-mime/Composing.html#Composing">(emacs-mime)Composing</a> section `Composing' in <cite>Emacs MIME</cite>).
+</p>
+<p>If you regenerate or otherwise kill the preview in its source buffer
+before the mail or news gets posted, this will fail.  Also you should
+generate images you want to send with <code>preview-transparent-border</code>
+<a name="IDX8"></a>
+set to <code>nil</code>, or the images will have an ugly border.
+preview-latex detects this condition and asks whether to regenerate
+the region with borders switched off.  As this is an asynchronous
+operation running in the background, you'll need to call this command
+explicitly again to get the newly generated images into the kill ring.
+</p>
+<p>Preview your articles with <code>mml-preview</code> (on <kbd>M-m P</kbd>, or
+<kbd>C-c C-m P</kbd> in Emacs 22)
+<a name="IDX9"></a>
+<a name="IDX10"></a>
+to make sure they look fine.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-e</kbd></dt>
+<dt> <code>preview-environment</code></dt>
+<dt> Preview/Generate previews for environment</dt>
+<dd><p>Run preview on LaTeX environment.  The environments in
+<code>preview-inner-environments</code> are treated as inner levels so that
+for instance, the <code>split</code> environment in
+<code>\begin{equation}\begin{split}&hellip;\end{split}\end{equation}</code>
+is properly displayed.  If called with a numeric argument, the
+corresponding number of outward nested environments is treated as inner
+levels.
+<a name="IDX11"></a>
+<a name="IDX12"></a>
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-s</kbd></dt>
+<dt> <code>preview-section</code> </dt>
+<dt> Preview/Generate previews for section</dt>
+<dd><p>Run preview on this LaTeX section.
+<a name="IDX13"></a>
+<a name="IDX14"></a>
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-r</kbd></dt>
+<dt> <code>preview-region</code></dt>
+<dt> Preview/Generate previews for region</dt>
+<dd><p>Run preview on current region.
+<a name="IDX15"></a>
+<a name="IDX16"></a>
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-b</kbd></dt>
+<dt> <code>preview-buffer</code> </dt>
+<dt> Preview/Generate previews for buffer</dt>
+<dd><p>Run preview on the current buffer.
+<a name="IDX17"></a>
+<a name="IDX18"></a>
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-d</kbd></dt>
+<dt> <code>preview-document</code> </dt>
+<dt> Preview/Generate previews for document</dt>
+<dd><p>Run preview on the current document.
+<a name="IDX19"></a>
+<a name="IDX20"></a>
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-c C-p</kbd></dt>
+<dt> <code>preview-clearout-at-point</code></dt>
+<dt> Preview/Remove previews at point</dt>
+<dd><a name="IDX21"></a>
+<a name="IDX22"></a>
+<p>Clear out (remove) the previews that are immediately adjacent to point.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-c C-s</kbd></dt>
+<dt> <code>preview-clearout-section</code></dt>
+<dt> Preview/Remove previews from section</dt>
+<dd><a name="IDX23"></a>
+<a name="IDX24"></a>
+<p>Clear out all previews in current section.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-c C-r</kbd></dt>
+<dt> <code>preview-clearout</code></dt>
+<dt> Preview/Remove previews from region</dt>
+<dd><a name="IDX25"></a>
+<a name="IDX26"></a>
+<p>Clear out all previews in the current region.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-c C-b</kbd></dt>
+<dt> <code>preview-clearout-buffer</code></dt>
+<dt> Preview/Remove previews from buffer</dt>
+<dd><a name="IDX27"></a>
+<a name="IDX28"></a>
+<p>Clear out all previews in current buffer. This makes the current buffer
+lose all previews.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-c C-d</kbd></dt>
+<dt> <code>preview-clearout-document</code></dt>
+<dt> Preview/Remove previews from document</dt>
+<dd><a name="IDX29"></a>
+<a name="IDX30"></a>
+<p>Clear out all previews in current document.  The document consists of
+all buffers that have the same master file as the current buffer.  This
+makes the current document lose all previews.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-f</kbd></dt>
+<dt> <code>preview-cache-preamble</code></dt>
+<dt> Preview/Turn preamble cache on</dt>
+<dd><a name="IDX31"></a>
+<a name="IDX32"></a>
+<p>Dump a pregenerated format file.  For the rest of the session, this file
+is used when running on the same master file.  Use this if you know your
+LaTeX takes a long time to start up, the speedup will be most
+noticeable when generating single or few previews.  If you change your
+preamble, do this again.  preview-latex will try to detect the
+necessity of that automatically when editing changes to the preamble are
+done from within Emacs, but it will not notice if the preamble
+effectively changes because some included file or style file is
+tampered with.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-c C-f</kbd></dt>
+<dt> <code>preview-cache-preamble-off</code></dt>
+<dt> Preview/Turn preamble cache off</dt>
+<dd><a name="IDX33"></a>
+<a name="IDX34"></a>
+<p>Clear the pregenerated format file and stop using preambles for the
+current document. If the caching gives you problems, use this.
+</p>
+</dd>
+<dt> <kbd>C-c C-p C-i</kbd></dt>
+<dt> <code>preview-goto-info-page</code></dt>
+<dt> Preview/Read Documentation</dt>
+<dd><a name="IDX35"></a>
+<a name="IDX36"></a>
+<p>Read
+the
+info manual.
+</p>
+</dd>
+<dt> <kbd>M-x preview-report-bug <kbd>RET</kbd></kbd></dt>
+<dt> <code>preview-report-bug</code></dt>
+<dt> Preview/Report Bug</dt>
+<dd><a name="IDX37"></a>
+<a name="IDX38"></a>
+<a name="IDX39"></a>
+<p>This is the preferred way of reporting bugs as it will fill in what
+version of preview-latex you are using as well as versions of
+relevant other software, and also some of the more important
+settings. Please use this method of reporting, if at all possible and
+before reporting a bug, have a look at <a href="preview-latex_5.html#SEC12">Known problems</a>.
+</p>
+</dd>
+<dt> <kbd>C-c C-k</kbd></dt>
+<dt> LaTeX/TeX Output/Kill Job</dt>
+<dd><a name="IDX40"></a>
+<a name="IDX41"></a>
+<p>Kills the preview-generating process. This is really an AUCTeX
+keybinding, but it is included here as a hint. If you are generating
+a preview and then make a change to the buffer, preview-latex may be
+confused and place the previews wrong.
+</p></dd>
+</dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_2.html#SEC9" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_4.html#SEC11" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

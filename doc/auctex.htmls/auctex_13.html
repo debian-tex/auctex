@@ -1,0 +1,693 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>AUCTeX: 12. Writing Your own Style Support</title>
+
+<meta name="description" content="AUCTeX: 12. Writing Your own Style Support">
+<meta name="keywords" content="AUCTeX: 12. Writing Your own Style Support">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Style-Files"></a>
+<a name="SEC86"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="auctex_12.html#SEC85" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC87" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex_12.html#SEC82" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter"> 12. Writing Your own Style Support </h1>
+
+<p>See section <a href="auctex_12.html#SEC82">Automatic Customization</a>, for a discussion about automatically generated global,
+private, and local style files.  The hand generated style files are
+equivalent, except that they by default are found in <tt>`style'</tt>
+directories instead of <tt>`auto'</tt> directories.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#SEC87">12.1 A Simple Style File</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC88">12.2 Adding Support for Macros</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC89">12.3 Adding Support for Environments</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC90">12.4 Adding Other Information</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+<tr><td align="left" valign="top"><a href="#SEC91">12.5 Automatic Extraction of New Things</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top"></td></tr>
+</table>
+
+<p>If you write some useful support for a public TeX style file, please
+send it to us.
+</p>
+<hr size="6">
+<a name="Simple-Style"></a>
+<a name="SEC87"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC86" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC88" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 12.1 A Simple Style File </h2>
+
+<p>Here is a simple example of a style file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">;;; book.el - Special code for book style.
+
+(TeX-add-style-hook
+ &quot;book&quot;
+ (lambda () (setq LaTeX-largest-level
+		  (LaTeX-section-level (&quot;chapter&quot;)))))
+</pre></td></tr></table>
+<p>This file specifies that the largest kind of section in a LaTeX document
+using the book document style is chapter.  The interesting thing to
+notice is that the style file defines an (anonymous) function, and adds it
+to the list of loaded style hooks by calling <code>TeX-add-style-hook</code>.
+</p>
+<p>The first time the user indirectly tries to access some style specific
+information, such as the largest sectioning command available, the style
+hooks for all files directly or indirectly read by the current document
+is executed.  The actual files will only be evaluated once, but the
+hooks will be called for each buffer using the style file.
+</p>
+<dl>
+<dt><u>Function:</u> <b>TeX-add-style-hook</b><i> <var>style</var> <var>hook</var></i>
+<a name="IDX337"></a>
+</dt>
+<dd><p>Add <var>hook</var> to the list of functions to run when we use the TeX
+file <var>style</var>.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Adding-Macros"></a>
+<a name="SEC88"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC87" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC89" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 12.2 Adding Support for Macros </h2>
+
+<p>The most common thing to define in a style hook is new symbols (TeX
+macros).  Most likely along with a description of the arguments to the
+function, since the symbol itself can be defined automatically.
+</p>
+<p>Here are a few examples from <tt>`latex.el'</tt>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(TeX-add-style-hook
+ &quot;latex&quot;
+ (lambda ()
+   (TeX-add-symbols
+    '(&quot;arabic&quot; TeX-arg-counter)
+    '(&quot;label&quot; TeX-arg-define-label)
+    '(&quot;ref&quot; TeX-arg-label)
+    '(&quot;newcommand&quot; TeX-arg-define-macro [ &quot;Number of arguments&quot; ] t)
+    '(&quot;newtheorem&quot; TeX-arg-define-environment
+      [ TeX-arg-environment &quot;Numbered like&quot; ]
+      t [ TeX-arg-counter &quot;Within counter&quot; ]))))
+</pre></td></tr></table>
+<dl>
+<dt><u>Function:</u> <b>TeX-add-symbols</b><i> <var>symbol</var> &hellip;</i>
+<a name="IDX338"></a>
+</dt>
+<dd><p>Add each <var>symbol</var> to the list of known symbols.
+</p></dd></dl>
+
+<p>Each argument to <code>TeX-add-symbols</code> is a list describing one symbol.
+The head of the list is the name of the symbol, the remaining elements
+describe each argument.
+</p>
+<p>If there are no additional elements, the symbol will be inserted with
+point inside braces.  Otherwise, each argument of this function should
+match an argument of the TeX macro.  What is done depends on the argument
+type.
+</p>
+<p>If a macro is defined multiple times, AUCTeX will chose the one with
+the longest definition (i.e. the one with the most arguments).
+</p>
+<p>Thus, to overwrite
+</p><table><tr><td>&nbsp;</td><td><pre class="example">	'(&quot;tref&quot; 1) ; one argument
+</pre></td></tr></table><p>you can specify
+</p><table><tr><td>&nbsp;</td><td><pre class="example">	'(&quot;tref&quot; TeX-arg-label ignore) ; two arguments
+</pre></td></tr></table>
+<p><code>ignore</code> is a function that does not do anything, so when you
+insert a <samp>`tref'</samp> you will be prompted for a label and no more.
+</p>
+<dl compact="compact">
+<dt> <code>string</code></dt>
+<dd><p>Use the string as a prompt to prompt for the argument.
+</p>
+</dd>
+<dt> <code>number</code></dt>
+<dd><p>Insert that many braces, leave point inside the first.
+</p>
+</dd>
+<dt> <code>nil</code></dt>
+<dd><p>Insert empty braces.
+</p>
+</dd>
+<dt> <code>t</code></dt>
+<dd><p>Insert empty braces, leave point between the braces.
+</p>
+</dd>
+<dt> <code>other symbols</code></dt>
+<dd><p>Call the symbol as a function.  You can define your
+own hook, or use one of the predefined argument hooks.
+</p>
+</dd>
+<dt> <code>list</code></dt>
+<dd><p>If the car is a string, insert it as a prompt and the next
+element as initial input.  Otherwise, call the car of the list with
+the remaining elements as arguments.
+</p>
+</dd>
+<dt> <code>vector</code></dt>
+<dd><p>Optional argument.  If it has more than one element, parse it
+as a list, otherwise parse the only element as above.  Use square
+brackets instead of curly braces, and is not inserted on empty user
+input.
+</p></dd>
+</dl>
+
+<p>A lot of argument hooks have already been defined.  The first argument to
+all hooks is a flag indicating if it is an optional argument.  It is up
+to the hook to determine what to do with the remaining arguments, if
+any.  Typically the next argument is used to overwrite the default
+prompt.
+</p>
+<dl compact="compact">
+<dt> <code>TeX-arg-conditional</code>
+<a name="IDX339"></a>
+</dt>
+<dd><p>Implements if EXPR THEN ELSE.  If EXPR evaluates to true, parse THEN as an
+argument list, else parse ELSE as an argument list.
+</p>
+</dd>
+<dt> <code>TeX-arg-literal</code>
+<a name="IDX340"></a>
+</dt>
+<dd><p>Insert its arguments into the buffer.  Used for specifying extra syntax
+for a macro.
+</p>
+</dd>
+<dt> <code>TeX-arg-free</code>
+<a name="IDX341"></a>
+</dt>
+<dd><p>Parse its arguments but use no braces when they are inserted.
+</p>
+</dd>
+<dt> <code>TeX-arg-eval</code>
+<a name="IDX342"></a>
+</dt>
+<dd><p>Evaluate arguments and insert the result in the buffer.
+</p>
+</dd>
+<dt> <code>TeX-arg-label</code>
+<a name="IDX343"></a>
+</dt>
+<dd><p>Prompt for a label completing with known labels.
+</p>
+</dd>
+<dt> <code>TeX-arg-macro</code>
+<a name="IDX344"></a>
+</dt>
+<dd><p>Prompt for a TeX macro with completion.
+</p>
+</dd>
+<dt> <code>TeX-arg-environment</code>
+<a name="IDX345"></a>
+</dt>
+<dd><p>Prompt for a LaTeX environment with completion.
+</p>
+</dd>
+<dt> <code>TeX-arg-cite</code>
+<a name="IDX346"></a>
+</dt>
+<dd><p>Prompt for a BibTeX citation.
+</p>
+</dd>
+<dt> <code>TeX-arg-counter</code>
+<a name="IDX347"></a>
+</dt>
+<dd><p>Prompt for a LaTeX counter.
+</p>
+</dd>
+<dt> <code>TeX-arg-savebox</code>
+<a name="IDX348"></a>
+</dt>
+<dd><p>Prompt for a LaTeX savebox.
+</p>
+</dd>
+<dt> <code>TeX-arg-file</code>
+<a name="IDX349"></a>
+</dt>
+<dd><p>Prompt for a filename in the current directory, and use it without the
+extension.
+</p>
+</dd>
+<dt> <code>TeX-arg-input-file</code>
+<a name="IDX350"></a>
+</dt>
+<dd><p>Prompt for the name of an input file in TeX's search path, and use it
+without the extension.  Run the style hooks for the file.
+</p>
+</dd>
+<dt> <code>TeX-arg-define-label</code>
+<a name="IDX351"></a>
+</dt>
+<dd><p>Prompt for a label completing with known labels.  Add label to list of
+defined labels.
+</p>
+</dd>
+<dt> <code>TeX-arg-define-macro</code>
+<a name="IDX352"></a>
+</dt>
+<dd><p>Prompt for a TeX macro with completion.  Add macro to list of defined
+macros.
+</p>
+</dd>
+<dt> <code>TeX-arg-define-environment</code>
+<a name="IDX353"></a>
+</dt>
+<dd><p>Prompt for a LaTeX environment with completion.  Add environment to
+list of defined environments.
+</p>
+</dd>
+<dt> <code>TeX-arg-define-cite</code>
+<a name="IDX354"></a>
+</dt>
+<dd><p>Prompt for a BibTeX citation.
+</p>
+</dd>
+<dt> <code>TeX-arg-define-counter</code>
+<a name="IDX355"></a>
+</dt>
+<dd><p>Prompt for a LaTeX counter.
+</p>
+</dd>
+<dt> <code>TeX-arg-define-savebox</code>
+<a name="IDX356"></a>
+</dt>
+<dd><p>Prompt for a LaTeX savebox.
+</p>
+</dd>
+<dt> <code>TeX-arg-corner</code>
+<a name="IDX357"></a>
+</dt>
+<dd><p>Prompt for a LaTeX side or corner position with completion.
+</p>
+</dd>
+<dt> <code>TeX-arg-lr</code>
+<a name="IDX358"></a>
+</dt>
+<dd><p>Prompt for a LaTeX side with completion.
+</p>
+</dd>
+<dt> <code>TeX-arg-tb</code>
+<a name="IDX359"></a>
+</dt>
+<dd><p>Prompt for a LaTeX side with completion.
+</p>
+</dd>
+<dt> <code>TeX-arg-pagestyle</code>
+<a name="IDX360"></a>
+</dt>
+<dd><p>Prompt for a LaTeX pagestyle with completion.
+</p>
+</dd>
+<dt> <code>TeX-arg-verb</code>
+<a name="IDX361"></a>
+</dt>
+<dd><p>Prompt for delimiter and text.
+</p>
+</dd>
+<dt> <code>TeX-arg-pair</code>
+<a name="IDX362"></a>
+</dt>
+<dd><p>Insert a pair of numbers, use arguments for prompt. The numbers are
+surrounded by parentheses and separated with a comma.
+</p>
+</dd>
+<dt> <code>TeX-arg-size</code>
+<a name="IDX363"></a>
+</dt>
+<dd><p>Insert width and height as a pair.  No arguments.
+</p>
+</dd>
+<dt> <code>TeX-arg-coordinate</code>
+<a name="IDX364"></a>
+</dt>
+<dd><p>Insert x and y coordinates as a pair.  No arguments.
+</p></dd>
+</dl>
+
+<p>If you add new hooks, you can assume that point is placed directly after
+the previous argument, or after the macro name if this is the first
+argument.  Please leave point located after the argument you are
+inserting.  If you want point to be located somewhere else after all
+hooks have been processed, set the value of <code>exit-mark</code>.  It will
+point nowhere, until the argument hook sets it.
+</p>
+<hr size="6">
+<a name="Adding-Environments"></a>
+<a name="SEC89"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC88" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC90" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 12.3 Adding Support for Environments </h2>
+
+<p>Adding support for environments is very much like adding support for
+TeX macros, except that each environment normally only takes one
+argument, an environment hook.  The example is again a short version of
+<tt>`latex.el'</tt>.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(TeX-add-style-hook
+ &quot;latex&quot;
+ (lambda ()
+   (LaTeX-add-environments
+    '(&quot;document&quot; LaTeX-env-document)
+    '(&quot;enumerate&quot; LaTeX-env-item)
+    '(&quot;itemize&quot; LaTeX-env-item)
+    '(&quot;list&quot; LaTeX-env-list))))
+</pre></td></tr></table>
+<a name="IDX365"></a>
+<p>The only hook that is generally useful is <code>LaTeX-env-item</code>, which is
+used for environments that contain items.  It is completely up to the
+environment hook to insert the environment, but the function
+<code>LaTeX-insert-environment</code> may be of some help.  The hook will be
+called with the name of the environment as its first argument, and extra
+arguments can be provided by adding them to a list after the hook.
+</p>
+<p>For simple environments with arguments, for example defined with
+<samp>`\newenvironment'</samp>, you can make AUCTeX prompt for the arguments
+by giving the prompt strings in the call to
+<code>LaTeX-add-environments</code>.  For example, if you have defined a
+<code>loop</code> environment with the three arguments <var>from</var>, <var>to</var>,
+and <var>step</var>, you can add support for them in a style file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">%% loop.sty
+
+\newenvironment{loop}[3]{...}{...}
+</pre></td></tr></table>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">;; loop.el
+
+(TeX-add-style-hook
+ &quot;loop&quot;
+ (lambda ()
+   (LaTeX-add-environments
+    '(&quot;loop&quot; &quot;From&quot; &quot;To&quot; &quot;Step&quot;))))
+</pre></td></tr></table>
+<p>If an environment is defined multiple times, AUCTeX will chose the
+one with the longest definition.  Thus, if you have an enumerate style
+file, and want it to replace the standard LaTeX enumerate hook above,
+you could define an <tt>`enumerate.el'</tt> file as follows, and place it in
+the appropriate style directory.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">(TeX-add-style-hook
+ &quot;latex&quot;
+ (lambda ()
+   (LaTeX-add-environments
+    '(&quot;enumerate&quot; LaTeX-env-enumerate foo))))
+
+(defun LaTeX-env-enumerate (environment &amp;optional ignore) ...)
+</pre></td></tr></table>
+<p>The symbol <code>foo</code> will be passed to <code>LaTeX-env-enumerate</code> as
+the second argument, but since we only added it to overwrite the
+definition in <tt>`latex.el'</tt> it is just ignored.
+</p>
+<dl>
+<dt><u>Function:</u> <b>LaTeX-add-environments</b><i> <var>env</var> &hellip;</i>
+<a name="IDX366"></a>
+</dt>
+<dd><p>Add each <var>env</var> to list of loaded environments.
+</p></dd></dl>
+
+<dl>
+<dt><u>Function:</u> <b>LaTeX-insert-environment</b><i> <var>env</var> [ <var>extra</var> ]</i>
+<a name="IDX367"></a>
+</dt>
+<dd><p>Insert environment of type <var>env</var>, with optional argument <var>extra</var>.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Adding-Other"></a>
+<a name="SEC90"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC89" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC91" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 12.4 Adding Other Information </h2>
+
+<p>You can also specify bibliographical databases and labels in the style
+file.  This is probably of little use, since this information will
+usually be automatically generated from the TeX file anyway.
+</p>
+<dl>
+<dt><u>Function:</u> <b>LaTeX-add-bibliographies</b><i> <var>bibliography</var> &hellip;</i>
+<a name="IDX368"></a>
+</dt>
+<dd><p>Add each <var>bibliography</var> to list of loaded bibliographies.
+</p></dd></dl>
+
+<dl>
+<dt><u>Function:</u> <b>LaTeX-add-labels</b><i> <var>label</var> &hellip;</i>
+<a name="IDX369"></a>
+</dt>
+<dd><p>Add each <var>label</var> to the list of known labels.
+</p></dd></dl>
+
+<hr size="6">
+<a name="Hacking-the-Parser"></a>
+<a name="SEC91"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC90" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#SEC86" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section"> 12.5 Automatic Extraction of New Things </h2>
+
+<p>The automatic TeX information extractor works by searching for
+regular expressions in the TeX files, and storing the matched
+information.  You can add support for new constructs to the parser,
+something that is needed when you add new commands to define symbols.
+</p>
+<p>For example, in the file <tt>`macro.tex'</tt> I define the following macro.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">\newcommand{\newmacro}[5]{%
+\def#1{#3\index{#4@#5~cite{#4}}\nocite{#4}}%
+\def#2{#5\index{#4@#5~cite{#4}}\nocite{#4}}%
+}
+</pre></td></tr></table>
+<p>AUCTeX will automatically figure out that <samp>`newmacro'</samp> is a macro
+that takes five arguments.  However, it is not smart enough to
+automatically see that each time we use the macro, two new macros are
+defined.  We can specify this information in a style hook file.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="lisp">;;; macro.el --- Special code for my own macro file.
+
+;;; Code:
+
+(defvar TeX-newmacro-regexp
+  '(&quot;\\\\newmacro{\\\\\\([a-zA-Z]+\\)}{\\\\\\([a-zA-Z]+\\)}&quot;
+    (1 2) TeX-auto-multi)
+  &quot;Matches \newmacro definitions.&quot;)
+
+(defvar TeX-auto-multi nil
+  &quot;Temporary for parsing \\newmacro definitions.&quot;)
+
+(defun TeX-macro-cleanup ()
+  &quot;Move symbols from `TeX-auto-multi' to `TeX-auto-symbol'.&quot;
+  (mapcar (lambda (list)
+	    (mapcar (lambda (symbol)
+		      (setq TeX-auto-symbol
+			    (cons symbol TeX-auto-symbol)))
+		    list))
+	  TeX-auto-multi))
+
+(defun TeX-macro-prepare ()
+  &quot;Clear `Tex-auto-multi' before use.&quot;
+  (setq TeX-auto-multi nil))
+
+(add-hook 'TeX-auto-prepare-hook 'TeX-macro-prepare)
+(add-hook 'TeX-auto-cleanup-hook 'TeX-macro-cleanup)
+
+(TeX-add-style-hook
+ &quot;macro&quot;
+ (lambda ()
+   (TeX-auto-add-regexp TeX-newmacro-regexp)
+   (TeX-add-symbols '(&quot;newmacro&quot;
+		      TeX-arg-macro
+		      (TeX-arg-macro &quot;Capitalized macro: \\&quot;)
+		      t
+		      &quot;BibTeX entry: &quot;
+		      nil))))
+
+;;; macro.el ends here
+</pre></td></tr></table>
+<p>When this file is first loaded, it adds a new entry to
+<code>TeX-newmacro-regexp</code>, and defines a function to be called before
+the parsing starts, and one to be called after the parsing is done.  It
+also declares a variable to contain the data collected during parsing.
+Finally, it adds a style hook which describes the <samp>`newmacro'</samp> macro,
+as we have seen it before.
+</p>
+<p>So the general strategy is: Add a new entry to <code>TeX-newmacro-regexp</code>.
+Declare a variable to contain intermediate data during parsing.  Add hook
+to be called before and after parsing.  In this case, the hook before
+parsing just initializes the variable, and the hook after parsing
+collects the data from the variable, and adds them to the list of symbols
+found.
+</p>
+<dl>
+<dt><u>Variable:</u> <b>TeX-auto-regexp-list</b>
+<a name="IDX370"></a>
+</dt>
+<dd><p>List of regular expressions matching TeX macro definitions.
+</p>
+<p>The list has the following format ((REGEXP MATCH TABLE) &hellip;), that
+is, each entry is a list with three elements.
+</p>
+<p>REGEXP.  Regular expression matching the macro we want to parse.
+</p>
+<p>MATCH.  A number or list of numbers, each representing one
+parenthesized subexpression matched by REGEXP.
+</p>
+<p>TABLE.  The symbol table to store the data.  This can be a function, in
+which case the function is called with the argument MATCH.  Use
+<code>TeX-match-buffer</code> to get match data.  If it is not a function, it
+is presumed to be the name of a variable containing a list of match
+data.  The matched data (a string if MATCH is a number, a list of
+strings if MATCH is a list of numbers) is put in front of the table.
+</p></dd></dl>
+
+<dl>
+<dt><u>Variable:</u> <b>TeX-auto-prepare-hook</b><i> nil</i>
+<a name="IDX371"></a>
+</dt>
+<dd><p>List of functions to be called before parsing a TeX file.
+</p></dd></dl>
+
+<dl>
+<dt><u>Variable:</u> <b>TeX-auto-cleanup-hook</b><i> nil</i>
+<a name="IDX372"></a>
+</dt>
+<dd><p>List of functions to be called after parsing a TeX file.
+</p></dd></dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#SEC86" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="auctex_14.html#SEC92" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="auctex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="auctex_17.html#SEC117" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="auctex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

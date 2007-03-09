@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December, 21 1970 by texi2html 1.76 -->
+<!--
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people <dev@texi2html.cvshome.org>
+Send bugs and suggestions to <users@texi2html.cvshome.org>
+
+-->
+<head>
+<title>preview-latex: A. ToDo</title>
+
+<meta name="description" content="preview-latex: A. ToDo">
+<meta name="keywords" content="preview-latex: A. ToDo">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.76">
+<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="ToDo"></a>
+<a name="SEC26"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_6.html#SEC25" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_8.html#SEC27" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_8.html#SEC27" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="appendix"> A. ToDo </h1>
+
+
+<ul>
+<li> Support other formats than just LaTeX
+
+<p>plain TeX users and ConTeXt users should not have to feel left
+out.  While ConTeXt is not supported yet by released versions of
+AUCTeX, at least supporting plain would help people, and be a start
+for ConTeXt as well.  There are plain-based formats like MusiXTeX
+that could benefit a lot from preview-latex.  The main part of the
+difficulties here is to adapt <tt>`preview.dtx'</tt> to produce stuff not
+requiring LaTeX.
+</p>
+</li><li> Support nested snippets
+
+<p>Currently you can't have both a footnote (which gets displayed as just
+its footnote number) and math inside of a footnote rendered as an image:
+such nesting might be achieved by rerunning preview-latex on the
+footnote contents when one opens the footnote for editing.
+</p>
+</li><li> Support other text properties than just images
+
+<p>Macros like <samp>`\textit'</samp> can be rendered as images, but the resulting
+humungous blob is not suitable for editing, in particular since the
+line filling from LaTeX does not coincide with that of Emacs.  It would
+be much more useful if text properties just switched the relevant font
+to italics rather than replacing the whole text with an image.  It
+would also make editing quite easier.  Then there are things like
+footnotes that are currently just replaced by their footnote number.
+While editing is not a concern here (the number is not in the original
+text, anyway), it would save a lot of conversion time if no images were
+generated, but Emacs just displayed a properly fontified version of the
+footnote number.  Also, this might make preview-latex useful even on
+text terminals.
+</p>
+</li><li> Find a way to facilitate Source Specials
+
+<p>Probably in connection with adding appropriate support to
+<code>dvipng</code>, it would be nice if clicking on an image from a larger
+piece of source code would place the cursor at the respective source
+code location.
+</p>
+</li><li> Make <tt>`preview.dtx'</tt> look reasonable in AUCTeX
+
+<p>It is a bit embarrassing that <tt>`preview.dtx'</tt> is written in a manner
+that will not give either good syntax highlighting or good indentation
+when employing AUCTeX.
+</p>
+</li><li> Web page work
+
+<p>Currently, preview-latex's web page is not structured at all.  Better
+navigation would be desirable, as well as separate News and Errata eye
+catchers.
+</p>
+</li><li> Manual improvements
+
+<ul class="toc">
+<li>- Pepper the manual with screen shots and graphics
+
+<p>This will be of interest for the <acronym>HTML</acronym> and TeX renditions
+of the texinfo manual.  Since Texinfo now supports images as well, this
+could well be nice to have.
+</p>
+</li><li>- Fix duplicates
+
+<p>Various stuff appears several times.
+</p>
+</li></ul>
+
+</li><li> Implement rendering pipelines for Emacs
+
+<p>The current <tt>`gs.el'</tt> interface is fundamentally flawed, not only
+because of a broken implementation.  A general batchable and
+daemonizable rendering infrastructure that can work on all kinds of
+preview images for embedding into buffers is warranted.  The current
+implementation has a rather adhoc flavor and is not easily extended.
+It will not work outside of AUCTeX, either.
+</p>
+</li><li> Integrate into RefTeX
+
+<p>When referencing to equations and the like, the preview-images of the
+source rather than plain text should be displayed.  If the preview in
+question covers labels, those should appear in the bubble help and/or a
+context menu.  Apropos:
+</p>
+</li><li> Implement LaTeX error indicators
+
+<p>Previews on erroneous LaTeX passages might gain a red border or similar.
+</p>
+</li><li> Pop up relevant online documentation for frequent errors
+
+<p>A lot of errors are of the &quot;badly configured&quot; variety.  Perhaps the
+relevant info pages should be delivered in addition to the error
+message.
+</p>
+</li><li> Implement a table editing mode where every table cell gets output
+as a separate preview.  Alternatively, output the complete table
+metrics in a way that lets people click on individual cells for editing
+purposes.
+
+</li><li> Benchmark and kill Emacs inefficiencies
+
+<p>Both the LaTeX run under Emacs control as well as actual image
+insertion in Emacs could be faster.  CVS Emacs has improved in that
+respect, but it still is slower than desirable.
+</p>
+</li><li> Improve image support under Emacs
+
+<p>The general image and color handling in Emacs is inefficient and partly
+defective.  This is still the case in CVS.  One option would be to
+replace the whole color and image handling with <acronym>GDK</acronym> routines
+when this library is available, since it has been optimized for it.
+</p>
+</li></ul>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="preview-latex_6.html#SEC19" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_8.html#SEC27" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="preview-latex.html#SEC_Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_toc.html#SEC_Contents" title="Table of contents">Contents</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_10.html#SEC54" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="preview-latex_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>December, 21 1970</em> using <a href="http://texi2html.cvshome.org/"><em>texi2html 1.76</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
