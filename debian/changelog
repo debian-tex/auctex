@@ -1,3 +1,10 @@
+auctex (11.83-6) unstable; urgency=medium
+
+  * Rebuild with clean source.
+  * rules.in (build-package): Added dependency on the "clean" target.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 14 Mar 2007 00:43:56 +0100
+
 auctex (11.83-5) unstable; urgency=medium
 
   * po/de.po: Updated; thanks to Helge Kreutzmann and Frank Küster
