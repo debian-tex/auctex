@@ -1,3 +1,10 @@
+auctex (11.83-6~bpo.1) sarge-backports; urgency=low
+
+  * Rebuilt for sarge
+  * No source changes
+
+ -- Frank Küster <frank@debian.org>  Tue, 20 Mar 2007 09:04:48 +0100
+
 auctex (11.83-6) unstable; urgency=medium
 
   * Rebuild with clean source.
