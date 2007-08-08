@@ -1,0 +1,17 @@
+#include "variables"
+# <% lintian %> override file for <:=${PLSPKG}:>
+
+# We do check these.
+preview-latex-style binary: maintainer-script-does-not-check-for-existence-of-installdocs postinst
+preview-latex-style binary: maintainer-script-does-not-check-for-existence-of-installdocs prerm
+
+<:
+# arch-tag: 214ac567-768e-4dc4-980b-0e947c6da60b
+#
+# local variables:
+# mode: fundamental
+# coding: utf-8
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+:>//

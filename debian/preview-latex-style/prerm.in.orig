@@ -8,15 +8,14 @@
 set -o posix
 
 case "${1}" in
-    deconfigure|failed-upgrade|remove|upgrade) :;;
-    *) echo >&2 "${0##*/}/<:=${PLSPKG}:>:" \
-	"Unknown argument: \"${1}\"."
-	exit 1
-esac
-
-<:# deregister documentation with <% doc-base %> :>//
-case "${1}" in failed-upgrade|remove|upgrade)
+    (deconfigure|remove|upgrade|failed-upgrade)
+    <:# deregister documentation with <% doc-base %> :>//
     <:=${DREMOVE}:> <:=${PLSPKG}:>
+    ;;
+    (*) echo >&2 "${0##*/}/<:=${PLSPKG}:>:" \
+	"Unknown argument: \"${1}\"."
+    exit 1
+    ;;
 esac
 
 exit 0

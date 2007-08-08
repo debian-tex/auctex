@@ -2,7 +2,7 @@
 #
 # rules for auctex
 #
-# Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06
+# Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07
 # by Davide G. M. Salvetti.
 #
 # This program is free software; you can redistribute it and/or modify it
@@ -56,6 +56,7 @@ debian/preview-latex-style/README \
 debian/preview-latex-style/postinst \
 debian/preview-latex-style/prerm debian/preview-latex-style/postrm \
 debian/preview-latex-style/docbase \
+debian/preview-latex-style/lintian \
 debian/preview-latex-style/bug.presubj
 
 DCSOURCES := $(shell cat debian/po/POTFILES.in \
@@ -97,8 +98,8 @@ build: $(DFILES) debian/po/templates.pot
 	./configure \
 		--prefix=/usr/ \
 		--infodir=/usr/share/info/ \
-		--with-emacs=$$(test -x /usr/bin/emacs-snapshot \
-			&& echo emacs-snapshot || echo emacs21 )
+		--with-emacs=$$(type emacs-snapshot &>/dev/null \
+			&& echo emacs-snapshot || echo emacs)
 	cd doc && $(MAKE) all
 	cd doc && $(MAKE) auctex.htmls/auctex.html
 	cd doc && $(MAKE) preview-latex.htmls/preview-latex.html
@@ -109,7 +110,7 @@ build: $(DFILES) debian/po/templates.pot
 clean: debian/po/templates.pot
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
-	-$(MAKE) distclean
+	test ! -f Makefile || $(MAKE) distclean
 	-rm -f $(DFILES)
 	$(fixperms)
 
@@ -179,9 +180,12 @@ binary-indep-auctex: build
 	gzip -9frv $(auctex)//usr/share/man/
 
 	$(INSTDIR) $(auctex)//etc/emacs21/site-start.d/ \
+		$(auctex)//etc/emacs22/site-start.d/ \
 		$(auctex)//etc/emacs-snapshot/site-start.d/
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs21/site-start.d/50auctex.el
+	$(INSTDATA) debian/auctex/lisp-startup.el \
+		$(auctex)//etc/emacs22/site-start.d/50auctex.el
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs-snapshot/site-start.d/50auctex.el
 	$(INSTDIR) $(auctex)//etc/cron.weekly/
@@ -258,6 +262,9 @@ binary-indep-pls: build
 	$(INSTDIR) $(pls)//usr/share/bug/preview-latex-style/
 	$(INSTDATA) debian/preview-latex-style/bug.presubj \
 		$(pls)//usr/share/bug/preview-latex-style//presubj
+	$(INSTDIR) $(pls)//usr/share/lintian/overrides/
+	$(INSTDATA) debian/preview-latex-style/lintian \
+		$(pls)//usr/share/lintian/overrides//preview-latex-style
 
 	$(INSTDIR) $(pls)//DEBIAN/
 	$(INSTSCRIPT) debian/preview-latex-style/{postinst,prerm,postrm} \
@@ -278,7 +285,7 @@ binary-arch: build
 	$(checkroot)
 
 .PHONY: build-package
-build-package:
+build-package: clean
 	dpkg-buildpackage -rfakeroot -tc -i
 
 .PHONY: source diff

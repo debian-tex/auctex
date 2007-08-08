@@ -35,15 +35,13 @@ undo_auto () {
 }
 
 case "${FLAVOR}" in
-    (emacs) : ;;
-    (emacs21|emacs-snapshot)
-    <:# remove all parsed information files :>//
-    undo_auto
-    undo_install
-    ;;
-    (*) echo >&2 "remove/<:=${PACKAGE}:>:" \
+    emacs) :;;
+    emacs2[12]|emacs-snapshot)
+	<:# remove all parsed information files :>//
+	undo_auto
+	undo_install;;
+    *) echo >&2 "remove/<:=${PACKAGE}:>:" \
 	"Ignoring emacsen flavor: \"${FLAVOR}\"."
-    ;;
 esac
 
 exit 0

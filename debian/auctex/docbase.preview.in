@@ -9,9 +9,6 @@ Abstract: preview-latex is a package embedding preview fragments into Emacs
  exist.
 Section: <:=${MENUSEC}:>
 
-Format: texinfo
-Files: <:=if($_="${docsrc}/*.texi.gz")=~tr|/|/|s:>
-
 Format: info
 Index: <:=if($_="${info}/preview-latex.info.gz")=~tr|/|/|s:>
 Files: <:=if($_="${info}/preview-latex.info*")=~tr|/|/|s:>

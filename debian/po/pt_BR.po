@@ -1,22 +1,23 @@
 # Brazilian Portuguese translations of the "debian/auctex/templates" file
 # of the auctex Debian package.
 #
-# Copyright (C) 2002, 03, 04, 05, 06 Davide G. M. Salvetti
+# Copyright (C) 2002, 03, 04, 05, 06, 07 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
 # Paulo R. Ormenese <pormenese@uol.com.br>, 2002
+# André Luís Lopes <andrelop@debian.org>, 2007
 #
 # arch-tag: 07ed1bd4-5aa8-4122-80a8-2b1b9fcc6ef2
 msgid ""
-msgstr ""
-"Project-Id-Version: auctex 11.81-1\n"
+msgstr "pt_BR utf8\n"
+"Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: salve@debian.org\n"
 "POT-Creation-Date: 2006-12-08 16:38+0100\n"
-"PO-Revision-Date: 2006-10-16 19:03+0200\n"
-"Last-Translator: \"Paulo R. Ormenese\" <pormenese@uol.com.br>\n"
-"Language-Team: Brazilian Portuguese <pt_br@li.org>\n"
+"PO-Revision-Date: 2007-08-04 15:15+0200\n"
+"Last-Translator: André Luís Lopes <dndrelop@debian.org>\n"
+"Language-Team: Debian-BR Project <debian-l10n-portuguese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,16 +25,14 @@ msgstr ""
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
-#, fuzzy
 msgid "Background"
-msgstr "Background"
+msgstr "Segundo plano"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
-#, fuzzy
 msgid "Foreground"
-msgstr "Foreground"
+msgstr "Primeiro plano"
 
 #. Type: select
 #. Choices
@@ -44,9 +43,8 @@ msgstr "Nenhum"
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
-#, fuzzy
 msgid "(La)TeX macros parsing mode:"
-msgstr "Como macros (La)TeX devem ser interpretados?"
+msgstr "Modo de interpretação de macros (La)TeX:"
 
 #. Type: select
 #. Description
@@ -62,7 +60,6 @@ msgstr ""
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
-#, fuzzy
 msgid ""
 "This may take a lot of time, so it should be probably done in the "
 "background; however you may also choose to have it done in the foreground, "
@@ -70,9 +67,10 @@ msgid ""
 "find a detailed log of the process in the file: ${LOGFILE}."
 msgstr ""
 "Isso pode consumir um bom tempo, então pode ser feito provavelmente em "
-"background; entretanto, você pode optar por ter isso feito em foreground, ou "
-"ao invés disso pular o processo de interpretação.  Se você escolher "
-"Background, encontrará um log detalhado do processo no arquivo: ${LOGFILE}."
+"segundo plano; entretanto, você pode optar por ter isso feito em "
+"primeiro plano, ou ao invés disso pular o processo de interpretação. "
+"Caso você optar por fazer a interpretação em segundo plano, encontrará "
+"um log detalhado do processo no arquivo: ${LOGFILE}."
 
 #. Type: select
 #. Description
@@ -97,7 +95,6 @@ msgstr ""
 #. Type: select
 #. Choices
 #: ../auctex/templates:2001
-#, fuzzy
 msgid "Console"
 msgstr "Console"
 
@@ -111,19 +108,18 @@ msgstr "Arquivo"
 #. Description
 #: ../auctex/templates:2002
 msgid "Parsing output destination:"
-msgstr ""
+msgstr "Destino da saída do processo de interpretação:"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:2002
-#, fuzzy
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This is OK, but normally it will also generate quite a lot of output."
 msgstr ""
-"Você escolheu interpretar pacotes de macros TeX e arquivos de estilo LaTeX "
-"em foreground.  Isto está bem, mas normalmente isso também gerará bastante "
-"saída."
+"Você optou por interpretar pacotes de macros TeX e arquivos de estilo "
+"LaTeX em primero plano. Não há problemas em relação a isso, mas "
+"normalmente esse processo também irá gerar bastante saída."
 
 #. Type: select
 #. Description
@@ -139,13 +135,12 @@ msgstr ""
 #. Type: select
 #. Description
 #: ../auctex/templates:2002
-#, fuzzy
 msgid ""
 "If you answer Console, you will see all of the (boring) output right on your "
 "terminal."
 msgstr ""
-"Se você responder Console, verá toda a saída (cansativa) direto em seu "
-"terminal."
+"Caso você optar por Console, verá toda a saída (cansativa) direto em "
+"seu terminal."
 
 #~ msgid "Where should parsing output go?"
 #~ msgstr "Onde deve ir a saída da interpretação?"

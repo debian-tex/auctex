@@ -20,7 +20,7 @@ INSTALL="install -o root -g root -m 644"
 INSTDIR="${INSTALL} -m 755 -d"
 
 do_install () {
-    echo >&2 -n "install/<:=${PACKAGE}:>: Setting up for ${FLAVOR} " \
+    echo >&2 -n "install/<:=${PACKAGE}:>: Setting up for ${FLAVOR}" \
     "(log file: <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>)... "
     cd <:=${lisp}:>; umask 0022;
     <:# ensure that "configure" is up-to-date WRT "configure.ac" and
@@ -30,6 +30,7 @@ do_install () {
     touch --reference configure --date "-1 second" preview/configure.ac
     ${INSTDIR} <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
     ./configure --disable-build-dir-test GS=gs \
+	LATEX=/bin/true PDFLATEX=/bin/true TEX=/bin/true \
 	--prefix=<:$_=${usr}; s|/+|/|g; print:> \
 	--with-emacs=${FLAVOR} \
 	--with-lispdir=<:$_=${lisp}; s|/+${PACKAGE}/*|/|;
@@ -50,8 +51,8 @@ do_install () {
     popd >> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     make maintainer-clean \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
-    find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> \
-	-type f -name \*.el -print0 | xargs --null rm -f ,dummy, \
+    find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> -type f -name \*.el \
+	-print0 | xargs --null rm -f ,dummy, \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     gzip -9fq <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>
     echo >&2 "done."
@@ -102,16 +103,15 @@ do_clean_old_cruft () {
 }
 
 case "${FLAVOR}" in
-    (emacs) : ;;
-    (emacs21|emacs-snapshot)
-    <:# clean old cruft :>//
-    do_clean_old_cruft ${FLAVOR}
-    do_install ${FLAVOR}
-    <:# parse TeX macros and LaTeX styles :>//
-    do_auto ${FLAVOR} ;;
-    (*) echo >&2 "install/<:=${PACKAGE}:>:" \
+    emacs) :;;
+    emacs2[12]|emacs-snapshot)
+	<:# clean old cruft :>//
+	do_clean_old_cruft ${FLAVOR}
+	do_install ${FLAVOR}
+	<:# parse TeX macros and LaTeX styles :>//
+	do_auto ${FLAVOR};;
+    *) echo >&2 "install/<:=${PACKAGE}:>:" \
 	"Ignoring emacsen flavor: \"${FLAVOR}\"."
-    ;;
 esac
 
 exit 0

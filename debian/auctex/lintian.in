@@ -15,6 +15,10 @@ auctex binary: debconf-is-not-a-registry .<:$_
 auctex binary: debconf-is-not-a-registry .<:$_
        ="${sbin}/${UPDATE_INSTALL}"; s|/+|/|g; print:>
 
+# We do check these.
+auctex binary: maintainer-script-does-not-check-for-existence-of-installdocs postinst
+auctex binary: maintainer-script-does-not-check-for-existence-of-installdocs prerm
+
 <:
 # arch-tag: e4349b16-3bb5-44eb-bcd2-240031be2444
 #

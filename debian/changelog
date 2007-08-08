@@ -1,3 +1,64 @@
+auctex (11.83-7) unstable; urgency=medium
+
+  * copyright.in, COPYRIGHT, variables: Update copyright.
+  * config.in, install.in, postinst.in, postrm.in, preinst.in, prerm.in,
+    remove.in: Linting.
+  * control (Build-Depends-Indep, Depends), install.in, remove.in,
+    rules.in, auctex/bug.script.in (FLAVORS), auctex/conffiles.in,
+    auctex/update-auctex-elisp.in, auctex/update-auctex-install.in: Added
+    "emacs22".  (Closes: #425148, #426339, #432206, #432215)
+  * postinst.in, postrm.in, prerm.in: Check script arguments before calling
+    actions.
+  * variables (DINSTALL, DREMOVE): Check for "install-docs" in "${PATH}"
+    rather than by absolute location.
+
+  * control (Build-Depends-Indep):  Dropped "tetex-bin".
+    (auctex/Recommends): Dropped "tetex-base".
+    (preview-latex-style/Depends): Dropped "tetex-bin".
+    (Build-Depends-Indep): Replaced "texlive-base" (which should have been
+    "texlive-base-bin") by "texlive-latex-base", which depends on
+    "texlive-base-bin" through "texlive-base" because LaTeX is needed by
+    "preview" at build time to build its documentation, and checked for by
+    "preview/configure".
+    (auctex/Recommends): Replaced "xpdf" by "xpdf-reader", since it is the
+    reader which is intended to be recommended.
+    (auctex/Depends, auctex/Recommends): Move "gs-gpl | gs" from "Depends"
+    to "Recommends", as it is not necessary at installation time and it is
+    only needed by "preview".
+    (preview-latex-style/Recommends): Added missing "doc-base"; note that
+    since "auctex" depends on "preview-latex-style"), "doc-base" could be
+    safely removed from "auctex/Recommends"; however, there's no harm
+    duplicating it there, for the sake of clearness.
+    (preview-latex-style/Depends): Replaced "texlive-base" by
+    "tex-common", following Debian TeX policy implementation to check if
+    "mktexlsr" has to be run.
+    (Build-Depends-Indep): Removed "ed", which is no more necessary.
+    (auctex/Depends): Removed "debianutils (>= 1.7)", which is no more
+    necessary (see #198778).
+  * auctex/install.in (do_install): Pass "LATEX=/bin/true",
+    "PDFLATEX=/bin/true", and "TEX=/bin/true" to configure, in order to
+    skip the associated program-in-path test.  This avoids an unnecessary
+    dependency on "texlive-latex-base".  (Closes: #408227, #428908)
+
+  * install.in (do_install): Remove an extra space character in the
+    'setting-up' message.
+
+  * po/pt_BR.po: Updated; thanks to André Luís Lopes.  (Closes: #421529)
+  * po/ru.po: New file; thanks to Yuri Kozlov.  (Closes: #434238)
+
+  * auctex/docbase.auctex.in, auctex/docbase.preview.in: Remove
+    unsupported format "texinfo".
+
+  * auctex/lintian.in, preview-latex-style/lintian.in: We do check for
+    "installdocs" existence.
+  * rules.in (DFILES, binary-indep-pls): Add "lintian" overrides for
+    "preview-latex-style".
+
+  * rules.in (clean): Test for "Makefile" existence before calling "make
+    distclean".
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 08 Aug 2007 13:10:11 +0200
+
 auctex (11.83-6) unstable; urgency=medium
 
   * Rebuild with clean source.
@@ -1060,8 +1121,9 @@ comment (0) UNRELEASED; urgency=low
   * LocalWords:  debianutils nop symlink mktemp elc usr Helmut Geyer xemacs bo
   * LocalWords:  lacheck teTeX auctex debian refactored Barbier texmfdoc DVI
   * LocalWords:  presubj Kreutzmann Tarrio Capello AUCTEXSRCS PREVIEWSRCS Zandt
-  * LocalWords:  Mennucci backend alist Stubner Shimono Atsushi Zweije Kure
-  * LocalWords:  Miroslav NMU Pryzby Kastrup Petruzzello
+  * LocalWords:  Mennucci backend alist Stubner Shimono Atsushi Zweije Kure dev
+  * LocalWords:  Miroslav NMU Pryzby Kastrup Petruzzello xpdf PDFLATEX André
+  * LocalWords:  Luís Kozlov Huriaux stdin pdf
     
   * arch-tag: 3b0f7922-dfa2-4938-9f0e-1492f3528a80
 

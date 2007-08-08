@@ -36,9 +36,6 @@ Abstract: AUCTeX is a comprehensive customizable integrated environment for
  is distributed under the `GNU General Public License Version 2'.
 Section: <:=${MENUSEC}:>
 
-Format: texinfo
-Files: <:=if($_="${docsrc}/*.texi.gz")=~tr|/|/|s:>
-
 Format: info
 Index: <:=if($_="${info}/${PACKAGE}.info.gz")=~tr|/|/|s:>
 Files: <:=if($_="${info}/${PACKAGE}.info*")=~tr|/|/|s:>

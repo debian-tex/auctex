@@ -1,0 +1,33 @@
+#include "variables"
+#! /bin/bash -e
+#
+# <% postinst %> script for <:=${PLSPKG}:>
+#
+<:=@COPYRIGHT:>//
+
+set -o posix
+
+case "${1}" in
+    (abort-deconfigure|abort-remove|abort-upgrade|configure)
+    <:# register documentation with <% doc-base %> :>//
+    <:=${DINSTALL}:> <:=if($_="${docbase}/${PLSPKG}")=~tr|/|/|s:>
+    <:# rebuild the <% TeX ls-R %> database :>
+    <:=${MKTEXLSR}:>
+    ;;
+    (*) echo >&2 "${0##*/}/<:=${PLSPKG}:>:" \
+	"Unknown argument: \"${1}\"."
+    exit 1
+    ;;
+esac
+
+exit 0
+<:
+# arch-tag: 3b9edfc5-752f-46b3-a095-3346d42ba686
+#
+# local variables:
+# mode: shell-script
+# coding: utf-8
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+:>//

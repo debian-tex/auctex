@@ -34,6 +34,8 @@
 *** TODO #172237
 *** TODO #276102
 *** TODO #290635
+*** DONE #341213
+    This bug can be closed, it does not apply to current AUCTeX.
 
 ** Non bugs
    These are not bugs, even if they might look like as if they were such.
@@ -53,6 +55,10 @@
 
 
 * Miscellaneous stuff
+
+** DONE Update copyright
+
+** DONE Remove teTeX dependencies
 
 ** TODO Add some lintian override.
    auctex: extra-license-file usr/share/doc/auctex/src/copying.texi.gz

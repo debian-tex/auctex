@@ -29,22 +29,29 @@ done
 #---E-N-D---O-L-D---S-T-U-F-F--------------------------------------------------
 
 case "${1}" in
-    (abort-deconfigure|abort-remove|abort-upgrade|configure)
-    <:# emacs install :>//
-    <:=${EINSTALL}:> <:=${PACKAGE}:>
-    <:# register documentation with <% doc-base %> :>//
-    <:=${DINSTALL}:> <:=if($_="${docbase}/auctex")=~tr|/|/|s:>
-    <:=${DINSTALL}:> <:=if($_="${docbase}/preview-latex")=~tr|/|/|s:>
-    <:# install <% info %> menu into <% info %> directory :>//
-    <:=IINSTALL (undef, ${AUCTEX_INFOMENU}, ${AUCTEX_INFODESC}):> \
-	<:="${info}/auctex.info.gz":>
-    <:=IINSTALL (undef, ${PREVIEW_INFOMENU}, ${PREVIEW_INFODESC}):> \
-	<:="${info}/preview-latex.info.gz":>
-    ;;
-    (*) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
+    abort-deconfigure|abort-remove|abort-upgrade|configure) :;;
+    *) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
 	"Unknown argument: \"${1}\"."
-    exit 1
-    ;;
+	exit 1
+esac
+
+<:# install <% info %> menu into <% info %> directory :>//
+case "${1}" in abort-remove|abort-upgrade|configure)
+	<:=IINSTALL (undef, ${AUCTEX_INFOMENU}, ${AUCTEX_INFODESC}):> \
+	    <:="${info}/auctex.info.gz":>
+	<:=IINSTALL (undef, ${PREVIEW_INFOMENU}, ${PREVIEW_INFODESC}):> \
+	    <:="${info}/preview-latex.info.gz":>
+esac
+
+<:# register documentation with <% doc-base %> :>//
+case "${1}" in abort-remove|abort-upgrade|configure)
+	<:=${DINSTALL}:> <:=if($_="${docbase}/auctex")=~tr|/|/|s:>
+	<:=${DINSTALL}:> <:=if($_="${docbase}/preview-latex")=~tr|/|/|s:>
+esac
+
+<:# Emacs install :>//
+case "${1}" in abort-deconfigure|abort-remove|abort-upgrade|configure)
+    <:=${EINSTALL}:> <:=${PACKAGE}:>
 esac
 
 exit 0
