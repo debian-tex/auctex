@@ -1,3 +1,28 @@
+auctex (11.83-7.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues
+  * Debconf templates and debian/control reviewed by the debian-l10n-
+    english team as part of the Smith review project. Closes: #452493
+  * [Debconf translation updates]
+    - Basque. Closes: #453281
+    - Galician. Closes: #453325
+    - Vietnamese. Closes: #453379
+    - Finnish. Closes: #453642
+    - German. Closes: #454509
+    - Czech. Closes: #455237
+    - German. Closes: #454509
+    - Russian. Closes: #455963
+    - French. Closes: #456160
+    - Portuguese. Closes: #456359
+    - Spanish. Closes: #473577
+  * Move eperl to Build-Depends as it is required in the clean target
+  * [Lintian] Build-Depends-Indep on texi2html >=1.76 instead of useless
+    1.76-1
+  * [Lintian] Change doc-base section to "Editors"
+  * [Lintian] Do not Build-Depend on -1 revision for texi2html
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 31 Mar 2008 17:56:23 +0200
+
 auctex (11.83-7) unstable; urgency=medium
 
   * copyright.in, COPYRIGHT, variables: Update copyright.

@@ -12,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.81-1\n"
-"Report-Msgid-Bugs-To: salve@debian.org\n"
-"POT-Creation-Date: 2006-12-08 16:38+0100\n"
+"Report-Msgid-Bugs-To: Source: auctex@packages.debian.org\n"
+"POT-Creation-Date: 2007-11-28 06:15+0000\n"
 "PO-Revision-Date: 2006-10-16 19:02+0200\n"
 "Last-Translator: Davide G. M. Salvetti <salve@debian.org>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -23,34 +23,38 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex/templates:2001
 msgid "Background"
 msgstr "Sottofondo"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex/templates:2001
 msgid "Foreground"
 msgstr "Primo piano"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex/templates:2001
 msgid "None"
 msgstr "Nessuno"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex/templates:2002
 msgid "(La)TeX macros parsing mode:"
 msgstr "Modalità di scansione delle macro per (La)TeX:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex/templates:2002
+#, fuzzy
+#| msgid ""
+#| "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
+#| "style file currently installed at your site will be parsed."
 msgid ""
-"To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
-"style file currently installed at your site will be parsed."
+"To improve the performance of AUCTeX, every currently installed TeX macro "
+"package and LaTeX style file will be parsed."
 msgstr ""
 "Per migliorare grandemente le proprie prestazioni, AUCTeX scandirà tutti i "
 "pacchetti di macro per TeX ed i file di stile per LaTeX attualmente "
@@ -58,12 +62,20 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:2002
+#, fuzzy
+#| msgid ""
+#| "This may take a lot of time, so it should be probably done in the "
+#| "background; however you may also choose to have it done in the "
+#| "foreground, or to skip the parsing at all instead.  If you choose "
+#| "Background, you will find a detailed log of the process in the file: "
+#| "${LOGFILE}."
 msgid ""
-"This may take a lot of time, so it should be probably done in the "
-"background; however you may also choose to have it done in the foreground, "
-"or to skip the parsing at all instead.  If you choose Background, you will "
-"find a detailed log of the process in the file: ${LOGFILE}."
+"This may take a lot of time, so it should probably be done in the "
+"background. You may also choose to have it done in the foreground, or to "
+"skip that step. If you choose 'Background', you will find a detailed log of "
+"the process in ${LOGFILE}."
 msgstr ""
 "Questa operazione potrebbe richiedere molto tempo ed è quindi probabilmente "
 "preferibile eseguirla in sottofondo; tuttavia, si può anche scegliere di "
@@ -73,11 +85,16 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex/templates:2002
+#, fuzzy
+#| msgid ""
+#| "A weekly cron job will also take care of updating the data collected now, "
+#| "so usually you won't need to worry about them whenever you install new "
+#| "(La)TeX packages or remove old ones."
 msgid ""
-"A weekly cron job will also take care of updating the data collected now, so "
-"usually you won't need to worry about them whenever you install new (La)TeX "
-"packages or remove old ones."
+"A weekly cron job will also take care of updating the cached data, so that "
+"no specific action is required whenever you install new (La)TeX packages or "
+"remove old ones."
 msgstr ""
 "Le informazioni raccolte adesso saranno aggiornate settimanalmente per mezzo "
 "del demone cron, di modo che normalmente non sarà necessario preoccuparsene "
@@ -86,36 +103,46 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
-msgid "Anyway, you can update them by hand running update-auctex-elisp."
+#: ../auctex/templates:2002
+#, fuzzy
+#| msgid "Anyway, you can update them by hand running update-auctex-elisp."
+msgid ""
+"This update can be run manually at any moment by running 'update-auctex-"
+"elisp'."
 msgstr ""
 "In ogni caso, le informazioni si possono sempre aggiornare a mano lanciando "
 "update-auctex-elisp."
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex/templates:3001
 msgid "Console"
 msgstr "Video"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex/templates:3001
 msgid "File"
 msgstr "File"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex/templates:3002
 msgid "Parsing output destination:"
 msgstr "Destinazione dei messaggi della scansione:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex/templates:3002
+#, fuzzy
+#| msgid ""
+#| "You chose to parse TeX macro packages and LaTeX style files in "
+#| "foreground. This is OK, but normally it will also generate quite a lot of "
+#| "output."
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This is OK, but normally it will also generate quite a lot of output."
+"This operation generates a lot of information. Please choose where this "
+"information should be sent:"
 msgstr ""
 "I pacchetti di macro per TeX ed i file di stile per LaTeX saranno scanditi "
 "in primo piano come è stato richiesto.  Questo va bene, ma di solito produce "
@@ -123,24 +150,27 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:3002
 msgid ""
-"By default -- i.e., answering File to this question -- further output from "
-"the parsing process will go to a file named: ${LOGFILE}."
+" File:    output goes to ${LOGFILE};\n"
+" Console: output goes to the current console."
 msgstr ""
-"In mancanza di scelte contrarie, cioè rispondendo File a questa domanda, i "
-"messaggi originati dalla scansione verranno scritti in un file di nome "
-"${LOGFILE}."
 
-#. Type: select
-#. Description
-#: ../auctex/templates:2002
-msgid ""
-"If you answer Console, you will see all of the (boring) output right on your "
-"terminal."
-msgstr ""
-"Rispondendo Video, i (noiosi) messaggi verranno visualizzati direttamente "
-"sul proprio terminale."
+#~ msgid ""
+#~ "By default -- i.e., answering File to this question -- further output "
+#~ "from the parsing process will go to a file named: ${LOGFILE}."
+#~ msgstr ""
+#~ "In mancanza di scelte contrarie, cioè rispondendo File a questa domanda, "
+#~ "i messaggi originati dalla scansione verranno scritti in un file di nome "
+#~ "${LOGFILE}."
+
+#~ msgid ""
+#~ "If you answer Console, you will see all of the (boring) output right on "
+#~ "your terminal."
+#~ msgstr ""
+#~ "Rispondendo Video, i (noiosi) messaggi verranno visualizzati direttamente "
+#~ "sul proprio terminale."
 
 #~ msgid "The autoload mechanism of AUCTeX has changed"
 #~ msgstr "Il meccanismo di caricamento automatico di AUCTeX è cambiato"

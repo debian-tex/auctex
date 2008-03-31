@@ -10,7 +10,7 @@
 <:$UPDATE_ELISP="update-auctex-elisp":>//
 <:$UPDATE_INSTALL="update-auctex-install":>//
 <:$TMPMASK="/tmp/update-auctex-elisp.XXXXXXX":>//
-<:$MENUSEC="Apps/Editors":>//
+<:$MENUSEC="Editors":>//
 <:$INFOSEC="Document Preparation":>//
 <:$AUCTEX_INFOMENU="AUCTeX":>//
 <:$AUCTEX_INFODESC="An integrated environment for editing LaTeX, ConTeXt,"
