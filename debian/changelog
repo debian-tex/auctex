@@ -1,3 +1,13 @@
+auctex (11.83-7.2) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues
+  * Debconf translations:
+    - Swedish. Closes: #487370
+    - Japanese. Closes: #494055
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 08 Sep 2008 07:04:49 +0200
+
 auctex (11.83-7.1) unstable; urgency=low
 
   * Non-maintainer upload to fix pending l10n issues
