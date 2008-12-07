@@ -1,3 +1,14 @@
+auctex (11.83-7.3) unstable; urgency=high
+
+  * Non-maintainer upload
+    - High priority since it fixes a security flaw
+  * Create installation/update log file in /var/log rather than /tmp.
+    Closes: #506961
+  * Replace build-dependency and recommendation of obsolete packages
+    gs|gs-gpl with ghostscript
+
+ -- Ben Hutchings <ben@decadent.org.uk>  Sun, 07 Dec 2008 14:54:46 +0000
+
 auctex (11.83-7.2) unstable; urgency=low
 
   * Non-maintainer upload.
