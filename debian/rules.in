@@ -80,6 +80,24 @@ debian/po/templates.pot: $(DCSOURCES)
 %.dcobj: % debian/po/templates.pot
 	po2debconf --verbose --podir debian/po $< > $@
 
+<:# rm -f ~/.debconf.d/* && debian/rules debconf-test :>//
+.PHONY: debconf-test
+debconf-test: debian/<:=${PACKAGE}:>/templates.dcobj \
+		debian/<:=${PACKAGE}:>/config
+	debconf-loadtemplate <:=${PACKAGE}:> \
+		debian/<:=${PACKAGE}:>/templates.dcobj
+	DEBCONF_DEBUG=developer debconf --owner=<:=${PACKAGE}:> \
+		--frontend=dialog --priority=low \
+		$(SHELL) -e debian/<:=${PACKAGE}:>/config configure
+
+.PHONY: debconf-ask-for-translations
+debconf-ask-for-translations: debian/<:=${PACKAGE}:>/templates.dcobj
+	podebconf-report-po --verbose --gzip \
+		 --call --withtranslators --languageteam \
+		--package=<:=${PACKAGE}:> --deadline='+7days' \
+		--from='"Davide G. M. Salvetti (Debian <:=${PACKAGE}:> maintainer)" <salve@debian.org>' \
+		--postpone=../+RFT.mbox
+
 build: $(DFILES) debian/po/templates.pot
 	$(checkdir)
 	./configure \
@@ -174,6 +192,7 @@ binary-indep-auctex: build
 <:# install Debian system files :>//
 	$(INSTDIR) $(auctex)/<:$_=${sstartd}; s|emacs|emacs21|; print:> \
 		$(auctex)/<:$_=${sstartd}; s|emacs|emacs22|; print:> \
+		$(auctex)/<:$_=${sstartd}; s|emacs|emacs23|; print:> \
 		$(auctex)/<:$_=${sstartd}; s|emacs|emacs-snapshot|; print:>
 	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
 		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
@@ -181,6 +200,9 @@ binary-indep-auctex: build
 	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
 		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
 		s|emacs|emacs22|; $_=~tr|/|/|s; print:>
+	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
+		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
+		s|emacs|emacs23|; $_=~tr|/|/|s; print:>
 	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
 		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
 		s|emacs|emacs-snapshot|; $_=~tr|/|/|s; print:>
@@ -296,12 +318,13 @@ binary-indep-pls: build
 
 .PHONY: binary-arch
 binary-arch: build
-	$(checkdir)
-	$(checkroot)
 
 .PHONY: build-package
 build-package: clean
 	dpkg-buildpackage -rfakeroot -tc -i
+	lintian --info --color auto --show-overrides --checksums \
+		--display-info --display-experimental --pedantic \
+		../<:=${PACKAGE}:>*changes
 
 .PHONY: source diff
 source diff:

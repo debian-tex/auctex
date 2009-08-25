@@ -1,3 +1,104 @@
+auctex (11.83-8) unstable; urgency=medium
+
+  * COPYRIGHT, copyright.in, variables: Update copyright.
+  * control (Homepage): New field.
+  * control (Standards-Version): Updated to 3.8.2.
+  * control (auctex/Description): Reflow text.
+  * control (preview-latex-style/Description): Fix typo (unpublished
+    change obsoleted by 11.83-7.1 NMU); thanks to Rafael Laboissiere.
+    (Closes: #440397)
+  * control (preview-latex-style/Homepage): New field.
+  * po/cs.po, po/de.po, po/es.po, po/eu.po, po/fi.po, po/fr.po, po/gl.po,
+    po/it.po, po/ja.po, po/nl.po, po/pt.po, po/pt_BR.po, po/ru.po,
+    po/sv.po, po/vi.po: Normalized.
+  * po/it.po: Updated.
+  * auctex/templates.in: Reflow text.  Keep debian-l10n-english team
+    review comment from flowing to "auctex/templates".
+
+  * control, rules.in (binary-indep-auctex), auctex/bug.script.in (FLAVORS),
+    auctex/conffiles.in, auctex/install.in, auctex/remove.in,
+    auctex/update-auctex-elisp.in (FLAVORS),
+    auctex/update-auctex-install.in (FLAVORS): Add Emacs 23 support.
+    (Closes: #539749, #540093)
+
+  * config.in: No more need to register "doauto/logfile" here.
+  * install.in (do_auto): Do not remove log files here.  New log files
+    names.
+  * remove.in (undo_auto): Remove log files here.  New log files names.
+    (Closes: #508348)
+  * update-auctex-install: New log files names.
+  * variables (TMPMASK): Remove it.
+  * variables (LOGFILE): New variable.
+
+  * install.in (do_install): For each flavor, for every byte compiled
+    file, install a symlink to the corresponding Elisp source from the
+    installation directory to the source directories, for the sole purpose
+    of allowing `find-function-search-for-symbol' (invoked by clicking on
+    the help-function-def-button provided by a function definition help
+    string) to find it.  (Closes: #443930)
+  * remove.in (undo_install): Remove the symlinks to the Elisp sources
+    installed by "install.in (do_install)".
+
+  * rules.in (binary-arch): Strip "$(checkdir)" and "$(checkroot)".
+    [Lintian]
+  * auctex/lintian.in: Fix "debconf-is-not-a-registry" overrides paths.
+    Remove no more needed
+    "maintainer-script-does-not-check-for-existence-of-installdocs"
+    overrides.
+  * auctex/update-auctex-install.in, auctex/lintian.in: Needs no more
+    Debconf interaction.
+  * preview-latex-style/lintian.in: Remove no more needed
+    "maintainer-script-does-not-check-for-existence-of-installdocs"
+    lintian overrides.
+
+  * config.in: Implement Debconf backup capability.
+  * rules.in (debconf-test, debconf-ask-for-translations): New phonies.
+  * rules.in (build-package): Call lintian after building the package.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 25 Aug 2009 17:09:49 +0200
+
+auctex (11.83-7.3) unstable; urgency=high
+
+  * Non-maintainer upload; high priority since it fixes a security flaw.
+  * auctex/config.in (LOGFILE): Create installation/update log file in
+    "/var/log" rather than "/tmp". (Closes: #506961)
+  * control (Build-Depends-Indep, auctex/Recommends): Change "gs|gs-gpl"
+    to "ghostscript".
+
+ -- Ben Hutchings <ben@decadent.org.uk>  Sun, 07 Dec 2008 14:54:46 +0000
+
+auctex (11.83-7.2) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues.
+  * po/sv.po: New file; thanks to Martin Bagge.  (Closes: #487370)
+  * po/ja.po: Updated; thanks to Hideki Yamane.  (Closes: #494055)
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 08 Sep 2008 07:04:49 +0200
+
+auctex (11.83-7.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues.
+  * control (Build-Depends-Indep): Add "eperl", required by the "clean"
+    target.
+  * control (Build-Depends-Indep): Change "texi2html >= 1.76-1" to
+    "texi2html >=1.76".  [Lintian]
+  * control (auctex/Description, preview-latex-style/Description),
+    auctex/templates.in: Reviewed by the debian-l10n-english team as part
+    of the Smith review project.  (Closes: #452493)
+  * po/cs.po: Updated; thanks to Miroslav Kure.  (Closes: #455237)
+  * po/de.po: Updated; thanks to Helge Kreutzmann.  (Closes: #454509)
+  * po/es.po: Updated; thanks to Steve Lord Flaubert.  (Closes: #473577)
+  * po/eu.po: New file; thanks to Piarres Beobide.  (Closes: #453281)
+  * po/fi.po: New file; thanks to Esko Arajärvi.  (Closes: #453642)
+  * po/fr.po: Updated; thanks to Steve Petruzzello.  (Closes: #456160)
+  * po/gl.po: Updated; thanks to Jacobo Tarrio.  (Closes: #453325)
+  * po/pt.po: Updated; thanks to Ricardo Silva.  (Closes: #456359)
+  * po/ru.po: Updated; thanks to Yuri Kozlov.  (Closes: #455963)
+  * po/vi.po: New file; thanks to Clytie Siddall.  (Closes: #453379)
+  * variables (MENUSEC): Change "Apps/Editors" to "Editors".  [Lintian]
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 31 Mar 2008 17:56:23 +0200
+
 auctex (11.83-7) unstable; urgency=medium
 
   * copyright.in, COPYRIGHT, variables: Update copyright.
@@ -1123,7 +1224,9 @@ comment (0) UNRELEASED; urgency=low
   * LocalWords:  presubj Kreutzmann Tarrio Capello AUCTEXSRCS PREVIEWSRCS Zandt
   * LocalWords:  Mennucci backend alist Stubner Shimono Atsushi Zweije Kure dev
   * LocalWords:  Miroslav NMU Pryzby Kastrup Petruzzello xpdf PDFLATEX André
-  * LocalWords:  Luís Kozlov Huriaux stdin pdf
+  * LocalWords:  Luís Kozlov Huriaux stdin pdf Laboissiere TMPMASK lintian tmp
+  * LocalWords:  installdocs ghostscript Hutchings Bagge Hideki Yamane Piarres
+  * LocalWords:  Beobide Esko Arajärvi Clytie Siddall MENUSEC Makefile distclean
     
   * arch-tag: 3b0f7922-dfa2-4938-9f0e-1492f3528a80
 

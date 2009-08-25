@@ -9,7 +9,7 @@
 set -o posix
 
 <:# Default flavors: only GNU, XEmacs comes with its own AUCTeX. :>//
-FLAVORS=${*:-"emacs21 emacs22 emacs-snapshot"}
+FLAVORS=${*:-"emacs21 emacs22 emacs23 emacs-snapshot"}
 
 for FLAVOR in ${FLAVORS}; do
     if [ -x /usr/bin/${FLAVOR} ]; then

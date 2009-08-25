@@ -2,12 +2,12 @@
 #
 # rules for auctex
 #
-# Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07
+# Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07, 08, 09
 # by Davide G. M. Salvetti.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
-# Free Software Foundation; either version 2 of the License, or (at your
+# Free Software Foundation; either version 3 of the License, or (at your
 # option) any later version.
 #
 # This program is distributed in the hope that it will be useful, but
@@ -92,6 +92,23 @@ debian/po/templates.pot: $(DCSOURCES)
 
 %.dcobj: % debian/po/templates.pot
 	po2debconf --verbose --podir debian/po $< > $@
+
+.PHONY: debconf-test
+debconf-test: debian/auctex/templates.dcobj \
+		debian/auctex/config
+	debconf-loadtemplate auctex \
+		debian/auctex/templates.dcobj
+	DEBCONF_DEBUG=developer debconf --owner=auctex \
+		--frontend=dialog --priority=low \
+		$(SHELL) -e debian/auctex/config configure
+
+.PHONY: debconf-ask-for-translations
+debconf-ask-for-translations: debian/auctex/templates.dcobj
+	podebconf-report-po --verbose --gzip \
+		 --call --withtranslators --languageteam \
+		--package=auctex --deadline='+7days' \
+		--from='"Davide G. M. Salvetti (Debian auctex maintainer)" <salve@debian.org>' \
+		--postpone=../+RFT.mbox
 
 build: $(DFILES) debian/po/templates.pot
 	$(checkdir)
@@ -181,11 +198,14 @@ binary-indep-auctex: build
 
 	$(INSTDIR) $(auctex)//etc/emacs21/site-start.d/ \
 		$(auctex)//etc/emacs22/site-start.d/ \
+		$(auctex)//etc/emacs23/site-start.d/ \
 		$(auctex)//etc/emacs-snapshot/site-start.d/
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs21/site-start.d/50auctex.el
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs22/site-start.d/50auctex.el
+	$(INSTDATA) debian/auctex/lisp-startup.el \
+		$(auctex)//etc/emacs23/site-start.d/50auctex.el
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs-snapshot/site-start.d/50auctex.el
 	$(INSTDIR) $(auctex)//etc/cron.weekly/
@@ -281,12 +301,13 @@ binary-indep-pls: build
 
 .PHONY: binary-arch
 binary-arch: build
-	$(checkdir)
-	$(checkroot)
 
 .PHONY: build-package
 build-package: clean
 	dpkg-buildpackage -rfakeroot -tc -i
+	lintian --info --color auto --show-overrides --checksums \
+		--display-info --display-experimental --pedantic \
+		../auctex*changes
 
 .PHONY: source diff
 source diff:

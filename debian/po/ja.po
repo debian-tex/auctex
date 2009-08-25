@@ -1,21 +1,22 @@
-# Japanese translations of the "debian/auctex/templates" file of the auctex
-# Debian package.
+# Japanese translations of the "debian/auctex/templates" file
+# of the auctex Debian package.
 #
-# Copyright (C) 2006 Davide G. M. Salvetti
+# Copyright (C) 2006, 08 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
 # Atsushi Shimono <shimono@gmail.com>, 2006
+# Hideki Yamane <henrich@debian.or.jp>, 2008
 #
 # arch-tag: 6d2c5550-7555-4bc0-b47d-dc3ddd4fa1c5
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex_11.83-2\n"
-"Report-Msgid-Bugs-To: salve@debian.org\n"
-"POT-Creation-Date: 2006-12-08 16:38+0100\n"
-"PO-Revision-Date: 2006-10-16 18:50+0200\n"
-"Last-Translator: Atsushi Shimono <shimono@gmail.com>\n"
+"Project-Id-Version: auctex 11.83-7.1\n"
+"Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-23 12:41+0200\n"
+"PO-Revision-Date: 2009-08-23 14:21+0200\n"
+"Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,67 +26,71 @@ msgstr ""
 #. Choices
 #: ../auctex/templates:1001
 msgid "Background"
-msgstr "バックグラウンド"
+msgstr "バックグラウンドで実行"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
 msgid "Foreground"
-msgstr "フォアグラウンド"
+msgstr "フォアグラウンドで実行"
 
 #. Type: select
 #. Choices
 #: ../auctex/templates:1001
 msgid "None"
-msgstr "なし"
+msgstr "実行しない"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid "(La)TeX macros parsing mode:"
-msgstr "(La)TeX マクロの解析モード :"
+msgstr "(La)TeX マクロの解析モード:"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid ""
-"To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
-"style file currently installed at your site will be parsed."
+"To improve the performance of AUCTeX, every currently installed TeX macro "
+"package and LaTeX style file will be parsed."
 msgstr ""
-"AUCTeX のパフォーマンスを劇的に改善するために、インストール済みの全ての TeX "
-"マクロパッケージと LaTeX スタイルファイルは解析されます。"
+"AUCTeX のパフォーマンスを改善するために、インストール済みの全ての TeX マクロ"
+"パッケージと LaTeX スタイルファイルを解析します。"
+
+#. Type: select
+#. Description
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:1002
+msgid ""
+"This may take a lot of time, so it should probably be done in the "
+"background.  You may also choose to have it done in the foreground, or to "
+"skip that step.  If you choose 'Background', you will find a detailed log of "
+"the process in ${LOGFILE}."
+msgstr ""
+"これには非常に時間がかかりますので、おそらくはバックグラウンドで実行すべきで"
+"しょう。なお、フォアグラウンドで実行することも、解析を行わないことも選択でき"
+"ます。もし、「バックグラウンドで実行」を選択した場合、解析の詳細なログは、"
+"${LOGFILE} に出力されます。"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid ""
-"This may take a lot of time, so it should be probably done in the "
-"background; however you may also choose to have it done in the foreground, "
-"or to skip the parsing at all instead.  If you choose Background, you will "
-"find a detailed log of the process in the file: ${LOGFILE}."
+"A weekly cron job will also take care of updating the cached data, so that "
+"no specific action is required whenever you install new (La)TeX packages or "
+"remove old ones."
 msgstr ""
-"これには非常に時間がかかりますので、おそらくバックグラウンドで実行すべきであ"
-"ると思われます。しかし、フォアグラウンドで実行することも、解析を行わないこと"
-"も選択できます。もし、バックグラウンドを選択した場合、解析についての詳細のロ"
-"グは、${LOGFILE} に出力されます。"
+"毎週実行される cron ジョブで、キャッシュしたデータの更新も行うので、通常は新"
+"しい (La)TeX パッケージを入れたり、古いパッケージを削除したとしても特別必要な"
+"作業はありません。"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid ""
-"A weekly cron job will also take care of updating the data collected now, so "
-"usually you won't need to worry about them whenever you install new (La)TeX "
-"packages or remove old ones."
+"This update can be run manually at any moment by running 'update-auctex-"
+"elisp'."
 msgstr ""
-"毎週の cron ジョブにより、今収集したデータは更新されます。ですので、通常は新"
-"しい (La)TeX パッケージを入れたり、古いパッケージを削除した際に気にする必要は"
-"ありません。"
-
-#. Type: select
-#. Description
-#: ../auctex/templates:1002
-msgid "Anyway, you can update them by hand running update-auctex-elisp."
-msgstr "いずれにせよ、update-auctex-elisp を手動で実行することで更新できます。"
+"これは、いつでも 'update-auctex-elisp' を手動で実行すれば更新できます。"
 
 #. Type: select
 #. Choices
@@ -103,37 +108,44 @@ msgstr "ファイル"
 #. Description
 #: ../auctex/templates:2002
 msgid "Parsing output destination:"
-msgstr "解析の出力先 :"
+msgstr "解析の出力先:"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:2002
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This is OK, but normally it will also generate quite a lot of output."
+"This operation generates a lot of information. Please choose where this "
+"information should be sent:"
 msgstr ""
 "TeX マクロパッケージと LaTeX スタイルファイルをフォアグラウンドで解析すること"
-"を選択しました。もちろん問題ありませんが、非常に大量の出力が生成されます。"
+"を選択しました。この作業では、非常に大量の出力が生成されます。この情報がどこ"
+"に出力されるかを決めてください:"
 
 #. Type: select
 #. Description
+#. Translators: do NOT translate ${LOGFILE}
 #: ../auctex/templates:2002
 msgid ""
-"By default -- i.e., answering File to this question -- further output from "
-"the parsing process will go to a file named: ${LOGFILE}."
+"  Console: output goes to the current console;\n"
+"  File:    output goes to ${LOGFILE}."
 msgstr ""
-"既定では、つまりこの質問にファイルと答えた場合、解析プロセスの詳細な出力は "
-"${LOGFILE} へ出力されます。"
+"  コンソール:  現在のコンソールに出力する;\n"
+"  ファイル:    ${LOGFILE} に出力する。"
 
-#. Type: select
-#. Description
-#: ../auctex/templates:2002
-msgid ""
-"If you answer Console, you will see all of the (boring) output right on your "
-"terminal."
-msgstr ""
-"もしコンソールと答えると、すべての (退屈な) 出力があなたのターミナルへそのま"
-"ま出力されます。"
+#~ msgid ""
+#~ "By default -- i.e., answering File to this question -- further output "
+#~ "from the parsing process will go to a file named: ${LOGFILE}."
+#~ msgstr ""
+#~ "既定では、つまりこの質問にファイルと答えた場合、解析プロセスの詳細な出力"
+#~ "は ${LOGFILE} へ出力されます。"
+
+#~ msgid ""
+#~ "If you answer Console, you will see all of the (boring) output right on "
+#~ "your terminal."
+#~ msgstr ""
+#~ "もしコンソールと答えると、すべての (退屈な) 出力があなたのターミナルへその"
+#~ "まま出力されます。"
 
 #~ msgid "The autoload mechanism of AUCTeX has changed"
 #~ msgstr "AUCTeX の自動読み込み機構は変更されました。"

@@ -14,11 +14,6 @@ case "${1}" in
 	exit 1
 esac
 
-<:# deregister documentation with <% doc-base %> :>//
-case "${1}" in failed-upgrade|remove|upgrade)
-    <:=${DREMOVE}:> <:=${PLSPKG}:>
-esac
-
 exit 0
 <:
 # arch-tag: 06c80812-acc7-473e-8fd7-77a72bbcdb0c

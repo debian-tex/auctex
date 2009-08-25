@@ -30,12 +30,12 @@ DEBIAN SPECIFIC CHANGES
 
 The Debian specific changes are free software
 
-  Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07
+  Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07, 08, 09
   by Davide G. M. Salvetti
 
 and you can redistribute it and/or modify it under the terms of the GNU
 General Public License as published by the Free Software Foundation;
-either version 2 of the License, or (at your option) any later version.
+either version 3 of the License, or (at your option) any later version.
 
 On Debian GNU/Linux System you can find a copy of the GNU General Public
 License in "<:=${GPL}:>".

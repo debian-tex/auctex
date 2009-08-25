@@ -8,16 +8,8 @@ auctex binary: extra-license-file usr/share/doc/auctex/src/copying.texi.gz
 auctex binary: executable-not-elf-or-script ./usr/share/emacs/site-lisp/auctex/install-sh
 
 # This is a maintainer script.
-auctex binary: debconf-is-not-a-registry .<:$_
-       ="${ecode}/install/${PACKAGE}"; s|/+|/|g; print:>
-
-# This is legitimate.
-auctex binary: debconf-is-not-a-registry .<:$_
-       ="${sbin}/${UPDATE_INSTALL}"; s|/+|/|g; print:>
-
-# We do check these.
-auctex binary: maintainer-script-does-not-check-for-existence-of-installdocs postinst
-auctex binary: maintainer-script-does-not-check-for-existence-of-installdocs prerm
+auctex binary: debconf-is-not-a-registry <:$_
+       ="${ecode}/install/${PACKAGE}"; s|/+|/|g; s|^/||; print:>
 
 <:
 # arch-tag: e4349b16-3bb5-44eb-bcd2-240031be2444

@@ -10,7 +10,6 @@ set -o posix
 <:# parse debconf database :>//
 source <:=${CONFMODULE}:>
 db_version 2.0
-db_get <:=${PACKAGE}:>/logfile || true; _db_logfile=${RET}
 db_get <:=${PACKAGE}:>/doauto || true; _db_doauto=${RET}
 db_get <:=${PACKAGE}:>/doautofg || true; _db_doautofg=${RET}
 
@@ -54,24 +53,31 @@ do_install () {
     find <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> -type f -name \*.el \
 	-print0 | xargs --null rm -f ,dummy, \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    for s in <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/*.elc; do
+	find <:=${lisp}:> -type f -name $(basename ${s%c}) -print0 \
+	    | xargs --null --no-run-if-empty \
+	    ln --symbolic --verbose \
+	    --target-directory=<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:> \
+	    >> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
+    done
     gzip -9fq <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>
     echo >&2 "done."
     return 0
 }
 
 do_auto () {
+    LOGFILE=<:=if($_=${LOGFILE})=~s|emacs|\${FLAVOR}|:>
     case "${_db_doauto}" in
 	(Foreground)
 	case "${_db_doautofg}" in
 	    (Console)
-	    rm -f ${_db_logfile}
 	    <:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} ;;
 	    (File)
 	    echo >&2 -n "<:=${UPDATE_ELISP}:>: "
-	    echo >&2 "Further output will appear in: ${_db_logfile}."
+	    echo >&2 "Further output will appear in: ${LOGFILE}."
 	    echo >&2 -n "<:=${PACKAGE}:>: "
 	    echo >&2 -n "Waiting for <:=${UPDATE_ELISP}:> to terminate... "
-	    <:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${_db_logfile} 2>&1
+	    <:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${LOGFILE} 2>&1
 	    echo >&2 "done." ;;
 	    (*) echo >&2 \
 		"${0##*/}: Unknown Debconf value doautofg = \"${_db_doautofg}\"." ;;
@@ -83,10 +89,10 @@ do_auto () {
 	<:# better don\'t close fd 0: Emacs does not take it very well :>//
 	<:# WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO! :>//
 	<:# WARNING: DON\'T CLOSE FD\'S TO BE READ TO! :>//
-	<:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${_db_logfile} 2>&1 3>&- &
+	<:="${sbin}/${UPDATE_ELISP}":> ${FLAVOR} >> ${LOGFILE} 2>&1 3>&- &
 	echo >&2 -n "<:=${UPDATE_ELISP}:>[${!}]: "
-	echo >&2 "Further output will appear in: ${_db_logfile}." ;;
-	(None) rm -f ${_db_logfile} ;;
+	echo >&2 "Further output will appear in: ${LOGFILE}." ;;
+	(None) :;;
 	(*) echo >&2 \
 	    "${0##*/}: Unknown Debconf value doauto = \"${_db_doauto}\"." ;;
     esac
@@ -104,7 +110,7 @@ do_clean_old_cruft () {
 
 case "${FLAVOR}" in
     emacs) :;;
-    emacs2[12]|emacs-snapshot)
+    emacs2[123]|emacs-snapshot)
 	<:# clean old cruft :>//
 	do_clean_old_cruft ${FLAVOR}
 	do_install ${FLAVOR}

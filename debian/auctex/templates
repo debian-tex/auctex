@@ -2,33 +2,36 @@ Template: auctex/doauto
 Type: select
 __Choices: Background, Foreground, None
 Default: Background
+#flag:comment:3
+# Translators: do NOT translate ${LOGFILE}
 _Description: (La)TeX macros parsing mode:
- To greatly improve AUCTeX performances, every TeX macro package and LaTeX
- style file currently installed at your site will be parsed.
+ To improve the performance of AUCTeX, every currently installed TeX macro
+ package and LaTeX style file will be parsed.
  .
- This may take a lot of time, so it should be probably done in the
- background; however you may also choose to have it done in the foreground,
- or to skip the parsing at all instead.  If you choose Background, you will
- find a detailed log of the process in the file: ${LOGFILE}.
+ This may take a lot of time, so it should probably be done in the
+ background.  You may also choose to have it done in the foreground, or to
+ skip that step.  If you choose 'Background', you will find a detailed log
+ of the process in ${LOGFILE}.
  .
- A weekly cron job will also take care of updating the data collected now,
- so usually you won't need to worry about them whenever you install new
- (La)TeX packages or remove old ones.
+ A weekly cron job will also take care of updating the cached data, so that
+ no specific action is required whenever you install new (La)TeX packages or
+ remove old ones.
  .
- Anyway, you can update them by hand running update-auctex-elisp.
+ This update can be run manually at any moment by running
+ 'update-auctex-elisp'.
 
 Template: auctex/doautofg
 Type: select
 __Choices: Console, File
 Default: File
+#flag:comment:3
+# Translators: do NOT translate ${LOGFILE}
 _Description: Parsing output destination:
  You chose to parse TeX macro packages and LaTeX style files in foreground.
- This is OK, but normally it will also generate quite a lot of output.
+ This operation generates a lot of information. Please choose where this
+ information should be sent:
  .
- By default -- i.e., answering File to this question -- further output from
- the parsing process will go to a file named: ${LOGFILE}.
- .
- If you answer Console, you will see all of the (boring) output right on
- your terminal.
+   Console: output goes to the current console;
+   File:    output goes to ${LOGFILE}.
 
 # arch-tag: f0377964-4347-46dc-a310-3f371380b170-child
