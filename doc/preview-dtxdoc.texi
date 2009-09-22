@@ -361,6 +361,7 @@ The letters simply mean
 indicates an optional @code{*} modifier, as in
 @code{\includegraphics*}.
 @item @code{[}
+^^A]
 indicates an optional argument in brackets.  This syntax
 is somewhat baroque, but brief.
 @item @code{[]}

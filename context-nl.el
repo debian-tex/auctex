@@ -9,7 +9,7 @@
 
 ;; AUCTeX is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; AUCTeX is distributed in the hope that it will be useful, but
@@ -40,10 +40,11 @@
     "kadertekst" "kantlijn" "kleur" "kolommen" "legenda" "lokaal"
     "lokalevoetnoten" "margeblok" "naamopmaak" "naast"
     "opelkaar" "opmaak" "opsomming" "overlay" "overzicht"
-    "positioneren" "profiel" "regel" "regelcorrectie" "regelnummeren"
-    "regels" "smaller" "symboolset" "synchronisatie" "tabel"
-    "tabellen" "tabulatie" "tekstlijn" "typen" "uitlijnen"
-    "uitstellen" "vanelkaar" "verbergen" "versie"
+    "paginafiguur" "positioneren" "profiel"
+    "regel" "regelcorrectie" "regelnummeren" "regels"
+    "smaller" "symboolset" "synchronisatie"
+    "tabel" "tabellen" "tabulatie" "tekstlijn" "typen"
+    "uitlijnen" "uitstellen" "vanelkaar" "verbergen" "versie"
     ;; project structure
     "omgeving" "onderdeel" "produkt" "project"
     ;; flowcharts, if you have loaded this module
@@ -53,7 +54,11 @@
     ;; some metapost environments
     "MPpositiongraphic" "useMPgraphic" "MPcode" "reusableMPgraphic"
     "uniqueMPgraphic")
-  "List of the ConTeXt en interface start/stop pairs.")
+  "List of the ConTeXt nl interface start/stop pairs.")
+
+(defvar ConTeXt-define-list-nl
+  '("achtergrond" "startstop" "typen")
+  "List of ConTeXt nl interface macro's that define things.")
 
 (defvar ConTeXt-setup-list-nl
   '("achtergronden" "achtergrond" "alineas" "arrangeren" "blanko"
@@ -81,15 +86,23 @@
     "tekstpositie" "tekstteksten" "tekstvariabele" "tolerantie" "type"
     "typen" "uitlijnen" "uitvoer" "url" "velden" "veld" "versies"
     "voet" "voetnootdefinitie" "voetnoten" "voetteksten" "witruimte")
-  "List of the names of ConTeXt en interface macro's that setup things.")
+  "List of the names of ConTeXt nl interface macro's that setup things.")
+
+(defvar ConTeXt-other-macro-list-nl
+  '("regellinks" "regelmidden" "regelrechts" "toonexternefiguren")
+  "List of ConTeXt nl interface macro's that are not an environment nor a setup.")
+
+(defun ConTeXt-define-command-nl (what)
+  "The ConTeXt nl interface way of creating a define command."
+  (concat "definieer" what))
 
 (defun ConTeXt-setup-command-nl (what)
-  "The ConTeXt en interface way of creating a setup command."
+  "The ConTeXt nl interface way of creating a setup command."
   (concat "stel" what "in"))
 
 (defvar ConTeXt-project-structure-list-nl
   '("project" "omgeving" "produkt" "onderdeel")
-  "List of the names of ConTeXt project structure elements for its en interface.  List should be in logical order.")
+  "List of the names of ConTeXt project structure elements for its nl interface.  List should be in logical order.")
 
 (defvar ConTeXt-section-block-list-nl
   '("inleidingen" "hoofdteksten" "bijlagen" "uitleidingen")
@@ -139,7 +152,7 @@
   (TeX-add-symbols
    '("but" ConTeXt-arg-define-ref (TeX-arg-literal " "))
    '("som" ConTeXt-arg-define-ref (TeX-arg-literal " "))
-   '("items" (ConTeXt-arg-setup t) (TeX-arg-string "Comma separated list"))
+   '("items" [ConTeXt-arg-setup] (TeX-arg-string "Comma separated list"))
    '("its" ConTeXt-arg-define-ref (TeX-arg-literal " "))
    '("nop" (TeX-arg-literal " "))
    '("ran" TeX-arg-string (TeX-arg-literal " "))

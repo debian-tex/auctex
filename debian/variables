@@ -11,14 +11,6 @@
 <:$UPDATE_INSTALL="update-auctex-install":>//
 <:$LOGFILE="/var/log/auctex-emacs.log":>//
 <:$MENUSEC="Editors":>//
-<:$INFOSEC="Document Preparation":>//
-<:$AUCTEX_INFOMENU="AUCTeX":>//
-<:$AUCTEX_INFODESC="An integrated environment for editing LaTeX, ConTeXt,"
-	. " docTeX, Texinfo, and TeX files.":>//
-<:$PREVIEW_INFOMENU="preview-latex":>//
-<:$PREVIEW_INFODESC="A package embedding preview fragments into Emacs"
-	. " source buffers under the AUCTeX editing environment for"
-	. " LaTeX.":>//
 <:$EPRIORITY="50":>//
 <:# Debian packaging specific :>//
 <:$debian="/DEBIAN/":>//
@@ -42,8 +34,6 @@
 <:# <% debconf %> :>//
 <:$CONFMODULE="/usr/share/debconf/confmodule":>//
 <:# <% docbase %> :>//
-<:$DINSTALL="type install-docs &>/dev/null && install-docs --install":>//
-<:$DREMOVE="type install-docs &>/dev/null && install-docs --remove":>//
 <:$docbase="/usr/share/doc-base/":>//
 <:# <% emacs %> :>//
 <:$ELCLOG="CompilationLog":>//
@@ -57,19 +47,6 @@
 <:$lisp="/usr/share/emacs/site-lisp/$PACKAGE/":>//
 <:$style="$lisp/style/":>//
 <:# <% info %> :>//
-<:sub IINSTALL {
-    my (${section}, ${menu}, ${description}) = @_;
-
-    ${section} = ${INFOSEC} unless ${section};
-    ${menu} = ${INFOMENU} unless ${menu};
-    ${description} = ${INFODESC} unless ${description};
-
-    return "install-info --section \"${section}\" \"${section}\""
-	. " --menuentry=\"${menu}\""
-	. " --description=\"${description}\""
-	. " --quiet";
-}:>//
-<:$IREMOVE="install-info --quiet --remove":>//
 <:$info="/usr/share/info/":>//
 <:# <% texmf %> :>//
 <:$texmf="/usr/share/texmf/":>//

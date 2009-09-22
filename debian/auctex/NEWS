@@ -1,0 +1,34 @@
+auctex (11.83-8) unstable; urgency=medium
+
+  The configuration script now supports Debconf backup capability.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 25 Aug 2009 17:09:49 +0200
+
+auctex (11.81-1) UNRELEASED; urgency=low
+
+  Since Debian version 11.81-1, AUCTeX gets auto-loaded by default.  If
+  you do not want AUCTeX to override the standard Emacs TeX-mode, you
+  may unload AUCTeX completely by evaluating the form "(unload-feature
+  'tex-site)" (i.e., put that string into your "~/.emacs" to disable
+  AUCTeX completely).
+
+  Since upstream version 11.81, preview-latex comes included with AUCTeX.
+  You do not need to do anything special to use it.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 30 Sep 2005 10:15:29 +0200
+
+comment (0) UNRELEASED; urgency=low
+
+  This is not a NEWS entry.
+
+  local variables:
+  mode: debian-changelog
+  coding: utf-8
+  ispell-local-dictionary: "american"
+  end:
+
+  LocalWords:  AUCTeX tex emacs
+
+  arch-tag: 40ef55ea-fc75-4f6f-83af-a804f4d1b045
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 01 Jan 1970 00:00:01 +0000

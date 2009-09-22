@@ -1,3 +1,1313 @@
+2008-02-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Version 11.85 released.
+
+2008-02-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* RELEASE: Update for upcoming release.
+
+	* auctex.spec (Version): Bump version number.
+
+	* configure.ac: Bump version number.
+
+	* doc/todo.texi: Add copyright notice.
+	(Bugs): Remove entry about XEmacs bug since AUCTeX now helps
+	XEmacs in doing multi-line font locking.
+
+	* doc/tex-ref.tex: Bump version number.  Updated references to
+	toggles for bad boxes and warning.  Mention `Clean' and `Clean
+	All' commands.
+
+	* doc/install.texi: Add copyright notice.
+	(Prerequisites): Update information about Emacs 22.
+
+	* doc/wininstall.texi: Update information about requirements,
+	esp. availability of Emacs 22.
+
+2008-02-09  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-error, TeX-warning): Handle `expert' option of
+	`TeX-display-help'.
+	(TeX-warning): Find error file in same window.
+
+	* tex.el (TeX-display-help): Add `expert' option.
+
+	* doc/auctex.texi (Commands): Add some explanatory text for TeXing
+	options.  Document `TeX-show-compilation'.
+	(Debugging): Reflect new option of `TeX-display-help'.
+
+	* doc/changes.texi: Add changes for 11.85.  Add copyright notice.
+
+2008-02-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-parse-TeX): Do not pop to output buffer.
+	(TeX-warning): Since we do not pop to the output buffer, find the
+	source file in the original window.
+
+2008-02-05  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-built-in-keyword-classes): Add syntax
+	alternatives for some commands.
+	(font-latex-setup): Give ?@ word syntax for font locking.
+	(font-latex-syntax-error-modes): New variable.
+	(font-latex-match-command-with-arguments): Use it.
+
+2008-02-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-set-syntactic-keywords): Revert change
+	from 2007-04-09 because the unbalanced treatment of \begin and
+	\end may lead to color bleeding.
+
+2008-02-03  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Relicense all "GPLv2 or later" files to "GPLv3 or later".
+
+	* COPYING: Switch to GPLv3.
+
+	* doc/Makefile.in, doc/preview-dtxdoc.pl: Add coypright and
+	license notices.
+
+	* style/beamer.el, style/scrbook.el: Add license notices.
+
+2008-02-03  Ikumi Keita	 <ikumi@ikumi.que.jp>
+
+	* tex-info.el (Texinfo-insert-node): Correct name of let-bound
+	variable.
+
+2008-02-03  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-info.el: Make sure the Texinfo mode of AUCTeX is still used
+	after loading texinfo.el.
+
+2008-02-02  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Makefile.in, auctex.spec, autogen.sh, configure.ac: Add
+	copyright and license notices.
+
+	* texmathp.el, style/amsmath.el, style/amsthm.el,
+	style/fancyref.el, style/index.el, style/makeidx.el,
+	style/multind.el, style/varioref.el: Reflect copyright assignment
+	of Carsten Dominik to FSF in coypright notices and adapt licence
+	notice accordingly.
+
+2007-12-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-command-expand): Do not evaluate `file' as a
+	function.
+
+2007-12-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Ignore whitespace
+	when checking if verbatim macro starts at beginning of line.
+
+2007-12-08  David Kastrup  <dak@gnu.org>
+
+	* texmathp.el (defgroup, defcustom): Remove compatibility cruft.
+
+2007-11-20  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/install.texi (Prerequisites): Add openSUSE.
+
+2007-11-20  David Kastrup  <dak@gnu.org>
+
+	* doc/install.texi (Prerequisites): Update to reflect current
+	realities.
+
+2007-11-03  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex-buf.el (TeX-record-buffer): New variable, only in Emacs.
+	(TeX-pop-to-buffer): New function.
+	(TeX-recenter-output-buffer, TeX-background-filter)
+	(TeX-parse-TeX, TeX-parse-error, TeX-help-error): Use
+	`TeX-pop-to-buffer'.
+
+2007-10-30  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* toolbar-x.el (toolbarx-find-image): Rename argument.  Improve
+	doc string.
+
+2007-10-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (TeX-arg-verb): Honor active region.
+
+2007-10-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/MinionPro.el ("MinionPro"): Run style hook for amsmath
+	which is loaded via MnSymbol.
+
+2007-10-09  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/nomencl.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/nomencl.el.
+
+2007-10-03  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-user-keyword-classes): Doc fix.
+
+2007-08-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-command-with-args-default-spec):
+	Default to nil.
+
+2007-08-24  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-command-with-arguments): Show
+	error indicator only in LaTeX mode.
+
+2007-08-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/nicefrac.el ("nicefrac"): Fix last change.
+
+2007-08-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/jurabib.el ("jurabib"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+2007-08-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/scrreprt.el: Add licence text.
+	("scrreprt"): Use `font-latex-add-keywords'.  Add syntax
+	information.
+
+	* style/scrpage2.el: Add licence text.
+	("scrpage2"): Use `font-latex-add-keywords'.  Add syntax
+	information.
+
+	* style/scrlttr2.el: Add licence text.
+	("scrlttr2"): Use `font-latex-add-keywords'.  Add syntax
+	information.
+
+	* style/scrbook.el ("scrbook"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/scrbase.el ("scrbase"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+2007-08-20  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/url.el ("url"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/subfigure.el ("subfigure"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/csquotes.el ("csquotes"): Update for version 3.7.  Use
+	`font-latex-add-keywords'.  Add syntax information.
+
+	* style/MinionPro.el ("MinionPro"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* font-latex.el (font-latex-built-in-keyword-classes): Correct
+	syntax spec for \subsubparagraph.
+
+2007-08-19  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/units.el ("units"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/nicefrac.el ("nicefrac"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/listings.el ("listings"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/flashcards.el ("flashcards"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/comment.el ("comment"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/booktabs.el ("booktabs"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/babel.el ("babel"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/paralist.el ("paralist"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/natbib.el ("natbib"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/mdwlist.el ("mdwlist"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/graphicx.el ("graphicx"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/fancyref.el ("fancyref"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/captcont.el ("captcont"): Use `font-latex-add-keywords'.
+	Add syntax information.
+
+	* style/beamer.el ("beamer"): Use `font-latex-add-keywords'.
+
+	* font-latex.el (font-latex-add-keywords): New function.
+	(font-latex-command-with-args-opt-arg-delims): Add parentheses.
+
+2007-08-14  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-insert-backslash): put delete-selection property on.
+
+2007-08-13  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (all): make new target "docs" as well.  Descend for
+	docs, info and dvi.
+	Before regenerating extradist documentation, copy version info
+	from checked-out version (can we do that saner?).
+	On various targets, replace set -x with a somewhat more elaborate
+	version that echoes more for make -n.
+
+2007-08-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc-backend-alist): Delete buffers used for checking
+	availability of info files.
+
+2007-08-08  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-TeX-sentinel-check): Shave off quotation marks
+	from file name if present.
+
+2007-08-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-run-style-hooks): Set `default-directory' to the
+	directory of the master file.
+
+2007-07-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/pstricks.el ("pstricks"): Do not disable TeX PDF mode if
+	pst-pdf is used.
+
+2007-07-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-format-filter): Remove line breaks at column 79.
+
+2007-07-09  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-comment-forward): Call `comment-normalize-vars' if
+	available.
+
+2007-07-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/verbatim.el: Add copyright notice and licence info.
+
+	* style/paralist.el: Add copyright notice and licence info.
+
+	* style/booktabs.el: Add copyright notice and licence info.
+
+	* style/scrbase.el: Change copyright notice of Mark Trettin to FSF
+	to reflect the assignment.  Add licence info to header.
+
+	* style/subfigure.el: Change copyright notice of Reiner Steib to
+	FSF to reflect the assignment.  Add licence info to header.
+
+	* style/captcont.el: Change copyright notice of Reiner Steib to
+	FSF to reflect the assignment.  Add licence info to header.
+
+	* latex.el (LaTeX-auto-minimal-regexp-list): Match optional
+	arguments of document style or class macro even if they contain
+	periods, e.g. in case of "BCOR8.25mm" in KOMA Script classes.  Get
+	rid of superfluous escapes in complemented character alternatives.
+
+	* tex.el (TeX-insert-dollar): Show matching start only if
+	`blink-matching-paren' is non-nil.
+
+2007-06-20  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-common-initialization): Turn TeX PDF mode on
+	when pst-pdf.sty is used.
+
+2007-06-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-common-initialization): Do not add pstricks to
+	style hooks.
+
+	* style/pstricks.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/pstricks.el.
+
+2007-05-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-command-with-arguments): Check
+	if `match-beg' is set.
+
+2007-05-20  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/beamer.el ("beamer"): Use new syntax in format specifier
+	for frametitle macro.
+
+	* font-latex.el (font-latex-built-in-keyword-classes): Use new
+	syntax for format specifiers.
+	(font-latex-user-keyword-classes): Describe new syntax for format
+	specifiers.
+	(font-latex-command-with-args-default-spec): Use new syntax for
+	format specifiers.
+	(font-latex-command-with-args-opt-arg-delims): New variable.
+	(font-latex-match-command-with-arguments): Use it.  Change format
+	specifier parsing to support new syntax.
+	(font-latex-match-mandatory-arg): Remove.
+
+2007-05-05  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/faq.texi: Add entry about programs not being found by
+	./configure when PATH is not set correctly.
+
+2007-04-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-parse-error): Match any closing parenthesis.
+
+2007-04-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-fontify-region): Force redisplay
+	instead of setting `jit-lock-context-unfontify-pos'.
+	(font-latex-command-with-args-default-spec): New variable.
+	(font-latex-match-command-with-arguments): Use it.
+	(font-latex-built-in-keyword-classes): Correct some syntax
+	specifiers.
+	(font-latex-jit-lock-force-redisplay): New function.
+	(font-latex-fontify-region): Use it.
+	(font-latex-doctex-preprocessor-face): Make DocStrip guards stand
+	out on Emacs 21.
+
+2007-04-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-environment-menu): Support optional arguments
+	specified by vectors.
+
+	* style/flashcards.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/flashcards.el.
+
+	* doc/auctex.texi (Adding Environments): Document possibility to
+	specify optional arguments in `LaTeX-add-environments'.
+
+2007-04-22  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/changes.texi: Add index entries for auctex.el and
+	tex-site.el.  Add references to INSTALL or manual.
+
+	* doc/install.texi (Loading the package): Add index entries for
+	auctex.el and tex-site.el.
+
+	* doc/wininstall.texi: Add index entries for tex-mik.el and
+	tex-fptex.el.  Clarify loading.
+
+2007-04-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-fontify-region): Force context-related
+	unfontification only if the region has to be extended.
+	(font-latex-find-matching-close): Do not look up syntax-table
+	properties.
+	(font-latex-extend-region-backwards-command-with-args)
+	(font-latex-extend-region-backwards-command-in-braces)
+	(font-latex-extend-region-backwards-math-env)
+	(font-latex-extend-region-backwards-math-envII)
+	(font-latex-extend-region-backwards-quotation): Doc fix.  Return
+	nil if no content requiring region extension was found.
+
+2007-04-16  Ikumi Keita	<ikumi@ikumi.que.jp>
+
+	* latex.el (LaTeX-math-default): Add various Greek uppercase
+	macros provided by amsmath.sty.
+
+2007-04-15  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-math-envII): Regexp-quote the
+	string used to look for the environment end in order for starred
+	environments to be found.
+
+2007-04-13  Mark Trettin  <Mark.Trettin@gmx.de>
+
+	* style/scrbase.el ("scrbase"): Fix typo in prompt.
+	(TeX-arg-KOMA-fontelements): Add \dictum, \pagination,
+	\disposition, and \minisec macros.
+
+2007-04-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/beamer.el ("beamer"): Specify syntax of \frametitle macro
+	for font locking.
+
+2007-04-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/amsmath.el ("amsmath"): Call `reftex-add-to-label-alist'
+	only if function is bound.
+
+2007-04-09  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc-backend-alist): Add --view parameter to texdoc
+	call since texdoc in MiKTeX fires up a web page not useful for our
+	purposes otherwise.
+
+	* tex-mik.el: Set `TeX-kpathsea-path-delimiter' to nil since
+	kpsewhich in MiKTeX (aka findtexmf) does not emit any useful
+	information if fed with kpathsea-related variables anyway.  This
+	change makes `TeX-doc' work again on MiKTeX.
+
+	* font-latex.el (font-latex-set-syntactic-keywords): Match the
+	\begin macro of verbatim environments in case it is preceded by
+	other content than whitespace.
+
+2007-04-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-backward-paragraph): Fix grouping in order to
+	return the right value when no paragraph command is found.
+
+2007-04-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-help-error): Correct regexp for matching line
+	indicator.
+
+2007-03-31  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-verbatim-environments): Fix typo.
+	(LaTeX-backward-paragraph): Special-case verbatim environments in
+	order to prevent leading brackets or braces from being interpreted
+	as part of the \begin macro.  Clean up a bit.
+
+2007-03-24  David Kastrup  <dak@gnu.org>
+
+	* context.el (ConTeXt-find-indent): Use `condition-case' rather
+	than `ignore-errors', and don't barf if at the end of file (like
+	with an empty file).
+
+2007-03-23  David Kastrup  <dak@gnu.org>
+
+	* context.el (TeX-ConTeXt-sentinel): Fix end-of-run detection.
+
+2007-03-19  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/comment.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/comment.el.
+
+	* font-latex.el (font-latex-syntactic-keywords-extra): New
+	variable.
+	(font-latex-set-syntactic-keywords): Use it.
+
+	* tex-style.el (LaTeX-comment-env-list): New variable.
+
+2007-03-18  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Commands): Remove dependency on software du
+	jour from description of `TeX-DVI-via-PDFTeX'.
+
+2007-03-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-quotes): Add nil option.
+	(font-latex-match-quotation)
+	(font-latex-extend-region-backwards-quotation): Do nothing if
+	`font-latex-quotes' is nil.
+
+	* doc/auctex.texi (Font Locking): Document nil option of
+	`font-latex-quotes'.
+
+2007-03-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-fold-math-spec-list): `decode-char' is not
+	autoloaded in XEmacs.  Only use it when it is defined.
+
+	* doc/auctex.texi (European): Document `icelandic' language
+	option.
+
+	* Makefile.in (STYLESRC): Add style/icelandic.el.
+
+	* style/icelandic.el: New file.
+
+2007-03-11  David Kastrup  <dak@gnu.org>
+
+	* RELEASE (Footnotes): Update Emacs CVS locations.
+
+2007-03-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-fold.el (TeX-fold-auto): Default to nil.
+
+2007-03-09  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-clean): Catch error on Emacs 21 when only one file
+	is to be deleted.
+
+2007-03-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-search-syntax-table): Set syntax of ?\( and ?\)
+	explicitely to whitespace for Emacs 21.
+	(TeX-search-syntax-table): Clean the syntax table more thoroughly.
+
+2007-03-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-find-macro-boundaries): Make it possible to restrict
+	the search with new argument `lower-bound'.
+	(TeX-find-macro-start): Make it possible to restrict the search
+	with new argument `limit'.
+
+	* font-latex.el: Merge from multiline-font-lock branch.
+	(font-latex-do-multi-line, font-latex-use-cache): Remove.
+	(font-latex-multiline-boundary): New variable.
+	(font-latex-built-in-keyword-classes): Add information about
+	syntax of macros.  Quote face names.
+	(font-latex-deactivated-keyword-classes): Adapt type to new form
+	of `font-latex-built-in-keyword-classes'.
+	(font-latex-make-match-defun): Accept `face' argument.
+	(font-latex-keyword-matcher): Support up to 8 slots for faces.
+	(font-latex-make-built-in-keywords): Support new form of keywords
+	classes.
+	(font-latex-user-keyword-classes): Provide possibility to specify
+	macro syntax.
+	(font-latex-make-user-keywords): Add warning face in relevant
+	matchers.
+	(font-latex-extend-region-functions): New variable.
+	(font-latex-setup): Use it.  Clean up.
+	(font-latex-fontify-region): New function.
+	(font-latex-unfontify-region): Cater for XEmacs.
+	(font-lock-after-change-function): Advise function for challenged
+	editors.
+	(font-latex-find-matching-close): Use `TeX-search-syntax-table'.
+	(font-latex-not-on-same-line-as): New function.
+	(font-latex-set-cache, font-latex-get-cache)
+	(font-latex-check-cache): Remove.
+	(font-latex-put-multiline-property-maybe): New function.
+	(font-latex-match-command-cache): Remove.
+	(font-latex-matched-faces): New variable.
+	(font-latex-matched-face): New function.
+	(font-latex-match-command-with-arguments): Use them.  Set warning
+	face when syntax not correct.
+	(font-latex-match-in-braces-cache): Remove.
+	(font-latex-match-mandatory-arg): New function.
+	(font-latex-extend-region-backwards-command-with-args): New
+	function.
+	(font-latex-match-command-in-braces): Set multiline property if
+	necessary.
+	(font-latex-extend-region-backwards-command-in-braces): New
+	function.
+	(font-latex-match-math-env): Set multiline property if necessary.
+	(font-latex-extend-region-backwards-math-env): New function.
+	(font-latex-math-environments): New variable.
+	(font-latex-match-math-envII): Use it.  Set multiline property if
+	necessary.
+	(font-latex-extend-region-backwards-math-envII): New function.
+	(font-latex-update-quote-list): New function.
+	(font-latex-match-quotation): Use it.  Set multiline property if
+	necessary.
+	(font-latex-extend-region-backwards-quotation): New function.
+
+2007-02-25  David Kastrup  <dak@gnu.org>
+
+	* tex.el (TeX-read-string): Add new function that will inherit the
+	input method if feasible.  TODO: replace calls of `read-string'
+	with this wherever it may be appropriate.
+
+2007-02-20  Ikumi Keita	<ikumi@ikumi.que.jp>
+
+	* tex-buf.el (TeX-region-file): Doc fix.
+
+2007-02-15  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex.el (TeX-after-insert-macro-hook): New hook.
+	(TeX-insert-macro): Use it.
+
+	* tex-fold.el (TeX-fold-auto): New variable.
+	(TeX-fold-mode): Append auto fold stuff to the end of
+	`TeX-after-insert-macro-hook'.
+
+2007-02-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-clean): Fix last change.
+
+2007-02-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-fold.el (TeX-fold-macro-spec-list-internal)
+	(TeX-fold-env-spec-list-internal)
+	(TeX-fold-math-spec-list-internal): New variables.
+	(TeX-fold-region-macro-or-env, TeX-fold-item): Use them.
+	(TeX-fold-comment-do): Doc fix.
+	(TeX-fold-mode): Set TeX-fold-*-spec-list-internal variables.  Use
+	<mode-prefix>-fold-*-spec-list variables if bound.
+
+	* latex.el (LaTeX-fold-macro-spec-list)
+	(LaTeX-fold-env-spec-list, LaTeX-fold-math-spec-list): New
+	variables.
+
+	* tex.el (TeX-mode-prefix): New function.
+	(TeX-clean): Use it.
+
+2007-02-10  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex-jp.el (TeX-japanese-process-input-coding-system)
+	(TeX-japanese-process-output-coding-system): Use system-type
+	instead of window-system.  Suggested by Ikumi Keita
+	<ikumi@ikumi.que.jp>.
+
+2007-02-09  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex-jp.el (TeX-japanese-process-input-coding-system)
+	(TeX-japanese-process-output-coding-system): Do not use
+	default-coding-system to set process-coding-system, anymore.  The
+	value is set to shift_jis or euc-jp depending on window-system.
+
+	* tex-bar.el: Fix typo.  Reported by Ikumi Keita
+	<ikumi@ikumi.que.jp>.
+
+2007-02-09  Ikumi Keita	<ikumi@ikumi.que.jp>
+
+	* tex-jp.el (japanese-TeX-command-list): Add
+	`TeX-run-discard-foreground' and `TeX-run-function' for
+	function-item.
+	(japanese-TeX-set-process-coding-system): New function.
+	(TeX-after-start-process-function): Use it.  Cater for the
+	accidental case that no-Japanese loads tex-jp.el and his
+	coding-system is set to unexpected one.
+
+2007-02-05  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-submit-bug-report): Remove unnecessary code.
+	Include a plea for upgrading into introductory blurb.
+
+2007-02-01  Ikumi Keita	<ikumi@ikumi.que.jp>
+
+	* latex.el: Move (provide 'latex) to the end of buffer.
+	(TeX-global-input-files, BibTeX-global-style-files)
+	(BibTeX-global-files): checkdoc cleaning.
+	(LaTeX-fill-paragraph, LaTeX-fill-code-comment): Use function
+	TeX-match-buffer instead of buffer-substring-*.
+	(LaTeX-209-to-2e): Likewise.
+
+	* tex-buf.el (TeX-command-region, TeX-command-buffer)
+	(TeX-next-error, TeX-check-files, TeX-command-next)
+	(TeX-output-extension, TeX-run-set-command, TeX-run-interactive)
+	(TeX-sentinel-default-function, TeX-region-create, TeX-region)
+	(TeX-error-file, TeX-error-offset, TeX-parse-TeX)
+	(TeX-error-description-list): checkdoc cleaning.
+	(TeX-run-command, TeX-TeX-sentinel-check, TeX-BibTeX-sentinel):
+	Use substitute-command-keys to message key binding.
+	(TeX-current-pages): Add doc string.
+
+	* tex.el (TeX-print-command, TeX-queue-command)
+	(TeX-command-list, TeX-printer-list, TeX-set-mode-name)
+	(TeX-regexp-group-count): checkdoc cleaning.
+	(plain-TeX-mode-hook): Declare user option explicitly using
+	defcustom.
+	(TeX-search-files-kpathsea): Use TeX-kpathsea-path-delimiter
+	instead of kpathsea-path-delimiter.
+
+2007-01-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Quotes): Document
+	`TeX-math-close-double-dollar'.  Add subheadings.
+
+2007-01-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* autogen.sh: Define PDFTEX if empty and pass it to `make dist' in
+	`doc' directory for documentation generation.
+
+	* doc/Makefile.in (docdir, PACKAGE_TARNAME): New variables.
+	(dist): Add tex-ref.pdf target.
+	(extradist): Remove tex-ref.pdf target.
+	(install-auctex): Add tex-ref.pdf target.  Install tex-ref.pdf
+	into $(docdir).
+
+2007-01-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-fptex.el: Make calls of start.exe work with quoted file
+	names.
+
+	* tex-mik.el: Make calls of start.exe work with quoted file names.
+
+2007-01-21  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex-fold.el (TeX-fold-type-list): New new type 'math.
+	(TeX-fold-math-spec-list): New variable.
+	(TeX-fold-dwim, TeX-fold-region, TeX-fold-region-macro-or-env)
+	(TeX-fold-item): Try to fold math macros as well.
+	(TeX-fold-buffer, TeX-fold-paragraph, TeX-fold-make-overlay)
+	(TeX-fold-item-end): Mention new type 'math.
+	(TeX-fold-math): New function.
+
+2007-01-20  David Kastrup  <dak@gnu.org>
+
+	* auctex.spec: Remove unused `%{extraconfig}' argument.
+
+2007-01-20  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Fold marginpar, eqref,
+	glossary, copyright, textregistered and texttrademark macros as
+	well.
+
+2007-01-18  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex-jp.el: Update maintainer email address.
+
+	* style/verbatim.el: Update author email address.
+
+2007-01-17  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-clean-default-intermediate-suffixes): Add beamer
+	suffixes.
+
+2007-01-16  Masayuki Ataka  <masayuki.ataka@gmail.com>
+
+	* tex-jp.el (japanese-TeX-command-list): Use "%`" and "%'" magic
+	to allow file names with spaces.  See also change log for
+	TeX-command-list in tex.el on 2006-10-10.
+	Reported by Ikumi Keita	<ikumi@ikumi.que.jp>.
+
+2007-01-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/wininstall.texi: Add copyright notice and licence reference.
+	Mention --infodir.  Some clean-ups.
+
+2007-01-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Makefile.in (www-doc): Generate AUCTeX and preview-latex manuals
+	in single directory.  Patch gendocs.sh to use texi2html instead of
+	makeinfo (patch not included).
+
+2007-01-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Version 11.84 released.
+
+2007-01-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* RELEASE: Update for release.
+
+	* doc/changes.texi: Update for release.
+
+	* auctex.spec (Version): Bump version number.
+
+	* configure.ac: Bump version number.
+
+	* doc/tex-ref.tex: Bump version number.
+
+2007-01-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Makefile.in (STYLESRC): Add style/polski.el.
+
+	* RELEASE: Mention support for `polski' LaTeX package.
+
+	* style/polski.el: New file.
+
+	* doc/auctex.texi (European): Mention `polski' language option.
+
+2007-01-08  Ralf Angeli  <angeli@caeruleus.net>
+
+	* RELEASE: Document some new features.
+
+	* style/polish.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/polish.el.
+
+	* doc/auctex.texi (European): Remove references to `plfonts' and
+	`plhb' styles for typesetting Polish text because they seem to be
+	out of use.  Refer to the `polish' option for the babel LaTeX
+	package instead.
+
+	* tex.el (TeX-quote-language-alist): Replace references to
+	`plfonts' and `plhb' by `polish'.
+
+2007-01-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/wininstall.texi: Refer to up-to-date versions of CVS Emacs.
+
+	* doc/install.texi (Prerequisites): Refer to up-to-date versions
+	of CVS Emacs.
+
+2007-01-05  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (European): Improve TeX-quote-language-alist.
+
+	* tex.el (TeX-command-default): Mark as safe-local-variable.
+	(TeX-quote-language-alist): Improve custom type.  Add links to the
+	manual.  Improve doc string.
+
+2006-12-30  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Folding): Document user-visible changes in the
+	folding functionality.
+
+2006-12-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-info.el (TeX-texinfo-mode): Set `comment-use-syntax'.
+
+	* tex-fold.el: Update author email address.
+	(TeX-fold-type-list): New variable.
+	(TeX-fold-keymap): Add key binding for `TeX-fold-comment'.
+	(TeX-fold-dwim): Try to fold comment as well.
+	(TeX-fold-region): Move implementation of region folding for
+	macros and environments out into the new function
+	`TeX-fold-region-macro-or-env' and cater for comments as well.
+	(TeX-fold-region-macro-or-env, TeX-fold-region-comment)
+	(TeX-fold-comment, TeX-fold-comment-do): New functions.
+
+	* latex.el (LaTeX-common-initialization): Set
+	`TeX-search-forward-comment-start-function'.
+	(LaTeX-fill-region-as-para-do, LaTeX-fill-paragraph)
+	(LaTeX-fill-code-comment): Call `TeX-search-forward-comment-start'
+	instead of `LaTeX-search-forward-comment-start'.
+
+	* tex.el (VirTeX-common-initialization): Set `comment-end-skip'
+	and `comment-use-syntax'.
+	(TeX-fold-menu): Add entry for folding comments.
+	(TeX-comment-forward): New compatibility function.
+	(TeX-comment-or-uncomment-region): Use it.
+	(TeX-search-forward-comment-start-function): New variable.
+	(TeX-search-forward-comment-start): New function.
+
+2006-12-10  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-section-hook): Place into `LaTeX-macro' group.
+	(LaTeX-verbatim-macros-with-delims)
+	(LaTeX-verbatim-macros-with-braces): Same here.
+	(LaTeX-verbatim-environments): Place into `LaTeX-environment'
+	group.
+
+2006-12-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-bar.el (TeX-install-toolbar, LaTeX-install-toolbar): Add
+	`toolbarx-refresh' to `TeX-PDF-mode-hook' in the current buffer
+	only.
+
+2006-12-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* context-nl.el (ConTeXt-nl-mode-initialization): Use correct
+	syntax for prompting for an optional argument in case of \items
+	macro.
+
+	* context-en.el (ConTeXt-en-mode-initialization): Use correct
+	syntax for prompting for an optional argument in case of \items
+	macro.
+
+	* context.el (ConTeXt-arg-setup): Capitalize prompt.
+
+2006-12-04  Miguel Frasson  <mvsfrasson@gmail.com>
+
+	* toolbar-x.el (toolbarx-emacs-add-button):
+	Insert buttons in KEYMAP (new arg).
+	Unnecessary &optional removed.
+	Removed broken code for fake-button `:new-line'.
+	(toolbarx-emacs-refresh-process-button-or-insert-list):
+	New arg KEYMAP inserted.
+	Unnecessary &optional removed.
+	(toolbarx-emacs-refresh):
+	Fixed bug with `tool-bar-map' let-bound and made local variable.
+	(toolbarx-xemacs-refresh-process-button-or-insert-list):
+	Docstring improved..
+	(toolbarx-xemacs-refresh):
+	Using `nreverse' directly inside `let'.
+	`nreverse' is applied to lists generated from actual
+	data-structures, leaving such data-structures alone.
+	
+2006-11-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* context.el (ConTeXt-texexec-option-nonstop): New variable.
+	(ConTeXt-expand-options): Use it.
+
+2006-11-24  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (plain-TeX-enable-toolbar): Rename from
+	`TeX-enable-toolbar'.
+	(plain-TeX-maybe-install-toolbar): Rename from
+	`TeX-maybe-install-toolbar'.
+	(TeX-plain-tex-mode): Use new names.
+
+	* doc/auctex.texi (Running TeX and friends): Explicitely mention
+	`plain-TeX-enable-toolbar' and `LaTeX-enable-toolbar'.
+
+2006-11-16  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-fill-region-as-para-do): Do not break before
+	code comments if at a commented beginning of a line.
+
+2006-10-21  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/preview-latex.texi: Fix @node commands.
+
+2006-10-20  David Kastrup  <dak@gnu.org>
+
+	* doc/auctex.texi (top): Mention reference card.
+
+	* doc/Makefile.in (PREVIEWTEXIFILES): Add `version.texi'.
+
+	* doc/auctex.texi: Add formatting emergencystretch.  Move macros
+	input.
+	(top): Rearrange somewhat.  Avoid duplicate contents (?).
+
+	* doc/preview-latex.texi: Restructure and relicense taking
+	auctex.texi as an example.
+
+	* doc/auctex.texi (top): In the user-visible part of the info
+	file, move the copying info completely to the "Copying this
+	manual" section in order to reduce clutter.
+
+2006-10-19  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Mention previous XEmacs package problems.
+
+2006-10-16  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-parse-error, TeX-error, TeX-warning): Replace
+	the error parser basically by what we have in preview-latex.
+	However, this does not yet do the fine-grained hackery around
+	possible TeX quote characters that preview-latex employs in order
+	to get the correct character position in a line even under adverse
+	conditions.
+
+2006-10-11  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-error-description-list): Add preview-latex error
+	pattern here.
+
+	* tex.el (TeX-expand-list): Add "%m" pattern from preview.
+	(TeX-add-local-master): Make a local variable wrapper more
+	suitable for docstrip.
+
+2006-10-10  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Mention space in file names, PostScript stack
+	tolerance.
+	
+	* tex-buf.el (TeX-command-expand): Make `file' self-quoting in
+	expansion, and trick around with `TeX-command-pos' and other junk
+	in order to make the quoting stuff of "%`" and "%'" work.
+	(TeX-view-output-file): Became pretty pointless.  Remove.
+
+	* tex.el (TeX-command-list): Use "%`" and "%'" magic to allow file
+	names with spaces.
+	(TeX-output-view-style): Don't quote "%s", that's the job of
+	`TeX-command-expand'.
+	(TeX-expand-list): Use the `-interaction' option.  Define "%`",
+	" \"\\", "\"" and "%'" patterns.  Somebody should probably rather
+	turn this into external functions in `tex-buf.el': the stuff
+	really has no business here and does not get byte-compiled.  Use
+	`file' for "%o".
+
+2006-10-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-fill-region-as-paragraph): Match "foo\ %" as
+	well.
+
+2006-10-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-find-macro-boundaries): Prevent `up-list' and
+	friends from finding parens in comments if point is not in a
+	comment and vice versa.
+
+2006-10-02  David Kastrup  <dak@gnu.org>
+
+	* doc/auctex.texi: Change the licensing terms to require no front
+	and back cover texts, and explicitly exclude the GFDL from being
+	licensed under the GFDL.
+	(top): Give a synopsis for the license section in the top menu.
+	Remove redundant version mentions, remove the explicit exclusion
+	of the GFDL from GFDL licensing: RMS says it is unnecessary.
+
+2006-09-29  David Kastrup  <dak@gnu.org>
+
+	* autogen.sh: Use `=' instead of `==' in tests.
+
+	* doc/Makefile.in (version.texi): Let version.texi depend rather
+	on ChangeLog in order not to disturb pregenerated documentation.
+
+	* autogen.sh: Prepare `AUCTEXDATE' and `AUCTEXVERSION' for `make
+	dist'.
+
+	* Makefile.in (tar-ball): Pass version and date into autogen.sh
+
+	* doc/Makefile.in (AUCTEXDATE, AUCTEXVERSION): get from configure.
+	(AUCTEXTEXIFILES): Add fdl.texi and version.texi
+	(version.texi): create depending on Makefile.
+	(maintainer-clean): Remove version.texi.  Should this be in the
+	distclean target instead?
+
+	* doc/fdl.texi: Add it.
+
+	* Makefile.in (DOCFILES): Remove, unused.
+	(doc/Makefile): Add target.
+	(info, dvi, install-man, install-docs, clean, distclean)
+	(tar-ball): depend on doc/Makefile
+
+	* doc/.cvsignore: Add version.texi, remove unused auto.texi.
+
+	* doc/auctex.texi: Rearrange header material, put under GFDL, add
+	license, take version numbers from version.texi.
+
+2006-09-21  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Adapt to upcoming release.
+
+	* doc/install.texi (Configure): Remove reference to
+	`--with-kpathseasep' option.
+
+	* tex-mik.el (TeX-kpathsea-path-delimiter): initialize to ";".
+
+	* tex-fptex.el (TeX-kpathsea-path-delimiter): initialize to ";".
+
+2006-09-20  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el: Let `TeX-active-buffer' return nil if there is no
+	command buffer.  Change copyright notice from Kresten Krab Thorup
+	to reflect assignment to FSF.
+
+	* latex.el: Change copyright notice.
+
+	* tex.el: Change copyright notice.
+
+	* doc/tex-ref.tex: Change copyright notice.
+
+	* doc/auctex.texi: Change copyright notice.
+
+2006-09-17  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/faq.texi: Fix syntax error.
+
+2006-09-16  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/faq.texi: Explain the abbreviation AUC.
+
+2006-09-13  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* toolbar-x.el (toolbarx-emacs-refresh): Don't modify global value
+	of `tool-bar-map'.
+
+2006-09-11  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (LaTeX-math-default): Remove X2ABB for \Pr.  Suggested
+	by Adam Johnson <thu_zh@hotmail.com>.
+
+2006-09-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el: Use read-kbd-macro instead of kbd for LaTeX-math-mode.
+	(LaTeX-math-default): Add bindings for \var... symbols.
+	(LaTeX-math-default): Change binding for \vartheta.
+
+2006-09-08  David Kastrup  <dak@gnu.org>
+
+	* latex.el: Allow strings for keys in LaTeX-math-mode.
+	(LaTeX-math-list): Allow string for key.
+
+2006-09-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Mathematics): Align description of
+	`LaTeX-math-list' with reality.
+
+2006-08-25  David Kastrup  <dak@gnu.org>
+
+	* doc/preview-faq.texi (Requirements, Installation Trouble)
+	(Customization): Update and remove stuff, mostly because
+	preview-latex is integrated with AUCTeX now.
+
+2006-08-30  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (TeX-latex-mode): Check if `tool-bar-mode' is bound.
+
+	* tex.el (TeX-plain-tex-mode): Check if `tool-bar-mode' is bound.
+
+2006-08-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (European): Make replacement of
+	language-specific hyphen strings more obvious.
+
+2006-08-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/csquotes.el: Bring up to par with version 3.5.
+
+2006-08-17  David Kastrup  <dak@gnu.org>
+
+	* doc/auctex.texi (Viewing): Type fix.
+
+2006-08-05  Berend de Boer  <berend@pobox.com>
+
+	* context-en.el: quite a few more English ConTeXt macros made
+	available in menu.
+
+	* context-nl.el: few more Dutch ConTeXt macros made available in menu.
+
+	* context.el: more ConTeXt macros made available in menu.
+
+2006-08-02  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex-bar.el (TeX-bar-TeX-button-alist, TeX-bar-LaTeX-button-alist):
+	Make `file' invisible in TeX-PDF-mode.  Add clean.
+	(TeX-bar-TeX-buttons, TeX-bar-LaTeX-buttons): Improve custom type.
+
+2006-07-27  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex-bar.el (TeX-bar-TeX-buttons, TeX-bar-LaTeX-buttons): Improve
+	wording.
+
+	* doc/changes.texi: Add bug fixes.  Add TeX tool bar.
+
+	* doc/auctex.texi (Running TeX and friends): Add
+	TeX-enable-toolbar.
+
+	* tex-bar.el: Copy of tool bar stuff from LaTeX-*.
+	(TeX-bar-TeX-buttons, TeX-bar-TeX-all-button-alists)
+	(TeX-bar-TeX-button-alist): New variables.
+	(TeX-bar-TeX-buttons, TeX-install-toolbar): New funtions.
+	(TeX-tool-bar-button-definitions): New custom group
+
+	* tex.el (TeX-enable-toolbar): New variable.
+	(TeX-maybe-install-toolbar): New function.
+	(TeX-plain-tex-mode): Add `TeX-maybe-install-toolbar'.
+
+2006-07-27  David Kastrup  <dak@gnu.org>
+
+	* doc/wininstall.texi: Add explanation of how to augment `PATH'.
+
+	* doc/todo.texi (Mid-term Goals): Typo.
+
+2006-07-25  David Kastrup  <dak@gnu.org>
+
+	* style/doc.el ("doc"): Add macrocode and macrocode* to
+	indentation-neutral environment list.
+
+	* latex.el (LaTeX-insert-environment): Leave mark at start of
+	content when inserting around active region.
+
+2006-07-11  David Kastrup  <dak@gnu.org>
+
+	* latex.el (LaTeX-font-list): Add `\mathbb' on C-c C-f C-s.
+
+2006-07-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-script): Don't match groups
+	spanning more than one line in order to avoid visually wrong
+	indentation in subsequent lines.
+	(font-latex-match-quotation): Do not match escaped quotation
+	marks.
+
+2006-07-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* bib-cite.el, tex-mik.el, doc/changes.texi, doc/history.texi,
+	doc/wininstall.texi: Fix spelling of MiKTeX.
+
+2006-07-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-script): Fix last check-in.
+
+2006-07-18  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-script): Apply subscript and
+	superscript highlighting only once in order to prevent the font
+	size becoming too small.
+
+2006-07-15  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-maybe-install-toolbar): Enable tool bar in LaTeX
+	mode only.
+	(LaTeX-maybe-install-toolbar): Revert last change.
+	(TeX-latex-mode): Set `tool-bar-mode-on-hook' buffer-locally
+	instead.
+
+2006-07-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Fix regexp for
+	matching whitespace and comment characters at the start of a line.
+	Simplify forward search.
+
+2006-07-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-find-macro-boundaries, TeX-find-macro-start): Remove
+	unused argument.
+	(TeX-find-macro-end-helper): Handle macros at the end of the
+	buffer correctly.
+
+2006-07-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-math-close-double-dollar): New variable.
+	(TeX-insert-dollar): Use it.
+
+	* Makefile.in, doc/Makefile.in (datarootdir): New variable used by
+	autoconf 2.59e.
+
+2006-07-09  Ralf Angeli  <angeli@caeruleus.net>
+
+	* aclocal.m4 (EMACS_CHECK_MULE): Check for EMACS_UNIBYTE
+	environment variable and do not set MULESRC if it is present.
+
+2006-07-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-normal-mode): Force update of style list.
+
+2006-07-02  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc-backend-alist): Explicitely supply doc directory
+	for non-kpathsea-based TeX systems.
+
+2006-06-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-fill-region-as-paragraph): Fix treatment of code
+	comments in case of something like "\%}%".
+
+2006-06-24  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-clean): Delete files in directory of master file.
+
+2006-06-23  Joshua Buhl <jbuhl_nospam@gmx.de>
+
+	* doc/tex-ref.tex (title{Outlining TeX Documents}): new section.
+
+2006-06-19  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/amsmath.el ("amsmath"): Prompt for alignment option with
+	subarray environments.
+
+2006-06-18  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc-backend-alist): Preserve window configuration
+	when checking for info backends.
+
+2006-06-17  Ikumi Keita <ikumi@revery.net>
+
+	* tex.el (TeX-parse-arguments): Makes to work with proper value of
+	TeX-insert-macro-default-style.
+	(TeX-insert-braces): Place braces with right direction with active
+	region, (related to the case when the region is being marked
+	backwards).
+
+2006-06-17  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex.el (TeX-clean): Delete generated files associated with
+	`TeX-region-file'.  Suggested by Ikumi Keita <ikumi@revery.net>.
+
+2006-06-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (Info-find-file): Do not autoload.
+	(TeX-doc-backend-alist): Use a method for checking the presence of
+	an info file which works in Emacs 21 as well.
+
+2006-06-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc-backend-alist): Don't error out if
+	`Info-find-file' is not available.
+	(TeX-doc): Use `interactive-p' instead of `called-interactively-p'
+	which is not available in Emacs 21.
+
+2006-06-11  Ikumi Keita  <ikumi@revery.net>
+
+	* style/amsmath.el ("amsmath"): Docfix for 'uproot'.
+	(LaTeX-amsmath-env-alignat): Fix typo.
+
+2006-06-08  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (PREVIEW_BUILD_DIR): New variable for building the
+	preview standalone bundle.
+	(preview-ball): New target for creating the preview standalone
+	bundle for CTAN.
+
+2006-06-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec (%post, %postun): Use mktexlsr instead of texhash.
+	Only update the relevant ls-R file.
+	(%install): Add comment about preview.cfg.
+	(%install, %files): prauctex.cfg is the config file, not
+	preview.cfg.
+
+2006-06-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-set-paragraph-start): New function.
+	(LaTeX-paragraph-commands-add-locally)
+	(LaTeX-common-initialization): Use it.
+
 2006-06-07  Reiner Steib  <Reiner.Steib@gmx.de>
 
 	* Version 11.83 released.

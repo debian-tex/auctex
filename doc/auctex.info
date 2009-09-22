@@ -1,8 +1,19 @@
-This is auctex.info, produced by makeinfo version 4.6.90 from
-auctex.texi.
+This is auctex.info, produced by makeinfo version 4.11 from auctex.texi.
 
-INFO-DIR-SECTION Emacs
-INFO-DIR-SECTION TeX
+This manual is for AUCTeX (version 11.85 from 2008-02-10), a
+sophisticated TeX environment for Emacs.
+
+   Copyright (C) 1992, 1993, 1994, 1995, 2001, 2002, 2004, 2005, 2006,
+2007, 2008 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, no Front-Cover Texts and
+     no Back-Cover Texts.  A copy of the license is included in the
+     section entitled "GNU Free Documentation License."
+
+INFO-DIR-SECTION EmacsINFO-DIR-SECTION TeX
 START-INFO-DIR-ENTRY
 * AUCTeX: (auctex).     A sophisticated TeX environment for Emacs.
 END-INFO-DIR-ENTRY
@@ -13,10 +24,11 @@ File: auctex.info,  Node: Top,  Next: Copying,  Up: (dir)
 AUCTeX
 ******
 
+This manual may be copied under the conditions spelled out in *note
+Copying this Manual::.
+
    AUCTeX is an integrated environment for editing LaTeX, ConTeXt,
 docTeX, Texinfo, and TeX files.
-
-   This file documents AUCTeX version 11.83.
 
    Although AUCTeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -25,6 +37,9 @@ small steps.  AUCTeX is not monolithic, each feature described in this
 manual is useful by itself, but together they provide an environment
 where you will make very few LaTeX errors, and makes it easy to find
 the errors that may slip through anyway.
+
+   It is a good idea to make a printout of AUCTeX's reference card
+`tex-ref.tex' or one of its typeset versions.
 
    If you want to make AUCTeX aware of style files and multi-file
 documents right away, insert the following in your `.emacs' file.
@@ -39,15 +54,7 @@ navigation and a few other things.  (*note Installation:
 (reftex)Installation.)
 
    For detailed information about the preview-latex subsystem of
-AUCTeX, see *Note Introduction: (preview-latex)Top.
-
-   NOTE: This documentation is preliminary.  It should however cover
-most important points.  Corrections or perhaps rewrites of sections are
-VERY WELCOME.
-
-   Kresten Krab Thorup (6.0)
-Per Abrahamsen (updates to 11.13)
-David Kastrup (updates from 11.14)
+AUCTeX, see *note Introduction: (preview-latex)Top.
 
    There is a mailing list for general discussion about AUCTeX: write a
 mail with "subscribe" in the subject to <auctex-request@gnu.org> to
@@ -76,6 +83,7 @@ announcement list by sending "subscribe" in the subject of a mail to
 * Internationalization::        Language Support
 * Automatic::                   Automatic Customization
 * Style Files::                 Writing Your own Style Support
+* Copying this Manual::         GNU Free Documentation License
 * Changes::                     Changes and New Features
 * Development::                 Future Development
 * FAQ::                         Frequently Asked Questions
@@ -150,40 +158,38 @@ File: auctex.info,  Node: Copying,  Next: Introduction,  Prev: Top,  Up: Top
 Copying
 *******
 
-(This text stolen from the Texinfo 2.16 distribution).
-
-   The programs currently being distributed that relate to AUCTeX
-include lisp files for Emacs (and XEmacs).  These programs are "free";
-this means that everyone is free to use them and free to redistribute
-them on a free basis.  The AUCTeX related programs are not in the
-public domain; they are copyrighted and there are restrictions on their
-distribution, but these restrictions are designed to permit everything
-that a good cooperating citizen would want to do.  What is not allowed
-is to try to prevent others from further sharing any version of these
-programs that they might get from you.
+AUCTeX primarily consists of Lisp files for Emacs (and XEmacs), but
+there are also installation scripts and files and TeX support files.
+All of those are "free"; this means that everyone is free to use them
+and free to redistribute them on a free basis.  The files of AUCTeX are
+not in the public domain; they are copyrighted and there are
+restrictions on their distribution, but these restrictions are designed
+to permit everything that a good cooperating citizen would want to do.
+What is not allowed is to try to prevent others from further sharing
+any version of these programs that they might get from you.
 
    Specifically, we want to make sure that you have the right to give
-away copies of the programs that relate to AUCTeX, that you receive
-source code or else can get it if you want it, that you can change these
-programs or use pieces of them in new free programs, and that you know
-you can do these things.
+away copies of the files that constitute AUCTeX, that you receive source
+code or else can get it if you want it, that you can change these files
+or use pieces of them in new free programs, and that you know you can do
+these things.
 
    To make sure that everyone has such rights, we have to forbid you to
 deprive anyone else of these rights.  For example, if you distribute
-copies of the AUCTeX related programs, you must give the recipients all
-the rights that you have.  You must make sure that they, too, receive
-or can get the source code.  And you must tell them their rights.
+copies of parts of AUCTeX, you must give the recipients all the rights
+that you have.  You must make sure that they, too, receive or can get
+the source code.  And you must tell them their rights.
 
    Also, for our own protection, we must make certain that everyone
-finds out that there is no warranty for the programs that relate to
-AUCTeX.  If these programs are modified by someone else and passed on,
-we want their recipients to know that what they have is not what we
-distributed, so that any problems introduced by others will not reflect
-on our reputation.
+finds out that there is no warranty for AUCTeX.  If any parts are
+modified by someone else and passed on, we want their recipients to
+know that what they have is not what we distributed, so that any
+problems introduced by others will not reflect on our reputation.
 
-   The precise conditions of the licenses for the programs currently
-being distributed that relate to AUCTeX are found in the General Public
-Licenses that accompany them.
+   The precise conditions of the licenses for the files currently being
+distributed as part of AUCTeX are found in the General Public Licenses
+that accompany them.  This manual specifically is covered by the GNU
+Free Documentation License (*note Copying this Manual::).
 
 
 File: auctex.info,  Node: Introduction,  Next: Installation,  Prev: Copying,  Up: Top
@@ -198,7 +204,7 @@ documentation for AUCTeX is available in the rest of the manual.
 1.1 Installation
 ================
 
-Read the section *Note Installation::, or *Note Installation under MS
+Read the section *note Installation::, or *note Installation under MS
 Windows::, respectively for comprehensive information about how to
 install AUCTeX.
 
@@ -206,7 +212,7 @@ install AUCTeX.
 the default for all supported file types.  If this does not happen in
 your case, add
      (load "auctex.el" nil t t)
-   to your init file and consult the section *Note Loading the
+   to your init file and consult the section *note Loading the
 package::.
 
    If you want to change the modes for which it is operative instead of
@@ -219,7 +225,7 @@ its modes have been used,
    should accomplish that.
 
    If you are considering upgrading AUCTeX, the recent changes are
-described in *Note Changes::.
+described in *note Changes::.
 
 1.2 Features
 ============
@@ -239,7 +245,7 @@ several files.
 preview-latex, a combination of folding and in-source previewing that
 provides true "What You See Is What You Get" experience in your
 sourcebuffer, while letting you retain full control.  preview-latex
-comes with its own manual, see *Note preview-latex: (preview-latex)Top.
+comes with its own manual, see *note preview-latex: (preview-latex)Top.
 
    AUCTeX automatically indents your `LaTeX-source', not only as you
 write it -- you can also let it indent and format an entire document.
@@ -264,11 +270,11 @@ Version 2'.
 
 The most recent version is always available at
 
-                                   <http://ftp.gnu.org/pub/gnu/auctex/>
+                                   `http://ftp.gnu.org/pub/gnu/auctex/'
 
    WWW users may want to check out the AUCTeX page at
 
-                                  <http://www.gnu.org/software/auctex/>
+                                  `http://www.gnu.org/software/auctex/'
 
 1.4 Contacts
 ============
@@ -299,7 +305,7 @@ installations can be done by specifying a `--prefix=...' option).
 
    On many systems, this will already activate the package, making its
 modes the default instead of the built-in modes of Emacs.  If this is
-not the case, consult *Note Loading the package::.  Please read through
+not the case, consult *note Loading the package::.  Please read through
 this document fully before installing anything.  The installation
 procedure has changed as compared to earlier versions.  Users of
 MS Windows are asked to consult *Note Installation under MS Windows::.
@@ -326,29 +332,31 @@ File: auctex.info,  Node: Prerequisites,  Next: Configure,  Up: Installation
      Emacs 20 is no longer supported, and neither is XEmacs with a
      version of `xemacs-base' older than 1.84 (released in sumo from
      02/02/2004).  Using preview-latex requires a version of Emacs
-     compiled with image support.  This means that Emacs 21 will work
-     only in the version for X11: for Windows and MacOSX, you need to
-     use Emacs 22 (which is not yet released) or a developer version.
-     Since the developer version is quite stable by now and features
-     four more years of development and bugfixes, we recommend its use
-     even for X11-based platforms.  You can get it here:
+     compiled with image support.  While the X11 version of Emacs 21
+     will likely work, Emacs 22 is the preferred platform.
 
     Windows
           Precompiled versions are available from
-          `http://www.crasseux.com/emacs/' and `http://nqmacs.sf.net/'.
+          `ftp://ftp.gnu.org/gnu/emacs/windows/'.
 
-    MacOSX
+    Mac OS X
           A precompiled version including an installer as well as
           preinstalled versions of AUCTeX and preview-latex is
-          available from `http://yaced.sf.net/'.  A different port is
-          `http://home.att.ne.jp/alpha/z123/emacs-mac-e.html'.
+          available from
+          `http://homepage.mac.com/zenitani/emacs-e.html'.
 
-    Debian Linux
-          Debian provides `emacs-snapshot' and `emacs-snapshot-gtk'
-          packages in its `unstable' distribution.
+    Debian GNU/Linux
+          Debian provides `emacs22-gtk' (probably preferable) and
+          `emacs22' packages in its `unstable' distribution.
 
-    Fedora Linux
-          `http://people.redhat.com/petersen/emacs/'
+    Fedora GNU/Linux
+          Fedora 8 comes with Emacs 22.1 and Fedora 7 comes with a
+          developer version of the same.
+
+    openSUSE
+          openSUSE 10.3 comes with Emacs 22.1.  For some earlier
+          openSUSE versions, Emacs 22.1 is available from
+          `http://packages.opensuse-community.org/'.
 
     Self-compiled
           Compiling Emacs yourself requires a C compiler and a number
@@ -374,15 +382,15 @@ File: auctex.info,  Node: Prerequisites,  Next: Configure,  Up: Installation
      Well, AUCTeX would be pointless without that.  Processing
      documentation requires TeX, LaTeX and Texinfo during installation.
      preview-latex requires Dvips for its operation in DVI mode.  The
-     default configuration of AUCTeX is tailored for teTeX-based
-     distributions, but can be adapted easily.
+     default configuration of AUCTeX is tailored for teTeX or
+     TeXlive-based distributions, but can be adapted easily.
 
    * A recent Ghostscript
 
      This is needed for operation of preview-latex in both DVI and PDF
      mode.  Most versions of Ghostscript nowadays in use should work
      fine (version 7.0 and newer).  If you encounter problems, check
-     *Note Problems with Ghostscript: (preview-latex)Problems with
+     *note Problems with Ghostscript: (preview-latex)Problems with
      Ghostscript.
 
    * The `texinfo' package
@@ -393,7 +401,7 @@ File: auctex.info,  Node: Prerequisites,  Next: Configure,  Up: Installation
      file is included in the tarball.  At least version 4.0 is required.
 
 
-   For some known issues with various software, see *Note Known
+   For some known issues with various software, see *note Known
 problems: (preview-latex)Known problems.
 
 
@@ -509,11 +517,6 @@ it out with one of these options:
      can install those files into your own TeX tree at some later time
      with `M-x preview-install-styles RET'.
 
-`--with-kpathseasep=`[:|;]''
-     Set this option if you use `--without-texmf-dir' and the
-     configuration routine cannot figure out itself the directory
-     separator used by the kpathsea library.
-
 `--with-tex-dir=/DIR'
      If you want to specify an exact directory for the preview TeX
      files, use `--with-tex-dir=/DIR'. In this case, the files will be
@@ -598,7 +601,7 @@ system might be used by more than one user, with different preferences.
    There are people that prefer the built-in Emacs modes for editing
 TeX files, in particular plain TeX users.  There are various ways to
 tell AUCTeX even after auto-activation that it should not get used, and
-they are described in *Note Introduction to AUCTeX: Introduction.
+they are described in *note Introduction to AUCTeX: Introduction.
 
    So if you have users that don't want to use the preinstalled AUCTeX,
 they can easily get rid of it.  Activating AUCTeX by default is
@@ -769,27 +772,28 @@ case you don't understand some of this, run into trouble of some sort,
 or need more elaborate information, refer to the detailed instructions
 further below.
 
-  1. Install the prerequisites, i.e. GNU Emacs or XEmacs, MSYS or
-     Cygwin, a TeX system, and Ghostscript.
+  1. Install the prerequisites, i.e. Emacs or XEmacs, MSYS or Cygwin, a
+     TeX system, and Ghostscript.
 
   2. Open the MSYS shell or a Cygwin shell and change to the directory
      containing the unzipped file contents.
 
   3. Configure AUCTeX:
 
-     For GNU Emacs: Many people like to install AUCTeX into the pseudo
-     file system hierarchy set up by the Emacs installation.  Assuming
-     Emacs is installed in `C:/Program Files/Emacs' and the directory
-     for local additions of your TeX system, e.g. MikTeX, is
+     For Emacs: Many people like to install AUCTeX into the pseudo file
+     system hierarchy set up by the Emacs installation.  Assuming Emacs
+     is installed in `C:/Program Files/Emacs' and the directory for
+     local additions of your TeX system, e.g. MiKTeX, is
      `C:/localtexmf', you can do this by typing the following statement
      at the shell prompt:
 
           ./configure --prefix='C:/Program Files/Emacs' \
+            --infodir='C:/Program Files/Emacs/info' \
             --with-texmf-dir='C:/localtexmf'
 
      For XEmacs: You can install AUCTeX as an XEmacs package.  Assuming
      XEmacs is installed in `C:/Program Files/XEmacs' and the directory
-     for local additions of your TeX system, e.g. MikTeX, is
+     for local additions of your TeX system, e.g. MiKTeX, is
      `C:/localtexmf', you can do this by typing the following command at
      the shell prompt:
 
@@ -803,7 +807,19 @@ further below.
      If the configuration script failed to find all required programs,
      make sure that these programs are in your system path and add
      directories containing the programs to the `PATH' environment
-     variable if necessary.
+     variable if necessary.  Here is how to do that in W2000/XP:
+
+       1. On the desktop, right click "My Computer" and select
+          properties.
+
+       2. Click on "Advanced" in the "System Properties" window.
+
+       3. Select "Environment Variables".
+
+       4. Select "path" in "System Variables" and click "edit".  Move
+          to the front in the line (this might require scrolling) and
+          add the missing path including drive letter, ended with a
+          semicolon.
 
   4. If there were no further error messages, type
 
@@ -870,42 +886,33 @@ used single quotes for that.
      step: this should provide you with a working `unzip' command.
 
   2. The installation of AUCTeX will require the MSYS tool set from
-     `http://www.mingw.org' or the Cygwin tool set from
-     `http://cygwin.com'.  The latter is slower and larger (the download
-     size of the base system is about 15 MB) but comes with a package
-     manager that allows for updating the tool set and installing
-     additional packages like, for example, the spell checker aspell.
+     `http://www.mingw.org/' or the Cygwin tool set from
+     `http://cygwin.com/'.  The latter is slower and larger (the
+     download size of the base system is about 15 MB) but comes with a
+     package manager that allows for updating the tool set and
+     installing additional packages like, for example, the spell
+     checker aspell.
 
      If Cygwin specific paths like `/cygdrive/c' crop up in the course
      of the installation, using a non-Cygwin Emacs could conceivably
      cause trouble.  Using Cygwin either for everything or nothing
      might save headaches, _if_ things don't work out.
 
-  3. Install a current version of XEmacs from `http://www.xemacs.org'
-     or try getting and compiling a developer version of Emacs 22 from
-     Savannah (http://savannah.gnu.org/cvs/?group=emacs).  Compiling
-     Emacs is outside of the scope of this manual.  Precompiled versions
-     currently happen to be available at
-     `http://www.crasseux.com/emacs/' and `http://nqmacs.sf.net/'.
-
-     If you don't want to use a developer version and Emacs 22 has not
-     yet been released, it is also possible to use an Emacs 21 binary
-     from `http://ftp.gnu.org/pub/gnu/windows/emacs/', but then you
-     should disable the installation of preview-latex (it will not
-     work).  Since the developer version has seen quite a few
-     improvements relevant also for other features of AUCTeX, we really
-     recommend you give it a try.
+  3. Install a current version of XEmacs from `http://www.xemacs.org/'
+     or Emacs 22 from `ftp://ftp.gnu.org/gnu/emacs/windows/'.  Emacs 22
+     is the recommended choice because it is currently the primary
+     platform for AUCTeX development.
 
   4. You need a working TeX installation.  One popular installation
-     under Windows is MikTeX (http://www.miktex.org).  Another much more
+     under Windows is MiKTeX (http://www.miktex.org).  Another much more
      extensive system is TeX Live (http://www.tug.org/texlive) which is
      rather close to its Unix cousins.
 
-  5. A working copy of Ghostscript (http://www.cs.wisc.edu/~ghost) is
+  5. A working copy of Ghostscript (http://www.cs.wisc.edu/~ghost/) is
      required for preview-latex operation.  Examining the output from
           gswin32c -h
      on a Windows command line should tell you whether your Ghostscript
-     supports the `png16m' device needed for PNG support.  MikTeX
+     supports the `png16m' device needed for PNG support.  MiKTeX
      apparently comes with its own Ghostscript called `mgs.exe'.
 
   6. Perl (http://www.perl.org) is needed for rebuilding the
@@ -935,7 +942,8 @@ used single quotes for that.
           `share' and `bin' will be situated right under PREFIX.
 
           This option also affects the defaults for placing the Texinfo
-          documentation files and automatically generated style hooks.
+          documentation files (see also `--infodir' below) and
+          automatically generated style hooks.
 
           If you have a central directory hierarchy (not untypical with
           Cygwin) for such stuff, you might want to specify its root
@@ -974,7 +982,15 @@ used single quotes for that.
           subdirectory called `auctex'.
 
           If you think that you need a different setup, please refer to
-          the full installation instructions in *Note Configure::.
+          the full installation instructions in *note Configure::.
+
+    `--infodir=DRIVE:/PATH/TO/INFO/DIRECTORY'
+          If you are installing into an Emacs directory, info files
+          have to be put into the `info' folder below that directory.
+          The configuration script will usually try to install into the
+          folder `share/info', so you have to override this by
+          specifying something like `--infodir='C:/Program Files/info''
+          for the configure call.
 
     `--with-auto-dir=DRIVE:/DIR'
           Directory containing automatically generated information.
@@ -990,10 +1006,10 @@ used single quotes for that.
           This will specify the directory where your TeX installation
           sits.  If your TeX installation does not conform to the TDS
           (TeX directory standard), you may need to specify more
-          options to get everything in place:
+          options to get everything in place.
 
      For more information about any of the above and additional
-     options, see *Note Configure::.
+     options, see *note Configure::.
 
      Calling `./configure --help=recursive' will tell about other
      options, but those are almost never required.
@@ -1029,12 +1045,12 @@ used single quotes for that.
      `~/.xemacs/init.el' from within XEmacs).
 
      The default configuration of AUCTeX is probably not the best fit
-     for Windows systems.  You might want to additionally use
+     for Windows systems.  You might want to add
           (require 'tex-mik)
      or
           (require 'tex-fptex)
-     in order to get more appropriate values for MikTeX and fpTeX,
-     respectively.
+     in order to get more appropriate values for MiKTeX and fpTeX,
+     respectively after loading `auctex.el' and `preview-latex.el'.
 
      You can always use
 
@@ -1113,7 +1129,7 @@ only a few minutes of reading.
 your system.  If this is not the case, you should read the file
 `INSTALL' in the base directory of the unpacked distribution tarball.
 These installation instructions are available in this manual as well,
-*Note Installation::.  We also assume that you are familiar with the
+*note Installation::.  We also assume that you are familiar with the
 way keystrokes are written in Emacs manuals.  If not, have a look at
 the Emacs Tutorial in the Help menu.
 
@@ -1207,7 +1223,7 @@ a LaTeX macro.  You can use <TAB> for completion, or the up/down arrow
 keys (or `M-p' and `M-n') to browse the command history.  In many
 cases, AUCTeX knows which arguments a macro needs and will ask you for
 that.  It even can differentiate between mandatory and optional
-arguments--for details, see *Note Completion::.
+arguments--for details, see *note Completion::.
 
    An additional help for inserting macros is provided by the
 possibility to complete macros right in the buffer.  With point at the
@@ -1386,6 +1402,9 @@ File: auctex.info,  Node: Quotes,  Next: Font Specifiers,  Up: Frequently Used C
 4.1 Insertion of Quotes, Dollars, and Braces
 ============================================
 
+Quotation Marks
+---------------
+
 In TeX, literal double quotes `"like this"' are seldom used, instead
 two single quotes are used ```like this'''.  To help you insert these
 efficiently, AUCTeX allows you to continue to press `"' to insert two
@@ -1399,10 +1418,12 @@ single quotes.  To get a literal double quote, press `"' twice.
      prefix argument, always inserts `"' characters.
 
  -- User Option: TeX-open-quote
-     String inserted by typing `"' to open a quotation.
+     String inserted by typing `"' to open a quotation.  (*Note
+     European::, for language-specific quotation mark insertion.)
 
  -- User Option: TeX-close-quote
-     String inserted by typing `"' to close a quotation.
+     String inserted by typing `"' to close a quotation.  (*Note
+     European::, for language-specific quotation mark insertion.)
 
  -- User Option: TeX-quote-after-quote
      Determines the behavior of `"'.  If it is non-nil, typing `"' will
@@ -1427,27 +1448,38 @@ be used if both variables--`LaTeX-csquotes-open-quote' and
 `csquotes'-related values will take precedence over the
 language-specific ones.
 
-   In AUCTeX, dollar signs should match like they do in TeX.  This has
+Dollar Signs
+------------
+
+In AUCTeX, dollar signs should match like they do in TeX.  This has
 been partially implemented, we assume dollar signs always match within
 a paragraph.  The first `$' you insert in a paragraph will do nothing
 special.  The second `$' will match the first.  This will be indicated
-by moving the cursor temporarily over the first dollar sign.  If you
-enter a dollar sign that matches a double dollar sign `$$' AUCTeX will
-automatically insert two dollar signs.  If you enter a second dollar
-sign that matches a single dollar sign, the single dollar sign will
-automatically be converted to a double dollar sign.
+by moving the cursor temporarily over the first dollar sign.
 
  -- Command: TeX-insert-dollar ARG
      (`$') Insert dollar sign.
 
      Show matching dollar sign if this dollar sign end the TeX math
      mode.  Ensure double dollar signs match up correctly by inserting
-     extra dollar signs when needed.
+     extra dollar signs when needed if `TeX-math-close-double-dollar'
+     is non-nil.
 
      With optional ARG, insert that many dollar signs.
 
-   To avoid unbalanced braces, it is useful to insert them pairwise.
-You can do this by typing `C-c {'.
+ -- User Option: TeX-math-close-double-dollar
+     Control the insertion of double dollar signs for delimiting display
+     math.  (Note that you should not use double dollar signs in LaTeX
+     because this practice can lead to wrong spacing in typeset
+     documents.)  If the variable is non-nil and you enter a dollar
+     sign that matches a double dollar sign `$$' AUCTeX will
+     automatically insert two dollar signs.
+
+Braces
+------
+
+To avoid unbalanced braces, it is useful to insert them pairwise.  You
+can do this by typing `C-c {'.
 
  -- Command: TeX-insert-braces
      (`C-c {') Make a pair of braces and position the cursor to type
@@ -1841,16 +1873,17 @@ tradition, by offering a special minor mode for entering text with many
 mathematical symbols.  You can enter this mode by typing `C-c ~'.
 
  -- Command: LaTeX-math-mode
-     (`C-c ~') Toggle LaTeX-math-mode.  This is a minor mode rebinding
+     (`C-c ~') Toggle LaTeX Math mode.  This is a minor mode rebinding
      the key `LaTeX-math-abbrev-prefix' to allow easy typing of
      mathematical symbols.  ``' will read a character from the keyboard,
-     and insert the symbol as specified in `LaTeX-math-list'.  If given
-     a prefix argument, the symbol will be surrounded by dollar signs.
+     and insert the symbol as specified in `LaTeX-math-default' and
+     `LaTeX-math-list'.  If given a prefix argument, the symbol will be
+     surrounded by dollar signs.
 
    You can use another prefix key (instead of ``') by  setting the
 variable `LaTeX-math-abbrev-prefix'.
 
-   To enable LaTeX-math-mode by default, add the following in your
+   To enable LaTeX Math mode by default, add the following in your
 `.emacs' file:
      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 
@@ -1860,13 +1893,27 @@ variable `LaTeX-math-abbrev-prefix'.
 
      The string has to be a key or key sequence in a format understood
      by the `kbd' macro.  This corresponds to the syntax usually used
-     in the Emacs and Elisp manuals.
+     in the manuals for Emacs Emacs Lisp.
 
-   The variable `LaTeX-math-list' holds the actual mapping.
+   The variable `LaTeX-math-list' allows you to add your own mappings.
 
  -- User Option: LaTeX-math-list
-     A list containing key command mappings to use in `LaTeX-math-mode'.
-     The car of each element is the key and the cdr is the macro name.
+     A list containing user-defined keys and commands to be used in
+     LaTeX Math mode.  Each entry should be a list of two to four
+     elements.
+
+     First, the key to be used after `LaTeX-math-abbrev-prefix' for
+     macro insertion.  If it is nil, the symbol has no associated
+     keystroke (it is available in the menu, though).
+
+     Second, a string representing the name of the macro (without a
+     leading backslash.)
+
+     Third, a string representing the name of a submenu the command
+     should be added to.  Use a list of strings in case of nested menus.
+
+     Fourth, the position of a Unicode character to be displayed in the
+     menu alongside the macro name.  This is an integer value.
 
  -- User Option: LaTeX-math-menu-unicode
      Whether the LaTeX menu should try using Unicode for effect.  Your
@@ -2293,7 +2340,7 @@ highlighting certain keywords with different colors or fonts.  It
 thereby lets you recognize the function of markup code to a certain
 extent without having to read the markup command.  For general
 information on controlling font locking with Emacs' Font Lock mode, see
-*Note Font Lock Mode: (emacs)Font Lock.
+*note Font Lock Mode: (emacs)Font Lock.
 
  -- User Option: TeX-install-font-lock
      Once font locking is enabled globally or for the major modes
@@ -2539,6 +2586,9 @@ properties.
      quotes can be given in your source code, i.e. (`"<', `">'), (`<<',
      `>>') and the respective 8-bit variants.
 
+     If you set `font-latex-quotes' to nil, quoted content will not be
+     fontified.
+
 Subscript and superscript in math
 =================================
 
@@ -2559,7 +2609,7 @@ variables `font-latex-fontify-script' and `font-latex-script-display'.
      Display specification for subscript and superscript content.  The
      car is used for subscript, the cdr is used for superscript.  The
      feature is implemented using so-called display properties.  For
-     information on what exactly to specify for the values, see *Note
+     information on what exactly to specify for the values, see *note
      Other Display Specifications: (elisp)Other Display Specs.
 
 Verbatim macros and environments
@@ -2612,25 +2662,26 @@ File: auctex.info,  Node: Folding,  Next: Outline,  Prev: Font Locking,  Up: Dis
 6.2 Folding Macros and Environments
 ===================================
 
-There can be macros and environments which have content that is not part
-of the text body you are writing, like footnotes and citations.  Those
-enclose text which you often only want to see while actually editing it
-and which otherwise distract your view of the document body.  Similarly
-there are macros where you are not interested in viewing the macro
-besides its content but rather want to see the content only, like font
-specifiers where the content might already be fontified in a special way
-by font locking.
+A popular complaint about markup languages like TeX and LaTeX is that
+there is too much clutter in the source text and that one cannot focus
+well on the content.  There are macros where you are only interested in
+the content they are enclosing, like font specifiers where the content
+might already be fontified in a special way by font locking.  Or macros
+the content of which you only want to see when actually editing it,
+like footnotes or citations.  Similarly you might find certain
+environments or comments distracting when trying to concentrate on the
+body of your document.
 
    With AUCTeX's folding functionality you can collapse those items and
 replace them by either a fixed string or the content of one of their
 arguments instead.  If you want to make the original text visible again
-temporarily in order to view or edit it, move point sideways onto the
-placeholder (also called display string) or left-click with the mouse
-pointer on it.  (The latter is currently only supported on GNU Emacs.)
-The macro or environment will unfold automatically, stay open as long as
-point is inside of it and collapse again once you move point out of it.
-(Note that folding of environments currently does not work in every
-AUCTeX mode.)
+in order to view or edit it, move point sideways onto the placeholder
+(also called display string) or left-click with the mouse pointer on it.
+(The latter is currently only supported on Emacs.)  The macro or
+environment will unfold automatically, stay open as long as point is
+inside of it and collapse again once you move point out of it.  (Note
+that folding of environments currently does not work in every AUCTeX
+mode.)
 
    In order to use this feature, you have to activate `TeX-fold-mode'
 which will activate the auto-reveal feature and the necessary commands
@@ -2646,21 +2697,33 @@ you edit a LaTeX document, add it to a hook:
 instead of `LaTeX-mode-hook'.
 
    Once the mode is active there are several commands available to hide
-and show macros and environments:
+and show macros, environments and comments:
 
  -- Command: TeX-fold-buffer
-     (`C-c C-o C-b') Hide all macros specified in the variables
-     `TeX-fold-macro-spec-list' and `TeX-fold-env-spec-list'.  This
-     command can also be used to refresh the whole buffer and hide any
-     new macros and environments which were inserted after the last
-     invocation of the command.
+     (`C-c C-o C-b') Hide all foldable items in the current buffer
+     according to the setting of `TeX-fold-type-list'.  This command can
+     also be used to refresh the whole buffer and hide any new macros
+     and environments which were inserted after the last invocation of
+     the command.
 
+ -- User Option: TeX-fold-type-list
+     List of symbols determining the item classes to consider for
+     folding.  This can be macros, environments and comments.  Per
+     default only macros and environments are folded.
+
+ -- User Option: TeX-fold-force-fontify
      In order for all folded content to get the right faces, the whole
-     buffer has to be fontified before folding is carried out.  The
-     command therefore will force fontification of unfontified regions.
-     As this will prolong the time folding takes, you can prevent
-     forced fontification by customizing the variable
+     buffer has to be fontified before folding is carried out.
+     `TeX-fold-buffer' therefore will force fontification of unfontified
+     regions.  As this will prolong the time folding takes, you can
+     prevent forced fontification by customizing the variable
      `TeX-fold-force-fontify'.
+
+ -- User Option: TeX-fold-preserve-comments
+     By default items found in comments will be folded.  If your
+     comments often contain unfinished code this might lead to
+     problems.  Give this variable a non-nil value and foldable items
+     in your comments will be left alone.
 
  -- Command: TeX-fold-region
      (`C-c C-o C-r') Hide all configured macros in the marked region.
@@ -2684,6 +2747,9 @@ and show macros and environments:
      `TeX-fold-macro' and determined by the variables
      `TeX-fold-env-spec-list' and `TeX-fold-unspec-env-display-string'
      respectively.
+
+ -- Command: TeX-fold-comment
+     (`C-c C-o C-c') Hide the comment point is located on.
 
  -- Command: TeX-fold-clearout-buffer
      (`C-c C-o b') Permanently unfold all macros and environments in the
@@ -2809,10 +2875,10 @@ The most powerful features of AUCTeX may be those allowing you to run
 from within Emacs, viewing and printing the results, and moreover
 allowing you to _debug_ your documents.
 
-   If you are using the tool bar, AUCTeX provides a special tool bar for
-LaTeX which offers icons for the most important commands.  You can
-customize some tool bar features with `M-x customize-group RET
-TeX-tool-bar RET'.
+   AUCTeX comes with a special tool bar for TeX and LaTeX which
+provides buttons for the most important commands.  You can enable or
+disable it by customizing the options `plain-TeX-enable-toolbar' and
+`LaTeX-enable-toolbar' in the `TeX-tool-bar' customization group.
 
 * Menu:
 
@@ -2848,13 +2914,13 @@ TeX on a region is `TeX-command-buffer' which differs from
      commands are controlled by the variable `TeX-command-list'.  
 
    *Note Installation::, for a discussion about `TeX-command-list' and
-*Note Multifile:: for a discussion about `TeX-master'.
+*note Multifile:: for a discussion about `TeX-master'.
 
  -- Command: TeX-command-region
      (`C-c C-r') Query the user for a command, and run it on the "region
      file".  Some commands (typically those invoking TeX or LaTeX) will
      write the current region into the region file, after extracting the
-     header and tailer from the master file.  If mark is inactive
+     header and trailer from the master file.  If mark is inactive
      (which can happen with `transient-mark-mode'), use the old region.
      The name of the region file is controlled by the variable
      `TeX-region'.  The name of the master file is controlled by the
@@ -2878,13 +2944,13 @@ TeX on a region is `TeX-command-buffer' which differs from
      (`C-c C-b') Query the user for a command, and run it on the "region
      file".  Some commands (typically those invoking TeX or LaTeX) will
      write the current buffer into the region file, after extracting the
-     header and tailer from the master file.  See above for details.
+     header and trailer from the master file.  See above for details.
 
    AUCTeX will allow one process for each document, plus one process
 for the region file to be active at the same time.  Thus, if you are
 editing N different documents, you can have N plus one processes
 running at the same time.  If the last process you started was on the
-region, the commands described in *Note Debugging:: and *Note Control::
+region, the commands described in *note Debugging:: and *note Control::
 will work on that process, otherwise they will work on the process
 associated with the current document.
 
@@ -2927,16 +2993,24 @@ do this by putting special formatted text near the end of the file.
    AUCTeX will try to save any buffers related to the document, and
 check if the document needs to be reformatted.  If the variable
 `TeX-save-query' is non-nil, AUCTeX will query before saving each file.
-By default AUCTeX will check emacs buffers associated with files in
-the current directory, in one of the `TeX-macro-private' directories,
-and in the `TeX-macro-global' directories.  You can change this by
-setting the variable `TeX-check-path'.
+By default AUCTeX will check emacs buffers associated with files in the
+current directory, in one of the `TeX-macro-private' directories, and
+in the `TeX-macro-global' directories.  You can change this by setting
+the variable `TeX-check-path'.
 
  -- User Option: TeX-check-path
      Directory path to search for dependencies.
 
      If nil, just check the current file.  Used when checking if any
      files have changed.
+
+   There are some options you can customize affecting which processors
+are invoked or the way this is done and which output they produce as a
+result.  These options control if DVI or PDF output should be produced,
+if TeX should be started in interactive or nonstop mode, if Source
+Specials should be included in the DVI output for making inverse and
+forward search possible or if Omega processors should be used instead
+of regular TeX.
 
  -- Command: TeX-PDF-mode
      (`C-c C-t C-p') This command toggles the PDF mode of AUCTeX, a
@@ -2947,10 +3021,10 @@ setting the variable `TeX-check-path'.
 
  -- User Option: TeX-DVI-via-PDFTeX
      If this is set, DVI will also be produced by calling PDFTeX,
-     setting `\pdfoutput=0'.  This makes it possible to use packages
-     like `pdfcprot' even when producing DVI files. Some modern TeX
-     distributions, e.g. teTeX 3.0, do this anyway, so that you need
-     not enable it within AUCTeX.
+     setting `\pdfoutput=0'.  This makes it possible to use PDFTeX
+     features like character protrusion even when producing DVI files.
+     Contemporary TeX distributions do this anyway, so that you need
+     not enable the option within AUCTeX.
 
  -- Command: TeX-interactive-mode
      (`C-c C-t C-i') This command toggles the interactive mode of
@@ -2983,13 +3057,20 @@ setting the variable `TeX-check-path'.
      AUCTeX, a buffer-local minor mode.  If it is switched on, `omega'
      will be used instead of `tex', and `lambda' instead of `latex'.
 
+   You can customize AUCTeX to show the processor output as it is
+produced.
+
+ -- User Option: TeX-show-compilation
+     If non-nil, the output of TeX compilation is shown in another
+     window.
+
 
 File: auctex.info,  Node: Viewing,  Next: Debugging,  Prev: Commands,  Up: Running TeX and friends
 
 7.2 Viewing the formatted output
 ================================
 
-7.2.1 Starting viewers and customizing their invokation
+7.2.1 Starting viewers and customizing their invocation
 -------------------------------------------------------
 
 AUCTeX allows you to start external programs for previewing your
@@ -3096,14 +3177,16 @@ ask it to report `bad boxes' and warnings as well.
      (`C-c C-t C-w') Toggle whether AUCTeX should stop at warnings as
      well as normal errors.
 
-   As default, AUCTeX will display that special `*help*' buffer
-containing the error reported by TeX along with the documentation.
-There is however an `expert' option, which allows you to display the
-real TeX output.
+   As default, AUCTeX will display a special help buffer containing the
+error reported by TeX along with the documentation.  There is however
+an `expert' option, which allows you to display the real TeX output.
 
  -- User Option: TeX-display-help
-     When non-nil AUCTeX will automatically display a help text whenever
-     an error is encountered using `TeX-next-error' (`C-c `').
+     If t AUCTeX will automatically display a help text whenever an
+     error is encountered using `TeX-next-error' (`C-c `').  If nil a
+     terse information about the error is displayed in the echo area.
+     If `expert' AUCTeX will display the output buffer with the raw TeX
+     output.
 
 
 File: auctex.info,  Node: Checking,  Next: Control,  Prev: Debugging,  Up: Running TeX and friends
@@ -3513,9 +3596,9 @@ enabled, *note Parsing Files::.
 `german'
 `ngerman'
      Runs style hook `TeX-language-de-hook'.  Gives `"' word syntax,
-     makes the <"> key insert a literal `"', and pressing it twice will
-     give you opening or closing German quotes (`"`' or `"'').  Typing
-     <-> twice will insert `"='.
+     makes the <"> key insert a literal `"'.  Pressing the key twice
+     will give you opening or closing German quotes (`"`' or `"'').
+     Typing <-> twice will insert `"=', three times `--'.
 
 `frenchb'
 `francais'
@@ -3523,15 +3606,25 @@ enabled, *note Parsing Files::.
      `\\og' and `\\fg' depending on context.  Note that the language
      name for customizing `TeX-quote-language-alist' is `french'.
 
+`icelandic'
+     Runs style hook `TeX-language-is-hook'.  Gives `"' word syntax,
+     makes the <"> key insert a literal `"'.  Typing <"> twice will
+     insert insert `"`' or `"'' depending on context.  Typing <-> twice
+     will insert `"=', three times `--'.
+
 `italian'
      Runs style hook `TeX-language-it-hook'.  Pressing <"> will insert
      `"<' and `">' depending on context.
 
-`plfonts'
-`plhb'
-     Runs style hook `TeX-language-pl-hook'.  Gives  `"' word syntax
-     and makes the <"> key insert a literal `"'.  Pressing <"> twice
-     will insert `"<' or `">' depending on context.
+`polish'
+     Runs style hook `TeX-language-pl-hook'.  Gives `"' word syntax and
+     makes the <"> key insert a literal `"'.  Pressing <"> twice will
+     insert `"`' or `"'' depending on context.
+
+`polski'
+     Runs style hook `TeX-language-pl-hook'.  Makes the <"> key insert
+     a literal `"'.  Pressing <"> twice will insert `,,' or `'''
+     depending on context.
 
 `slovak'
      Runs style hook `TeX-language-sk-hook'.  Pressing <"> will insert
@@ -3539,13 +3632,12 @@ enabled, *note Parsing Files::.
 
 `swedish'
      Runs style hook `TeX-language-sv-hook'.  Pressing <"> will insert
-     `'''.  Typing <-> twice will insert `"='.
+     `'''.  Typing <-> twice will insert `"=', three times `--'.
 
-   In documents where typing <-> may insert language-specific hyphens
-you can insert multiple consecutive `-' characters simply by typing the
-respective key again after a language-specific string was inserted.
-For example if you type <-> with point after a `"=' string in a Swedish
-document it will be replaced by `--'.
+   Replacement of language-specific hyphen strings like `"=' with
+dashes does not require to type <-> three times in a row.  You can put
+point after the hypen string anytime and trigger the replacement by
+typing <->.
 
    In case you are not satisfied with the suggested behavior of quote
 and hyphen insertion you can change it by customizing the variables
@@ -3553,16 +3645,17 @@ and hyphen insertion you can change it by customizing the variables
 respectively.
 
  -- User Option: TeX-quote-language-alist
-     Used for overriding the default language-specific quote insertion.
-     This is an alist where each element is a list consisting of four
-     items.  The first item is the name of the language in concern as a
-     string.  The second item is the opening quotation mark.  The third
-     item is the closing quotation mark.  Opening and closing quotation
-     marks can be specified directly as strings or as functions
-     returning a string.  The fourth item is a boolean controlling
-     quote insertion.  It should be non-nil if if the special quotes
-     should only be used after inserting a literal `"' character first,
-     i.e. on second key press.
+     Used for overriding the default language-specific quote insertion
+     behavior.  This is an alist where each element is a list
+     consisting of four items.  The first item is the name of the
+     language in concern as a string.  See the list of supported
+     languages above.  The second item is the opening quotation mark.
+     The third item is the closing quotation mark.  Opening and closing
+     quotation marks can be specified directly as strings or as
+     functions returning a string.  The fourth item is a boolean
+     controlling quote insertion.  It should be non-nil if if the
+     special quotes should only be used after inserting a literal `"'
+     character first, i.e. on second key press.
 
  -- User Option: LaTeX-babel-hyphen-language-alist
      Used for overriding the behavior of hyphen insertion for specific
@@ -3793,7 +3886,7 @@ set `TeX-auto-local' to nil.
      These correspond to TeX macros found in the current directory.
 
 
-File: auctex.info,  Node: Style Files,  Next: Changes,  Prev: Automatic,  Up: Top
+File: auctex.info,  Node: Style Files,  Next: Copying this Manual,  Prev: Automatic,  Up: Top
 
 12 Writing Your own Style Support
 *********************************
@@ -4047,10 +4140,11 @@ arguments can be provided by adding them to a list after the hook.
 
    For simple environments with arguments, for example defined with
 `\newenvironment', you can make AUCTeX prompt for the arguments by
-giving the prompt strings in the call to `LaTeX-add-environments'.  For
-example, if you have defined a `loop' environment with the three
-arguments FROM, TO, and STEP, you can add support for them in a style
-file.
+giving the prompt strings in the call to `LaTeX-add-environments'.  (An
+optional argument can be indicated by putting the prompt string into a
+vector.)  For example, if you have defined a `loop' environment with
+the three arguments FROM, TO, and STEP, you can add support for them in
+a style file.
 
      %% loop.sty
 
@@ -4208,10 +4302,524 @@ symbols found.
      List of functions to be called after parsing a TeX file.
 
 
-File: auctex.info,  Node: Changes,  Next: Development,  Prev: Style Files,  Up: Top
+File: auctex.info,  Node: Copying this Manual,  Next: Changes,  Prev: Style Files,  Up: Top
 
-Appendix A Changes and New Features
+Appendix A Copying this Manual
+******************************
+
+The copyright notice for this manual is:
+
+   This manual is for AUCTeX (version 11.85 from 2008-02-10), a
+sophisticated TeX environment for Emacs.
+
+   Copyright (C) 1992, 1993, 1994, 1995, 2001, 2002, 2004, 2005, 2006,
+2007, 2008 Free Software Foundation, Inc.
+
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, no Front-Cover Texts and
+     no Back-Cover Texts.  A copy of the license is included in the
+     section entitled "GNU Free Documentation License."
+
+The full license text can be read here:
+
+* Menu:
+
+* GNU Free Documentation License:: License for copying this manual.
+
+
+File: auctex.info,  Node: GNU Free Documentation License,  Up: Copying this Manual
+
+A.1 GNU Free Documentation License
+==================================
+
+                      Version 1.2, November 2002
+
+     Copyright (C) 2000,2001,2002 Free Software Foundation, Inc.
+     51 Franklin St, Fifth Floor, Boston, MA  02110-1301, USA
+
+     Everyone is permitted to copy and distribute verbatim copies
+     of this license document, but changing it is not allowed.
+
+  0. PREAMBLE
+
+     The purpose of this License is to make a manual, textbook, or other
+     functional and useful document "free" in the sense of freedom: to
+     assure everyone the effective freedom to copy and redistribute it,
+     with or without modifying it, either commercially or
+     noncommercially.  Secondarily, this License preserves for the
+     author and publisher a way to get credit for their work, while not
+     being considered responsible for modifications made by others.
+
+     This License is a kind of "copyleft", which means that derivative
+     works of the document must themselves be free in the same sense.
+     It complements the GNU General Public License, which is a copyleft
+     license designed for free software.
+
+     We have designed this License in order to use it for manuals for
+     free software, because free software needs free documentation: a
+     free program should come with manuals providing the same freedoms
+     that the software does.  But this License is not limited to
+     software manuals; it can be used for any textual work, regardless
+     of subject matter or whether it is published as a printed book.
+     We recommend this License principally for works whose purpose is
+     instruction or reference.
+
+  1. APPLICABILITY AND DEFINITIONS
+
+     This License applies to any manual or other work, in any medium,
+     that contains a notice placed by the copyright holder saying it
+     can be distributed under the terms of this License.  Such a notice
+     grants a world-wide, royalty-free license, unlimited in duration,
+     to use that work under the conditions stated herein.  The
+     "Document", below, refers to any such manual or work.  Any member
+     of the public is a licensee, and is addressed as "you".  You
+     accept the license if you copy, modify or distribute the work in a
+     way requiring permission under copyright law.
+
+     A "Modified Version" of the Document means any work containing the
+     Document or a portion of it, either copied verbatim, or with
+     modifications and/or translated into another language.
+
+     A "Secondary Section" is a named appendix or a front-matter section
+     of the Document that deals exclusively with the relationship of the
+     publishers or authors of the Document to the Document's overall
+     subject (or to related matters) and contains nothing that could
+     fall directly within that overall subject.  (Thus, if the Document
+     is in part a textbook of mathematics, a Secondary Section may not
+     explain any mathematics.)  The relationship could be a matter of
+     historical connection with the subject or with related matters, or
+     of legal, commercial, philosophical, ethical or political position
+     regarding them.
+
+     The "Invariant Sections" are certain Secondary Sections whose
+     titles are designated, as being those of Invariant Sections, in
+     the notice that says that the Document is released under this
+     License.  If a section does not fit the above definition of
+     Secondary then it is not allowed to be designated as Invariant.
+     The Document may contain zero Invariant Sections.  If the Document
+     does not identify any Invariant Sections then there are none.
+
+     The "Cover Texts" are certain short passages of text that are
+     listed, as Front-Cover Texts or Back-Cover Texts, in the notice
+     that says that the Document is released under this License.  A
+     Front-Cover Text may be at most 5 words, and a Back-Cover Text may
+     be at most 25 words.
+
+     A "Transparent" copy of the Document means a machine-readable copy,
+     represented in a format whose specification is available to the
+     general public, that is suitable for revising the document
+     straightforwardly with generic text editors or (for images
+     composed of pixels) generic paint programs or (for drawings) some
+     widely available drawing editor, and that is suitable for input to
+     text formatters or for automatic translation to a variety of
+     formats suitable for input to text formatters.  A copy made in an
+     otherwise Transparent file format whose markup, or absence of
+     markup, has been arranged to thwart or discourage subsequent
+     modification by readers is not Transparent.  An image format is
+     not Transparent if used for any substantial amount of text.  A
+     copy that is not "Transparent" is called "Opaque".
+
+     Examples of suitable formats for Transparent copies include plain
+     ASCII without markup, Texinfo input format, LaTeX input format,
+     SGML or XML using a publicly available DTD, and
+     standard-conforming simple HTML, PostScript or PDF designed for
+     human modification.  Examples of transparent image formats include
+     PNG, XCF and JPG.  Opaque formats include proprietary formats that
+     can be read and edited only by proprietary word processors, SGML or
+     XML for which the DTD and/or processing tools are not generally
+     available, and the machine-generated HTML, PostScript or PDF
+     produced by some word processors for output purposes only.
+
+     The "Title Page" means, for a printed book, the title page itself,
+     plus such following pages as are needed to hold, legibly, the
+     material this License requires to appear in the title page.  For
+     works in formats which do not have any title page as such, "Title
+     Page" means the text near the most prominent appearance of the
+     work's title, preceding the beginning of the body of the text.
+
+     A section "Entitled XYZ" means a named subunit of the Document
+     whose title either is precisely XYZ or contains XYZ in parentheses
+     following text that translates XYZ in another language.  (Here XYZ
+     stands for a specific section name mentioned below, such as
+     "Acknowledgements", "Dedications", "Endorsements", or "History".)
+     To "Preserve the Title" of such a section when you modify the
+     Document means that it remains a section "Entitled XYZ" according
+     to this definition.
+
+     The Document may include Warranty Disclaimers next to the notice
+     which states that this License applies to the Document.  These
+     Warranty Disclaimers are considered to be included by reference in
+     this License, but only as regards disclaiming warranties: any other
+     implication that these Warranty Disclaimers may have is void and
+     has no effect on the meaning of this License.
+
+  2. VERBATIM COPYING
+
+     You may copy and distribute the Document in any medium, either
+     commercially or noncommercially, provided that this License, the
+     copyright notices, and the license notice saying this License
+     applies to the Document are reproduced in all copies, and that you
+     add no other conditions whatsoever to those of this License.  You
+     may not use technical measures to obstruct or control the reading
+     or further copying of the copies you make or distribute.  However,
+     you may accept compensation in exchange for copies.  If you
+     distribute a large enough number of copies you must also follow
+     the conditions in section 3.
+
+     You may also lend copies, under the same conditions stated above,
+     and you may publicly display copies.
+
+  3. COPYING IN QUANTITY
+
+     If you publish printed copies (or copies in media that commonly
+     have printed covers) of the Document, numbering more than 100, and
+     the Document's license notice requires Cover Texts, you must
+     enclose the copies in covers that carry, clearly and legibly, all
+     these Cover Texts: Front-Cover Texts on the front cover, and
+     Back-Cover Texts on the back cover.  Both covers must also clearly
+     and legibly identify you as the publisher of these copies.  The
+     front cover must present the full title with all words of the
+     title equally prominent and visible.  You may add other material
+     on the covers in addition.  Copying with changes limited to the
+     covers, as long as they preserve the title of the Document and
+     satisfy these conditions, can be treated as verbatim copying in
+     other respects.
+
+     If the required texts for either cover are too voluminous to fit
+     legibly, you should put the first ones listed (as many as fit
+     reasonably) on the actual cover, and continue the rest onto
+     adjacent pages.
+
+     If you publish or distribute Opaque copies of the Document
+     numbering more than 100, you must either include a
+     machine-readable Transparent copy along with each Opaque copy, or
+     state in or with each Opaque copy a computer-network location from
+     which the general network-using public has access to download
+     using public-standard network protocols a complete Transparent
+     copy of the Document, free of added material.  If you use the
+     latter option, you must take reasonably prudent steps, when you
+     begin distribution of Opaque copies in quantity, to ensure that
+     this Transparent copy will remain thus accessible at the stated
+     location until at least one year after the last time you
+     distribute an Opaque copy (directly or through your agents or
+     retailers) of that edition to the public.
+
+     It is requested, but not required, that you contact the authors of
+     the Document well before redistributing any large number of
+     copies, to give them a chance to provide you with an updated
+     version of the Document.
+
+  4. MODIFICATIONS
+
+     You may copy and distribute a Modified Version of the Document
+     under the conditions of sections 2 and 3 above, provided that you
+     release the Modified Version under precisely this License, with
+     the Modified Version filling the role of the Document, thus
+     licensing distribution and modification of the Modified Version to
+     whoever possesses a copy of it.  In addition, you must do these
+     things in the Modified Version:
+
+       A. Use in the Title Page (and on the covers, if any) a title
+          distinct from that of the Document, and from those of
+          previous versions (which should, if there were any, be listed
+          in the History section of the Document).  You may use the
+          same title as a previous version if the original publisher of
+          that version gives permission.
+
+       B. List on the Title Page, as authors, one or more persons or
+          entities responsible for authorship of the modifications in
+          the Modified Version, together with at least five of the
+          principal authors of the Document (all of its principal
+          authors, if it has fewer than five), unless they release you
+          from this requirement.
+
+       C. State on the Title page the name of the publisher of the
+          Modified Version, as the publisher.
+
+       D. Preserve all the copyright notices of the Document.
+
+       E. Add an appropriate copyright notice for your modifications
+          adjacent to the other copyright notices.
+
+       F. Include, immediately after the copyright notices, a license
+          notice giving the public permission to use the Modified
+          Version under the terms of this License, in the form shown in
+          the Addendum below.
+
+       G. Preserve in that license notice the full lists of Invariant
+          Sections and required Cover Texts given in the Document's
+          license notice.
+
+       H. Include an unaltered copy of this License.
+
+       I. Preserve the section Entitled "History", Preserve its Title,
+          and add to it an item stating at least the title, year, new
+          authors, and publisher of the Modified Version as given on
+          the Title Page.  If there is no section Entitled "History" in
+          the Document, create one stating the title, year, authors,
+          and publisher of the Document as given on its Title Page,
+          then add an item describing the Modified Version as stated in
+          the previous sentence.
+
+       J. Preserve the network location, if any, given in the Document
+          for public access to a Transparent copy of the Document, and
+          likewise the network locations given in the Document for
+          previous versions it was based on.  These may be placed in
+          the "History" section.  You may omit a network location for a
+          work that was published at least four years before the
+          Document itself, or if the original publisher of the version
+          it refers to gives permission.
+
+       K. For any section Entitled "Acknowledgements" or "Dedications",
+          Preserve the Title of the section, and preserve in the
+          section all the substance and tone of each of the contributor
+          acknowledgements and/or dedications given therein.
+
+       L. Preserve all the Invariant Sections of the Document,
+          unaltered in their text and in their titles.  Section numbers
+          or the equivalent are not considered part of the section
+          titles.
+
+       M. Delete any section Entitled "Endorsements".  Such a section
+          may not be included in the Modified Version.
+
+       N. Do not retitle any existing section to be Entitled
+          "Endorsements" or to conflict in title with any Invariant
+          Section.
+
+       O. Preserve any Warranty Disclaimers.
+
+     If the Modified Version includes new front-matter sections or
+     appendices that qualify as Secondary Sections and contain no
+     material copied from the Document, you may at your option
+     designate some or all of these sections as invariant.  To do this,
+     add their titles to the list of Invariant Sections in the Modified
+     Version's license notice.  These titles must be distinct from any
+     other section titles.
+
+     You may add a section Entitled "Endorsements", provided it contains
+     nothing but endorsements of your Modified Version by various
+     parties--for example, statements of peer review or that the text
+     has been approved by an organization as the authoritative
+     definition of a standard.
+
+     You may add a passage of up to five words as a Front-Cover Text,
+     and a passage of up to 25 words as a Back-Cover Text, to the end
+     of the list of Cover Texts in the Modified Version.  Only one
+     passage of Front-Cover Text and one of Back-Cover Text may be
+     added by (or through arrangements made by) any one entity.  If the
+     Document already includes a cover text for the same cover,
+     previously added by you or by arrangement made by the same entity
+     you are acting on behalf of, you may not add another; but you may
+     replace the old one, on explicit permission from the previous
+     publisher that added the old one.
+
+     The author(s) and publisher(s) of the Document do not by this
+     License give permission to use their names for publicity for or to
+     assert or imply endorsement of any Modified Version.
+
+  5. COMBINING DOCUMENTS
+
+     You may combine the Document with other documents released under
+     this License, under the terms defined in section 4 above for
+     modified versions, provided that you include in the combination
+     all of the Invariant Sections of all of the original documents,
+     unmodified, and list them all as Invariant Sections of your
+     combined work in its license notice, and that you preserve all
+     their Warranty Disclaimers.
+
+     The combined work need only contain one copy of this License, and
+     multiple identical Invariant Sections may be replaced with a single
+     copy.  If there are multiple Invariant Sections with the same name
+     but different contents, make the title of each such section unique
+     by adding at the end of it, in parentheses, the name of the
+     original author or publisher of that section if known, or else a
+     unique number.  Make the same adjustment to the section titles in
+     the list of Invariant Sections in the license notice of the
+     combined work.
+
+     In the combination, you must combine any sections Entitled
+     "History" in the various original documents, forming one section
+     Entitled "History"; likewise combine any sections Entitled
+     "Acknowledgements", and any sections Entitled "Dedications".  You
+     must delete all sections Entitled "Endorsements."
+
+  6. COLLECTIONS OF DOCUMENTS
+
+     You may make a collection consisting of the Document and other
+     documents released under this License, and replace the individual
+     copies of this License in the various documents with a single copy
+     that is included in the collection, provided that you follow the
+     rules of this License for verbatim copying of each of the
+     documents in all other respects.
+
+     You may extract a single document from such a collection, and
+     distribute it individually under this License, provided you insert
+     a copy of this License into the extracted document, and follow
+     this License in all other respects regarding verbatim copying of
+     that document.
+
+  7. AGGREGATION WITH INDEPENDENT WORKS
+
+     A compilation of the Document or its derivatives with other
+     separate and independent documents or works, in or on a volume of
+     a storage or distribution medium, is called an "aggregate" if the
+     copyright resulting from the compilation is not used to limit the
+     legal rights of the compilation's users beyond what the individual
+     works permit.  When the Document is included in an aggregate, this
+     License does not apply to the other works in the aggregate which
+     are not themselves derivative works of the Document.
+
+     If the Cover Text requirement of section 3 is applicable to these
+     copies of the Document, then if the Document is less than one half
+     of the entire aggregate, the Document's Cover Texts may be placed
+     on covers that bracket the Document within the aggregate, or the
+     electronic equivalent of covers if the Document is in electronic
+     form.  Otherwise they must appear on printed covers that bracket
+     the whole aggregate.
+
+  8. TRANSLATION
+
+     Translation is considered a kind of modification, so you may
+     distribute translations of the Document under the terms of section
+     4.  Replacing Invariant Sections with translations requires special
+     permission from their copyright holders, but you may include
+     translations of some or all Invariant Sections in addition to the
+     original versions of these Invariant Sections.  You may include a
+     translation of this License, and all the license notices in the
+     Document, and any Warranty Disclaimers, provided that you also
+     include the original English version of this License and the
+     original versions of those notices and disclaimers.  In case of a
+     disagreement between the translation and the original version of
+     this License or a notice or disclaimer, the original version will
+     prevail.
+
+     If a section in the Document is Entitled "Acknowledgements",
+     "Dedications", or "History", the requirement (section 4) to
+     Preserve its Title (section 1) will typically require changing the
+     actual title.
+
+  9. TERMINATION
+
+     You may not copy, modify, sublicense, or distribute the Document
+     except as expressly provided for under this License.  Any other
+     attempt to copy, modify, sublicense or distribute the Document is
+     void, and will automatically terminate your rights under this
+     License.  However, parties who have received copies, or rights,
+     from you under this License will not have their licenses
+     terminated so long as such parties remain in full compliance.
+
+ 10. FUTURE REVISIONS OF THIS LICENSE
+
+     The Free Software Foundation may publish new, revised versions of
+     the GNU Free Documentation License from time to time.  Such new
+     versions will be similar in spirit to the present version, but may
+     differ in detail to address new problems or concerns.  See
+     `http://www.gnu.org/copyleft/'.
+
+     Each version of the License is given a distinguishing version
+     number.  If the Document specifies that a particular numbered
+     version of this License "or any later version" applies to it, you
+     have the option of following the terms and conditions either of
+     that specified version or of any later version that has been
+     published (not as a draft) by the Free Software Foundation.  If
+     the Document does not specify a version number of this License,
+     you may choose any version ever published (not as a draft) by the
+     Free Software Foundation.
+
+ADDENDUM: How to use this License for your documents
+====================================================
+
+To use this License in a document you have written, include a copy of
+the License in the document and put the following copyright and license
+notices just after the title page:
+
+       Copyright (C)  YEAR  YOUR NAME.
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version 1.2
+       or any later version published by the Free Software Foundation;
+       with no Invariant Sections, no Front-Cover Texts, and no Back-Cover
+       Texts.  A copy of the license is included in the section entitled ``GNU
+       Free Documentation License''.
+
+   If you have Invariant Sections, Front-Cover Texts and Back-Cover
+Texts, replace the "with...Texts." line with this:
+
+         with the Invariant Sections being LIST THEIR TITLES, with
+         the Front-Cover Texts being LIST, and with the Back-Cover Texts
+         being LIST.
+
+   If you have Invariant Sections without Cover Texts, or some other
+combination of the three, merge those two alternatives to suit the
+situation.
+
+   If your document contains nontrivial examples of program code, we
+recommend releasing these examples in parallel under your choice of
+free software license, such as the GNU General Public License, to
+permit their use in free software.
+
+
+File: auctex.info,  Node: Changes,  Next: Development,  Prev: Copying this Manual,  Up: Top
+
+Appendix B Changes and New Features
 ***********************************
+
+News in 11.85
+=============
+
+   * Font locking has been improved significantly.  It is now less
+     prone to color bleeding which could lead to high resource usage.
+     In addition it now includes information about LaTeX macro syntax
+     and can indicate syntactically incorrect macros in LaTeX mode.
+
+   * The license was updated to GPLv3.
+
+   * Support for the nomencl, flashcards and comment LaTeX packages as
+     well as the Icelandic language option of babel were added.
+
+   * Support for folding of math macros was added.
+
+   * Lots of minor bugs in features and documentation fixed.
+
+News in 11.84
+=============
+
+   * There have been problems with the `-without-texmf-dir' option to
+     `configure' when the value of `-with-kpathsea-sep' was set or
+     determined for an installation system with a default different
+     from that of the runtime system.  `with-kpathsea-sep' has been
+     removed; the setting is now usually determined at runtime.
+
+     Due to this and other problems, preview-latex in the released
+     XEmacs package failed under Windows or with anything except recent
+     21.5 XEmacsen.
+
+   * AUCTeX and preview-latex have been changed in order to accommodate
+     file names containing spaces.  preview-latex now tolerates bad
+     PostScript code polluting the stack (like some Omega fonts).
+
+   * `preview.sty' had in some cases failed to emit PostScript header
+     specials.
+
+   * Support for folding of comments was added.
+
+   * The `polish' language option of the babel LaTeX package as well as
+     the polski LaTeX package are now supported.  Most notably this
+     means that AUCTeX will help to insert quotation marks as defined
+     by polish.sty (`"`..."'') and polski.sty (`,,...''').
+
+   * The TeX tool bar is now available and enabled by default in plain
+     TeX mode.  *Note Running TeX and friends::.
+
+   * Bug fix in the display of math subscripts and superscripts.
+
+   * Bug fix `TeX-doc' for Emacs 21.
+
+   * There has been quite a number of other bug fixes to various
+     features and documentation across the board.
+
 
 News in 11.83
 =============
@@ -4278,8 +4886,7 @@ News in 11.82
      change `tex-mik.el' does not load `tex-site.el' anymore.  That
      means if you used only `(require 'tex-mik)' in order to activate
      AUCTeX, you have to add `(load "auctex.el" nil t t)' before the
-     latter statement.  More detailed information can be found in the
-     installation instructions.
+     latter statement.  *Note Loading the package::.
 
    * Handling of verbatim constructs was consolidated across AUCTeX.
      This resulted in the font-latex-specific variables
@@ -4463,7 +5070,7 @@ News in 11.54
    * Setting the variable `LaTeX-float' to `nil' now means that you
      will not be prompted for the float position of figures and tables.
      You can get the old behaviour of `nil' by setting the variable to
-     `""', i.e. an empty string.  See also *Note Floats::.
+     `""', i.e. an empty string.  See also *note Floats::.
 
    * The XEmacs-specific bug concerning `overlays-at' was fixed.
 
@@ -4474,13 +5081,13 @@ News in 11.53
 
    * The LaTeX math menu can include Unicode characters if your Emacs
      built supports it.  See the variable `LaTeX-math-menu-unicode',
-     *Note Mathematics::.
+     *note Mathematics::.
 
    * Bug fixes for XEmacs.
 
    * Completion for graphic files in the TeX search path has been added.
 
-   * `start' is used for the viewer for MikTeX and fpTeX.
+   * `start' is used for the viewer for MiKTeX and fpTeX.
 
    * The variable `TeX-fold-preserve-comments' can now be customized to
      deactivate folding in comments.
@@ -4527,10 +5134,10 @@ News in 11.50
      and the customization will not work correctly.
 
    * Support for hiding and auto-revealing macros, e.g. footnotes or
-     citations, and environments in a buffer was added, *Note Folding::.
+     citations, and environments in a buffer was added, *note Folding::.
 
    * You can now control if indentation is done upon typing <RET> by
-     customizing the variable `TeX-newline-function', *Note Indenting::.
+     customizing the variable `TeX-newline-function', *note Indenting::.
 
    * Limited support for `doc.sty' and `ltxdoc.cls' (`dtx' files) was
      added.  The new docTeX mode provides functionality for editing
@@ -4579,7 +5186,7 @@ News in 11.50
      improved.  See the variable `LaTeX-includegraphics-options-alist'.
 
    * If `LaTeX-default-position' is `nil', don't prompt for position
-     arguments in Tabular-like environments, see *Note Tabular-like::.
+     arguments in Tabular-like environments, see *note Tabular-like::.
 
    * Completion for available packages when using `C-c RET \usepackage
      RET' was improved on systems using the kpathsea library.
@@ -4615,14 +5222,14 @@ News in 11.50
 
    * You can control whether `TeX-insert-macro' (`C-c RET') ask for all
      optional arguments by customizing the variable
-     `TeX-insert-macro-default-style', *Note Completion::.
+     `TeX-insert-macro-default-style', *note Completion::.
 
    * `TeX-run-discard' is now able to completely detach a process that
      it started.
 
    * The build process was enhanced and is now based on `autoconf'
-     making installing AUCTeX a mostly automatic process.  See *Note
-     Installation:: and *Note Installation under MS Windows:: for
+     making installing AUCTeX a mostly automatic process.  See *note
+     Installation:: and *note Installation under MS Windows:: for
      details.
 
 News in 11.14
@@ -4640,7 +5247,7 @@ News in 11.12
 News in 11.11
 =============
 
-   * Support for `prosper.sty', see <http://prosper.sourceforge.net/>.
+   * Support for `prosper.sty', see `http://prosper.sourceforge.net/'.
      Contributed by Phillip Lord <p.lord@russet.org.uk>.
 
 News in 11.10
@@ -4700,7 +5307,7 @@ See the file `history.texi' for older changes.
 
 File: auctex.info,  Node: Development,  Next: FAQ,  Prev: Changes,  Up: Top
 
-Appendix B Future Development
+Appendix C Future Development
 *****************************
 
 The following sections describe future development of AUCTeX.  Besides
@@ -4720,7 +5327,7 @@ on the mailing list of AUCTeX first.
 
 File: auctex.info,  Node: Mid-term Goals,  Next: Wishlist,  Up: Development
 
-B.1 Mid-term Goals
+C.1 Mid-term Goals
 ==================
 
    * Integration of preview-latex into AUCTeX
@@ -4750,7 +5357,7 @@ B.1 Mid-term Goals
      files, make a common info file from all such catalogs in a given
      language and look the error texts up in an appropriate index.  The
      user would then specify a preference list of languages, and the
-     errors would be looked up in the catalogs in sequence until the
+     errors would be looked up in the catalogs in sequence until they
      were identified.
 
    * Combining `docTeX' with RefTeX
@@ -4762,7 +5369,7 @@ B.1 Mid-term Goals
 
 File: auctex.info,  Node: Wishlist,  Next: Bugs,  Prev: Mid-term Goals,  Up: Development
 
-B.2 Wishlist
+C.2 Wishlist
 ============
 
    * Documentation lookup for macros
@@ -4952,7 +5559,7 @@ B.2 Wishlist
 
 File: auctex.info,  Node: Bugs,  Prev: Wishlist,  Up: Development
 
-B.3 Bugs
+C.3 Bugs
 ========
 
    * The parsed files and style hooks for `example.dtx', `example.sty',
@@ -4979,10 +5586,6 @@ B.3 Bugs
    * Correct indentation for tabular, tabbing, table, math, and array
      environments.
 
-   * Syntax highlighting of LaTeX constructs spanning more than one line
-     sometimes stops in the middle of the construct.  Highlighting can
-     get lost during typing. (XEmacs only)
-
    * No syntactic font locking of verbatim macros and environments.
      (XEmacs only)
 
@@ -4997,7 +5600,7 @@ B.3 Bugs
 
 File: auctex.info,  Node: FAQ,  Next: Key Index,  Prev: Development,  Up: Top
 
-Appendix C Frequently Asked Questions
+Appendix D Frequently Asked Questions
 *************************************
 
   1. Something is not working correctly.  What should I do?
@@ -5076,7 +5679,15 @@ Appendix C Frequently Asked Questions
      experiences or recommendations can be given for beta or developer
      versions of XEmacs.
 
-  3. Why doesn't the completion, style file, or multi-file stuff work?
+  3. What should I do when `./configure' does not find programs like
+     latex?
+
+     This is problem often encountered on Windows.  Make sure that the
+     `PATH' environment variable includes the directories containing the
+     relevant programs, as described in *note Installation under MS
+     Windows: (auctex)Installation under MS Windows.
+
+  4. Why doesn't the completion, style file, or multi-file stuff work?
 
      It must be enabled first, insert this in your init file:
 
@@ -5087,18 +5698,18 @@ Appendix C Frequently Asked Questions
      Read also the chapters about parsing and multifile documents in the
      manual.
 
-  4. Why doesn't `TeX-save-document' work?
+  5. Why doesn't `TeX-save-document' work?
 
      `TeX-check-path' has to contain "./" somewhere.
 
-  5. Why is the information in `foo.tex' forgotten when I save
+  6. Why is the information in `foo.tex' forgotten when I save
      `foo.bib'?
 
      For various reasons, AUCTeX ignores the extension when it stores
      information about a file, so you should use unique base names for
      your files.  E.g. rename `foo.bib' to `foob.bib'.
 
-  6. Why doesn't AUCTeX signal when processing a document is done?
+  7. Why doesn't AUCTeX signal when processing a document is done?
 
      If the message in the minibuffer stays "Type `C-c C-l' to display
      results of compilation.", you probably have a misconfiguration in
@@ -5110,6 +5721,13 @@ Appendix C Frequently Asked Questions
      The information in the debugging buffer can help you find the
      cause of the error in your init file.
 
+  8. What does AUC stand for?
+
+     AUCTeX came into being at Aalborg University in Denmark.  Back then
+     the Danish name of the university was Aalborg Universitetscenter;
+     AUC for short.
+
+
 
 File: auctex.info,  Node: Key Index,  Next: Function Index,  Prev: FAQ,  Up: Top
 
@@ -5119,8 +5737,8 @@ Key Index
  [index ]
 * Menu:
 
-* ":                                     Quotes.              (line  12)
-* $:                                     Quotes.              (line  58)
+* ":                                     Quotes.              (line  15)
+* $:                                     Quotes.              (line  62)
 * <LFD>:                                 Indenting.           (line  71)
 * <TAB>:                                 Indenting.           (line  68)
 * C-c %:                                 Commenting.          (line  23)
@@ -5156,17 +5774,18 @@ Key Index
 * C-c C-l:                               Control.             (line  14)
 * C-c C-m:                               Completion.          (line  29)
 * C-c C-n:                               Parsing Files.       (line  44)
-* C-c C-o b:                             Folding.             (line  80)
-* C-c C-o C-b:                           Folding.             (line  43)
-* C-c C-o C-e:                           Folding.             (line  73)
-* C-c C-o C-f:                           Folding.             (line  31)
-* C-c C-o C-m:                           Folding.             (line  64)
-* C-c C-o C-o:                           Folding.             (line  99)
-* C-c C-o C-p:                           Folding.             (line  60)
-* C-c C-o C-r:                           Folding.             (line  57)
-* C-c C-o i:                             Folding.             (line  92)
-* C-c C-o p:                             Folding.             (line  88)
-* C-c C-o r:                             Folding.             (line  84)
+* C-c C-o b:                             Folding.             (line  96)
+* C-c C-o C-b:                           Folding.             (line  44)
+* C-c C-o C-c:                           Folding.             (line  93)
+* C-c C-o C-e:                           Folding.             (line  86)
+* C-c C-o C-f:                           Folding.             (line  32)
+* C-c C-o C-m:                           Folding.             (line  77)
+* C-c C-o C-o:                           Folding.             (line 115)
+* C-c C-o C-p:                           Folding.             (line  73)
+* C-c C-o C-r:                           Folding.             (line  70)
+* C-c C-o i:                             Folding.             (line 108)
+* C-c C-o p:                             Folding.             (line 104)
+* C-c C-o r:                             Folding.             (line 100)
 * C-c C-q C-e:                           Filling.             (line  95)
 * C-c C-q C-p:                           Filling.             (line  89)
 * C-c C-q C-r:                           Filling.             (line 104)
@@ -5174,14 +5793,14 @@ Key Index
 * C-c C-r:                               Commands.            (line  27)
 * C-c C-s:                               Sectioning.          (line  23)
 * C-c C-t C-b:                           Debugging.           (line  19)
-* C-c C-t C-i:                           Commands.            (line 129)
-* C-c C-t C-o:                           Commands.            (line 155)
-* C-c C-t C-p:                           Commands.            (line 115)
+* C-c C-t C-i:                           Commands.            (line 137)
+* C-c C-t C-o:                           Commands.            (line 163)
+* C-c C-t C-p:                           Commands.            (line 123)
 * C-c C-t C-r:                           Commands.            (line  41)
-* C-c C-t C-s:                           Commands.            (line 136)
+* C-c C-t C-s:                           Commands.            (line 144)
 * C-c C-t C-w:                           Debugging.           (line  23)
 * C-c C-v:                               Viewing.             (line  32)
-* C-c {:                                 Quotes.              (line  70)
+* C-c {:                                 Quotes.              (line  86)
 * C-c ~:                                 Mathematics.         (line  12)
 * C-j:                                   Indenting.           (line  80)
 * M-<TAB>:                               Completion.          (line  19)
@@ -5197,7 +5816,7 @@ Function Index
 * Menu:
 
 * LaTeX-add-bibliographies:              Adding Other.        (line  11)
-* LaTeX-add-environments:                Adding Environments. (line  65)
+* LaTeX-add-environments:                Adding Environments. (line  66)
 * LaTeX-add-labels:                      Adding Other.        (line  14)
 * LaTeX-close-environment:               Environments.        (line  56)
 * LaTeX-env-item:                        Adding Environments. (line  20)
@@ -5207,7 +5826,7 @@ Function Index
 * LaTeX-fill-region:                     Filling.             (line 104)
 * LaTeX-fill-section:                    Filling.             (line 100)
 * LaTeX-indent-line:                     Indenting.           (line  68)
-* LaTeX-insert-environment:              Adding Environments. (line  68)
+* LaTeX-insert-environment:              Adding Environments. (line  69)
 * LaTeX-insert-item:                     Itemize-like.        (line  10)
 * LaTeX-math-mode:                       Mathematics.         (line  12)
 * LaTeX-section:                         Sectioning.          (line  23)
@@ -5254,35 +5873,36 @@ Function Index
 * TeX-complete-symbol:                   Completion.          (line  19)
 * TeX-doc:                               Documentation.       (line   7)
 * TeX-electric-macro:                    Completion.          (line  66)
-* TeX-fold-buffer:                       Folding.             (line  43)
-* TeX-fold-clearout-buffer:              Folding.             (line  80)
-* TeX-fold-clearout-item:                Folding.             (line  92)
-* TeX-fold-clearout-paragraph:           Folding.             (line  88)
-* TeX-fold-clearout-region:              Folding.             (line  84)
-* TeX-fold-dwim:                         Folding.             (line  99)
-* TeX-fold-env:                          Folding.             (line  73)
-* TeX-fold-macro:                        Folding.             (line  64)
-* TeX-fold-mode:                         Folding.             (line  31)
-* TeX-fold-paragraph:                    Folding.             (line  60)
-* TeX-fold-region:                       Folding.             (line  57)
+* TeX-fold-buffer:                       Folding.             (line  44)
+* TeX-fold-clearout-buffer:              Folding.             (line  96)
+* TeX-fold-clearout-item:                Folding.             (line 108)
+* TeX-fold-clearout-paragraph:           Folding.             (line 104)
+* TeX-fold-clearout-region:              Folding.             (line 100)
+* TeX-fold-comment:                      Folding.             (line  93)
+* TeX-fold-dwim:                         Folding.             (line 115)
+* TeX-fold-env:                          Folding.             (line  86)
+* TeX-fold-macro:                        Folding.             (line  77)
+* TeX-fold-mode:                         Folding.             (line  32)
+* TeX-fold-paragraph:                    Folding.             (line  73)
+* TeX-fold-region:                       Folding.             (line  70)
 * TeX-font:                              Font Specifiers.     (line  44)
 * TeX-header-end:                        Multifile.           (line  29)
 * TeX-home-buffer:                       Control.             (line  18)
-* TeX-insert-braces:                     Quotes.              (line  70)
-* TeX-insert-dollar:                     Quotes.              (line  58)
+* TeX-insert-braces:                     Quotes.              (line  86)
+* TeX-insert-dollar:                     Quotes.              (line  62)
 * TeX-insert-macro:                      Completion.          (line  29)
-* TeX-insert-quote:                      Quotes.              (line  12)
-* TeX-interactive-mode:                  Commands.            (line 129)
+* TeX-insert-quote:                      Quotes.              (line  15)
+* TeX-interactive-mode:                  Commands.            (line 137)
 * TeX-kill-job:                          Control.             (line  10)
 * TeX-master-file-ask:                   Multifile.           (line  70)
 * TeX-next-error:                        Debugging.           (line  10)
 * TeX-normal-mode:                       Parsing Files.       (line  44)
-* TeX-Omega-mode:                        Commands.            (line 155)
-* TeX-PDF-mode:                          Commands.            (line 115)
+* TeX-Omega-mode:                        Commands.            (line 163)
+* TeX-PDF-mode:                          Commands.            (line 123)
 * TeX-pin-region:                        Commands.            (line  41)
 * TeX-recenter-output-buffer:            Control.             (line  14)
 * TeX-save-document:                     Multifile.           (line  98)
-* TeX-source-specials-mode:              Commands.            (line 136)
+* TeX-source-specials-mode:              Commands.            (line 144)
 * TeX-toggle-debug-bad-boxes:            Debugging.           (line  19)
 * TeX-toggle-debug-warnings:             Debugging.           (line  23)
 * TeX-view:                              Viewing.             (line  32)
@@ -5301,8 +5921,8 @@ Variable Index
 * docTeX-clean-intermediate-suffixes:    Cleaning.            (line   7)
 * docTeX-clean-output-suffixes:          Cleaning.            (line   7)
 * font-latex-deactivated-keyword-classes: Font Locking.       (line 180)
-* font-latex-do-multi-line:              Font Locking.        (line 305)
-* font-latex-fontify-script:             Font Locking.        (line 266)
+* font-latex-do-multi-line:              Font Locking.        (line 308)
+* font-latex-fontify-script:             Font Locking.        (line 269)
 * font-latex-fontify-sectioning:         Font Locking.        (line 108)
 * font-latex-match-bold-command-keywords: Font Locking.       (line 149)
 * font-latex-match-bold-declaration-keywords: Font Locking.   (line 149)
@@ -5324,7 +5944,7 @@ Variable Index
 * font-latex-match-variable-keywords:    Font Locking.        (line  72)
 * font-latex-match-warning-keywords:     Font Locking.        (line  72)
 * font-latex-quotes:                     Font Locking.        (line 244)
-* font-latex-script-display:             Font Locking.        (line 274)
+* font-latex-script-display:             Font Locking.        (line 277)
 * font-latex-sectioning-0-face:          Font Locking.        (line 108)
 * font-latex-sectioning-1-face:          Font Locking.        (line 108)
 * font-latex-sectioning-2-face:          Font Locking.        (line 108)
@@ -5340,14 +5960,14 @@ Variable Index
 * LaTeX-auto-label-regexp-list:          Parsing Files.       (line 100)
 * LaTeX-auto-minimal-regexp-list:        Parsing Files.       (line  97)
 * LaTeX-auto-regexp-list:                Parsing Files.       (line 103)
-* LaTeX-babel-hyphen:                    European.            (line 134)
-* LaTeX-babel-hyphen-after-hyphen:       European.            (line 142)
-* LaTeX-babel-hyphen-language-alist:     European.            (line 121)
+* LaTeX-babel-hyphen:                    European.            (line 144)
+* LaTeX-babel-hyphen-after-hyphen:       European.            (line 152)
+* LaTeX-babel-hyphen-language-alist:     European.            (line 131)
 * LaTeX-clean-intermediate-suffixes:     Cleaning.            (line   7)
 * LaTeX-clean-output-suffixes:           Cleaning.            (line   7)
-* LaTeX-csquotes-close-quote:            Quotes.              (line  39)
-* LaTeX-csquotes-open-quote:             Quotes.              (line  39)
-* LaTeX-csquotes-quote-after-quote:      Quotes.              (line  39)
+* LaTeX-csquotes-close-quote:            Quotes.              (line  44)
+* LaTeX-csquotes-open-quote:             Quotes.              (line  44)
+* LaTeX-csquotes-quote-after-quote:      Quotes.              (line  44)
 * LaTeX-default-environment:             Environments.        (line  35)
 * LaTeX-default-format:                  Tabular-like.        (line  11)
 * LaTeX-default-position:                Tabular-like.        (line  14)
@@ -5363,21 +5983,23 @@ Variable Index
 * LaTeX-indent-environment-list:         Indenting.           (line  36)
 * LaTeX-indent-level:                    Indenting.           (line  18)
 * LaTeX-item-indent:                     Indenting.           (line  18)
-* LaTeX-math-abbrev-prefix:              Mathematics.         (line  26)
-* LaTeX-math-list:                       Mathematics.         (line  36)
-* LaTeX-math-menu-unicode:               Mathematics.         (line  40)
+* LaTeX-math-abbrev-prefix:              Mathematics.         (line  27)
+* LaTeX-math-list:                       Mathematics.         (line  37)
+* LaTeX-math-menu-unicode:               Mathematics.         (line  55)
 * LaTeX-paragraph-commands:              Filling.             (line  58)
 * LaTeX-section-hook:                    Sectioning.          (line  50)
 * LaTeX-section-label:                   Sectioning.          (line  53)
 * LaTeX-syntactic-comments:              Indenting.           (line  62)
 * LaTeX-table-label:                     Floats.              (line  25)
 * LaTeX-top-caption-list:                Floats.              (line  20)
-* LaTeX-verbatim-environments:           Font Locking.        (line 287)
-* LaTeX-verbatim-macros-with-braces:     Font Locking.        (line 287)
-* LaTeX-verbatim-macros-with-delims:     Font Locking.        (line 287)
+* LaTeX-verbatim-environments:           Font Locking.        (line 290)
+* LaTeX-verbatim-macros-with-braces:     Font Locking.        (line 290)
+* LaTeX-verbatim-macros-with-delims:     Font Locking.        (line 290)
 * plain-TeX-auto-regexp-list:            Parsing Files.       (line 106)
 * plain-TeX-clean-intermediate-suffixes: Cleaning.            (line   7)
 * plain-TeX-clean-output-suffixes:       Cleaning.            (line   7)
+* plain-TeX-enable-toolbar:              Running TeX and friends.
+                                                              (line  11)
 * TeX-auto-cleanup-hook:                 Hacking the Parser.  (line 101)
 * TeX-auto-empty-regexp-list:            Parsing Files.       (line  94)
 * TeX-auto-full-regexp-list:             Parsing Files.       (line 109)
@@ -5393,30 +6015,32 @@ Variable Index
 * TeX-brace-indent-level:                Indenting.           (line 102)
 * TeX-check-path:                        Commands.            (line 109)
 * TeX-clean-confirm:                     Cleaning.            (line  27)
-* TeX-close-quote:                       Quotes.              (line  22)
+* TeX-close-quote:                       Quotes.              (line  26)
 * TeX-command-default:                   Commands.            (line  84)
 * TeX-command-list:                      Commands.            (line  21)
 * TeX-default-macro:                     Completion.          (line  51)
 * TeX-default-mode:                      Japanese.            (line   6)
-* TeX-display-help:                      Debugging.           (line  32)
-* TeX-DVI-via-PDFTeX:                    Commands.            (line 122)
+* TeX-display-help:                      Debugging.           (line  31)
+* TeX-DVI-via-PDFTeX:                    Commands.            (line 130)
 * TeX-electric-escape:                   Completion.          (line  58)
-* TeX-electric-sub-and-superscript:      Mathematics.         (line  54)
+* TeX-electric-sub-and-superscript:      Mathematics.         (line  69)
 * TeX-file-recurse:                      Automatic.           (line  46)
-* TeX-fold-env-spec-list:                Folding.             (line 123)
-* TeX-fold-force-fontify:                Folding.             (line  49)
-* TeX-fold-help-echo-max-length:         Folding.             (line 151)
-* TeX-fold-macro-spec-list:              Folding.             (line 109)
-* TeX-fold-unspec-env-display-string:    Folding.             (line 134)
-* TeX-fold-unspec-macro-display-string:  Folding.             (line 130)
-* TeX-fold-unspec-use-name:              Folding.             (line 138)
+* TeX-fold-env-spec-list:                Folding.             (line 139)
+* TeX-fold-force-fontify:                Folding.             (line  56)
+* TeX-fold-help-echo-max-length:         Folding.             (line 167)
+* TeX-fold-macro-spec-list:              Folding.             (line 125)
+* TeX-fold-preserve-comments:            Folding.             (line  64)
+* TeX-fold-type-list:                    Folding.             (line  51)
+* TeX-fold-unspec-env-display-string:    Folding.             (line 150)
+* TeX-fold-unspec-macro-display-string:  Folding.             (line 146)
+* TeX-fold-unspec-use-name:              Folding.             (line 154)
 * TeX-font-list:                         Font Specifiers.     (line  50)
 * TeX-header-end:                        Commands.            (line  38)
 * TeX-ignore-file:                       Automatic.           (line  54)
 * TeX-insert-braces:                     Completion.          (line  76)
 * TeX-insert-macro-default-style:        Completion.          (line  37)
 * TeX-install-font-lock:                 Font Locking.        (line  14)
-* TeX-interactive-mode:                  Commands.            (line 129)
+* TeX-interactive-mode:                  Commands.            (line 137)
 * TeX-language-cz-hook:                  European.            (line  53)
 * TeX-language-de-hook:                  European.            (line  53)
 * TeX-language-dk-hook:                  European.            (line  53)
@@ -5430,19 +6054,21 @@ Variable Index
 * TeX-macro-private:                     Automatic Private.   (line  13)
 * TeX-master <1>:                        Multifile.           (line  42)
 * TeX-master:                            Commands.            (line  21)
+* TeX-math-close-double-dollar:          Quotes.              (line  72)
 * TeX-newline-function:                  Indenting.           (line  28)
-* TeX-Omega-mode:                        Commands.            (line 155)
+* TeX-Omega-mode:                        Commands.            (line 163)
 * TeX-one-master:                        Multifile.           (line  57)
-* TeX-open-quote:                        Quotes.              (line  19)
+* TeX-open-quote:                        Quotes.              (line  22)
 * TeX-outline-extra:                     Outline.             (line  14)
 * TeX-output-view-style:                 Viewing.             (line  39)
 * TeX-parse-self:                        Parsing Files.       (line  38)
-* TeX-PDF-mode:                          Commands.            (line 115)
-* TeX-quote-after-quote:                 Quotes.              (line  25)
-* TeX-quote-language-alist:              European.            (line 109)
+* TeX-PDF-mode:                          Commands.            (line 123)
+* TeX-quote-after-quote:                 Quotes.              (line  30)
+* TeX-quote-language-alist:              European.            (line 118)
 * TeX-region:                            Commands.            (line  38)
 * TeX-save-query:                        Multifile.           (line 102)
-* TeX-source-specials-mode:              Commands.            (line 136)
+* TeX-show-compilation:                  Commands.            (line 171)
+* TeX-source-specials-mode:              Commands.            (line 144)
 * TeX-source-specials-view-start-server: Viewing.             (line  65)
 * TeX-style-global:                      Automatic Global.    (line  20)
 * TeX-style-local:                       Automatic Local.     (line  17)
@@ -5502,6 +6128,8 @@ Concept Index
 * Adding labels:                         Adding Other.        (line   6)
 * Adding macros:                         Adding Macros.       (line   6)
 * Adding other information:              Adding Other.        (line   6)
+* Adding to PATH in Windows:             Installation under MS Windows.
+                                                              (line  51)
 * Advanced features:                     Advanced Features.   (line   6)
 * amsmath:                               Equations.           (line   6)
 * ANSI:                                  European.            (line   6)
@@ -5509,6 +6137,8 @@ Concept Index
 * ASCII pTeX <1>:                        Japanese.            (line   6)
 * ASCII pTeX:                            Internationalization.
                                                               (line   6)
+* auctex.el <1>:                         Changes.             (line 120)
+* auctex.el:                             Loading the package. (line  14)
 * auto directories.:                     Automatic.           (line   6)
 * Auto-Reveal:                           Folding.             (line   6)
 * Automatic:                             Automatic.           (line   6)
@@ -5586,7 +6216,9 @@ Concept Index
 * Expansion:                             Completion.          (line   6)
 * External Commands:                     Commands.            (line   6)
 * Extracting TeX symbols:                Automatic.           (line   6)
-* Faces:                                 Font Locking.        (line 318)
+* Faces:                                 Font Locking.        (line 321)
+* FDL, GNU Free Documentation License:   GNU Free Documentation License.
+                                                              (line   6)
 * Figure environment:                    Floats.              (line   6)
 * Figures:                               Floats.              (line   6)
 * File Variables:                        Commands.            (line  92)
@@ -5694,7 +6326,7 @@ Concept Index
 * NTT jTeX <1>:                          Japanese.            (line   6)
 * NTT jTeX:                              Internationalization.
                                                               (line   6)
-* Omega:                                 Commands.            (line 155)
+* Omega:                                 Commands.            (line 163)
 * Other information, adding:             Adding Other.        (line   6)
 * Outlining <1>:                         Outline.             (line   6)
 * Outlining:                             Folding.             (line   6)
@@ -5707,7 +6339,9 @@ Concept Index
 * Parsing TeX <1>:                       Automatic.           (line   6)
 * Parsing TeX:                           Parsing Files.       (line   6)
 * Parsing TeX output:                    Debugging.           (line   6)
-* PDF mode:                              Commands.            (line 115)
+* PATH in Windows:                       Installation under MS Windows.
+                                                              (line  51)
+* PDF mode:                              Commands.            (line 123)
 * Personal customization:                Customizing.         (line   6)
 * Personal information:                  Automatic Private.   (line   6)
 * Personal macro directory:              Automatic Private.   (line   6)
@@ -5772,8 +6406,8 @@ Concept Index
 * Style files:                           Style Files.         (line   6)
 * Style hook:                            Simple Style.        (line   6)
 * Style hooks:                           Style Files.         (line   6)
-* Subscript, fontification of:           Font Locking.        (line 260)
-* Superscript, fontification of:         Font Locking.        (line 260)
+* Subscript, fontification of:           Font Locking.        (line 263)
+* Superscript, fontification of:         Font Locking.        (line 263)
 * Sweden:                                European.            (line  53)
 * Symbols:                               Mathematics.         (line   6)
 * Syntax Highlighting:                   Font Locking.        (line   6)
@@ -5783,8 +6417,14 @@ Concept Index
 * Tabs:                                  Parsing Files.       (line   6)
 * TeX:                                   Commands.            (line   6)
 * TeX parsing:                           Automatic.           (line   6)
+* tex-fptex.el:                          Installation under MS Windows.
+                                                              (line 286)
 * tex-jp.el:                             Japanese.            (line   6)
-* tex-site.el:                           Customizing.         (line   6)
+* tex-mik.el:                            Installation under MS Windows.
+                                                              (line 286)
+* tex-site.el <1>:                       Changes.             (line 120)
+* tex-site.el <2>:                       Customizing.         (line   6)
+* tex-site.el:                           Loading the package. (line  14)
 * tool bar, toolbar:                     Running TeX and friends.
                                                               (line  11)
 * Trailer:                               Commands.            (line   6)
@@ -5794,7 +6434,7 @@ Concept Index
 * Untabify:                              Parsing Files.       (line   6)
 * Updating style hooks:                  Automatic Local.     (line   6)
 * Variables:                             Commands.            (line  92)
-* Verbatim, fontification of:            Font Locking.        (line 283)
+* Verbatim, fontification of:            Font Locking.        (line 286)
 * Viewing:                               Viewing.             (line   6)
 * Warranty:                              Copying.             (line   6)
 * Writing to a printer:                  Commands.            (line   6)
@@ -5804,74 +6444,76 @@ Concept Index
 
 
 Tag Table:
-Node: Top228
-Node: Copying5767
-Node: Introduction7714
-Node: Installation11555
-Node: Prerequisites12513
-Node: Configure15978
-Node: Build/install21599
-Node: Loading the package22086
-Node: Advice for package providers23697
-Node: Advice for non-privileged users27641
-Node: Installation under MS Windows31594
-Node: Customizing45863
-Node: Quick Start47442
-Ref: Quick Start-Footnote-149255
-Node: Editing49402
-Node: Processing54148
-Node: Frequently Used Commands58000
-Node: Quotes58773
-Node: Font Specifiers62103
-Node: Sectioning63796
-Node: Environments68127
-Node: Equations70464
-Node: Floats71055
-Node: Itemize-like72594
-Node: Tabular-like73110
-Node: Customizing environments73713
-Node: Advanced Features73953
-Node: Mathematics74720
-Node: Completion77024
-Node: Commenting81030
-Node: Indenting82368
-Node: Filling88131
-Node: Display93633
-Node: Font Locking94969
-Node: Folding108866
-Node: Outline116145
-Node: Running TeX and friends117399
-Node: Commands118521
-Node: Viewing126178
-Node: Debugging130656
-Node: Checking132032
-Node: Control133349
-Node: Cleaning134091
-Node: Documentation135317
-Node: Multifile135973
-Node: Parsing Files140678
-Node: Internationalization145069
-Node: European146238
-Node: Japanese152371
-Node: Automatic154066
-Node: Automatic Global156578
-Node: Automatic Private157737
-Node: Automatic Local158989
-Node: Style Files160075
-Node: Simple Style160872
-Node: Adding Macros161987
-Node: Adding Environments167424
-Node: Adding Other169949
-Node: Hacking the Parser170534
-Node: Changes174405
-Node: Development194523
-Node: Mid-term Goals195176
-Node: Wishlist196733
-Node: Bugs203798
-Node: FAQ205377
-Node: Key Index211005
-Node: Function Index216023
-Node: Variable Index222741
-Node: Concept Index234274
+Node: Top841
+Node: Copying6348
+Node: Introduction8304
+Node: Installation12145
+Node: Prerequisites13103
+Node: Configure16492
+Node: Build/install21910
+Node: Loading the package22397
+Node: Advice for package providers24008
+Node: Advice for non-privileged users27952
+Node: Installation under MS Windows31905
+Node: Customizing46603
+Node: Quick Start48182
+Ref: Quick Start-Footnote-149995
+Node: Editing50142
+Node: Processing54888
+Node: Frequently Used Commands58740
+Node: Quotes59513
+Node: Font Specifiers63271
+Node: Sectioning64964
+Node: Environments69295
+Node: Equations71632
+Node: Floats72223
+Node: Itemize-like73762
+Node: Tabular-like74278
+Node: Customizing environments74881
+Node: Advanced Features75121
+Node: Mathematics75888
+Node: Completion78804
+Node: Commenting82810
+Node: Indenting84148
+Node: Filling89911
+Node: Display95413
+Node: Font Locking96749
+Node: Folding110734
+Node: Outline118714
+Node: Running TeX and friends119968
+Node: Commands121136
+Node: Viewing129437
+Node: Debugging133915
+Node: Checking135442
+Node: Control136759
+Node: Cleaning137501
+Node: Documentation138727
+Node: Multifile139383
+Node: Parsing Files144088
+Node: Internationalization148479
+Node: European149648
+Node: Japanese156200
+Node: Automatic157895
+Node: Automatic Global160407
+Node: Automatic Private161566
+Node: Automatic Local162818
+Node: Style Files163904
+Node: Simple Style164713
+Node: Adding Macros165828
+Node: Adding Environments171265
+Node: Adding Other173875
+Node: Hacking the Parser174460
+Node: Copying this Manual178331
+Node: GNU Free Documentation License179269
+Node: Changes201667
+Node: Development223820
+Node: Mid-term Goals224473
+Node: Wishlist226031
+Node: Bugs233096
+Node: FAQ234487
+Node: Key Index240660
+Node: Function Index245751
+Node: Variable Index252542
+Node: Concept Index264506
 
 End Tag Table

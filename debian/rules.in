@@ -22,7 +22,6 @@ STRIP := strip -R .note -R .comment
 
 <:# DO NOT include <% debian/rules %> nor <% debian/templates %> :>//
 DFILES := debian/<:=${PACKAGE}:>/README debian/copyright \
-debian/<:=${PACKAGE}:>/NEWS \
 debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/postinst \
 debian/<:=${PACKAGE}:>/prerm debian/<:=${PACKAGE}:>/postrm \
 debian/<:=${PACKAGE}:>/conffiles debian/<:=${PACKAGE}:>/cron \
@@ -151,7 +150,9 @@ binary-indep-auctex: build
 			> $(auctex)/<:=${lisp}:>/$${i}; \
 	done
 	$(INSTDIR) $(auctex)/<:=${info}:>
-	$(MAKE) infodir=$(auctex)/<:=${info}:> INSTALL_INFO=: install-docs
+	$(MAKE) infodir=$(auctex)/<:=${info}:> \
+		docdir=$(auctex)/<:=${doc}:> \
+		INSTALL_INFO=: install-docs
 	gzip -9frv $(auctex)/<:=${info}:>
 
 <:# install Debian doc :>//

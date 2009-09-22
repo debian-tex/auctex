@@ -1,3 +1,26 @@
+# Spec file for AUCTeX
+
+# Maintainer: auctex-devel@gnu.org
+
+# Copyright (C) 2002, 2004, 2005, 2006 Free Software Foundation, Inc.
+
+# This file is part of AUCTeX.
+
+# AUCTeX is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option)
+# any later version.
+
+# AUCTeX is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with AUCTeX; see the file COPYING.  If not, write to the Free
+# Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+# MA 02110-1301, USA.
+
 %define FOR_SUSE    %{?suse_version:1}%{!?suse_version:0}
 
 %if %{FOR_SUSE}
@@ -14,7 +37,7 @@
 
 Summary: 	Enhanced TeX modes for Emacsen
 Name: 		auctex
-Version: 	11.83
+Version: 	11.85
 Release: 	1%{distri}
 License: 	GPL
 Group: 		%{commongroup}
@@ -84,7 +107,7 @@ probably best solved by not installing this package).
 # The below will make the package build from a tar straight from CVS
 # NOT RECOMMENDED, but useful for testing!
 test -f ./configure || ./autogen.sh
-%configure --with-emacs %{extraconfig} INSTALL_INFO=: --without-texmf-dir
+%configure --with-emacs INSTALL_INFO=: --without-texmf-dir
 make
 pushd doc
 make tex-ref.pdf
@@ -111,7 +134,6 @@ mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/site-start.d
 %makeinstall install-docs
 mkdir -p %{buildroot}%{_datadir}/texmf/tex/latex/preview
 cp -p preview/latex/*.{sty,def,cfg} %{buildroot}%{_datadir}/texmf/tex/latex/preview
-touch -a %{buildroot}%{_datadir}/texmf/tex/latex/preview/preview.cfg
 mkdir -p %{buildroot}%{_datadir}/texmf/doc/latex/styles
 cp -p preview/latex/preview.dvi %{buildroot}%{_datadir}/texmf/doc/latex/styles
 
@@ -130,15 +152,15 @@ fi
 rm -rf %{buildroot}
 
 %post -n preview-tetex
-/usr/bin/texhash
+/usr/bin/mktexlsr %{_datadir}/texmf
 
 %postun -n preview-tetex
-/usr/bin/texhash
+/usr/bin/mktexlsr %{_datadir}/texmf
 
 %files -n preview-tetex
 %defattr(-,root,root)
 %{_datadir}/texmf/tex/latex/preview
-%config %{_datadir}/texmf/tex/latex/preview/preview.cfg
+%config %{_datadir}/texmf/tex/latex/preview/prauctex.cfg
 %{_datadir}/texmf/doc/latex/styles/preview.dvi
 
 %files emacs

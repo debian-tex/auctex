@@ -16,8 +16,7 @@
 # General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License along
-# with this program; if not, write to: The Free Software Foundation, Inc.,
-# 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # On Debian GNU/Linux System you can find a copy of the GNU General Public
 # License in "/usr/share/common-licenses/GPL".
@@ -38,7 +37,6 @@ INSTSCRIPT := install -m 755
 STRIP := strip -R .note -R .comment
 
 DFILES := debian/auctex/README debian/copyright \
-debian/auctex/NEWS \
 debian/auctex/config debian/auctex/postinst \
 debian/auctex/prerm debian/auctex/postrm \
 debian/auctex/conffiles debian/auctex/cron \
@@ -159,7 +157,9 @@ binary-indep-auctex: build
 			> $(auctex)//usr/share/emacs/site-lisp/auctex//$${i}; \
 	done
 	$(INSTDIR) $(auctex)//usr/share/info/
-	$(MAKE) infodir=$(auctex)//usr/share/info/ INSTALL_INFO=: install-docs
+	$(MAKE) infodir=$(auctex)//usr/share/info/ \
+		docdir=$(auctex)//usr/share/doc/auctex/ \
+		INSTALL_INFO=: install-docs
 	gzip -9frv $(auctex)//usr/share/info/
 
 	$(INSTDIR) $(auctex)//usr/share/doc/auctex/ $(auctex)//usr/share/doc/auctex//src/ \

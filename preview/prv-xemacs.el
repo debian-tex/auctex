@@ -1,14 +1,14 @@
 ;;; prv-xemacs.el --- XEmacs support for preview-latex
 
-;; Copyright (C) 2001, 02, 03, 04, 05 Free Software Foundation, Inc.
-;; Parts (C)  2002 Nick Alcock.
+;; Copyright (C) 2001, 02, 03, 04, 05,
+;;               2006 Free Software Foundation, Inc.
 
 ;; Author: David Kastrup
 ;; Keywords: convenience, tex, wp
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This file is distributed in the hope that it will be useful,
@@ -39,9 +39,12 @@
     "List of macros only present when compiling/loading uncompiled.")
 
   (defmacro preview-defmacro (name &rest rest)
-    (unless (fboundp name)
-      (push name preview-compatibility-macros)
-      `(eval-when-compile (defmacro ,name ,@rest))))
+    (push 
+     (if (fboundp name)
+	 (cons name (symbol-function name))
+       name)
+     preview-compatibility-macros)
+    `(eval-when-compile (defmacro ,name ,@rest)))
   (push 'preview-defmacro preview-compatibility-macros))
 
 (preview-defmacro assoc-default (key alist test)
@@ -57,8 +60,8 @@
 
 ;; This is not quite the case, but unless we're playing with duplicable extents,
 ;; the two are equivalent in XEmacs.
-(unless (fboundp 'match-string-no-properties)
-  (define-compatible-function-alias 'match-string-no-properties 'match-string))
+(preview-defmacro match-string-no-properties (&rest args)
+  `(match-string ,@args))
 
 (preview-defmacro face-attribute (face attr)
   (cond
@@ -146,46 +149,19 @@ The message is displayed with label `progress'; see `display-message'."
   (and (mark)
        t))
 
-;; Stuff missing from XEmacs that should really be there.
-;; In time, this will hopefully all migrate into XEmacs.
-
-; XEmacs's `add-to-list' takes only two arguments.
-(condition-case nil
-    (let (check)
-      (add-to-list 'check t t))
-  (error
-   (defun add-to-list (list-var element &optional append)
-     "Add to the value of LIST-VAR the element ELEMENT if it isn't there yet.
-The test for presence of ELEMENT is done with `equal'.
-If ELEMENT is added, it is added at the beginning of the list,
-unless the optional argument APPEND is non-nil, in which case
-ELEMENT is added at the end.
-
-If you want to use `add-to-list' on a variable that is not defined
-until a certain package is loaded, you should put the call to `add-to-list'
-into a hook function that will be run only after loading the package.
-`eval-after-load' provides one way to do this.  In some cases
-other hooks, such as major mode hooks, can do the job."
-     (if (member element (symbol-value list-var))
-	 (symbol-value list-var)
-       (set list-var
-	    (if append
-		(append (symbol-value list-var) (list element))
-	      (cons element (symbol-value list-var))))))))
-     
 (defvar preview-transparent-border)
 
 ;; Images.
+
+(defsubst preview-supports-image-type (imagetype)
+  "Return whether IMAGETYPE is supported by XEmacs."
+  (memq imagetype (image-instantiator-format-list)))
 
 ;; TODO: Generalize this so we can create the fixed icons using it.
 
 ;; Argh, dired breaks :file :(
 ;; This is a temporary kludge to get around that until a fixed dired
 ;; or a fixed XEmacs is released.
-
-(defsubst preview-supports-image-type (imagetype)
-  "Return whether IMAGETYPE is supported by XEmacs."
-  (memq imagetype (image-instantiator-format-list)))
 
 (defun preview-create-icon-1 (file type ascent)
   "Create an icon from FILE, image TYPE and ASCENT."
@@ -547,7 +523,7 @@ overlays not in the active window."
 (defun preview-move-point ()
   "Move point out of fake-intangible areas."
   (preview-check-changes)
-  (let (newlist (pt (point)))
+  (let (newlist (pt (point)) distance)
     (setq preview-temporary-opened
 	  (dolist (ov preview-temporary-opened newlist)
 	    (and (extent-object ov)
@@ -558,15 +534,18 @@ overlays not in the active window."
 			      (>= pt (extent-end-position ov))))
 		     (preview-toggle ov t)
 		   (push ov newlist)))))
-    (if	(preview-auto-reveal-p preview-auto-reveal)
+    (if	(preview-auto-reveal-p
+	 preview-auto-reveal
+	 (setq distance
+	       (and (eq (marker-buffer preview-marker)
+			(current-buffer))
+		    (- pt (marker-position preview-marker)))))
 	(map-extents #'preview-open-overlay nil
 		     pt pt nil nil 'preview-state 'active)
-      (let ((backward (and (eq (marker-buffer preview-marker) (current-buffer))
-			   (< pt (marker-position preview-marker))))
-	    newpt)
+      (let (newpt)
 	(while (setq newpt
 		     (map-extents #'preview-skip-overlay nil
-				  pt pt backward nil
+				  pt pt (and distance (< distance 0)) nil
 				  'preview-state 'active))
 	  (setq pt newpt))
 	(goto-char pt)))))
@@ -619,7 +598,7 @@ Also make `query-replace' open preview text about to be replaced."
   "List of tentatively changed overlays.")
 
 (defcustom preview-dump-threshold
-  "^ *\\\\begin *{document}"
+  "^ *\\\\begin *{document}[ %]*$"
   "*Regexp denoting end of preamble.
 This is the location up to which preamble changes are considered
 to require redumping of a format."
@@ -738,15 +717,22 @@ of an insertion."
 
 (defun preview-import-image (image)
   "Convert the printable IMAGE rendition back to an image."
-  (if (eq (car image) 'image)
-      (let ((plist (cdr image)))
-	(preview-create-icon-1
-	 (plist-get plist :file)
-	 (plist-get plist :type)
-	 (plist-get plist :ascent)))
-    (preview-create-icon-1 (nth 0 image)
-			 (nth 1 image)
-			 (nth 2 image))))
+  (cond ((stringp image)
+	 (setq image (copy-sequence image))
+	 (add-text-properties 0 (length image)
+			      '(face preview-face)
+			      image)
+	 image)
+	((eq (car image) 'image)
+	 (let ((plist (cdr image)))
+	   (preview-create-icon-1
+	    (plist-get plist :file)
+	    (plist-get plist :type)
+	    (plist-get plist :ascent))))
+	(t
+	 (preview-create-icon-1 (nth 0 image)
+				(nth 1 image)
+				(nth 2 image)))))
 
 (provide 'prv-xemacs)
 

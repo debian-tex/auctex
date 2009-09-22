@@ -1,8 +1,7 @@
 ;;; tex-buf.el --- External commands for AUCTeX.
 
-;; Copyright (C) 1993, 1996, 2001, 2003, 2004,
-;;   2005, 2006 Free Software Foundation, Inc.
-;; Copyright (C) 1991 Kresten Krab Thorup
+;; Copyright (C) 1991, 1993, 1996, 2001, 2003, 2004,
+;;   2005, 2006, 2007, 2008 Free Software Foundation, Inc.
 
 ;; Maintainer: auctex-devel@gnu.org
 ;; Keywords: tex, wp
@@ -11,7 +10,7 @@
 
 ;; AUCTeX is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; AUCTeX is distributed in the hope that it will be useful, but
@@ -159,11 +158,11 @@ will prompt iff the prefix is positive.
 
 If the master file for the document has a header, it is written to the
 temporary file before the region itself.  The document's header is all
-text before TeX-header-end.
+text before `TeX-header-end'.
 
 If the master file for the document has a trailer, it is written to
 the temporary file before the region itself.  The document's trailer is
-all text after TeX-trailer-start."
+all text after `TeX-trailer-start'."
   (interactive "P")
   ;; Note that TeX-command-region-begin is not a marker when called
   ;; from TeX-command-buffer.
@@ -184,7 +183,7 @@ all text after TeX-trailer-start."
   "Run TeX on the current buffer.
 
 Query the user for a command to run on the temporary file specified by
-the variable TeX-region.  The region file file be recreated from the
+the variable `TeX-region'.  The region file will be recreated from the
 visible part of the buffer.
 
 If a prefix argument OVERRIDE-CONFIRM is given, confirmation will
@@ -194,6 +193,43 @@ depend on it being positive instead of the entry in `TeX-command-list'."
 	(TeX-command-region-end (point-max)))
     (TeX-command-region override-confirm)))
 
+(unless (featurep 'xemacs)
+  ;; This variable is not defined in XEmacs because XEmacs' version of
+  ;; `pop-to-buffer' doesn't support the optional NORECORD argument.  In
+  ;; XEmacs, the third arg is ON-FRAME (Emacs: NORECORD).
+  (defcustom TeX-record-buffer nil
+    "Whether to record buffer names of generated TeX buffers.
+When non-nil, these buffers are put at the front of the list of
+recently selected ones."
+    :group 'TeX-command
+    :type 'boolean))
+
+(defun TeX-pop-to-buffer (buffer &optional other-window norecord)
+  "Compatibility wrapper for `pop-to-buffer'.
+
+Select buffer BUFFER in some window, preferably a different one.
+BUFFER may be a buffer, a string (a buffer name), or nil.
+If BUFFER is a string which is not the name of an existing buffer,
+then this function creates a buffer with that name.
+If BUFFER is nil, then it chooses some other buffer.
+If `pop-up-windows' is non-nil, windows can be split to do this.
+If optional second arg OTHER-WINDOW is non-nil, insist on finding another
+window even if BUFFER is already visible in the selected window,
+and ignore `same-window-regexps' and `same-window-buffer-names'.
+This function returns the buffer it switched to.
+This uses the function `display-buffer' as a subroutine; see the documentation
+of `display-buffer' for additional customization information.
+
+Optional third arg NORECORD non-nil means do not put this buffer
+at the front of the list of recently selected ones.
+
+NORECORD is ignored in XEmacs."
+  ;; Make sure not to use third arg in XEmacs.  In XEmacs, the third arg is
+  ;; ON-FRAME (Emacs: NORECORD), so we set it to nil.
+  (pop-to-buffer buffer other-window (and norecord
+					  (boundp 'TeX-record-buffer)
+					  TeX-record-buffer)))
+
 (defun TeX-recenter-output-buffer (line)
   "Redisplay buffer of TeX job output so that most recent output can be seen.
 The last line of the buffer is displayed on line LINE of the window, or
@@ -202,13 +238,13 @@ at bottom if LINE is nil."
   (let ((buffer (TeX-active-buffer)))
     (if buffer
 	(let ((old-buffer (current-buffer)))
-	  (pop-to-buffer buffer t)
+	  (TeX-pop-to-buffer buffer t t)
 	  (bury-buffer buffer)
 	  (goto-char (point-max))
 	  (recenter (if line
 			(prefix-numeric-value line)
 		      (/ (window-height) 2)))
-	  (pop-to-buffer old-buffer))
+	  (TeX-pop-to-buffer old-buffer nil t))
       (message "No process for this document."))))
 
 (defun TeX-kill-job ()
@@ -233,7 +269,7 @@ the master file."
 
 (defun TeX-next-error (reparse)
   "Find the next error in the TeX output buffer.
-Prefix by C-u to start from the beginning of the errors."
+With \\[universal-argument] prefix, start from the beginning of the errors."
   (interactive "P")
   (if (null (TeX-active-buffer))
       (next-error reparse)
@@ -292,7 +328,12 @@ LIST default to `TeX-expand-list'.  As a special exception,
 without further expansion."
   (let (pat
 	pos
-	entry
+	entry TeX-command-text TeX-command-pos
+	(file `(lambda (&rest args)
+		 (shell-quote-argument
+		  (concat (and (stringp TeX-command-pos) TeX-command-pos)
+			  (apply ',file args)
+			  (and (stringp TeX-command-pos) TeX-command-pos)))))
 	case-fold-search string expansion arguments)
     (setq list (cons
 		(list "%%" (lambda nil
@@ -305,21 +346,29 @@ without further expansion."
 	    entry (assoc string list)
 	    expansion (car (cdr entry)) ;Second element
 	    arguments (cdr (cdr entry)) ;Remaining elements
-	    command (replace-match
-		     (save-match-data
-		       (cond ((TeX-function-p expansion)
-			      (apply expansion arguments))
-			     ((boundp expansion)
-			      (apply (eval expansion) arguments))
-			     (t
-			      (error "Nonexpansion %s" expansion))))
-		     t t command))))
+	    string (save-match-data
+		     ;; Note regarding the special casing of `file':
+		     ;; `file' is prevented from being evaluated as a
+		     ;; function because inside of AUCTeX it only has
+		     ;; a meaning as a variable.  This makes sure that
+		     ;; a function definition made by an external
+		     ;; package (e.g. icicles) is not picked up.
+		     (cond ((and (not (eq expansion 'file))
+				 (TeX-function-p expansion))
+			    (apply expansion arguments))
+			   ((boundp expansion)
+			    (apply (eval expansion) arguments))
+			   (t
+			    (error "Nonexpansion %s" expansion)))))
+      (if (stringp string)
+	  (setq command
+		(replace-match string t t command)))))
   command)
 
 (defun TeX-check-files (derived originals extensions)
   "Check that DERIVED is newer than any of the ORIGINALS.
 Try each original with each member of EXTENSIONS, in all directories
-in TeX-check-path."
+in `TeX-check-path'."
   (let ((found nil)
 	(regexp (concat "\\`\\("
 			(mapconcat (lambda (dir)
@@ -389,7 +438,7 @@ in TeX-check-path."
       default)))
 
 (defvar TeX-command-next nil
-  "The default command next time TeX-command is invoked.")
+  "The default command next time `TeX-command' is invoked.")
 
  (make-variable-buffer-local 'TeX-command-next)
 
@@ -438,17 +487,13 @@ QUEUE is non-nil when we are checking for the printer queue."
     ""))
 
 (defun TeX-output-extension ()
-  "Get the extension of the current TeX output file"
+  "Get the extension of the current TeX output file."
   (if (listp TeX-output-extension)
       (car TeX-output-extension)
     (or (TeX-process-get-variable (TeX-active-master)
 				'TeX-output-extension
 				TeX-output-extension)
 	TeX-output-extension)))
-
-(defun TeX-view-output-file ()
-  "Get the name of the current TeX output file"
-  (TeX-active-master (TeX-output-extension) t))
 
 (defun TeX-view-mouse (event)
   "Start `TeX-view' at mouse position."
@@ -522,7 +567,9 @@ Return the new process."
     (setq mode-name name)
     (if TeX-show-compilation
 	(display-buffer buffer)
-      (message "Type `C-c C-l' to display results of compilation."))
+      (message "Type `%s' to display results of compilation."
+	       (substitute-command-keys
+		"\\<TeX-mode-map>\\[TeX-recenter-output-buffer]")))
     (setq TeX-parse-function 'TeX-parse-command)
     (setq TeX-command-default default)
     (setq TeX-sentinel-function
@@ -546,7 +593,7 @@ Return the new process."
 		    TeX-shell-command-option command))))
 
 (defun TeX-run-set-command (name command)
-  "Remember TeX command to use to NAME and set corresponding output extension"
+  "Remember TeX command to use to NAME and set corresponding output extension."
   (setq TeX-command-default name
 	TeX-output-extension (if TeX-PDF-mode "pdf" "dvi"))
   (let ((case-fold-search t)
@@ -686,7 +733,7 @@ With support for MS-DOS, especially when dviout is used with PC-9801 series."
   "Run TeX interactively.
 Run command in a buffer (in comint-shell-mode) so that it accepts user
 interaction. If you return to the file buffer after the TeX run,
-Error parsing on C-x ` should work with a bit of luck."
+Error parsing on \\[next-error] should work with a bit of luck."
   (TeX-run-set-command name command)
   (require 'comint)
   (let ((default TeX-command-default)
@@ -806,7 +853,7 @@ NAME is the name of the process.")
 
 
 (defvar TeX-sentinel-default-function (lambda (process name))
-  "Default for TeX-sentinel-function. To be set in major mode.
+  "Default for `TeX-sentinel-function'.  To be set in major mode.
 Hook to cleanup TeX command buffer after temination of PROCESS.
 NAME is the name of the process.")
 
@@ -820,7 +867,7 @@ NAME is the name of the process.")
     (setq TeX-command-next TeX-command-Show)))
 
 (defun TeX-current-pages ()
-  ;; String indictating the number of pages formatted.
+  "Return string indicating the number of pages formatted."
   (cond ((null TeX-current-page)
 	 "some pages.")
 	((string-match "[^0-9]1[^0-9]" TeX-current-page)
@@ -833,10 +880,13 @@ NAME is the name of the process.")
 Return nil ifs no errors were found."
   (save-excursion
     (goto-char (point-max))
-    (if (re-search-backward "^Output written on \\(.*\\) (\\([0-9]+\\) page"
+    (if (re-search-backward "^Output written on \\(.*?\\) (\\([0-9]+\\) page"
 			    nil t)
 	(let ((output-file (TeX-match-buffer 1)))
 	  (setq TeX-current-page (concat "{" (TeX-match-buffer 2) "}"))
+	  ;; Shave off quotation marks if present.
+	  (when (string-match "\\`\"\\(.*\\)\"\\'" output-file)
+	    (setq output-file (match-string 1 output-file)))
 	  (setq TeX-output-extension
 		(if (string-match "\\.\\([^.]*\\)$" output-file)
 		    (match-string 1 output-file)
@@ -844,8 +894,9 @@ Return nil ifs no errors were found."
   (if process (TeX-format-mode-line process))
   (if (re-search-forward "^\\(!\\|.*:[0-9]+:\\) " nil t)
       (progn
-	(message (concat name " errors in `" (buffer-name)
-			 "'. Use C-c ` to display."))
+	(message "%s errors in `%s'. Use %s to display." name (buffer-name)
+		 (substitute-command-keys
+		  "\\<TeX-mode-map>\\[TeX-next-error]"))
 	(setq TeX-command-next TeX-command-default)
 	;; error reported to TeX-error-report-switches
 	(setq TeX-error-report-switches
@@ -938,8 +989,10 @@ Warnings can be indicated by LaTeX or packages."
     ;; Tell the user their number so that she sees whether the
     ;; situation is getting better or worse.
     (message (concat "BibTeX finished with %s %s. "
-		     "Type `C-c C-l' to display output.")
-	     (match-string 1) (match-string 2)))
+		     "Type `%s' to display output.")
+	     (match-string 1) (match-string 2)
+	     (substitute-command-keys
+	      "\\<TeX-mode-map>\\[TeX-recenter-output-buffer]")))
    (t
     (message (concat "BibTeX finished successfully. "
 		     "Run LaTeX again to get citations right."))))
@@ -1045,6 +1098,18 @@ command."
 	(goto-char pt)
 	(insert-before-markers string)
 	(set-marker (process-mark process) (point))
+	;; Remove line breaks at column 79
+	(while (> (point) pt)
+	  (end-of-line 0)
+	  (when (and (= (current-column) 79)
+		     ;; Heuristic: Don't delete the linebreak if there
+		     ;; is an empty line after the current one or
+		     ;; point is located after a period.
+		     (not (eq (char-after (1+ (point))) ?\n))
+		     (not (eq (char-before) ?.)))
+	    (delete-char 1)))
+	(goto-char (marker-position (process-mark process)))
+	;; Determine current page
 	(while (and pt
 		    (skip-chars-backward "^]" pt)
 		    (> (point) pt))
@@ -1073,7 +1138,7 @@ command."
   "Filter to process background output."
   (let ((old-window (selected-window))
 	(pop-up-windows t))
-    (pop-to-buffer "*TeX background*")
+    (TeX-pop-to-buffer "*TeX background*" nil t)
     (goto-char (point-max))
     (insert string)
     (select-window old-window)))
@@ -1110,8 +1175,9 @@ command."
 
 (defun TeX-active-buffer ()
   "Return the buffer of the active process for this buffer."
-  (TeX-process-buffer (with-current-buffer TeX-command-buffer
-			(TeX-active-master))))
+  (and TeX-command-buffer
+       (TeX-process-buffer (with-current-buffer TeX-command-buffer
+			     (TeX-active-master)))))
 
 (defun TeX-active-master (&optional extension nondirectory)
   "The master file currently being compiled.
@@ -1161,7 +1227,7 @@ The hooks are run in the region buffer, you may use the variable
   file)
 
 (defun TeX-region-create (file region original offset)
-  "Create a new file named FILE with the string REGION
+  "Create a new file named FILE with the string REGION.
 The region is taken from ORIGINAL starting at line OFFSET.
 
 The current buffer and master file is searched, in order to ensure
@@ -1262,7 +1328,7 @@ original file."
 
 (defun TeX-region-file (&optional extension nondirectory)
   "Return TeX-region file name with EXTENSION.
-If optional second argument NONDIRECTORY is nil, do not include
+If optional second argument NONDIRECTORY is non-nil, do not include
 the directory."
   (concat (if nondirectory "" (TeX-master-directory))
 	  (cond ((eq extension t)
@@ -1273,7 +1339,7 @@ the directory."
 		 TeX-region))))
 
 (defcustom TeX-region "_region_"
-  "*Base name for temporary file for use with TeX-region."
+  "*Base name of temporary file for `TeX-command-region' and `TeX-command-buffer'."
   :group 'TeX-command
   :type 'string)
 
@@ -1287,12 +1353,12 @@ the directory."
  (make-variable-buffer-local 'TeX-error-point)
 
 (defvar TeX-error-file nil
-  "Stack of files in which errors have occured")
+  "Stack of files in which errors have occured.")
 
  (make-variable-buffer-local 'TeX-error-file)
 
 (defvar TeX-error-offset nil
-  "Add this to any line numbers from TeX.  Stack like TeX-error-file.")
+  "Add this to any line numbers from TeX.  Stack like `TeX-error-file'.")
 
  (make-variable-buffer-local 'TeX-error-offset)
 
@@ -1313,18 +1379,17 @@ the directory."
 
 (defun TeX-parse-TeX (reparse)
   "Find the next error produced by running TeX.
-Prefix by C-u to start from the beginning of the errors.
+With \\[universal-argument] prefix, start from the beginning of the errors.
 
 If the file occurs in an included file, the file is loaded (if not
 already in an Emacs buffer) and the cursor is placed at the error."
-
   (let ((old-buffer (current-buffer))
 	(default-major-mode major-mode))
-    (pop-to-buffer (TeX-active-buffer))
-    (if reparse
-	(TeX-parse-reset))
-    (goto-char TeX-error-point)
-    (TeX-parse-error old-buffer)))
+    (with-current-buffer (TeX-active-buffer)
+      (if reparse
+	  (TeX-parse-reset))
+      (goto-char TeX-error-point)
+      (TeX-parse-error old-buffer))))
 
 ;;; - Parsing (La)TeX
 
@@ -1337,78 +1402,83 @@ You might want to examine and modify the free variables `file',
 (defun TeX-parse-error (old)
   "Goto next error.  Pop to OLD buffer if no more errors are found."
     (while
-	(progn
-	  (re-search-forward
-	   (concat "\\("
-		   ;; Match regular error indicator "!" as well as
-		   ;; file-line-error error indicator "file:line: error".
-		   "^\\(!\\|.*:[0-9]+:\\) \\|"
-		   "(\\|"
-		   ")\\|"
-		   "\\'\\|"
-		   "!offset([---0-9]*)\\|"
-		   "!name([^)]*)"
-		   (when TeX-debug-bad-boxes
-		     "\\|^.*erfull \\\\.*[0-9]*--[0-9]*")
-		   (when TeX-debug-warnings
-		     "\\|^\\(LaTeX [A-Za-z]*\\|Package [A-Za-z]+ \\)Warning:.*")
-		   "\\)"))
-	  (let ((string (TeX-match-buffer 1)))
+	(cond
+	 ((null (re-search-forward
+		 "\
+^\\(!\\|\\(.*?\\):[0-9]+:\\) \\|\
+\(\\(/*\
+\\(?:\\.+[^()\r\n{} /]*\\|[^()\r\n{} ./]+\
+\\(?: [^()\r\n{} ./]+\\)*\\(?:\\.[-0-9a-zA-Z_.]*\\)?\\)\
+\\(?:/+\\(?:\\.+[^()\r\n{} /]*\\|[^()\r\n{} ./]+\
+\\(?: [^()\r\n{} ./]+\\)*\\(?:\\.[-0-9a-zA-Z_.]*\\)?\\)?\\)*\\)\
+)*\\(?: \\|\r?$\\)\\|\
+\\()\\))*\\|\
+ !\\(?:offset(\\([---0-9]+\\))\\|\
+name(\\([^)]+\\))\\)\\|\
+^\\(\\(?:Overfull\\|Underfull\\|Tight\\|Loose\\)\
+ \\\\.*?[0-9]+--[0-9]+\\)\\|\
+^\\(LaTeX [A-Za-z]*\\|Package [A-Za-z]+ \\)Warning:.*" nil t))
+	  ;; No more errors.
+	  (message "No more errors.")
+	  (beep)
+	  (TeX-pop-to-buffer old)
+	  nil)
+	 ;; TeX error
+	 ((match-beginning 1)
+	  (when (match-beginning 2)
+	    (unless TeX-error-file
+	      (push nil TeX-error-file)
+	      (push nil TeX-error-offset))
+	    (unless (car TeX-error-offset)
+	      (rplaca TeX-error-file (TeX-match-buffer 2))))
+	  (if (looking-at "Preview ")
+	      t
+	    (TeX-error)
+	    nil))
+	 ;; LaTeX badbox
+	 ((match-beginning 7)
+	  (if TeX-debug-bad-boxes
+	      (progn
+		(TeX-warning (TeX-match-buffer 7))
+		nil)
+	    (re-search-forward "\r?\n\
+\\(?:.\\{79\\}\r?\n\
+\\)*.*\r?$")
+	    t))
+	 ;; LaTeX warning
+	 ((match-beginning 8)
+	  (if TeX-debug-warnings
+	      (progn
+		(TeX-warning (TeX-match-buffer 8))
+		nil)
+	    t))
 
-	    (cond (;; TeX error
-		   (match-end 2)
-		   (TeX-error)
-		   nil)
-
-		  ;; LaTeX warning
-		  ((string-match
-		    (concat
-		     "\\("
-		     "^.*erfull \\\\.*[0-9]*--[0-9]*\\|"
-		     ;; XXX: Add full support for multi-line warnings like
-		     ;; Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
-		     ;; (hyperref)                removing `math shift' on input line 1453.
-		     "^\\(LaTeX [A-Za-z]*\\|Package [A-Za-z]+ \\)Warning:.*"
-		     "\\)")
-		    string)
-		   (TeX-warning string)
-		   nil)
-
-		  ;; New file -- Push on stack
-		  ((string= string "(")
-		   (re-search-forward "\\([^(){}\n \t]*\\)")
-		   (setq TeX-error-file
-			 (cons (TeX-match-buffer 1) TeX-error-file))
-		   (setq TeX-error-offset (cons 0 TeX-error-offset))
-		   t)
-
-		  ;; End of file -- Pop from stack
-		  ((string= string ")")
-		   (setq TeX-error-file (cdr TeX-error-file))
-		   (setq TeX-error-offset (cdr TeX-error-offset))
-		   t)
-
-		  ;; Hook to change line numbers
-		  ((string-match "!offset(\\([---0-9]*\\))" string)
-		   (rplaca TeX-error-offset
-			   (string-to-int (substring string
-						     (match-beginning 1)
-						     (match-end 1))))
-		   t)
-
-		  ;; Hook to change file name
-		  ((string-match "!name(\\([^)]*\\))" string)
-		   (rplaca TeX-error-file (substring string
-						     (match-beginning 1)
-						     (match-end 1)))
-		   t)
-
-		  ;; No more errors.
-		  (t
-		   (message "No more errors.")
-		   (beep)
-		   (pop-to-buffer old)
-		   nil))))))
+	 ;; New file -- Push on stack
+	 ((match-beginning 3)
+	  (push (TeX-match-buffer 3) TeX-error-file)
+	  (push nil TeX-error-offset)
+	  (goto-char (match-end 3))
+	  t)
+	 
+	 ;; End of file -- Pop from stack
+	 ((match-beginning 4)
+	  (when (> (length TeX-error-file) 1)
+	    (pop TeX-error-file)
+	    (pop TeX-error-offset))
+	  (goto-char (match-end 4))
+	  t)
+	 
+	 ;; Hook to change line numbers
+	 ((match-beginning 5)
+	  (setq TeX-error-offset
+		(list (string-to-int (TeX-match-buffer 5))))
+	  t)
+	 
+	 ;; Hook to change file name
+	 ((match-beginning 6)
+	  (setq TeX-error-file
+		(list (TeX-match-buffer 6)))
+	  t))))
 
 (defun TeX-error ()
   "Display an error."
@@ -1437,7 +1507,7 @@ You might want to examine and modify the free variables `file',
 						    (end-of-line)
 						    (point))))
 	 ;; We may use these in another buffer.
-	 (offset (car TeX-error-offset) )
+	 (offset (or (car TeX-error-offset) 0))
 	 (file (car TeX-error-file)))
 
     ;; Remember where we was.
@@ -1453,7 +1523,7 @@ You might want to examine and modify the free variables `file',
 	  (command-buffer TeX-command-buffer)
 	  error-file-buffer)
       (run-hooks 'TeX-translate-location-hook)
-      (setq error-file-buffer (find-file-other-window file))
+      (setq error-file-buffer (find-file file))
       ;; Set the value of `TeX-command-buffer' in the next file with an
       ;; error to be displayed to the value it has in the current buffer.
       (with-current-buffer error-file-buffer
@@ -1463,9 +1533,14 @@ You might want to examine and modify the free variables `file',
 	  (search-forward string nil t))
       
       ;; Explain the error.
-      (if TeX-display-help
-	  (TeX-help-error error context runbuf)
-	(message (concat "! " error))))))
+      (cond ((eq TeX-display-help 'expert)
+	     (TeX-pop-to-buffer runbuf nil t)
+	     (goto-char TeX-error-point)
+	     (TeX-pop-to-buffer error-file-buffer nil t))
+	    (TeX-display-help
+	     (TeX-help-error error context runbuf))
+	    (t
+	     (message (concat "! " error)))))))
 
 (defun TeX-warning (string)
   "Display a warning for STRING."
@@ -1473,7 +1548,7 @@ You might want to examine and modify the free variables `file',
   (let* ((error (concat "** " string))
 
 	 ;; bad-box is nil if this is a "LaTeX Warning"
-	 (bad-box (string-match "^.*erfull \\\\.*[0-9]*--[0-9]*" string))
+	 (bad-box (string-match "\\\\[vb]ox.*[0-9]*--[0-9]*" string))
 	 ;; line-string: match 1 is beginning line, match 2 is end line
 	 (line-string (if bad-box " \\([0-9]*\\)--\\([0-9]*\\)"
 			"on input line \\([0-9]*\\)\\."))
@@ -1508,7 +1583,7 @@ You might want to examine and modify the free variables `file',
 		   (TeX-match-buffer 1)))
 
 	 ;; We might use these in another file.
-	 (offset (car TeX-error-offset))
+	 (offset (or (car TeX-error-offset) 0))
 	 (file (car TeX-error-file)))
 
     ;; This is where we start next time.
@@ -1523,7 +1598,7 @@ You might want to examine and modify the free variables `file',
 	  (command-buffer TeX-command-buffer)
 	  error-file-buffer)
       (run-hooks 'TeX-translate-location-hook)
-      (setq error-file-buffer (find-file-other-window file))
+      (setq error-file-buffer (find-file file))
       ;; Set the value of `TeX-command-buffer' in the next file with an
       ;; error to be displayed to the value it has in the current buffer.
       (with-current-buffer error-file-buffer
@@ -1539,10 +1614,15 @@ You might want to examine and modify the free variables `file',
 	    (search-backward string start t)
 	    (search-forward string nil t))))
       ;; Display help
-      (if TeX-display-help
-	  (TeX-help-error error (if bad-box context (concat "\n" context))
-			  runbuf)
-	(message (concat "! " error))))))
+      (cond ((eq TeX-display-help 'expert)
+	     (TeX-pop-to-buffer runbuf nil t)
+	     (goto-char TeX-error-point)
+	     (TeX-pop-to-buffer error-file-buffer nil t))
+	    (TeX-display-help
+	     (TeX-help-error error (if bad-box context (concat "\n" context))
+			     runbuf))
+	    (t
+	     (message (concat "! " error)))))))
 
 ;;; - Help
 
@@ -1561,7 +1641,7 @@ You might want to examine and modify the free variables `file',
 			      error))
       (setq TeX-error-pointer (+ TeX-error-pointer 1)))
 
-    (pop-to-buffer (get-buffer-create "*TeX Help*"))
+    (TeX-pop-to-buffer (get-buffer-create "*TeX Help*") nil t)
     (erase-buffer)
     (insert "ERROR: " error
 	    "\n\n--- TeX said ---"
@@ -1584,7 +1664,7 @@ You might want to examine and modify the free variables `file',
 			 (goto-line (point-min))
 			 (search-forward error nil t 1)))
 		  (progn
-		    (re-search-forward "^l.")
+		    (re-search-forward "^l\\.")
 		    (re-search-forward "^ [^\n]+$")
 		    (forward-char 1)
 		    (let ((start (point)))
@@ -1594,12 +1674,17 @@ You might want to examine and modify the free variables `file',
 		(cdr (nth TeX-error-pointer
 			  TeX-error-description-list)))))
     (goto-char (point-min))
-    (pop-to-buffer old-buffer)))
+    (TeX-pop-to-buffer old-buffer nil t)))
 
 ;;; Error Messages
 
 (defcustom TeX-error-description-list
-  '(("Bad \\\\line or \\\\vector argument.*" .
+  '(("\\(?:Package Preview Error\\|Preview\\):.*" .
+"The `auctex' option to `preview' should not be applied manually.
+If you see this error message outside of a preview run, either
+you did something too clever, or AUCTeX something too stupid.")
+
+    ("Bad \\\\line or \\\\vector argument.*" .
 "The first argument of a \\line or \\vector command, which specifies the
 slope, is illegal\.")
 
@@ -1640,7 +1725,7 @@ command \\gnu.) You'll have to choose a new name or, in the case of
 enumerated list, has received a number greater than 26. Either you're
 making a very long list or you've been resetting counter values.
 
-2. Footnotes are being ``numbered'' with letters or footnote symbols 
+2. Footnotes are being ``numbered'' with letters or footnote symbols
 and LaTeX has run out of letters or symbols. This is probably caused
 by too many \\thanks commands.")
 
@@ -2002,10 +2087,10 @@ page without enough text on it. ")
 
     (".*" . "No help available"))	; end definition
 "A list of the form (\"err-regexp\" . \"context\") used by function
-\\{TeX-help-error} to display help-text on an error message or warning.
+`TeX-help-error' to display help-text on an error message or warning.
 err-regexp should be a regular expression matching the error message
 given from TeX/LaTeX, and context should be some lines describing that
-error"
+error."
   :group 'TeX-output
   :type '(repeat (cons :tag "Entry"
 		       (regexp :tag "Match")

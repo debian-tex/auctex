@@ -6,27 +6,28 @@ case you don't understand some of this, run into trouble of some sort,
 or need more elaborate information, refer to the detailed instructions
 further below.
 
-  1. Install the prerequisites, i.e. GNU Emacs or XEmacs, MSYS or
-     Cygwin, a TeX system, and Ghostscript.
+  1. Install the prerequisites, i.e. Emacs or XEmacs, MSYS or Cygwin, a
+     TeX system, and Ghostscript.
 
   2. Open the MSYS shell or a Cygwin shell and change to the directory
      containing the unzipped file contents.
 
   3. Configure AUCTeX:
 
-     For GNU Emacs: Many people like to install AUCTeX into the pseudo
-     file system hierarchy set up by the Emacs installation.  Assuming
-     Emacs is installed in `C:/Program Files/Emacs' and the directory
-     for local additions of your TeX system, e.g. MikTeX, is
+     For Emacs: Many people like to install AUCTeX into the pseudo file
+     system hierarchy set up by the Emacs installation.  Assuming Emacs
+     is installed in `C:/Program Files/Emacs' and the directory for
+     local additions of your TeX system, e.g. MiKTeX, is
      `C:/localtexmf', you can do this by typing the following statement
      at the shell prompt:
 
           ./configure --prefix='C:/Program Files/Emacs' \
+            --infodir='C:/Program Files/Emacs/info' \
             --with-texmf-dir='C:/localtexmf'
 
      For XEmacs: You can install AUCTeX as an XEmacs package.  Assuming
      XEmacs is installed in `C:/Program Files/XEmacs' and the directory
-     for local additions of your TeX system, e.g. MikTeX, is
+     for local additions of your TeX system, e.g. MiKTeX, is
      `C:/localtexmf', you can do this by typing the following command at
      the shell prompt:
 
@@ -40,7 +41,19 @@ further below.
      If the configuration script failed to find all required programs,
      make sure that these programs are in your system path and add
      directories containing the programs to the `PATH' environment
-     variable if necessary.
+     variable if necessary.  Here is how to do that in W2000/XP:
+
+       1. On the desktop, right click "My Computer" and select
+          properties.
+
+       2. Click on "Advanced" in the "System Properties" window.
+
+       3. Select "Environment Variables".
+
+       4. Select "path" in "System Variables" and click "edit".  Move
+          to the front in the line (this might require scrolling) and
+          add the missing path including drive letter, ended with a
+          semicolon.
 
   4. If there were no further error messages, type
 
@@ -107,42 +120,33 @@ used single quotes for that.
      step: this should provide you with a working `unzip' command.
 
   2. The installation of AUCTeX will require the MSYS tool set from
-     `http://www.mingw.org' or the Cygwin tool set from
-     `http://cygwin.com'.  The latter is slower and larger (the download
-     size of the base system is about 15 MB) but comes with a package
-     manager that allows for updating the tool set and installing
-     additional packages like, for example, the spell checker aspell.
+     `http://www.mingw.org/' or the Cygwin tool set from
+     `http://cygwin.com/'.  The latter is slower and larger (the
+     download size of the base system is about 15 MB) but comes with a
+     package manager that allows for updating the tool set and
+     installing additional packages like, for example, the spell
+     checker aspell.
 
      If Cygwin specific paths like `/cygdrive/c' crop up in the course
      of the installation, using a non-Cygwin Emacs could conceivably
      cause trouble.  Using Cygwin either for everything or nothing
      might save headaches, _if_ things don't work out.
 
-  3. Install a current version of XEmacs from `http://www.xemacs.org'
-     or try getting and compiling a developer version of Emacs 22 from
-     Savannah (http://savannah.gnu.org/cvs/?group=emacs).  Compiling
-     Emacs is outside of the scope of this manual.  Precompiled versions
-     currently happen to be available at
-     `http://www.crasseux.com/emacs/' and `http://nqmacs.sf.net/'.
-
-     If you don't want to use a developer version and Emacs 22 has not
-     yet been released, it is also possible to use an Emacs 21 binary
-     from `http://ftp.gnu.org/pub/gnu/windows/emacs/', but then you
-     should disable the installation of preview-latex (it will not
-     work).  Since the developer version has seen quite a few
-     improvements relevant also for other features of AUCTeX, we really
-     recommend you give it a try.
+  3. Install a current version of XEmacs from `http://www.xemacs.org/'
+     or Emacs 22 from `ftp://ftp.gnu.org/gnu/emacs/windows/'.  Emacs 22
+     is the recommended choice because it is currently the primary
+     platform for AUCTeX development.
 
   4. You need a working TeX installation.  One popular installation
-     under Windows is MikTeX (http://www.miktex.org).  Another much more
+     under Windows is MiKTeX (http://www.miktex.org).  Another much more
      extensive system is TeX Live (http://www.tug.org/texlive) which is
      rather close to its Unix cousins.
 
-  5. A working copy of Ghostscript (http://www.cs.wisc.edu/~ghost) is
+  5. A working copy of Ghostscript (http://www.cs.wisc.edu/~ghost/) is
      required for preview-latex operation.  Examining the output from
           gswin32c -h
      on a Windows command line should tell you whether your Ghostscript
-     supports the `png16m' device needed for PNG support.  MikTeX
+     supports the `png16m' device needed for PNG support.  MiKTeX
      apparently comes with its own Ghostscript called `mgs.exe'.
 
   6. Perl (http://www.perl.org) is needed for rebuilding the
@@ -172,7 +176,8 @@ used single quotes for that.
           `share' and `bin' will be situated right under PREFIX.
 
           This option also affects the defaults for placing the Texinfo
-          documentation files and automatically generated style hooks.
+          documentation files (see also `--infodir' below) and
+          automatically generated style hooks.
 
           If you have a central directory hierarchy (not untypical with
           Cygwin) for such stuff, you might want to specify its root
@@ -213,6 +218,14 @@ used single quotes for that.
           If you think that you need a different setup, please refer to
           the full installation instructions in the `INSTALL' file.
 
+    `--infodir=DRIVE:/PATH/TO/INFO/DIRECTORY'
+          If you are installing into an Emacs directory, info files
+          have to be put into the `info' folder below that directory.
+          The configuration script will usually try to install into the
+          folder `share/info', so you have to override this by
+          specifying something like `--infodir='C:/Program Files/info''
+          for the configure call.
+
     `--with-auto-dir=DRIVE:/DIR'
           Directory containing automatically generated information.
           You should not normally need to set this, as `--prefix'
@@ -227,7 +240,7 @@ used single quotes for that.
           This will specify the directory where your TeX installation
           sits.  If your TeX installation does not conform to the TDS
           (TeX directory standard), you may need to specify more
-          options to get everything in place:
+          options to get everything in place.
 
      For more information about any of the above and additional
      options, see the `Configure' section in the `INSTALL' file.
@@ -266,12 +279,12 @@ used single quotes for that.
      `~/.xemacs/init.el' from within XEmacs).
 
      The default configuration of AUCTeX is probably not the best fit
-     for Windows systems.  You might want to additionally use
+     for Windows systems.  You might want to add
           (require 'tex-mik)
      or
           (require 'tex-fptex)
-     in order to get more appropriate values for MikTeX and fpTeX,
-     respectively.
+     in order to get more appropriate values for MiKTeX and fpTeX,
+     respectively after loading `auctex.el' and `preview-latex.el'.
 
      You can always use
 
