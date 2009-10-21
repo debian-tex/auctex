@@ -1,3 +1,10 @@
+auctex (11.85-1~bpo50+1) lenny-backports; urgency=low
+
+  * backport to lenny
+  * remove the install-info dependency, it is included in lenny's dpkg
+
+ -- Reinhard Tartler <siretart@tauware.de>  Wed, 21 Oct 2009 12:44:14 +0000
+
 auctex (11.85-1) unstable; urgency=low
 
   * New upstream release.  (Closes: #482956)
