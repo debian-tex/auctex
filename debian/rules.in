@@ -327,6 +327,12 @@ build-package: clean
 		--display-info --display-experimental --pedantic \
 		../<:=${PACKAGE}:>*changes
 
+.PHONY: snapshot
+snapshot:
+	gbp-pq rebase
+	git-dch --debian-branch=patch-queue/master --snapshot --auto
+	git-buildpackage --git-ignore-new -rfakeroot -tc -i -us -uc
+
 <:
 # local variables:
 # mode: makefile
