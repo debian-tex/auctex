@@ -153,7 +153,7 @@ binary-indep-auctex: build
 	cd preview && $(MAKE) prefix=$(auctex)//usr/ install-images
 	umask 0022; for i in $(MAKEFILEHACKS); do \
 		$(INSTDIR) $(auctex)//usr/share/emacs/site-lisp/auctex//$${i%/*}/; \
-		echo -e "clean distclean:\n\trm -f Makefile\n" \
+		echo -e "clean distclean maintainer-clean:\n\trm -f Makefile\n" \
 			> $(auctex)//usr/share/emacs/site-lisp/auctex//$${i}; \
 	done
 	$(INSTDIR) $(auctex)//usr/share/info/
@@ -308,8 +308,4 @@ build-package: clean
 	lintian --info --color auto --show-overrides --checksums \
 		--display-info --display-experimental --pedantic \
 		../auctex*changes
-
-.PHONY: source diff
-source diff:
-	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 

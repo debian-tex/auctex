@@ -327,10 +327,6 @@ build-package: clean
 		--display-info --display-experimental --pedantic \
 		../<:=${PACKAGE}:>*changes
 
-.PHONY: source diff
-source diff:
-	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
-
 <:
 # local variables:
 # mode: makefile
