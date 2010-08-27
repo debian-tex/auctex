@@ -2,7 +2,7 @@
 #
 # rules for auctex
 #
-# Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07, 08, 09
+# Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10
 # by Davide G. M. Salvetti.
 #
 # This program is free software; you can redistribute it and/or modify it
@@ -313,4 +313,3 @@ build-package: clean
 source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
-# arch-tag: 7f6799c7-dca1-4d84-8038-1ad9c2888751-child

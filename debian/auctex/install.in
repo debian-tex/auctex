@@ -122,8 +122,6 @@ esac
 
 exit 0
 <:
-# arch-tag: 8f5878f2-a4b0-44a9-bb22-92f48baf39b3
-#
 # local variables:
 # mode: shell-script
 # coding: utf-8

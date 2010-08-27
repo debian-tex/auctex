@@ -8,14 +8,12 @@
 #
 # Atsushi Shimono <shimono@gmail.com>, 2006
 # Hideki Yamane <henrich@debian.or.jp>, 2008
-#
-# arch-tag: 6d2c5550-7555-4bc0-b47d-dc3ddd4fa1c5
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.83-7.1\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-23 12:41+0200\n"
-"PO-Revision-Date: 2009-08-23 14:21+0200\n"
+"PO-Revision-Date: 2010-08-27 13:42+0200\n"
 "Last-Translator: Hideki Yamane (Debian-JP) <henrich@debian.or.jp>\n"
 "Language-Team: Japanese <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"

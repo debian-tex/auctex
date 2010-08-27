@@ -59,8 +59,6 @@ the hierarchy containing AUCTeX installed files.
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
 <:
-# arch-tag: 70d3ef3a-3f7d-4568-8a3d-5bd8f38effb0
-#
 # local variables:
 # mode: nroff
 # coding: utf-8

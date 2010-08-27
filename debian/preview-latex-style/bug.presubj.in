@@ -20,8 +20,6 @@ the usual bug reporting upstream conventions of <:=${PLSPKG}:> (look in
 the <:=${PLSPKG}:> documentation directory "<:$_=${doc};
 s|${PACKAGE}|${PLSPKG}|g; print:>").
 <:
-# arch-tag: 1e05717b-d456-4bd8-8e81-c45e9faf8b5a
-#
 # local variables:
 # mode: text
 # coding: utf-8

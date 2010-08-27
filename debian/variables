@@ -69,8 +69,6 @@
   @COPYRIGHT=<COPYRIGHT>;
   close(COPYRIGHT):>//
 <:
-# arch-tag: b01c14c9-57be-47ff-abb7-de12aebfc520
-#
 # local variables:
 # mode: shell-script
 # coding: utf-8

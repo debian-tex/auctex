@@ -18,8 +18,6 @@ Format: DVI
 Files: <:=if($_="${texmfdoc}/preview.dvi.gz") =~tr|/|/|s:>
 
 <:
-# arch-tag: 4a60674c-df89-4d63-b0f8-1c92e37e7add
-#
 # local variables:
 # mode: text
 # coding: utf-8

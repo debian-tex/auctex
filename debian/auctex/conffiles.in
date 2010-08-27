@@ -8,6 +8,3 @@
 <:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
 	s|emacs|emacs-snapshot|; $_=~tr|/|/|s; print:>
 <:=if($_="${cron_weekly}/${PACKAGE}")=~tr|/|/|s:>
-<:
-# arch-tag: 6a902afa-3563-4a43-8c5c-77de4bf3b393
-:>//

@@ -2,8 +2,6 @@
 # <% lintian %> override file for <:=${PLSPKG}:>
 
 <:
-# arch-tag: 214ac567-768e-4dc4-980b-0e947c6da60b
-#
 # local variables:
 # mode: fundamental
 # coding: utf-8

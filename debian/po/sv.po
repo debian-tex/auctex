@@ -7,14 +7,12 @@
 # package.
 #
 # Martin Bagge <martin.bagge@bthstudent.se>, 2008
-#
-# arch-tag: a31cbdf3-139e-4632-a4a7-3cdfefd9c073
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex_11.83-7.1_sv\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-23 12:41+0200\n"
-"PO-Revision-Date: 2009-08-21 19:21+0200\n"
+"PO-Revision-Date: 2010-08-27 13:43+0200\n"
 "Last-Translator: Martin Bagge <martin.bagge@bthstudent.se>\n"
 "Language-Team: swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"

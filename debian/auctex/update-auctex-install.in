@@ -19,8 +19,6 @@ for FLAVOR in ${FLAVORS}; do
 done
 
 <:
-# arch-tag: 8367175f-2821-4e25-aefd-10ff9157886f
-#
 # local variables:
 # mode: shell-script
 # coding: utf-8

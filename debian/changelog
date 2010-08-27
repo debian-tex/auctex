@@ -1248,6 +1248,4 @@ comment (0) UNRELEASED; urgency=low
   * LocalWords:  installdocs ghostscript Hutchings Bagge Hideki Yamane Piarres
   * LocalWords:  Beobide Esko Arajärvi Clytie Siddall MENUSEC Makefile distclean
 
-  * arch-tag: 3b0f7922-dfa2-4938-9f0e-1492f3528a80
-
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 01 Jan 1970 00:00:01 +0000

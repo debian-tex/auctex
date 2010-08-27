@@ -7,14 +7,12 @@
 # package.
 #
 # Jacobo Tarrio <jtarrio@debian.org>, 2007
-#
-# arch-tag: 064cce3f-a101-4556-9b8e-575547e24ca0
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-23 12:41+0200\n"
-"PO-Revision-Date: 2009-08-21 19:19+0200\n"
+"PO-Revision-Date: 2010-08-27 13:42+0200\n"
 "Last-Translator: Jacobo Tarrio <jtarrio@debian.org>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"

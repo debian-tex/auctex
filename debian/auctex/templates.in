@@ -44,10 +44,7 @@ _Description: Parsing output destination:
    Console: output goes to the current console;
    File:    output goes to ${LOGFILE}.
 
-<:="# arch" . "-" . "tag: f0377964-4347-46dc-a310-3f371380b170-child":>
 <:
-# arch-tag: f0377964-4347-46dc-a310-3f371380b170
-#
 # local variables:
 # mode: text
 # coding: utf-8

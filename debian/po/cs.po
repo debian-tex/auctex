@@ -7,14 +7,12 @@
 # package.
 #
 # Miroslav Kure <kurem@upcase.inf.upol.cz>, 2006, 07
-#
-# arch-tag: 752068ed-01aa-46f6-b74d-68d2f908bcff
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-23 12:41+0200\n"
-"PO-Revision-Date: 2009-08-21 19:13+0200\n"
+"PO-Revision-Date: 2010-08-27 13:41+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"

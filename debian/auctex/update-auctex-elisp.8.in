@@ -58,8 +58,6 @@ the hierarchy containing the byte-compiled files.
 .SH AUTHOR
 Davide G. M. Salvetti <salve@debian.org>.
 <:
-# arch-tag: 407a516c-7fbb-444d-b798-2768d02129cb
-#
 # local variables:
 # mode: nroff
 # coding: utf-8

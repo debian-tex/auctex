@@ -7,14 +7,12 @@
 # package.
 #
 # Vincent Zweije <zweije@xs4all.nl>, 2006
-#
-# arch-tag: 01fe7ac6-ecb4-42d2-9b17-2c06b03501ba
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.83-2\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2009-08-23 12:41+0200\n"
-"PO-Revision-Date: 2009-08-21 16:55+0200\n"
+"PO-Revision-Date: 2010-08-27 13:42+0200\n"
 "Last-Translator: Vincent Zweije <zweije@xs4all.nl>\n"
 "Language-Team: Debian-Dutch <debian-l10n-dutch@lists.debian.org>\n"
 "MIME-Version: 1.0\n"

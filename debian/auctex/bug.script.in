@@ -78,8 +78,6 @@ EOF
     fi
 done
 <:
-# arch-tag: dd9ae462-97f1-4931-b52a-141c3215354b
-#
 # local variables:
 # mode: shell-script
 # coding: utf-8

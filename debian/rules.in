@@ -331,7 +331,6 @@ build-package: clean
 source diff:
 	@echo >&2 'source and diff are obsolete - use dpkg-source -b'; false
 
-# arch-tag: 7f6799c7-dca1-4d84-8038-1ad9c2888751<:='-child':>
 <:
 # local variables:
 # mode: makefile

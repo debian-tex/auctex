@@ -17,8 +17,6 @@ Format: HTML
 Index: <:=if($_="${html}/preview-latex/index.html")=~tr|/|/|s:>
 Files: <:=if($_="${html}/preview-latex/*")=~tr|/|/|s:>
 <:
-# arch-tag: cd74f632-6832-46da-82d7-f543f87fd63d
-#
 # local variables:
 # mode: text
 # fill-column: 78
