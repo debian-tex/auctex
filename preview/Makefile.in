@@ -84,7 +84,7 @@ config.status: configure
 
 install-hint:
 	@echo 'Congratulations!  Build is complete.'
-	@echo
+	@echo 
 	@echo 'Now, run "make install" as root, or whatever user has permissions'
 	@echo 'to write to the install directory.'
 
@@ -154,13 +154,13 @@ preview-latex.el: preview.el auto.el
 
 clean:
 	rm -f latex.out testdocstrip.tex preview-latex.el
-	rm -rf *.prv *.elc *~ *.aux *.dvi *.log
+	rm -rf *.prv *.elc *~ *.aux *.dvi *.log 
 	(cd latex ; $(MAKE) clean)
 
 distclean: clean
 	rm -f config.log config.cache config.status
 	rm -f Makefile */Makefile auto.el
 
-maintainer-clean: distclean
+maintainer-clean: 
 	$(MAKE) distclean
 	rm -rf autom4te.cache

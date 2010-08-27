@@ -119,7 +119,7 @@ STYLEELC = $(STYLESRC:.el=.elc)
 
 CLEANFILES = $(AUCELC) $(STYLEELC) $(MULEELC)
 DISTCLEANFILES = Makefile tex-site.el tex-site.el.out auctex.el \
-	auto-loads.el* config.*
+	auto-loads.el config.*
 DISTTEXTS = FAQ INSTALL INSTALL.windows README TODO
 
 NOSEARCH = style/.nosearch
@@ -127,7 +127,7 @@ NOSEARCH = style/.nosearch
 all: lisp docs
 	$(DESCEND)
 
-.PHONY: all lisp info dvi install install-el install-lisp \
+.PHONY: all lisp info dvi some install install-el install-lisp \
 	docs install-docs install-auto \
 	install-metadata install-startup install-man \
 	clean distclean snapshot check-dist release-commit \
@@ -181,6 +181,8 @@ auto-loads.el: $(AUCSRC) $(MULESRC) Makefile
 	  } ; \
 	}
 
+some:	$(AUCELC) $(STYLEELC)
+
 install: install-lisp install-docs install-images install-startup
 	$(DESCEND)
 	$(MAKE) 'DESTDIR=$(DESTDIR)' install-metadata
@@ -226,7 +228,7 @@ install-el:
 	-$(MKINSTALLDIRS) $(DESTDIR)$(autodir)
 	-$(INSTALL_DATA) $(NOSEARCH) $(DESTDIR)$(autodir)
 
-install-lisp: lisp install-el
+install-lisp: some install-el
 	@: $(MAKE) ; for x in $(AUCSRC) $(MULESRC); do \
 	  echo '$(INSTALL_DATA)' $${x}c '$(DESTDIR)$(packagelispdir)' ; \
 	done
@@ -288,7 +290,7 @@ distclean:	doc/Makefile
 
 maintainer-clean: distclean
 	rm -f $(DISTTEXTS)
-	find . -type d -name autom4te.cache | xargs rm -rf
+	rm -rf autom4te.cache
 
 extraclean: maintainer-clean
 	rm -f *~ \#*\#
