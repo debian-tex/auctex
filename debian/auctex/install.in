@@ -39,7 +39,7 @@ do_install () {
 			 s|/$||; print:>/${FLAVOR}/ \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
-	install-lisp install-startup \
+	lisp install-lisp install-startup \
 	>> <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:> 2>&1
     ln -sf <:=${lisp}:>/images <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/
     pushd preview \
