@@ -22,15 +22,15 @@ Subject: [PATCH] Rationalize HTML documentation targets in doc/Makefile.in.
  1 files changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index e3fd6a8..8844a57 100644
+index d2be29e..7c383a8 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
 @@ -72,18 +72,17 @@ install-man:
  
  dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
  
--extradist: html/auctex_toc.html auctex.ps auctex.pdf tex-ref.ps
-+extradist: auctex.htmls/auctex.html auctex.ps auctex.pdf tex-ref.ps
+-extradist: html/auctex_toc.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
++extradist: auctex.htmls/auctex.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
  .PHONY: all info dvi dist install-auctex disttexts clean distclean \
  	maintainer-clean install-preview install-man html-docs extradist
@@ -49,7 +49,7 @@ index e3fd6a8..8844a57 100644
  
  tex-ref.dvi: tex-ref.tex
  	$(TEX) tex-ref
-@@ -126,11 +125,13 @@ install-auctex: auctex.info tex-ref.pdf
+@@ -128,11 +127,13 @@ install-auctex: auctex.info tex-ref.pdf
  
  # preview
  
@@ -67,7 +67,7 @@ index e3fd6a8..8844a57 100644
  
  preview-dtxdoc.texi: ../preview/latex/preview.dtx preview-dtxdoc.pl
  	-$(PERL) preview-dtxdoc.pl ../preview/latex/preview.dtx \
-@@ -187,7 +188,7 @@ clean:
+@@ -189,7 +190,7 @@ clean:
  	rm -f *.dvi *.ps *.pdf *.aux *.cp *.fn *.ky *.log *~ \#*\# \
  		*.tp *.vr *.pg *.toc *.tp *.bak *.cps *.kys *.tps \
  		*.fns *.vrs *.pgs *.tmp *.html
