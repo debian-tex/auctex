@@ -315,3 +315,17 @@ snapshot:
 	git-dch --debian-branch=patch-queue/master --snapshot --auto
 	git-buildpackage --git-ignore-new -rfakeroot -tc -i -us -uc
 
+.PHONY: release
+release:
+	gbp-pq rebase
+	gbp-pq export
+	git-dch --release
+	git add debian/changelog
+	git commit
+	gbp-pq rebase
+	git-buildpackage --git-debian-branch=patch-queue/master \
+		-rfakeroot -tc -i
+	git checkout master
+	git tag debian/$$(dpkg-parsechangelog \
+		| egrep '^Version: ' | cut -d ' ' -f 2)
+
