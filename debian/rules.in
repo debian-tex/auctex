@@ -146,7 +146,7 @@ binary-indep-auctex: build
 		s|/+|/|g; print:> install-images
 	umask 0022; for i in $(MAKEFILEHACKS); do \
 		$(INSTDIR) $(auctex)/<:=${lisp}:>/$${i%/*}/; \
-		echo -e "clean distclean:\n\trm -f Makefile\n" \
+		echo -e "clean distclean maintainer-clean:\n\trm -f Makefile\n" \
 			> $(auctex)/<:=${lisp}:>/$${i}; \
 	done
 	$(INSTDIR) $(auctex)/<:=${info}:>
