@@ -1,3 +1,23 @@
+auctex (11.86-1) unstable; urgency=low
+
+  * [cf054c2] Switch to 3.0 (quilt) source format.
+  * [18a7636] Add patch: Rationalize HTML documentation targets in
+    doc/Makefile.in.
+  * [e0638a6] Call auctex/Makefile lisp target before calling install-
+    lisp.
+  * [c8bf2a7] Update copyright year.
+  * [42b05ad] Imported Upstream version 11.86; thanks to Rogério Brito.
+    (Closes: #577151)
+  * [dca4145] Update patch: Rationalize HTML documentation targets in
+    doc/Makefile.in.
+  * [b961f93] Add a fake maintainer-clean target to MAKEFILEHACKS.
+  * [894d045] Add Debian customized 11.86 release notes to
+    debian/auctex/NEWS.
+  * [fdcf91b] Add patch: Change pdf viewer default from Evince to xpdf.
+  * [0901562] Upgrade Standards-Version to 3.9.1.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 27 Aug 2010 17:06:08 +0200
+
 auctex (11.85-1) unstable; urgency=low
 
   * New upstream release.  (Closes: #482956)
