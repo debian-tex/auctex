@@ -344,8 +344,8 @@ release:
 	git-buildpackage --git-debian-branch=patch-queue/master \
 		-rfakeroot -tc -i
 	git checkout master
-	git tag debian/$$(dpkg-parsechangelog \
-		| egrep '^Version: ' | cut -d ' ' -f 2)
+	V=$$(dpkg-parsechangelog|egrep '^Version: '|cut -d ' ' -f 2); \
+	git tag -s -m "Debian release $${V}" debian/$${V}
 
 <:
 # local variables:
