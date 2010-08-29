@@ -20,7 +20,6 @@ Files: <:=if($_="${html}/preview-latex/*")=~tr|/|/|s:>
 # local variables:
 # mode: text
 # fill-column: 78
-# coding: utf-8
 # ispell-local-dictionary: "american"
 # end:
 #

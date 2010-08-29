@@ -24,7 +24,6 @@ find <:=${var}:> -type f -name \*.el -print0 | xargs -0 rm -f
 <:
 # local variables:
 # mode: shell-script
-# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:

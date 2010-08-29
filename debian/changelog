@@ -1241,7 +1241,6 @@ comment (0) UNRELEASED; urgency=low
 
   * local variables:
   * mode: debian-changelog
-  * coding: utf-8
   * ispell-local-dictionary: "american"
   * end:
 

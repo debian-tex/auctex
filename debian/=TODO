@@ -88,7 +88,6 @@
 
 local variables:
 mode: org
-coding: utf-8
 org-todo-keywords: ("TODO" "DGMS" "DONE")
 org-todo-interpretation: type
 fill-column: 78

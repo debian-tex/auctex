@@ -350,7 +350,6 @@ release:
 <:
 # local variables:
 # mode: makefile
-# coding: utf-8
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:

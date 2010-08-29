@@ -46,7 +46,6 @@ Files: <:=if($_="${html}/auctex/*")=~tr|/|/|s:>
 <:
 # local variables:
 # mode: text
-# coding: utf-8
 # fill-column: 78
 # ispell-local-dictionary: "american"
 # end:
