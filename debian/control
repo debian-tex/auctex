@@ -10,7 +10,7 @@ Homepage: http://www.gnu.org/software/auctex/
 Package: auctex
 Architecture: all
 Depends: debconf | debconf-2.0, emacs23 | emacs22 | emacs21 | emacs-snapshot, make, preview-latex-style, dpkg (>= 1.15.4) | install-info
-Recommends: doc-base, ghostscript, texlive-latex-recommended, xpdf-reader | pdf-viewer
+Recommends: doc-base, ghostscript, texlive-latex-recommended, xpdf | pdf-viewer
 Suggests: catdvi, dvipng, lacheck
 Conflicts: emacspeak (<= 17.0-1), preview-latex
 Replaces: preview-latex
