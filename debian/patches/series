@@ -1,2 +1,3 @@
 0001-Rationalize-HTML-documentation-targets-in-doc-Makefi.patch
 0002-Change-pdf-viewer-default-from-Evince-to-xpdf.patch
+0003-Fix-TeX-engine-alist-builtin-defvar.patch
