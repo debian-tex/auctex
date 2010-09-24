@@ -1,3 +1,12 @@
+auctex (11.86-2) unstable; urgency=low
+
+  * [3b1fd8d] Update copyright year for man pages and debian/variables.
+  * [797e2b8] Change 'Recommends: xpdf-reader' to 'Recommends: xpdf'.
+  * [7ed99ae] Add patch: Fix TeX engine alist builtin defvar; thanks to
+    Sanjoy Mahajan.  (Closes: #597006)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 24 Sep 2010 23:45:55 +0200
+
 auctex (11.86-1) unstable; urgency=low
 
   * [c9e48f5] Switch to 3.0 (quilt) source format.
