@@ -1,0 +1,15 @@
+From: Matthias Kümmerer <matthias@matthias-k.org>
+Date: Thu, 02 June 2011 15:48:08 +0200
+Bug-Debian: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=628787
+
+Index: auctex-11.86/preview/latex/Makefile.in
+===================================================================
+--- auctex-11.86.orig/preview/latex/Makefile.in	2011-06-02 15:43:27.582256285 +0200
++++ auctex-11.86/preview/latex/Makefile.in	2011-06-02 15:43:48.898256279 +0200
+@@ -87,5 +87,5 @@
+ 	$(PDFLATEX) '\nonstopmode \AtBeginDocument{\OnlyDescription}\input{preview.drv}'
+ 
+ clean:
+-	rm -f *~ *.aux *.dvi *.drv *.log 
++	rm -f *~ *.aux *.dvi *.drv *.log *.pdf
+ 	rm -f $(TEXMFGEN) preview.ins preview-mk.ins 

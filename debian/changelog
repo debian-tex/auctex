@@ -1,3 +1,13 @@
+auctex (11.86-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add Patch: Remove preview/latex/preview.pdf in make clean
+    (Closes: #628787)
+  * Add Patch: Preview not working with new Ghostscript
+    (Patch from CVS) (Closes: #610714)
+
+ -- Matthias Kümmerer <matthias@matthias-k.org>  Thu, 02 Jun 2011 16:03:08 +0200
+
 auctex (11.86-2) unstable; urgency=low
 
   * [3b1fd8d] Update copyright year for man pages and debian/variables.
