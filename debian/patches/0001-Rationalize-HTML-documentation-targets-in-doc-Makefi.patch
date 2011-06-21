@@ -1,6 +1,6 @@
 From: Davide G. M. Salvetti <salve@debian.org>
 Date: Fri, 27 Aug 2010 13:02:00 +0200
-Subject: [PATCH] Rationalize HTML documentation targets in doc/Makefile.in.
+Subject: Rationalize HTML documentation targets in doc/Makefile.in.
 
 - Use auctex.htmls instead of html as the name of the directory where
   AUCTeX HTMLs go.

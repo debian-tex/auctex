@@ -1,6 +1,6 @@
 From: Davide G. M. Salvetti <salve@debian.org>
 Date: Fri, 27 Aug 2010 16:00:13 +0200
-Subject: [PATCH] Change pdf viewer default from Evince to xpdf.
+Subject: Change pdf viewer default from Evince to xpdf.
 
 - Rationale: the Debian auctex package recommends xpdf-reader |
   pdf-viewer; evince doesn't seem appropriate to me because of its bigger
