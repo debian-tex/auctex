@@ -2,3 +2,4 @@
 0002-Change-pdf-viewer-default-from-Evince-to-xpdf.patch
 0003-Fix-TeX-engine-alist-builtin-defvar.patch
 0004-Also-clean-PDF-docs.patch
+0005-Fix-preview-with-latest-ghostscript.patch
