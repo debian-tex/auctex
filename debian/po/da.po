@@ -1,0 +1,133 @@
+# Danish translation of the "debian/auctex/templates" file of the auctex
+# Debian package.
+#
+# Copyright (C) 2011 Davide G. M. Salvetti
+#
+# This file is distributed under the same license as the auctex Debian
+# package.
+#
+# Joe Hansen (joedalton2@yahoo.dk), 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: auctex\n"
+"Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-23 12:41+0200\n"
+"PO-Revision-Date: 2011-06-22 00:34+0200\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"Language-Team: Danish <debian-l10n-danish@lists.debian.org>\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "Background"
+msgstr "Baggrund"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "Foreground"
+msgstr "Forgrund"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "None"
+msgstr "Ingen"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "(La)TeX macros parsing mode:"
+msgstr "Fortolkningstilstand for (La)TeX-makroer:"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid ""
+"To improve the performance of AUCTeX, every currently installed TeX macro "
+"package and LaTeX style file will be parsed."
+msgstr ""
+"For at forbedre ydelsen på AUCTeX, vil alle aktuelt installerede TeX-makropakker "
+"og filer med LaTeX-stil blive fortolket."
+
+#. Type: select
+#. Description
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:1002
+msgid ""
+"This may take a lot of time, so it should probably be done in the "
+"background.  You may also choose to have it done in the foreground, or to "
+"skip that step.  If you choose 'Background', you will find a detailed log of "
+"the process in ${LOGFILE}."
+msgstr ""
+"Dette kan tage lang tid, så det skal nok udføres i baggrunden. Du kan også "
+"vælge at gøre det i forgrunden eller springe det trin over. Hvis du vælger "
+"»Baggrund«, kan du se en detaljeret log over processen i ${LOGFILE}."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid ""
+"A weekly cron job will also take care of updating the cached data, so that "
+"no specific action is required whenever you install new (La)TeX packages or "
+"remove old ones."
+msgstr ""
+"Et ugentlig cronjob vil også sørge for at opdatere de mellemlagrede data, så "
+"at ingen specifikke handlinger er krævet, når du installerer nye (La)Tex-pakker "
+"eller fjerner gamle."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid ""
+"This update can be run manually at any moment by running 'update-auctex-"
+"elisp'."
+msgstr ""
+"Denne opdatering kan udføres manuelt på ethvert tidspunkt ved at køre "
+"»update-auctex-elisp«."
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:2001
+msgid "Console"
+msgstr "Konsol"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:2001
+msgid "File"
+msgstr "Fil"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid "Parsing output destination:"
+msgstr "Destination for fortolkningsinformation:"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid ""
+"You chose to parse TeX macro packages and LaTeX style files in foreground. "
+"This operation generates a lot of information. Please choose where this "
+"information should be sent:"
+msgstr ""
+"Du har valgt at fortolke TeX-makropakker og filer med LaTeX-stil i forgrunden. "
+"Denne handling opretter en masse information. Vælg venligst hvor denne "
+"informaton skal sendes til:"
+
+#. Type: select
+#. Description
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:2002
+msgid ""
+"  Console: output goes to the current console;\n"
+"  File:    output goes to ${LOGFILE}."
+msgstr ""
+"  Konsol:  information sendes til den aktuelle konsol;\n"
+"  Fil:     information sendes til ${LOGFILE}."
+
