@@ -1,3 +1,14 @@
+auctex (11.86-3) unstable; urgency=low
+
+  * [f31efb1] Add patch: Also clean PDF docs; thanks to Matthias Kümmerer.
+  * [88f9ccc] Add patch: Fix preview with latest ghostscript; thanks to
+    Faheem Mitha.
+  * [adc29ae] Add language code to the Language field in po files missing it.
+  * [0a0c25b] Add po/da.po; thanks to Joe Dalton.  (Closes: #619658)
+  * [f11007e] Imported NMU: 11.86-2.1.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 22 Jun 2011 17:30:50 +0200
+
 auctex (11.86-2.1) unstable; urgency=low
 
   * Non-maintainer upload.
