@@ -1,0 +1,109 @@
+# Korean translation of the "debian/auctex/templates" file of the auctex
+# Debian package.
+#
+# Copyright (C) 2011 Davide G. M. Salvetti
+#
+# This file is distributed under the same license as the auctex Debian
+# package.
+#
+# 강민지 <justminji@gmail.com>, 2011
+msgid ""
+msgstr ""
+"Project-Id-Version: auctex\n"
+"Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
+"POT-Creation-Date: 2009-08-23 12:41+0200\n"
+"PO-Revision-Date: 2011-06-28 18:57+0200\n"
+"Last-Translator: 강민지 <justminji@gmail.com>\n"
+"Language-Team: opensource <justminji@gmail.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Korean\n"
+"X-Poedit-Country: KOREA, REPUBLIC OF\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "Background"
+msgstr "배경"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "Foreground"
+msgstr "전경"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:1001
+msgid "None"
+msgstr "없음"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "(La)TeX macros parsing mode:"
+msgstr "(la)TeX 매크로 구문 분석 모드:"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "To improve the performance of AUCTeX, every currently installed TeX macro package and LaTeX style file will be parsed."
+msgstr "AUCTex의 성능을 향상시키기 위해서 현재 설치된 모든 TeX 매크로 패키지와 LaTeX 스타일 파일이 파싱되어야 합니다."
+
+#. Type: select
+#. Description
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:1002
+msgid "This may take a lot of time, so it should probably be done in the background.  You may also choose to have it done in the foreground, or to skip that step.  If you choose 'Background', you will find a detailed log of the process in ${LOGFILE}."
+msgstr "이것은 많은 시간이 걸릴 수 있으므로 아마 배경에서 수행되어야 합니다. 당신은 또한 전경에서 수행하도록 하거나 단계를 건너 뛸 수 있는 선택할 수 있습니다.  만약 당신이 '배경'을 선택한다면 ${LOGFILE}에서 프로세스에 대한 자세한 로그를 찾을 수 있습니다."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "A weekly cron job will also take care of updating the cached data, so that no specific action is required whenever you install new (La)TeX packages or remove old ones."
+msgstr "cron 작업은 (La)Tex 패키지를 설치하거나 오래된 것들은 제거할때마다 특별한 조치가 필요하지 않도록 캐시된 데이터를 매주 업데이트 합니다."
+
+#. Type: select
+#. Description
+#: ../auctex/templates:1002
+msgid "This update can be run manually at any moment by running 'update-auctex-elisp'."
+msgstr "이 업데이트는 'update-auctex-elisp'를 실행시키기 위함으로써 언제든지 수동으로 실행할 수 있습니디ㅏ."
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:2001
+msgid "Console"
+msgstr "콘솔"
+
+#. Type: select
+#. Choices
+#: ../auctex/templates:2001
+msgid "File"
+msgstr "파일"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid "Parsing output destination:"
+msgstr "출력 대상을 구문 분석:"
+
+#. Type: select
+#. Description
+#: ../auctex/templates:2002
+msgid "You chose to parse TeX macro packages and LaTeX style files in foreground. This operation generates a lot of information. Please choose where this information should be sent:"
+msgstr "당신은 전경에 TeX 매크로 패키지와 LaTeX 스타일 파일을 파싱하기로 선택합니다.이 작업은 많은 정보를 생성합니다. 이 정보를 전송해야 하는 위치를 선택하세요:"
+
+#. Type: select
+#. Description
+#. Translators: do NOT translate ${LOGFILE}
+#: ../auctex/templates:2002
+msgid ""
+"  Console: output goes to the current console;\n"
+"  File:    output goes to ${LOGFILE}."
+msgstr ""
+"콘솔:현재의 콘솔로 출력 이동;\n"
+"파일:${LOGFILE}로 출력 이동"
+
