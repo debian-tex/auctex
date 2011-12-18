@@ -126,7 +126,7 @@ clean: debian/po/templates.pot
 	$(checkdir)
 	-rm -rf build core $(tmp) debian/{files*,substvars}
 	test ! -f Makefile || $(MAKE) distclean
-	-rm -f $(DFILES)
+	-rm -f $(filter-out debian/copyright, $(DFILES))
 	$(fixperms)
 
 .PHONY: binary
