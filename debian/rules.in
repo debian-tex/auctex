@@ -102,8 +102,6 @@ build: $(DFILES) debian/po/templates.pot
 	./configure \
 		--prefix=<:$_=${usr}; s|/+|/|g; print:> \
 		--infodir=<:=${info}:> \
-		--with-emacs=$$(type emacs-snapshot &>/dev/null \
-			&& echo emacs-snapshot || echo emacs)
 	cd doc && $(MAKE) all
 	cd doc && $(MAKE) auctex.htmls/auctex.html
 	cd doc && $(MAKE) preview-latex.htmls/preview-latex.html
@@ -191,22 +189,10 @@ binary-indep-auctex: build
 	gzip -9frv $(auctex)/<:=${man}:>
 
 <:# install Debian system files :>//
-	$(INSTDIR) $(auctex)/<:$_=${sstartd}; s|emacs|emacs21|; print:> \
-		$(auctex)/<:$_=${sstartd}; s|emacs|emacs22|; print:> \
-		$(auctex)/<:$_=${sstartd}; s|emacs|emacs23|; print:> \
-		$(auctex)/<:$_=${sstartd}; s|emacs|emacs-snapshot|; print:>
-	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
-		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
-		s|emacs|emacs21|; $_=~tr|/|/|s; print:>
-	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
-		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
-		s|emacs|emacs22|; $_=~tr|/|/|s; print:>
+	$(INSTDIR) $(auctex)/<:$_=${sstartd}; s|emacs|emacs23|; print:>
 	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
 		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
 		s|emacs|emacs23|; $_=~tr|/|/|s; print:>
-	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
-		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
-		s|emacs|emacs-snapshot|; $_=~tr|/|/|s; print:>
 	$(INSTDIR) $(auctex)/<:=${cron_weekly}:>
 	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/cron \
 		$(auctex)/<:=${cron_weekly}:>/<:=${PACKAGE}:>

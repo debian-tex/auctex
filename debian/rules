@@ -113,8 +113,6 @@ build: $(DFILES) debian/po/templates.pot
 	./configure \
 		--prefix=/usr/ \
 		--infodir=/usr/share/info/ \
-		--with-emacs=$$(type emacs-snapshot &>/dev/null \
-			&& echo emacs-snapshot || echo emacs)
 	cd doc && $(MAKE) all
 	cd doc && $(MAKE) auctex.htmls/auctex.html
 	cd doc && $(MAKE) preview-latex.htmls/preview-latex.html
@@ -196,18 +194,9 @@ binary-indep-auctex: build
 		$(auctex)//usr/share/man//man8/
 	gzip -9frv $(auctex)//usr/share/man/
 
-	$(INSTDIR) $(auctex)//etc/emacs21/site-start.d/ \
-		$(auctex)//etc/emacs22/site-start.d/ \
-		$(auctex)//etc/emacs23/site-start.d/ \
-		$(auctex)//etc/emacs-snapshot/site-start.d/
-	$(INSTDATA) debian/auctex/lisp-startup.el \
-		$(auctex)//etc/emacs21/site-start.d/50auctex.el
-	$(INSTDATA) debian/auctex/lisp-startup.el \
-		$(auctex)//etc/emacs22/site-start.d/50auctex.el
+	$(INSTDIR) $(auctex)//etc/emacs23/site-start.d/
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs23/site-start.d/50auctex.el
-	$(INSTDATA) debian/auctex/lisp-startup.el \
-		$(auctex)//etc/emacs-snapshot/site-start.d/50auctex.el
 	$(INSTDIR) $(auctex)//etc/cron.weekly/
 	$(INSTSCRIPT) debian/auctex/cron \
 		$(auctex)//etc/cron.weekly//auctex

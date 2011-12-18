@@ -1,3 +1,12 @@
+auctex (11.86-5) unstable; urgency=low
+
+  * Support for emacs21, emacs22, and emacs-snapshot has been dropped.
+    Please check obsolete system directories "/etc/emacs21",
+    "/etc/emacs22", and "/etc/emacs-snapshot" and consider removing all of
+    them if no other package beside auctex makes use of them.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Mon, 19 Dec 2011 00:20:47 +0100
+
 auctex (11.86-1) unstable; urgency=low
 
   * Parsing of LaTeX output was improved.
