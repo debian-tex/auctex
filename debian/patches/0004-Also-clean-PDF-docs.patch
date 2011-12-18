@@ -1,6 +1,6 @@
 From: Davide G. M. Salvetti <salve@debian.org>
 Date: Mon, 20 Jun 2011 19:15:33 +0200
-Subject: Also clean PDF docs.
+Subject: [PATCH] Also clean PDF docs.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

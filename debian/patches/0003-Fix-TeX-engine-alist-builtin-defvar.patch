@@ -1,6 +1,6 @@
 From: Davide G. M. Salvetti <salve@debian.org>
 Date: Fri, 24 Sep 2010 23:16:45 +0200
-Subject: Fix TeX-engine-alist-builtin defvar.
+Subject: [PATCH] Fix TeX-engine-alist-builtin defvar.
 
 - See Debian bug #597006.
 - Fixed upstream since 2010-09-18.

@@ -1,6 +1,6 @@
 From: Davide G. M. Salvetti <salve@debian.org>
 Date: Tue, 21 Jun 2011 23:58:46 +0200
-Subject: Fix preview with latest ghostscript.
+Subject: [PATCH] Fix preview with latest ghostscript.
 
 - Backport of preview.el v1.285, in CVS since 2010-10-14.
 
