@@ -23,7 +23,7 @@ _Description: (La)TeX macros parsing mode:
  skip that step.  If you choose 'Background', you will find a detailed log
  of the process in ${LOGFILE}.
  .
- A weekly cron job will also take care of updating the cached data, so that
+ The cached data gets automatically updated via dpkg triggers, so that
  no specific action is required whenever you install new (La)TeX packages or
  remove old ones.
  .
@@ -52,5 +52,5 @@ _Description: Parsing output destination:
 # end:
 #
 # LocalWords:  defaultchanged autoload AUCTeX autoloaded tex doauto LOGFILE
-# LocalWords:  cron doautofg auctex elisp emacs LaTeX
+# LocalWords:  doautofg auctex elisp emacs LaTeX dpkg
 :>//

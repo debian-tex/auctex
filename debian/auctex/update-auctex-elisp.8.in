@@ -41,11 +41,10 @@ If no arguments are specified, update\-auctex\-elisp caters to every supported
 Emacs flavor installed on the system; else it updates only the specified
 flavors, if they are installed.
 .PP
-On Debian GNU/Linux system
+To ensure up-to-date data, on Debian GNU/Linux system
 .B update\-auctex\-elisp
-is called weekly by a
-.BR cron (8)
-driven mechanism, to ensure up-to-date data.
+is called automatically, via dpkg-triggers, whenever a newly-installed or
+upgraded package adds (La)TeX style files to the TeX system directories.
 .SH BUGS
 None known.
 .SH FILES
@@ -64,5 +63,5 @@ Davide G. M. Salvetti <salve@debian.org>.
 # ispell-local-dictionary: "american"
 # end:
 #
-# LocalWords:  auctex elisp GPL AUCTeX varauc cron tex var nroff LaTeX emacs
+# LocalWords:  auctex elisp GPL AUCTeX varauc tex var nroff LaTeX emacs dpkg
 :>//

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2009-08-23 12:41+0200\n"
+"POT-Creation-Date: 2011-12-21 21:24+0100\n"
 "PO-Revision-Date: 2011-06-22 00:34+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <debian-l10n-danish@lists.debian.org>\n"
@@ -51,8 +51,8 @@ msgid ""
 "To improve the performance of AUCTeX, every currently installed TeX macro "
 "package and LaTeX style file will be parsed."
 msgstr ""
-"For at forbedre ydelsen på AUCTeX, vil alle aktuelt installerede TeX-makropakker "
-"og filer med LaTeX-stil blive fortolket."
+"For at forbedre ydelsen på AUCTeX, vil alle aktuelt installerede TeX-"
+"makropakker og filer med LaTeX-stil blive fortolket."
 
 #. Type: select
 #. Description
@@ -71,14 +71,19 @@ msgstr ""
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
+#, fuzzy
+#| msgid ""
+#| "A weekly cron job will also take care of updating the cached data, so "
+#| "that no specific action is required whenever you install new (La)TeX "
+#| "packages or remove old ones."
 msgid ""
-"A weekly cron job will also take care of updating the cached data, so that "
-"no specific action is required whenever you install new (La)TeX packages or "
+"The cached data gets automatically updated via dpkg triggers, so that no "
+"specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
 "Et ugentlig cronjob vil også sørge for at opdatere de mellemlagrede data, så "
-"at ingen specifikke handlinger er krævet, når du installerer nye (La)Tex-pakker "
-"eller fjerner gamle."
+"at ingen specifikke handlinger er krævet, når du installerer nye (La)Tex-"
+"pakker eller fjerner gamle."
 
 #. Type: select
 #. Description
@@ -116,9 +121,9 @@ msgid ""
 "This operation generates a lot of information. Please choose where this "
 "information should be sent:"
 msgstr ""
-"Du har valgt at fortolke TeX-makropakker og filer med LaTeX-stil i forgrunden. "
-"Denne handling opretter en masse information. Vælg venligst hvor denne "
-"informaton skal sendes til:"
+"Du har valgt at fortolke TeX-makropakker og filer med LaTeX-stil i "
+"forgrunden. Denne handling opretter en masse information. Vælg venligst hvor "
+"denne informaton skal sendes til:"
 
 #. Type: select
 #. Description
@@ -130,4 +135,3 @@ msgid ""
 msgstr ""
 "  Konsol:  information sendes til den aktuelle konsol;\n"
 "  Fil:     information sendes til ${LOGFILE}."
-

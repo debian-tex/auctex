@@ -37,7 +37,7 @@ Notes to System Administrators
 A) To improve its performance AUCTeX stores information about TeX macros and
 LaTeX styles available on the system in the "<:=${var}:>" directory.
 
-AUCTeX updates this information weekly, by mean of a cron script;
+AUCTeX updates this information automatically, via dpkg triggers;
 nevertheless, you may want to run "<:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:>"
 manually after installing new style files under "/usr/local/share/texmf".
 
@@ -83,6 +83,6 @@ load it, what does it do, and who wrote and maintains it.
 # ispell-local-dictionary: "american"
 # end:
 #
-# LocalWords:  AUCTeX RefTeX LaTeX reftex emacs tex TeXInfo cron setq lp dvips
+# LocalWords:  AUCTeX RefTeX LaTeX reftex emacs tex TeXInfo setq lp dvips dpkg
 # LocalWords:  lpr lpq lpc lpf lpt RET el jp fptex fpTeX
 :>//

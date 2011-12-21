@@ -39,7 +39,7 @@ STRIP := strip -R .note -R .comment
 DFILES := debian/auctex/README debian/copyright \
 debian/auctex/config debian/auctex/postinst \
 debian/auctex/prerm debian/auctex/postrm \
-debian/auctex/conffiles debian/auctex/cron \
+debian/auctex/conffiles \
 debian/auctex/docbase.auctex \
 debian/auctex/docbase.preview \
 debian/auctex/lintian \
@@ -197,9 +197,6 @@ binary-indep-auctex: build
 	$(INSTDIR) $(auctex)//etc/emacs23/site-start.d/
 	$(INSTDATA) debian/auctex/lisp-startup.el \
 		$(auctex)//etc/emacs23/site-start.d/50auctex.el
-	$(INSTDIR) $(auctex)//etc/cron.weekly/
-	$(INSTSCRIPT) debian/auctex/cron \
-		$(auctex)//etc/cron.weekly//auctex
 	$(INSTDIR) $(auctex)//usr/sbin/
 	$(INSTSCRIPT) debian/auctex/update-auctex-elisp \
 		$(auctex)//usr/sbin/
@@ -231,6 +228,8 @@ binary-indep-auctex: build
 		$(auctex)//DEBIAN/
 	$(INSTDATA) debian/auctex/templates.dcobj \
 		$(auctex)//DEBIAN//templates
+	$(INSTDATA) debian/auctex/triggers \
+		$(auctex)//DEBIAN//triggers
 	$(INSTSCRIPT) debian/auctex/{config,postinst,postrm,prerm} \
 		$(auctex)//DEBIAN/
 

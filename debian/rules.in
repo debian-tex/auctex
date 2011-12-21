@@ -24,7 +24,7 @@ STRIP := strip -R .note -R .comment
 DFILES := debian/<:=${PACKAGE}:>/README debian/copyright \
 debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/postinst \
 debian/<:=${PACKAGE}:>/prerm debian/<:=${PACKAGE}:>/postrm \
-debian/<:=${PACKAGE}:>/conffiles debian/<:=${PACKAGE}:>/cron \
+debian/<:=${PACKAGE}:>/conffiles \
 debian/<:=${PACKAGE}:>/docbase.auctex \
 debian/<:=${PACKAGE}:>/docbase.preview \
 debian/<:=${PACKAGE}:>/lintian \
@@ -193,9 +193,6 @@ binary-indep-auctex: build
 	$(INSTDATA) debian/<:=${PACKAGE}:>/lisp-startup.el \
 		$(auctex)/<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
 		s|emacs|emacs23|; $_=~tr|/|/|s; print:>
-	$(INSTDIR) $(auctex)/<:=${cron_weekly}:>
-	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/cron \
-		$(auctex)/<:=${cron_weekly}:>/<:=${PACKAGE}:>
 	$(INSTDIR) $(auctex)/<:=${sbin}:>
 	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:> \
 		$(auctex)/<:=${sbin}:>
@@ -228,6 +225,8 @@ binary-indep-auctex: build
 		$(auctex)/<:=${debian}:>
 	$(INSTDATA) debian/<:=${PACKAGE}:>/templates.dcobj \
 		$(auctex)/<:=${debian}:>/templates
+	$(INSTDATA) debian/<:=${PACKAGE}:>/triggers \
+		$(auctex)/<:=${debian}:>/triggers
 	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/{config,postinst,postrm,prerm} \
 		$(auctex)/<:=${debian}:>
 
