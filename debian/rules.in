@@ -316,10 +316,8 @@ build-package: clean
 .PHONY: snapshot
 snapshot:
 	gbp-pq rebase
-	gbp-pq export
-	git-dch --snapshot --auto
-	git-buildpackage --git-debian-branch=patch-queue/master \
-		--git-ignore-new -rfakeroot -tc -i -us -uc
+	git-dch --debian-branch=patch-queue/master --snapshot --auto
+	git-buildpackage --git-ignore-new -rfakeroot -tc -i -us -uc
 
 .PHONY: release
 release:
