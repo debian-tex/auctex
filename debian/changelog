@@ -1,3 +1,11 @@
+auctex (11.86-5) unstable; urgency=low
+
+  * [5a6ba82] Drop emacs21, emacs22 and emacs-snapshot support.
+  * [cb09a98] Add debian/copyright to the source package.
+  * [0681817] Update po/nl.po; thanks to Jeroen Schot.  (Closes: #652150)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 21 Dec 2011 21:57:55 +0100
+
 auctex (11.86-4) unstable; urgency=low
 
   * [76ae771] Upgrade Standards-Version to 3.9.2.
