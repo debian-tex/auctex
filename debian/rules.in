@@ -22,9 +22,9 @@ STRIP := strip -R .note -R .comment
 
 <:# DO NOT include <% debian/rules %> nor <% debian/templates %> :>//
 DFILES := debian/<:=${PACKAGE}:>/README debian/copyright \
-debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/postinst \
+debian/<:=${PACKAGE}:>/config debian/<:=${PACKAGE}:>/conffiles \
+debian/<:=${PACKAGE}:>/preinst debian/<:=${PACKAGE}:>/postinst \
 debian/<:=${PACKAGE}:>/prerm debian/<:=${PACKAGE}:>/postrm \
-debian/<:=${PACKAGE}:>/conffiles \
 debian/<:=${PACKAGE}:>/docbase.auctex \
 debian/<:=${PACKAGE}:>/docbase.preview \
 debian/<:=${PACKAGE}:>/lintian \
@@ -227,7 +227,7 @@ binary-indep-auctex: build
 		$(auctex)/<:=${debian}:>/templates
 	$(INSTDATA) debian/<:=${PACKAGE}:>/triggers \
 		$(auctex)/<:=${debian}:>/triggers
-	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/{config,postinst,postrm,prerm} \
+	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/{config,preinst,postinst,postrm,prerm} \
 		$(auctex)/<:=${debian}:>
 
 <:# standard stuff :>//

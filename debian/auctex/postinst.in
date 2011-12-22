@@ -38,6 +38,13 @@ case "${1}" in
 	exit 1
 esac
 
+<:# obsolete conffiles to be removed :>//
+for f in 21 22 -snapshot; do
+    dpkg-maintscript-helper rm_conffile \
+	/etc/emacs${f}/site-start.d/50auctex.el \
+	11.86-5 auctex -- "${@}"
+done
+
 <:# Emacs install :>//
 case "${1}" in
     (abort-deconfigure|abort-remove|abort-upgrade|configure|reconfigure)

@@ -37,9 +37,9 @@ INSTSCRIPT := install -m 755
 STRIP := strip -R .note -R .comment
 
 DFILES := debian/auctex/README debian/copyright \
-debian/auctex/config debian/auctex/postinst \
+debian/auctex/config debian/auctex/conffiles \
+debian/auctex/preinst debian/auctex/postinst \
 debian/auctex/prerm debian/auctex/postrm \
-debian/auctex/conffiles \
 debian/auctex/docbase.auctex \
 debian/auctex/docbase.preview \
 debian/auctex/lintian \
@@ -230,7 +230,7 @@ binary-indep-auctex: build
 		$(auctex)//DEBIAN//templates
 	$(INSTDATA) debian/auctex/triggers \
 		$(auctex)//DEBIAN//triggers
-	$(INSTSCRIPT) debian/auctex/{config,postinst,postrm,prerm} \
+	$(INSTSCRIPT) debian/auctex/{config,preinst,postinst,postrm,prerm} \
 		$(auctex)//DEBIAN/
 
 	cd $(auctex) && md5sum \

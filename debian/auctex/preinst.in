@@ -1,14 +1,14 @@
 #include "variables"
 #! /bin/bash -e
 #
-# <% postrm %> script for <:=${PACKAGE}:>
+# <% postinst %> script for <:=${PACKAGE}:>
 #
 <:=@COPYRIGHT:>//
 
 set -o posix
 
 case "${1}" in
-    abort-install|abort-upgrade|disappear|failed-upgrade|purge|remove|upgrade) :;;
+    abort-upgrade|install|upgrade) :;;
     *) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
 	"Unknown argument: \"${1}\"."
 	exit 1
@@ -21,18 +21,12 @@ for f in 21 22 -snapshot; do
 	11.86-5 auctex -- "${@}"
 done
 
-<:# purge package from <% debconf %> database :>//
-case "${1}" in purge)
-	if test -e <:=${CONFMODULE}:>; then
-	    source <:=${CONFMODULE}:>; db_version 2.0; db_purge
-	fi
-esac
-
-exit 0
 <:
 # local variables:
 # mode: shell-script
 # ispell-local-dictionary: "american"
 # ispell-check-comments: exclusive
 # end:
+#
+# LocalWords:  conffiles
 :>//
