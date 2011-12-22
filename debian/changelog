@@ -1,3 +1,16 @@
+auctex (11.86-6) unstable; urgency=low
+
+  * [925840e] Use dpkg triggers to parse new (La)TeX macros and style
+    files; thanks to Josh Triplett.  (Closes: #478733)
+  * [3c6c060] Stop recommending doc-base; thanks to Jonathan Nieder.
+    (Closes: #610168)
+  * [99860b2] Clean up obsolete conffiles; thanks to Sven Joachim.
+    (Closes: #652962)
+  * [c238fc3] Don't install unneeded files; thanks to Sven Joachim.
+    (Closes: #652964)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 23 Dec 2011 00:20:50 +0100
+
 auctex (11.86-5) unstable; urgency=low
 
   * [5a6ba82] Drop emacs21, emacs22 and emacs-snapshot support.
