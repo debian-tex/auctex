@@ -62,11 +62,11 @@ DCSOURCES := $(shell cat debian/po/POTFILES.in \
 DFILES += $(patsubst %templates, %templates.dcobj, $(DCSOURCES))
 
 AUCTEXSCRIPTS := configure install-sh
-AUCTEXSRCS := $(filter-out auctex.el, \
+AUCTEXSRCS := $(filter-out auctex.el auto-loads.el tex-site.el, \
 	$(wildcard aclocal.m4 configure.ac *.in *.el))
 STYLES := style/*.el style/.nosearch
 PREVIEWSCRIPTS := preview/configure
-PREVIEWSRCS := $(filter-out preview/auto.el, \
+PREVIEWSRCS := $(filter-out preview/auto.el preview/preview-latex.el, \
 	$(wildcard preview/configure.ac preview/*.in preview/*.el))
 MAKEFILEHACKS := doc/Makefile.in preview/latex/Makefile.in
 
