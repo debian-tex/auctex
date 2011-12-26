@@ -1,0 +1,23 @@
+From: Davide G. M. Salvetti <salve@debian.org>
+Date: Mon, 26 Dec 2011 23:38:14 +0100
+Subject: [PATCH] Rationalize dist target in doc/Makefile.in.
+
+Depend on the info target instead of on the individual info manuals.
+---
+ doc/Makefile.in |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/doc/Makefile.in b/doc/Makefile.in
+index 7c383a8..e2e8989 100644
+--- a/doc/Makefile.in
++++ b/doc/Makefile.in
+@@ -70,7 +70,7 @@ install-man:
+ 	done ; \
+ 	}
+ 
+-dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
++dist: $(DISTTEXTS) info tex-ref.pdf
+ 
+ extradist: auctex.htmls/auctex.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
+ 
+-- 
