@@ -65,8 +65,8 @@ pre-build:
 
 debian/rules: debian/variables
 
-<:# Eperl is simply great: thanks, Ralf! :>//
-%:: %.in
+<:# ePerl is simply great: thanks, Ralf! :>//
+%:: %.eperl
 	eperl -d DEBIAN_DIR="$(shell pwd)/debian/" \
 		-I "$(shell pwd)/debian/" -P -o $@ $<
 
@@ -333,5 +333,5 @@ release:
 # ispell-check-comments: exclusive
 # end:
 #
-# LocalWords:  Eperl Ralf auctexdoc tex ChangeLog
+# LocalWords:  ePerl Ralf auctexdoc tex ChangeLog
 :>//

@@ -78,7 +78,7 @@ pre-build:
 
 debian/rules: debian/variables
 
-%:: %.in
+%:: %.eperl
 	eperl -d DEBIAN_DIR="$(shell pwd)/debian/" \
 		-I "$(shell pwd)/debian/" -P -o $@ $<
 
