@@ -4,3 +4,4 @@
 0004-Also-clean-PDF-docs.patch
 0005-Fix-preview-with-latest-ghostscript.patch
 0006-Rationalize-dist-target-in-doc-Makefile.in.patch
+0007-TeX-auto-global-Customize-for-Debian.patch
