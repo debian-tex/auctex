@@ -1,16 +1,16 @@
 From: Davide G. M. Salvetti <salve@debian.org>
-Date: Fri, 27 Aug 2010 16:00:13 +0200
-Subject: [PATCH] Change pdf viewer default from Evince to xpdf.
+Date: Tue, 27 Dec 2011 23:29:46 +0100
+Subject: [PATCH] TeX-view-program-selection: Set pdf viewer default to xpdf
 
-- Rationale: the Debian auctex package recommends xpdf-reader |
-  pdf-viewer; evince doesn't seem appropriate to me because of its bigger
-  footprint.
+Rationale: the Debian auctex package recommends xpdf-reader | pdf-viewer;
+upstream choice is Evince, that doesn't seem appropriate to me because of
+its bigger footprint.
 ---
  tex.el |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/tex.el b/tex.el
-index b147474..757223e 100644
+index 9388042..0cdaac2 100644
 --- a/tex.el
 +++ b/tex.el
 @@ -1117,7 +1117,7 @@ restarting Emacs."

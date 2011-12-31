@@ -9,7 +9,7 @@ Subject: [PATCH] Fix TeX-engine-alist-builtin defvar.
  1 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tex.el b/tex.el
-index 757223e..0cdaac2 100644
+index b147474..9388042 100644
 --- a/tex.el
 +++ b/tex.el
 @@ -1214,10 +1214,10 @@ predicates are true, nil otherwise."

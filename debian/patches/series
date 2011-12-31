@@ -1,7 +1,7 @@
-0001-Rationalize-HTML-documentation-targets-in-doc-Makefi.patch
-0002-Change-pdf-viewer-default-from-Evince-to-xpdf.patch
-0003-Fix-TeX-engine-alist-builtin-defvar.patch
-0004-Also-clean-PDF-docs.patch
+0001-doc-Makefile.in-Rationalize-HTML-documentation-targe.patch
+0002-doc-Makefile.in-Rationalize-dist-target.patch
+0003-preview-latex-Makefile.in-Also-clean-PDF-docs.patch
+0004-Fix-TeX-engine-alist-builtin-defvar.patch
 0005-Fix-preview-with-latest-ghostscript.patch
-0006-Rationalize-dist-target-in-doc-Makefile.in.patch
+0006-TeX-view-program-selection-Set-pdf-viewer-default-to.patch
 0007-TeX-auto-global-Customize-for-Debian.patch
