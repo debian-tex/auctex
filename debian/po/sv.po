@@ -1,25 +1,27 @@
 # Swedish translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2008 Davide G. M. Salvetti
+# Copyright (C) 2008, 11 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
-# Martin Bagge <martin.bagge@bthstudent.se>, 2008
+# Martin Bagge <brother@bsnet.se>, 2008, 11
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex_11.83-7.1_sv\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2011-12-21 21:24+0100\n"
-"PO-Revision-Date: 2011-06-22 00:33+0200\n"
-"Last-Translator: Martin Bagge <martin.bagge@bthstudent.se>\n"
-"Language-Team: swedish <debian-l10n-swedish@lists.debian.org>\n"
+"PO-Revision-Date: 2011-12-29 10:58+0100\n"
+"Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
+"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
+"X-Poedit-Language: Swedish\n"
+"X-Poedit-Country: Sweden\n"
 
 #. Type: select
 #. Choices
@@ -72,7 +74,6 @@ msgstr ""
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
-#, fuzzy
 #| msgid ""
 #| "A weekly cron job will also take care of updating the cached data, so "
 #| "that no specific action is required whenever you install new (La)TeX "
@@ -82,9 +83,9 @@ msgid ""
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"Ett automatiskt jobb kommer att köras en gång i veckan för att uppdatera "
-"processdata så att ingen specifik åtgärd behövs när du installerar nya eller "
-"tar bort gamla (La)TeX-paket."
+"Den lagrade datan uppdateras automatiskt via dpkg-utlösare, inga övriga "
+"åtgärder behövs eftersom detta utförs varje gång ett nytt (La)TeX-paket "
+"installeras eller ett gammalt tas bort."
 
 #. Type: select
 #. Description
