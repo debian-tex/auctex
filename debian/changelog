@@ -1,3 +1,18 @@
+auctex (11.86-7) unstable; urgency=low
+
+  * [4513248] debian/auctex.triggers: Remove misplaced tree.
+  * [243b72b] debian/watch: Track new upstream sources.
+  * [4ca807c] Remove update-auctex-install and its references.
+  * [c15f329] Add patch: Rationalize dist target in doc/Makefile.in.
+  * [e625422] Add patch: TeX-auto-global: Customize for Debian.
+  * [8b2e941] Reorder the patch set.
+  * [819109c] Update po/sv.po; thanks to Martin Bagge.  (Closes: #653560)
+  * [21140ef] Update po/de.po; thanks to Helge Kreutzmann.
+    (Closes: #653670)
+  * [e86103c] Update po/ru.po; thanks to Yuri Kozlov.  (Closes: #653710)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 31 Dec 2011 18:55:18 +0100
+
 auctex (11.86-6) unstable; urgency=low
 
   * [925840e] Use dpkg triggers to parse new (La)TeX macros and style
