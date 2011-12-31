@@ -1,19 +1,19 @@
 # German translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2000, 01, 02, 03, 04, 05, 06, 07 Davide G. M. Salvetti
+# Copyright (C) 2000, 01, 02, 03, 04, 05, 06, 07, 11 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
 # Knut Suebert <knut.suebert@web.de>, 2001
-# Helge Kreutzmann <debian@helgefjell.de>, 2007
+# Helge Kreutzmann <debian@helgefjell.de>, 2007, 11
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex 11.83-8\n"
+"Project-Id-Version: auctex 11.86-6\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2011-12-21 21:24+0100\n"
-"PO-Revision-Date: 2011-06-22 00:32+0200\n"
+"PO-Revision-Date: 2011-12-29 21:13+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -37,13 +37,13 @@ msgstr "Vordergrund"
 #. Choices
 #: ../auctex/templates:1001
 msgid "None"
-msgstr "Nicht"
+msgstr "Nichts"
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
 msgid "(La)TeX macros parsing mode:"
-msgstr "(La)TeX-Makros Parsing-Modus:"
+msgstr "Auswertungsmodus für (La)Tex-Makros"
 
 #. Type: select
 #. Description
@@ -66,25 +66,20 @@ msgid ""
 "the process in ${LOGFILE}."
 msgstr ""
 "Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund "
-"empfohlen. Die Bearbeitung kann allerdings auch im Vordergrund erfolgen und "
-"die Auswertung kann auch ganz unterbleiben. Falls Sie »Hintergrund« wählen, "
-"finden Sie eine detaillierte Protokollausgabe in ${LOGFILE}."
+"empfohlen. Sie kann allerdings auch im Vordergrund erfolgen oder übersprungen "
+"werden. Falls Sie »Hintergrund« wählen, finden Sie eine detaillierte "
+"Protokollausgabe in ${LOGFILE}."
 
 #. Type: select
 #. Description
 #: ../auctex/templates:1002
-#, fuzzy
-#| msgid ""
-#| "A weekly cron job will also take care of updating the cached data, so "
-#| "that no specific action is required whenever you install new (La)TeX "
-#| "packages or remove old ones."
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"Weiterhin wird ein wöchentlicher cron-Job auf die Aktualisierung der "
-"zwischengespeicherten Daten achten, so dass bei der Installation von neuen "
+"Die zwischengespeicherten Daten werden automatisch mittels Triggern von Dpkg "
+"aktualisiert, so dass bei der Installation von neuen "
 "(La)TeX-Paketen oder der Entfernung alter keine weiteren Aktionen notwendig "
 "sind."
 
