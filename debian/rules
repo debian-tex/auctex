@@ -48,8 +48,6 @@ debian/auctex/install debian/auctex/remove \
 debian/auctex/lisp-startup.el \
 debian/auctex/update-auctex-elisp \
 debian/auctex/update-auctex-elisp.8 \
-debian/auctex/update-auctex-install \
-debian/auctex/update-auctex-install.8 \
 debian/preview-latex-style/README \
 debian/preview-latex-style/postinst \
 debian/preview-latex-style/prerm debian/preview-latex-style/postrm \
@@ -190,8 +188,6 @@ binary-indep-auctex: build
 		$(auctex)//usr/share/doc/auctex//HTML/preview-latex/index.html
 	$(INSTDATA) debian/auctex/update-auctex-elisp.8 \
 		$(auctex)//usr/share/man//man8/
-	$(INSTDATA) debian/auctex/update-auctex-install.8 \
-		$(auctex)//usr/share/man//man8/
 	gzip -9frv $(auctex)//usr/share/man/
 
 	$(INSTDIR) $(auctex)//etc/emacs23/site-start.d/
@@ -199,8 +195,6 @@ binary-indep-auctex: build
 		$(auctex)//etc/emacs23/site-start.d/50auctex.el
 	$(INSTDIR) $(auctex)//usr/sbin/
 	$(INSTSCRIPT) debian/auctex/update-auctex-elisp \
-		$(auctex)//usr/sbin/
-	$(INSTSCRIPT) debian/auctex/update-auctex-install \
 		$(auctex)//usr/sbin/
 	$(INSTDIR) $(auctex)//var/lib/auctex/
 	$(INSTDIR) $(auctex)//usr/share/emacs/site-lisp/auctex/

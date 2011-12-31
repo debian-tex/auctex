@@ -65,7 +65,6 @@
    auctex: doc-base-file-unknown-format auctex:38 texinfo
    auctex: doc-base-file-unknown-format preview-latex:11 texinfo
    auctex: executable-not-elf-or-script ./usr/share/emacs/site-lisp/auctex/install-sh
-   auctex: debconf-is-not-a-registry ./usr/sbin/update-auctex-install
 ** TODO Lintian thingies
    auctex: malformed-prompt-in-templates auctex/doauto
    auctex: malformed-prompt-in-templates auctex/doautofg
@@ -77,9 +76,6 @@
    Do we really need "/usr/share/emacs-snapshot/site-lisp/auctex/.nosearch"?
 ** DGMS Patches to upstream sources
    Evaluate and discuss them with upstream developers.
-** TODO /usr/sbin/update-auctex-install
-   Get the proper packages (teTeX?, ...?) to use it, add perhaps a note in the
-   README.Debian file.
 ** TODO TeX-printer-list, TeX-printer-default
    Is there any simple way to collect local printer info at installation time,
    or, even better, at load time?

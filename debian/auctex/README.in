@@ -25,7 +25,7 @@ On line Documentation
 =====================
 
 On line documentation may be found in the info or HTML manual, and in the
-<:=${UPDATE_ELISP}:>(8) and <:=${UPDATE_INSTALL}:>(8) manual pages.
+<:=${UPDATE_ELISP}:>(8) manual page.
 
 TeXInfo sources may be found in the "<:=if($_="${docsrc}")=~tr|/|/|s:>"
 directory.

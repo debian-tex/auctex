@@ -33,8 +33,6 @@ debian/<:=${PACKAGE}:>/install debian/<:=${PACKAGE}:>/remove \
 debian/<:=${PACKAGE}:>/lisp-startup.el \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:> \
 debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:>.8 \
-debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:> \
-debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:>.8 \
 debian/<:=${PLSPKG}:>/README \
 debian/<:=${PLSPKG}:>/postinst \
 debian/<:=${PLSPKG}:>/prerm debian/<:=${PLSPKG}:>/postrm \
@@ -184,8 +182,6 @@ binary-indep-auctex: build
 		$(auctex)/<:=${html}:>/preview-latex/index.html
 	$(INSTDATA) debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:>.8 \
 		$(auctex)/<:=${man}:>/man8/
-	$(INSTDATA) debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:>.8 \
-		$(auctex)/<:=${man}:>/man8/
 	gzip -9frv $(auctex)/<:=${man}:>
 
 <:# install Debian system files :>//
@@ -195,8 +191,6 @@ binary-indep-auctex: build
 		s|emacs|emacs23|; $_=~tr|/|/|s; print:>
 	$(INSTDIR) $(auctex)/<:=${sbin}:>
 	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/<:=${UPDATE_ELISP}:> \
-		$(auctex)/<:=${sbin}:>
-	$(INSTSCRIPT) debian/<:=${PACKAGE}:>/<:=${UPDATE_INSTALL}:> \
 		$(auctex)/<:=${sbin}:>
 	$(INSTDIR) $(auctex)/<:=${var}:>
 	$(INSTDIR) $(auctex)/<:=${lisp}:>
