@@ -1,44 +1,42 @@
 auctex (11.86-5) unstable; urgency=low
 
-  * Support for emacs21, emacs22, and emacs-snapshot has been dropped.
-    Please check obsolete system directories "/etc/emacs21",
-    "/etc/emacs22", and "/etc/emacs-snapshot" and consider removing all of
-    them if no other package beside auctex makes use of them.
+  Support for emacs21, emacs22, and emacs-snapshot has been dropped.
+  Please check obsolete system directories "/etc/emacs21",
+  "/etc/emacs22", and "/etc/emacs-snapshot" and consider removing all of
+  them if no other package beside auctex makes use of them.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Mon, 19 Dec 2011 00:20:47 +0100
 
 auctex (11.86-1) unstable; urgency=low
 
-  * Parsing of LaTeX output was improved.
+  Parsing of LaTeX output was improved.
 
-  * A new framework for the definition and selection of viewers was
-    implemented.  If you have customizations regarding viewers you will
-    have to redo them in this new framework or re-enable the old
-    one.  *Note the `Starting Viewers' section of the AUCTeX manual, for
-    details.
+  A new framework for the definition and selection of viewers was
+  implemented.  If you have customizations regarding viewers you will have
+  to redo them in this new framework or re-enable the old one.  Note
+  the `Starting Viewers' section of the AUCTeX manual, for details.
+  At a difference from upstream, the Debian package defaults to call
+  `xpdf' rather than `evince' as a PDF reader.  Customize
+  `TeX-view-program-selection' if you want to change it.
 
-    At a difference from upstream, the Debian package defaults to call
-    `xpdf' rather than `evince' as a PDF reader.  Customize
-    `TeX-view-program-selection' if you want to change it.
+  Comprehensive editing support for PSTricks was added.
 
-  * Comprehensive editing support for PSTricks was added.
+  Support for various LaTeX packages was added, e.g., `tabularx', `CJK',
+  and `hyperref'.
 
-  * Support for various LaTeX packages was added, e.g., `tabularx', `CJK',
-    and `hyperref'.
+  An easy way to switch between TeX engines (PDFTeX, LuaTeX, XeTeX,
+  Omega) was added.
 
-  * An easy way to switch between TeX engines (PDFTeX, LuaTeX, XeTeX,
-    Omega) was added.
+  Support for SyncTeX was added.  This involves the command line options
+  for LaTeX and the viewer.
 
-  * Support for SyncTeX was added.  This involves the command line options
-    for LaTeX and the viewer.
+  Folding can now be customized to use macro arguments as replacement
+  text.
 
-  * Folding can now be customized to use macro arguments as replacement
-    text.
+  `preview.sty' now works with XeTeX.
 
-  * `preview.sty' now works with XeTeX.
+  A lot of smaller and larger bugs have been squashed.
 
-  * A lot of smaller and larger bugs have been squashed.
-  
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 27 Aug 2010 15:10:38 +0200
 
 auctex (11.83-8) unstable; urgency=medium
@@ -69,7 +67,7 @@ comment (0) UNRELEASED; urgency=low
   ispell-local-dictionary: "american"
   end:
 
-  LocalWords:  AUCTeX tex emacs auctex LaTeX xpdf PDF PSTricks tabularx CJK Sep
-  LocalWords:  hyperref PDFTeX LuaTeX XeTeX SyncTeX Debconf
-
+  LocalWords:  auctex emacs LaTeX AUCTeX xpdf PDF PSTricks tabularx CJK PDFTeX
+  LocalWords:  hyperref LuaTeX XeTeX SyncTeX Debconf tex Sep
+  
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 01 Jan 1970 00:00:01 +0000
