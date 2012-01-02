@@ -1,8 +1,8 @@
 <: # ePerl source file :>//
 #! /bin/bash -e
 #
-# Update AUCTeX auto-loads.
-# Installed by the Debian auctex package.
+# update-auctex-elisp - Update AUCTeX auto-loads
+# [installed by the Debian auctex package]
 #
 <:
   open (my $copyright, "< COPYRIGHT");
@@ -10,21 +10,124 @@
   close $copyright;
 :>//
 
-set -o posix
+PROGNAME=$(basename ${0})
 
+<: # getopt comes from util-linux, which is Essential :>//
+GETOPT=$(getopt -o '' --long 'daemon,no-act' -- "${@}")
+if [ ${?} != 0 ]; then
+    echo >&2 "${PROGNAME}:" 'getopt error'
+    exit 1
+fi
+eval set -- "${GETOPT}"
+unset GETOPT
+
+while true; do
+    case "$1" in
+	(--daemon)
+	    DAEMON_MODE='true'
+	    shift
+	    ;;
+	(--no-act)
+	    NO_ACT='true'
+	    shift
+	    ;;
+	(--)
+	    shift
+	    break
+	    ;;
+	(*)
+	    echo >&2 "${PROGNAME}:" \
+		"Internal error: unhandled option: $1"
+	    exit 1;;
+    esac
+done
 <: # Default flavors: only GNU, XEmacs comes with its own AUCTeX :>//
-FLAVORS=${*:-"emacs23"}
+FLAVORS=${*:-'emacs23'}
+LOGMASK='/var/lib/auctex/%s/CompilationLog'
 
-for FLAVOR in ${FLAVORS}; do
-    if [ -x /usr/bin/${FLAVOR} ]; then
-	${FLAVOR} --no-site-file --no-init-file --batch \
-		  --load=/usr/share/${FLAVOR}/site-lisp/tex-site.el \
-		  --funcall=TeX-auto-generate-global
+if [ -n "${_UPDATE_AUCTEX_ELISP_DAEMON_MODE}" ]; then
+<: # A daemon child: trust ${FLAVORS} :>//
+    _FLAVORS=${FLAVORS}
+else
+<: # Not a daemon child: filter out invalid flavors :>//
+    for FLAVOR in ${FLAVORS}; do
+	if ! egrep '^emacs' <(echo ${FLAVOR}) &>/dev/null; then
+	    echo "${PROGNAME}:" \
+		'Ignoring what does not look like an Emacs flavor:' \
+		"${FLAVOR}"
+	    continue
+	fi
+	if [ ! -x /usr/bin/${FLAVOR} ]; then
+	    echo "${PROGNAME}:" \
+		"Ignoring uninstalled Emacs flavor: ${FLAVOR}"
+	    continue
+	fi
+	_FLAVORS="${_FLAVORS}${_FLAVORS:+' '}${FLAVOR}"
+    done
+
+    if [ -n "${DAEMON_MODE}" -a "${DAEMON_MODE}" = 'true' ]; then
+<: # Spawn a daemon child :>//
+	export _UPDATE_AUCTEX_ELISP_DAEMON_MODE=${DAEMON_MODE}
+	cd / && nohup ${0} ${_FLAVORS} </dev/null &>/dev/null &
+	PID=${!}
+	for FLAVOR in ${_FLAVORS}; do
+	    echo "${PROGNAME}[${PID}]:" \
+		"Will scan macros for Emacs flavor ${FLAVOR}" \
+		"(log to $(printf ${LOGMASK} ${FLAVOR}))"
+	done
+	exit 0
     fi
+fi
+
+<: # Ensure serial execution of multiple instances :>//
+PIDFILE=/var/run/${PROGNAME}.pid
+trap 'echo ${TMPFILE} | xargs --no-run-if-empty rm --force' EXIT
+TMPFILE=$(mktemp /var/run/${PROGNAME}.XXXXXXXX)
+chmod a+r ${TMPFILE}
+echo ${$} > ${TMPFILE}
+until ln ${TMPFILE} ${PIDFILE} &>/dev/null; do
+<: # The following is not atomic: how could I do it right? :>//
+    kill -0 $(cat ${PIDFILE}) &>/dev/null || rm --force ${PIDFILE}
+    sleep 1
+done
+rm --force ${TMPFILE}
+trap 'rm --force ${PIDFILE}' EXIT
+
+for FLAVOR in ${_FLAVORS}; do
+    ${NO_ACT:+'echo'} rm --force --recursive /var/lib/auctex/${FLAVOR}
+    ${NO_ACT:+'echo'} install --owner root --group root --mode 755 \
+	--directory /var/lib/auctex/${FLAVOR}
+    LOGFILE=/var/lib/auctex/${FLAVOR}/CompilationLog
+    echo -n "${PROGNAME}:" \
+	"Scanning macros for Emacs flavor ${FLAVOR}" \
+	"(log to ${LOGFILE})..."
+    [ -z "${NO_ACT}" -o "${NO_ACT}" != 'true' ] && \
+	exec {stdout}>&1 {stderr}>&2 &>${LOGFILE}
+    EXIT_STATUS=0
+    ${NO_ACT:+'echo'} ${FLAVOR} --batch --no-site-file --no-init-file \
+	--load=/usr/share/emacs/site-lisp/tex-site.el \
+	--funcall=TeX-auto-generate-global \
+	|| EXIT_STATUS=$?
+    [ -z "${NO_ACT}" -o "${NO_ACT}" != 'true' ] && \
+	exec 1>&${stdout} 2>&${stderr}
+    if [ ${EXIT_STATUS} -gt 0 ]; then
+	echo -e ' failed.\n<LOGFILE>'
+	${NO_ACT:+'echo'} cat ${LOGFILE}
+	echo '</LOGFILE>'
+	exit ${EXIT_STATUS}
+    else
+	echo ' done.'
+    fi
+    ${NO_ACT:+'echo'} gzip --best --force ${LOGFILE}
 done
 
 <: # save space, keep only byte compiled style files :>//
-find /var/lib/auctex -type f -name \*.el -print0 | xargs -0 rm -f
+if [ -z "${NO_ACT}" -o "${NO_ACT}" != 'true' ]; then
+    find /var/lib/auctex -type f -name \*.el -print0 \
+	| xargs --null --no-run-if-empty rm --force
+fi
+
+exit 0
 <:
 # local variables:
 # mode: shell-script
@@ -32,5 +135,5 @@ find /var/lib/auctex -type f -name \*.el -print0 | xargs -0 rm -f
 # ispell-check-comments: exclusive
 # end:
 #
-# LocalWords:  AUCTeX
+# LocalWords:  AUCTeX ePerl auctex elisp PPID getopt util linux
 :>//
