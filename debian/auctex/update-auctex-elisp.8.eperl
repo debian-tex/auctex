@@ -1,24 +1,11 @@
 #include "variables"
-.\" Man page for update-auctex-elisp.
-.\" Copyright (C) 1998, 99, 2000, 01, 04, 05, 06, 10, 11
-.\" by Davide Giovanni Maria Salvetti.
+.\" Man page for update-auctex-elisp
 .\"
-.\" This manual page is free software; you can redistribute it and/or
- \" modify it under the terms of the GNU General Public License as published
- \" by the Free Software Foundation; either version 2 of the License, or (at
- \" your option) any later version.
-.\"
-.\" This manual page is distributed in the hope that it will be useful,
- \" but WITHOUT ANY WARRANTY; without even the implied warranty of
- \" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
- \" Public License for more details.
-.\"
-.\" You should have received a copy of the GNU General Public License along
- \" with this manual page; if not, write to: The Free Software Foundation,
- \" Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-.\"
-.\" On Debian GNU/Linux System you can find a copy of the GNU General
- \" Public License in "<:=${GPL}:>".
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '.\"' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
 .\"
 .TH Update\-AUCTeX\-elisp 8 "17 February 1998" "Debian Project" "Debian GNU/Linux"
 .SH NAME

@@ -3,7 +3,11 @@
 #
 # <% postinst %> script for <:=${PLSPKG}:>
 #
-<:=@COPYRIGHT:>//
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
 
 set -o posix
 

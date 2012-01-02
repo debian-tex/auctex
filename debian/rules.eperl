@@ -3,7 +3,11 @@
 #
 # rules for <:=${PACKAGE}:>
 #
-<:=@COPYRIGHT:>//
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
 
 checkdir=test -f debian/rules
 checkroot=test root = "$$(whoami)"

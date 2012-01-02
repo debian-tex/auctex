@@ -4,7 +4,11 @@
 # Update AUCTeX auto-loads.
 # Installed by the Debian <:=${PACKAGE}:> package.
 #
-<:=@COPYRIGHT:>//
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
 
 set -o posix
 
