@@ -18,22 +18,33 @@ debian/clean: $(EPERL_OBJ)
 	echo $(filter-out debian/copyright debian/rules \
 		debian/auctex.templates, $(EPERL_OBJ)) \
 		debian/auctex.templates.dcobj \
-		build debian/clean > debian/clean
+		debian/clean > debian/clean
 
 <: # ePerl is simply great: thanks, Ralf! :>//
 %:: %.eperl
 	eperl -P -o $@ $<
 
-build: debian/clean debian/po/templates.pot
+build: debian/clean
 	dh $@ --exclude .eperl --with tex
+
+<: # Debian Emacs policy requires to byte-compile at installation time;
+   # debian/elcc simulates Emacs byte compilation touching empty elcs. :>//
+ELCC := $(shell pwd)/debian/elcc
+.PHONY: override_dh_auto_build
+override_dh_auto_build:
+	chmod a+x debian/elcc
+	$(MAKE) ELCC=$(ELCC)
+<: #    auto-loads.el needs to be byte-compiled for real :>//
+	rm --force auto-loads.el
+	$(MAKE) auto-loads.el
+<: #    tex-site.el depends on auto-loads.el :>//
+	$(MAKE) tex-site.el
 	cd doc && $(MAKE) auctex.htmls/auctex.html
 	cd doc && $(MAKE) preview-latex.htmls/preview-latex.html
-	cd preview/latex && $(MAKE)
 
 %:
 	dh $@ --exclude .eperl --with tex
 
-<: # Debian Emacs policy requires to byte-compile at installation time :>//
 .PHONY: override_dh_install
 override_dh_install:
 <:      # Remove fake elcs :>//
