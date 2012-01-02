@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 PROGNAME='auctex/debian/elcc'
 
 GETOPT=$(getopt --alternative -o 'f:' --long 'eval:,funcall:' -- "${@}")

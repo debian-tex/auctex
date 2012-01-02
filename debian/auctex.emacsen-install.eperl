@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 PROGNAME='auctex/install'
 
 <: # getopt comes from util-linux, which is Essential :>//

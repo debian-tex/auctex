@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 EMACS_COMMAND='
 (let ((start "Emacs")
       (stop "\n-- \n"))

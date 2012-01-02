@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 <: # BEGIN: Cleanup old cruft :>//
 if dpkg-maintscript-helper supports rm_conffile; then
 <:  # obsolete emacs21, emacs22 and emacs-snapshot conffiles :>//

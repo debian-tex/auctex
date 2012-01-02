@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 PROGNAME='auctex/remove'
 
 FLAVOR=${1}

@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 source /usr/share/debconf/confmodule
 
 case "${1}" in

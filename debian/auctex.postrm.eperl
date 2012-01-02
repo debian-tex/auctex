@@ -9,8 +9,6 @@
   close $copyright;
 :>//
 
-set -o posix
-
 <: # BEGIN: Cleanup old cruft :>//
 <: # obsolete emacs21, emacs22 and emacs-snapshot conffiles :>//
 for f in 21 22 -snapshot; do
