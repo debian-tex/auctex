@@ -12,7 +12,8 @@ Architecture: all
 Depends: debconf | debconf-2.0, emacs23, make, preview-latex-style, dpkg (>= 1.15.4) | install-info
 Recommends: ghostscript, texlive-latex-recommended, xpdf | pdf-viewer
 Suggests: catdvi, dvipng, lacheck
-Conflicts: emacspeak (<= 17.0-1), preview-latex
+Breaks: emacspeak (<= 17.0-1)
+Conflicts: preview-latex
 Replaces: preview-latex
 Provides: preview-latex
 Description: integrated document editing environment for TeX etc.
@@ -40,7 +41,7 @@ Description: integrated document editing environment for TeX etc.
 Package: preview-latex-style
 Architecture: all
 Depends: tex-common
-Conflicts: preview-latex (<=0.7.3-2)
+Breaks: preview-latex (<=0.7.3-2)
 Homepage: http://www.gnu.org/software/auctex/preview-latex.html
 Description: extraction of elements from LaTeX documents as graphics
  The purpose of preview is the extraction of selected elements from a
