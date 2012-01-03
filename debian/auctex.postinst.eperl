@@ -13,7 +13,7 @@ set -o posix
 
 if [ -z "${DEBCONF_RECONFIGURE}" ]; then
 <: # BEGIN: Cleanup old cruft :>//
-<:  # very very old cleanup code from the days of Helmut maintainership :>//
+<:  # very old cleanup code from the days of Helmut maintainership :>//
     for i in /usr/lib/emacs/common/auctex/auto/ /var/lib/emacs/auctex/; do
 	if [ -d ${i} ]; then
 	    rm --recursive --force ${i}
@@ -40,6 +40,10 @@ if [ -z "${DEBCONF_RECONFIGURE}" ]; then
 
 <:  # obsolete since 11.86-8 :>//
     rm --force /var/log/auctex-emacs.log
+
+<:  # created by upstream AUCTeX build system;
+    # stopped with 11.86-7 build system change :>//
+    rm --force /usr/share/emacs/site-lisp/auctex/auto-loads.el~
 
 <:  # obsolete emacs21, emacs22 and emacs-snapshot conffiles and dirs :>//
     for f in 21 22 -snapshot; do
