@@ -1,0 +1,77 @@
+* Package bugs
+** Unreported bugs
+These bugs should be reported via the BTS.
+*** TODO missing workaround for #560317
+- dpkg-reconfigure does not set DPKG_MAINTSCRIPT_PACKAGE (et al)
+Due to this bug I had to add a workaround to auctex.postinst to let
+"dpkg-reconfigure auctex" work; "dpkg-reconfigure preview-latex-style" does
+not work because of dh_installtex added stuff to preview-latex-style.postinst.
+*** TODO (unload-feature 'tex-site)
+This new feature does not work.  Maybe preview has to be unloaded first, maybe
+the lisp startup files do not do the right thing.
+*** TODO update reportbug scripts
+The scripts should also cater for preview-latex and for the new auctex.el and
+preview.el startup files.  In particular, the md5sum of the new startup files
+should be reported.
+** Open bugs
+These bugs should be checked to see if they still apply to the current
+release.
+*** TODO #120031
+*** TODO #172237
+*** TODO #276102
+*** TODO #290635
+*** TODO #514431
+I'm not sure I can confirm.  Trying to produce a minimal doc, at this moment
+I'm here:
+========================================================================
+\documentclass{article}
+
+\begin{document}
+
+  \begin{equation}
+    \int h \Big(
+    (\mbox{Id} - D_scD_s c^T   - D^2_s c c^T ) {(f + c(D_s f \cdot D_s c)) }
+    +  (D_s^2 c {(f \cdot D_s^2 c)}+
+    D_s(P(D_s k)) \Big) ~ s
+  \end{equation}
+
+\undefined
+
+\end{document}
+========================================================================
+** Non bugs
+These are not bugs, even if they might look like as if they were such.
+** Unsettled issues
+*** TODO XEmacs integration (#63513/#74702, #144846)
+XEmacs includes its own AUCTeX: if the Debian auctex package were to provide
+an upgrade, it should be careful to avoid load-path conflicts, both for the
+byte compiled files as well as for the source elisp files. Moreover, upstream
+says that there are not so many feedback by AUCTeX XEmacs users, and states
+that GNU Emacs is much better supported.  Is it worth to cater for XEmacs in
+the Debian auctex package?
+
+* Miscellaneous stuff
+** TODO "auctex.el", "preview-latex.el", "tex-site.el"
+Do we need those files (there)?  Wouldn't be better to move the code in
+lisp-startup?  Should those files mess with "load-path"?  Make the unload
+feature work.
+** TODO .nosearch
+Do we really need "/usr/share/emacs-snapshot/site-lisp/auctex/.nosearch" and
+"/usr/share/emacs-snapshot/site-lisp/auctex/style/.nosearch"?
+** TODO Patches to upstream sources
+Evaluate and discuss them with upstream developers.
+** TODO TeX-printer-list, TeX-printer-default
+Is there any simple way to collect local printer info at installation time,
+or, even better, at load time?
+** TODO xdg-open
+Maybe auctex should recommend xdg-open instead of xpdf?  WRTT me think source
+specials need to be considered.
+
+
+* Local variables
+# local variables:
+# fill-column: 78
+# ispell-local-dictionary: "american"
+# end:
+
+# LocalWords:  BTS TODO tex reportbug auctex el md AUCTeX elisp nosearch
