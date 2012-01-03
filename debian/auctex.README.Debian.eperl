@@ -3,6 +3,16 @@ The Debian package auctex
 -------------------------
 
 
+Autoloading
+===========
+
+AUCTeX gets auto-loaded by default.  If you do not want AUCTeX to override
+some of the original Emacs TeX related modes, you might want to customize the
+TeX-modes variable.  You may also unload AUCTeX by evaluating the form
+"(unload-feature 'tex-site)" (i.e., put that string into your "~/.emacs" to
+completely disable AUCTeX, as if it was never loaded).
+
+
 RefTeX
 ======
 
