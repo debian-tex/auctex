@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-21 21:24+0100\n"
+"POT-Creation-Date: 2011-12-26 18:08+0100\n"
 "PO-Revision-Date: 2011-06-28 18:57+0200\n"
 "Last-Translator: 강민지 <justminji@gmail.com>\n"
 "Language-Team: opensource <justminji@gmail.com>\n"
@@ -25,31 +25,31 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Background"
 msgstr "배경"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Foreground"
 msgstr "전경"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "None"
 msgstr "없음"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid "(La)TeX macros parsing mode:"
 msgstr "(la)TeX 매크로 구문 분석 모드:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "To improve the performance of AUCTeX, every currently installed TeX macro "
 "package and LaTeX style file will be parsed."
@@ -60,7 +60,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
@@ -74,7 +74,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 #, fuzzy
 #| msgid ""
 #| "A weekly cron job will also take care of updating the cached data, so "
@@ -90,7 +90,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "This update can be run manually at any moment by running 'update-auctex-"
 "elisp'."
@@ -100,25 +100,25 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "Console"
 msgstr "콘솔"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "File"
 msgstr "파일"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid "Parsing output destination:"
 msgstr "출력 대상을 구문 분석:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This operation generates a lot of information. Please choose where this "
@@ -130,7 +130,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "  Console: output goes to the current console;\n"
 "  File:    output goes to ${LOGFILE}."

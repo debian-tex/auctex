@@ -1,8 +1,8 @@
-#include "variables"
+<: # ePerl source file :>//
 #! /bin/bash -e
 #
 # Update AUCTeX auto-loads.
-# Installed by the Debian <:=${PACKAGE}:> package.
+# Installed by the Debian auctex package.
 #
 <:
   open (my $copyright, "< COPYRIGHT");
@@ -12,19 +12,19 @@
 
 set -o posix
 
-<:# Default flavors: only GNU, XEmacs comes with its own AUCTeX. :>//
+<: # Default flavors: only GNU, XEmacs comes with its own AUCTeX :>//
 FLAVORS=${*:-"emacs23"}
 
 for FLAVOR in ${FLAVORS}; do
     if [ -x /usr/bin/${FLAVOR} ]; then
 	${FLAVOR} --no-site-file --no-init-file --batch \
-		  --load=<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/../tex-site.el \
+		  --load=/usr/share/${FLAVOR}/site-lisp/tex-site.el \
 		  --funcall=TeX-auto-generate-global
     fi
 done
 
-<:# save space, keep only byte compiled style files :>//
-find <:=${var}:> -type f -name \*.el -print0 | xargs -0 rm -f
+<: # save space, keep only byte compiled style files :>//
+find /var/lib/auctex -type f -name \*.el -print0 | xargs -0 rm -f
 <:
 # local variables:
 # mode: shell-script

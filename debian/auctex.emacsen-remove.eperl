@@ -1,0 +1,66 @@
+<: # ePerl source file :>//
+#! /bin/bash -e
+#
+# elisp Emacs remove script for the auctex Debian package
+#
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
+
+set -o posix
+
+FLAVOR=${1}
+
+undo_install () {
+    echo >&2 -n "remove/auctex: Removing for ${FLAVOR}... "
+    rm -f /usr/share/${FLAVOR}/site-lisp/{auctex,preview-latex,tex-site}.el
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog{,.gz}
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/images
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/*.el
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/*.elc
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/.nosearch
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/style/*.elc
+    rm -f /usr/share/${FLAVOR}/site-lisp/auctex/style/.nosearch
+    test -d /usr/share/${FLAVOR}/site-lisp/auctex/style/ && \
+	rmdir --ignore-fail-on-non-empty \
+	/usr/share/${FLAVOR}/site-lisp/auctex/style/
+    test -d /usr/share/${FLAVOR}/site-lisp/auctex/ && \
+	rmdir --ignore-fail-on-non-empty \
+	/usr/share/${FLAVOR}/site-lisp/auctex/
+    echo >&2 "done."
+    return 0
+}
+
+undo_auto () {
+    rm -rf /var/lib/auctex/${FLAVOR}/
+
+<:  # old cruft introduced in 11.83-7.3, catered for in 11.83-8 :>//
+    rm -f /var/log/auctex.log
+
+    LOGFILE=/var/log/auctex-${FLAVOR}.log
+    rm -f ${LOGFILE}
+    return 0
+}
+
+case "${FLAVOR}" in
+    emacs) :;;
+    emacs2[123]|emacs-snapshot)
+<:      # remove all parsed information files :>//
+	undo_auto
+	undo_install;;
+    *) echo >&2 "remove/auctex:" \
+	"Ignoring emacsen flavor: \"${FLAVOR}\"."
+esac
+
+exit 0
+<:
+# local variables:
+# mode: shell-script
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+#
+# LocalWords:  ePerl elisp auctex
+:>//

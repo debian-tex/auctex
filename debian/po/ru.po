@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.86-6\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-21 21:24+0100\n"
-"PO-Revision-Date: 2011-12-30 18:26+0400\n"
+"POT-Creation-Date: 2011-12-26 18:08+0100\n"
+"PO-Revision-Date: 2012-01-01 00:55+0100\n"
 "Last-Translator: Yuri Kozlov <yuray@komyakino.ru>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
 "Language: ru\n"
@@ -20,36 +20,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.0\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Background"
 msgstr "фоновый"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Foreground"
 msgstr "оперативный"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "None"
 msgstr "не выполнять"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid "(La)TeX macros parsing mode:"
 msgstr "Режим анализа макросов (La)TeX:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "To improve the performance of AUCTeX, every currently installed TeX macro "
 "package and LaTeX style file will be parsed."
@@ -60,7 +60,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
@@ -74,23 +74,19 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
-#| msgid ""
-#| "A weekly cron job will also take care of updating the cached data, so "
-#| "that no specific action is required whenever you install new (La)TeX "
-#| "packages or remove old ones."
+#: ../auctex.templates:1002
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"Кешируемые данные обновляются автоматически с помощью "
-"механизма триггеров dpkg, поэтому вам не нужно что-либо делать при "
-"установке новых пакетов (La)TeX или удалении старых."
+"Кешируемые данные обновляются автоматически с помощью механизма триггеров "
+"dpkg, поэтому вам не нужно что-либо делать при установке новых пакетов (La)"
+"TeX или удалении старых."
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "This update can be run manually at any moment by running 'update-auctex-"
 "elisp'."
@@ -100,25 +96,25 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "Console"
 msgstr "на консоль"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "File"
 msgstr "в файл"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid "Parsing output destination:"
 msgstr "Место вывода результатов анализа:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This operation generates a lot of information. Please choose where this "
@@ -131,11 +127,10 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "  Console: output goes to the current console;\n"
 "  File:    output goes to ${LOGFILE}."
 msgstr ""
 "  на консоль: выводить на текущую консоль;\n"
 "  в файл:     сохранять в файл ${LOGFILE}."
-

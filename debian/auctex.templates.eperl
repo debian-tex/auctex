@@ -1,3 +1,6 @@
+<: # ePerl source file :>//
+# templates for the Debian auctex package
+#
 <:
 # These templates have been reviewed by the debian-l10n-english team.
 #
@@ -6,8 +9,11 @@
 #
 # Even minor modifications require translation updates and such
 # changes should be coordinated with translators and reviewers.
+
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
 :>//
-#include "variables"
 Template: auctex/doauto
 Type: select
 __Choices: Background, Foreground, None

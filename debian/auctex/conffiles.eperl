@@ -1,3 +1,0 @@
-#include "variables"
-<:$_="${sstartd}/${EPRIORITY}${PACKAGE}.el";
-	s|emacs|emacs23|; $_=~tr|/|/|s; print:>

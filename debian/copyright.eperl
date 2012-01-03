@@ -1,5 +1,5 @@
-#include "variables"
-This is the Debian package <:=${PACKAGE}:>, maintained by
+<: # ePerl source file :>//
+This is the Debian package auctex, maintained by
 
   Davide G. M. Salvetti <salve@debian.org>
 
@@ -24,7 +24,7 @@ You should have received a copy of the GNU General Public License along with
 this program.  If not, see <http://www.gnu.org/licenses/>.
 
 On Debian GNU/Linux System you can find a copy of the GNU General Public
-License in "<:=${GPL}:>".
+License in "/usr/share/common-licenses/GPL".
 
 
 DEBIAN SPECIFIC CHANGES

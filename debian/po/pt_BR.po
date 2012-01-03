@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-21 21:24+0100\n"
+"POT-Creation-Date: 2011-12-26 18:08+0100\n"
 "PO-Revision-Date: 2011-06-22 00:33+0200\n"
 "Last-Translator: André Luís Lopes <dndrelop@debian.org>\n"
 "Language-Team: Debian-BR Project <debian-l10n-portuguese@lists.debian.org>\n"
@@ -24,31 +24,31 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Background"
 msgstr "Segundo plano"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Foreground"
 msgstr "Primeiro plano"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "None"
 msgstr "Nenhum"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid "(La)TeX macros parsing mode:"
 msgstr "Modo de interpretação de macros (La)TeX:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 #, fuzzy
 #| msgid ""
 #| "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
@@ -64,7 +64,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 #, fuzzy
 #| msgid ""
 #| "This may take a lot of time, so it should be probably done in the "
@@ -86,7 +86,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 #, fuzzy
 #| msgid ""
 #| "A weekly cron job will also take care of updating the data collected now, "
@@ -103,7 +103,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 #, fuzzy
 #| msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgid ""
@@ -115,25 +115,25 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "Console"
 msgstr "Console"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "File"
 msgstr "Arquivo"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid "Parsing output destination:"
 msgstr "Destino da saída do processo de interpretação:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 #, fuzzy
 #| msgid ""
 #| "You chose to parse TeX macro packages and LaTeX style files in "
@@ -151,7 +151,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "  Console: output goes to the current console;\n"
 "  File:    output goes to ${LOGFILE}."

@@ -1,7 +1,7 @@
-#include "variables"
+<: # ePerl source file :>//
 #! /bin/bash -e
 #
-# <% postinst %> script for <:=${PACKAGE}:>
+# postrm script for the Debian auctex package
 #
 <:
   open (my $copyright, "< COPYRIGHT");
@@ -11,20 +11,22 @@
 
 set -o posix
 
-case "${1}" in
-    abort-upgrade|install|upgrade) :;;
-    *) echo >&2 "${0##*/}/<:=${PACKAGE}:>:" \
-	"Unknown argument: \"${1}\"."
-	exit 1
-esac
-
-<:# obsolete conffiles to be removed :>//
+<: # BEGIN: Cleanup old cruft :>//
+<: # obsolete emacs21, emacs22 and emacs-snapshot conffiles :>//
 for f in 21 22 -snapshot; do
     dpkg-maintscript-helper rm_conffile \
 	/etc/emacs${f}/site-start.d/50auctex.el \
 	11.86-5 auctex -- "${@}"
 done
+<: # obsolete emacs23 conffile :>//
+dpkg-maintscript-helper rm_conffile \
+    /etc/emacs23/site-start.d/50auctex.el \
+    11.86-6 auctex -- "${@}"
+<: # END: Cleanup old cruft :>//
 
+#DEBHELPER#
+
+exit 0
 <:
 # local variables:
 # mode: shell-script
@@ -32,5 +34,5 @@ done
 # ispell-check-comments: exclusive
 # end:
 #
-# LocalWords:  conffiles
+# LocalWords:  postrm auctex conffiles ePerl emacs conffile
 :>//

@@ -1,6 +1,6 @@
-#include "variables"
-The Debian package <:=${PACKAGE}:>
--------------------<:="-" x length (${PACKAGE}):>
+<: # ePerl source file :>//
+The Debian package auctex
+-------------------------
 
 
 RefTeX
@@ -25,27 +25,24 @@ On line Documentation
 =====================
 
 On line documentation may be found in the info or HTML manual, and in the
-<:=${UPDATE_ELISP}:>(8) manual page.
+update-auctex-elisp(8) manual page.
 
-TeXInfo sources may be found in the "<:=if($_="${docsrc}")=~tr|/|/|s:>"
-directory.
+TeXInfo sources may be found in the "/usr/share/doc/auctex/src" directory.
 
 
 Notes to System Administrators
 ==============================
 
 A) To improve its performance AUCTeX stores information about TeX macros and
-LaTeX styles available on the system in the "<:=${var}:>" directory.
+LaTeX styles available on the system in the "/var/lib/auctex" directory.
 
 AUCTeX updates this information automatically, via dpkg triggers;
-nevertheless, you may want to run "<:=if($_="${sbin}/${UPDATE_ELISP}")=~tr|/|/|s:>"
-manually after installing new style files under "/usr/local/share/texmf".
+nevertheless, you may want to run "update-auctex-elisp" manually after
+installing new style files under "/usr/local/share/texmf".
 
 B) You may probably want to customize the list of printers available at your
-site.
-
-This could be easily accomplished by declaring it in "<:=${SSEL}:>"
-(along with the default printer), for example:
+site.  This could be easily accomplished by declaring it in
+"/etc/emacs/site-start.el" (along with the default printer), for example:
 
 (setq TeX-printer-list
       '(("lp" "dvips -f %s | lpr -P %p" "lpq -P %p")
@@ -56,7 +53,7 @@ This could be easily accomplished by declaring it in "<:=${SSEL}:>"
 
 Please, look at the on line documentation, type `C-h v TeX-printer-list RET'
 from within Emacs (load AUCTeX first), or browse through the file
-"<:=if($_="${lisp}/tex.el")=~tr|/|/|s:>" for more information on this topic.
+"/usr/share/emacs/site-lisp/auctex/tex.el" for more information on this topic.
 
 
 Contributed Files
@@ -83,6 +80,6 @@ load it, what does it do, and who wrote and maintains it.
 # ispell-local-dictionary: "american"
 # end:
 #
-# LocalWords:  AUCTeX RefTeX LaTeX reftex emacs tex TeXInfo setq lp dvips dpkg
-# LocalWords:  lpr lpq lpc lpf lpt RET el jp fptex fpTeX
+# LocalWords:  auctex RefTeX AUCTeX LaTeX reftex emacs tex elisp TeXInfo dpkg
+# LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET el jp fptex fpTeX
 :>//

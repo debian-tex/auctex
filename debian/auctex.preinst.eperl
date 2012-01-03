@@ -1,0 +1,38 @@
+<: # ePerl source file :>//
+#! /bin/bash -e
+#
+# postinst script for the Debian auctex package
+#
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
+
+set -o posix
+
+<: # BEGIN: Cleanup old cruft :>//
+<: # obsolete emacs21, emacs22 and emacs-snapshot conffiles :>//
+for f in 21 22 -snapshot; do
+    dpkg-maintscript-helper rm_conffile \
+	/etc/emacs${f}/site-start.d/50auctex.el \
+	11.86-5 auctex -- "${@}"
+done
+<: # obsolete emacs23 conffile :>//
+dpkg-maintscript-helper rm_conffile \
+    /etc/emacs23/site-start.d/50auctex.el \
+    11.86-6 auctex -- "${@}"
+<: # END: Cleanup old cruft :>//
+
+#DEBHELPER#
+
+exit 0
+<:
+# local variables:
+# mode: shell-script
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+#
+# LocalWords:  conffiles ePerl postinst auctex emacs conffile
+:>//

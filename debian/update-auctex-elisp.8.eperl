@@ -1,4 +1,3 @@
-#include "variables"
 .\" Man page for update-auctex-elisp
 .\"
 <:
@@ -19,7 +18,7 @@ The
 .B update\-auctex\-elisp
 script updates the automatically generated TeX and LaTeX data used by
 AUCTeX and stored in
-.B <:=${var}:>.
+.B /var/lib/auctex.
 .PP
 It should be called after each major (La)TeX style files installation or
 upgrade.
@@ -35,7 +34,7 @@ upgraded package adds (La)TeX style files to the TeX system directories.
 .SH BUGS
 None known.
 .SH FILES
-.B <:=${var}:>:
+.B /var/lib/auctex:
 the hierarchy containing the byte-compiled files.
 .SH SEE ALSO
 .BR emacs (1),

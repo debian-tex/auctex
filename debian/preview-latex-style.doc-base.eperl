@@ -1,5 +1,5 @@
-#include "variables"
-Document: <:=${PLSPKG}:>
+<: # ePerl source file :>//
+Document: preview-latex-style
 Title: The preview Package for LaTeX
 Author: David Kastrup
 Abstract: The main purpose of this package is the extraction of certain
@@ -12,10 +12,10 @@ Abstract: The main purpose of this package is the extraction of certain
  functionality in the AUCTeX editing environment, generation of previews in
  LyX, as part of the operation of the ps4pdf package, the tbook XML system and
  some other tools.
-Section: <:=${MENUSEC}:>
+Section: Editors
 
-Format: DVI
-Files: <:=if($_="${texmfdoc}/preview.dvi.gz") =~tr|/|/|s:>
+Format: PDF
+Files: /usr/share/doc/preview-latex-style/preview.pdf.gz
 
 <:
 # local variables:

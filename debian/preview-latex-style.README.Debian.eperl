@@ -1,6 +1,6 @@
-#include "variables"
-The Debian package <:=${PLSPKG}:>
--------------------<:="-" x length (${PLSPKG}):>
+<: # ePerl source file :>//
+The Debian package preview-latex-style
+--------------------------------------
 
 
 There are no special Debian notes for this package.

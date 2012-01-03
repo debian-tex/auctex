@@ -1,0 +1,135 @@
+<: # ePerl source file :>//
+#! /bin/bash -e
+#
+# elisp Emacs install script for the Debian auctex package
+#
+<:
+  open (my $copyright, "< COPYRIGHT");
+  while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
+  close $copyright;
+:>//
+
+set -o posix
+
+<: # parse debconf database :>//
+source /usr/share/debconf/confmodule
+db_version 2.0
+db_get auctex/doauto   || true; _db_doauto=${RET}
+db_get auctex/doautofg || true; _db_doautofg=${RET}
+
+FLAVOR=${1}
+
+INSTALL="install -o root -g root -m 644"
+INSTDIR="${INSTALL} -m 755 -d"
+
+do_install () {
+    echo >&2 -n "install/auctex: Setting up for ${FLAVOR}" \
+    "(log file: /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog)... "
+    cd /usr/share/emacs/site-lisp/auctex; umask 0022;
+<:  # ensure that "configure" is up-to-date WRT "configure.ac" and
+    # "aclocal.m4" :>//
+    touch --reference configure --date "-1 second" configure.ac
+    touch --reference configure --date "-1 second" aclocal.m4
+    touch --reference configure --date "-1 second" preview/configure.ac
+    ${INSTDIR} /usr/share/${FLAVOR}/site-lisp/auctex
+    ./configure --disable-build-dir-test GS=gs \
+	LATEX=/bin/true PDFLATEX=/bin/true TEX=/bin/true \
+	--prefix=/usr \
+	--with-emacs=${FLAVOR} \
+	--with-lispdir=/usr/share/${FLAVOR}/site-lisp \
+	--with-texmf-dir=/usr/share/texmf \
+	--with-auto-dir=/var/lib/auctex/${FLAVOR}/ \
+	>> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
+	lisp install-lisp install-startup \
+	>> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    ln -sf /usr/share/emacs/site-lisp/auctex/images \
+	/usr/share/${FLAVOR}/site-lisp/auctex/images
+    pushd preview \
+	>> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    make INSTALL="${INSTALL}" MKINSTALLDIRS="${INSTDIR}" \
+	install-el install-nosearch install-startup \
+	>> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    popd >> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    make maintainer-clean \
+	>> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    find /usr/share/${FLAVOR}/site-lisp/auctex -type f -name \*.el \
+	-print0 | xargs --null rm -f ,dummy, \
+	>> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    for s in /usr/share/${FLAVOR}/site-lisp/auctex/*.elc; do
+	find /usr/share/emacs/site-lisp/auctex -type f -name $(basename ${s%c}) -print0 \
+	    | xargs --null --no-run-if-empty \
+	    ln --symbolic --verbose \
+	    --target-directory=/usr/share/${FLAVOR}/site-lisp/auctex \
+	    >> /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog 2>&1
+    done
+    gzip -9fq /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog
+    echo >&2 "done."
+    return 0
+}
+
+do_auto () {
+    LOGFILE=/var/log/auctex-${FLAVOR}.log
+    case "${_db_doauto}" in
+	(Foreground)
+	case "${_db_doautofg}" in
+	    (Console)
+	    update-auctex-elisp ${FLAVOR} ;;
+	    (File)
+	    echo >&2 -n "update-auctex-elisp: "
+	    echo >&2 "Further output will appear in: ${LOGFILE}."
+	    echo >&2 -n "auctex: "
+	    echo >&2 -n "Waiting for update-auctex-elisp to terminate... "
+	    update-auctex-elisp ${FLAVOR} >> ${LOGFILE} 2>&1
+	    echo >&2 "done." ;;
+	    (*) echo >&2 \
+		"${0##*/}: Unknown Debconf value doautofg = \"${_db_doautofg}\"." ;;
+	esac ;;
+	(Background)
+<:      # Closing fd 3 is debconf important. :>//
+<:      # debconf\'s frontend wait for its standard input to be closed :>//
+<:      # before dying, and that means fd 3 :>//
+<:      # better don\'t close fd 0: Emacs does not take it very well :>//
+<:      # WARNING: DON\'T CLOSE FD\'S TO BE WRITTEN TO! :>//
+<:      # WARNING: DON\'T CLOSE FD\'S TO BE READ TO! :>//
+	update-auctex-elisp ${FLAVOR} >> ${LOGFILE} 2>&1 3>&- &
+	echo >&2 -n "udpate-auctex-elisp[${!}]: "
+	echo >&2 "Further output will appear in: ${LOGFILE}." ;;
+	(None) :;;
+	(*) echo >&2 \
+	    "${0##*/}: Unknown Debconf value doauto = \"${_db_doauto}\"." ;;
+    esac
+    return 0
+}
+
+do_clean_old_cruft () {
+<:  # ".../site-lisp/preview/" is obsolete :>//
+    rm -f /usr/share/${FLAVOR}/site-lisp/preview/.nosearch
+    test -d /usr/share/${FLAVOR}/site-lisp/preview/ && \
+	rmdir --ignore-fail-on-non-empty \
+	/usr/share/${FLAVOR}/site-lisp/preview
+    return 0
+}
+
+case "${FLAVOR}" in
+    emacs) :;;
+    emacs2[123]|emacs-snapshot)
+<:      # clean old cruft :>//
+	do_clean_old_cruft ${FLAVOR}
+	do_install ${FLAVOR}
+<:      # parse TeX macros and LaTeX styles :>//
+	do_auto ${FLAVOR};;
+    *) echo >&2 "install/auctex:" \
+	"Ignoring emacsen flavor: \"${FLAVOR}\"."
+esac
+
+exit 0
+<:
+# local variables:
+# mode: shell-script
+# ispell-local-dictionary: "american"
+# ispell-check-comments: exclusive
+# end:
+#
+# LocalWords:  debconf fd frontend aclocal LaTeX ePerl elisp auctex
+:>//

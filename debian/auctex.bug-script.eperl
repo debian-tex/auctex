@@ -1,7 +1,7 @@
-#include "variables"
+<: # ePerl source file :>//
 #! /bin/bash -e
 #
-# bug reporting script for <:=${PACKAGE}:>
+# bug reporting script for the Debian auctex package
 #
 <:
   open (my $copyright, "< COPYRIGHT");
@@ -24,16 +24,16 @@ EMACS_COMMAND='
 
 cat >&3 <<EOF
 ========================================================================
-Content of '<:=${lisp}:>'
+Content of '/usr/share/emacs/site-lisp/auctex'
 ------------------------------------------------------------------------
 EOF
-find 2>/dev/null <:=${lisp}:> -type f -print0 \
+find 2>/dev/null /usr/share/emacs/site-lisp/auctex -type f -print0 \
     | xargs --null --no-run-if-empty md5sum | sort --key=2,2 >&3
 cat >&3 <<EOF
 ------------------------------------------------------------------------
 EOF
 
-<:# Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX.:>//
+<: # Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX :>//
 FLAVORS=${*:-"emacs23"}
 
 for FLAVOR in ${FLAVORS}; do
@@ -61,12 +61,12 @@ EOF
 	    --batch --eval "$EMACS_COMMAND"
 	cat >&3 <<EOF
 ------------------------------------------------------------------------
-Content of '<:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>'
+Content of '/usr/share/${FLAVOR}/site-lisp/auctex'
 ------------------------------------------------------------------------
 EOF
 	command ls >&3 --almost-all --sort=version --format=long \
-	    <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>
-	LOG=$(ls <:=if($_=${lisp})=~s|emacs|\${FLAVOR}|:>/<:=${ELCLOG}:>*)
+	    /usr/share/${FLAVOR}/site-lisp/auctex
+	LOG=$(ls /usr/share/${FLAVOR}/site-lisp/auctex/CompilationLog*)
 	cat >&3 <<EOF
 ------------------------------------------------------------------------
 Content of '${LOG}':
@@ -88,5 +88,5 @@ done
 # ispell-check-comments: exclusive
 # end:
 #
-# LocalWords:  Emacsen AUCTeX
+# LocalWords:  Emacsen AUCTeX ePerl auctex
 :>//

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex_11.83-7.1_sv\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-21 21:24+0100\n"
-"PO-Revision-Date: 2011-12-29 10:58+0100\n"
+"POT-Creation-Date: 2011-12-26 18:08+0100\n"
+"PO-Revision-Date: 2012-01-01 00:55+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -25,31 +25,31 @@ msgstr ""
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Background"
 msgstr "Bakgrund"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "Foreground"
 msgstr "Förgrund"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:1001
+#: ../auctex.templates:1001
 msgid "None"
 msgstr "Inget"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid "(La)TeX macros parsing mode:"
 msgstr "(La)TeX macro-avläsnings-läge:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "To improve the performance of AUCTeX, every currently installed TeX macro "
 "package and LaTeX style file will be parsed."
@@ -60,7 +60,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
@@ -73,11 +73,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
-#| msgid ""
-#| "A weekly cron job will also take care of updating the cached data, so "
-#| "that no specific action is required whenever you install new (La)TeX "
-#| "packages or remove old ones."
+#: ../auctex.templates:1002
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
@@ -89,7 +85,7 @@ msgstr ""
 
 #. Type: select
 #. Description
-#: ../auctex/templates:1002
+#: ../auctex.templates:1002
 msgid ""
 "This update can be run manually at any moment by running 'update-auctex-"
 "elisp'."
@@ -97,25 +93,25 @@ msgstr "Detta kan göras manuellt genom att köra 'update-auctex-elisp'."
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "Console"
 msgstr "Konsoll"
 
 #. Type: select
 #. Choices
-#: ../auctex/templates:2001
+#: ../auctex.templates:2001
 msgid "File"
 msgstr "Fil"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid "Parsing output destination:"
 msgstr "Plats för utdata:"
 
 #. Type: select
 #. Description
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "You chose to parse TeX macro packages and LaTeX style files in foreground. "
 "This operation generates a lot of information. Please choose where this "
@@ -128,7 +124,7 @@ msgstr ""
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
-#: ../auctex/templates:2002
+#: ../auctex.templates:2002
 msgid ""
 "  Console: output goes to the current console;\n"
 "  File:    output goes to ${LOGFILE}."
