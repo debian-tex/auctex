@@ -1,3 +1,27 @@
+auctex (11.86-8) unstable; urgency=medium
+
+  * [04d9f33] debian/control: Switch from Conflicts to Breaks where
+    appropriate.
+  * [6fbed85] Format auctex.NEWS according to DDR 6.3.4.
+  * [b7abc18] Change ePerl source files suffix from ".in" to ".eperl".
+  * [b41ebfe] Update copyright.
+  * [30f9294] Use debhelper.
+  * [b40470b] Speed up build time by skipping Emacs byte-compilation.
+  * [2d91d94] update-auctex-elisp: Add daemon and no-act mode options.
+  * [094ab9a] Rewrite install-time code; thanks to Frank Küster, Alexei
+    Sheplyakov, Simon Pepping.  (Closes: #370659, #413318, #478070)
+  * [1a1d022] debian/auctex.preinst: Protect dpkg-maintscript-helper
+    invocation.
+  * [3b1936f] debian/auctex.postinst: Clean old cruft: auto-loads.el~.
+    (Closes: #653212)
+  * [3e46ba1] Add a note to explain how to (partially) disable AUCTeX.
+  * [efb3fe8] Update po/nl.po; thanks to Jeroen Schot.  (Closes: #654241)
+  * [a3d3630] Update po/pt.po; thanks to Pedro Ribeiro.  (Closes: #654961)
+  * [33864b5] Update po/fr.po; thanks to Steve Petruzzello.
+    (Closes: #655062)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 08 Jan 2012 19:04:08 +0100
+
 auctex (11.86-7) unstable; urgency=low
 
   * [4513248] debian/auctex.triggers: Remove misplaced tree.
