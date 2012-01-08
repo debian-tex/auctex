@@ -7,14 +7,15 @@
 # package.
 #
 # Ricardo Silva <ardoric@gmail.com>, 2006, 07
+# Pedro Ribeiro <p.m42.ribeiro@gmail.com>, 2011, 12
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex 11.83-8\n"
+"Project-Id-Version: auctex 11.86-8\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2012-01-02 02:04+0100\n"
-"PO-Revision-Date: 2012-01-02 02:24+0100\n"
-"Last-Translator: Ricardo Silva <ardoric@gmail.com>\n"
-"Language-Team: Native Portuguese <traduz@debianpt.org>\n"
+"PO-Revision-Date: 2012-01-08 18:38+0100\n"
+"Last-Translator: Pedro Ribeiro <p.m42.ribeiro@gmail.com>\n"
+"Language-Team: Portuguese <traduz@debianpt.org>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,19 +68,14 @@ msgstr "Este processo poderá demorar algum tempo, pelo que provavelmente dever�
 #. Type: select
 #. Description
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid ""
-#| "A weekly cron job will also take care of updating the cached data, so "
-#| "that no specific action is required whenever you install new (La)TeX "
-#| "packages or remove old ones."
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"Uma tarefa semanal do cron irá também tratar da actualização dos dados em "
-"cache, para que não seja preciso tomar nenhuma acção especial sempre que "
-"instala novos pacotes (La)TeX ou remove antigos."
+"Os dados em cache são automaticamente actualizados através de triggers do "
+"dpkg, de modo que não é necessária nenhuma ação específica quando se "
+"instalam ou removem pacotes (La)TeX."
 
 #. Type: select
 #. Description
