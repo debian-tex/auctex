@@ -74,7 +74,7 @@ override_dh_installdocs:
 override_dh_installtex:
 	dh_installtex --package=preview-latex-style
 
-debian/po/templates.pot: debian/auctex.templates
+debian/po/templates.pot: debian/auctex.templates debian/po/*.po
 	umask 0022 && debconf-updatepo --verbose --podir=debian/po
 	@touch $@
 

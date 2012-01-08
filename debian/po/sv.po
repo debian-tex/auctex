@@ -1,7 +1,7 @@
 # Swedish translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2008, 11 Davide G. M. Salvetti
+# Copyright (C) 2008, 11, 12 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -9,10 +9,10 @@
 # Martin Bagge <brother@bsnet.se>, 2008, 11
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex_11.83-7.1_sv\n"
+"Project-Id-Version: auctex_11.86-8\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
-"PO-Revision-Date: 2012-01-01 00:55+0100\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-08 18:39+0100\n"
 "Last-Translator: Martin Bagge / brother <brother@bsnet.se>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "Language: sv\n"
@@ -64,12 +64,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Detta kan ta väldigt lång tid så det är troligen bäst om det görs i "
-"bakgrunden. Du kan också välja att göra det i förgrunden eller hoppa över "
-"steget. Om du väljer 'bakgrund' så skapas en detaljerad logfil i ${LOGFILE}."
+"skip that step."
+msgstr "Detta kan ta väldigt lång tid så det är troligen bäst om det görs i bakgrunden. Du kan också välja att göra det i förgrunden eller hoppa över steget."
 
 #. Type: select
 #. Description
@@ -91,43 +87,27 @@ msgid ""
 "elisp'."
 msgstr "Detta kan göras manuellt genom att köra 'update-auctex-elisp'."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Konsoll"
+#~ msgid "Console"
+#~ msgstr "Konsoll"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Fil"
+#~ msgid "File"
+#~ msgstr "Fil"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Plats för utdata:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Plats för utdata:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"Du kan välja att läsa av TeX makro-paket och LaTeX-stilar i förgrunden. "
-"Denna körning producerar väldigt mycket information, vänligen ange vart "
-"denna information ska skickas:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "Du kan välja att läsa av TeX makro-paket och LaTeX-stilar i förgrunden. "
+#~ "Denna körning producerar väldigt mycket information, vänligen ange vart "
+#~ "denna information ska skickas:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Konsoll: utdata hamnar i den aktuella konsollen;\n"
-"  Fil:    utdata hamnar i ${LOGFILE}."
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Konsoll: utdata hamnar i den aktuella konsollen;\n"
+#~ "  Fil:    utdata hamnar i ${LOGFILE}."

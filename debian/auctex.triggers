@@ -1,2 +1,3 @@
 interest /usr/share/texmf
 interest /usr/share/texmf-texlive
+interest auctex-install-emacs23

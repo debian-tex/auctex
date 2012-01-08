@@ -1,7 +1,7 @@
 # Finnish translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2007 Davide G. M. Salvetti
+# Copyright (C) 2007, 12 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.83-8\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
-"PO-Revision-Date: 2010-08-27 13:42+0200\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-02 02:14+0100\n"
 "Last-Translator: Esko Arajärvi <edu@iki.fi>\n"
 "Language-Team: Finnish <debian-l10n-finnish@lists.debian.org>\n"
 "Language: fi\n"
@@ -63,13 +63,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Tämä voi kestää kauan, joten se tulisi luultavasti tehdä taustalla. Se "
-"voidaan myös tehdä edustalla tai jäsennys voidaan ohittaa. Jos valitset "
-"”Taustalla”, löytyvät prosessin yksityiskohtaiset lokit tiedostosta "
-"${LOGFILE}."
+"skip that step."
+msgstr "Tämä voi kestää kauan, joten se tulisi luultavasti tehdä taustalla. Se voidaan myös tehdä edustalla tai jäsennys voidaan ohittaa."
 
 #. Type: select
 #. Description
@@ -98,43 +93,27 @@ msgstr ""
 "Tämä päivitys voidaan tehdä käsin koska tahansa ajamalla komento ”update-"
 "auctex-elisp”."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Konsoli"
+#~ msgid "Console"
+#~ msgstr "Konsoli"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Tiedosto"
+#~ msgid "File"
+#~ msgstr "Tiedosto"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Jäsennystulosteen kohde:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Jäsennystulosteen kohde:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"Valitsit, että TeX-makropakettien ja LaTeX-tyylitedostojen jäsennys tehdään "
-"edustalla. Operaatio tuottaa paljon tietoa. Valitse mihin tämä tieto tulisi "
-"lähettää:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "Valitsit, että TeX-makropakettien ja LaTeX-tyylitedostojen jäsennys "
+#~ "tehdään edustalla. Operaatio tuottaa paljon tietoa. Valitse mihin tämä "
+#~ "tieto tulisi lähettää:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Konsoli:  tuloste lähetetään nykyiselle konsolille\n"
-"  Tiedosto: tuloste lähetetään tiedostoon ${LOGFILE}"
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Konsoli:  tuloste lähetetään nykyiselle konsolille\n"
+#~ "  Tiedosto: tuloste lähetetään tiedostoon ${LOGFILE}"

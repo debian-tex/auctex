@@ -9,7 +9,7 @@ Homepage: http://www.gnu.org/software/auctex/
 
 Package: auctex
 Architecture: all
-Depends: emacs23, make, preview-latex-style, dpkg (>= 1.15.4) | install-info, ${misc:Depends}
+Depends: emacs23, preview-latex-style, dpkg (>= 1.15.4) | install-info, ${misc:Depends}
 Recommends: ghostscript, texlive-latex-recommended, xpdf | pdf-viewer
 Suggests: catdvi, dvipng, lacheck
 Breaks: emacspeak (<= 17.0-1)

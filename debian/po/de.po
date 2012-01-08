@@ -1,7 +1,8 @@
 # German translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2000, 01, 02, 03, 04, 05, 06, 07, 11 Davide G. M. Salvetti
+# Copyright (C) 2000, 01, 02, 03, 04, 05, 06, 07, 11, 12
+# Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -10,10 +11,10 @@
 # Helge Kreutzmann <debian@helgefjell.de>, 2007, 11
 msgid ""
 msgstr ""
-"Project-Id-Version: auctex 11.86-6\n"
+"Project-Id-Version: auctex 11.86-8\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-21 21:24+0100\n"
-"PO-Revision-Date: 2012-01-01 00:52+0100\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-08 18:37+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -62,13 +63,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund "
-"empfohlen. Sie kann allerdings auch im Vordergrund erfolgen oder übersprungen "
-"werden. Falls Sie »Hintergrund« wählen, finden Sie eine detaillierte "
-"Protokollausgabe in ${LOGFILE}."
+"skip that step."
+msgstr "Das kann eine Weile dauern, daher wird die Bearbeitung im Hintergrund empfohlen. Sie kann allerdings auch im Vordergrund erfolgen oder übersprungen werden."
 
 #. Type: select
 #. Description
@@ -79,9 +75,8 @@ msgid ""
 "remove old ones."
 msgstr ""
 "Die zwischengespeicherten Daten werden automatisch mittels Triggern von Dpkg "
-"aktualisiert, so dass bei der Installation von neuen "
-"(La)TeX-Paketen oder der Entfernung alter keine weiteren Aktionen notwendig "
-"sind."
+"aktualisiert, so dass bei der Installation von neuen (La)TeX-Paketen oder "
+"der Entfernung alter keine weiteren Aktionen notwendig sind."
 
 #. Type: select
 #. Description
@@ -93,46 +88,30 @@ msgstr ""
 "Die Aktualisierung kann jederzeit von Hand durch Aufruf von »update-auctex-"
 "elisp« erfolgen."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Konsole"
+#~ msgid "Console"
+#~ msgstr "Konsole"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Datei"
+#~ msgid "File"
+#~ msgstr "Datei"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Ziel der Parsing-Ausgabe:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Ziel der Parsing-Ausgabe:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"Sie wählten die Bearbeitung der Tex-Makros und LaTeX-Styles im Vordergrund. "
-"Hierbei wird dabei eine Menge Ausgabe erzeugt. Bitte wählen Sie aus, wohin "
-"diese Informationen gesendet werden sollen:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "Sie wählten die Bearbeitung der Tex-Makros und LaTeX-Styles im "
+#~ "Vordergrund. Hierbei wird dabei eine Menge Ausgabe erzeugt. Bitte wählen "
+#~ "Sie aus, wohin diese Informationen gesendet werden sollen:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Konsole: Ausgabe geht auf die aktuelle Konsole;\n"
-"  Datei:   Ausgabe geht in ${LOGFILE}."
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Konsole: Ausgabe geht auf die aktuelle Konsole;\n"
+#~ "  Datei:   Ausgabe geht in ${LOGFILE}."
 
 #~ msgid ""
 #~ "By default -- i.e., answering File to this question -- further output "

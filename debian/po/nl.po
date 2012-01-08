@@ -1,7 +1,7 @@
 # Dutch translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2006-11 Davide G. M. Salvetti
+# Copyright (C) 2006-12 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.86-4\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
-"PO-Revision-Date: 2011-12-14 09:51+0100\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-02 02:24+0100\n"
 "Last-Translator: Jeroen Schot <schot@a-eskwadraat.nl>\n"
 "Language-Team: Debian l10n Dutch <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
@@ -62,13 +62,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Dit kan veel tijd kosten: het verdient dus de voorkeur om dit in de "
-"achtergrond te laten doen. U kunt ook kiezen dit op de voorgrond te laten "
-"doen of om deze stap over te slaan. Indien u voor 'Achtergrond' kiest kunt u "
-"een gedetailleerde log van het proces vinden in het bestand ${LOGFILE}."
+"skip that step."
+msgstr "Dit kan veel tijd kosten: het verdient dus de voorkeur om dit in de achtergrond te laten doen. U kunt ook kiezen dit op de voorgrond te laten doen of om deze stap over te slaan."
 
 #. Type: select
 #. Description
@@ -97,43 +92,27 @@ msgstr ""
 "U kunt op elk moment handmatig bijwerken door 'update-auctex-elisp' uit te "
 "voeren."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Console"
+#~ msgid "Console"
+#~ msgstr "Console"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Bestand"
+#~ msgid "File"
+#~ msgstr "Bestand"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Uitvoerbestemming van het ontleden:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Uitvoerbestemming van het ontleden:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"U hebt gekozen om TeX-macropakketten en LaTeX-stijlbestanden in de voorgrond "
-"te ontleden. Deze bewerking genereert veel informatie. Waar wilt u deze "
-"informatie naar toe sturen?"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "U hebt gekozen om TeX-macropakketten en LaTeX-stijlbestanden in de "
+#~ "voorgrond te ontleden. Deze bewerking genereert veel informatie. Waar "
+#~ "wilt u deze informatie naar toe sturen?"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Console: uitvoer gaat naar de huidige console;\n"
-"  Bestand: uitvoer gaat naar ${LOGFILE}."
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Console: uitvoer gaat naar de huidige console;\n"
+#~ "  Bestand: uitvoer gaat naar ${LOGFILE}."

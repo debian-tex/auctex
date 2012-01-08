@@ -12,37 +12,12 @@
 set -o posix
 
 source /usr/share/debconf/confmodule
-db_capb backup
 
 case "${1}" in
-    configure|reconfigure)
-	db_subst auctex/doauto   LOGFILE /var/log/auctex-emacs.log || true
-	db_subst auctex/doautofg LOGFILE /var/log/auctex-emacs.log || true
-	STATE=1; while true; do
-	    case "${STATE}" in
-		1)
-		    db_input low auctex/doauto || true;;
-		2)
-		    db_get auctex/doauto || true
-		    if [ "${RET}" = "Foreground" ]; then
-<:                      # Ask another time, just to be sure. :>//
-			db_input low auctex/doautofg || true
-		    fi;;
-		*) break;;
-	    esac
-	    STATUS=0 && db_go || STATUS=${?}
-	    case "${STATUS}" in
-		30) STATE=$((${STATE} - 1));;
-		*) STATE=$((${STATE} + 1));;
-	    esac
-	done
-	if [ ${STATE} -eq 0 ]; then
-<:          # The user asked to back up from the first question. :>//
-	    exit 2
-	fi;;
-    *) echo >&2 "${0##*/}/auctex:" \
-	"Unknown argument: \"${1}\"."
-	exit 1
+    (configure|reconfigure)
+	db_input low auctex/doauto || true
+	db_go || true
+	;;
 esac
 
 #DEBHELPER#

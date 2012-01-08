@@ -1,7 +1,7 @@
 # Euskara (Basque) translations of the "debian/auctex/templates" file of the
 # auctex Debian package.
 #
-# Copyright (C) 2007 Davide G. M. Salvetti
+# Copyright (C) 2007, 12 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex-eu\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
-"PO-Revision-Date: 2011-06-22 00:32+0200\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-02 02:13+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <Librezale@librezale.org>\n"
 "Language: eu\n"
@@ -62,13 +62,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Honek denbora luzea behar lezake, beraz arruntena beranduago atzeko planoan "
-"egitea da. Pausu hau alde batetara uztea edo aurreko planoan egitea ere "
-"hautatu dezakezu. \"Atzeko plano\" hautatzen baduzu, prozesuaren erregistro "
-"hedatua ${LOGFILE} fitxategian aurkituko duzu."
+"skip that step."
+msgstr "Honek denbora luzea behar lezake, beraz arruntena beranduago atzeko planoan egitea da. Pausu hau alde batetara uztea edo aurreko planoan egitea ere hautatu dezakezu."
 
 #. Type: select
 #. Description
@@ -97,43 +92,27 @@ msgstr ""
 "Bertsio-berritze hau eskuz abiarazi daiteke edozien momentutan  'update-"
 "auctex-elisp' exekutatuz."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Kontsola"
+#~ msgid "Console"
+#~ msgstr "Kontsola"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Fitxategia"
+#~ msgid "File"
+#~ msgstr "Fitxategia"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Analisi irteera kokapena:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Analisi irteera kokapena:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"TeX makro paketeak eta LaTeX estilo fitxategia atzeko planoan egitea hautatu "
-"duzu. Ekintza honen argibide asko sortzen du. Mesedez hautatu argibide hauek "
-"nora bidali behar diren:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "TeX makro paketeak eta LaTeX estilo fitxategia atzeko planoan egitea "
+#~ "hautatu duzu. Ekintza honen argibide asko sortzen du. Mesedez hautatu "
+#~ "argibide hauek nora bidali behar diren:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Console:    irteera uneko kontsola idatziko da\n"
-"  Fitxategia: irteera ${LOGFILE};-en idatziko da."
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Console:    irteera uneko kontsola idatziko da\n"
+#~ "  Fitxategia: irteera ${LOGFILE};-en idatziko da."

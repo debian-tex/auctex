@@ -1,7 +1,7 @@
 # Czech translation of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2006, 07 Davide G. M. Salvetti
+# Copyright (C) 2006, 07, 12 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
-"PO-Revision-Date: 2010-08-27 13:41+0200\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-02 02:10+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -61,13 +61,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Zpracování může trvat poměrně dlouho, takže je rozumné to provést na pozadí. "
-"Nic vám však nebrání nechat zpracování běžet na popředí, případně je zcela "
-"přeskočit. Zvolíte-li „Pozadí“, naleznete podrobný záznam celého procesu v "
-"souboru ${LOGFILE}."
+"skip that step."
+msgstr "Zpracování může trvat poměrně dlouho, takže je rozumné to provést na pozadí. Nic vám však nebrání nechat zpracování běžet na popředí, případně je zcela přeskočit."
 
 #. Type: select
 #. Description
@@ -95,46 +90,30 @@ msgid ""
 msgstr ""
 "Data můžete kdykoliv aktualizovat i ručně spuštěním „update-auctex-elisp“."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Konzola"
+#~ msgid "Console"
+#~ msgstr "Konzola"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Soubor"
+#~ msgid "File"
+#~ msgstr "Soubor"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Výstup ze zpracování se pošle do:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Výstup ze zpracování se pošle do:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"Zvolili jste, aby zpracování TeXových maker a LaTeXových stylů probíhalo na "
-"popředí. Při zpracování se vytvoří spousta výstupu. Zvolte si, kam se má "
-"tento výstup poslat:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "Zvolili jste, aby zpracování TeXových maker a LaTeXových stylů probíhalo "
+#~ "na popředí. Při zpracování se vytvoří spousta výstupu. Zvolte si, kam se "
+#~ "má tento výstup poslat:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Konzola: výstup se objeví na aktuální konzoli;\n"
-"  Soubor:  výstup se uloží do ${LOGFILE}."
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Konzola: výstup se objeví na aktuální konzoli;\n"
+#~ "  Soubor:  výstup se uloží do ${LOGFILE}."
 
 #~ msgid ""
 #~ "By default -- i.e., answering File to this question -- further output "

@@ -1,7 +1,7 @@
 # Spanish translations of the "debian/auctex/templates" file of the auctex
 # Debian package.
 #
-# Copyright (C) 2002, 03, 04, 05, 06, 07 Davide G. M. Salvetti
+# Copyright (C) 2002, 03, 04, 05, 06, 07, 12 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex 11.83.2\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
-"PO-Revision-Date: 2010-08-27 13:41+0200\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
+"PO-Revision-Date: 2012-01-02 02:13+0100\n"
 "Last-Translator: Steve Lord Flaubert <stonescenter@gmail.com>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "Language: es\n"
@@ -62,13 +62,8 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
-msgstr ""
-"Este paso puede tardar mucho tiempo, por lo que probablemente debería "
-"realizarse en segundo plano. También puede elegir hacerlo en primer plano u "
-"omitirlo por completo. Si elige hacerlo en segundo plano, encontrará un "
-"registro detallado del proceso en «${LOGFILE}»."
+"skip that step."
+msgstr "Este paso puede tardar mucho tiempo, por lo que probablemente debería realizarse en segundo plano. También puede elegir hacerlo en primer plano u omitirlo por completo."
 
 #. Type: select
 #. Description
@@ -97,43 +92,27 @@ msgstr ""
 "Puede ejecutar manualmente esta actualización mediante la orden «update-"
 "auctex-elisp»."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Consola"
+#~ msgid "Console"
+#~ msgstr "Consola"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Fichero"
+#~ msgid "File"
+#~ msgstr "Fichero"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Destino de la salida del análisis:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Destino de la salida del análisis:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"Ha elegido analizar los paquetes de macros TeX y ficheros de estilos LaTeX "
-"en primer plano. Esta operación genera una gran cantidad de información. Por "
-"favor elija a dónde quiere enviar dicha información:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "Ha elegido analizar los paquetes de macros TeX y ficheros de estilos "
+#~ "LaTeX en primer plano. Esta operación genera una gran cantidad de "
+#~ "información. Por favor elija a dónde quiere enviar dicha información:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"  Consola: la salida aparece en la consola actual;\n"
-"  Fichero: la salida va a ${LOGFILE}."
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "  Consola: la salida aparece en la consola actual;\n"
+#~ "  Fichero: la salida va a ${LOGFILE}."

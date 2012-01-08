@@ -26,8 +26,7 @@ _Description: (La)TeX macros parsing mode:
  .
  This may take a lot of time, so it should probably be done in the
  background.  You may also choose to have it done in the foreground, or to
- skip that step.  If you choose 'Background', you will find a detailed log
- of the process in ${LOGFILE}.
+ skip that step.
  .
  The cached data gets automatically updated via dpkg triggers, so that
  no specific action is required whenever you install new (La)TeX packages or
@@ -35,20 +34,6 @@ _Description: (La)TeX macros parsing mode:
  .
  This update can be run manually at any moment by running
  'update-auctex-elisp'.
-
-Template: auctex/doautofg
-Type: select
-__Choices: Console, File
-Default: File
-#flag:comment:3
-# Translators: do NOT translate ${LOGFILE}
-_Description: Parsing output destination:
- You chose to parse TeX macro packages and LaTeX style files in foreground.
- This operation generates a lot of information. Please choose where this
- information should be sent:
- .
-   Console: output goes to the current console;
-   File:    output goes to ${LOGFILE}.
 
 <:
 # local variables:

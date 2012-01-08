@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
 "PO-Revision-Date: 2011-06-28 18:57+0200\n"
 "Last-Translator: 강민지 <justminji@gmail.com>\n"
 "Language-Team: opensource <justminji@gmail.com>\n"
@@ -61,11 +61,16 @@ msgstr ""
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
 #: ../auctex.templates:1002
+#, fuzzy
+#| msgid ""
+#| "This may take a lot of time, so it should probably be done in the "
+#| "background.  You may also choose to have it done in the foreground, or to "
+#| "skip that step.  If you choose 'Background', you will find a detailed log "
+#| "of the process in ${LOGFILE}."
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
+"skip that step."
 msgstr ""
 "이것은 많은 시간이 걸릴 수 있으므로 아마 배경에서 수행되어야 합니다. 당신은 "
 "또한 전경에서 수행하도록 하거나 단계를 건너 뛸 수 있는 선택할 수 있습니다.  "
@@ -98,42 +103,27 @@ msgstr ""
 "이 업데이트는 'update-auctex-elisp'를 실행시키기 위함으로써 언제든지 수동으"
 "로 실행할 수 있습니디ㅏ."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "콘솔"
+#~ msgid "Console"
+#~ msgstr "콘솔"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "파일"
+#~ msgid "File"
+#~ msgstr "파일"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "출력 대상을 구문 분석:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "출력 대상을 구문 분석:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"당신은 전경에 TeX 매크로 패키지와 LaTeX 스타일 파일을 파싱하기로 선택합니다."
-"이 작업은 많은 정보를 생성합니다. 이 정보를 전송해야 하는 위치를 선택하세요:"
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "당신은 전경에 TeX 매크로 패키지와 LaTeX 스타일 파일을 파싱하기로 선택합니"
+#~ "다.이 작업은 많은 정보를 생성합니다. 이 정보를 전송해야 하는 위치를 선택하"
+#~ "세요:"
 
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
-"콘솔:현재의 콘솔로 출력 이동;\n"
-"파일:${LOGFILE}로 출력 이동"
+#~ msgid ""
+#~ "  Console: output goes to the current console;\n"
+#~ "  File:    output goes to ${LOGFILE}."
+#~ msgstr ""
+#~ "콘솔:현재의 콘솔로 출력 이동;\n"
+#~ "파일:${LOGFILE}로 출력 이동"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
-"POT-Creation-Date: 2011-12-26 18:08+0100\n"
+"POT-Creation-Date: 2012-01-02 02:04+0100\n"
 "PO-Revision-Date: 2011-06-22 00:33+0200\n"
 "Last-Translator: André Luís Lopes <dndrelop@debian.org>\n"
 "Language-Team: Debian-BR Project <debian-l10n-portuguese@lists.debian.org>\n"
@@ -75,8 +75,7 @@ msgstr ""
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
-"skip that step.  If you choose 'Background', you will find a detailed log of "
-"the process in ${LOGFILE}."
+"skip that step."
 msgstr ""
 "Isso pode consumir um bom tempo, então pode ser feito provavelmente em "
 "segundo plano; entretanto, você pode optar por ter isso feito em primeiro "
@@ -113,49 +112,28 @@ msgstr ""
 "De qualquer forma, você pode atualizá-las manualmente executando update-"
 "auctex-elisp."
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "Console"
-msgstr "Console"
+#~ msgid "Console"
+#~ msgstr "Console"
 
-#. Type: select
-#. Choices
-#: ../auctex.templates:2001
-msgid "File"
-msgstr "Arquivo"
+#~ msgid "File"
+#~ msgstr "Arquivo"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
-msgid "Parsing output destination:"
-msgstr "Destino da saída do processo de interpretação:"
+#~ msgid "Parsing output destination:"
+#~ msgstr "Destino da saída do processo de interpretação:"
 
-#. Type: select
-#. Description
-#: ../auctex.templates:2002
 #, fuzzy
-#| msgid ""
-#| "You chose to parse TeX macro packages and LaTeX style files in "
-#| "foreground. This is OK, but normally it will also generate quite a lot of "
-#| "output."
-msgid ""
-"You chose to parse TeX macro packages and LaTeX style files in foreground. "
-"This operation generates a lot of information. Please choose where this "
-"information should be sent:"
-msgstr ""
-"Você optou por interpretar pacotes de macros TeX e arquivos de estilo LaTeX "
-"em primero plano. Não há problemas em relação a isso, mas normalmente esse "
-"processo também irá gerar bastante saída."
-
-#. Type: select
-#. Description
-#. Translators: do NOT translate ${LOGFILE}
-#: ../auctex.templates:2002
-msgid ""
-"  Console: output goes to the current console;\n"
-"  File:    output goes to ${LOGFILE}."
-msgstr ""
+#~| msgid ""
+#~| "You chose to parse TeX macro packages and LaTeX style files in "
+#~| "foreground. This is OK, but normally it will also generate quite a lot "
+#~| "of output."
+#~ msgid ""
+#~ "You chose to parse TeX macro packages and LaTeX style files in "
+#~ "foreground. This operation generates a lot of information. Please choose "
+#~ "where this information should be sent:"
+#~ msgstr ""
+#~ "Você optou por interpretar pacotes de macros TeX e arquivos de estilo "
+#~ "LaTeX em primero plano. Não há problemas em relação a isso, mas "
+#~ "normalmente esse processo também irá gerar bastante saída."
 
 #~ msgid ""
 #~ "By default -- i.e., answering File to this question -- further output "
