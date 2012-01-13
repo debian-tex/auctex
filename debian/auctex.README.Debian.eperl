@@ -36,8 +36,21 @@ Using dvipng with preview-latex
 
 Since Debian version 11.86-9, preview-latex will use dvipng by default if
 installed.  Users wishing to switch back to Dvips plus Ghostscript might want
-to customize preview-image-type.  Read /usr/share/doc/auctex/README.gz for
-more information.
+to customize the variable preview-image-type.
+Read /usr/share/doc/auctex/README.gz for more information.
+
+
+Reverse search: using source specials rather than SyncTeX
+=========================================================
+
+When TeX-Source-Correlate mode is enabled, to allow viewers to do reverse
+search AUCTeX uses SyncTeX by default, rather than source specials, if the
+underlying TeX system supports it (as it does with TeX Live on Debian).
+However, xdvik currently supports only source specials, resulting in missing
+reverse search functionality and the warning "No source specials in this DVI
+file - couldn't do reverse search".  Users wishing to let AUCTeX use source
+specials instead of SyncTeX might want to customize the variable
+TeX-source-correlate-method.
 
 
 On line Documentation
@@ -100,5 +113,6 @@ load it, what does it do, and who wrote and maintains it.
 # end:
 #
 # LocalWords:  auctex RefTeX AUCTeX LaTeX reftex emacs tex elisp TeXInfo dpkg
-# LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET el jp fptex fpTeX
+# LocalWords:  setq lp dvips lpr lpq lpc lpf lpt RET el jp fptex fpTeX dvipng
+# LocalWords:  Autoloading Ghostscript SyncTeX xdvik DVI
 :>//
