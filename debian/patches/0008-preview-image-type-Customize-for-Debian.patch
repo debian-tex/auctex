@@ -1,0 +1,27 @@
+From: Davide G. M. Salvetti <salve@debian.org>
+Date: Sat, 14 Jan 2012 22:57:31 +0100
+Subject: [PATCH] preview-image-type: Customize for Debian
+
+* preview/preview.el (preview-image-type): Look for a dvipng executable
+  and use it if available.
+
+Rationale: "dvipng is much faster than the combination of Dvips and
+Ghostscript", the AUCTeX README says.
+---
+ preview/preview.el |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/preview/preview.el b/preview/preview.el
+index 9380841..acbf976 100644
+--- a/preview/preview.el
++++ b/preview/preview.el
+@@ -233,7 +233,7 @@ method, like when PDFTeX was used."
+ 		       (symbol :tag "Emacs image-type")
+ 		       (repeat :inline t :tag "Ghostscript options" string))))
+ 
+-(defcustom preview-image-type 'png
++(defcustom preview-image-type (if (executable-find "dvipng") 'dvipng 'png)
+   "*Image type to be used in images."
+   :group 'preview-gs
+   :type (append '(choice)
+-- 

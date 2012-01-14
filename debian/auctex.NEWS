@@ -1,3 +1,10 @@
+auctex (11.86-9) unstable; urgency=low
+
+  preview-latex now uses dvipng if installed when not in TeX-Pdf mode.
+  Customize preview-image-type to switch back to Dvips plus Ghostscript.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 13 Jan 2012 17:09:43 +0100
+
 auctex (11.86-5) unstable; urgency=low
 
   Support for emacs21, emacs22, and emacs-snapshot has been dropped.

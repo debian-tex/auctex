@@ -31,6 +31,15 @@ need not doing anything special to load it anymore.  Emacs 21 users may choose
 "tex-font" instead, should they wish it.
 
 
+Using dvipng with preview-latex
+===============================
+
+Since Debian version 11.86-9, preview-latex will use dvipng by default if
+installed.  Users wishing to switch back to Dvips plus Ghostscript might want
+to customize preview-image-type.  Read /usr/share/doc/auctex/README.gz for
+more information.
+
+
 On line Documentation
 =====================
 
