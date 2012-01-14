@@ -1,0 +1,33 @@
+From: Davide G. M. Salvetti <salve@debian.org>
+Date: Sat, 14 Jan 2012 22:57:11 +0100
+Subject: [PATCH] TeX-view-program-selection: Customize for Debian
+
+* tex.el (TeX-view-program-selection): Look for an evince executable and
+  use it if available; fall back to xpdf otherwise.
+
+Rationale:
+- upstream support Evince and xpdf, choosing Evince by default;
+- the Debian auctex package recommends xpdf-reader | evince | evince-gtk,
+  choosing Evince by default if it is installed, falling back to xpdf
+  otherwise.
+---
+ tex.el |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tex.el b/tex.el
+index b147474..a5f4ee2 100644
+--- a/tex.el
++++ b/tex.el
+@@ -1115,9 +1115,9 @@ restarting Emacs."
+ ;;       (output-pdf "open")
+ ;;       (output-html "open")))
+    (t
+-    '(((output-dvi style-pstricks) "dvips and gv")
++    `(((output-dvi style-pstricks) "dvips and gv")
+       (output-dvi "xdvi")
+-      (output-pdf "Evince")
++      (output-pdf ,(if (executable-find "evince") "Evince" "xpdf"))
+       (output-html "xdg-open"))))
+   "Alist of predicates and viewers.
+ Each entry consists of a list with two elements.  The first
+-- 
