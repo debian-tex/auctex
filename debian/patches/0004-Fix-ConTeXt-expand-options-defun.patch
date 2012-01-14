@@ -1,0 +1,28 @@
+From: Davide G. M. Salvetti <salve@debian.org>
+Date: Sat, 14 Jan 2012 22:14:16 +0100
+Subject: [PATCH] Fix ConTeXt-expand-options defun
+
+- Backport of context.el v1.74, in CVS since 2010-09-18.
+
+History: the Debian auctex package used to fix Debian bug #597006 with a
+patch provided from Sanjoy Mahajan (see the Debian bug report), which
+modified the TeX-engine-alist-builtin defvar.  Ralf Angeli fixed the bug
+upstream with the present patch.
+---
+ context.el |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/context.el b/context.el
+index f7042a6..2dc4668 100644
+--- a/context.el
++++ b/context.el
+@@ -1486,7 +1486,7 @@ else.  There might be text before point."
+ (defun ConTeXt-expand-options ()
+   "Expand options for texexec command."
+   (concat
+-   (let ((engine (nth 4 (assq TeX-engine (TeX-engine-alist)))))
++   (let ((engine (eval (nth 4 (assq TeX-engine (TeX-engine-alist))))))
+      (when engine
+        (format "--engine=%s " engine)))
+    (unless (eq ConTeXt-current-interface "en")
+-- 
