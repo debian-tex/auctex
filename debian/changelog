@@ -1,3 +1,17 @@
+auctex (11.86-9) unstable; urgency=low
+
+  * [711871c] debian/auctex.docs: Remove 'ChangeLog*' entry.
+  * [e120e11] Add patch: preview-image-type: Customize for Debian.
+    (Closes: #276102) - thanks to Faheem Mitha
+  * [56dbf46] Explain how to use source specials rather than SyncTeX.
+    (Closes: #596684) - thanks to Alessandro Riggio
+  * [f395010] Move some preview docs from preview-latex-style to auctex.
+  * [6311a66] Replace patch: Fix ConTeXt expand options defun.
+  * [1352213] Replace patch: TeX-view-program-selection: Customize for
+    Debian.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 14 Jan 2012 23:57:13 +0100
+
 auctex (11.86-8) unstable; urgency=medium
 
   * [04d9f33] debian/control: Switch from Conflicts to Breaks where
