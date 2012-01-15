@@ -107,9 +107,27 @@ debconf-ask-for-translations: debian/auctex.templates.dcobj
 		--from='"Davide G. M. Salvetti (Debian auctex maintainer)" <salve@debian.org>' \
 		--postpone=../+RFT.mbox
 
-.PHONY: pre-build
-pre-build:
-	test -x ./autogen.sh && ./autogen.sh || true
+.PHONY: cvs-import
+cvs-import:
+	@echo "11.86+CVS.$$(date +%Y.%m.%d.%H.%M)" > ../,auctex-cvs-tag
+	cd .. && cvs -z3 \
+		-d:ext:salve@cvs.savannah.gnu.org:/sources/auctex \
+		export -d auctex_$$(cat ,auctex-cvs-tag) \
+		-D $$(date +%F) auctex
+	find ../auctex_$$(cat ../,auctex-cvs-tag) \
+		-type f -name .cvsignore -print0 \
+		| xargs --null --no-run-if-empty rm --force
+	cd ../auctex_$$(cat ../,auctex-cvs-tag) && ./autogen.sh
+	tar --create --verbose --auto-compress \
+		--file=../auctex_$$(cat ../,auctex-cvs-tag).orig.tar.gz \
+		--directory=.. auctex_$$(cat ../,auctex-cvs-tag)
+	rm --recursive --force ../auctex_$$(cat ../,auctex-cvs-tag)
+	git-import-orig --verbose \
+		--upstream-branch=cvs-upstream \
+		--debian-branch=cvs-master \
+		../auctex_$$(cat ../,auctex-cvs-tag).orig.tar.gz
+	rm --force ../auctex_$$(cat ../,auctex-cvs-tag).orig.tar.gz
+	@rm --force ../,auctex-cvs-tag
 
 .PHONY: snapshot
 snapshot:
