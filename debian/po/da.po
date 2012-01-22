@@ -6,7 +6,7 @@
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
-# Joe Hansen (joedalton2@yahoo.dk), 2011.
+# Joe Hansen (joedalton2@yahoo.dk), 2011, 12.
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
@@ -67,19 +67,14 @@ msgstr "Dette kan tage lang tid, så det skal nok udføres i baggrunden. Du kan 
 #. Type: select
 #. Description
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid ""
-#| "A weekly cron job will also take care of updating the cached data, so "
-#| "that no specific action is required whenever you install new (La)TeX "
-#| "packages or remove old ones."
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"Et ugentlig cronjob vil også sørge for at opdatere de mellemlagrede data, så "
-"at ingen specifikke handlinger er krævet, når du installerer nye (La)Tex-"
-"pakker eller fjerner gamle."
+"De mellemlagrede data bliver automatisk opdateret via dpkg-udløsere, så "
+"at ingen specifikke handlinger er krævet, når du installerer nye "
+"(La)TeX-pakker eller fjerner gamle."
 
 #. Type: select
 #. Description
