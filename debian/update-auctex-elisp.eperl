@@ -42,7 +42,7 @@ while true; do
     esac
 done
 <: # Default flavors: only GNU, XEmacs comes with its own AUCTeX :>//
-FLAVORS=${*:-'emacs23'}
+FLAVORS=${*:-'emacs23 emacs-snapshot'}
 LOGMASK='/var/lib/auctex/%s/CompilationLog'
 
 if [ -n "${_UPDATE_AUCTEX_ELISP_DAEMON_MODE}" ]; then
