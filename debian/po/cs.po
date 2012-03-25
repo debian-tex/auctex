@@ -6,13 +6,13 @@
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
-# Miroslav Kure <kurem@upcase.inf.upol.cz>, 2006, 07
+# Miroslav Kure <kurem@upcase.inf.upol.cz>, 2006, 07, 12
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2012-01-02 02:04+0100\n"
-"PO-Revision-Date: 2012-01-02 02:10+0100\n"
+"PO-Revision-Date: 2012-03-23 15:04+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "Language: cs\n"
@@ -62,24 +62,21 @@ msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
 "skip that step."
-msgstr "Zpracování může trvat poměrně dlouho, takže je rozumné to provést na pozadí. Nic vám však nebrání nechat zpracování běžet na popředí, případně je zcela přeskočit."
+msgstr ""
+"Zpracování může trvat poměrně dlouho, takže je rozumné to provést na pozadí. "
+"Nic vám však nebrání nechat zpracování běžet na popředí, případně je zcela "
+"přeskočit."
 
 #. Type: select
 #. Description
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid ""
-#| "A weekly cron job will also take care of updating the cached data, so "
-#| "that no specific action is required whenever you install new (La)TeX "
-#| "packages or remove old ones."
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"O průběžnou aktualizaci předzpracovaných dat se postará týdenní cronová "
-"úloha, takže se při instalaci nových nebo rušení starých (La)TeXových balíků "
-"nemusíte o nic starat."
+"O aktualizaci předzpracovaných dat se postará dpkg, takže se při instalaci "
+"nových nebo rušení starých (La)TeXových balíků nemusíte o nic starat."
 
 #. Type: select
 #. Description
