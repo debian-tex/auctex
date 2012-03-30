@@ -1,3 +1,17 @@
+auctex (11.86-10) unstable; urgency=low
+
+  * [04efbaa] Update po/da.po.
+    Thanks to Joe Dalton (Closes: #656684)
+  * [197365a] Add emacs-snapshot GNU Emacs flavor (again).
+    Thanks to Brendan Halpin, Rafael Laboissiere, Sven Joachim (Closes: #657761)
+  * [de265a9] Add po/pl.po.
+    Thanks to Michał Kułach (Closes: #664651)
+  * [7ba01cd] Upgrade po/cs.po.
+    Thanks to Miroslav Kure (Closes: #665364)
+  * [e18ef82] Upgrade Standards-Version to 3.9.3.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 30 Mar 2012 22:30:41 +0200
+
 auctex (11.86-9) unstable; urgency=low
 
   * [711871c] debian/auctex.docs: Remove 'ChangeLog*' entry.
