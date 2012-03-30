@@ -4,12 +4,12 @@ Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 3.9.3
-Build-Depends-Indep: debhelper (>= 8), emacs23, eperl, ghostscript, po-debconf, tex-common, texlive-latex-base, texinfo, texi2html (>=1.76)
+Build-Depends-Indep: debhelper (>= 8), emacs23 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common, texlive-latex-base, texinfo, texi2html (>=1.76)
 Homepage: http://www.gnu.org/software/auctex/
 
 Package: auctex
 Architecture: all
-Depends: emacs23, preview-latex-style, dpkg (>= 1.15.4) | install-info, ${misc:Depends}
+Depends: emacs23 | emacs-snapshot, preview-latex-style, dpkg (>= 1.15.4) | install-info, ${misc:Depends}
 Recommends: ghostscript, texlive-latex-recommended, xpdf | evince | evince-gtk
 Suggests: catdvi, dvipng, lacheck
 Breaks: emacspeak (<= 17.0-1)
