@@ -3,7 +3,7 @@ Priority: optional
 Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
-Standards-Version: 3.9.2
+Standards-Version: 3.9.3
 Build-Depends-Indep: debhelper (>= 8), emacs23, eperl, ghostscript, po-debconf, tex-common, texlive-latex-base, texinfo, texi2html (>=1.76)
 Homepage: http://www.gnu.org/software/auctex/
 
