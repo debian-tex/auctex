@@ -84,14 +84,14 @@ db_stop
 case "${1}" in
     (triggered)
 	RUN_UPDATE_AUCTEX_ELISP=true
-	while true; do
-	    case "${2}" in
+	for trigger in ${2}; do
+	    case "${trigger}" in
 		('')
 		    break
 		    ;;
 <: #            Triggered by the Emacs install script :>//
 		(auctex-install-*)
-		    FLAVORS="${FLAVORS}${FLAVORS:+ }${2#auctex-install-}"
+		    FLAVORS="${FLAVORS}${FLAVORS:+ }${trigger#auctex-install-}"
 		    shift
 		    ;;
 <: #            New (La)TeX macros: need to rescan for all flavors :>//
@@ -101,7 +101,7 @@ case "${1}" in
 		    ;;
 		(*)
 		    echo >&2 "${PROGNAME}:" \
-			"Unsupported trigger: ${2}"
+			"Unsupported trigger: ${trigger}"
 		    exit 1
 		    ;;
 	    esac
