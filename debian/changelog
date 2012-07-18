@@ -1,3 +1,12 @@
+auctex (11.86-10.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix pending l10n issues. Debconf translations:
+    - Spanish; (Omar Campagne).  Closes: #673627
+    - Slovak (Ivan Masár).  Closes: #681530
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 17 Jul 2012 19:19:03 -0600
+
 auctex (11.86-10) unstable; urgency=low
 
   * [04efbaa] Update po/da.po.
