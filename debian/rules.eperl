@@ -127,11 +127,9 @@ cvs-import:
 .PHONY: snapshot
 snapshot:
 	@git branch | perl -ne 'print if s/^\* //' > debian/,current-branch
-	gbp-pq rebase
-	git-dch --debian-branch=patch-queue/$$(cat debian/,current-branch) \
+	git-dch --debian-branch=$$(cat debian/,current-branch) \
 		--snapshot --auto
 	git-buildpackage --git-ignore-new -rfakeroot -tc -i -us -uc
-	git checkout $$(cat debian/,current-branch)
 	@rm --force debian/,current-branch
 
 .PHONY: release
@@ -142,10 +140,7 @@ release:
 	git-dch --release
 	git add debian/changelog
 	git commit
-	gbp-pq rebase
-	git-buildpackage --git-debian-branch=patch-queue/master \
-		-rfakeroot -tc -i
-	git checkout master
+	git-buildpackage -rfakeroot -tc -i
 	V=$$(dpkg-parsechangelog|egrep '^Version: '|cut -d ' ' -f 2); \
 	git tag -s -m "Debian release $${V}" debian/$${V}
 <:
