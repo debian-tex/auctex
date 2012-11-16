@@ -1,5 +1,5 @@
 <: # ePerl source file :>//
-#! /bin/bash -e
+#! /bin/bash
 #
 # fake Emacs compilation script for the Debian package auctex
 #
@@ -8,6 +8,8 @@
   while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
   close $copyright;
 :>//
+
+set -e
 
 PROGNAME='auctex/debian/elcc'
 

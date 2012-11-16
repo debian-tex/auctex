@@ -1,5 +1,5 @@
 <: # ePerl source file :>//
-#! /bin/bash -e
+#! /bin/bash
 #
 # postinst script for the Debian package auctex
 #
@@ -9,6 +9,7 @@
   close $copyright;
 :>//
 
+set -e
 
 if [ -z "${DEBCONF_RECONFIGURE}" ]; then
 <: # BEGIN: Cleanup old cruft :>//

@@ -1,5 +1,5 @@
 <: # ePerl source file :>//
-#! /bin/bash -e
+#! /bin/bash
 #
 # elisp Emacs remove script for the auctex Debian package
 #
@@ -8,6 +8,8 @@
   while (<$copyright>) {print '#' . (/^$/ ? "\n" : " $_")};
   close $copyright;
 :>//
+
+set -e
 
 PROGNAME='auctex/remove'
 
