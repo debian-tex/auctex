@@ -1,4 +1,4 @@
 interest /usr/share/texmf
-interest /usr/share/texmf-texlive
+interest /usr/share/texlive/texmf-dist
 interest auctex-install-emacs23
 interest auctex-install-emacs-snapshot
