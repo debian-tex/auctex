@@ -1,3 +1,18 @@
+auctex (11.86-12) unstable; urgency=low
+
+  * [d79a7ed] Stop removing old empty site-start.d directories.
+    Thanks to Sven Joachim (Closes: #673228)
+  * [a039a20] Fix obsolete conffiles dpkg-maintscript-helper removal.
+    Thanks to Josh Triplett (Closes: #669948)
+  * [3b64839] Add emacs24 GNU Emacs flavor.
+    Thanks to Svante Signell, Sébastien Villemot (Closes: #682720, #679712)
+  * [1386555] Add patch: Fix typo in the reference card.
+    Thanks to Sébastien Villemot (Closes: #668357)
+  * [3af9183] debian/copyright: Switch to machine readable format.
+  * [c763f4a] Update Standards-Version to 3.9.4.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 28 Nov 2012 22:22:51 +0100
+
 auctex (11.86-11) unstable; urgency=medium
 
   * [a55fbb7] Fix debian/control WRT emacs-snapshot.
