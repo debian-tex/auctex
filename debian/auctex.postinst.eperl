@@ -91,12 +91,12 @@ case "${1}" in
 		    ;;
 <: #            Triggered by the Emacs install script :>//
 		(auctex-install-*)
-		    FLAVORS="${FLAVORS}${FLAVORS:+' '}${2#auctex-install-}"
+		    FLAVORS="${FLAVORS}${FLAVORS:+ }${2#auctex-install-}"
 		    shift
 		    ;;
 <: #            New (La)TeX macros: need to rescan for all flavors :>//
 		(/*)
-		    FLAVORS="${FLAVORS}${FLAVORS:+' '}<all>"
+		    FLAVORS="${FLAVORS}${FLAVORS:+ }<all>"
 		    shift
 		    ;;
 		(*)

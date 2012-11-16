@@ -62,7 +62,7 @@ else
 		"Ignoring uninstalled Emacs flavor: ${FLAVOR}"
 	    continue
 	fi
-	_FLAVORS="${_FLAVORS}${_FLAVORS:+' '}${FLAVOR}"
+	_FLAVORS="${_FLAVORS}${_FLAVORS:+ }${FLAVOR}"
     done
 
     if [ -n "${DAEMON_MODE}" -a "${DAEMON_MODE}" = 'true' ]; then
