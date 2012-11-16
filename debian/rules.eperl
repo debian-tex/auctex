@@ -103,46 +103,54 @@ debconf-ask-for-translations: debian/auctex.templates.dcobj
 		--postpone=../+RFT.mbox
 
 .PHONY: cvs-import
+cvs-import: VERSION := 11.86+cvs.$(shell date +%Y.%m.%d.%H.%M)
 cvs-import:
-	@echo "11.86+CVS.$$(date +%Y.%m.%d.%H.%M)" > ../,auctex-cvs-tag
 	cd .. && cvs -z3 \
 		-d:ext:salve@cvs.savannah.gnu.org:/sources/auctex \
-		export -d auctex_$$(cat ,auctex-cvs-tag) \
-		-D $$(date +%F) auctex
-	find ../auctex_$$(cat ../,auctex-cvs-tag) \
-		-type f -name .cvsignore -print0 \
+		export -d auctex_$(VERSION) -D $$(date +%F) auctex
+	find ../auctex_$(VERSION) -type f -name .cvsignore -print0 \
 		| xargs --null --no-run-if-empty rm --force
-	cd ../auctex_$$(cat ../,auctex-cvs-tag) && ./autogen.sh
+	cd ../auctex_$(VERSION) && ./autogen.sh
 	tar --create --verbose --auto-compress \
-		--file=../auctex_$$(cat ../,auctex-cvs-tag).orig.tar.gz \
-		--directory=.. auctex_$$(cat ../,auctex-cvs-tag)
-	rm --recursive --force ../auctex_$$(cat ../,auctex-cvs-tag)
+		--file=../auctex_$(VERSION).orig.tar.gz \
+		--directory=.. auctex_$(VERSION)
+	rm --recursive --force ../auctex_$(VERSION)
 	git-import-orig --verbose \
-		--upstream-branch=cvs-upstream \
-		--debian-branch=cvs-master \
-		../auctex_$$(cat ../,auctex-cvs-tag).orig.tar.gz
-	rm --force ../auctex_$$(cat ../,auctex-cvs-tag).orig.tar.gz
-	@rm --force ../,auctex-cvs-tag
+		--upstream-branch=cvs/upstream \
+		--debian-branch=cvs/master \
+		../auctex_$(VERSION).orig.tar.gz
+	rm --force ../auctex_$(VERSION).orig.tar.gz
 
 .PHONY: snapshot
+snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
+snapshot: STAMP  := $(shell date '+%F %T %z')
 snapshot:
-	@git branch | perl -ne 'print if s/^\* //' > debian/,current-branch
-	git-dch --debian-branch=$$(cat debian/,current-branch) \
-		--snapshot --auto
-	git-buildpackage --git-ignore-new -rfakeroot -tc -i -us -uc
-	@rm --force debian/,current-branch
+	git-dch --debian-branch=$(BRANCH) --snapshot
+	git add debian/changelog
+	git commit -m "Unreleased snapshot built<:
+		:> on [$(STAMP)] from [$(BRANCH)]."
+	git-buildpackage -rfakeroot -tc -i -us -uc \
+		--git-debian-branch=$(BRANCH) \
+		--git-builder=git-pbuilder \
+		--git-cleaner="fakeroot debian/rules clean"
 
-.PHONY: release
-release:
+.PHONY: release-prepare
+release-prepare:
 	git checkout master
 	gbp-pq rebase
 	gbp-pq export
 	git-dch --release
+
+.PHONY: release
+release: VERSION = $(shell dpkg-parsechangelog | egrep '^Version: ' \
+	| cut -d ' ' -f 2)
+release: release-prepare
 	git add debian/changelog
-	git commit
-	git-buildpackage -rfakeroot -tc -i
-	V=$$(dpkg-parsechangelog|egrep '^Version: '|cut -d ' ' -f 2); \
-	git tag -s -m "Debian release $${V}" debian/$${V}
+	git commit -m "Debian release $(VERSION)."
+	git-buildpackage -rfakeroot -tc -i \
+		--git-builder=git-pbuilder \
+		--git-cleaner="fakeroot debian/rules clean"
+	git tag -s -m "Debian release $(VERSION)" debian/$(VERSION)
 <:
 # local variables:
 # mode: makefile-gmake
