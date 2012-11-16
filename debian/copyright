@@ -1,51 +1,148 @@
-This is the Debian package auctex, maintained by
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: AUCTeX
+Upstream-Contact: General discussion about AUCTeX <auctex@gnu.org>
+  Discussion about AUCTeX development <auctex-devel@gnu.org>
+  Bug reporting list for AUCTeX <bug-auctex@gnu.org>
+  Announcements about AUCTeX <info-auctex@gnu.org>
+Source: http://www.gnu.org/software/auctex/
 
-  Davide G. M. Salvetti <salve@debian.org>
+Files: * doc/Makefile.in doc/preview-dtxdoc.pl
+Copyright: 1985-2010 Free Software Foundation, Inc.
+License: GPL-3+
 
-using sources obtained from
+Files: configure preview/configure
+Copyright: 1992-2009 Free Software Foundation, Inc.
+License: permissive
+  This configure script is free software; the Free Software Foundation
+  gives unlimited permission to copy, distribute and modify it.
 
-  <URL:http://www.gnu.org/software/auctex/>.
+Files: README doc/intro.texi
+Copyright: 2008 Free Software Foundation, Inc.
+License: preserve-notice
+  Copying and distribution of this file, with or without modification, are
+  permitted in any medium without royalty provided the copyright notice
+  and this notice are preserved.
 
+Files: install-sh
+Copyright: 1991 the Massachusetts Institute of Technology
+License: MIT
 
-COPYRIGHT
-=========
+Files: mkinstalldirs
+Copyright: 1993 Noah Friedman <friedman@prep.ai.mit.edu>
+License: other
+  Public domain
 
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 3, or (at your option) any later version.
+Files: tex-fptex.el
+Copyright: 2000 Fabrice Popineau
+  2004 Free Software Foundation, Inc.
+License: GPL-3+
 
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
-details.
+Files: tex-jp.el
+Copyright: 1999, 2001 Hidenobu Nabetani
+  2002-2007 Free Software Foundation, Inc.
+License: GPL-3+
 
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <http://www.gnu.org/licenses/>.
+Files: doc/*
+Copyright: 1992-2010 Free Software Foundation, Inc.
+License: GFDL-NIV-1.3
 
-On Debian GNU/Linux System you can find a copy of the GNU General Public
-License in "/usr/share/common-licenses/GPL".
+Files: doc/tex-ref.tex
+Copyright: 1987-2010 Free Software Foundation, Inc.
+License: preserve-notice
+  Permission is granted to make and distribute copies of this card
+  provided the copyright notice and this permission notice are preserved
+  on all copies.
 
+Files: debian/*
+Copyright: 1997-2012 Davide G. M. Salvetti
+License: GPL-3+
 
-DEBIAN SPECIFIC CHANGES
-=======================
+Files: style/foils.el style/jarticle.el style/jbook.el style/jreport.el
+  style/jsarticle.el style/jsbook.el style/j-article.el style/j-book.el
+  style/j-report.el style/letter.el style/report.el style/scrpage2.el
+Copyright: Ralf Angeli
+License: tobeclarified
 
-The Debian specific changes are free software.
+Files: style/amsbsy.el style/amsopn.el style/amstext.el style/natbib.el
+Copyright: Carsten Dominik
+License: tobeclarified
 
-Copyright (C) 1997, 98, 99, 2000, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10,
-11, 12 Davide G. M. Salvetti.
+Files: style/amsart.el style/amsbook.el style/article.el style/book.el
+  style/czech.el style/danish.el style/german.el style/graphics.el
+  style/ngerman.el style/slovak.el style/swedish.el
+Copyright: tobeclarified
+License: tobeclarified
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Files: style/dk.el style/dutch.el style/plfonts.el style/plhb.el
+  style/virtex.el
+Copyright: amanda
+License: tobeclarified
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+Files: style/dinbrief.el
+Copyright: Werner Fink
+License: tobeclarified
 
-You should have received a copy of the GNU General Public License along
-with this program.  If not, see <http://www.gnu.org/licenses/>.
+Files: style/epsf.el style/psfig.el
+Copyright: Marc Gemis
+License: tobeclarified
 
-On Debian GNU/Linux System you can find a copy of the GNU General Public
-License in "/usr/share/common-licenses/GPL".
+Files: style/harvard.el
+Copyright: 1994, 1997 Berwin Turlach
+  2005 Free Software Foundation, Inc.
+License: GPL-3+
+
+Files: style/latexinfo.el
+Copyright: 1993 Marc Gemis
+License: GPL-3+
+
+Files: style/prosper.el
+Copyright: 2001, 2002 Phillip Lord, Nevin Kapur
+License: GPL-3+
+
+License: GPL-3+
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation; either version 3, or (at your option) any
+  later version.
+  .
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  General Public License for more details.
+  .
+  You should have received a copy of the GNU General Public License along
+  with this program.  If not, see <http://www.gnu.org/licenses/>.
+  .
+  On Debian GNU/Linux System, you can find a copy of the GNU General Public
+  License  version 3 in the file "/usr/share/common-licenses/GPL-3".
+
+License: GFDL-NIV-1.3
+  This program is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation; either version 3, or (at your option) any
+  later version.
+  .
+  This program is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  General Public License for more details.
+  .
+  You should have received a copy of the GNU General Public License along
+  with this program.  If not, see <http://www.gnu.org/licenses/>.
+  .
+  On Debian GNU/Linux System, you can find a copy of the GNU General Public
+  License  version 3 in the file "/usr/share/common-licenses/GPL-3".
+
+License: MIT
+  Permission to use, copy, modify, distribute, and sell this software and
+  its documentation for any purpose is hereby granted without fee,
+  provided that the above copyright notice appear in all copies and that
+  both that copyright notice and this permission notice appear in
+  supporting documentation, and that the name of M.I.T. not be used in
+  advertising or publicity pertaining to distribution of the software
+  without specific, written prior permission.  M.I.T. makes no
+  representations about the suitability of this software for any purpose.
+  It is provided "as is" without express or implied warranty.
+
+License: tobeclarified
+  Supposedly GPL-3+ as the rest of the code; ask <auctex-devel@gnu.org>.
