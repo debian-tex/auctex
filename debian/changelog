@@ -34,7 +34,7 @@ auctex (11.86-10) unstable; urgency=low
     Thanks to Brendan Halpin, Rafael Laboissiere, Sven Joachim (Closes: #657761)
   * [de265a9] Add po/pl.po.
     Thanks to Michał Kułach (Closes: #664651)
-  * [7ba01cd] Upgrade po/cs.po.
+  * [7ba01cd] Update po/cs.po.
     Thanks to Miroslav Kure (Closes: #665364)
   * [e18ef82] Upgrade Standards-Version to 3.9.3.
 
@@ -1396,28 +1396,5 @@ comment (0) UNRELEASED; urgency=low
   * mode: debian-changelog
   * ispell-local-dictionary: "american"
   * end:
-
-  * LocalWords:  texlive fixperms canonicalize ePerl checkdir checkroot indep
-  * LocalWords:  doauto doautofg gpl Küster Ghostscript Preining Uploaders po
-  * LocalWords:  OHURA Makoto elisp aladdin debconf tetex texi html dvipng pls
-  * LocalWords:  mktexlsr cdebconf PLSPKG INFOMENU INFODESC AUCTeX IINSTALL de
-  * LocalWords:  conffiles emacs config alreadydefault defaultchanged postinst
-  * LocalWords:  DINSTALL prerm DREMOVE IREMOVE DFILES updatepo Sep preinst dir
-  * LocalWords:  tex el emacspeak Frings docbase CVS nosearch Unharmful egrep
-  * LocalWords:  auc toc README cron hilit LaTeX conf autoload deconf DOCSRC md
-  * LocalWords:  MULESRC XSRC multicolumn bibtex bst logfile Yannick Roehlly fd
-  * LocalWords:  defvar defcustom catdvi Gilbey RefTeX fptex Ormenese fldefault
-  * LocalWords:  flalreadydefault postrm Gorka Olaizola rmdir Timshel deps Knut
-  * LocalWords:  eperl Suebert texinfo subdirs isp dpkg gencontrol japanese mik
-  * LocalWords:  Ryuichi Arafune hoc Takuo Kitame umask TeXInfo emacsen dhelp
-  * LocalWords:  Hidenobu Nabetani Stjernholm lpath jp texmathp AUCSRC xargs mv
-  * LocalWords:  debianutils nop symlink mktemp elc usr Helmut Geyer xemacs bo
-  * LocalWords:  lacheck teTeX auctex debian refactored Barbier texmfdoc DVI
-  * LocalWords:  presubj Kreutzmann Tarrio Capello AUCTEXSRCS PREVIEWSRCS Zandt
-  * LocalWords:  Mennucci backend alist Stubner Shimono Atsushi Zweije Kure dev
-  * LocalWords:  Miroslav NMU Pryzby Kastrup Petruzzello xpdf PDFLATEX André
-  * LocalWords:  Luís Kozlov Huriaux stdin pdf Laboissiere TMPMASK lintian tmp
-  * LocalWords:  installdocs ghostscript Hutchings Bagge Hideki Yamane Piarres
-  * LocalWords:  Beobide Esko Arajärvi Clytie Siddall MENUSEC Makefile distclean
 
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 01 Jan 1970 00:00:01 +0000
