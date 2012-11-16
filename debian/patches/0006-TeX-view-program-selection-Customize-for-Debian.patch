@@ -1,6 +1,6 @@
-From: Davide G. M. Salvetti <salve@debian.org>
+From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Sat, 14 Jan 2012 22:57:11 +0100
-Subject: [PATCH] TeX-view-program-selection: Customize for Debian
+Subject: TeX-view-program-selection: Customize for Debian
 
 * tex.el (TeX-view-program-selection): Look for an evince executable and
   use it if available; fall back to xpdf otherwise.
@@ -12,7 +12,7 @@ Rationale:
   otherwise.
 ---
  tex.el |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tex.el b/tex.el
 index b147474..a5f4ee2 100644
@@ -30,4 +30,3 @@ index b147474..a5f4ee2 100644
        (output-html "xdg-open"))))
    "Alist of predicates and viewers.
  Each entry consists of a list with two elements.  The first
--- 

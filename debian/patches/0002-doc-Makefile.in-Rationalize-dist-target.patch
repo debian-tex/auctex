@@ -1,11 +1,11 @@
-From: Davide G. M. Salvetti <salve@debian.org>
+From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Tue, 27 Dec 2011 22:40:42 +0100
-Subject: [PATCH] doc/Makefile.in: Rationalize dist target
+Subject: doc/Makefile.in: Rationalize dist target
 
 Depend on the info target instead of on the individual info manuals.
 ---
  doc/Makefile.in |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
 index 32e77b9..c3c4656 100644
@@ -20,4 +20,3 @@ index 32e77b9..c3c4656 100644
  
  extradist: auctex.htmls/auctex.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
--- 

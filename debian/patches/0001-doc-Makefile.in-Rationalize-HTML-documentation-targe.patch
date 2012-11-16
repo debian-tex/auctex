@@ -1,6 +1,6 @@
-From: Davide G. M. Salvetti <salve@debian.org>
+From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Wed, 28 Dec 2011 23:21:16 +0100
-Subject: [PATCH] doc/Makefile.in: Rationalize HTML documentation targets
+Subject: doc/Makefile.in: Rationalize HTML documentation targets
 
 - Use auctex.htmls instead of html as the name of the directory where
   AUCTeX HTMLs go.
@@ -19,7 +19,7 @@ Subject: [PATCH] doc/Makefile.in: Rationalize HTML documentation targets
 - Update references in extradist, html-docs, and clean targets.
 ---
  doc/Makefile.in |   23 ++++++++++++-----------
- 1 files changed, 12 insertions(+), 11 deletions(-)
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
 index d2be29e..32e77b9 100644
@@ -76,4 +76,3 @@ index d2be29e..32e77b9 100644
  
  distclean: clean
  	rm -f Makefile
--- 

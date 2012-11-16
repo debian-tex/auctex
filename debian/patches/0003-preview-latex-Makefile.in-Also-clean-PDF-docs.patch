@@ -1,6 +1,6 @@
-From: Davide G. M. Salvetti <salve@debian.org>
+From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Tue, 27 Dec 2011 22:40:49 +0100
-Subject: [PATCH] preview/latex/Makefile.in: Also clean PDF docs
+Subject: preview/latex/Makefile.in: Also clean PDF docs
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -9,7 +9,7 @@ Closes: #628787
 Thanks: Matthias Kümmerer
 ---
  preview/latex/Makefile.in |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/preview/latex/Makefile.in b/preview/latex/Makefile.in
 index bccc79e..dddb543 100644
@@ -22,4 +22,3 @@ index bccc79e..dddb543 100644
 -	rm -f *~ *.aux *.dvi *.drv *.log 
 +	rm -f *~ *.aux *.dvi *.drv *.log *.pdf
  	rm -f $(TEXMFGEN) preview.ins preview-mk.ins 
--- 

@@ -1,6 +1,6 @@
-From: Davide G. M. Salvetti <salve@debian.org>
+From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Sat, 14 Jan 2012 22:40:49 +0100
-Subject: [PATCH] Fix preview with latest ghostscript
+Subject: Fix preview with latest ghostscript
 
 - Backport of preview.el v1.285, in CVS since 2010-10-14.
 
@@ -8,7 +8,7 @@ Closes: #610714
 Thanks: Faheem Mitha
 ---
  preview/preview.el |   21 ++++++++++++++-------
- 1 files changed, 14 insertions(+), 7 deletions(-)
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/preview/preview.el b/preview/preview.el
 index a2a17d3..9380841 100644
@@ -51,4 +51,3 @@ index a2a17d3..9380841 100644
  		  (format "[%s(r)file]aload exch %s .runandhide aload pop "
  			  (preview-ps-quote-filename file)
  			  (preview-gs-dsc-cvx 0 preview-gs-dsc))))))
--- 

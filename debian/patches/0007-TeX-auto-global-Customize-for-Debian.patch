@@ -1,11 +1,11 @@
-From: Davide G. M. Salvetti <salve@debian.org>
+From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Tue, 27 Dec 2011 22:48:11 +0100
-Subject: [PATCH] TeX-auto-global: Customize for Debian
+Subject: TeX-auto-global: Customize for Debian
 
 Use "debian-emacs-flavor", according to the Debian Emacs policy.
 ---
  tex-site.el.in |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tex-site.el.in b/tex-site.el.in
 index 3c43aae..d3f5aac 100644
@@ -20,4 +20,3 @@ index 3c43aae..d3f5aac 100644
    "*Directory containing automatically generated information.
  Must end with a directory separator.
  
--- 
