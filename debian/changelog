@@ -1,3 +1,22 @@
+auctex (11.86-11) unstable; urgency=medium
+
+  * [a55fbb7] Fix debian/control WRT emacs-snapshot.
+    Thanks to Luca Capello (Closes: #657761)
+  * [0ae74c4] Fix missing emacs-snapshot flavor trigger declaration of interest.
+  * [eeccc50] Fix incorrect space quoting.
+    Thanks to Baruch Siach, Michal Sojka (Closes: #675752)
+  * [2d0e039] Fix trigger iteration.
+    Thanks to Michal Sojka (Closes: #686366)
+  * [4678b5e] Update triggers for TeX Live >= 2012.
+    Thanks to Julian Gilbey, Norbert Preining (Closes: #681481)
+  * [6577f85] Update po/es.po.
+    Thanks to Omar Campagne
+  * [279ae72] Add po/sk.po.
+    Thanks to Ivan Masár
+  * [e4d9bca] Imported NMU: 11.86-10.1.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Tue, 20 Nov 2012 15:45:49 +0100
+
 auctex (11.86-10.1) unstable; urgency=low
 
   * Non-maintainer upload.
