@@ -32,11 +32,6 @@ Copyright: 1993 Noah Friedman <friedman@prep.ai.mit.edu>
 License: other
   Public domain
 
-Files: tex-fptex.el
-Copyright: 2000 Fabrice Popineau
-  2004 Free Software Foundation, Inc.
-License: GPL-3+
-
 Files: tex-jp.el
 Copyright: 1999, 2001 Hidenobu Nabetani
   2002-2007 Free Software Foundation, Inc.
