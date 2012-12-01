@@ -78,18 +78,22 @@ case "${1}" in
 	RUN_UPDATE_AUCTEX_ELISP=true
 	for trigger in ${2}; do
 	    case "${trigger}" in
-		('')
-		    break
-		    ;;
-<: #            Triggered by the Emacs install script :>//
 		(auctex-install-*)
+<:              # Explicitly triggered by the Emacs install script
+                # handling a particular flavor: add that flavor to the
+                # list of flavors to be processed by update-auctex-elisp
+                # later on :>//
 		    FLAVORS="${FLAVORS}${FLAVORS:+ }${trigger#auctex-install-}"
-		    shift
 		    ;;
-<: #            New (La)TeX macros: need to rescan for all flavors :>//
 		(/*)
+<:              # File triggered by new/updated (La)TeX macros: add a
+		# special flag to the list of flavors to be processed by
+		# update-auctex-elisp later on to signal the need to
+		# rescan for all supported flavors; FIXME: it would be
+		# better to rescan only these new/updated (La)TeX macros
+		# instead of all of them, however this is not supported by
+		# the current implementation of update-auctex-elisp :>//
 		    FLAVORS="${FLAVORS}${FLAVORS:+ }<all>"
-		    shift
 		    ;;
 		(*)
 		    echo >&2 "${PROGNAME}:" \
@@ -99,6 +103,10 @@ case "${1}" in
 	    esac
 	done
 	if fgrep '<all>' <(echo ${FLAVORS}) &>/dev/null; then
+<:      # the special flag '<all>' signals all supported flavors need to
+	# be rescanned for; update-auctex-elisp does this by default if
+	# called without arguments
+:>//
 	    unset FLAVORS;
 	fi
 	;;
@@ -132,5 +140,6 @@ exit 0
 # end:
 #
 # LocalWords:  ePerl postinst auctex conffiles debconf fd frontend Helmut emacs
-# LocalWords:  maintainership conffile dpkg AUCTeX elisp reparse
+# LocalWords:  maintainership conffile dpkg AUCTeX elisp reparse cron
+# LocalWords:  rescan FIXME rescanned
 :>//

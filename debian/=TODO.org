@@ -13,6 +13,10 @@ the lisp startup files do not do the right thing.
 The scripts should also cater for preview-latex and for the new auctex.el and
 preview.el startup files.  In particular, the md5sum of the new startup files
 should be reported.
+*** TODO selectively update-auctex-elisp
+When new (La)TeX macros get installed to the system it would be good to rescan
+only them for all installed and supported Emacs flavors; currently all
+installed macros get rescanned for each installed and supported Emacs flavor.
 ** Open bugs
 These bugs should be checked to see if they still apply to the current
 release.
