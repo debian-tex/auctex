@@ -15,10 +15,10 @@ Rationale:
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tex.el b/tex.el
-index b147474..a5f4ee2 100644
+index 85f82b3..24b3e02 100644
 --- a/tex.el
 +++ b/tex.el
-@@ -1115,9 +1115,9 @@ restarting Emacs."
+@@ -1199,9 +1199,9 @@ restarting Emacs."
  ;;       (output-pdf "open")
  ;;       (output-html "open")))
     (t

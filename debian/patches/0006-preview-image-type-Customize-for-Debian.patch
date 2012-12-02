@@ -12,7 +12,7 @@ Ghostscript", the AUCTeX README says.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/preview/preview.el b/preview/preview.el
-index 9380841..acbf976 100644
+index d39c0b2..fb4c446 100644
 --- a/preview/preview.el
 +++ b/preview/preview.el
 @@ -233,7 +233,7 @@ method, like when PDFTeX was used."

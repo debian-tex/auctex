@@ -1,9 +1,6 @@
 0001-doc-Makefile.in-Rationalize-HTML-documentation-targe.patch
 0002-doc-Makefile.in-Rationalize-dist-target.patch
 0003-preview-latex-Makefile.in-Also-clean-PDF-docs.patch
-0004-Fix-ConTeXt-expand-options-defun.patch
-0005-Fix-preview-with-latest-ghostscript.patch
-0006-TeX-view-program-selection-Customize-for-Debian.patch
-0007-TeX-auto-global-Customize-for-Debian.patch
-0008-preview-image-type-Customize-for-Debian.patch
-0009-Fix-typo-in-the-reference-card.patch
+0004-TeX-view-program-selection-Customize-for-Debian.patch
+0005-TeX-auto-global-Customize-for-Debian.patch
+0006-preview-image-type-Customize-for-Debian.patch
