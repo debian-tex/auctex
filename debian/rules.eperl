@@ -123,16 +123,18 @@ cvs-import:
 
 .PHONY: snapshot
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
-snapshot: STAMP  := $(shell date '+%F %T %z')
+snapshot: STAMP  := $(shell date +%Y-%m-%d-%H-%M)
+snapshot: DESC   := "Unreleased snapshot built<:
+	:> on [$(STAMP)] from [$(BRANCH)]"
 snapshot:
 	git-dch --debian-branch=$(BRANCH) --snapshot
 	git add debian/changelog
-	git commit -m "Unreleased snapshot built<:
-		:> on [$(STAMP)] from [$(BRANCH)]."
+	git commit -m $(DESC)
 	git-buildpackage -rfakeroot -tc -i -us -uc \
 		--git-debian-branch=$(BRANCH) \
 		--git-builder=git-pbuilder \
 		--git-cleaner="fakeroot debian/rules clean"
+	git tag -a -m $(DESC) debian/snapshot/$(BRANCH)/$(STAMP)
 
 .PHONY: release-prepare
 release-prepare:
@@ -144,13 +146,14 @@ release-prepare:
 .PHONY: release
 release: VERSION = $(shell dpkg-parsechangelog | egrep '^Version: ' \
 	| cut -d ' ' -f 2)
+release: DESC    = "Debian release $(VERSION)"
 release: release-prepare
 	git add debian/changelog
-	git commit -m "Debian release $(VERSION)."
+	git commit -m $(DESC)
 	git-buildpackage -rfakeroot -tc -i \
 		--git-builder=git-pbuilder \
 		--git-cleaner="fakeroot debian/rules clean"
-	git tag -s -m "Debian release $(VERSION)" debian/$(VERSION)
+	git tag -s -m $(DESC) debian/$(VERSION)
 <:
 # local variables:
 # mode: makefile-gmake
