@@ -1,45 +1,44 @@
 auctex (11.87-1) unstable; urgency=low
 
-  * [f416315] debian/auctex.postinst (triggered): Fix trigger iteration.
+  * [2d85583] Imported Upstream version 11.87
+  * [f7cb967] debian/patches: Synchronize with new upstream release
+  * [8ff9324] debian/copyright: Delete reference to tex-fptex.el
+  * [c14fde9] debian/auctex.NEWS: Add latest release notes
+  * [fd38652] debian/auctex.postinst (triggered): Fix trigger iteration.
     Thanks to Thomas Koch (Closes: 694800)
-  * [cfd10ae] Imported Upstream version 11.87
-  * [ac9c4f0] debian/patches: Synchronize with new upstream release
-  * [7e6027a] debian/copyright: Delete reference to tex-fptex.el
-  * [baac411] debian/auctex.NEWS: Add latest release notes
 
  -- Davide G. M. Salvetti <salve@debian.org>  Sun, 02 Dec 2012 18:43:40 +0100
 
 auctex (11.86-12) unstable; urgency=low
 
-  * [d79a7ed] Stop removing old empty site-start.d directories.
-    Thanks to Sven Joachim (Closes: #673228)
-  * [a039a20] Fix obsolete conffiles dpkg-maintscript-helper removal.
-    Thanks to Josh Triplett (Closes: #669948)
-  * [3b64839] Add emacs24 GNU Emacs flavor.
-    Thanks to Svante Signell, Sébastien Villemot (Closes: #682720, #679712)
-  * [1386555] Add patch: Fix typo in the reference card.
+  * [7d23341] Add patch: Fix typo in the reference card.
     Thanks to Sébastien Villemot (Closes: #668357)
-  * [3af9183] debian/copyright: Switch to machine readable format.
-  * [c763f4a] Update Standards-Version to 3.9.4.
+  * [fdc6507] Stop removing old empty site-start.d directories.
+    Thanks to Sven Joachim (Closes: #673228)
+  * [c2239da] Fix dpkg-maintscript-helper calls.
+    Thanks to Josh Triplett (Closes: #669948)
+  * [ccb8a09] Add emacs24 GNU Emacs flavor support.
+    Thanks to Svante Signell, Sébastien Villemot (Closes: #682720, #679712)
+  * [f903463] debian/copyright: Switch to machine readable format
+  * [dad1eb6] Update Standards-Version to 3.9.4
 
  -- Davide G. M. Salvetti <salve@debian.org>  Wed, 28 Nov 2012 22:22:51 +0100
 
 auctex (11.86-11) unstable; urgency=medium
 
-  * [a55fbb7] Fix debian/control WRT emacs-snapshot.
+  * [2ff9458] Fix emacs-snapshot support.
     Thanks to Luca Capello (Closes: #657761)
-  * [0ae74c4] Fix missing emacs-snapshot flavor trigger declaration of interest.
-  * [eeccc50] Fix incorrect space quoting.
+  * [b3497c8] debian/auctex.postinst: Fix incorrect space quoting.
     Thanks to Baruch Siach, Michal Sojka (Closes: #675752)
-  * [2d0e039] Fix trigger iteration.
+  * [0cf8833] debian/auctex.postinst: Fix trigger iteration.
     Thanks to Michal Sojka (Closes: #686366)
-  * [4678b5e] Update triggers for TeX Live >= 2012.
+  * [2a9f28c] debian/auctex.triggers: Update paths for TeX Live >= 2012.
     Thanks to Julian Gilbey, Norbert Preining (Closes: #681481)
-  * [6577f85] Update po/es.po.
-    Thanks to Omar Campagne
-  * [279ae72] Add po/sk.po.
-    Thanks to Ivan Masár
-  * [e4d9bca] Imported NMU: 11.86-10.1.
+  * [33a2b04] debian/po: Update es.po.
+    Thanks to Omar Campagne (Closes: #673627)
+  * [a2c3dd6] debian/po: Add sk.po.
+    Thanks to Ivan Masár (Closes: #681530)
+  * [ec38128] Acknowledge NMU 11.86-10.1
 
  -- Davide G. M. Salvetti <salve@debian.org>  Tue, 20 Nov 2012 15:45:49 +0100
 
@@ -54,107 +53,114 @@ auctex (11.86-10.1) unstable; urgency=low
 
 auctex (11.86-10) unstable; urgency=low
 
-  * [04efbaa] Update po/da.po.
-    Thanks to Joe Dalton (Closes: #656684)
-  * [197365a] Add emacs-snapshot GNU Emacs flavor (again).
+  * [2d4945b] Add emacs-snapshot GNU Emacs flavor (again)
     Thanks to Brendan Halpin, Rafael Laboissiere, Sven Joachim (Closes: #657761)
-  * [de265a9] Add po/pl.po.
+  * [b263f72] debian/po: Update da.po.
+    Thanks to Joe Dalton (Closes: #656684)
+  * [1b4f479] debian/po: Add pl.po.
     Thanks to Michał Kułach (Closes: #664651)
-  * [7ba01cd] Update po/cs.po.
+  * [5171116] debian/po: Upgrade cs.po.
     Thanks to Miroslav Kure (Closes: #665364)
-  * [e18ef82] Upgrade Standards-Version to 3.9.3.
+  * [d35fcea] Upgrade Standards-Version to 3.9.3
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 30 Mar 2012 22:30:41 +0200
 
 auctex (11.86-9) unstable; urgency=low
 
-  * [711871c] debian/auctex.docs: Remove 'ChangeLog*' entry.
-  * [e120e11] Add patch: preview-image-type: Customize for Debian.
-    (Closes: #276102) - thanks to Faheem Mitha
-  * [56dbf46] Explain how to use source specials rather than SyncTeX.
-    (Closes: #596684) - thanks to Alessandro Riggio
-  * [f395010] Move some preview docs from preview-latex-style to auctex.
-  * [6311a66] Replace patch: Fix ConTeXt expand options defun.
-  * [1352213] Replace patch: TeX-view-program-selection: Customize for
-    Debian.
+  * [52f34af] Add patch: preview-image-type: Customize for Debian.
+    Thanks to Faheem Mitha (Closes: #276102)
+  * [6253348] Replace patch: Fix ConTeXt expand options defun
+  * [1529fb5] Update patch: Fix preview with latest ghostscript
+  * [edcfc2b] Replace patch: TeX-view-program-selection: Customize for Debian
+  * [b01299e] debian/auctex.docs: Remove 'ChangeLog*'
+  * [eaaf208] Move some preview docs from preview-latex-style to auctex
+  * [f23f7ff] Explain how to use source specials rather than SyncTeX.
+    Thanks to Alessandro Riggio (Closes: #596684)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Sat, 14 Jan 2012 23:57:13 +0100
 
 auctex (11.86-8) unstable; urgency=medium
 
-  * [04d9f33] debian/control: Switch from Conflicts to Breaks where
-    appropriate.
-  * [6fbed85] Format auctex.NEWS according to DDR 6.3.4.
-  * [b7abc18] Change ePerl source files suffix from ".in" to ".eperl".
-  * [b41ebfe] Update copyright.
-  * [30f9294] Use debhelper.
-  * [b40470b] Speed up build time by skipping Emacs byte-compilation.
-  * [2d91d94] update-auctex-elisp: Add daemon and no-act mode options.
-  * [094ab9a] Rewrite install-time code; thanks to Frank Küster, Alexei
-    Sheplyakov, Simon Pepping.  (Closes: #370659, #413318, #478070)
-  * [1a1d022] debian/auctex.preinst: Protect dpkg-maintscript-helper
-    invocation.
-  * [3b1936f] debian/auctex.postinst: Clean old cruft: auto-loads.el~.
+  * [19f80b0] debian/control: Switch from Conflicts to Breaks where appropriate
+  * [b9ed51d] Format auctex.NEWS according to DDR 6.3.4
+  * [2c09928] Change ePerl source files suffix from .in to .eperl
+  * [4aadef4] Update copyright
+  * [11d8c4e] Use debhelper
+  * [740ec80] Speed up build time by skipping Emacs byte-compilation
+  * [a181f3f] update-auctex-elisp: Add --daemon and --no-act mode options
+  * [0f941c7] Rewrite install-time code.
+    Thanks to Frank Küster, Alexei Sheplyakov, Simon Pepping
+    (Closes: #370659, #413318, #478070)
+  * [9de961d] debian/auctex.preinst: Protect dpkg-maintscript-helper call
+  * [010a704] debian/auctex.postinst: Clean old cruft: auto-loads.el~
     (Closes: #653212)
-  * [3e46ba1] Add a note to explain how to (partially) disable AUCTeX.
-  * [efb3fe8] Update po/nl.po; thanks to Jeroen Schot.  (Closes: #654241)
-  * [a3d3630] Update po/pt.po; thanks to Pedro Ribeiro.  (Closes: #654961)
-  * [33864b5] Update po/fr.po; thanks to Steve Petruzzello.
-    (Closes: #655062)
+  * [5dc3251] Add a note to explain how to (partially) disable AUCTeX
+  * [a6eca6c] debian/po: Update nl.po.
+    Thanks to Jeroen Schot (Closes: #654241)
+  * [e8411cd] debian/po: Update pt.po.
+    Thanks to Pedro Ribeiro (Closes: #654961)
+  * [2f2af9a] debian/po: Update fr.po.
+    Thanks to Steve Petruzzello (Closes: #655062)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Sun, 08 Jan 2012 19:04:08 +0100
 
 auctex (11.86-7) unstable; urgency=low
 
-  * [4513248] debian/auctex.triggers: Remove misplaced tree.
-  * [243b72b] debian/watch: Track new upstream sources.
-  * [4ca807c] Remove update-auctex-install and its references.
-  * [c15f329] Add patch: Rationalize dist target in doc/Makefile.in.
-  * [e625422] Add patch: TeX-auto-global: Customize for Debian.
-  * [8b2e941] Reorder the patch set.
-  * [819109c] Update po/sv.po; thanks to Martin Bagge.  (Closes: #653560)
-  * [21140ef] Update po/de.po; thanks to Helge Kreutzmann.
-    (Closes: #653670)
-  * [e86103c] Update po/ru.po; thanks to Yuri Kozlov.  (Closes: #653710)
+  * [2b12c35] Add patch: Rationalize dist target in doc/Makefile.in
+  * [4d8c20a] Add patch: TeX-auto-global: Customize for Debian
+  * [2bde29c] debian/patches: Refactor
+  * [f20e29f] debian/auctex.triggers: Remove misplaced tree
+  * [c7218e6] Remove update-auctex-install and its references
+  * [a1533fa] debian/watch: Track new upstream sources
+  * [f61a765] debian/po: Update sv.po.
+    Thanks to Martin Bagge (Closes: #653560)
+  * [4f3709f] debian/po: Update de.po.
+    Thanks to Helge Kreutzmann (Closes: #653670)
+  * [d815b92] debian/po: Update ru.po.
+    Thanks to Yuri Kozlov (Closes: #653710)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Sat, 31 Dec 2011 18:55:18 +0100
 
 auctex (11.86-6) unstable; urgency=low
 
-  * [925840e] Use dpkg triggers to parse new (La)TeX macros and style
-    files; thanks to Josh Triplett.  (Closes: #478733)
-  * [3c6c060] Stop recommending doc-base; thanks to Jonathan Nieder.
-    (Closes: #610168)
-  * [99860b2] Clean up obsolete conffiles; thanks to Sven Joachim.
-    (Closes: #652962)
-  * [c238fc3] Don't install unneeded files; thanks to Sven Joachim.
-    (Closes: #652964)
+  * [bbeb104] Use dpkg triggers.
+    Thanks to Josh Triplett (Closes: #478733)
+  * [5d5b3a1] Stop recommending doc-base.
+    Thanks to Jonathan Nieder (Closes: #610168)
+  * [cc0420d] Clean up obsolete conffiles.
+    Thanks to Sven Joachim (Closes: #652962)
+  * [a875fee] Do not install unneeded files.
+    Thanks to Sven Joachim (Closes: #652964)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 23 Dec 2011 00:20:50 +0100
 
 auctex (11.86-5) unstable; urgency=low
 
-  * [5a6ba82] Drop emacs21, emacs22 and emacs-snapshot support.
-  * [cb09a98] Add debian/copyright to the source package.
-  * [0681817] Update po/nl.po; thanks to Jeroen Schot.  (Closes: #652150)
+  * [d8eeb62] debian/copyright: Add the autogenerated file to the source package
+  * [0fb7f7a] Drop emacs21, emacs22, and emacs-snapshot support
+  * [938d0c4] debian/po: Update nl.po.
+    Thanks to Jeroen Schot (Closes: #652150)
 
  -- Davide G. M. Salvetti <salve@debian.org>  Wed, 21 Dec 2011 21:57:55 +0100
 
 auctex (11.86-4) unstable; urgency=low
 
-  * [76ae771] Upgrade Standards-Version to 3.9.2.
-  * [b669d50] Add po/ko.po; thanks to 강민지.  (Closes: #631896)
+  * [0feeb21] debian/po: Add ko.po.
+    Thanks to 강민지 (Closes: #631896)
+  * [9fcbc35] Upgrade Standards-Version to 3.9.2
 
  -- Davide G. M. Salvetti <salve@debian.org>  Tue, 28 Jun 2011 21:37:14 +0200
 
 auctex (11.86-3) unstable; urgency=low
 
-  * [f31efb1] Add patch: Also clean PDF docs; thanks to Matthias Kümmerer.
-  * [88f9ccc] Add patch: Fix preview with latest ghostscript; thanks to
-    Faheem Mitha.
-  * [adc29ae] Add language code to the Language field in po files missing it.
-  * [0a0c25b] Add po/da.po; thanks to Joe Dalton.  (Closes: #619658)
-  * [f11007e] Imported NMU: 11.86-2.1.
+  * [0fa2693] Add patch: Also clean PDF docs.
+    Thanks to Matthias Kümmerer (Closes: #628787)
+  * [0bcc201] Add patch: Fix preview with latest ghostscript.
+    Thanks to Faheem Mitha (Closes: #610714)
+  * [b5f6dc4] debian/po: Fix missing language codes
+  * [43d2c3d] debian/po: Add da.po.
+    Thanks to Joe Dalton (Closes: #619658)
+  * [b34921c] Acknowledge NMU 11.86-2.1
 
  -- Davide G. M. Salvetti <salve@debian.org>  Wed, 22 Jun 2011 17:30:50 +0200
 
@@ -170,30 +176,26 @@ auctex (11.86-2.1) unstable; urgency=low
 
 auctex (11.86-2) unstable; urgency=low
 
-  * [3b1fd8d] Update copyright year for man pages and debian/variables.
-  * [797e2b8] Change 'Recommends: xpdf-reader' to 'Recommends: xpdf'.
-  * [7ed99ae] Add patch: Fix TeX engine alist builtin defvar; thanks to
-    Sanjoy Mahajan.  (Closes: #597006)
+  * [764585e] Add patch: Fix TeX engine alist builtin defvar.
+    Thanks to Sanjoy Mahajan (Closes: #597006)
+  * [5d58e12] Update copyright
+  * [0665c83] Recommend xpdf instead of xpdf-reader
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 24 Sep 2010 23:45:55 +0200
 
 auctex (11.86-1) unstable; urgency=low
 
-  * [c9e48f5] Switch to 3.0 (quilt) source format.
-  * [43613e3] Add patch: Rationalize HTML documentation targets in
-    doc/Makefile.in.
-  * [6782f7a] Call auctex/Makefile lisp target before calling install-
-    lisp.
-  * [29d4857] Update copyright year.
-  * [6ad7010] Imported Upstream version 11.86; thanks to Rogério Brito.
-    (Closes: #577151)
-  * [cca6ed8] Update patch: Rationalize HTML documentation targets in
-    doc/Makefile.in.
-  * [19de369] Add a fake maintainer-clean target to MAKEFILEHACKS.
-  * [a9c13b5] Add Debian customized 11.86 release notes to
-    debian/auctex/NEWS.
-  * [d7dcf99] Add patch: Change pdf viewer default from Evince to xpdf.
-  * [20836ab] Upgrade Standards-Version to 3.9.1.
+  * [6fcc413] Switch to 3.0 (quilt) source format
+  * [1919f45] Add patch: Rationalize HTML documentation targets in doc/Makefile.in
+  * [01e8d33] auctex/install: Make lisp before install-lisp
+  * [79dab7a] Update copyright
+  * [56c9453] Imported Upstream version 11.86.
+    Thanks to Rogério Brito (Closes: #577151)
+  * [5603dad] Update patch: Rationalize HTML documentation targets in doc/Makefile.in
+  * [eec859f] Add patch: Change pdf viewer default from Evince to xpdf
+  * [4f4eea3] debian/auctex/NEWS: Add 11.86 release notes
+  * [4adf1f4] Add a fake maintainer-clean target to MAKEFILEHACKS
+  * [fb7cfed] Upgrade Standards-Version to 3.9.1
 
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 27 Aug 2010 17:06:08 +0200
 
