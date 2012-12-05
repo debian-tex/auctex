@@ -1,9 +1,9 @@
 ;;; tex-fold.el --- Fold TeX macros.
 
-;; Copyright (C) 2004 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005 Free Software Foundation, Inc.
 
 ;; Author: Ralf Angeli <angeli@iwi.uni-sb.de>
-;; Maintainer: auc-tex@sunsite.dk
+;; Maintainer: auctex-devel@gnu.org
 ;; Created: 2004-07-04
 ;; Keywords: tex, wp
 
@@ -35,11 +35,11 @@
 ;; The display string of content which should display part of itself
 ;; is made by copying the text from the buffer together with its text
 ;; properties.  If fontification has not happened when this is done
-;; (e.g. because of lazy font locking) the intended fontification will
-;; not show up.  Maybe this could be improved by using some sort of
-;; "lazy folding" or refreshing the window upon scrolling.  As a
-;; workaround you can leave Emacs idle a few seconds and wait for
-;; stealth font locking to finish before you fold the buffer.
+;; (e.g. because of lazy or just-in-time font locking) the intended
+;; fontification will not show up.  Maybe this could be improved by
+;; using some sort of "lazy folding" or refreshing the window upon
+;; scrolling.  As a workaround fontification of the whole buffer
+;; currently is forced before folding it.
 
 ;;; Code:
 
@@ -120,6 +120,17 @@ string for any unspecified macro or environment."
   :type 'boolean
   :group 'TeX-fold)
 
+(defcustom TeX-fold-help-echo-max-length 70
+  "Maximum length of help echo message for folded overlays.
+Set it to zero in order to disable help echos."
+  :type 'integer
+  :group 'TeX-fold)
+
+(defcustom TeX-fold-force-fontify t
+  "Force the buffer to be fully fontified by folding it."
+  :group 'TeX-fold
+  :type 'boolean)
+
 (defface TeX-fold-folded-face
   '((((class color) (background light))
      (:foreground "SlateBlue"))
@@ -152,6 +163,9 @@ string for any unspecified macro or environment."
 (defvar TeX-fold-unfolded-face 'TeX-fold-unfolded-face
   "Face for folded content when it is temporarily opened.")
 
+(defvar TeX-fold-ellipsis "..."
+  "String used as display string for overlays instead of a zero-length string.")
+
 (defvar TeX-fold-open-spots nil)
 (make-variable-buffer-local 'TeX-fold-open-spots)
 
@@ -167,9 +181,6 @@ string for any unspecified macro or environment."
     (define-key map "\C-c\C-or"    'TeX-fold-clearout-region)
     (define-key map "\C-c\C-op"    'TeX-fold-clearout-paragraph)
     (define-key map "\C-c\C-oi"    'TeX-fold-clearout-item)
-    ;; To be removed
-    (define-key map "\C-c\C-o\C-x" 'TeX-fold-clearout-buffer)
-    (define-key map "\C-c\C-o\C-c" 'TeX-fold-clearout-item)
     map))
 
 
@@ -192,6 +203,13 @@ The relevant macros are specified in the variable `TeX-fold-macro-spec-list'
 and environments in `TeX-fold-env-spec-list'."
   (interactive)
   (TeX-fold-clearout-region (point-min) (point-max))
+  (when (and TeX-fold-force-fontify
+	     (boundp 'jit-lock-mode)
+	     jit-lock-mode
+	     (fboundp 'jit-lock-fontify-now))
+    ;; We force fontification here only because it should rarely be
+    ;; needed for the other folding commands.
+    (jit-lock-fontify-now))
   (TeX-fold-region (point-min) (point-max)))
 
 (defun TeX-fold-paragraph ()
@@ -239,62 +257,38 @@ environments or 'macro for macros."
 				      "begin[ \t]*{"
 				      (regexp-opt item-list t) "}"))
 			     (t
-			      ;; "\\_>" is only available with Emacs
-			      ;; 21.4 or later (checked into CVS Emacs
-			      ;; on 2004-05-19). (This could be used in
-			      ;; font-latex as well for
-			      ;; `font-latex-match-variable-make' and
-			      ;; friends instead of "\\>" and would fix
-			      ;; issues with starred macros.)
 			      (concat (regexp-quote TeX-esc)
-				      (regexp-opt item-list t)
-				      (if (string-match "\\_>" "X")
-					  "\\_>"
-					"[^A-Za-z@*]")))))
+				      (regexp-opt item-list t)))))
 	  (save-restriction
 	    (narrow-to-region start end)
 	    ;; Start from the bottom so that it is easier to prioritize
 	    ;; nested macros.
 	    (goto-char (point-max))
-	    (let ((case-fold-search nil))
+	    (let ((case-fold-search nil)
+		  item-name)
 	      (while (re-search-backward regexp nil t)
-		(when (not (and TeX-fold-preserve-comments
-				(TeX-in-commented-line)))
+		(setq item-name (match-string 1))
+		(unless (or (and TeX-fold-preserve-comments
+				 (TeX-in-commented-line))
+			    ;; Make sure no partially matched macros are
+			    ;; folded.  For macros consisting of letters
+			    ;; this means there should be none of the
+			    ;; characters [A-Za-z@*] after the matched
+			    ;; string.  Single-char non-letter macros like
+			    ;; \, don't have this requirement.
+			    (and (eq type 'macro)
+				 (save-match-data
+				   (string-match "[A-Za-z]" item-name))
+				 (save-match-data
+				   (string-match "[A-Za-z@*]"
+						 (string (char-after
+							  (match-end 0)))))))
 		  (let* ((item-start (match-beginning 0))
-			 (display-string-spec (cadr (assoc (match-string 1)
+			 (display-string-spec (cadr (assoc item-name
 							   fold-list)))
-			 (item-end (cond ((and (eq type 'env)
-					       (eq major-mode 'context-mode))
-					  (save-excursion
-					    (goto-char (match-end 0))
-					    (ConTeXt-find-matching-stop)
-					    (point)))
-					 ((and (eq type 'env)
-					       (eq major-mode 'texinfo-mode))
-					  (save-excursion
-					    (goto-char (match-end 0))
-					    (Texinfo-find-env-end)
-					    (point)))
-					 ((eq type 'env)
-					  (save-excursion
-					    (goto-char (match-end 0))
-					    (LaTeX-find-matching-end)
-					    (point)))
-					 (t
-					  (save-excursion
-					    (goto-char item-start)
-					    (TeX-find-macro-end)))))
-			 (display-string (if (integerp display-string-spec)
-					     (or (TeX-fold-macro-nth-arg
-						  display-string-spec
-						  item-start
-						  (when (eq type 'macro)
-						    item-end))
-						 "[Error: No content found]")
-					   display-string-spec))
+			 (item-end (TeX-fold-item-end item-start type))
 			 (ov (TeX-fold-make-overlay item-start item-end type
-						    display-string-spec
-						    display-string)))
+						    display-string-spec)))
 		    (TeX-fold-hide-item ov)))))))))))
 
 (defun TeX-fold-macro ()
@@ -372,102 +366,84 @@ Return non-nil if an item was found and folded, nil otherwise."
 		      (if (eq type 'env)
 			  TeX-fold-unspec-env-display-string
 			TeX-fold-unspec-macro-display-string))))
-	       (item-end (cond ((and (eq type 'env)
-				     (eq major-mode 'context-mode))
-				(save-excursion
-				  (goto-char (match-end 0))
-				  (ConTeXt-find-matching-stop)
-				  (point)))
-			       ((and (eq type 'env)
-				     (eq major-mode 'texinfo-mode))
-				(save-excursion
-				  (goto-char (match-end 0))
-				  (Texinfo-find-env-end)
-				  (point)))
-			       ((eq type 'env)
-				(save-excursion
-				  (goto-char (match-end 0))
-				  (LaTeX-find-matching-end)
-				  (point)))
-			       (t
-				(save-excursion
-				  (goto-char item-start)
-				  (TeX-find-macro-end)))))
-	       (display-string (if (integerp display-string-spec)
-				   (or (TeX-fold-macro-nth-arg
-					display-string-spec
-					item-start (when (eq type 'macro)
-						     item-end))
-				       "[Error: No content found]")
-				 display-string-spec))
+	       (item-end (TeX-fold-item-end item-start type))
 	       (ov (TeX-fold-make-overlay item-start item-end type
-					  display-string-spec
-					  display-string)))
+					  display-string-spec)))
 	  (TeX-fold-hide-item ov))))))
 
 
-;;; Utilities for folding
+;;; Utilities
 
-(defun TeX-fold-make-overlay (ov-start ov-end type
-				       display-string-spec display-string)
-  "Make an overlay to cover the item.
-The overlay will reach from OV-START to OV-END and will display
-the string part of DISPLAY-STRING which has to be a string or a
-list where the first item is a string and the second a face or
-nil.  DISPLAY-STRING-SPEC is the original specification of the
-display string in the variables `TeX-fold-macro-spec-list' or
-`TeX-fold-env-spec-list' and may be a string or an integer.  TYPE
-is a symbol which is used to describe the content to hide and may
-be 'macro for macros and 'env for environments.
-
-The position of the end of the overlay and its display string may
-be altered to prevent overfull lines."
-  (let* ((face (when (listp display-string)
-		 (cadr display-string)))
-	 (display-string (if (listp display-string)
-			     (car display-string)
-			   display-string))
-	 (overfull (and (not (featurep 'xemacs)) ; Linebreaks in glyphs don't
-						 ; work in XEmacs anyway.
-			(save-excursion
-			  (goto-char ov-end)
-			  (search-backward "\n" ov-start t))
-			(not (string-match "\n" display-string))
-			(> (+ (- ov-start
-				 (save-excursion
-				   (goto-char ov-start)
-				   (line-beginning-position)))
-			      (length display-string)
-			      (- (save-excursion
-				   (goto-char ov-end)
-				   (line-end-position))
-				 ov-end))
-			   (current-fill-column))))
-	 (ov-end (if overfull
-		     (save-excursion
-		       (goto-char ov-end)
-		       (skip-chars-forward " \t")
-		       (point))
-		   ov-end))
-	 (display-string (concat display-string (when overfull "\n")))
-	 (priority (TeX-fold-prioritize ov-start ov-end))
-	 (ov (make-overlay ov-start ov-end (current-buffer) t nil)))
+(defun TeX-fold-make-overlay (ov-start ov-end type display-string-spec)
+  "Make a TeX-fold overlay extending from OV-START to OV-END.
+TYPE is a symbol which is used to describe the content to hide
+and may be 'macro for macros and 'env for environments.
+DISPLAY-STRING-SPEC is the original specification of the display
+string in the variables `TeX-fold-macro-spec-list' or
+`TeX-fold-env-spec-list' and may be a string or an integer."
+  ;; Calculate priority before the overlay is instantiated.  We don't
+  ;; want `TeX-overlay-prioritize' to pick up a non-prioritized one.
+  (let ((priority (TeX-overlay-prioritize ov-start ov-end))
+	(ov (make-overlay ov-start ov-end (current-buffer) t nil)))
     (overlay-put ov 'category 'TeX-fold)
     (overlay-put ov 'priority priority)
     (overlay-put ov 'evaporate t)
-    (when font-lock-mode
-      (overlay-put ov 'TeX-fold-face face))
     (overlay-put ov 'TeX-fold-type type)
     (overlay-put ov 'TeX-fold-display-string-spec display-string-spec)
-    (overlay-put ov 'TeX-fold-display-string display-string)
     ov))
 
+(defun TeX-fold-item-end (start type)
+  "Return the end of an item of type TYPE starting at START.
+TYPE can be either 'env for environments or 'macro for macros."
+  (save-excursion
+    (cond ((and (eq type 'env)
+		(eq major-mode 'context-mode))
+	   (goto-char start)
+	   (ConTeXt-find-matching-stop)
+	   (point))
+	  ((and (eq type 'env)
+		(eq major-mode 'texinfo-mode))
+	   (goto-char (1+ start))
+	   (Texinfo-find-env-end)
+	   (point))
+	  ((eq type 'env)
+	   (goto-char (1+ start))
+	   (LaTeX-find-matching-end)
+	   (point))
+	  (t
+	   (goto-char start)
+	   (TeX-find-macro-end)))))
+
+(defun TeX-fold-overfull-p (ov-start ov-end display-string)
+  "Return t if an overfull line will result after adding an overlay.
+The overlay extends from OV-START to OV-END and will display the
+string DISPLAY-STRING."
+  (and (not (featurep 'xemacs)) ; Linebreaks in glyphs don't
+				; work in XEmacs anyway.
+       (save-excursion
+	 (goto-char ov-end)
+	 (search-backward "\n" ov-start t))
+       (not (string-match "\n" display-string))
+       (> (+ (- ov-start
+		(save-excursion
+		  (goto-char ov-start)
+		  (line-beginning-position)))
+	     (length display-string)
+	     (- (save-excursion
+		  (goto-char ov-end)
+		  (line-end-position))
+		ov-end))
+	  (current-fill-column))))
+
 (defun TeX-fold-macro-nth-arg (n macro-start &optional macro-end)
-  "Return a property list of the nth argument of a macro.
-The first item in the list is the string specified in the
-argument, the second item may be a face if the argument string
-was fontified.  In Emacs the string holds text properties as
-well, so the second item is always nil.  In XEmacs the string
+  "Return a property list of the argument number N of a macro.
+The start of the macro to examine is given by MACRO-START, its
+end optionally by MACRO-END.
+
+The first item in the returned list is the string specified in
+the argument, the second item may be a face if the argument
+string was fontified.  In Emacs the string holds text properties
+as well, so the second item is always nil.  In XEmacs the string
 does not enclose any faces, so these are given in the second item
 of the resulting list."
   (save-excursion
@@ -486,12 +462,13 @@ of the resulting list."
 					(point)))
 		  (goto-char (TeX-find-closing-brace))
 		  (setq content-end (save-excursion
-				      (skip-chars-backward "} \t")
+				      (backward-char)
+				      (skip-chars-backward " \t")
 				      (point)))
 		  (setq n (1- n)))
 		t)
 	    (error nil))
-	  (list (buffer-substring content-start content-end)
+	  (list (TeX-fold-buffer-substring content-start content-end)
 		(when (and (featurep 'xemacs)
 			   (extent-at content-start))
 		  ;; A glyph in XEmacs does not seem to be able to hold more
@@ -499,32 +476,81 @@ of the resulting list."
 		  (car (extent-property (extent-at content-start) 'face))))
 	nil))))
 
-(defvar TeX-fold-priority-step 16
-  "Numerical difference of priorities between nested overlays.
-The step should be big enough to allow setting a priority for new
-overlays between two existing ones.")
+(defun TeX-fold-buffer-substring (start end)
+  "Return the contents of buffer from START to END as a string.
+Like `buffer-substring' but copy overlay display strings as well."
+  ;; Swap values of `start' and `end' if necessary.
+  (when (> start end) (let ((tmp start)) (setq start end end tmp)))
+  (let ((overlays (overlays-in start end))
+	result)
+    ;; Get rid of overlays not under our control or not completely
+    ;; inside the specified region.
+    (dolist (ov overlays)
+      (when (or (not (eq (overlay-get ov 'category) 'TeX-fold))
+		(< (overlay-start ov) start)
+		(> (overlay-end ov) end))
+	(setq overlays (remove ov overlays))))
+    (if (null overlays)
+	(buffer-substring start end)
+      ;; Sort list according to ascending starts.
+      (setq overlays (sort (copy-sequence overlays)
+			   (lambda (a b)
+			     (< (overlay-start a) (overlay-start b)))))
+      ;; Get the string from the start of the region up to the first overlay.
+      (setq result (buffer-substring start (overlay-start (car overlays))))
+      (let (ov)
+	(while overlays
+	  (setq ov (car overlays)
+		overlays (cdr overlays))
+	  ;; Add the display string of the overlay.
+	  (setq result (concat result (overlay-get ov 'display)))
+	  ;; Remove overlays contained in the current one.
+	  (dolist (elt overlays)
+	    (when (< (overlay-start elt) (overlay-end ov))
+	      (setq overlays (remove elt overlays))))
+	  ;; Add the string from the end of the current overlay up to
+	  ;; the next overlay or the end of the specified region.
+	  (setq result (concat result (buffer-substring (overlay-end ov)
+							(if overlays
+							    (overlay-start
+							     (car overlays))
+							  end))))))
+      result)))
 
-(defun TeX-fold-prioritize (start end)
-  "Calculate a priority for an overlay.
-The calculated priority is lower than the minimum of priorities
-of surrounding overlays and higher than the maximum of enclosed
-overlays."
-  (let (outer-priority inner-priority)
-    (dolist (ov (overlays-in start end))
-      (when (eq (overlay-get ov 'category) 'TeX-fold)
-	(let ((ov-priority (overlay-get ov 'priority)))
-	  (if (>= (overlay-start ov) start)
-	      (setq inner-priority (max ov-priority (or inner-priority
-							ov-priority)))
-	    (setq outer-priority (min ov-priority (or outer-priority
-						      ov-priority)))))))
-    (cond ((and inner-priority (not outer-priority))
-	   (+ inner-priority TeX-fold-priority-step))
-	  ((and (not inner-priority) outer-priority)
-	   (/ outer-priority 2))
-	  ((and inner-priority outer-priority)
-	   (/ (- outer-priority inner-priority) 2))
-	  (t TeX-fold-priority-step))))
+(defun TeX-fold-make-help-echo (start end)
+  "Return a string to be used as the help echo of folded overlays.
+The text between START and END will be used for this but cropped
+to the length defined by `TeX-fold-help-echo-max-length'.  Line
+breaks will be replaced by spaces."
+  (let* ((spill (+ start TeX-fold-help-echo-max-length))
+	 (lines (split-string (buffer-substring start (min end spill)) "\n"))
+	 (result (pop lines)))
+    (dolist (line lines)
+      ;; Strip leading whitespace
+      (when (string-match "^[ \t]+" line)
+	(setq line (replace-match "" nil nil line)))
+      ;; Strip trailing whitespace
+      (when (string-match "[ \t]+$" line)
+	(setq line (replace-match "" nil nil line)))
+      (setq result (concat result " " line)))
+    (when (> end spill) (setq result (concat result "...")))
+    result))
+
+(defun TeX-fold-update-at-point ()
+  "Update all TeX-fold overlays at point displaying computed content."
+  (let (overlays)
+    ;; Get all overlays at point under our control.
+    (dolist (ov (overlays-at (point)))
+      (when (and (eq (overlay-get ov 'category) 'TeX-fold)
+		 (numberp (overlay-get ov 'TeX-fold-display-string-spec)))
+	(add-to-list 'overlays ov)))
+    (when overlays
+      ;; Sort list according to descending starts.
+      (setq overlays (sort (copy-sequence overlays)
+			   (lambda (a b)
+			     (> (overlay-start a) (overlay-start b)))))
+      (dolist (ov overlays)
+	(TeX-fold-hide-item ov)))))
 
 
 ;;; Removal
@@ -571,25 +597,31 @@ Return non-nil if a removal happened, nil otherwise."
 (defun TeX-fold-hide-item (ov)
   "Hide a single macro or environment.
 That means, put respective properties onto overlay OV."
-  (let* ((display-string-spec (overlay-get ov 'TeX-fold-display-string-spec))
-	 (display-string (if (stringp display-string-spec)
-			     (overlay-get ov 'TeX-fold-display-string)
-			   ;; If the display string specification is
-			   ;; an integer, recompute the display string
-			   ;; in order to have an up-to-date string if
-			   ;; the content has changed.
-			   (or (TeX-fold-macro-nth-arg
-				display-string-spec (overlay-start ov)
-				(when (eq (overlay-get ov 'TeX-fold-type)
-					  'macro)
-				  (overlay-end ov)))
-			       "[Error: No content found]"))))
+  (let* ((ov-start (overlay-start ov))
+	 (ov-end (overlay-end ov))
+	 (spec (overlay-get ov 'TeX-fold-display-string-spec))
+	 (computed (if (stringp spec)
+		       spec
+		     (or (TeX-fold-macro-nth-arg spec ov-start ov-end)
+			 "[Error: No content found]")))
+	 (display-string (if (listp computed) (car computed) computed))
+	 (face (when (listp computed) (cadr computed))))
+    ;; Cater for zero-length display strings.
+    (when (string= display-string "") (setq display-string TeX-fold-ellipsis))
+    ;; Add a linebreak to the display string and adjust the overlay end
+    ;; in case of an overfull line.
+    (when (TeX-fold-overfull-p ov-start ov-end display-string)
+      (setq display-string (concat display-string "\n"))
+      (move-overlay ov ov-start (save-excursion
+				  (goto-char ov-end)
+				  (skip-chars-forward " \t")
+				  (point))))
     (overlay-put ov 'mouse-face 'highlight)
+    (overlay-put ov 'display display-string)
     (if (featurep 'xemacs)
 	(let ((glyph (make-glyph (if (listp display-string)
 				     (car display-string)
-				   display-string)))
-	      (face (overlay-get ov 'TeX-fold-face)))
+				   display-string))))
 	  (overlay-put ov 'invisible t)
 	  (when font-lock-mode
 	    (if face
@@ -598,7 +630,9 @@ That means, put respective properties onto overlay OV."
 	  (set-extent-property ov 'end-glyph glyph))
       (when font-lock-mode
 	(overlay-put ov 'face TeX-fold-folded-face))
-      (overlay-put ov 'display display-string))))
+      (unless (zerop TeX-fold-help-echo-max-length)
+	(overlay-put ov 'help-echo (TeX-fold-make-help-echo
+				    (overlay-start ov) (overlay-end ov)))))))
 
 (defun TeX-fold-show-item (ov)
   "Show a single LaTeX macro or environment.
@@ -609,6 +643,7 @@ Remove the respective properties from the overlay OV."
 	(set-extent-property ov 'end-glyph nil)
 	(overlay-put ov 'invisible nil))
     (overlay-put ov 'display nil)
+    (overlay-put ov 'help-echo nil)
     (when font-lock-mode
       (overlay-put ov 'face TeX-fold-unfolded-face))))
 
@@ -684,22 +719,31 @@ the other elements.  The ordering among elements is maintained."
 
 ;;; The mode
 
-(define-minor-mode TeX-fold-mode
-  "Toggle TeX-fold-mode on or off.
-TeX-fold-mode lets you hide and unhide LaTeX macros.
+;;; This autoload cookie had to be changed because of XEmacs.  This is
+;;; very dissatisfactory, because we now don't have the full doc string
+;;; available to tell people what to expect when using this mode
+;;; before loading it.
 
-Interactively, with no prefix argument, toggle the mode.
+;;;###autoload (autoload 'TeX-fold-mode "tex-fold" "Minor mode for hiding and revealing macros and environments.")
+(define-minor-mode TeX-fold-mode
+  "Minor mode for hiding and revealing macros and environments.
+
+Called interactively, with no prefix argument, toggle the mode.
 With universal prefix ARG (or if ARG is nil) turn mode on.
 With zero or negative ARG turn mode off."
   nil nil TeX-fold-keymap
   (if TeX-fold-mode
       (progn
 	(set (make-local-variable 'search-invisible) t)
-	(add-hook 'post-command-hook 'TeX-fold-post-command nil t))
+	(add-hook 'post-command-hook 'TeX-fold-post-command nil t)
+	(add-hook 'LaTeX-fill-newline-hook 'TeX-fold-update-at-point nil t))
     (kill-local-variable 'search-invisible)
     (remove-hook 'post-command-hook 'TeX-fold-post-command t)
+    (remove-hook 'LaTeX-fill-newline-hook 'TeX-fold-update-at-point t)
     (TeX-fold-clearout-buffer))
   (TeX-set-mode-name))
+
+;;;###autoload
 (defalias 'tex-fold-mode 'TeX-fold-mode)
 
 (provide 'tex-fold)

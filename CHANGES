@@ -1,6 +1,78 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.81
+=============
+
+   * `LaTeX-mark-section' now marks subsections of a given section as
+     well.  The former behavior is available via the prefix argument.
+
+   * preview-latex which was previously available separately became a
+     subsystem of AUCTeX.  There is no documented provision for building
+     or installing preview-latex separately.  It is still possible to
+     use and install AUCTeX without preview-latex, however.
+
+   * The installation procedures have been overhauled and now also
+     install startup files as part of the process (those had to be
+     copied manually previously).  You are advised to remove previous
+     installations of AUCTeX and preview-latex before starting the
+     installation procedure.  A standard installation from an
+     unmodified tarball no longer requires Makeinfo or Perl.
+
+     Also note that the way AUCTeX is supposed to be activated changed.
+     Instead of `(require 'tex-site)' you should now use `(load
+     "auctex.el" nil t t)'.  While the former method may still work,
+     the new method has the advantage that you can deactivate a
+     preactivated AUCTeX with the statement `(unload-feature
+     'tex-site)' before any of its modes have been used.  This may be
+     important especially for site-wide installations.
+
+   * Support for the babel LaTeX package was added.
+
+   * Folding a buffer now ensures that the whole buffer is fontified
+     before the actual folding is carried out.  If this results in
+     unbearably long execution times, you can fall back to the old
+     behavior of relying on stealth font locking to do this job in the
+     background by customizing the variable `TeX-fold-force-fontify'.
+
+   * Folded content now reveals part of its original text in a tooltip
+     or the echo area when hovering with the mouse pointer over it.
+
+   * The language-specific insertion of quotation marks was
+     generalized.  The variables `LaTeX-german-open-quote',
+     `LaTeX-german-close-quote', `LaTeX-german-quote-after-quote',
+     `LaTeX-italian-open-quote', `LaTeX-italian-close-quote', and
+     `LaTeX-italian-quote-after-quote' are now obsolete.  If you are not
+     satisfied with the default settings, you should customize
+     `TeX-quote-language-alist' instead.
+
+   * Similar to language-specific quote insertion, AUCTeX now helps you
+     with hyphens in different languages as well.
+
+   * Fill problems in Japanese text introduced in AUCTeX 11.55 were
+     fixed.  AUCTeX tries not to break lines between 1-byte and 2-byte
+     chars.  These features will work in Chinese text, too.
+
+   * The scaling factor of the fontification of sectioning commands can
+     now be customized using the variable
+     `font-latex-fontify-sectioning'.  This variable was previously
+     called `font-latex-title-fontify'; In this release we provide an
+     alias but this will disappear in one of the the next releases.
+     The faces for the sectioning commands are now called
+     `font-latex-sectioning-N-face' (N=0...5) instead of
+     `font-latex-title-N-face' (N=1...4).  Analogously the names of the
+     variables holding the related keyword lists were changed from
+     `font-latex-title-N-keywords' to
+     `font-latex-sectioning-N-keywords'.  Make sure to adjust your
+     customizations.
+
+   * Titles in beamer slides marked by the "\frametitle" command are
+     know displayed with the new face `font-latex-slide-title-face'.
+     You can add macros to be highlighted with this face to
+     `font-latex-match-slide-title-keywords'.
+
+   * Of course a lot of bugs have been fixed.
+
 News in 11.55
 =============
 
@@ -91,7 +163,7 @@ News in 11.54
    * Setting the variable `LaTeX-float' to `nil' now means that you
      will not be prompted for the float position of figures and tables.
      You can get the old behaviour of `nil' by setting the variable to
-     `""', i.e. an empty string.  See also *Note Floats::.
+     `""', i.e. an empty string.
 
    * The XEmacs-specific bug concerning `overlays-at' was fixed.
 
@@ -101,8 +173,7 @@ News in 11.53
 =============
 
    * The LaTeX math menu can include Unicode characters if your Emacs
-     built supports it.  See the variable `LaTeX-math-menu-unicode',
-     *Note Mathematics::.
+     built supports it.  See the variable `LaTeX-math-menu-unicode'.
 
    * Bug fixes for XEmacs.
 
@@ -155,10 +226,10 @@ News in 11.50
      and the customization will not work correctly.
 
    * Support for hiding and auto-revealing macros, e.g. footnotes or
-     citations, and environments in a buffer was added, *Note Folding::.
+     citations, and environments in a buffer was added.
 
    * You can now control if indentation is done upon typing <RET> by
-     customizing the variable `TeX-newline-function', *Note Indenting::.
+     customizing the variable `TeX-newline-function'.
 
    * Limited support for `doc.sty' and `ltxdoc.cls' (`dtx' files) was
      added.  The new docTeX mode provides functionality for editing
@@ -207,7 +278,7 @@ News in 11.50
      improved.  See the variable `LaTeX-includegraphics-options-alist'.
 
    * If `LaTeX-default-position' is `nil', don't prompt for position
-     arguments in Tabular-like environments, see *Note Tabular-like::.
+     arguments in Tabular-like environments.
 
    * Completion for available packages when using `C-c RET \usepackage
      RET' was improved on systems using the kpathsea library.
@@ -243,15 +314,14 @@ News in 11.50
 
    * You can control whether `TeX-insert-macro' (`C-c RET') ask for all
      optional arguments by customizing the variable
-     `TeX-insert-macro-default-style', *Note Completion::.
+     `TeX-insert-macro-default-style'.
 
    * `TeX-run-discard' is now able to completely detach a process that
      it started.
 
    * The build process was enhanced and is now based on `autoconf'
-     making installing AUCTeX a mostly automatic process.  See *Note
-     Installation:: and *Note Installation under MS Windows:: for
-     details.
+     making installing AUCTeX a mostly automatic process.  See the
+     files `INSTALL' and `INSTALL.windows' for details.
 
 News in 11.14
 =============

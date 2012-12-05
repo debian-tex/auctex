@@ -1,9 +1,9 @@
 ;;; tex-info.el --- Support for editing Texinfo source.
 
 ;; Copyright (C) 1993, 1994, 1997, 2000, 2001,
-;;               2004 Free Software Foundation, Inc.
+;;               2004, 2005 Free Software Foundation, Inc.
 
-;; Maintainer: auc-tex@sunsite.dk
+;; Maintainer: auctex-devel@gnu.org
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
@@ -26,9 +26,8 @@
 ;;; Code:
 
 (require 'tex)
-(condition-case nil			;Lucid is not providing.
-    (require 'texinfo)
-  (error))
+
+(require 'texinfo)
 
 ;;; Environments:
 
@@ -56,11 +55,20 @@
   "Regexp for environment-like Texinfo list commands.
 Subexpression 1 is what goes into the corresponding `@end' statement.")
 
-(defun Texinfo-insert-environment (env)
-  "Insert Texinfo environment ENV.
-When called interactively, prompt for an environment."
+(defun Texinfo-environment (env &optional arg)
+  "Make Texinfo environment ENV.
+With optional ARG, modify current environment."
+  ;; XXX: This could be enhanced to act like `LaTeX-environment',
+  ;; i.e. suggest a default environment and have its own history.
   (interactive (list (completing-read "Environment: "
-				      Texinfo-environment-list)))
+				      Texinfo-environment-list)
+		     current-prefix-arg))
+  (if arg
+      (Texinfo-modify-environment env)
+    (Texinfo-insert-environment env)))
+
+(defun Texinfo-insert-environment (env)
+  "Insert Texinfo environment ENV."
   (if (and (TeX-active-mark)
 	   (not (eq (mark) (point))))
       (progn
@@ -79,6 +87,19 @@ When called interactively, prompt for an environment."
     (insert "@" env "\n\n@end " env "\n")
     (if (null (cdr-safe (assoc "defcv" Texinfo-environment-list)))
 	(forward-line -2))))
+
+(defun Texinfo-modify-environment (env)
+  "Change current environment to environment ENV."
+  (save-excursion
+    (Texinfo-find-env-end)
+    (re-search-backward (concat (regexp-quote TeX-esc) "end \\([a-zA-Z]*\\)")
+			(line-beginning-position))
+    (replace-match env t t nil 1)
+    (beginning-of-line)
+    (Texinfo-find-env-start)
+    (re-search-forward (concat (regexp-quote TeX-esc) "\\([a-zA-Z]*\\)")
+		       (line-end-position))
+    (replace-match env t t nil 1)))
 
 (defun Texinfo-find-env-end ()
   "Move point to the end of the current environment."
@@ -196,7 +217,7 @@ for @node."
     (define-key map "\C-c\C-u\C-a"   'texinfo-all-menus-update)
 
     ;; Simulating LaTeX-mode
-    (define-key map "\C-c\C-e" 'Texinfo-insert-environment)
+    (define-key map "\C-c\C-e" 'Texinfo-environment)
     (define-key map "\C-c\n"   'texinfo-insert-@item)
     (or (key-binding "\e\r")
 	(define-key map "\e\r" 'texinfo-insert-@item)) ;*** Alias
@@ -287,9 +308,12 @@ for @node."
   
 ;;; Mode:
 
-;;; Do not ;;;###autoload because of conflict with standard texinfo.el.
-(TeX-defun texinfo-mode ()
-  "Major mode in %s for editing Texinfo files.
+;;;###autoload
+(defalias 'Texinfo-mode 'texinfo-mode)
+
+;;;###autoload
+(defun TeX-texinfo-mode ()
+  "Major mode in AUCTeX for editing Texinfo files.
 
 Special commands:
 \\{Texinfo-mode-map}
@@ -398,20 +422,20 @@ value of `Texinfo-mode-hook'."
    '("bullet")
    '("bye")
    '("c" "Comment")
-   '("center" "Line-of-text")
+   '("center" "Line of text")
    '("chapheading" "Title")
    '("chapter" "Title")
 ;; Texinfo doesn't like the brackets.
 ;;   '("cindex" "Entry")
    '("cite" "Reference")
    '("clear" "Flag")
-   '("code" "Sample-code")
+   '("code" "Sample code")
    '("command" "Command")
    '("comment" "Comment")
    '("contents")
    '("copyright")
-   '("defcodeindex" "Index-name")
-   '("defindex" "Index-name")
+   '("defcodeindex" "Index name")
+   '("defindex" "Index name")
    '("dfn" "Term")
    '("dmn" "Dimension")
    '("dots")
@@ -423,24 +447,24 @@ value of `Texinfo-mode-hook'."
    '("evenheading" Texinfo-lrc-argument-hook)
    '("everyfooting" Texinfo-lrc-argument-hook)
    '("everyheading" Texinfo-lrc-argument-hook)
-   '("exdent" "Line-of-text")
+   '("exdent" "Line of text")
    '("expansion")
    '("file" "Filename")
    '("finalout")
    '("findex" "Entry")
-   '("footnote" "Text-of-footnote")
+   '("footnote" "Text of footnote")
    '("footnotestyle" "Style")
    '("group")
    '("heading" "Title")
-   '("headings" "On-off-single-double")
+   '("headings" "On off single double")
    '("i" "Text")
    '("ignore")
    '("include" "Filename")
-   '("inforef" "Node-name" "Info-file-name")
+   '("inforef" "Node name" "Info file name")
    '("item")
    '("itemx")
-   '("kbd" "Keyboard-characters")
-   '("key" "Key-name")
+   '("kbd" "Keyboard characters")
+   '("key" "Key name")
    '("kindex" "Entry")
    '("majorheading"  "Title")
    '("menu")
@@ -455,18 +479,18 @@ value of `Texinfo-mode-hook'."
    '("pindex" "Entry")
    '("point")
    '("print")
-   '("printindex" "Index-name")
-   '("pxref" "Node-name")
+   '("printindex" "Index name")
+   '("pxref" "Node name")
    '("r" "Text")
-   '("ref" "Node-name")
+   '("ref" "Node name")
    '("refill")
    '("result")
    '("samp" "Text")
    '("sc" "Text")
    '("section" "Title")
    '("set" "Flag")
-   '("setchapternewpage" "On-off-odd")
-   '("setfilename" "Info-file-name")
+   '("setchapternewpage" "On off odd")
+   '("setfilename" "Info file name")
    '("settitle" "Title")
    '("shortcontents")
    '("smallbook")
@@ -478,8 +502,8 @@ value of `Texinfo-mode-hook'."
    '("subsubsection" "Title")
    '("subtitle" "Title")
    '("summarycontents")
-   '("syncodeindex" "From-index" "Into-index")
-   '("synindex" "From-index" "Into-index")
+   '("syncodeindex" "From index" "Into index")
+   '("synindex" "From index" "Into index")
    '("t" "Text")
    '("TeX")
    '("thischapter")
@@ -497,12 +521,13 @@ value of `Texinfo-mode-hook'."
    '("unnumberedsubsec" "Title")
    '("unnumberedsubsubsec" "Title")
    '("value" "Flag")
-   '("var" "Metasyntactic-variable")
+   '("var" "Metasyntactic variable")
    '("vindex" "Entry")
    '("vskip" "Amount")
-   '("w" "Text"))
+   '("w" "Text")
+   '("xref" "Node name"))
   
-  (run-hooks 'text-mode-hook 'Texinfo-mode-hook)
+  (TeX-run-mode-hooks 'text-mode-hook 'Texinfo-mode-hook)
   (TeX-set-mode-name))
   
 (provide 'tex-info)

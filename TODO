@@ -1,25 +1,26 @@
-1 ToDo
-******
+Future Development of AUCTeX
+****************************
 
-The following sections describe future development of AUCTeX.  Besides
-mid-term goals, bug reports and requests we cannot fix or honor right
-away are being gathered here.  If you have some time for Emacs Lisp
-hacking, you are encouraged to try to provide a solution to one of the
-following problems.  If you don't know Lisp, you may help us to improve
-the documentation.  It might be a good idea to discuss proposed changes
-on the mailing list of AUCTeX first.
+   The following sections describe future development of AUCTeX.
+Besides mid-term goals, bug reports and requests we cannot fix or honor
+right away are being gathered here.  If you have some time for Emacs
+Lisp hacking, you are encouraged to try to provide a solution to one of
+the following problems.  If you don't know Lisp, you may help us to
+improve the documentation.  It might be a good idea to discuss proposed
+changes on the mailing list of AUCTeX first.
 
-1.1 Mid-term Goals
-==================
+1 Mid-term Goals
+****************
 
    * Integration of preview-latex into AUCTeX
 
-     AUCTeX users will thereby get the functionality provided by
-     preview-latex without the hassle of an additional installation.
+     As of AUCTeX 11.81 preview-latex is a part of AUCTeX in the sense
+     that the installation routines were merged and preview-latex is
+     being packaged with AUCTeX.
 
-     Looking at the backend, the integration involves folding of error
-     parsing and task management of both packages which will ease
-     development efforts and avoid redundant work.
+     Further integration will happen at the backend.  This involves
+     folding of error parsing and task management of both packages
+     which will ease development efforts and avoid redundant work.
 
    * More flexible option and command handling
 
@@ -47,8 +48,8 @@ on the mailing list of AUCTeX first.
      navigation using RefTeX.
 
 
-1.2 Wishlist
-============
+2 Wishlist
+**********
 
    * Spell checking of macros
 
@@ -215,8 +216,8 @@ on the mailing list of AUCTeX first.
    * Hook up the letter environment with `bbdb.el'.
 
 
-1.3 Bugs
-========
+3 Bugs
+******
 
    * The parsed files and style hooks for `example.dtx', `example.sty',
      `example.drv' and `example.bib' all clash.  Bad.
@@ -256,4 +257,119 @@ on the mailing list of AUCTeX first.
 
    * Folding of LaTeX constructs spanning more than one line may result
      in overfull lines. (XEmacs only)
+
+Future Development of preview-latex
+***********************************
+
+   * Support other formats than just LaTeX
+
+     plain TeX users and ConTeXt users should not have to feel left
+     out.  While ConTeXt is not supported yet by released versions of
+     AUCTeX, at least supporting plain would help people, and be a start
+     for ConTeXt as well.  There are plain-based formats like MusiXTeX
+     that could benefit a lot from preview-latex.  The main part of the
+     difficulties here is to adapt `preview.dtx' to produce stuff not
+     requiring LaTeX.
+
+   * Support nested snippets
+
+     Currently you can't have both a footnote (which gets displayed as
+     just its footnote number) and math inside of a footnote rendered
+     as an image: such nesting might be achieved by rerunning
+     preview-latex on the footnote contents when one opens the footnote
+     for editing.
+
+   * Support other text properties than just images
+
+     Macros like `\textit' can be rendered as images, but the resulting
+     humungous blob is not suitable for editing, in particular since the
+     line filling from LaTeX does not coincide with that of Emacs.  It
+     would be much more useful if text properties just switched the
+     relevant font to italics rather than replacing the whole text with
+     an image.  It would also make editing quite easier.  Then there
+     are things like footnotes that are currently just replaced by
+     their footnote number.  While editing is not a concern here (the
+     number is not in the original text, anyway), it would save a lot
+     of conversion time if no images were generated, but Emacs just
+     displayed a properly fontified version of the footnote number.
+     Also, this might make preview-latex useful even on text terminals.
+
+   * Find a way to facilitate Source Specials
+
+     Probably in connection with adding appropriate support to
+     `dvipng', it would be nice if clicking on an image from a larger
+     piece of source code would place the cursor at the respective
+     source code location.
+
+   * Make `preview.dtx' look reasonable in AUCTeX
+
+     It is a bit embarrassing that `preview.dtx' is written in a manner
+     that will not give either good syntax highlighting or good
+     indentation when employing AUCTeX.
+
+   * Web page work
+
+     Currently, preview-latex's web page is not structured at all.
+     Better navigation would be desirable, as well as separate News and
+     Errata eye catchers.
+
+   * Manual improvements
+
+        - Pepper the manual with screen shots and graphics
+
+          This will be of interest for the HTML and TeX renditions of
+          the texinfo manual.  Since Texinfo now supports images as
+          well, this could well be nice to have.
+
+        - Fix duplicates
+
+          Various stuff appears several times.
+
+
+   * Implement rendering pipelines for Emacs
+
+     The current `gs.el' interface is fundamentally flawed, not only
+     because of a broken implementation.  A general batchable and
+     daemonizable rendering infrastructure that can work on all kinds of
+     preview images for embedding into buffers is warranted.  The
+     current implementation has a rather adhoc flavor and is not easily
+     extended.  It will not work outside of AUCTeX, either.
+
+   * Integrate into RefTeX
+
+     When referencing to equations and the like, the preview-images of
+     the source rather than plain text should be displayed.  If the
+     preview in question covers labels, those should appear in the
+     bubble help and/or a context menu.  Apropos:
+
+   * Implement LaTeX error indicators
+
+     Previews on erroneous LaTeX passages might gain a red border or
+     similar.
+
+   * Pop up relevant online documentation for frequent errors
+
+     A lot of errors are of the "badly configured" variety.  Perhaps the
+     relevant info pages should be delivered in addition to the error
+     message.
+
+   * Implement a table editing mode where every table cell gets output
+     as a separate preview.  Alternatively, output the complete table
+     metrics in a way that lets people click on individual cells for
+     editing purposes.
+
+   * Benchmark and kill Emacs inefficiencies
+
+     Both the LaTeX run under Emacs control as well as actual image
+     insertion in Emacs could be faster.  CVS Emacs has improved in that
+     respect, but it still is slower than desirable.
+
+   * Improve image support under Emacs
+
+     The general image and color handling in Emacs is inefficient and
+     partly defective.  This is still the case in CVS.  One option
+     would be to replace the whole color and image handling with GDK
+     routines when this library is available, since it has been
+     optimized for it.
+
 

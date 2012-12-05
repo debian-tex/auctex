@@ -3,6 +3,10 @@
 ;;; This will also load the amstext, amsbsy and amsopn style files.
 ;;; AUTHOR: Carsten Dominik <dominik@strw.leidenuniv.nl>
 
+;; FIXME: What about the copyright for <= 2004?
+
+;; Copyright (C) 2005  Free Software Foundation, Inc.
+
 ;;; Code:
 
 (TeX-add-style-hook "amsmath"
@@ -22,7 +26,6 @@
      '("aligned"    LaTeX-amsmath-env-aligned)
      '("gathered"   LaTeX-amsmath-env-aligned)
      "align*" "gather*" "flalign*" "multline*" "equation*"
-     "alignat*" "xalignat*"
      "split"
      "cases"
      "matrix" "smallmatrix" "pmatrix" "bmatrix" "Bmatrix" "vmatrix" "Vmatrix"
@@ -51,18 +54,24 @@
      '("sideset" "Left" "Right")
      '("tag" "(Tag)")
      '("tag*" "Tag")
-     '("raisetag" "Dimension")
      '("displaybreak" ["Weight (0..4)"])
      '("allowdisplaybreaks" ["Weight (1..4)"])
      '("substack" t)
      '("leftroot" "Push root index left by")
      '("uproot" "Push root index left by")
      '("boxed" t)
-     "overleftarrow"  "overrightarrow"  "overleftrightarrow"
-     "underleftarrow" "underrightarrow" "underleftrightarrow"
-     "dotssc" "dotssb" "dotssm" "nobreakdash" 
-     "Hat" "Check" "Tilde" "Acute" "Grave" "Dot" "Ddot" "Breve" "Bar" "Vec"
-     "dddot" "ddddot"
+     '("mspace" t)
+     '("mod" t)
+     '("pmod" t)
+     '("pod" t)
+     '("overleftrightarrow" t)
+     '("underleftarrow" t)
+     '("underrightarrow" t)
+     '("underleftrightarrow" t)
+     '("dddot" t)
+     '("ddddot" t)
+     "bmod" "notag"
+     "dots" "dotsb" "dotsc" "dotsi" "dotsm" "dotso" "nobreakdash" 
      "lvert" "rvert" "lVert" "rVert" 
      "iint" "iiint" "iiiint" "idotsint"
      )
@@ -70,6 +79,7 @@
     (setq  LaTeX-item-list 
 	   (append '(("split"    . LaTeX-item-equation)
 		     ("multline" . LaTeX-item-equation)
+		     ("multline*" . LaTeX-item-equation)
 		     ("gather"   . LaTeX-item-equations)
 		     ("gather*"  . LaTeX-item-equation)
 		     ("gathered" . LaTeX-item-equation)
@@ -78,16 +88,29 @@
 		     ("aligned"  . LaTeX-item-equation)
 		     ("alignat"  . LaTeX-item-equations)
 		     ("alignat*" . LaTeX-item-equation)
+		     ("xalignat"  . LaTeX-item-equations)
+		     ("xalignat*" . LaTeX-item-equation)
+		     ("xxalignat" . LaTeX-item-equation)
 		     ("flalign"  . LaTeX-item-equations)
 		     ("flalign*" . LaTeX-item-equation)
+		     ("matrix" .  LaTeX-item-equation)
+		     ("pmatrix" .  LaTeX-item-equation)
+		     ("bmatrix" .  LaTeX-item-equation)
+		     ("Bmatrix" .  LaTeX-item-equation)
+		     ("vmatrix" .  LaTeX-item-equation)
+		     ("Vmatrix" .  LaTeX-item-equation)
 		     ("cases"    . LaTeX-item-equation))
 		   LaTeX-item-list))
+
+    ;; When `LaTeX-amsmath-label' is nil, use value of LaTeX-equation-label:
+    (unless LaTeX-amsmath-label
+      (setq LaTeX-amsmath-label LaTeX-equation-label))
 
     (setq LaTeX-label-alist
 	  (append '(("align"      . LaTeX-amsmath-label)
 		    ("alignat"    . LaTeX-amsmath-label)
 		    ("xalignat"   . LaTeX-amsmath-label)
-		    ("aligned"    . LaTeX-amsmath-label)
+		    ("multline"    . LaTeX-amsmath-label)
 		    ("flalign"    . LaTeX-amsmath-label)
 		    ("gather"     . LaTeX-amsmath-label))
 		  LaTeX-label-alist))
@@ -105,23 +128,21 @@
   (let ((ncols (read-string "Number of columns: ")))
     (LaTeX-insert-environment env (concat TeX-grop ncols TeX-grcl))
     (and (not (string= "xxalignat" env))
+	 (not (string= "*" (substring env -1)))
 	 (LaTeX-label environment)
-	 (newline-and-indent))
-    (TeX-math-input-method-off)))
+	 (newline-and-indent))))
 
 (defun LaTeX-amsmath-env-aligned (env)
   (let ((where (read-string "(optional) Vertical position (t or b): ")))
     (if (string= where "")
 	(setq where "")
       (setq where (concat "[" where "]")))
-    (LaTeX-insert-environment env where)
-    (TeX-math-input-method-off)))
+    (LaTeX-insert-environment env where)))
 
 (defun LaTeX-item-equation ()
   (end-of-line 0)
-  (if (not (eq (preceding-char) ? ))
-      (insert " \\\\")
-    (insert "\\\\"))
+  (just-one-space)
+  (insert "\\\\")
   (forward-line 1)
   (indent-according-to-mode))
 
@@ -130,14 +151,5 @@
   (let ((environment (LaTeX-current-environment 1)))
     (and (LaTeX-label environment)
 	 (newline-and-indent))))
-
-(defcustom LaTeX-amsmath-label LaTeX-equation-label
-  "*Default prefix to amsmath equation labels.
-
-Amsmath equations include \"align\", \"alignat\", \"xalignat\", \"aligned\",
-\"flalign\" and \"gather\"."
-  :group 'LaTeX-label
-  :type 'string)
-
 
 ;;; amsmath.el ends here.
