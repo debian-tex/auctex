@@ -1,17 +1,17 @@
 ;;; tex-jp.el --- Support for Japanese TeX.
 
 ;; Copyright (C) 1999, 2001 Hidenobu Nabetani <nabe@debian.or.jp>
-;; Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation
+;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007 Free Software Foundation
 
 ;; Author:     KOBAYASHI Shinji <koba@flab.fujitsu.co.jp>
-;; Maintainer: Masayuki Ataka <ataka@milk.freemail.ne.jp>
+;; Maintainer: Masayuki Ataka <masayuki.ataka@gmail.com>
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
 
 ;; AUCTeX is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; AUCTeX is distributed in the hope that it will be useful, but
@@ -52,13 +52,13 @@
   ;; Changed to double quotes for Windows afflicted people.  I don't
   ;; use the %(latex) and %(tex) shorthands here because I have not
   ;; clue whether Omega-related versions exist.  --dak
-  '(("jTeX" "%(PDF)jtex %S%(PDFout) \"%(mode)\\input %t\""
+  '(("jTeX" "%(PDF)jtex %`%S%(PDFout)%(mode)%' %t"
      TeX-run-TeX nil (plain-tex-mode) :help "Run NTT jTeX")
-    ("jLaTeX" "%(PDF)jlatex %S%(PDFout) \"%(mode)\\input{%t}\""
+    ("jLaTeX" "%(PDF)jlatex %`%S%(PDFout)%(mode)%' %t"
      TeX-run-TeX nil (latex-mode) :help "Run NTT jLaTeX")
-    ("pTeX" "%(PDF)ptex %S%(PDFout) \"%(mode)\\input %t\""
+    ("pTeX" "%(PDF)ptex %`%S%(PDFout)%(mode)%' %t"
      TeX-run-TeX nil (plain-tex-mode) :help "Run ASCII pTeX")
-    ("pLaTeX" "%(PDF)platex %S%(PDFout) \"%(mode)\\input{%t}\""
+    ("pLaTeX" "%(PDF)platex %`%S%(PDFout)%(mode)%' %t"
      TeX-run-TeX nil (latex-mode) :help "Run ASCII pLaTeX")
     ("Mendex" "mendex %s" TeX-run-command nil t :help "Create index file with mendex")
     ("jBibTeX" "jbibtex %s" TeX-run-BibTeX nil t :help "Run jBibTeX"))
@@ -80,6 +80,8 @@ For detail, see `TeX-command-list', which this list is appended to."
 				(function-item TeX-run-discard)
 				(function-item TeX-run-background)
 				(function-item TeX-run-silent)
+				(function-item TeX-run-discard-foreground)
+				(function-item TeX-run-function)
 				(function :tag "Other"))
 			(boolean :tag "Prompt")
 			(choice :tag "Modes"
@@ -131,20 +133,25 @@ For detail, see `TeX-command-list', which this list is appended to."
 
 (when (featurep 'mule)
 
+;; FIX-ME (2007-02-09) The default coding system in recent Unix (like Fedora and
+;; Ubuntu) is utf-8.  But Japanese TeX system is not support utf-8 yet
+;; (platex-utf is under development, may be alpha phase).  So,
+;; process-coding-system for Japanese TeX is not defined from
+;; default-coding-system.  When platex-utf is out, we should look this setting,
+;; again.
+
 (defcustom TeX-japanese-process-input-coding-system
-  (if (boundp 'default-process-coding-system)
-      (cdr default-process-coding-system)
-    ;; Old XEmacs < 21.5?
-    'euc-jp)
+  (cond ((memq system-type '(windows-nt ms-dos cygwin)) 'shift_jis-dos)
+	((memq system-type '(mac darwin)) 'shift_jis-mac)
+	(t 'euc-jp-unix))
   "TeX-process' coding system with standard input."
   :group 'AUCTeX-jp
   :type 'coding-system)
 
 (defcustom TeX-japanese-process-output-coding-system
-  (if (boundp 'default-process-coding-system)
-      (car default-process-coding-system)
-    ;; Old XEmacs < 21.5?
-    'iso-2022-jp)
+  (cond ((memq system-type '(windows-nt ms-dos cygwin)) 'shift_jis-dos)
+	((memq system-type '(mac darwin)) 'shift_jis-mac)
+	(t 'euc-jp-unix))
   "TeX-process' coding system with standard output."
   :group 'AUCTeX-jp
   :type 'coding-system)
@@ -192,11 +199,14 @@ For detail, see `TeX-command-list', which this list is appended to."
 
 (when (featurep 'mule)
 
+(defun japanese-TeX-set-process-coding-system (process)
+  "Set proper coding system for japanese TeX PROCESS."
+  (if (with-current-buffer TeX-command-buffer japanese-TeX-mode)
+      (set-process-coding-system process
+				 TeX-japanese-process-output-coding-system
+				 TeX-japanese-process-input-coding-system)))
 (setq TeX-after-start-process-function
-      (lambda (process)
-	(set-process-coding-system process
-	 TeX-japanese-process-output-coding-system
-	 TeX-japanese-process-input-coding-system)))
+      'japanese-TeX-set-process-coding-system)
 )
 
 ;;; Japanese TeX modes

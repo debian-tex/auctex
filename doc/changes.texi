@@ -1,8 +1,88 @@
+@c This is part of the AUCTeX manual.
+@c Copyright (C) 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
+@c   2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+@c See file auctex.texi for copying conditions.
 @include macros.texi
 @ifset rawfile
 @chapheading Changes and New Features in @AUCTeX{}
 
 @end ifset
+
+@heading News in 11.85
+
+@itemize @bullet
+
+@item
+Font locking has been improved significantly.  It is now less prone to
+color bleeding which could lead to high resource usage.  In addition it
+now includes information about @LaTeX{} macro syntax and can indicate
+syntactically incorrect macros in @LaTeX{} mode.
+
+@item
+The license was updated to GPLv3.
+
+@item
+Support for the nomencl, flashcards and comment @LaTeX{} packages as
+well as the Icelandic language option of babel were added.
+
+@item
+Support for folding of math macros was added.
+
+@item
+Lots of minor bugs in features and documentation fixed.
+@end itemize
+
+@heading News in 11.84
+
+@itemize @bullet
+
+@item
+There have been problems with the @samp{-without-texmf-dir} option to
+@samp{configure} when the value of @samp{-with-kpathsea-sep} was set or
+determined for an installation system with a default different from that
+of the runtime system.  @code{with-kpathsea-sep} has been removed; the
+setting is now usually determined at runtime.
+
+Due to this and other problems, preview-latex in the released XEmacs
+package failed under Windows or with anything except recent 21.5
+XEmacsen.
+
+@item
+@AUCTeX{} and @previewlatex{} have been changed in order to accommodate
+file names containing spaces.  @previewlatex{} now tolerates bad
+PostScript code polluting the stack (like some Omega fonts).
+
+@item
+@samp{preview.sty} had in some cases failed to emit PostScript header
+specials.
+
+@item
+Support for folding of comments was added.
+
+@item
+The @code{polish} language option of the babel LaTeX package as well as
+the polski LaTeX package are now supported.  Most notably this means
+that AUCTeX will help to insert quotation marks as defined by polish.sty
+(@code{"`..."'}) and polski.sty (@code{,,...''}).
+
+@item
+The @TeX{} tool bar is now available and enabled by default in plain
+@TeX{} mode.
+@ifclear rawfile
+@xref{Running TeX and friends}.
+@end ifclear
+
+@item
+Bug fix in the display of math subscripts and superscripts.
+
+@item
+Bug fix @code{TeX-doc} for Emacs 21.
+
+@item
+There has been quite a number of other bug fixes to various features and
+documentation across the board.
+
+@end itemize
 
 @heading News in 11.83
 
@@ -96,14 +176,22 @@ inserted by typing @key{"}.
 Completion support for options of some LaTeX packages was added.
 
 @item
+@cindex @file{auctex.el}
+@cindex @file{tex-site.el}
 Already in version 11.81 the way to activate @AUCTeX{} changed
 substantially.  This should now be done with @code{(load "auctex.el" nil
 t t)} instead of the former @code{(require 'tex-site)}.  Related to this
 change @file{tex-mik.el} does not load @file{tex-site.el} anymore.  That
 means if you used only @code{(require 'tex-mik)} in order to activate
 @AUCTeX{}, you have to add @code{(load "auctex.el" nil t t)} before the
-latter statement.  More detailed information can be found in the
-installation instructions.
+latter statement.
+@ifset rawfile
+More detailed information can be found in the installation instructions
+(file INSTALL).
+@end ifset
+@ifclear rawfile
+@xref{Loading the package}.
+@end ifclear
 
 @item
 Handling of verbatim constructs was consolidated across AUCTeX.  This
@@ -364,7 +452,7 @@ Bug fixes for XEmacs.
 Completion for graphic files in the TeX search path has been added.
 
 @item
-@command{start} is used for the viewer for Mik@TeX{} and fp@TeX{}.
+@command{start} is used for the viewer for MiK@TeX{} and fp@TeX{}.
 
 @item
 The variable @code{TeX-fold-preserve-comments} can now be customized to

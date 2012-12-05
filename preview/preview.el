@@ -1,13 +1,14 @@
 ;;; preview.el --- embed preview LaTeX images in source buffer
 
-;; Copyright (C) 2001, 02, 03, 04, 05  Free Software Foundation, Inc.
+;; Copyright (C) 2001, 02, 03, 04, 05,
+;;               2006  Free Software Foundation, Inc.
 
 ;; Author: David Kastrup
 ;; Keywords: tex, wp, convenience
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This file is distributed in the hope that it will be useful,
@@ -22,7 +23,7 @@
 
 ;;; Commentary:
 
-;; $Id: preview.el,v 1.268 2006/05/25 07:50:57 angeli Exp $
+;; $Id: preview.el,v 1.282 2008/02/03 14:53:31 angeli Exp $
 ;;
 ;; This style is for the "seamless" embedding of generated images
 ;; into LaTeX source code.  Please see the README and INSTALL files
@@ -347,7 +348,9 @@ LIST consists of TeX dimensions in sp (1/65536 TeX point)."
      (dotimes (i 4 box)
        (aset box i (+ (aref box i) (aref border i)))))))
 
-(defcustom preview-gs-command "gs"
+(defcustom preview-gs-command (if (eq system-type 'windows-nt)
+				  "GSWIN32C.EXE"
+				"gs")
   "*How to call gs for conversion from EPS.  See also `preview-gs-options'."
   :group 'preview-gs
   :type 'string)
@@ -662,7 +665,7 @@ Gets the usual PROCESS and STRING parameters, see
 `set-process-filter' for a description."
   (with-current-buffer (process-buffer process)
     (setq preview-gs-answer (concat preview-gs-answer string))
-    (while (string-match "GS\\(<[0-9+]\\)?>" preview-gs-answer)
+    (while (string-match "GS\\(<[0-9]+\\)?>" preview-gs-answer)
       (let* ((pos (match-end 0))
 	     (answer (substring preview-gs-answer 0 pos)))
 	(setq preview-gs-answer (substring preview-gs-answer pos))
@@ -723,14 +726,12 @@ SETUP may contain a parser setup function."
 	  preview-gs-init-string
 	  (format "{DELAYSAFER{.setsafe}if}stopped pop\
 /.preview-BP currentpagedevice/BeginPage get dup \
-null eq {pop{pop}bind}if def\
+null eq{pop{pop}bind}if def\
 <</BeginPage{currentpagedevice/PageSize get dup 0 get 1 ne exch 1 get 1 ne or\
 {.preview-BP %s}{pop}ifelse}bind/PageSize[1 1]>>setpagedevice\
 /preview-do{[count 3 roll save]3 1 roll dup length 0 eq\
-{pop}{{setpagedevice}stopped{handleerror quit}if}ifelse \
-systemdict /.runandhide known{{.runandhide}}if \
-stopped{handleerror quit}if count 1 gt\
-{pop/exec errordict/stackoverflow get exec}if \
+{pop}{setpagedevice}{ifelse .runandhide}\
+stopped{handleerror quit}if \
 aload pop restore}bind def "
 		  (preview-gs-color-string preview-colors)))
     (preview-gs-queue-empty)
@@ -1073,7 +1074,7 @@ NONREL is not NIL."
     (setq preview-gs-dsc (preview-dsc-parse file))
     (setq preview-gs-init-string
 	  (concat preview-gs-init-string
-		  (format "%s(r)file dup %s exec "
+		  (format "[%s(r)file]aload exch %s .runandhide aload pop "
 			  (preview-ps-quote-filename file)
 			  (preview-gs-dsc-cvx 0 preview-gs-dsc))))))
 
@@ -1455,39 +1456,46 @@ numbers (can be float if available)."
 Fallback to :inherit and 'default implemented."
   :group 'preview-appearance)
 
-(defcustom preview-auto-reveal `(preview-arrived-via
-				 ,(key-binding [left])
-				 ,(key-binding [right]))
+(defcustom preview-auto-reveal '(eval (preview-arrived-via
+				       (key-binding [left])
+				       (key-binding [right])))
   "*Cause previews to open automatically when entered.
 Possibilities are:
 T autoopens,
 NIL doesn't,
 a symbol will have its value consulted if it exists,
 defaulting to NIL if it doesn't.
+An integer will specify a maximum cursor movement distance.
+Larger movements won't open the preview.
 A CONS-cell means to call a function for determining the value.
 The CAR of the cell is the function to call which receives
 the CDR of the CONS-cell in the rest of the arguments, while
 point and current buffer point to the position in question.
 All of the options show reasonable defaults."
   :group 'preview-appearance
-  :type `(choice (const :tag "Off" nil)
+  :type '(choice (const :tag "Off" nil)
 		 (const :tag "On" t)
 		 (symbol :tag "Indirect variable" :value reveal-mode)
+		 (integer :tag "Maximum distance" :value 1)
 		 (cons :tag "Function call"
-		       :value (preview-arrived-via
-			       ,(key-binding [left])
-			       ,(key-binding [right]))
+		       :value (eval (preview-arrived-via
+				     (key-binding [left])
+				     (key-binding [right])))
 		       function (list :tag "Argument list"
 				      (repeat :inline t sexp)))))
   
-(defun preview-auto-reveal-p (mode)
+(defun preview-auto-reveal-p (mode distance)
   "Decide whether to auto-reveal.
 Returns non-NIL if region should be auto-opened.
 See `preview-auto-reveal' for definitions of MODE, which gets
-set to `preview-auto-reveal'."
+set to `preview-auto-reveal'.  DISTANCE specifies the movement
+distance with which point has been reached in case it has been
+a movement starting in the current buffer."
   (cond ((symbolp mode)
 	 (and (boundp mode)
               (symbol-value mode)))
+	((integerp mode)
+	 (and distance (/= 0 distance) (<= (abs distance) mode)))
 	((consp mode)
 	 (apply (car mode) (cdr mode)))
 	(t mode)))
@@ -1597,7 +1605,7 @@ through `preview-region'."
 	(let ((preview-state (overlay-get ovr 'preview-state)))
 	  (when preview-state
 	    (unless (eq preview-state 'disabled)
-	      (preview-toggle ovr 'toggle)
+	      (preview-toggle ovr 'toggle (selected-window))
 	      (throw 'exit t)))))
       (preview-region (preview-next-border t)
 		      (preview-next-border nil)))))
@@ -1646,20 +1654,17 @@ a hook in some cases"
 	  (preview-delete-file filename)
 	(file-error nil)))))
 
-(defun preview-clearout (&optional start end keep-dir timestamp)
+(defun preview-clearout (&optional start end timestamp)
   "Clear out all previews in the current region.
 When called interactively, the current region is used.
 Non-interactively, the region between START and END is
 affected.  Those two values default to the borders of
-the entire buffer.  If KEEP-DIR is set to a value from
-`TeX-active-tempdir', previews associated with that
-directory are kept.  The same holds for previews with
-the given value of TIMESTAMP."
+the entire buffer.  If TIMESTAMP is non-nil, previews
+with a `timestamp' property of it are kept."
   (interactive "r")
   (dolist (ov (overlays-in (or start (point-min))
 			   (or end (point-max))))
     (and (overlay-get ov 'preview-state)
-	 (not (rassq keep-dir (overlay-get ov 'filenames)))
 	 (not (and timestamp
 		   (equal timestamp (overlay-get ov 'timestamp))))
 	 (preview-delete ov))))
@@ -1720,7 +1725,7 @@ kept."
   (with-current-buffer (or buf (current-buffer))
     (save-restriction
       (widen)
-      (preview-clearout (point-min) (point-max) nil (visited-file-modtime)))))
+      (preview-clearout (point-min) (point-max) (visited-file-modtime)))))
 
 (add-hook 'kill-buffer-hook #'preview-kill-buffer-cleanup)
 (add-hook 'before-revert-hook #'preview-kill-buffer-cleanup)
@@ -1746,7 +1751,7 @@ kept."
 					   (overlay-start y)))))
 	  (when (and (memq (overlay-get ov 'preview-state) '(active inactive))
 		     (null (overlay-get ov 'queued))
-		     (eq 1 (length (overlay-get ov 'filenames))))
+		     (cdr (overlay-get ov 'preview-image)))
 	    (push (preview-dissect ov timestamp) save-info)))
 	(and save-info
 	     (cons 'preview (cons timestamp (nreverse save-info))))))))
@@ -2012,6 +2017,7 @@ to the close hook."
 		     (preview-toggle ,ov 'toggle event))
 		  `(lambda(event) (interactive "e")
 		     (preview-context-menu ,ov event))))
+    (overlay-put ov 'timestamp tempdir)
     (when (cdr counters)
       (overlay-put ov 'preview-counters counters)
       (setq preview-buffer-has-counters t))
@@ -2072,18 +2078,26 @@ is to be situated, IMAGE the image to place there, and FILENAME
 the file to use: a triple consisting of filename, its temp directory
 and the corresponding topdir.  COUNTERS is saved counter information,
 if any."
-  (when (file-readable-p (car filename))
-    (unless (equal (nth 1 filename) (car TeX-active-tempdir))
-      (setq TeX-active-tempdir
-	    (or (assoc (nth 1 filename) tempdirlist)
-		(car (push (append (cdr filename) (list 0)) tempdirlist))))
-      (setcar (cdr TeX-active-tempdir)
-	      (car (or (member (nth 1 TeX-active-tempdir) preview-temp-dirs)
-		       (progn
-			 (add-hook 'kill-emacs-hook #'preview-cleanout-tempfiles t)
-			 (push (nth 1 TeX-active-tempdir) preview-temp-dirs))))))
-    (setcar (nthcdr 2 TeX-active-tempdir) (1+ (nth 2 TeX-active-tempdir)))
-    (setcdr filename TeX-active-tempdir)
+  (when
+      (or (null filename) (file-readable-p (car filename)))
+    (when filename
+      (unless (equal (nth 1 filename) (car TeX-active-tempdir))
+	(setq TeX-active-tempdir
+	      (or (assoc (nth 1 filename) tempdirlist)
+		  (car (push (append (cdr filename) (list 0))
+			     tempdirlist))))
+	(setcar (cdr TeX-active-tempdir)
+		(car (or (member (nth 1 TeX-active-tempdir)
+				 preview-temp-dirs)
+			 (progn
+			   (add-hook 'kill-emacs-hook
+				     #'preview-cleanout-tempfiles t)
+			   (push (nth 1 TeX-active-tempdir)
+				 preview-temp-dirs))))))
+      (setcar (nthcdr 2 TeX-active-tempdir)
+	      (1+ (nth 2 TeX-active-tempdir)))
+      (setcdr filename TeX-active-tempdir)
+      (setq filename (list filename)))
     (let ((ov (make-overlay start end nil nil nil)))
       (when (fboundp 'TeX-overlay-prioritize)
 	(overlay-put ov 'priority (TeX-overlay-prioritize start end)))
@@ -2109,7 +2123,7 @@ if any."
 		      (setq preview-parsed-counters
 			    (preview-parse-counters (cdr counters)))))))
 	(setq preview-buffer-has-counters t))
-      (overlay-put ov 'filenames (list filename))
+      (overlay-put ov 'filenames filename)
       (overlay-put ov 'preview-image (cons (preview-import-image image)
 					   image))
       (overlay-put ov 'strings
@@ -2198,10 +2212,10 @@ list of LaTeX commands is inserted just before \\begin{document}."
   :group 'preview-latex
   :type preview-expandable-string)
 
-(defcustom preview-LaTeX-command '("%l \"\\nonstopmode\\nofiles\
+(defcustom preview-LaTeX-command '("%`%l \"\\nonstopmode\\nofiles\
 \\PassOptionsToPackage{" ("," . preview-required-option-list) "}{preview}\
 \\AtBeginDocument{\\ifx\\ifPreview\\undefined"
-preview-default-preamble "\\fi}\\input{%t}\"")
+preview-default-preamble "\\fi}\"%' %t")
   "*Command used for starting a preview.
 See description of `TeX-command-list' for details."
   :group 'preview-latex
@@ -2210,8 +2224,7 @@ See description of `TeX-command-list' for details."
 (defun preview-goto-info-page ()
   "Read documentation for preview-latex in the info system."
   (interactive)
-  (require 'info)
-  (Info-goto-node "(preview-latex)"))
+  (info "(preview-latex)"))
 
 (eval-after-load 'info '(add-to-list 'Info-file-list-for-emacs
 				     '("preview" . "preview-latex")))
@@ -2297,29 +2310,34 @@ result, DONT-ASK in the cdr."
        (let* ((text (with-current-buffer (overlay-buffer ov)
 		     (buffer-substring (overlay-start ov)
 				       (overlay-end ov))))
-	      (file (car (car (last (overlay-get ov 'filenames)))))
-	      (type (mailcap-extension-to-mime
-		     (file-name-extension file))))
-	 (and (not dont-ask)
-	      (nth 3 (cdr (overlay-get ov 'preview-image)))
-	      (if (y-or-n-p "Replace colored borders? ")
-		  (throw 'badcolor t)
-		(setq dont-ask t)))
-	 (cons
-	  (format "<#part %s
+	      (image (cdr (overlay-get ov 'preview-image)))
+	      file type)
+	 (cond ((consp image)
+		(and (not dont-ask)
+		     (nth 3 image)
+		     (if (y-or-n-p "Replace colored borders? ")
+			 (throw 'badcolor t)
+		       (setq dont-ask t)))
+		(setq file (car (car (last (overlay-get ov 'filenames))))
+		      type (mailcap-extension-to-mime
+			    (file-name-extension file)))
+		(cons
+		 (format "<#part %s
 description=\"%s\"
 filename=%s>
 <#/part>"
-		  (if type
-		      (format "type=\"%s\" disposition=inline" type)
-		    "disposition=attachment")
-		  (if (string-match "[\n\"]" text)
-		      "preview-latex image"
-		    text)
-		  (if (string-match "[ \n<>]" file)
-		      (concat "\"" file "\"")
-		    file))
-	  dont-ask))))
+			 (if type
+			     (format "type=\"%s\" disposition=inline" type)
+			   "disposition=attachment")
+			 (if (string-match "[\n\"]" text)
+			     "preview-latex image"
+			   text)
+			 (if (string-match "[ \n<>]" file)
+			     (concat "\"" file "\"")
+			   file))
+		 dont-ask))
+	       ((stringp image)
+		(cons image dont-ask))))))
 
 (defun preview-active-contents (ov)
   "Check whether we have a valid image associated with OV."
@@ -2353,30 +2371,32 @@ environment variable, including an initial `.' at the front."
 	     TeX-kpathsea-path-delimiter)
 	    ((string-match
 	      "\\`.[:]"
-	      (if (file-name-absolute-p TeX-kpathsea-path-delimiter)
-		  TeX-kpathsea-path-delimiter
-		(expand-file-name TeX-kpathsea-path-delimiter)))
+	      (if (file-name-absolute-p preview-TeX-style-dir)
+		  preview-TeX-style-dir
+		(expand-file-name preview-TeX-style-dir)))
 	     ";")
 	    (t ":"))))
-      (concat "." sep TeX-kpathsea-path-delimiter sep))))
+      (concat "." sep preview-TeX-style-dir sep))))
 
 (defun preview-set-texinputs (&optional remove)
-  "Add `preview-TeX-style-dir' into `TEXINPUT' variables.
+  "Add `preview-TeX-style-dir' into `TEXINPUTS' variables.
 With prefix argument REMOVE, remove it again."
   (interactive "P")
-  (if remove
-      (let ((case-fold-search nil)
-	    (pattern (concat "\\`\\(TEXINPUTS[^=]*\\)=\\(.*\\)"
-			     (regexp-quote preview-TeX-style-dir))))
-	(dolist (env (copy-sequence process-environment))
-	  (if (string-match pattern env)
-	      (setenv (match-string 1 env)
-		      (and (or (< (match-beginning 2) (match-end 2))
-			       (< (match-end 0) (length env)))
-			   (concat (match-string 2 env)
-				   (substring env (match-end 0))))))))
-    (let ((case-fold-search nil)
-	  (pattern (regexp-quote preview-TeX-style-dir)))
+  (let ((case-fold-search nil)
+	(preview-TeX-style-dir (preview-TeX-style-cooked))
+	pattern)
+    (if remove
+	(progn
+	  (setq pattern (concat "\\`\\(TEXINPUTS[^=]*\\)=\\(.*\\)"
+				(regexp-quote preview-TeX-style-dir)))
+	  (dolist (env (copy-sequence process-environment))
+	    (if (string-match pattern env)
+		(setenv (match-string 1 env)
+			(and (or (< (match-beginning 2) (match-end 2))
+				 (< (match-end 0) (length env)))
+			     (concat (match-string 2 env)
+				     (substring env (match-end 0))))))))
+      (setq pattern (regexp-quote preview-TeX-style-dir))
       (dolist (env (cons "TEXINPUTS=" (copy-sequence process-environment)))
 	(if (string-match "\\`\\(TEXINPUTS[^=]*\\)=" env)
 	    (unless (string-match pattern env)
@@ -2386,15 +2406,21 @@ With prefix argument REMOVE, remove it again."
 
 (defcustom preview-TeX-style-dir nil
   "This variable contains the location of uninstalled TeX styles.
-This has to be followed by the character with which kpathsea
-separates path components, either `:' on Unix-like systems,
-or `;' on Windows-like systems.  And it should be preceded with
-.: or .; accordingly in order to have . first in the search path.
+If this is nil, the preview styles are considered to be part of
+the installed TeX system.
 
-If this is non-nil, the `TEXINPUT' environment type variables will
-get this prepended at load time calling \\[preview-set-texinputs]
-to reflect this.  You can permanently install the style files
-using \\[preview-install-styles].
+Otherwise, it can either just specify an absolute directory, or
+it can be a complete TEXINPUTS specification.  If it is the
+latter, it has to be followed by the character with which
+kpathsea separates path components, either `:' on Unix-like
+systems, or `;' on Windows-like systems.  And it should be
+preceded with .: or .; accordingly in order to have . first in
+the search path.
+
+The `TEXINPUT' environment type variables will get this prepended
+at load time calling \\[preview-set-texinputs] to reflect this.
+You can permanently install the style files using
+\\[preview-install-styles].
 
 Don't set this variable other than with customize so that its
 changes get properly reflected in the environment."
@@ -2407,7 +2433,7 @@ changes get properly reflected in the environment."
 	 (and (symbol-value var)
 	      (preview-set-texinputs)))
   :type '(choice (const :tag "Installed" nil)
-		 (string :tag "Directory followed by kpathsea delimiter")))
+		 (string :tag "Style directory or TEXINPUTS path")))
 
 ;;;###autoload
 (defun preview-install-styles (dir &optional force-overwrite
@@ -2425,9 +2451,17 @@ files are no longer needed in the search path."
 pp")
   (unless preview-TeX-style-dir
     (error "Styles are already installed"))
-  (dolist (file (directory-files
-		 (substring preview-TeX-style-dir 0 -1)
-		 t "\\.\\(sty\\|def\\|cfg\\)\\'"))
+  (dolist (file (or
+		 (condition-case nil
+		     (directory-files
+		      (progn
+			(string-match
+			 "\\`\\(\\.[:;]\\)?\\(.*?\\)\\([:;]\\)?\\'"
+			 preview-TeX-style-dir)
+			(match-string 2 preview-TeX-style-dir))
+		      t "\\.\\(sty\\|def\\|cfg\\)\\'")
+		   (error nil))
+		 (error "Can't find files to install")))
     (copy-file file dir (cond ((eq force-overwrite 1) 1)
 			      ((numberp force-overwrite)
 			       (> force-overwrite 1))
@@ -2479,13 +2513,6 @@ to add the preview functionality."
 	 (customize-menu-create 'preview))])
       ["Read documentation" preview-goto-info-page]
       ["Report Bug" preview-report-bug]))
-  (add-to-list 'TeX-error-description-list
-	       '("\\(?:Package Preview Error\\|Preview\\):.*" .
-"The auctex option to preview should not be applied manually.  If you
-see this error message, either you did something too clever, or the
-preview Emacs Lisp package something too stupid."))
-  (add-to-list 'TeX-expand-list
-	       '("%m" preview-create-subdirectory) t)
   (if (eq major-mode 'latex-mode)
       (preview-mode-setup))
   (if (boundp 'desktop-buffer-misc)
@@ -2640,38 +2667,41 @@ call, and in its CDR the final stuff for the placement hook."
 	  (progn
 	    (while
 		(re-search-forward "\
-\\(^! \\)\\|\
-\(\\([^()\r\n{ ]+\\))*\\(?:{[^}\n]*}\\)?\\(?: \\|\r?$\\)\\|\
-)+\\([ >]\\|\r?$\\)\\|\
+^\\(!\\|\\(.*?\\):[0-9]+:\\) \\|\
+\(\\(/*\
+\\(?:\\.+[^()\r\n{} /]*\\|[^()\r\n{} ./]+\
+\\(?: [^()\r\n{} ./]+\\)*\\(?:\\.[-0-9a-zA-Z_.]*\\)?\\)\
+\\(?:/+\\(?:\\.+[^()\r\n{} /]*\\|[^()\r\n{} ./]+\
+\\(?: [^()\r\n{} ./]+\\)*\\(?:\\.[-0-9a-zA-Z_.]*\\)?\\)?\\)*\\)\
+)*\\(?: \\|\r?$\\)\\|\
+\\()+\\)\\|\
  !\\(?:offset(\\([---0-9]+\\))\\|\
 name(\\([^)]+\\))\\)\\|\
-^Preview: \\([a-zA-Z]+\\) \\([^\n\r]*\\)\r?$\\|\
-^\\(.*\\):[0-9]+: " nil t)
-;;; Ok, here is a line by line breakdown: match-alternative 1:
-;;; \(^! \)
-;;; exclamation point at start of line followed by blank: TeX error
+^Preview: \\([a-zA-Z]+\\) \\([^\n\r]*\\)\r?$" nil t)
+;;; Ok, here is a line by line breakdown:
+;;; match-alternative 1:
+;;; error indicator for TeX error, either style.
 ;;; match-alternative 2:
-;;; \(?:^\| \)(\([^()\n ]+\))*\(?: \|$\)
-;;; Deep breath: an opening paren either at the start of the line or
-;;; preceded by a space, followed by a file name (which we take to be
-;;; consisting of anything but space, newline, or parens), followed
-;;; immediately by 0 or more closing parens followed by
-;;; either a space or the end of the line: a just opened file.  PDFTeX
-;;; has ugly stuff in braces that we need to check, too.
+;;; The same, but file-line-error-style, matching on file name.
+;;; match-alternative 3:
+;;; Too ugly to describe in detail.  In short, we try to catch file
+;;; names built from path components that don't contain spaces or
+;;; other special characters once the file extension has started.
+;;;
 ;;; Position for searching immediately after the file name so as to
 ;;; not miss closing parens or something.
-;;; (match-string 2) is the file name.
-;;; match-alternative 3:
+;;; (match-string 3) is the file name.
+;;; match-alternative 4:
 ;;; )+\( \|$\)
 ;;; a closing paren followed by the end of line or a space: a just
 ;;; closed file.
-;;; match-alternative 4 (wrapped into one shy group with
-;;; match-alternative 5, so that the match on first char is slightly
+;;; match-alternative 5 (wrapped into one shy group with
+;;; match-alternative 6, so that the match on first char is slightly
 ;;; faster):
 ;;; !offset(\([---0-9]+\))
-;;; an AUCTeX offset message. (match-string 4) is the offset itself
+;;; an AUCTeX offset message. (match-string 5) is the offset itself
 ;;; !name(\([^)]+\))
-;;; an AUCTeX file name message.  (match-string 5) is the file name
+;;; an AUCTeX file name message.  (match-string 6) is the file name
 ;;; TODO: Actually, the latter two should probably again match only
 ;;; after a space or newline, since that it what \message produces.
 ;;;disabled in prauctex.def:
@@ -2681,10 +2711,9 @@ name(\\([^)]+\\))\\)\\|\
 ;;; This would have caught overfull box messages that consist of
 ;;; several lines of context all with 79 characters in length except
 ;;; of the last one.  prauctex.def kills all such messages.
-	      (setq file (and (match-beginning 8)
-			      (match-string-no-properties 8)))
+	      (setq file (match-string-no-properties 2))
 	      (cond
-	       ((or (match-beginning 1) file)
+	       ((match-beginning 1)
 		(if (looking-at "\
 \\(?:Preview\\|Package Preview Error\\): Snippet \\([---0-9]+\\) \\(started\\|ended\\(\
 \\.? *(\\([---0-9]+\\)\\+\\([---0-9]+\\)x\\([---0-9]+\\))\\)?\\)\\.")
@@ -2721,9 +2750,9 @@ name(\\([^)]+\\))\\)\\|\
 ;;; to be favorable.  Removing incomplete characters from the error
 ;;; context is an absolute nuisance.
 			    line (and (re-search-forward "\
-^l\\.\\([0-9]+\\) \\(\\.\\.\\.\\(?:\\^?\\(?:[89a-f][0-9a-f]\\|[@-_?]\\)\\|\
+^l\\.\\([0-9]+\\) \\(\\.\\.\\.\\(?:\\^*\\(?:[89a-f][0-9a-f]\\|[]@-\\_?]\\)\\|\
 \[0-9a-f]?\\)\\)?\\([^\n\r]*?\\)\r?
-\\([^\n\r]*?\\)\\(\\.\\.\\.\\|\\^\\(?:\\^[89a-f]?\\)?\\.\\.\\.\\)?\r?$" nil t)
+\\([^\n\r]*?\\)\\(\\(?:\\^+[89a-f]?\\)?\\.\\.\\.\\)?\r?$" nil t)
 				      (string-to-number (match-string 1)))
 			    ;; And a string of the context to search for.
 			    string (and line (match-string 3))
@@ -2768,30 +2797,30 @@ name(\\([^)]+\\))\\)\\|\
 		  (forward-line)
 		  (re-search-forward "^l\\.[0-9]" nil t)
 		  (forward-line 2)))
-	       ((match-beginning 2)
-		;; New file -- Push on stack
-		(push (match-string-no-properties 2) TeX-error-file)
-		(push nil TeX-error-offset)
-		(goto-char (match-end 2)))
 	       ((match-beginning 3)
+		;; New file -- Push on stack
+		(push (match-string-no-properties 3) TeX-error-file)
+		(push nil TeX-error-offset)
+		(goto-char (match-end 3)))
+	       ((match-beginning 4)
 		;; End of file -- Pop from stack
 		(when (> (length TeX-error-file) 1)
 		  (pop TeX-error-file)
 		  (pop TeX-error-offset))
 		(goto-char (1+ (match-beginning 0))))
-	       ((match-beginning 4)
+	       ((match-beginning 5)
 		;; Hook to change line numbers
 		(setq TeX-error-offset
-		      (list (string-to-number (match-string 4)))))
-	       ((match-beginning 5)
-		;; Hook to change file name
-		(setq TeX-error-file (list (match-string-no-properties 5))))
+		      (list (string-to-number (match-string 5)))))
 	       ((match-beginning 6)
+		;; Hook to change file name
+		(setq TeX-error-file (list (match-string-no-properties 6))))
+	       ((match-beginning 7)
 		(let ((var
-		       (assoc (match-string-no-properties 6)
+		       (assoc (match-string-no-properties 7)
 			      preview-parse-variables))
-		      (offset (- (match-beginning 0) (match-beginning 7)))
-		      (str (match-string-no-properties 7)))
+		      (offset (- (match-beginning 0) (match-beginning 8)))
+		      (str (match-string-no-properties 8)))
 		  ;; paste together continuation lines:
 		  (while (= (- (length str) offset) 79)
 		    (search-forward-regexp "^\\([^\n\r]*\\)\r?$")
@@ -3143,7 +3172,11 @@ Tries through `preview-format-extensions'."
   (if file
       (concat (file-name-directory file)
 	      "prv_"
-	      (file-name-nondirectory file))
+	      (progn
+		(setq file (file-name-nondirectory file))
+		(while (string-match " " file)
+		  (setq file (replace-match "_" t t file)))
+		file))
     "prv_texput"))
 
 (defun preview-do-replacements (string replacements)
@@ -3193,8 +3226,8 @@ This is passed through `preview-do-replacements'."
 (defcustom preview-dump-replacements
   '(preview-LaTeX-command-replacements
     ("\\`\\([^ ]+\\)\
-\\(\\( -\\([^ \"]\\|\"[^\"]*\"\\)*\\)*\\)\\(.*\\)\\'"
-     . ("\\1 -ini \"&\\1\" " preview-format-name ".ini \\5")))
+\\(\\( +-\\([^ \\\\\"]\\|\\\\\\.\\|\"[^\"]*\"\\)*\\)*\\)\\(.*\\)\\'"
+     . ("\\1 -ini -interaction=nonstopmode \"&\\1\" " preview-format-name ".ini \\5")))
   "Generate a dump command from the usual preview command."
   :group 'preview-latex
   :type '(repeat
@@ -3203,9 +3236,8 @@ This is passed through `preview-do-replacements'."
 
 (defcustom preview-undump-replacements
   '(("\\`\\([^ ]+\\)\
-\\(\\( -\\([^ \"]\\|\"[^\"]*\"\\)*\\)*\\).*\
-\\input{\\([^}]*\\)}.*\\'"
-     . ("\\1 \"&" preview-format-name "\" \\5")))
+ .*? \"\\\\input\" \\(.*\\)\\'"
+     . ("\\1 -interaction=nonstopmode \"&" preview-format-name "\" \\2")))
   "Use a dumped format for reading preamble."
   :group 'preview-latex
   :type '(repeat
@@ -3227,8 +3259,9 @@ If FORMAT-CONS is non-nil, a previous format may get reused."
 	  (expand-file-name (preview-dump-file-name (TeX-master-file "ini"))))
 	 (master (TeX-master-file))
 	 (format-name (expand-file-name master))
-	 (preview-format-name (preview-dump-file-name (file-name-nondirectory
-						       master)))
+	 (preview-format-name (shell-quote-argument
+			       (preview-dump-file-name (file-name-nondirectory
+							master))))
 	 (master-file (expand-file-name (TeX-master-file t)))
 	 (command (preview-do-replacements
 		   (TeX-command-expand
@@ -3248,8 +3281,8 @@ If FORMAT-CONS is non-nil, a previous format may get reused."
       ;; in the tools bundle is an empty file.
       (write-region "\\ifx\\pdfoutput\\undefined\\else\
 \\let\\PREVIEWdump\\dump\\def\\dump{%
-\\edef\\next{{\\pdfoutput=\\the\\pdfoutput\\relax\
-\\the\\everyjob}}\\everyjob\\next\\let\\dump\\PREVIEWdump\\dump}\\fi\\input mylatex.ltx \\relax\n" nil dump-file)
+\\edef\\next{{\\catcode`\\ 9 \\pdfoutput=\\the\\pdfoutput\\relax\
+\\the\\everyjob}}\\everyjob\\next\\catcode`\\ 10 \\let\\dump\\PREVIEWdump\\dump}\\fi\\input mylatex.ltx \\relax\n" nil dump-file)
       (TeX-save-document master)
       (prog1
 	  (preview-generate-preview
@@ -3435,8 +3468,9 @@ COMMANDBUFF, DUMPED-CONS, MASTER, and GEOMETRY are
 internal parameters, STR may be a log to insert into the current log."
   (set-buffer commandbuff)
   (let*
-      ((preview-format-name (preview-dump-file-name
-			     (file-name-nondirectory master)))
+      ((preview-format-name (shell-quote-argument
+			     (preview-dump-file-name
+			      (file-name-nondirectory master))))
        (process
 	(TeX-run-command
 	 "Preview-LaTeX"
@@ -3477,8 +3511,8 @@ internal parameters, STR may be a log to insert into the current log."
 	     (preview-reraise-error process)))))
 
 (defconst preview-version (eval-when-compile
-  (let ((name "$Name: release_11_83 $")
-	(rev "$Revision: 1.268 $"))
+  (let ((name "$Name: release_11_85 $")
+	(rev "$Revision: 1.282 $"))
     (or (when (string-match "\\`[$]Name: *release_\\([^ ]+\\) *[$]\\'" name)
 	  (setq name (match-string 1 name))
 	  (while (string-match "_" name)
@@ -3492,7 +3526,7 @@ If not a regular release, CVS revision of `preview.el'.")
 
 (defconst preview-release-date
   (eval-when-compile
-    (let ((date "$Date: 2006/05/25 07:50:57 $"))
+    (let ((date "$Date: 2008/02/03 14:53:31 $"))
       (string-match
        "\\`[$]Date: *\\([0-9]+\\)/\\([0-9]+\\)/\\([0-9]+\\)"
        date)
@@ -3527,7 +3561,7 @@ In the form of yyyy.mmdd")
      (if (string-match "^CVS-" preview-version)
 	 (concat "preview-" (substring preview-version 4))
        preview-version)
-     '(AUC-TeX-version
+     '(AUCTeX-version
        LaTeX-command-style
        image-types
        preview-image-type
@@ -3551,7 +3585,8 @@ In the form of yyyy.mmdd")
        preview-LaTeX-command-replacements
        preview-dump-replacements
        preview-undump-replacements
-       preview-auto-cache-preamble)
+       preview-auto-cache-preamble
+       preview-TeX-style-dir)
      `(lambda () (preview-dump-state ,(current-buffer)))
      (lambda ()
        (insert (format "\nOutput from running `%s -h':\n"
@@ -3564,7 +3599,10 @@ file exhibiting the problem might help."
 
 (eval-when-compile
   (when (boundp 'preview-compatibility-macros)
-    (mapc #'fmakunbound preview-compatibility-macros)))
+    (dolist (elt preview-compatibility-macros)
+      (if (consp elt)
+	  (fset (car elt) (cdr elt))
+	(fmakunbound elt)))))
 
 (makunbound 'preview-compatibility-macros)
 

@@ -1,3 +1,7 @@
+@c This is part of the AUCTeX Manual.
+@c Copyright (C) 2003, 2004, 2005, 2006, 2007
+@c   Free Software Foundation, Inc.
+@c See the file auctex.texi for copying conditions.
 @ifset rawfile
 @include macros.texi
 @end ifset
@@ -11,7 +15,7 @@ further below.
 
 @enumerate
 @item
-Install the prerequisites, i.e. GNU Emacs or XEmacs, MSYS or Cygwin, a
+Install the prerequisites, i.e. Emacs or XEmacs, MSYS or Cygwin, a
 @TeX{} system, and Ghostscript.
 
 @item
@@ -21,21 +25,22 @@ containing the unzipped file contents.
 @item
 Configure @AUCTeX{}:
 
-For GNU Emacs: Many people like to install @AUCTeX{} into the pseudo
-file system hierarchy set up by the Emacs installation.  Assuming Emacs
-is installed in @file{C:/Program Files/Emacs} and the directory for
-local additions of your @TeX{} system, e.g. Mik@TeX{}, is
+For Emacs: Many people like to install @AUCTeX{} into the pseudo file
+system hierarchy set up by the Emacs installation.  Assuming Emacs is
+installed in @file{C:/Program Files/Emacs} and the directory for local
+additions of your @TeX{} system, e.g. MiK@TeX{}, is
 @file{C:/localtexmf}, you can do this by typing the following statement
 at the shell prompt:
 
 @example
 ./configure --prefix='C:/Program Files/Emacs' \
+  --infodir='C:/Program Files/Emacs/info' \
   --with-texmf-dir='C:/localtexmf'
 @end example
 
 For XEmacs: You can install @AUCTeX{} as an XEmacs package.  Assuming
 XEmacs is installed in @file{C:/Program Files/XEmacs} and the directory
-for local additions of your @TeX{} system, e.g. Mik@TeX{}, is
+for local additions of your @TeX{} system, e.g. MiK@TeX{}, is
 @file{C:/localtexmf}, you can do this by typing the following command at
 the shell prompt:
 
@@ -50,7 +55,22 @@ options can be found in the detailed installation instructions below.
 If the configuration script failed to find all required programs, make
 sure that these programs are in your system path and add directories
 containing the programs to the @env{PATH} environment variable if
-necessary.
+necessary.  Here is how to do that in W2000/XP:
+
+@enumerate
+@cindex Adding to @env{PATH} in Windows
+@cindex @env{PATH} in Windows
+@item
+On the desktop, right click ``My Computer'' and select properties.
+@item
+Click on ``Advanced'' in the ``System Properties'' window.
+@item
+Select ``Environment Variables''.
+@item
+Select ``path'' in ``System Variables'' and click ``edit''.  Move to the
+front in the line (this might require scrolling) and add the missing
+path including drive letter, ended with a semicolon.
+@end enumerate
 
 @item
 If there were no further error messages, type
@@ -128,8 +148,8 @@ should provide you with a working @samp{unzip} command.
 
 @item
 The installation of @AUCTeX{} will require the MSYS tool set from
-@uref{http://www.mingw.org} or the Cygwin tool set from
-@uref{http://cygwin.com}.  The latter is slower and larger (the download
+@uref{http://www.mingw.org/} or the Cygwin tool set from
+@uref{http://cygwin.com/}.  The latter is slower and larger (the download
 size of the base system is about 15 MB) but comes with a package manager
 that allows for updating the tool set and installing additional packages
 like, for example, the spell checker @w{aspell}.
@@ -140,37 +160,26 @@ trouble.  Using Cygwin either for everything or nothing might save
 headaches, @emph{if} things don't work out.
 
 @item
-Install a current version of XEmacs from
-@uref{http://www.xemacs.org} or try getting and compiling a developer
-version of @w{Emacs 22} from
-@uref{http://savannah.gnu.org/cvs/?group=emacs,Savannah}.  Compiling
-Emacs is outside of the scope of this manual.  Precompiled versions
-currently happen to be available at
-@uref{http://www.crasseux.com/emacs/} and @uref{http://nqmacs.sf.net/}.
-
-If you don't want to use a developer version and @w{Emacs 22} has not
-yet been released, it is also possible to use an @w{Emacs 21} binary
-from @uref{http://ftp.gnu.org/pub/gnu/windows/emacs/}, but then you
-should disable the installation of @previewlatex{} (it will not work).
-Since the developer version has seen quite a few improvements relevant
-also for other features of @AUCTeX{}, we really recommend you give it a
-try.
+Install a current version of XEmacs from @uref{http://www.xemacs.org/}
+or @w{Emacs 22} from @uref{ftp://ftp.gnu.org/gnu/emacs/windows/}.
+@w{Emacs 22} is the recommended choice because it is currently the
+primary platform for @AUCTeX{} development.
 
 @item
 You need a working @TeX{} installation.  One popular installation under
-Windows is @uref{http://www.miktex.org,Mik@TeX{}}.  Another much more
+Windows is @uref{http://www.miktex.org,MiK@TeX{}}.  Another much more
 extensive system is @uref{http://www.tug.org/texlive,@w{@TeX{} Live}}
 which is rather close to its Unix cousins.
 
 @item
-A working copy of @uref{http://www.cs.wisc.edu/~ghost,Ghostscript} is
+A working copy of @uref{http://www.cs.wisc.edu/~ghost/,Ghostscript} is
 required for @previewlatex{} operation.  Examining the output from
 @example
 gswin32c -h
 @end example
 on a Windows command line should tell you whether your Ghostscript
 supports the @code{png16m} device needed for @acronym{PNG} support.
-MikTeX apparently comes with its own Ghostscript called @samp{mgs.exe}.
+MiKTeX apparently comes with its own Ghostscript called @samp{mgs.exe}.
 
 @item
 @uref{http://www.perl.org,Perl} is needed for rebuilding the
@@ -203,7 +212,8 @@ hierarchy as the program accessing the files.  Usually, directories like
 @var{prefix}.
 
 This option also affects the defaults for placing the Texinfo
-documentation files and automatically generated style hooks.
+documentation files (see also @samp{--infodir} below) and automatically
+generated style hooks.
 
 If you have a central directory hierarchy (not untypical with Cygwin)
 for such stuff, you might want to specify its root here.  You stand a
@@ -248,6 +258,13 @@ the @file{INSTALL} file.
 @ref{Configure}.
 @end ifclear
 
+@item --infodir=@var{drive:/path/to/info/directory}
+If you are installing into an Emacs directory, info files have to be put
+into the @file{info} folder below that directory.  The configuration
+script will usually try to install into the folder @file{share/info}, so
+you have to override this by specifying something like
+@samp{--infodir='C:/Program Files/info'} for the configure call.
+
 @item --with-auto-dir=@var{drive:/dir}
 Directory containing automatically generated information.  You should
 not normally need to set this, as @samp{--prefix} should take care of
@@ -262,7 +279,7 @@ display.  This will be the case if you are using a native variant of
 This will specify the directory where your @TeX{} installation sits.  If
 your @TeX{} installation does not conform to the TDS (@TeX{} directory
 standard), you may need to specify more options to get everything in
-place:
+place.
 @end table
 
 For more information about any of the above and additional options, see
@@ -314,8 +331,10 @@ in either a site-wide @file{site-start.el} or your personal startup file
 (usually accessible as @file{~/.emacs} from within Emacs and
 @file{~/.xemacs/init.el} from within XEmacs).
 
+@cindex @file{tex-mik.el}
+@cindex @file{tex-fptex.el}
 The default configuration of @AUCTeX{} is probably not the best fit for
-Windows systems.  You might want to additionally use
+Windows systems.  You might want to add
 @example
 (require 'tex-mik)
 @end example
@@ -323,8 +342,8 @@ or
 @example
 (require 'tex-fptex)
 @end example
-in order to get more appropriate values for Mik@TeX{} and fp@TeX{},
-respectively.
+in order to get more appropriate values for MiK@TeX{} and fp@TeX{},
+respectively after loading @file{auctex.el} and @file{preview-latex.el}.
 
 You can always use
 

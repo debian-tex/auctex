@@ -7,7 +7,7 @@
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This file is distributed in the hope that it will be useful,
@@ -122,7 +122,7 @@ REST as the remainder, returning T."
 Returns the old arguments to `preview-add-urgentization'
 if there was any urgentization."
   (let ((dispro (overlay-get ov 'display)))
-    (when (eq (car dispro) 'when)
+    (when (eq (car-safe dispro) 'when)
       (prog1
 	  (car (cdr dispro))
 	(overlay-put ov 'display (cdr (cdr dispro)))))))
@@ -203,7 +203,7 @@ are functions to call on preview's clicks."
   "List of tentatively changed overlays.")
 
 (defcustom preview-dump-threshold
-  "^ *\\\\begin *{document}"
+  "^ *\\\\begin *{document}[ %]*$"
   "*Regexp denoting end of preamble.
 This is the location up to which preamble changes are considered
 to require redumping of a format."
@@ -371,8 +371,8 @@ purposes."
 
 (defsubst preview-buffer-recode-system (base)
   "This is supposed to translate unrepresentable base encodings
- into something that can be used safely for byte streams in the
- run buffer.  A noop for Emacs."
+into something that can be used safely for byte streams in the
+run buffer.  A noop for Emacs."
   base)
 
 (defun preview-mode-setup ()
@@ -443,7 +443,7 @@ overlays not in the active window."
 (defun preview-move-point ()
   "Move point out of fake-intangible areas."
   (preview-check-changes)
-  (let (newlist (pt (point)))
+  (let* (newlist (pt (point)) (lst (overlays-at pt)) distance)
     (setq preview-temporary-opened
 	  (dolist (ov preview-temporary-opened newlist)
 	    (and (overlay-buffer ov)
@@ -453,20 +453,23 @@ overlays not in the active window."
 			      (>= pt (overlay-end ov))))
 		     (preview-toggle ov t)
 		   (push ov newlist)))))
-    (if (or disable-point-adjustment
-	    global-disable-point-adjustment
-	    (preview-auto-reveal-p preview-auto-reveal))
-	(preview-open-overlays (overlays-at pt))
-      (let ((backward (and (eq (marker-buffer preview-marker) (current-buffer))
-			   (< pt (marker-position preview-marker))))
-	    (lst (overlays-at pt)))
+    (when lst
+      (if (or disable-point-adjustment
+	      global-disable-point-adjustment
+	      (preview-auto-reveal-p
+	       preview-auto-reveal
+	       (setq distance
+		     (and (eq (marker-buffer preview-marker)
+			      (current-buffer))
+			  (- pt (marker-position preview-marker))))))
+	  (preview-open-overlays lst)
 	(while lst
 	  (setq lst
 		(if (and
 		     (eq (overlay-get (car lst) 'preview-state) 'active)
 		     (> pt (overlay-start (car lst))))
 		    (overlays-at
-		     (setq pt (if backward
+		     (setq pt (if (and distance (< distance 0))
 				  (overlay-start (car lst))
 				(overlay-end (car lst)))))
 		  (cdr lst))))
@@ -577,14 +580,17 @@ The fourth value is the transparent border thickness."
 
 (defun preview-import-image (image)
   "Convert the printable IMAGE rendition back to an image."
-  (if (eq (car image) 'image)
-      image
-    (preview-create-icon-1 (nth 0 image)
-			   (nth 1 image)
-			   (nth 2 image)
-			   (if (< (length image) 4)
-			       (preview-get-heuristic-mask)
-			     (nth 3 image)))))
+  (cond ((stringp image)
+	 (propertize image 'face 'preview-face))
+	((eq (car image) 'image)
+	 image)
+	(t
+	 (preview-create-icon-1 (nth 0 image)
+				(nth 1 image)
+				(nth 2 image)
+				(if (< (length image) 4)
+				    (preview-get-heuristic-mask)
+				  (nth 3 image))))))
 
 (defsubst preview-supports-image-type (imagetype)
   "Check if IMAGETYPE is supported."

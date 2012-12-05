@@ -9,7 +9,7 @@
 
 ;; AUCTeX is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; AUCTeX is distributed in the hope that it will be useful, but
@@ -27,7 +27,7 @@
 ;; This is in progress ConTeXt support for AUCTeX. Please report
 ;; anomalies or things you believe should be added.
 
-;; AUCTeX is closely intervowen with LaTeX.  We have to split up
+;; AUCTeX is closely interwoven with LaTeX.  We have to split up
 ;; things without breaking 'em.
 
 ;; some parts are stolen from latex.el and adapted to ConTeXt.
@@ -109,6 +109,24 @@
   "The ConTeXt optional argument closing character.")
 
 
+;; Define a ConTeXt macro
+
+(defvar ConTeXt-define-list ()
+  "Calls ConTeXt-XX-define-list where XX is the current interface.")
+
+(defun ConTeXt-define-command (what)
+  "The ConTeXt macro to define WHAT."
+  (funcall
+   (intern (concat "ConTeXt-define-command-" ConTeXt-current-interface)) what))
+
+(defun ConTeXt-insert-define (define)
+  "Insert the ConTeXt define macro DEFINE."
+  (insert TeX-esc (ConTeXt-define-command define))
+  (newline)
+  (indent-according-to-mode)
+  (ConTeXt-arg-setup nil))
+
+
 ;; Setup a ConTeXt macro
 
 (defvar ConTeXt-setup-list ()
@@ -122,6 +140,23 @@
 (defun ConTeXt-insert-setup (setup)
   "Insert the ConTeXt setup macro SETUP."
   (insert TeX-esc (ConTeXt-setup-command setup))
+  (newline)
+  (indent-according-to-mode)
+  (ConTeXt-arg-setup nil))
+
+
+;; Other ConTeXt macro's
+
+(defvar ConTeXt-other-macro-list ()
+  "Calls ConTeXt-XX-other-macro-list where XX is the current interface.")
+
+(defun ConTeXt-other-macro-command (what)
+  "The ConTeXt macro to call WHAT is itself, no interface specific calls."
+  what)
+
+(defun ConTeXt-insert-other-macro (other-macro)
+  "Insert the ConTeXt other macro's macro SETUP."
+  (insert TeX-esc (ConTeXt-other-macro-command other-macro))
   (newline)
   (indent-according-to-mode)
   (ConTeXt-arg-setup nil))
@@ -441,7 +476,7 @@ inserted after the sectioning command."
 	 (setq TeX-command-next TeX-command-default))
 	((re-search-forward "removed files :" nil t)
 	 (message "sucessfully cleaned up"))
-	((re-search-forward "^ TeX\\(Exec\\|Util\\)" nil t) ;; strange regexp --pg
+	((re-search-forward "^ ?TeX\\(Exec\\|Util\\)" nil t) ;; strange regexp --pg
 	 (message (concat name ": successfully formatted "
 			  (TeX-current-pages)))
 	 (setq TeX-command-next TeX-command-Show))
@@ -842,7 +877,7 @@ If OPTIONAL, only insert it if not empty, and then use square brackets."
 (defun ConTeXt-arg-setup (optional &optional prompt)
   "Prompt for setup arguments."
   (let ((setup (read-from-minibuffer
-		(TeX-argument-prompt optional prompt "setup"))))
+		(TeX-argument-prompt optional prompt "Setup"))))
     (ConTeXt-argument-insert setup t)))
 
 
@@ -1046,12 +1081,13 @@ else.  There might be text before point."
      (and virtual (>= (current-indentation) (current-column))
 	  (current-indentation))
      ;; Put leading close-paren where the matching open brace would be.
-     (and (eq (char-syntax (char-after)) ?\))
-	  (ignore-errors
-	   (save-excursion
-	     (skip-syntax-forward " )")
-	     (backward-sexp 1)
-	     (ConTeXt-find-indent 'virtual))))
+     (condition-case nil
+	 (and (eq (char-syntax (char-after)) ?\))
+	      (save-excursion
+		(skip-syntax-forward " )")
+		(backward-sexp 1)
+		(ConTeXt-find-indent 'virtual)))
+       (error nil))
      ;; Default (maybe an argument)
      (let ((pos (point))
 	   (char (char-after))
@@ -1102,7 +1138,7 @@ else.  There might be text before point."
 	 (+ indent (current-column) ConTeXt-indent-basic))
 	(t
 	 (let ((col (current-column)))
-	   (if (not (eq (char-syntax char) ?\())
+	   (if (not (and char (eq (char-syntax char) ?\()))
 	       ;; If the first char was not an open-paren, there's
 	       ;; a risk that this is really not an argument to the
 	       ;; macro at all.
@@ -1188,6 +1224,17 @@ else.  There might be text before point."
   "Create an entry for the change environment menu."
   (vector (car entry) (list 'ConTeXt-modify-environment (car entry)) t))
 
+;; ConTeXt define macros
+(defvar ConTeXt-define-menu-name "Define")
+
+(defun ConTeXt-define-menu-entry (entry)
+  "Create an entry for the define menu."
+  (vector entry (list 'ConTeXt-define-menu entry)))
+
+(defun ConTeXt-define-menu (define)
+  "Insert DEFINE from menu."
+  (ConTeXt-insert-define define))
+
 ;; ConTeXt setup macros
 (defvar ConTeXt-setup-menu-name "Setup")
 
@@ -1198,6 +1245,17 @@ else.  There might be text before point."
 (defun ConTeXt-setup-menu (setup)
   "Insert SETUP from menu."
   (ConTeXt-insert-setup setup))
+
+;; ConTeXt other macros
+(defvar ConTeXt-other-macro-menu-name "Other macro")
+
+(defun ConTeXt-other-macro-menu-entry (entry)
+  "Create an entry for the other macro menu."
+  (vector entry (list 'ConTeXt-other-macro-menu entry)))
+
+(defun ConTeXt-other-macro-menu (other-macro)
+  "Insert OTHER MACRO from menu."
+  (ConTeXt-insert-other-macro other-macro))
 
 
 ;; meta-structure project structure menu entries
@@ -1297,7 +1355,9 @@ else.  There might be text before point."
      (,ConTeXt-environment-modify-menu-name)
      ["Item" ConTeXt-insert-item
       :help "Insert a new \\item into current environment"]
+     (,ConTeXt-define-menu-name)
      (,ConTeXt-setup-menu-name)
+     (,ConTeXt-other-macro-menu-name)
      "-"
      ("Insert Font"
       ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
@@ -1350,11 +1410,21 @@ else.  There might be text before point."
 			  (LaTeX-split-long-menu
 			   (mapcar 'ConTeXt-environment-modify-menu-entry
 				   (ConTeXt-environment-list))))
+	(message "Updating define menu...")
+	(easy-menu-change '("ConTeXt") ConTeXt-define-menu-name
+			  (LaTeX-split-long-menu
+			   (mapcar 'ConTeXt-define-menu-entry
+				   ConTeXt-define-list)))
 	(message "Updating setup menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-setup-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar 'ConTeXt-setup-menu-entry
 				   ConTeXt-setup-list)))
+	(message "Updating other macro's menu...")
+	(easy-menu-change '("ConTeXt") ConTeXt-other-macro-menu-name
+			  (LaTeX-split-long-menu
+			   (mapcar 'ConTeXt-other-macro-menu-entry
+				   ConTeXt-other-macro-list)))
 	(message "Updating project structure menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-project-structure-menu-name
 			  (LaTeX-split-long-menu
@@ -1376,6 +1446,9 @@ else.  There might be text before point."
 
 ;;; Option expander
 
+(defvar ConTeXt-texexec-option-nonstop "--nonstop "
+  "Command line option for texexec to use nonstopmode.")
+
 (defun ConTeXt-expand-options ()
   "Expand options for texexec command."
   (concat
@@ -1387,15 +1460,10 @@ else.  There might be text before point."
 	  (format "--tex=%s " ConTeXt-engine)))
    (unless (eq ConTeXt-current-interface "en")
      (format "--interface=%s " ConTeXt-current-interface))
-   (if TeX-source-specials-mode
-       (format
-	"--passon=\"%s\" "
-	(concat
-	 TeX-source-specials-tex-flags
-	 (unless TeX-interactive-mode
-	   " -interaction=nonstopmode")))
-     (unless TeX-interactive-mode
-       "--passon=\"-interaction=nonstopmode\" "))))
+   (when TeX-source-specials-mode
+     (format "--passon=\"%s\" " TeX-source-specials-tex-flags))
+   (unless TeX-interactive-mode
+     ConTeXt-texexec-option-nonstop)))
 
 ;;; Mode
 
@@ -1403,8 +1471,9 @@ else.  There might be text before point."
 ;; They are mapped to interface specific variables
 
 (defvar ConTeXt-language-variable-list
-  '(ConTeXt-setup-list ConTeXt-project-structure-list
-		       ConTeXt-section-block-list ConTeXt-section-list
+  '(ConTeXt-define-list ConTeXt-setup-list ConTeXt-other-macro-list
+           ConTeXt-project-structure-list
+           ConTeXt-section-block-list ConTeXt-section-list
 		       ConTeXt-text ConTeXt-item-list))
 
 (defcustom ConTeXt-clean-intermediate-suffixes

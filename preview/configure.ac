@@ -1,4 +1,28 @@
-AC_INIT(preview-latex,11.83,bug-auctex@gnu.org)
+dnl Autoconf script for AUCTeX
+
+dnl Maintainer: auctex-devel@gnu.org
+
+dnl Copyright (C) 2001, 2002, 2003, 2004, 2005,
+dnl   2006 Free Software Foundation, Inc.
+
+dnl This file is part of AUCTeX.
+
+dnl AUCTeX is free software; you can redistribute it and/or modify it
+dnl under the terms of the GNU General Public License as published by
+dnl the Free Software Foundation; either version 3, or (at your option)
+dnl any later version.
+
+dnl AUCTeX is distributed in the hope that it will be useful, but
+dnl WITHOUT ANY WARRANTY; without even the implied warranty of
+dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+dnl General Public License for more details.
+
+dnl You should have received a copy of the GNU General Public License
+dnl along with AUCTeX; see the file COPYING.  If not, write to the Free
+dnl Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+dnl MA 02110-1301, USA.
+
+AC_INIT(preview-latex,11.84,bug-auctex@gnu.org)
 
 AC_PROG_MAKE_SET
 AC_PROG_INSTALL
@@ -87,11 +111,9 @@ EMACS_CHECK_AUCTEX
 AC_SUBST(auctexdir)
 
 AC_ARG_VAR(GS,[Ghostscript executable for batch operation])
-AC_CHECK_PROGS_REQUIRED(GS, gs GSWIN32C.EXE, 
-[Ghostscript not found!  Aborting!  
-You need Ghostscript in your PATH for preview to work.])
+AC_CHECK_PROGS(GS, gs GSWIN32C.EXE, NONE)
 
-EMACS_LISP([[lispGS]],[[(if (string= dir \"gs\") \"\" \`(defvar preview-gs-command ,dir))]],-no-site-file,[[dir]],[["${GS}"]])
+EMACS_LISP([[lispGS]],[[(if (member dir (list \"NONE\" (if (eq system-type 'windows-nt) \"GSWIN32C.EXE\" \"gs\"))) \"\" \`(defvar preview-gs-command ,dir))]],-no-site-file,[[dir]],[["${GS}"]])
 AC_SUBST(lispGS)
 
 dnl check to see if GS supports -dTextAlphaBits and -dGraphicsAlphaBits
@@ -116,21 +138,9 @@ TEX_PATH_TEXMFDIR
 
 if test "x${texmfdir}" = "xno"
 then
-  AC_MSG_CHECKING([kpathsea directory separator])
-  AC_ARG_WITH(kpathseasep,
-  [  --with-kpathseasep=@<:@:|;@:>@
-                      directory separator for kpathsea],
-  [[kpathseasep="${withval}"]],
-  [test "x${pathoutput}" != x || pathoutput="`kpsepath -n latex tex`"
-    case "${pathoutput}" in *\;*) kpathseasep=";" ;;
-      *:*) kpathseasep=":" ;;
-      *) AC_MSG_ERROR([Can't determine kpathsea directory separator!
-Please use --with-kpathseasep='@<:@:|;@:>@' to specify it!])
-    esac])
-  AC_MSG_RESULT([["${kpathseasep}"]])
   packagetexstyles="${packagedatadir}/latex"
   AC_LISPIFY_DIR(packagetexstyles,"${previewstartfile}")
-  lisppackagetexstyles="(defvar preview-TeX-style-dir (concat \".${kpathseasep}\" ${lisppackagetexstyles} \"${kpathseasep}\"))"
+  lisppackagetexstyles="(defvar preview-TeX-style-dir ${lisppackagetexstyles})"
   test "X${TEXHASH}" = X && TEXHASH=:
 else
   lisppackagetexstyles=
@@ -138,7 +148,7 @@ fi
 AC_SUBST(lisppackagetexstyles)
 
 # Be very careful about assuming things about the available hash programs
-# MikTeX comes with a braindead link to mktexlsr, apparently, so first
+# MiKTeX comes with a braindead link to mktexlsr, apparently, so first
 # try the regular utility from them.
 AC_ARG_VAR(TEXHASH,[command to update the TeX filename database.
 Set to : to skip updating the database on installation.

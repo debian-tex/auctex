@@ -10,7 +10,7 @@
 
 ;; AUCTeX is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; AUCTeX is distributed in the hope that it will be useful, but
@@ -44,9 +44,14 @@
  "doc"
  (function
   (lambda ()
+    (add-to-list (make-local-variable 'LaTeX-indent-environment-list)
+		 '("macrocode" current-indentation))
+    (add-to-list 'LaTeX-indent-environment-list
+		 '("macrocode*" current-indentation))
     (LaTeX-add-environments
      "theglossary"
      '("macrocode" LaTeX-env-no-comment)
+     '("macrocode*" LaTeX-env-no-comment)
      '("macro" "Macro"))
     (TeX-add-symbols
      "EnableCrossrefs"
