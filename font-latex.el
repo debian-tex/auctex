@@ -11,7 +11,7 @@
 ;; Version:    0.800 (01 November 2001)
 ;; Keywords:   LaTeX faces
 
-;; RCS $Id: font-latex.el,v 5.11 2002/01/21 14:22:54 psg Exp $
+;; RCS $Id: font-latex.el,v 5.15 2002/12/12 00:23:06 psg Exp $
 ;; Note: RCS version number does not correspond to release number.
 
 ;;; This file is not part of GNU Emacs.
@@ -54,7 +54,7 @@
 
 ;; Installation instructions:
 ;;
-;;  AUC-TeX users:   http://mirrors.sunsite.dk/auctex/www/auctex
+;;  AUC-TeX users:  <URL:http://www.nongnu.org/auctex/>
 ;;   You don't have to do anything special as it gets installed
 ;;   along with the rest of AUC-TeX and gets enabled by default via the
 ;;   customizable variable TeX-install-font-lock.
@@ -100,6 +100,8 @@
 ;;
 ;; ----------------------------------------------------------------------------
 ;;; Change log:
+;; V0.801 07Dec02 David Kastrup
+;; - (font-latex-setup): Better stab at verbatim handling.
 ;; V0.800 01Nov01 PSG
 ;;  - Added font-lock-syntactic-keywords to font-lock-defaults to handle
 ;;    verbatim environment, as suggested by Stefan Monnier 5 years ago (!)
@@ -320,7 +322,7 @@ prone to infinite loop bugs.")))
        "ub\\(paragraph\\|s\\(ection\\|ub\\(paragraph\\|section\\)\\)\\)\\)\\|"
    "t\\(hanks\\|itle\\)"
    "\\)\\>")
-  "font-latex regexp to match LaTeX function with text arguemnt.")
+  "font-latex regexp to match LaTeX function with text argument.")
 
 
 (defvar font-latex-keywords-1
@@ -556,8 +558,10 @@ prone to infinite loop bugs.")))
 	  (font-lock-comment-start-regexp . "%")
 	  (font-lock-mark-block-function . mark-paragraph)
           (font-lock-syntactic-keywords 
-           . (("\\\\begin{verbatim}\\(\n\\)" (1 '(7)))
-              ("\\(\n\\)\\\\end{verbatim}" (1 '(7)))))
+           . (("^\\\\begin *{verbatim\\*?}\\(.?\\).*\\(\n\\)" (1 "<") (2 "|"))
+	      ("\\(\n\\)\\\\end *{verbatim\\*?}\\(.?\\)" (1 "|") (2 "<"))
+	      ("\\\\verb\\*?\\([^a-z@]\\).*?\\(\\1\\)" (1 "\"") (2 "\""))
+	      ))
           )))
 
 ;; Should not be necessary since XEmacs' font-lock also supports

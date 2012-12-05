@@ -1,9 +1,9 @@
 ;;; tex.el --- Support for TeX documents.
 
-;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.13
+;; Maintainer: David Kastrup <auc-tex@sunsite.dk>
+;; Version: 11.14
 ;; Keywords: wp
-;; X-URL: http://sunsite.dk/auctex
+;; X-URL: http://www.nongnu.org/auctex/
 
 ;; Copyright (C) 1985, 1986, 2000, 2001, 2002 Free Software Foundation, Inc.
 ;; Copyright (C) 1987 Lars Peter Fischer
@@ -36,7 +36,7 @@
   "A (La)TeX environment."
   :tag "AUC TeX"
   :link '(custom-manual "(auctex)Top")
-  :link '(url-link :tag "Home Page" "http://sunsite.dk/auctex/")
+  :link '(url-link :tag "Home Page" "<URL:http://www.nongnu.org/auctex/>")
   :prefix "TeX-"
   :group 'tex)
 
@@ -429,10 +429,10 @@ Full documentation will be available after autoloading the function."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "11.13"
+(defconst AUC-TeX-version "11.14"
   "AUC TeX version number.")
 
-(defconst AUC-TeX-date "Mon Nov 25 15:40:14 MET 2002"
+(defconst AUC-TeX-date "Sun Dec 15 03:14:51 CET 2002"
   "AUC TeX release date.")
 
 ;;; Buffer
@@ -542,7 +542,7 @@ the name.  Special value t means use `TeX-default-extension'.
 If optional second argument NONDIRECTORY is non-nil, do not include
 the directory.
 
-Currently is will check for the presence of a ``Master:'' line in
+Currently it will check for the presence of a ``Master:'' line in
 the beginning of the file, but that feature will be phased out."
   (if (eq extension t)
       (setq extension TeX-default-extension))

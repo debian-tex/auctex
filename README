@@ -134,13 +134,13 @@ functionality.
 Availability
 ============
 
-   The most recent version is always available by ftp at
+   The most recent version is always available at
 
-                       <ftp://sunsite.dk/packages/auctex/auctex.tar.gz>
+               <http://savannah.nongnu.org/download/auctex/stable.pkg/>
 
    WWW users may want to check out the AUC TeX page at
 
-                                            <http://sunsite.dk/auctex/>
+                                        <http://www.nongnu.org/auctex/>
 
 Contacts
 ========
