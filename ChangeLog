@@ -1,3 +1,39 @@
+2004-05-18  Davide G. M. Salvetti  <salve@debian.org>
+
+	* aclocal.m4 (AUCTEX_AUTO_DIR): Change `autodir' default to
+	`${localstatedir}/auctex' to conform to the GNU Coding Standards.
+	Add `autodir_expanded' as the properly expanded version of
+	`autodir'.  Inform the user about the check in progress.
+	* tex-site.el.in (TeX-lisp-directory): Use `@autodir_expanded@'.
+
+2004-05-17  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* aclocal.m4 (AUCTEX_AUTO_DIR): Avoid AS_HELP_STRING for
+	compatibility with autoconf < 2.58.
+
+2004-05-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (TEX_INPUT_DIRS): Use `--expand-braces' instead of
+	`--show-path' in the kpsewhich calls.  Use `--expand-path' as a
+	fallback e.g. for MikTeX.  Assume that we are dealing with a
+	TDS-compliant TeX system and add "/tex/" and "/bibtex/bst/"
+	subdirectories to the output of the kpsewhich calls accordingly.
+
+	* latex.el (LaTeX-fill-newline): Don't use code specific to GNU
+	Emacs for XEmacs.  Call `newline-and-indent' instead.
+
+2004-05-15  Davide G. M. Salvetti  <salve@debian.org>
+
+	* aclocal.m4 (AUTO_DIR): Code cleaned; renamed to
+	`AUCTEX_AUTO_DIR'.
+	* configure.in: Change `AUTO_DIR' to `AUCTEX_AUTO_DIR'.
+
+2004-05-14  Davide G. M. Salvetti  <salve@debian.org>
+
+	* style/italian.el (LaTeX-italian-open-quote)
+	(LaTeX-italian-close-quote): Use standard babel syntax rather than
+	latin1 characters.  Patch by David Kastrup <dak@gnu.org>.
+
 2004-05-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
 
 	* latex.el (LaTeX-indent-calculate-last): Ignore commented lines
@@ -40,21 +76,15 @@
 2004-05-12  Davide G. M. Salvetti  <salve@debian.org>
 
 	* aclocal.m4 (AUTO_DIR): New function.
-
 	* configure.in: Use `AUTO_DIR' to expand `@autodir@' in
 	`tex-site.el.in'.
-
 	* Makefile.in (autodir): Use `@autodir@'.
-
 	* tex-site.el.in (TeX-auto-global): Definition moved from
 	`tex.el'.  Use `@autodir@'.
-
 	* tex.el (TeX-auto-global): Definition moved to `tex-site.el.in'.
-
 	* lpath.el: Bind `TeX-auto-global'.
 
 	* style/italian.el: New file.
-
 	* doc/auc-tex.texi (Font Specifiers): Removed two sentences
 	referring to the old behavior of the short-cuts for easy
 	insertions of fonts changing macros.  (At that time they added
@@ -63,11 +93,9 @@
 	(Marking and formatting): Reflect renaming of
 	`LaTeX-format-comment-syntax-aware' to `LaTeX-syntactic-comments'.
 	(European): Document `italian.el'.
-
 	* Makefile.in (STYLESRC): Added `italian.el'.
 
 	* lpath.el: Bind `TeX-macro-global'.
-
 	* tex.el: No need to `(require 'tex-site)' at compilation time,
 	see `lpath.el'.
 

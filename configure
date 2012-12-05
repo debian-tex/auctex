@@ -273,7 +273,7 @@ PACKAGE_VERSION='11.14'
 PACKAGE_STRING='auctex 11.14'
 PACKAGE_BUGREPORT='auc-tex@sunsite.dk'
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS SET_MAKE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA EMACS XEMACS EMACS_FLAVOR HAVE_mule COMPILE_MULE CONTRIB_MULEELC packagedir lispdir auctexdir texinputdirs autodir TEX MAKEINFO MAKEINFO_MACROS INSTALL_INFO LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS SET_MAKE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA EMACS XEMACS EMACS_FLAVOR HAVE_mule COMPILE_MULE CONTRIB_MULEELC packagedir lispdir auctexdir texinputdirs autodir autodir_expanded TEX MAKEINFO MAKEINFO_MACROS INSTALL_INFO LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -791,7 +791,8 @@ Optional Packages:
   --with-packagedir=DIR   package DIR for XEmacs
   --with-lispdir=DIR      Where to install lisp files
   --with-tex-input-dirs=DIRS    Directories holding TeX input files (separated by semicolons)
-  --with-auto-dir=DIR     directory containing automatically generated information
+  --with-auto-dir=DIR     directory containing AUCTeX automatically generated
+			  global style hooks
 
 Report bugs to <auc-tex@sunsite.dk>.
 _ACEOF
@@ -1809,42 +1810,47 @@ if test -z "$texinputdirs" ; then
   echo "$as_me:$LINENO: checking for directories holding TeX input files" >&5
 echo $ECHO_N "checking for directories holding TeX input files... $ECHO_C" >&6
   texinputdirs=""
-  # TeX input files
-  temp=`kpsewhich --progname latex --show-path tex`
-  # Simple test and conversion to unify paths separated by `;' and ':'.
-  if ! echo $temp | grep ';' > /dev/null ; then
-    temp=`echo $temp | tr ':' ';'`
-  fi
-  for x in `echo $temp | tr ';' '\\n' | sed -e 's/^!!//' | \
-      grep '/tex///\?$' | sed -e 's+///\?+/+g'`
-  do
-    if test -e "$x" ; then
-      if test "${texinputdirs}" != "" ; then
-	texinputdirs="${texinputdirs}""\" \""
-      fi
-      texinputdirs="${texinputdirs}"`echo $x`
+  temp=`kpsewhich --progname latex --expand-braces \\$SYSTEXMF`
+  if test -z "$temp" ; then
+    temp1=`kpsewhich --progname latex --expand-braces \\$TEXMFLOCAL`
+    if test -z "$temp1" ; then
+      temp1=`kpsewhich --progname latex --expand-path \\$TEXMFLOCAL`
     fi
-  done
-  # BibTeX style files
-  bstinputs=""
-  temp=`kpsewhich --progname latex --show-path bst`
-  # Simple test and conversion to unify paths separated by `;' and ':'.
-  if ! echo $temp | grep ';' > /dev/null ; then
-    temp=`echo $temp | tr ':' ';'`
-  fi
-  for x in `echo $temp | tr ';' '\\n' | sed -e 's/^!!//' | \
-      grep '/bst//$' | sed -e 's+//+/+g'`
-  do
-    if test -e "$x" ; then
-      if test "${bstinputs}" != "" ; then
-	bstinputs="${bstinputs}""\" \""
-      fi
-      bstinputs="${bstinputs}"`echo $x`
+    temp2=`kpsewhich --progname latex --expand-braces \\$TEXMFMAIN`
+    if test -z "$temp2" ; then
+      temp2=`kpsewhich --progname latex --expand-path \\$TEXMFMAIN`
     fi
-  done
-  if ! test -z "$bstinputs" ; then
-    texinputdirs="${texinputdirs}""\" \"""${bstinputs}"
+    temp3=`kpsewhich --progname latex --expand-braces \\$TEXMFDIST`
+    for i in $temp1 $temp2 $temp3 ; do
+      if ! echo $i | grep -e '^A-Za-z:' > /dev/null && \
+	 ! echo $i | grep ';' > /dev/null ; then
+	i=`echo $i | tr ':' ';'`
+      fi
+      if ! test -z "$i" ; then
+	if ! test -z "$temp" ; then
+	  temp=$temp";"
+	fi
+	temp="$temp""$i"
+      fi
+    done
+  else
+    if ! echo $temp | grep -e '^A-Za-z:' > /dev/null && \
+       ! echo $temp | grep ';' > /dev/null ; then
+      temp=`echo $temp | tr ':' ';'`
+    fi
   fi
+  for x in `echo $temp | tr ';' '\\n'` ; do
+    # We assume that we are dealing with a TDS-compliant TeX system.
+    for y in "/tex/" "/bibtex/bst/" ; do
+      tempy="$x""$y"
+      if test -e "$tempy" ; then
+	if test "${texinputdirs}" != "" ; then
+	  texinputdirs="${texinputdirs}""\" \""
+	fi
+	texinputdirs="${texinputdirs}""$tempy"
+      fi
+    done
+  done
   if test -z "$texinputdirs" ; then
     texinputdirs="/usr/share/texmf/tex/\" \"/usr/share/texmf/bibtex/bst/"
   fi
@@ -1853,20 +1859,37 @@ echo "${ECHO_T}\"${texinputdirs}\"" >&6
 fi
 
 
+echo "$as_me:$LINENO: checking where automatically generated global style hooks go" >&5
+echo $ECHO_N "checking where automatically generated global style hooks go... $ECHO_C" >&6
 
 # Check whether --with-auto-dir or --without-auto-dir was given.
 if test "${with_auto_dir+set}" = set; then
   withval="$with_auto_dir"
-   autodir="${withval}";  while :;do case "$withval" in *\$*) __ac_tmp__='s/[\`"]/\\&/g'
-eval "withval=`sed ${__ac_tmp__} <<EOF
-$withval
+  autodir="${withval}"
+	      autodir_expanded="${autodir}"
+	       while :;do case "$autodir_expanded" in *\$*) __ac_tmp__='s/[\`"]/\\&/g'
+eval "autodir_expanded=`sed ${__ac_tmp__} <<EOF
+$autodir_expanded
 EOF
 `";; *) break ;; esac; done
+else
+  autodir="${localstatedir}/auctex"
+	      oldprefix="${prefix}" # save prefix
+	      if test "${prefix}" = "NONE"
+		then prefix="${ac_default_prefix}" # temporarily set it
+	      fi
+	      autodir_expanded="${autodir}"
+	       while :;do case "$autodir_expanded" in *\$*) __ac_tmp__='s/[\`"]/\\&/g'
+eval "autodir_expanded=`sed ${__ac_tmp__} <<EOF
+$autodir_expanded
+EOF
+`";; *) break ;; esac; done
+	      prefix="${oldprefix}" # restore prefix
 fi;
+ echo "$as_me:$LINENO: result: \"${autodir}, expanded to ${autodir_expanded}\"" >&5
+echo "${ECHO_T}\"${autodir}, expanded to ${autodir_expanded}\"" >&6
 
-  if test -z "${autodir}" ; then
-    autodir="${auctexdir}/auto/"
-  fi
+
 
 
 # Extract the first word of "tex", so it can be a program name with args.
@@ -2706,6 +2729,7 @@ s,@lispdir@,$lispdir,;t t
 s,@auctexdir@,$auctexdir,;t t
 s,@texinputdirs@,$texinputdirs,;t t
 s,@autodir@,$autodir,;t t
+s,@autodir_expanded@,$autodir_expanded,;t t
 s,@TEX@,$TEX,;t t
 s,@MAKEINFO@,$MAKEINFO,;t t
 s,@MAKEINFO_MACROS@,$MAKEINFO_MACROS,;t t
