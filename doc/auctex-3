@@ -1,7 +1,7 @@
 This is auctex, produced by makeinfo version 4.0 from auc-tex.texi.
 
 START-INFO-DIR-ENTRY
-* AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.
+* AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
 END-INFO-DIR-ENTRY
 
 
@@ -111,16 +111,15 @@ Variable Index
 * TeX-auto-parse-length:                 Parsing Files.
 * TeX-auto-prepare-hook:                 Hacking the Parser.
 * TeX-auto-private:                      Automatic Private.
-* TeX-auto-regexp-list <1>:              Parsing Files.
-* TeX-auto-regexp-list:                  Hacking the Parser.
+* TeX-auto-regexp-list <1>:              Hacking the Parser.
+* TeX-auto-regexp-list:                  Parsing Files.
 * TeX-auto-save:                         Parsing Files.
 * TeX-auto-untabify:                     Parsing Files.
 * TeX-brace-indent-level:                Marking and formatting.
 * TeX-check-path:                        Commands.
 * TeX-close-quote:                       Quotes.
 * TeX-command-default:                   Commands.
-* TeX-command-list <1>:                  Commands.
-* TeX-command-list <2>:                  Installation.
+* TeX-command-list <1>:                  Installation.
 * TeX-command-list:                      Commands.
 * TeX-default-macro:                     Completion.
 * TeX-display-help:                      Debugging.
@@ -289,10 +288,10 @@ Concept Index
 * jLaTeX:                                Japanese.
 * jTeX:                                  Japanese.
 * Killing a process:                     Control.
-* Label prefix <1>:                      Sectioning.
-* Label prefix:                          Floats.
-* Labels <1>:                            Sectioning.
-* Labels:                                Floats.
+* Label prefix <1>:                      Floats.
+* Label prefix:                          Sectioning.
+* Labels <1>:                            Floats.
+* Labels:                                Sectioning.
 * Labels, adding:                        Adding Other.
 * labels, completion of:                 Completion.
 * lacheck:                               Checking.
@@ -316,8 +315,8 @@ Concept Index
 * Making a bibliography:                 Commands.
 * Making an index:                       Commands.
 * Many Files:                            Multifile.
-* Master file <1>:                       Control.
-* Master file:                           Multifile.
+* Master file <1>:                       Multifile.
+* Master file:                           Control.
 * Matching dollar signs:                 Quotes.
 * Math mode delimiters:                  Quotes.
 * Mathematics:                           Mathematics.
@@ -336,8 +335,8 @@ Concept Index
 * Parsing errors:                        Debugging.
 * Parsing LaTeX errors:                  Debugging.
 * Parsing new macros:                    Hacking the Parser.
-* Parsing TeX <1>:                       Parsing Files.
-* Parsing TeX:                           Automatic.
+* Parsing TeX <1>:                       Automatic.
+* Parsing TeX:                           Parsing Files.
 * Parsing TeX output:                    Debugging.
 * Personal customization:                Installation.
 * Personal information:                  Automatic Private.

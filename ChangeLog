@@ -1,3 +1,59 @@
+2001-04-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0g released.
+
+2001-04-11  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-site.el: Don't enable tex-info.el by default.
+
+	* latex.el (LaTeX-hide-environment): Disabled by default.
+	Suggested by Christopher Allen <cpcallen@ruah.dyndns.org>.
+
+2001-03-27  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0f released.
+
+2001-03-27  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (unless): Don't enable Emacs 21 font-lock for Emacs 20. 
+	(VirTeX-common-initialization): Ditto.
+
+2001-03-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0e released.
+
+2001-03-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (TeX-expand-list): Changed default to lazy evaluation of
+	`TeX-view-style' and `LaTeX-command-style'.
+	Suggested by Peter Neergaard <turtle@cs.bu.edu>.
+
+	* latex.el (LaTeX-indent-calculate, LaTeX-indent-calculate-last):
+	Backindent when brace is at the start of a line.
+	Patch by Masashi Shimbo <shimbo@cis.ibaraki.ac.jp>.
+
+	* doc/auc-tex.texi: Fixed dir entry.
+	Reported by David Masterson <dmasters@Rational.Com>.
+
+	* tex-info.el (TeXinfo-mode-map): "\e\r" bound to `map', not
+	`TeXinfo-mode-map'. 
+	Patch by Dan Nicolaescu <dann@godzilla.ICS.UCI.EDU>.
+
+2001-03-01  Hidenobu Nabetani  <nabe@debian.or.jp>
+
+	* tex-jp.el: Don't work correctly in current AucTeX.
+	Patch by Masayuki Ataka <j1297007@ed.kagu.sut.ac.jp>
+	and Yuzo Furukawa <hurukawa@kuee.kyoto-u.ac.jp>.
+	Removed support for NEmacs and Mule1,2 which are based 
+	on Emacs 18 and 19.
+	Created new variable japanese-TeX-command-list and 
+	added support for mendex.
+	Updated LaTeX-auto-regexp-list variable.
+
+2001-01-09  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* all: Changed `sunsite.auc.dk' to `sunsite.dk'.
+
 2001-01-02  Per Abrahamsen  <abraham@dina.kvl.dk>
 
 	* Version 10.0d released.

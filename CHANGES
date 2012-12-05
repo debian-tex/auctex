@@ -1,6 +1,16 @@
 News in 10.0
 ============
 
+   * Disabled `LaTeX-hide-environment'.  Suggested by Christopher Allen
+     <cpcallen@ruah.dyndns.org>.
+
+   * Changed default to lazy evaluation of `TeX-view-style' and
+     `LaTeX-command-style'.  Suggested by Peter Neergaard
+     <turtle@cs.bu.edu>.
+
+   * Backindent when brace is at the start of a line.  Patch by Masashi
+     Shimbo <shimbo@cis.ibaraki.ac.jp>.
+
    * Added Emacs 21 font lock support.
 
    * `,' and `.' no longer removes italic correction.

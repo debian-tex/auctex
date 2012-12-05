@@ -1,62 +1,62 @@
 This is auctex, produced by makeinfo version 4.0 from auc-tex.texi.
 
 START-INFO-DIR-ENTRY
-* AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.
+* AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
 END-INFO-DIR-ENTRY
 
 
 Indirect:
-auctex-1: 168
-auctex-2: 49746
-auctex-3: 97852
+auctex-1: 177
+auctex-2: 49735
+auctex-3: 98208
 
 Tag Table:
 (Indirect)
-Node: Top168
-Node: Copying2736
-Node: Introduction4678
-Node: Frequently Used Commands11699
-Node: Quotes12460
-Node: Font Specifiers14643
-Node: Sectioning16499
-Node: Environments20846
-Node: Floats23143
-Node: Itemize-like24298
-Node: Tabular-like24799
-Node: Customizing environments25073
-Node: Advanced Features25299
-Node: Mathematics25974
-Node: Completion27374
-Node: Commenting30798
-Node: Marking and formatting32017
-Node: Outline35729
-Node: Formatting37213
-Node: Commands37844
-Node: Debugging42101
-Node: Checking43298
-Node: Control44595
-Node: Multifile45295
-Node: Parsing Files49746
-Node: I18n53867
-Node: European54389
-Node: Japanese56838
-Node: Automatic57564
-Node: Automatic Global60054
-Node: Automatic Private61216
-Node: Automatic Local62453
-Node: Style Files63526
-Node: Simple Style64320
-Node: Adding Macros65476
-Node: Adding Environments71054
-Node: Adding Other73627
-Node: Hacking the Parser74198
-Node: Installation78269
-Node: History82580
-Node: Projects84591
-Node: Credit94141
-Node: Key Index95660
-Node: Function Index97852
-Node: Variable Index101754
-Node: Concept Index105129
+Node: Top177
+Node: Copying2728
+Node: Introduction4670
+Node: Frequently Used Commands11691
+Node: Quotes12452
+Node: Font Specifiers14635
+Node: Sectioning16491
+Node: Environments20838
+Node: Floats23135
+Node: Itemize-like24290
+Node: Tabular-like24791
+Node: Customizing environments25065
+Node: Advanced Features25291
+Node: Mathematics25966
+Node: Completion27366
+Node: Commenting30790
+Node: Marking and formatting32009
+Node: Outline35721
+Node: Formatting37205
+Node: Commands37836
+Node: Debugging42093
+Node: Checking43290
+Node: Control44584
+Node: Multifile45284
+Node: Parsing Files49735
+Node: I18n53856
+Node: European54378
+Node: Japanese56827
+Node: Automatic57553
+Node: Automatic Global60043
+Node: Automatic Private61205
+Node: Automatic Local62442
+Node: Style Files63515
+Node: Simple Style64309
+Node: Adding Macros65465
+Node: Adding Environments71043
+Node: Adding Other73616
+Node: Hacking the Parser74187
+Node: Installation78258
+Node: History82569
+Node: Projects84947
+Node: Credit94497
+Node: Key Index96016
+Node: Function Index98208
+Node: Variable Index102110
+Node: Concept Index105434
 
 End Tag Table

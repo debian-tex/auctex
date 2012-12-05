@@ -1,7 +1,7 @@
 This is auctex, produced by makeinfo version 4.0 from auc-tex.texi.
 
 START-INFO-DIR-ENTRY
-* AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.
+* AUCTeX: (auctex).      A much enhanced LaTeX mode for GNU Emacs.
 END-INFO-DIR-ENTRY
 
 
@@ -36,12 +36,12 @@ VERY WELCOME.
 Per Abrahamsen (later updates)
 
    There is a mailing list for discussion about AUC TeX and announcement
-of alpha releases, write to `auc-tex-request@sunsite.auc.dk' to join
-it.  Send contributions to `auc-tex@sunsite.auc.dk'.
+of alpha releases, write to `auc-tex-request@sunsite.dk' to join it.
+Send contributions to `auc-tex@sunsite.dk'.
 
    Bug reports, suggestions for new features, and pleas for help should
-go to either `auc-tex_mgr@sunsite.auc.dk' (the AUC TeX managers), or to
-`auc-tex@sunsite.auc.dk' (the mailing list) if they might have general
+go to either `auc-tex_mgr@sunsite.dk' (the AUC TeX managers), or to
+`auc-tex@sunsite.dk' (the mailing list) if they might have general
 interest.  Please use the command `M-x TeX-submit-bug-report' to report
 bugs if possible.
 
@@ -1131,9 +1131,9 @@ It is much more configurable than `lacheck', but doesn't find all the
 problems `lacheck' does, at least in its default configuration.  You
 must install the programs before using them, and for `chktex' you must
 also modify `TeX-command-list'.  You can get `lacheck' from
-`<URL:ftp://sunsite.auc.dk/pub/text/lacheck/>' or alternatively
-`chktex' from `<URL:ftp://ftp.dante.de/pub/tex/support/chktex/>'.
-Search for `chktex' in `tex.el' to see how to switch between them.
+`<URL:ftp://sunsite.dk/pub/text/lacheck/>' or alternatively `chktex'
+from `<URL:ftp://ftp.dante.de/pub/tex/support/chktex/>'.  Search for
+`chktex' in `tex.el' to see how to switch between them.
 
 
 File: auctex,  Node: Control,  Prev: Checking,  Up: Formatting
