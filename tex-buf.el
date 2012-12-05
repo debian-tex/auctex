@@ -1,7 +1,7 @@
 ;;; tex-buf.el - External commands for AUC TeX.
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.7n
+;; Version: 9.8i
 
 ;; Copyright (C) 1991 Kresten Krab Thorup
 ;; Copyright (C) 1993, 1996 Per Abrahamsen 
@@ -22,23 +22,24 @@
 
 ;;; Code:
 
-(defvar no-doc
-  "This function is part of AUC TeX, but has not yet been loaded.
-Full documentation will be available after autoloading the function."
-  "Documentation for autoload functions.")
+(require 'tex)
 
 ;;; Customization:
 
-(defvar TeX-process-asynchronous (not (eq system-type 'ms-dos))
-  "*Use asynchronous processes.")
+(defcustom TeX-process-asynchronous (not (eq system-type 'ms-dos))
+  "*Use asynchronous processes."
+  :group 'TeX-commands
+  :type 'boolean)
 
-(defvar TeX-shell
+(defcustom TeX-shell
   (if (memq system-type '(ms-dos emx windows-nt))
       shell-file-name
     "/bin/sh")
-  "Name of shell used to parse TeX commands.")
+  "Name of shell used to parse TeX commands."
+  :group 'TeX-commands
+  :type 'file)
 
-(defvar TeX-shell-command-option
+(defcustom TeX-shell-command-option
   (cond ((memq system-type '(ms-dos emx windows-nt) )
 	 (cond ((boundp 'shell-command-option)
 		shell-command-option)
@@ -48,7 +49,9 @@ Full documentation will be available after autoloading the function."
 		"/c")))
 	(t				;Unix & EMX (Emacs 19 port to OS/2)
 	 "-c"))
-  "Shell argument indicating that next argument is the command.")
+  "Shell argument indicating that next argument is the command."
+  :group 'TeX-commands
+  :type 'string)
 
 ;;; Interactive Commands
 ;;
@@ -270,8 +273,10 @@ in TeX-check-path."
 		  (setq found t))))))
     found))
 
-(defvar TeX-save-query t
-  "*If non-nil, ask user for permission to save files before starting TeX.")
+(defcustom TeX-save-query t
+  "*If non-nil, ask user for permission to save files before starting TeX."
+  :group 'TeX-commands
+  :type 'boolean)
 
 (defun TeX-command-query (name)
   "Query the user for a what TeX command to use."
@@ -358,8 +363,10 @@ entry."
   "Hooks to run after starting an asynchronous process.
 Used by Japanese TeX to set the coding system.")
 
-(defvar TeX-show-compilation nil
-  "*If non-nil, show output of TeX compilation in other window.")
+(defcustom TeX-show-compilation nil
+  "*If non-nil, show output of TeX compilation in other window."
+  :group 'TeX-commands
+  :type 'boolean)
 
 (defun TeX-run-command (name command file)
   "Create a process for NAME using COMMAND to process FILE.
@@ -480,6 +487,19 @@ for the dviout previewer, especially when used with PC-9801 series."
       (if TeX-after-start-process-function
 	  (funcall TeX-after-start-process-function process))
       (set-process-filter process 'TeX-background-filter)
+      (process-kill-without-query process))))
+
+(defun TeX-run-silent (name command file)
+  "Start process with second argument."
+  (let ((dir (TeX-master-directory)))
+    (set-buffer (get-buffer-create "*TeX silent*"))
+    (if dir (cd dir))
+    (erase-buffer)
+    (let ((process (start-process (concat name " silent")
+				  nil TeX-shell
+				  TeX-shell-command-option command)))
+      (if TeX-after-start-process-function
+	  (funcall TeX-after-start-process-function process))
       (process-kill-without-query process))))
 
 (defun TeX-run-interactive (name command file)
@@ -616,7 +636,9 @@ Return nil ifs no errors were found."
   "Cleanup TeX output buffer after running LaTeX."
   (cond ((TeX-TeX-sentinel-check process name))
 	((and (save-excursion
-		(re-search-forward "^LaTeX Warning: Citation" nil t))
+		(or
+                 (re-search-forward "^LaTeX Warning: Citation" nil t)
+                 (re-search-forward "^Package natbib Warning: Citation" nil t)))
 	      (let ((current (current-buffer)))
 		(set-buffer TeX-command-buffer)
 		(prog1 (and (LaTeX-bibliography-list)
@@ -628,7 +650,9 @@ Return nil ifs no errors were found."
 	 (message (concat "You should run BibTeX to get citations right, "
                           (TeX-current-pages)))
 	 (setq TeX-command-next TeX-command-BibTeX))
-	((re-search-forward "^LaTeX Warning: Label(s)" nil t)
+	((or
+          (re-search-forward "^LaTeX Warning: Label(s)" nil t)
+          (re-search-forward "^Package natbib Warning: Citation(s)" nil t))
 	 (message (concat "You should run LaTeX again "
 			  "to get references right, "
                           (TeX-current-pages)))
@@ -637,7 +661,9 @@ Return nil ifs no errors were found."
 	 (message (concat name ": there were unresolved references, "
                           (TeX-current-pages)))
 	 (setq TeX-command-next TeX-command-Show))
-	((re-search-forward "^LaTeX Warning: Citation" nil t)
+	((or
+          (re-search-forward "^LaTeX Warning: Citation" nil t)
+          (re-search-forward "^Package natbib Warning:.*undefined citations" nil t))
 	 (message (concat name ": there were unresolved citations, "
                           (TeX-current-pages)))
 	 (setq TeX-command-next TeX-command-Show))
@@ -805,6 +831,18 @@ command."
 
 ;;; Region File
 
+(defcustom TeX-region-extra "{\\makeatletter\\gdef\\AucTeX@cite#1[#2]#3{[#3#1#2]}\\gdef\\cite{\\@ifnextchar[{\\AucTeX@cite{, }}{\\AucTeX@cite{}[]}}}\n"
+  "*String to insert in the region file between the header and the text."
+  :group 'TeX-commands
+  :type 'string)
+
+(defvar TeX-region-hook nil
+  "List of hooks to run before the region file is saved.
+The hooks are run in the region buffer, you may use the variable
+`master-buffer' to access the buffer of the master file and
+`orig-buffer' to access the buffer where \\[TeX-command-region] or
+\\[TeX-command-buffer] is invoked from.")
+
 (defun TeX-region-create (file region original offset)
   "Create a new file named FILE with the string REGION
 The region is taken from ORIGINAL starting at line OFFSET.
@@ -820,6 +858,7 @@ original file."
 	 (trailer-start TeX-trailer-start)
 	 
 	 ;; We seach for header and trailer in the master file.
+	 (orig-buffer (current-buffer))
 	 (master-name (TeX-master-file TeX-default-extension))
 	 (master-buffer (find-file-noselect master-name))
 
@@ -876,10 +915,12 @@ original file."
 			      (buffer-substring (point) (point-max))))))))))
     (save-excursion
       (set-buffer file-buffer)
+      (setq buffer-undo-list t)
       (setq original-content (buffer-string))
       (erase-buffer)
       (insert "\\message{ !name(" master-name ")}"
 	      header
+	      TeX-region-extra
 	      "\n\\message{ !name(" original ") !offset(")
       (insert (int-to-string (- offset
 				(count-lines (point-min) (point))))
@@ -890,6 +931,7 @@ original file."
 				(count-lines (point-min) (point))))
 	      ") }\n"
 	      trailer)
+      (run-hooks 'TeX-region-hook)
       (if (string-equal (buffer-string) original-content)
 	  (set-buffer-modified-p nil)
 	(save-buffer 0)))))
@@ -906,8 +948,10 @@ the directory."
 		(t
 		 TeX-region))))
 
-(defvar TeX-region "_region_"
-  "*Base name for temporary file for use with TeX-region.")
+(defcustom TeX-region "_region_"
+  "*Base name for temporary file for use with TeX-region."
+  :group 'TeX-commands
+  :type 'string)
 
 ;;; Parsing
 
@@ -1196,7 +1240,7 @@ Return nil if we gave a report."
 
 ;;; Error Messages
 
-(defvar TeX-error-description-list
+(defcustom TeX-error-description-list
   '(("Bad \\\\line or \\\\vector argument.*" .
 "The first argument of a \\line or \\vector command, which specifies the
 slope, is illegal\.")
@@ -1603,7 +1647,11 @@ page without enough text on it. ")
 \\{TeX-help-error} to display help-text on an error message or warning.
 err-regexp should be a regular expression matching the error message
 given from TeX/LaTeX, and context should be some lines describing that
-error")
+error"
+  :group 'TeX-output
+  :type '(repeat (cons :tag "Entry"
+		       (regexp :tag "Match")
+		       (string :format "Description:\n%v"))))
 
 (provide 'tex-buf)
 
