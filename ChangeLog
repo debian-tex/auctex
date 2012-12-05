@@ -1,3 +1,518 @@
+2005-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Version 11.82 released.
+
+2005-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (COMMITTER_NAME, COMMITTER_EMAIL): New variables.
+	(release-commit): Use them.
+
+	* auctex.spec, configure.ac, doc/auctex.texi,
+	doc/preview-latex.texi, doc/tex-ref.tex: Bump version number.
+
+	* doc/changes.texi: Minor rewordings for 11.82.
+
+2005-12-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (TeX-completing-read-multiple): Mention the availability
+	of crm.el in recent XEmacs packages.
+
+2005-12-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-macro-history): New variable.
+	(TeX-insert-macro): Use it.
+
+2005-12-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (TeX-texinfo-mode): Do not add braces around
+	arguments of commands which do not expect them.
+
+	* latex.el (TeX-arg-free): Move to tex.el.
+
+	* tex.el (TeX-arg-free): Move here from latex.el.
+	(TeX-insert-dollar): Do not abort with an error with an error if a
+	dollar is inserted in a math construct not started with a dollar.
+	Issue a message about the mismatch instead and insert the dollar.
+
+	* font-latex.el (font-latex-quote-list): Add default quotes.
+	(font-latex-add-quotes): New function.
+	(font-latex-match-quotation): Remove hard-coded quotation mark
+	lists and adapt `font-latex-quote-list' to the active quote style
+	instead.  Babel-specific quotation mark strings are now added to
+	`font-latex-quote-list' by style files.
+
+	* style/slovak.el, style/ngerman.el, style/italian.el,
+	style/german.el, style/danish.el: Add fontification support for
+	quotation mark strings provided by babel.
+
+2005-11-30  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* texmathp.el: Revert last change because it makes math
+	switch/toggle matching tricks harder to use.
+
+	* latex.el (LaTeX-listify-package-options): New function.
+	(LaTeX-auto-cleanup): Use it.
+	(LaTeX-arg-usepackage): Add \usepackage options to style list.
+
+	* tex.el (TeX-insert-quote): Turn opening/closing quotation mark
+	into "" if <"> is typed with point behind it and insert " with any
+	following <"> key type.
+
+2005-11-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* texmathp.el (texmathp-in-commented-line, texmathp-in-comment):
+	New functions.
+	(texmathp-match-environment): Use them.
+	(texmathp-match-switch): Make aware of comments.
+
+2005-11-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/MinionPro.el: New file.  Contributed by Mark Trettin.
+
+	* Makefile.in (STYLESRC): Add style/MinionPro.el.
+
+	* doc/changes.texi: Advertise support for MinionPro.sty.
+
+	* RELEASE (IMPORTANT): Add Mark.
+
+2005-11-25  David Kastrup  <dak@gnu.org>
+
+	* doc/todo.texi (Wishlist): Add suggestion about longlines.el.
+
+2005-11-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-toggle-debug-warnings): Use correct variable for
+	state indication.
+	(TeX-kpathsea-format-alist): Add entry for "sty".  Prevents
+	kpathsea-based search from failing e.g. in case of \usepackage
+	insertion.
+
+	* doc/changes.texi: Document removal of
+	`font-latex-title-fontify' alias.
+
+	* font-latex.el: Remove alias for `font-latex-title-fontify'.
+	(font-latex-make-user-keywords): Use hack from tex-mode.el to
+	fontify the backslash in "\end{verbatim}" and similar correctly.
+	(font-latex-set-syntactic-keywords): Use the backslash of
+	"\end{verbatim}" and similar for the syntax property, not the
+	newline character which led to fontification going wild when text
+	at the end of the environment was inserted.
+
+2005-11-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/changes.texi: Mention completion support for LaTeX packages.
+
+	* RELEASE: Update for 11.82.
+
+2005-11-19  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-site.el.in (tex-site-unload-hook): Don't let it fail on
+	Emacs 21.
+
+2005-11-18  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/changes.texi: Fix key binding for
+	`TeX-toggle-debug-bad-boxes'.
+
+	* doc/auctex.texi (Quotes): Document change of
+	`TeX-insert-braces'.
+	(Filling): `M-g' for `LaTeX-fill-region' has been deactivated for
+	a long time.  Reflect that in the documentation.
+
+	* tex.el (TeX-token-char): Doc fix.
+	(TeX-insert-braces): Do something more sensible if region is
+	activated.
+
+2005-11-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-parse-error): Do not match empty strings.
+
+2005-11-12  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-toggle-debug-boxes): Move to tex.el.
+	(TeX-LaTeX-sentinel-has-warnings)
+	(TeX-LaTeX-sentinel-has-bad-boxes): New functions.
+	(TeX-LaTeX-sentinel): Check for warnings and bad boxes and inform
+	the user is the respective options are non-nil.
+	(TeX-parse-error): Conditionalize checking for warnings and bad
+	boxes.  Find warnings without line numbers as well.
+	(TeX-warning): Doc fix (no need to return nil anymore).  Support
+	warnings without line numbers.
+
+	* tex.el (TeX-toggle-debug-boxes): Do not autoload.
+	(TeX-debug-bad-boxes): Doc fix.
+	(TeX-debug-warnings): New variable.
+	(TeX-toggle-debug-bad-boxes): Moved here from tex-buf.el.
+	(TeX-toggle-debug-warnings): New function.
+	(TeX-mode-map): Define new key bindings for
+	`TeX-toggle-debug-bad-boxes' and `TeX-toggle-debug-warnings'.
+	(TeX-mode-specific-command-menu-entries): Add or change menu
+	entries for `TeX-toggle-debug-bad-boxes' and
+	`TeX-toggle-debug-warnings'.
+
+	* doc/auctex.texi (Debugging): Document debugging support for
+	warnings and changes of debugging bad boxes.
+
+	* doc/changes.texi: Advertise debugging support for warnings and
+	changes of debugging bad boxes.
+
+	* font-latex.el (font-latex-set-syntactic-keywords): Doc fix.
+	Check if LaTeX-specific variables are bound which may be unbound
+	if font-latex is being used in ConTeXt mode.
+
+2005-11-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-insert-backslash): Use regular function call instead
+	of `funcall'.
+
+2005-11-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-electric-sub-and-superscript): New variable.
+	(TeX-insert-sub-or-superscript): New function.
+	(TeX-mode-map): Use `TeX-insert-sub-or-superscript' for `_' and
+	`^' keys.
+	(TeX-insert-backslash): New function.
+	(TeX-mode-map): Use `TeX-insert-backslash' for `\'.
+	(TeX-electric-escape): Adapt doc string.
+
+	* doc/auctex.texi (Mathematics): Document
+	`TeX-electric-sub-and-superscript'.
+
+	* doc/changes.texi: Advertise `TeX-electric-sub-and-superscript'.
+
+2005-10-31  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Do not break lines in
+	the Japanese Macros.  Suggested by Ikumi Keita <ikumi@revery.net>.
+
+2005-10-30  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/install.texi (Prerequisites): Update information about
+	development version of Emacs for Debian.
+	Update information about development version of Emacs for
+	Mac OS X and Windows.
+
+2005-10-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/frenchb.el, style/francais.el: Clean up.
+
+2005-10-28  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-quote-language-alist, TeX-insert-quote): Support
+	functions as opening and closing quotation marks.
+
+	* style/frenchb.el: New file.
+
+	* style/francais.el: New file.
+
+	* doc/auctex.texi (European): Document support of French.
+
+	* doc/changes.texi: Advertise support of French.
+
+	* Makefile.in (STYLESRC): Add style/frenchb.el and
+	style/francais.el.
+
+2005-10-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/install.texi (Configure): Document --with-kpathseasep.
+
+	* doc/auctex.texi (Commands): Add index entry for PDF mode.
+
+	* configure.ac (preview_enabled): Export `TEX' in unquoted form.
+
+2005-10-23  David Kastrup  <dak@gnu.org>
+
+	* style/babel.el (LaTeX-babel-package-options): Only use 2
+	argument form of defvaralias in order not to make XEmacs barf.
+
+2005-10-23  Arne Jørgensen  <arne@arnested.dk>
+
+	* style/amstext.el (LaTeX-amstext-package-option): New variable.
+
+	* style/amstex.el (LaTeX-amstex-package-options): New variable.
+
+	* style/amsopn.el (LaTeX-amsopn-package-options): New variable.
+
+	* style/amsmath.el (LaTeX-amsmath-package-options): New variable.
+
+	* style/amsbsy.el (LaTeX-amsbsy-package-options): New variable.
+
+	* style/fancyref.el (LaTeX-fancyref-package-options): New
+	variable.
+
+	* style/harvard.el: Updated GPL to version 2. Fixed FSF address.
+	(LaTeX-harvard-package-options): New variable.
+
+	* style/index.el (LaTeX-index-package-options): New variable.
+
+	* style/listings.el (LaTeX-listings-package-options): New
+	variable.
+
+	* style/makeidx.el (LaTeX-makeidx-package-options): New variable.
+
+	* style/mdwlist.el (LaTeX-mdwlist-package-options): New variable.
+
+	* style/multind.el (LaTeX-multind-package-options): New variable.
+
+	* style/natbib.el (LaTeX-natbib-package-options): New variable.
+
+	* style/nicefrac.el (LaTeX-nicefrac-package-options): New
+	variable.
+
+	* style/paralist.el (LaTeX-paralist-package-options): New
+	variable.
+
+	* style/units.el (LaTeX-units-package-options): New variable.
+
+	* style/scrpage2.el (LaTeX-scrpage2-package-options): New
+	variable.
+
+2005-10-21  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* toolbar-x.el (toolbarx-find-image): Fix previous commit.
+
+2005-10-21  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-mik.el (tex-site): Require 'tex-site no more.
+
+	* doc/changes.texi: Document removal of 'tex-site requirement from
+	`tex-mik.el'.
+
+	* configure.ac (packagedir): Quote value of `infodir'.
+
+2005-10-20  David Kastrup  <dak@gnu.org>
+
+	* toolbar-x.el: Revert mostly to 2005-05-02 state, but add a
+	fallback to find-image.
+
+2005-10-20  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* toolbar-x.el (toolbarx-find-image): Use image-search-load-path
+	and image-load-path when available.
+	(toolbarx-find-image): Revert previous fix.  Instead, rely on
+	find-image whenever possible and don't abuse locate-library.
+
+2005-10-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-make-user-keywords): Append string
+	face in order to make string fontification of ``foo $bar$ baz''
+	constructs work.
+
+2005-10-19  Arne Jørgensen  <arne@arnested.dk>
+
+	* latex.el (LaTeX-arg-usepackage): If
+	`LaTeX-<package>-package-options' is bound and nil don't ask for
+	package options.
+
+	* style/verbatim.el (LaTeX-verbatim-package-options): New
+	variable.
+
+	* style/varioref.el (LaTeX-varioref-package-options): New
+	variable.
+
+	* style/url.el (LaTeX-url-package-options): New variable.
+
+	* style/subfigure.el (LaTeX-subfigure-package-options): New
+	variable.
+
+	* style/inputenc.el (LaTeX-arg-inputenc-inputenc): Doc fix.
+	(LaTeX-inputenc-package-options): Doc fix.
+
+	* style/dk-bib.el (LaTeX-dk-bib-package-options): Doc fix.
+
+	* style/captcont.el (LaTeX-captcont-package-options): New
+	variable.
+
+	* style/booktabs.el (LaTeX-booktabs-package-options): New
+	variable.
+
+	* style/babel.el: Add doc string to `LaTeX-babel-package-options'
+	and use `defvar' instead of `setq'.
+
+	* style/alltt.el (LaTeX-alltt-package-options): New variable.
+
+2005-10-13  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* style/dk-bib.el, style/inputenc.el: Add coding cookie.  Delete
+	trailing whitespace.  Reindent.
+
+2005-10-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* style/dk-bib.el (LaTeX-dk-bib-package-options): Define only
+	once.
+
+2005-10-13  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* tex-buf.el: Change defcustom group from TeX-commands to TeX-command
+
+2005-10-12  Arne Jørgensen  <arne@arnested.dk>
+
+	* tex.el: Provide a `TeX-completing-read-multiple' either by
+	defalias'ing `completing-read-multiple' or defining a wrapper
+	around `multi-prompt'.
+
+	* latex.el (LaTeX-arg-usepackage): New function. Asks about what
+	package to use, loads the AUCTeX style file, and asks about
+	package options (possibly based on definitions in the AUCTeX
+	style file).
+	(LaTeX-common-initialization): Use it.
+
+	* style/babel.el: Define `LaTeX-babel-package-options' to be a
+	list of languages/options for the babel package.
+
+	* style/inputenc.el: New file.
+
+	* style/dk-bib.el: New file.
+
+	* Makefile.in (STYLESRC): Added style/inputenc.el and
+	style/dk-bib.el.
+
+2005-10-10  Arne Jørgensen  <arne@arnested.dk>
+
+	* latex.el (LaTeX-auto-regexp-list): Removed spurious characters
+	in variable definition.
+
+2005-10-10  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (top): Index "tool bar" and "toolbar".  Use
+	"tool bar" in the text.
+
+	* doc/changes.texi: Use "tool bar".
+
+	* auctex.spec: Install auctex.el and preview-latex.el for SuSE
+	too.  Don't use extraconfig.
+
+2005-10-07  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* Makefile.in (tar-ball): Re-add fixed spec file.
+
+2005-10-07  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex.el (TeX-token-char): New variable.
+	(plain-TeX-auto-regexp-list): Use it.
+	Suggested by Ikumi Keita <ikumi@revery.net>.
+
+	* latex.el (LaTeX-auto-regexp-list, BibTeX-auto-regexp-list): Use
+	it.
+
+	* tex-jp.el (LaTeX-auto-regexp-list, plain-TeX-auto-regexp-list)
+	(BibTeX-auto-regexp-list): Removed.
+
+2005-10-06  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec: Fixes for Fedora.  Create site-start.d and add
+	files.
+
+2005-10-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el (TeX-BibTeX-sentinel): Shorten message in case of
+	errors.
+
+	* Makefile.in (install-lisp): Use MULESRC instead of MULEELC
+	because a `c' is already being appended by the installation code.
+
+	* tex-jp.el (japanese-TeX-command-list): Remove obsolete
+	`TeX-run-LaTeX' option.
+
+	* tex.el (TeX-current-macro): New function.
+
+	* latex.el (LaTeX-verbatim-macros-with-delims)
+	(LaTeX-verbatim-macros-with-delims-local)
+	(LaTeX-verbatim-macros-with-braces)
+	(LaTeX-verbatim-macros-with-braces-local)
+	(LaTeX-verbatim-environments, LaTeX-verbatim-environments-local):
+	New variables.
+	(LaTeX-verbatim-macro-boundaries, LaTeX-current-verbatim-macro)
+	(LaTeX-verbatim-p, LaTeX-search-forward-comment-start): New
+	functions.
+	(LaTeX-verbatim-macros): Remove.
+	(LaTeX-fill-region-as-para-do): Simplify.
+	(LaTeX-fill-move-to-break-point): Use
+	`LaTeX-verbatim-macros-with-delims'.
+	(LaTeX-fill-paragraph, LaTeX-fill-code-comment): Handle comment
+	starters in verbatim constructs correctly.
+
+	* font-latex.el (font-latex-verbatim-environments)
+	(font-latex-verbatim-environments-local)
+	(font-latex-verb-like-commands)
+	(font-latex-verb-like-commands-local)
+	(font-latex-verbatim-macros, font-latex-verbatim-macros-local):
+	Remove.
+	(font-latex-set-syntactic-keywords): Use new `LaTeX-verbatim-*'
+	instead of `font-latex-verb*' variables.
+
+	* doc/auctex.texi (Font Locking): Document change of
+	verbatim-related variables.
+
+	* doc/changes.texi: Document change of verbatim-related variables.
+
+	* style/alltt.el ("alltt"): Use new variables for verbatim
+	constructs.
+
+	* style/listings.el ("listings"): Use new variables for verbatim
+	constructs.
+
+	* style/url.el ("url"): Use new variables for verbatim constructs.
+
+	* latex.el (LaTeX-insert-environment): Mostly rewritten.  Improve
+	handling of macrocode environments.
+
+2005-10-02  Christian Schlauer  <cschl@arcor.de>
+
+	* tex-buf.el (TeX-BibTeX-sentinel): Check whether BibTeX reports
+	any warnings or errors.
+
+	* doc/changes.texi: Mention it.
+
+2005-10-02  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* texmathp.el (texmathp-match-environment): Make aware of
+	comments.
+
+2005-09-29  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* doc/install.texi (Customizing): Removed "Contributed files"
+	section.
+	Suggested by Ikumi Keita <ikumi@revery.net>.
+
+2005-09-29  Ikumi Keita <ikumi@revery.net>
+
+	* texmathp.el (texmathp-tex-commands-default): Remove "xxalignat*"
+	and add "boxed".
+
+2005-09-27  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec: Add files in %{_datadir}/emacs/site-lisp.
+	Suggested by Jan-Ake Larsson.  Added startfiles.  Exclude
+	%{_infodir}/dir.
+
+2005-09-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Document option for specifying AUCTeX startfile as
+	--with-auctexstartfile, not --with-auctex-startfile which does not
+	work.  Note that changing the internal name from `auctexstartfile'
+	to `auctex-startfile' is not an option because of the `-' in the
+	name which gives the shell headaches.
+
+	* auctex.spec: Adapt to --with-auctexstartfile and
+	--with-preview-startfile.
+
+	* doc/install.texi (Configure): Document change from
+	--with-auctex-startfile to --with-auctex-startfile and
+	--with-preview-startfile to --with-previewstartfile.
+
+2005-09-26  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* auctex.spec: Bump version number.  Remove install-contrib, use
+	install-docs.  Don't install preview/* because these are not
+	generated.
+
+2005-09-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (tar-ball): Don't create WWW directory and don't
+	copy HTML files.
+	(www-doc): New target.
+
 2005-09-25  David Kastrup  <dak@gnu.org>
 
 	* Version 11.81 released.

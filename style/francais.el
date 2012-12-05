@@ -1,9 +1,10 @@
-;;; nicefrac.el --- AUCTeX style for the LaTeX package `nicefrac.sty' (v0.9b)
+;;; francais.el --- AUCTeX style for the `francais' babel option.
 
-;; Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+;; Copyright (C) 2005 Free Software Foundation, Inc.
 
-;; Author: Christian Schlauer <cschl@arcor.de>
+;; Author: Ralf Angeli <angeli@iwi.uni-sb.de>
 ;; Maintainer: auctex-devel@gnu.org
+;; Created: 2005-10-28
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
@@ -25,22 +26,16 @@
 
 ;;; Commentary:
 
-;; This file adds support for `nicefrac.sty'.
+;; Set up AUCTeX for editing French text.  In particular for commands
+;; provided by the `francais' option of the `babel' LaTeX package.  As
+;; this is equivalent to the `frenchb' option, this file only loads
+;; `frenchb.el'.
 
 ;;; Code:
 
 (TeX-add-style-hook
- "nicefrac"
+ "francais"
  (lambda ()
-   (TeX-add-symbols
-    '("nicefrac" [ "Font changing command" ] "Numerator" "Denominator"))
-   ;; enable fontifying
-   (when (and (featurep 'font-latex)
-	      (eq TeX-install-font-lock 'font-latex-setup))
-     (add-to-list 'font-latex-match-textual-keywords-local "nicefrac")
-     (font-latex-match-textual-make))))
+   (TeX-run-style-hooks "frenchb")))
 
-(defvar LaTeX-nicefrac-package-options '("nice" "ugly")
-  "Package options for the nicefrac package.")
-
-;;; nicefrac.el ends here
+;;; francais.el ends here

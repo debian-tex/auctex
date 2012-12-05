@@ -4,6 +4,73 @@
 
 @end ifset
 
+@heading News in 11.82
+
+@itemize @bullet
+@item
+Support for the MinionPro LaTeX package was added.
+
+@item
+Warnings and underfull/overfull boxes are now being indicated in the
+echo area after a @LaTeX{} run, if the respective debugging options are
+activated with @code{TeX-toggle-debug-warnings} (@kbd{C-c C-t C-w}) or
+@code{TeX-toggle-debug-bad-boxes} (@kbd{C-c C-t C-b}).  In this case
+@code{TeX-next-error} will find these warnings in addition to normal
+errors.
+
+The key binding @kbd{C-c C-w} for @code{TeX-toggle-debug-bad-boxes}
+(which was renamed from @code{TeX-toggle-debug-boxes}) now is
+deprecated.
+
+@item
+@AUCTeX{} now can automatically insert a pair of braces after typing
+@key{_} or @key{^} in math constructs if the new variable
+@code{TeX-electric-sub-and-superscript} is set to a non-nil value.
+
+@item
+Some language-specific support for French was added.  There now is
+completion support for the commands provided by the @samp{frenchb} (and
+@samp{francais}) options of the babel @LaTeX{} package and easier input
+of French quotation marks (@code{\\og ...\\fg}) which can now be
+inserted by typing @key{"}.
+
+@item
+Completion support for options of some LaTeX packages was added.
+
+@item
+Already in version 11.81 the way to activate @AUCTeX{} changed
+substantially.  This should now be done with @code{(load "auctex.el" nil
+t t)} instead of the former @code{(require 'tex-site)}.  Related to this
+change @file{tex-mik.el} does not load @file{tex-site.el} anymore.  That
+means if you used only @code{(require 'tex-mik)} in order to activate
+@AUCTeX{}, you have to add @code{(load "auctex.el" nil t t)} before the
+latter statement.  More detailed information can be found in the
+installation instructions.
+
+@item
+Handling of verbatim constructs was consolidated across AUCTeX.  This
+resulted in the @fontlatex{}-specific variables
+@code{font-latex-verb-like-commands}, @code{font-latex-verbatim-macros},
+and @code{font-latex-verbatim-environments} being removed and the more
+general variables @code{LaTeX-verbatim-macros-with-delims},
+@code{LaTeX-verbatim-macros-with-braces}, and
+@code{LaTeX-verbatim-environments} being added.
+
+@item
+The output of a Bib@TeX{} run is now checked for warnings and errors,
+which are reported in the echo area.
+
+@item
+The aliases for @code{font-latex-title-fontify} were removed.  Use
+@code{font-latex-fontify-sectioning} instead.
+
+@item
+The problem that Japanese macros where broken across lines was fixed.
+
+@item
+Various bug fixes.
+@end itemize
+
 @heading News in 11.81
 
 @itemize @bullet
@@ -148,7 +215,7 @@ in future releases.
 Info files of the manual now have a .info extension.
 
 @item
-There is an experimental toolbar support now.  It is not activated by
+There is an experimental tool bar support now.  It is not activated by
 default.  If you want to use it, add
 @lisp
 (add-hook 'LaTeX-mode-hook 'LaTeX-install-toolbar)

@@ -29,19 +29,17 @@ MS Windows are asked to consult the file `INSTALL.windows'.
 
     Windows
           Precompiled versions are available from
-          `http://www.crasseux.com' and `http://nqmacs.sf.net'.
+          `http://www.crasseux.com/emacs/' and `http://nqmacs.sf.net/'.
 
     MacOSX
           A precompiled version including an installer as well as
           preinstalled versions of AUCTeX and preview-latex is
-          available from `http://yaced.sf.net'.  A different port
-          (without AUCTeX and preview-latex) is
-          `http://www.apple.com/downloads/macosx/unix_open_source/carbonemacspackage.html'.
-          Some changes and patches attempt to make Emacs behave more in
-          line with MacOSX.
+          available from `http://yaced.sf.net/'.  A different port is
+          `http://home.att.ne.jp/alpha/z123/emacs-mac-e.html'.
 
     Debian Linux
-          `http://sadleder.de/debian/'
+          Debian provides `emacs-snapshot' and `emacs-snapshot-gtk'
+          packages in its `unstable' distribution.
 
     Fedora Linux
           `http://people.redhat.com/petersen/emacs/'
@@ -154,8 +152,8 @@ it out with one of these options:
      installed (the bulk will get installed in a subdirectory).
      `./configure' should figure this out by itself.
 
-`--with-auctex-startfile=`auctex.el''
-`--with-preview-startfile=`preview-latex.el''
+`--with-auctexstartfile=`auctex.el''
+`--with-previewstartfile=`preview-latex.el''
      This is the name of the respective startup files.  If LISPDIR
      contains a subdirectory `site-start.d', the start files are placed
      there, and `site-start.el' should load them automatically.  Please
@@ -199,6 +197,11 @@ it out with one of these options:
      `TEXINPUTS' environment variable will be made to point there.  You
      can install those files into your own TeX tree at some later time
      with `M-x preview-install-styles RET'.
+
+`--with-kpathseasep=`[:|;]''
+     Set this option if you use `--without-texmf-dir' and the
+     configuration routine cannot figure out itself the directory
+     separator used by the kpathsea library.
 
 `--with-tex-dir=/DIR'
      If you want to specify an exact directory for the preview TeX
@@ -456,22 +459,4 @@ recursively, so there is no reason to list subdirectories explicitly.
 Automatic configuration will already have set the variable for you if
 it could use the program `kpsewhich'.  In this case you normally don't
 have to alter anything.
-
-8 Contributed files
-*******************
-
-There are several files that are not part of AUCTeX proper, but
-included in the distribution in case they are useful.
-
-`bib-cite.el'
-     Better support for bibliographies and much more.
-
-`tex-jp.el'
-     Support for Japanese.
-
-
-   They can be installed together with AUCTeX by executing `make
-contrib' and `make install-contrib'.  Read the comments in the start of
-each file for more information about how to use the files, what they
-do, and who wrote and maintains them.
 

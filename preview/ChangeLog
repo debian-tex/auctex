@@ -1,3 +1,32 @@
+2005-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Bump version number.
+
+2005-10-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Import `TEX' in unquoted form.
+
+2005-10-13  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Change wrongly used `previewdatadir' to
+	`previewlispdir'.
+	Change version number in `AC_INIT'.
+
+2005-10-03  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* prv-xemacs.el (preview-check-changes): Delete detached extents.
+
+2005-09-27  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Document option for specifying AUCTeX startfile as
+	--with-previewstartfile, not --with-preview-startfile which does
+	not work.
+	Use matching package names for determining the kpathsea path
+	separator both internally and in the option name which now is
+	--with-kpathseasep.
+	Fix the quadrigraph for the closing bracket in the
+	kpathsesep-related error message.
+
 2005-09-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
 
 	* latex/preview.dtx: Add space for nicer formatting in version

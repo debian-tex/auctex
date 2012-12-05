@@ -145,6 +145,10 @@ changes on the mailing list of AUCTeX first.
    * Make AUCTeX work with `crypt++'.  Suggested by Chris Moore
      `<Chris.Moore@src.bae.co.uk>'.
 
+   * Make AUCTeX work with `longlines'.  This would also apply to
+     preview-latex, though it might make sense to unify error processing
+     before attempting this.
+
    * The `Spell' command should apply to all files in a document.  Maybe
      it could try to restrict to files that have been modified since
      last spell check?  Suggested by Ravinder Bhumbla

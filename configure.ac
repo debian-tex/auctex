@@ -1,4 +1,4 @@
-AC_INIT(auctex,11.81,bug-auctex@gnu.org)
+AC_INIT(auctex,11.82,bug-auctex@gnu.org)
 
 AC_SET_MAKE
 AC_PROG_INSTALL
@@ -39,7 +39,7 @@ then
    EMACS_PATH_LISPDIR
    AC_MSG_CHECKING(what file to use for auctex startup)
    AC_ARG_WITH(auctexstartfile,
-   [[  --with-auctex-startfile=FILE    What file to use for auctex startup.]],
+   [[  --with-auctexstartfile=FILE    What file to use for auctex startup.]],
    [[ auctexstartfile="${withval}" ]],
    [ _tmpdir_="${lispdir}"
      AC_FULL_EXPAND(_tmpdir_)
@@ -88,7 +88,7 @@ AC_MSG_RESULT([[${infodir}]])
 
 AC_SUBST(packagedir)
 
-if test $EMACS_FLAVOR = "xemacs" -a $infodir = '${prefix}/info'; then
+if test $EMACS_FLAVOR = "xemacs" -a "$infodir" = '${prefix}/info'; then
   if test $packagedir != 'no'; then
    infodir='${packagedir}/info'
   fi
@@ -132,10 +132,11 @@ AC_SUBST(preview_enabled)
 if test "X${preview_enabled}" = Xyes
 then
   auctexdir=..; export auctexdir
-  export TEX
   export PDFTEX
   export DVIPS
   # Export unquoted variables.
+  TEX_UNQUOTED="$TEX"
+  export TEX_UNQUOTED
   packagedir_unquoted="$packagedir"
   export packagedir_unquoted
   packagelispdir_unquoted="$packagelispdir"
