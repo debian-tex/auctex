@@ -50,6 +50,10 @@ on the mailing list of AUCTeX first.
 1.2 Wishlist
 ============
 
+   * Spell checking of macros
+
+     A special ispell dictionary for macros could be nice to have.
+
    * Quick error overviews
 
      An error overview window (extract from the log file with just the
@@ -237,14 +241,8 @@ on the mailing list of AUCTeX first.
    * The parsed files and style hooks for `example.dtx', `example.sty',
      `example.drv' and `example.bib' all clash.  Bad.
 
-   * Filling messes up comments, but only at the end of the file.
-     Reported by Juergen Reiss <psy3022@rzbox.uni-wuerzburg.de>.
-
-   * `C-c C-q C-e' doesn't work properly on nested itemize environments.
-     Reported by  "Robert B. Love"  <rlove@raptor.rmNUG.ORG>.
-
-   * `C-c `' should always stay in the current window, also when it find
-     a new file.
+   * `C-c `' should always stay in the current window, also when it
+     finds a new file.
 
    * Do not overwrite emacs warnings about existing auto-save files when
      loading a new file.
@@ -255,31 +253,27 @@ on the mailing list of AUCTeX first.
 
    * AUCTeX should not parse verbatim environments.
 
-   * LaTeX formatting should skip `verbatim' environments.
-
-   * The argument to `\verb' may be broken when filling if it contains a
-     space.  This should be fixed or documented.  Suggested by several
-     people.
-
    * Make ``' check for math context in `LaTeX-math-mode'. and simply
      self insert if not in a math context.
 
    * Make `TeX-insert-dollar' more robust.  Currently it can be fooled
      by `\mbox''es and escaped double dollar for example.
 
-   * Fix bug with `TeX-show-environment' from hidden document
-     environment.
-
    * Correct indentation for tabular, tabbing, table, math, and array
      environments.
 
-   * If there are unmatched $ characters in `verbatim' or similar
-     environments, the rest of the buffer gets fontified with the math
-     face (usually in brown).  A good way to fix this bug would be to
-     have conditional font locking, i.e. different (syntactical)
-     keywords are used inside certain environments.  This would allow
-     special fontification of programming languages in `lstlisting'
-     environments as well.  Unfortunately such conditional font locking
-     is not provided yet by Emacs.  As a workaround you can insert `%$'
-     after the end of the environment in concern.
+   * Syntax highlighting of LaTeX constructs spanning more than one line
+     sometimes stops in the middle of the construct.  Highlighting can
+     get lost during typing. (XEmacs only)
+
+   * No syntactic font locking of verbatim macros and environments.
+     (XEmacs only)
+
+   * Font locking inside of verbatim macros and environments is not
+     inhibited.  This may result in syntax highlighting of unbalanced
+     dollar signs and the like spilling out of the verbatim content.
+     (XEmacs only)
+
+   * Folding of LaTeX constructs spanning more than one line may result
+     in overfull lines. (XEmacs only)
 

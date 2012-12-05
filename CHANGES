@@ -4,8 +4,70 @@ Changes and New Features in AUCTeX
 News in 11.54
 =============
 
+   * The parser (used e.g. for `TeX-auto-generate-global') was extended
+     to recognize keywords common in LaTeX packages and classes, like
+     "\DeclareRobustCommand" or "\RequirePackage".  Additionally a bug
+     was fixed which led to duplicate entries in AUCTeX style files.
+
+   * Folding can now be done for paragraphs and regions besides single
+     constructs and the whole buffer.  With the new `TeX-fold-dwim'
+     command content can both be hidden and shown with a single key
+     binding.  In course of these changes new key bindings for
+     unfolding commands where introduced.  The old bindings are still
+     present but will be phased out in future releases.
+
+   * Info files of the manual now have a .info extension.
+
+   * There is an experimental toolbar support now.  It is not activated
+     by default.  If you want to use it, add
+          (add-hook 'LaTeX-mode-hook 'LaTeX-install-toolbar)
+     to your init file.
+
+   * The manual now contains a new chapter "Quick Start".  It explains
+     the main features and how to use them, and should be enough for a
+     new user to start using AUCTeX.
+
+   * A new section "Font Locking" was added to the manual which explains
+     syntax highlighting in AUCTeX and its customization.  Together with
+     the sections related to folding and outlining, the section is part
+     of the new chapter "Display".
+
+   * Keywords for syntax highlighting of LaTeX constructs to be typeset
+     in bold, italic or typewriter fonts may now be customized.
+     Besides the built-in classes, new keyword classes may be added by
+     customizing the variable `font-latex-user-keyword-classes'.  The
+     customization options can be found in the customization group
+     `font-latex-keywords'.
+
+   * Verbatim content is now displayed with the `fixed-pitch' face. (GNU
+     Emacs only)
+
+   * Syntax highlighting should not spill out of verbatim content
+     anymore. (GNU Emacs only)
+
+   * Verbatim commands like `\verb|...|' will not be broken anymore
+     during filling.
+
    * You can customize the completion for graphic files with
      `LaTeX-includegraphics-read-file'.
+
+   * Support for the LaTeX packages `url', `listings', `jurabib' and
+     `csquotes' was added with regard to command completion and syntax
+     highlighting.
+
+   * Performance of fontification and filling was improved.
+
+   * Insertion of nodes in Texinfo mode now supports completion of
+     existing node names.
+
+   * Setting the variable `LaTeX-float' to `nil' now means that you
+     will not be prompted for the float position of figures and tables.
+     You can get the old behaviour of `nil' by setting the variable to
+     `""', i.e. an empty string.  See also *Note Floats::.
+
+   * The XEmacs-specific bug concerning `overlays-at' was fixed.
+
+   * Lots of bug fixes.
 
 News in 11.53
 =============
@@ -20,6 +82,8 @@ News in 11.53
 
    * `start' is used for the viewer for MikTeX and fpTeX.
 
+   * The variable `TeX-fold-preserve-comments' can now be customized to
+     deactivate folding in comments.
 
 News in 11.52
 =============
@@ -41,6 +105,8 @@ News in 11.51
    * Omega support has been added.
 
    * Bug fixes in the build process.
+
+   * `TeX-fold' now supports folding of environments in Texinfo mode.
 
 News in 11.50
 =============

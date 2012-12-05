@@ -144,8 +144,9 @@ for @node."
       (while (re-search-forward "^@node\\b" nil t)
 	(skip-chars-forward " \t")
 	(add-to-list 'nodes
-		     (buffer-substring-no-properties
-		      (point) (progn (skip-chars-forward "^,") (point))))))
+		     (list (buffer-substring-no-properties
+			    (point) (progn (skip-chars-forward "^,")
+					   (point)))))))
     (unless active-mark
       (setq node-name (read-string "Node name: ")))
     ;; FIXME: What if key binding for `minibuffer-complete' was changed?
@@ -405,6 +406,7 @@ value of `Texinfo-mode-hook'."
    '("cite" "Reference")
    '("clear" "Flag")
    '("code" "Sample-code")
+   '("command" "Command")
    '("comment" "Comment")
    '("contents")
    '("copyright")
@@ -414,6 +416,7 @@ value of `Texinfo-mode-hook'."
    '("dmn" "Dimension")
    '("dots")
    '("emph" "Text")
+   '("email" "Email address")
    '("equiv")
    '("error")
    '("evenfooting" Texinfo-lrc-argument-hook)

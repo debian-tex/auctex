@@ -37,12 +37,9 @@
   (error "AUCTeX requires Emacs 21 or later"))
 
 (require 'custom)
+(require 'tex-site)
 (eval-when-compile
   (require 'cl))
-
-;; Don't require `tex-buf' because `tex-buf' requires `tex'.
-(autoload 'TeX-process-set-variable "tex-buf")
-(autoload 'TeX-region-file "tex-buf")
 
 (defgroup AUCTeX nil
   "A (La)TeX environment."
@@ -194,7 +191,8 @@ the printer has no corresponding command."
     ("Print" "%p" TeX-run-command t t :help "Print the file")
     ("Queue" "%q" TeX-run-background nil t :help "View the printer queue"
      :visible TeX-queue-command)
-    ("File" "%(o?)dvips %d -o %f " TeX-run-command t t :help "Generate PostScript file")
+    ("File" "%(o?)dvips %d -o %f " TeX-run-command t t
+     :help "Generate PostScript file")
     ("Index" "makeindex %s" TeX-run-command nil t :help "Create index file")
     ;; (list "Check" "chktex -v3 %s" TeX-run-compile nil t :help "Check )
     ;; Uncomment the above line and comment out the next line to
@@ -432,24 +430,25 @@ is not recommended because it is more powerful than
   :type '(repeat (group regexp (string :tag "Command"))))
 
 (defcustom TeX-output-view-style
-  `(("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
+  `(("^dvi$" ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
+     "%(o?)dvips -t landscape %d -o && gv %f")
+    ("^dvi$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
+    ("^dvi$" (,(concat
+		"^" (regexp-opt '("a4paper" "a4dutch" "a4wide" "sem-a4")) "$")
+	      "^landscape$")
+     "%(o?)xdvi %dS -paper a4r -s 0 %d")
     ("^dvi$" ,(concat
-	       "^"
-	       (regexp-opt '("a4paper" "a4" "a4dutch" "a4wide" "sem-a4"))
-	       "$")
+	       "^" (regexp-opt '("a4paper" "a4dutch" "a4wide" "sem-a4")) "$")
      "%(o?)xdvi %dS -paper a4 %d")
-    ("^dvi$" (,(concat "^" (regexp-opt '("a5paper" "a5" "a5comb")) "$")
+    ("^dvi$" (,(concat "^" (regexp-opt '("a5paper" "a5comb")) "$")
 	      "^landscape$")
      "%(o?)xdvi %dS -paper a5r -s 0 %d")
-    ("^dvi$" ,(concat "^" (regexp-opt '("a5paper" "a5" "a5comb")) "$")
+    ("^dvi$" ,(concat "^" (regexp-opt '("a5paper" "a5comb")) "$")
      "%(o?)xdvi %dS -paper a5 %d")
     ("^dvi$" "^b5paper$" "%(o?)xdvi %dS -paper b5 %d")
-    ("^dvi$" ("^landscape$" "^pstricks$\\|^psfrag$")
-     "%(o?)dvips -t landscape %d -o && gv %f")
     ("^dvi$" "^letterpaper$" "%(o?)xdvi %dS -paper us %d")
     ("^dvi$" "^legalpaper$" "%(o?)xdvi %dS -paper legal %d")
     ("^dvi$" "^executivepaper$" "%(o?)xdvi %dS -paper 7.25x10.5in %d")
-    ("^dvi$" "^landscape$" "%(o?)xdvi %dS -paper a4r -s 0 %d")
     ("^dvi$" "." "%(o?)xdvi %dS %d")
     ("^pdf$" "." "xpdf %o")
     ("^html?$" "." "netscape %o"))
@@ -574,7 +573,31 @@ Full documentation will be available after autoloading the function."
 (autoload 'latex-mode "latex" no-doc t)
 
 (autoload 'multi-prompt "multi-prompt" no-doc nil)
+
 (autoload 'texmathp "texmathp" no-doc nil)
+(autoload 'texmathp-match-switch "texmathp" no-doc nil)
+
+;; Don't require `tex-buf' because `tex-buf' requires `tex'.
+(autoload 'TeX-region-create "tex-buf" no-doc nil)
+(autoload 'TeX-save-document "tex-buf" no-doc t)
+(autoload 'TeX-home-buffer "tex-buf" no-doc t)
+(autoload 'TeX-pin-region "tex-buf" no-doc t)
+(autoload 'TeX-command-region "tex-buf" no-doc t)
+(autoload 'TeX-command-buffer "tex-buf" no-doc t)
+(autoload 'TeX-command-master "tex-buf" no-doc t)
+(autoload 'TeX-command "tex-buf" no-doc nil)
+(autoload 'TeX-kill-job "tex-buf" no-doc t)
+(autoload 'TeX-recenter-output-buffer "tex-buf" no-doc t)
+(autoload 'TeX-next-error "tex-buf" no-doc t)
+(autoload 'TeX-toggle-debug-boxes "tex-buf" no-doc t)
+(autoload 'TeX-region-file "tex-buf" no-doc nil)
+(autoload 'TeX-current-offset "tex-buf" no-doc nil)
+(autoload 'TeX-process-set-variable "tex-buf" no-doc nil)
+(autoload 'TeX-view "tex-buf" no-doc t)
+
+(autoload 'TeX-fold-mode "tex-fold" no-doc t)
+(autoload 'tex-fold-mode "tex-fold" no-doc t)
+
 
 ;;; Portability.
 
@@ -609,8 +632,8 @@ Also does other stuff."
 (eval-and-compile
   (defconst AUCTeX-version
     (eval-when-compile
-      (let ((name "$Name:  $")
-	    (rev "$Revision: 5.448 $"))
+      (let ((name "$Name: release_11_54 $")
+	    (rev "$Revision: 5.475 $"))
 	(or (when (string-match "\\`[$]Name: *\\(release_\\)?\\([^ ]+\\) *[$]\\'"
 				name)
 	      (setq name (match-string 2 name))
@@ -625,7 +648,7 @@ If not a regular release, CVS revision of `tex.el'."))
 
 (defconst AUCTeX-date
   (eval-when-compile
-    (let ((date "$Date: 2004/09/05 20:40:02 $"))
+    (let ((date "$Date: 2005/01/06 18:25:57 $"))
       (string-match
        "\\`[$]Date: *\\([0-9]+\\)/\\([0-9]+\\)/\\([0-9]+\\)"
        date)
@@ -658,6 +681,22 @@ DOC string gets replaced with a string like \"AUCTeX 5.1\"."
 (eval-after-load 'info '(dolist (elt '("TeX" "LaTeX" "ConTeXt" "Texinfo"))
 			  (add-to-list 'Info-file-list-for-emacs
 				       (cons elt "AUCTeX"))))
+
+(defadvice hack-one-local-variable (after TeX-hack-one-local-variable-after
+					  activate)
+  "Call minor mode function if minor mode variable is found."
+  (let ((var (ad-get-arg 0))
+	(val (ad-get-arg 1)))
+    (when (if (boundp 'minor-mode-list)
+	      ;; Test which does not require maintenance but `minor-mode-list'.
+	      (and (memq var minor-mode-list)
+		   (string-match "^\\(La\\)*TeX-.+-mode$" (symbol-name var)))
+	    ;; "Manual" test requiring adaption when minor modes change.
+	    (memq var '(TeX-PDF-mode TeX-source-specials-mode
+				     TeX-interactive-mode TeX-Omega-mode
+				     TeX-fold-mode LaTeX-math-mode)))
+      (if (symbol-value val) (funcall var 1) (funcall var 0)))))
+
 
 ;;; Special support for XEmacs
 
@@ -695,22 +734,40 @@ DOC string gets replaced with a string like \"AUCTeX 5.1\"."
   (defun TeX-activate-region ()
     nil))
 
-(cond
- ((fboundp 'delete-dups) ;; Emacs 21.4
-  (defalias 'TeX-delete-dups 'delete-dups))
- ((fboundp 'delete-duplicates) ;; cl.el, XEmacs
-  (defalias 'TeX-delete-dups 'delete-duplicates))
- (t ;; Fallback from `subr.el' of Emacs 21.3.50
-  (defun TeX-delete-dups (list)
-    "Destructively remove `equal' duplicates from LIST.
-Store the result in LIST and return it.  LIST must be a proper list.
-Of several `equal' occurrences of an element in LIST, the first
-one is kept."
-    (let ((tail list))
-      (while tail
-	(setcdr tail (delete (car tail) (cdr tail)))
-	(setq tail (cdr tail))))
-    list)))
+(defun TeX-delete-dups-by-car (alist &optional keep-list)
+  "Return a list of all elements in ALIST, but each car only once.
+Elements of KEEP-LIST are not removed even if duplicate."
+  ;; Copy of `reftex-uniquify-by-car' (written by David Kastrup).
+  (setq keep-list (sort (copy-sequence keep-list) #'string<))
+  (setq alist (sort (copy-sequence alist)
+		    (lambda (a b)
+		      (string< (car a) (car b)))))
+  (let ((new alist) elt)
+    (while new
+      (setq elt (caar new))
+      (while (and keep-list (string< (car keep-list) elt))
+	(setq keep-list (cdr keep-list)))
+      (unless (and keep-list (string= elt (car keep-list)))
+	(while (string= elt (car (cadr new)))
+	  (setcdr new (cddr new))))
+      (setq new (cdr new))))
+  alist)
+
+(defun TeX-delete-duplicate-strings (list)
+  "Return a list of all strings in LIST, but each only once."
+  (setq list (TeX-sort-strings list))
+  (let ((new list) elt)
+    (while new
+      (setq elt (car new))
+      (while (string= elt (cadr new))
+	(setcdr new (cddr new)))
+      (setq new (cdr new))))
+  list)
+
+(defun TeX-sort-strings (list)
+  "Return sorted list of all strings in LIST."
+  (sort (copy-sequence list) #'string<))
+
 
 ;;; Buffer
 
@@ -863,7 +920,7 @@ If this is nil, an empty string will be returned."
   :group 'TeX-source-specials)
 
 (defcustom TeX-source-specials-view-position-flags
-  "-sourceposition %n:%b"
+  "-sourceposition \"%n %b\""
   "Flags to pass to the DVI viewer commands for the position in the source."
   :group 'TeX-source-specials
   :type 'string)
@@ -1047,7 +1104,8 @@ See `TeX-global-PDF-mode' for toggling the default value."
 (define-minor-mode TeX-Omega-mode
   "Minor mode for using the Omega engine."
   nil nil nil
-  (TeX-PDF-mode 0)
+  (when TeX-Omega-mode
+    (TeX-PDF-mode 0))
   (TeX-set-mode-name 'TeX-Omega-mode t t))
 (defalias 'tex-omega-mode 'TeX-Omega-mode)
 
@@ -1079,23 +1137,6 @@ Must be the car of an entry in `TeX-command-list'."
   "The name of the Queue entry in `TeX-command-Queue'."
   :group 'TeX-command-name
   :type 'string)
-
-(autoload 'TeX-region-create "tex-buf" no-doc nil)
-(autoload 'TeX-save-document "tex-buf" no-doc t)
-(autoload 'TeX-home-buffer "tex-buf" no-doc t)
-(autoload 'TeX-pin-region "tex-buf" no-doc t)
-(autoload 'TeX-command-region "tex-buf" no-doc t)
-(autoload 'TeX-command-buffer "tex-buf" no-doc t)
-(autoload 'TeX-command-master "tex-buf" no-doc t)
-(autoload 'TeX-command "tex-buf" no-doc nil)
-(autoload 'TeX-kill-job "tex-buf" no-doc t)
-(autoload 'TeX-recenter-output-buffer "tex-buf" no-doc t)
-(autoload 'TeX-next-error "tex-buf" no-doc t)
-(autoload 'TeX-toggle-debug-boxes "tex-buf" no-doc t)
-(autoload 'TeX-region-file "tex-buf" no-doc nil)
-(autoload 'TeX-current-offset "tex-buf" no-doc nil)
-(autoload 'TeX-fold-mode "tex-fold" no-doc t)
-(autoload 'tex-fold-mode "tex-fold" no-doc t)
 
 (defvar TeX-trailer-start nil
   "Regular expression delimiting start of trailer in a TeX file.")
@@ -1583,10 +1624,10 @@ active.")
 Only do this if it has not been done before, or if optional argument
 FORCE is not nil."
 
-  (if (or (and (boundp 'TeX-auto-update)
-	       (eq TeX-auto-update 'BibTeX)) ; Not a real TeX buffer
-	  (and (not force) TeX-style-hook-applied-p))
-      ()
+  (unless (or (and (boundp 'TeX-auto-update)
+		   (eq TeX-auto-update 'BibTeX)) ; Not a real TeX buffer
+	      (and (not force)
+		   TeX-style-hook-applied-p))
     (setq TeX-style-hook-applied-p t)
     (message "Applying style hooks...")
     (TeX-run-style-hooks (TeX-strip-extension nil nil t))
@@ -1726,6 +1767,14 @@ Note that for some macros, there are special mechanisms, see e.g.
   :type '(choice (const mandatory-args-only)
 		 (const show-optional-args)))
 
+(defvar TeX-arg-opening-brace nil
+  "String used as an opening brace for argument insertion.
+The variable will be temporarily let-bound with the necessary value.")
+
+(defvar TeX-arg-closing-brace nil
+  "String used as a closing brace for argument insertion.
+The variable will be temporarily let-bound with the necessary value.")
+
 (defun TeX-insert-macro (symbol)
   "Insert TeX macro SYMBOL with completion.
 
@@ -1792,11 +1841,11 @@ type of ARGS:
   your own hook, or use one of the predefined argument hooks.  If
   you add new hooks, you can assume that point is placed directly
   after the previous argument, or after the macro name if this is
-  the first argument.  Please leave point located efter the
+  the first argument.  Please leave point located after the
   argument you are inserting.  If you want point to be located
   somewhere else after all hooks have been processed, set the value
   of `exit-mark'.  It will point nowhere, until the argument hook
-  set it.  By convention, these hook all start with `TeX-arg-'.
+  set it.  By convention, these hooks all start with `TeX-arg-'.
 
   list: If the car is a string, insert it as a prompt and the next
   element as initial input.  Otherwise, call the car of the list
@@ -1818,6 +1867,10 @@ type of ARGS:
 	   (goto-char (marker-position exit-mark))
 	   (set-marker exit-mark nil))
 	  ((and TeX-insert-braces
+		;; Do not add braces for macros defined as `("foo" 0)'
+		(not (and (= (safe-length args) 1)
+			  (numberp (car args))
+			  (= (car args) 0)))
 		(equal position (point))
 		(string-match "[a-zA-Z]+" symbol)
 		(not (texmathp)))
@@ -1859,46 +1912,50 @@ See `TeX-parse-macro' for details."
 
     (while args
       (if (vectorp (car args))
-	  (if last-optional-rejected
-	      ()
-	    (let ((< LaTeX-optop)
-		  (> LaTeX-optcl))
+	  (unless last-optional-rejected
+	    (let ((TeX-arg-opening-brace LaTeX-optop)
+		  (TeX-arg-closing-brace LaTeX-optcl))
 	      (TeX-parse-argument t (if (equal (length (car args)) 1)
 					(aref (car args) 0)
 				      (append (car args) nil)))))
-	(let ((< TeX-grop)
-	      (> TeX-grcl))
+	(let ((TeX-arg-opening-brace TeX-grop)
+	      (TeX-arg-closing-brace TeX-grcl))
 	  (setq last-optional-rejected nil)
 	  (TeX-parse-argument nil (car args))))
       (setq args (cdr args)))))
 
 (defun TeX-parse-argument (optional arg)
-  "Depending on OPTIONAL, insert TeX macro argument ARG in curly braces.
+  "Depending on OPTIONAL, insert TeX macro argument ARG.
 If OPTIONAL is set, only insert if there is anything to insert, and
-then use square brackets.
+then use square brackets instead of curly braces.
 
 See `TeX-parse-macro' for details."
-
   (cond ((stringp arg)
 	 (TeX-arg-string optional arg))
 	((numberp arg)
-	 (if (< arg 1)
-	     ()
+	 (unless (< arg 1)
 	   (TeX-parse-argument optional t)
 	   (while (> arg 1)
 	     (TeX-parse-argument optional nil)
 	     (setq arg (- arg 1)))))
 	((null arg)
-	 (insert <)
-	 (if (and (not optional) (TeX-active-mark))
-	     (exchange-point-and-mark))
-	 (insert >))
+	 (insert TeX-arg-opening-brace)
+	 (when (and (not optional) (TeX-active-mark))
+	   (exchange-point-and-mark)
+	   (if (featurep 'xemacs)
+	       (zmacs-deactivate-region)
+	     (deactivate-mark)))
+	 (insert TeX-arg-closing-brace))
 	((eq arg t)
-	 (insert  < )
+	 (insert TeX-arg-opening-brace)
 	 (if (and (not optional) (TeX-active-mark))
-	     (exchange-point-and-mark)
+	     (progn
+	       (exchange-point-and-mark)
+	       (if (featurep 'xemacs)
+		   (zmacs-deactivate-region)
+		 (deactivate-mark)))
 	   (set-marker exit-mark (point)))
-	 (insert >))
+	 (insert TeX-arg-closing-brace))
 	((symbolp arg)
 	 (funcall arg optional))
 	((listp arg)
@@ -1919,14 +1976,14 @@ If OPTIONAL, only insert it if not empty, and then use square brackets.
 If PREFIX is given, insert it before NAME."
   (if (and optional (string-equal name ""))
       (setq last-optional-rejected t)
-    (insert <)
+    (insert TeX-arg-opening-brace)
     (if prefix
 	(insert prefix))
     (if (and (string-equal name "")
 	     (null (marker-position exit-mark)))
 	(set-marker exit-mark (point))
       (insert name))
-    (insert >)))
+    (insert TeX-arg-closing-brace)))
 
 (defun TeX-argument-prompt (optional prompt default &optional complete)
   "Return a argument prompt.
@@ -2096,8 +2153,7 @@ The algorithm is as follows:
   (make-local-variable 'comment-multi-line)
   (setq comment-multi-line nil)
   (make-local-variable 'compile-command)
-  (if (boundp 'compile-command)
-      ()
+  (unless (boundp 'compile-command)
     (setq compile-command "make"))
   (make-local-variable 'words-include-escapes)
   (setq words-include-escapes nil)
@@ -2130,29 +2186,23 @@ The algorithm is as follows:
   ;; call `TeX-update-style' on any file opened.  (The addition to the
   ;; hook has to be made here because its local value will be deleted
   ;; by `kill-all-local-variables' if it is added e.g. in `tex-mode'.)
-  (if (= emacs-major-version 20)
-      (make-local-hook 'find-file-hooks))
+  ;;
+  ;; `TeX-update-style' has to be called before
+  ;; `global-font-lock-mode', which may also be specified in
+  ;; `find-file-hooks', gets called.  Otherwise style-based
+  ;; fontification will break (in XEmacs).  That means, `add-hook'
+  ;; cannot be called with a non-nil value of the APPEND argument.
+  ;;
   ;; `(TeX-master-file nil nil t)' has to be called *before*
   ;; `TeX-update-style' as the latter will call `TeX-master-file'
   ;; without the `ask' bit set.
+  (if (= emacs-major-version 20)
+      (make-local-hook 'find-file-hooks))
   (add-hook 'find-file-hooks (lambda ()
 			       ;; Test if we are looking at a new file.
 			       (unless (file-exists-p (buffer-file-name))
 				 (TeX-master-file nil nil t))
 			       (TeX-update-style)) nil t))
-
-;; desktop-locals-to-save is broken by design.  Don't have
-;; buffer-local values of it.
-
-(eval-after-load 'desktop
-  '(progn
-     (dolist (elt '(TeX-master TeX-PDF-mode TeX-interactive-mode
-			       TeX-Omega-mode))
-       (unless (member elt (default-value 'desktop-locals-to-save))
-	 (setq-default desktop-locals-to-save
-		       (cons elt (default-value 'desktop-locals-to-save)))))
-     (add-hook 'desktop-after-read-hook '(lambda ()
-					   (TeX-set-mode-name t)))))
 
 ;;; Plain TeX mode
 
@@ -2306,7 +2356,7 @@ Generated by `TeX-auto-add-type'.")
 	()
       (set change nil)
       ;; Sort it
-      (message "Sorting " name "...")
+      (message "Sorting %s..." name)
       (set local
 	   (sort (mapcar 'TeX-listify (apply 'append (symbol-value local)))
 		 'TeX-car-string-lessp))
@@ -2451,8 +2501,10 @@ If TEX is a directory, generate style files for all files in the directory."
   (interactive)
   (unless (file-directory-p TeX-auto-global)
     (make-directory TeX-auto-global))
-  (mapcar (lambda (macro) (TeX-auto-generate macro TeX-auto-global))
-	  TeX-macro-global)
+  (let ((TeX-file-extensions '("cls" "sty"))
+	(BibTeX-file-extensions nil))
+    (mapcar (lambda (macro) (TeX-auto-generate macro TeX-auto-global))
+	    TeX-macro-global))
   (byte-recompile-directory TeX-auto-global 0))
 
 (defun TeX-auto-store (file)
@@ -2467,7 +2519,9 @@ If TEX is a directory, generate style files for all files in the directory."
 	  (erase-buffer)
 	  (insert "(TeX-add-style-hook \"" style "\"\n"
 		  " (lambda ()")
-	  (mapcar 'TeX-auto-insert TeX-auto-parser)
+	  (mapcar (lambda (el)
+		    (TeX-auto-insert el style))
+		  TeX-auto-parser)
 	  (insert "))\n\n")
 	  (write-region (point-min) (point-max) file nil 'silent)
 	  (kill-buffer (current-buffer))))
@@ -2481,19 +2535,21 @@ If TEX is a directory, generate style files for all files in the directory."
   ;; FIXME: This doc-string isn't clear to me.  -- rs
   (null (symbol-value (nth TeX-auto-parser-temporary entry))))
 
-(defun TeX-auto-insert (entry)
-  "Insert code to initialize ENTRY from `TeX-auto-parser'."
+(defun TeX-auto-insert (entry &optional skip)
+  "Insert code to initialize ENTRY from `TeX-auto-parser'.
+
+If SKIP is not-nil, don't insert code for SKIP."
   (let ((name (symbol-name (nth TeX-auto-parser-add entry)))
 	(list (symbol-value (nth TeX-auto-parser-temporary entry))))
-    (if (null list)
-	()
+    (unless (null list)
       (insert "\n    (" name)
-      (while list
-	(insert "\n     ")
-	(if (stringp (car list))
-	    (insert (prin1-to-string (car list)))
-	  (insert "'" (prin1-to-string (car list))))
-	(setq list (cdr list)))
+      (dolist (el list)
+	(cond ((and (stringp el) (not (string= el skip)))
+	       (insert "\n     ")
+	       (insert (prin1-to-string el)))
+	      ((not (stringp el))
+	       (insert "\n     ")
+	       (insert "'" (prin1-to-string el)))))
       (insert ")"))))
 
 (defvar TeX-auto-ignore
@@ -2580,8 +2636,7 @@ See `TeX-auto-x-parse-length'."
 			     "\\)")))
 	 (goto-char (if end (min end (point-max)) (point-max)))
 	 (while (re-search-backward regexp beg t)
-	   (if (TeX-in-comment)
-	       ()
+	   (unless (TeX-in-comment)
 	     (let* ((entry (TeX-member nil regexp-list
 				       (lambda (a b)
 					 (looking-at (nth 0 b)))))
@@ -2589,10 +2644,9 @@ See `TeX-auto-x-parse-length'."
 		    (match (nth 1 entry)))
 	       (if (fboundp symbol)
 		   (funcall symbol match)
-		 (set symbol (cons (if (listp match)
-				       (mapcar 'TeX-match-buffer match)
-				     (TeX-match-buffer match))
-				   (symbol-value symbol))))))))))
+		 (add-to-list symbol (if (listp match)
+					 (mapcar 'TeX-match-buffer match)
+				       (TeX-match-buffer match))))))))))
 
 (defun TeX-auto-parse ()
   "Parse TeX information in current buffer.
@@ -2642,10 +2696,12 @@ Check for potential LaTeX environments."
 		  (TeX-match-buffer match))))
     (if (and (stringp symbol)
 	     (string-match "^end\\(.+\\)$" symbol))
-	(setq LaTeX-auto-end-symbol
-	      (cons (substring symbol (match-beginning 1) (match-end 1))
-		    LaTeX-auto-end-symbol))
-      (setq TeX-auto-symbol (cons symbol TeX-auto-symbol)))))
+	(add-to-list 'LaTeX-auto-end-symbol
+		     (substring symbol (match-beginning 1) (match-end 1)))
+      (if (listp symbol)
+	  (dolist (elt symbol)
+	    (add-to-list 'TeX-auto-symbol elt))
+	(add-to-list 'TeX-auto-symbol symbol)))))
 
 ;;; Utilities
 ;;
@@ -2968,7 +3024,6 @@ to look backward for."
    (buffer-file-name)
    (TeX-master-directory)))
 
-;; was in latex.el, needed in context.el --pg
 (defun TeX-near-bobp ()
   "Return t iff there's nothing but whitespace between (bob) and (point)."
   (save-excursion
@@ -2980,6 +3035,7 @@ to look backward for."
 Used for specifying extra syntax for a macro."
   ;; FIXME: What is the purpose of OPTIONAL here?  -- rs
   (apply 'insert args))
+
 
 ;;; Syntax Table
 
@@ -3006,7 +3062,9 @@ Used for specifying extra syntax for a macro."
   (modify-syntax-entry ?@  "_"  TeX-mode-syntax-table)
   (modify-syntax-entry ?~  " "  TeX-mode-syntax-table)
   (modify-syntax-entry ?$  "$"  TeX-mode-syntax-table)
-  (modify-syntax-entry ?'  "w"  TeX-mode-syntax-table))
+  (modify-syntax-entry ?'  "w"  TeX-mode-syntax-table)
+  (modify-syntax-entry ?«  "."  TeX-mode-syntax-table)
+  (modify-syntax-entry ?»  "."  TeX-mode-syntax-table))
 
 ;;; Menu Support
 
@@ -3257,10 +3315,18 @@ be bound to `TeX-electric-macro'."
       :selected (and (boundp 'TeX-fold-mode) TeX-fold-mode)
       :help "Toggle folding mode"]
      "-"
-     ["Hide All" TeX-fold-buffer
+     ["Hide All in Current Buffer" TeX-fold-buffer
       :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
       :keys "C-c C-o C-b"
       :help "Hide all configured TeX constructs in the current buffer"]
+     ["Hide All in Current Region" TeX-fold-region
+      :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
+      :keys "C-c C-o C-r"
+      :help "Hide all configured TeX constructs in the marked region"]
+     ["Hide All in Current Paragraph" TeX-fold-paragraph
+      :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
+      :keys "C-c C-o C-p"
+      :help "Hide all configured TeX constructs in the paragraph containing point"]
      ["Hide Current Macro" TeX-fold-macro
       :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
       :keys "C-c C-o C-m"
@@ -3271,14 +3337,27 @@ be bound to `TeX-electric-macro'."
       :keys "C-c C-o C-e"
       :help "Hide the environment containing point"]
      "-"
-     ["Show All" TeX-fold-clearout-buffer
+     ["Show All in Current Buffer" TeX-fold-clearout-buffer
       :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
-      :keys "C-c C-o C-x"
+      :keys "C-c C-o b"
       :help "Permanently show all folded content again"]
+     ["Show All in Current Region" TeX-fold-clearout-region
+      :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
+      :keys "C-c C-o r"
+      :help "Permanently show all folded content in marked region"]
+     ["Show All in Current Paragraph" TeX-fold-clearout-paragraph
+      :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
+      :keys "C-c C-o p"
+      :help "Permanently show all folded content in paragraph containing point"]
      ["Show Current Item" TeX-fold-clearout-item
       :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
-      :keys "C-c C-o C-c"
-      :help "Permanently show the item containing point"]))
+      :keys "C-c C-o i"
+      :help "Permanently show the item containing point"]
+     "-"
+     ["Hide or Show Current Item" TeX-fold-dwim
+      :active (and (boundp 'TeX-fold-mode) TeX-fold-mode)
+      :keys "C-c C-o C-o"
+      :help "Hide or show the item containing point"]))
    "Menu definition for commands from tex-fold.el.")
 
 
@@ -3410,12 +3489,18 @@ of `AmS-TeX-mode-hook'."
 
 ;;; Comments
 
+(defvar TeX-comment-start-regexp "%"
+  "Regular expression matching a comment starter.
+Unlike the variable `comment-start-skip' it should not match any
+whitespace after the comment starter or any character before it.")
+(make-variable-buffer-local 'TeX-comment-start-regexp)
+
 (defun TeX-comment-region (beg end &optional arg)
   "Comment each line in the region from BEG to END.
 Numeric prefix arg ARG means use ARG comment characters.
 If ARG is negative, delete that many comment characters instead."
   (interactive "*r\nP")
-  ;; `comment-padding' will not be recognized in the XEmacs' (21.4)
+  ;; `comment-padding' will not be recognized in XEmacs' (21.4)
   ;; `comment-region', so we temporarily modify `comment-start' to get
   ;; proper spacing.  Unfortunately we have to check for the XEmacs
   ;; version and cannot test if `comment-padding' is bound as this
@@ -3465,7 +3550,7 @@ comment characters instead."
 		(save-excursion
 		  (goto-char beg)
 		  (re-search-forward
-		   (concat "^" comment-start "+") end t)
+		   (concat "^" TeX-comment-start-regexp "+") end t)
 		  (length (match-string 0)))))
       (comment-region beg end (- arg)))))
 
@@ -3475,12 +3560,14 @@ comment characters instead."
   (save-excursion
     ;; Find first comment line
     (beginning-of-line)
-    (while (and (looking-at (concat "^[ \t]*" comment-start)) (not (bobp)))
+    (while (and (looking-at (concat "^[ \t]*" TeX-comment-start-regexp))
+		(not (bobp)))
       (forward-line -1))
     (let ((beg (point)))
       (forward-line 1)
       ;; Find last comment line
-      (while (and (looking-at (concat "^[ \t]*" comment-start)) (not (eobp)))
+      (while (and (looking-at (concat "^[ \t]*" TeX-comment-start-regexp))
+		  (not (eobp)))
 	(forward-line 1))
       ;; Uncomment region
       (TeX-uncomment-region beg (point)))))
@@ -3551,8 +3638,11 @@ not move point further than this value."
     (if (< count 0)
 	(forward-line -1)
       (beginning-of-line))
-    (let ((prefix (when (looking-at (concat "[ \t]*\\(" comment-start "+\\)"))
-		    (buffer-substring (match-beginning 1) (match-end 1)))))
+    (let ((prefix (when (looking-at (concat "\\([ \t]*"
+					    TeX-comment-start-regexp "+\\)+"))
+		    (buffer-substring (+ (line-beginning-position)
+					 (current-indentation))
+				      (match-end 0)))))
       (while (save-excursion
 	       (and (if (> count 0)
 			(<= (point) limit)
@@ -3561,16 +3651,20 @@ not move point further than this value."
 			       (forward-line 1)
 			     (forward-line -1)))
 		    (if prefix
-			(if (looking-at
-			     (concat "[ \t]*\\(" comment-start "+\\)"))
+			(if (looking-at (concat "\\([ \t]*"
+						TeX-comment-start-regexp
+						"+\\)+"))
 			    ;; If the preceding line is a commented line
 			    ;; as well, check if the prefixes are
 			    ;; identical.
 			    (string= prefix
-				     (buffer-substring (match-beginning 1)
-						       (match-end 1)))
+				     (buffer-substring
+				      (+ (line-beginning-position)
+					 (current-indentation))
+				      (match-end 0)))
 			  nil)
-		      (not (looking-at (concat "[ \t]*" comment-start))))))
+		      (not (looking-at (concat "[ \t]*"
+					       TeX-comment-start-regexp))))))
 	(if (> count 0)
 	    (forward-line 1)
 	  (forward-line -1)))
@@ -3639,7 +3733,9 @@ regardless of its data type."
 ;;; Navigation
 
 (defvar TeX-search-syntax-table
-  (let ((table (make-syntax-table (make-char-table 'syntax-table))))
+  (let ((table (make-syntax-table (make-char-table (if (featurep 'xemacs)
+						       'syntax
+						     'syntax-table)))))
     (modify-syntax-entry ?\f ">" table)
     (modify-syntax-entry ?\n ">" table)
     table)
@@ -3729,8 +3825,7 @@ considered part of the macro."
 	  opening-brace
 	  start-point)
       (if (and (eq (char-after) (aref TeX-esc 0))
-	       (save-excursion
-		 (zerop (mod (skip-chars-backward (regexp-quote TeX-esc)) 2))))
+	       (not (TeX-escaped-p)))
 	  ;; Point is located directly at the start of a macro.
 	  (setq start-point (point))
 	;; Search backward for a macro start.
@@ -3763,10 +3858,8 @@ found, return the position before the escaping character."
    (save-excursion
      (save-match-data
        (and (search-backward TeX-esc limit t)
-	    (let ((oldpoint (point)))
-	      (if (zerop (mod (skip-chars-backward (regexp-quote TeX-esc)) 2))
-		  oldpoint
-		(1- oldpoint)))))))
+	    (- (point)
+	       (mod (skip-chars-backward (regexp-quote TeX-esc)) 2))))))
 
 (defun TeX-find-macro-end-helper (start)
   "Find the end of a macro given its START.
@@ -3775,26 +3868,27 @@ If the macro is followed by square brackets or curly braces,
 those will be considered part of it."
   (save-excursion
     (catch 'found
-      (goto-char start)
-      (forward-char)
-      (if (not (looking-at "[A-Za-z@]"))
+      (goto-char (1+ start))
+      (if (zerop (skip-chars-forward "A-Za-z@"))
 	  (forward-char)
-	(skip-chars-forward "A-Za-z@*"))
+	(skip-chars-forward "*"))
       (while (not (eobp))
 	(cond
 	 ;; Skip over pairs of square brackets
 	 ((or (looking-at "[ \t]*\n?\\(\\[\\)") ; Be conservative: Consider
 					        ; only consecutive lines.
-	      (and (looking-at (concat "[ \t]*" comment-start))
+	      (and (looking-at (concat "[ \t]*" TeX-comment-start-regexp))
 		   (save-excursion
 		     (forward-line 1)
 		     (looking-at "[ \t]*\\(\\[\\)"))))
 	  (goto-char (match-beginning 1))
-	  (forward-sexp))
+	  (condition-case nil
+	      (forward-sexp)
+	    (scan-error (throw 'found (point)))))
 	 ;; Skip over pairs of curly braces
 	 ((or (looking-at "[ \t]*\n?{") ; Be conservative: Consider
 					; only consecutive lines.
-	      (and (looking-at (concat "[ \t]*" comment-start))
+	      (and (looking-at (concat "[ \t]*" TeX-comment-start-regexp))
 		   (save-excursion
 		     (forward-line 1)
 		     (looking-at "[ \t]*{"))))
@@ -3819,6 +3913,67 @@ considered part of the macro."
 Arguments enclosed in brackets or braces are considered part of
 the macro."
   (cadr (TeX-find-macro-boundaries)))
+
+(defun TeX-search-forward-unescaped (string &optional bound noerror)
+  "Search forward from point for unescaped STRING.
+The optional argument BOUND limits the search to the respective
+buffer position.
+If NOERROR is non-nil, return nil if the search failed instead of
+throwing an error.
+A pattern is escaped, if it is preceded by an odd number of escape
+characters."
+  (TeX-search-unescaped string 'forward nil bound noerror))
+
+(defun TeX-search-backward-unescaped (string &optional bound noerror)
+  "Search backward from point for unescaped STRING.
+The optional argument BOUND limits the search to the respective
+buffer position.
+If NOERROR is non-nil, return nil if the search failed instead of
+throwing an error.
+A pattern is escaped, if it is preceded by an odd number of escape
+characters."
+  (TeX-search-unescaped string 'backward nil bound noerror))
+
+(defun TeX-re-search-forward-unescaped (regexp &optional bound noerror)
+  "Search forward from point for unescaped regular expression REGEXP.
+The optional argument BOUND limits the search to the respective
+buffer position.
+If NOERROR is non-nil, return nil if the search failed instead of
+throwing an error.
+A pattern is escaped, if it is preceded by an odd number of escape
+characters."
+  (TeX-search-unescaped regexp 'forward t bound noerror))
+
+(defun TeX-search-unescaped (pattern
+			     &optional direction regexp-flag bound noerror)
+  "Search for unescaped PATTERN in a certain DIRECTION.
+DIRECTION can be indicated by the symbols 'forward and 'backward.
+If DIRECTION is omitted, a forward search is carried out.
+If REGEXP-FLAG is non-nil, PATTERN may be a regular expression,
+otherwise a string.
+The optional argument BOUND limits the search to the respective
+buffer position.
+If NOERROR is non-nil, return nil if the search failed instead of
+throwing an error.
+A pattern is escaped, if it is preceded by an odd number of escape
+characters."
+  (let ((search-fun (if (eq direction 'backward)
+			(if regexp-flag 're-search-backward 'search-backward)
+		      (if regexp-flag 're-search-forward 'search-forward))))
+    (catch 'found
+      (while (funcall search-fun pattern bound noerror)
+	(when (not (TeX-escaped-p (match-beginning 0)))
+	  (throw 'found (point)))))))
+
+(defun TeX-escaped-p (&optional pos)
+  "Return t if the character at position POS is escaped.
+If POS is omitted, examine the character at point.
+A character is escaped if it is preceded by an odd number of
+escape characters, such as \"\\\" in LaTeX."
+  (save-excursion
+    (when pos (goto-char pos))
+    (not (zerop (mod (skip-chars-backward (regexp-quote TeX-esc)) 2)))))
+
 
 
 ;;; Fonts
@@ -3997,7 +4152,7 @@ With optional ARG, insert that many dollar signs."
    (arg
     ;; Numerical arg inserts that many
     (insert (make-string (prefix-numeric-value arg) ?\$)))
-   ((TeX-point-is-escaped)
+   ((TeX-escaped-p)
     ;; This is escaped with `\', so just insert one.
     (insert "$"))
    ((texmathp)
@@ -4021,16 +4176,6 @@ With optional ARG, insert that many dollar signs."
     ;; Just somewhere in the text.
     (insert "$")))
   (TeX-math-input-method-off))
-
-(defun TeX-point-is-escaped ()
-  "Count backslashes before point and return t if number is odd."
-  (let (odd)
-    (save-excursion
-      (while (equal (preceding-char) ?\\)
-	(progn
-	  (forward-char -1)
-	  (setq odd (not odd)))))
-    odd))
 
 (defun TeX-math-input-method-off ()
   "Toggle off input method when entering math mode."
@@ -4231,6 +4376,31 @@ Your bug report will be posted to the AUCTeX mailing list."))
       (append '(plain-tex-mode ams-tex-mode latex-mode doctex-mode)
 	      ispell-tex-major-modes))
 
+
+;;; Special provisions for other modes and libraries
+
+;; desktop-locals-to-save is broken by design.  Don't have
+;; buffer-local values of it.
+(eval-after-load "desktop"
+  '(progn
+     (dolist (elt '(TeX-master TeX-PDF-mode TeX-interactive-mode
+			       TeX-Omega-mode))
+       (unless (member elt (default-value 'desktop-locals-to-save))
+	 (setq-default desktop-locals-to-save
+		       (cons elt (default-value 'desktop-locals-to-save)))))
+     (add-hook 'desktop-after-read-hook '(lambda ()
+					   (TeX-set-mode-name t)))))
+
+;; delsel.el, `delete-selection-mode'
+(put 'TeX-newline 'delete-selection t)
+(put 'TeX-insert-dollar 'delete-selection t)
+(put 'TeX-insert-quote 'delete-selection t)
+
+
 (provide 'tex)
+
+;; Local Variables:
+;; coding: iso-8859-1
+;; End:
 
 ;;; tex.el ends here

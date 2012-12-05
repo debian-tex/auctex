@@ -55,17 +55,20 @@ resolve the issues involved. Please report success/failure to us at
           better be for AUCTeX's operation, anyway.
 
     `--with-emacs'
-          if you are installing Emacs. You can use
+          if you are installing for a version of Emacs.  You can use
           `--with-emacs=/PATH/TO/EMACS' to specify the name of the
           installed Emacs executable, complete with its path if
           necessary (if Emacs is not within a directory specified in
           your PATH environment setting).
 
     `--with-xemacs'
-          If you are using XEmacs, of course use `--with-xemacs' in the
-          same manner.  It may also be necessary to specify this option
-          if a copy of Emacs is in your path, but you would like to
-          install AUCTeX for XEmacs, too.
+          if you are installing for a version of XEmacs.  Again, you
+          can use `--with-xemacs=/PATH/TO/XEMACS' to specify the name
+          of the installed XEmacs executable complete with its path if
+          necessary.  It may also be necessary to specify this option
+          if a copy of Emacs is found in your PATH environment setting,
+          but you still would like to install a copy of AUCTeX for
+          XEmacs.
 
     `--with-lispdir=/DIR'
           This may be needed for GNU Emacs installation, but hopefully
@@ -77,7 +80,7 @@ resolve the issues involved. Please report success/failure to us at
           where stuff should be installed. Again, hopefully this is not
           necessary to specify.
 
-    `--with-tex-input-dirs=/DIR-1/;/DIR-2/;...;/DIR-N/'
+    `--with-tex-input-dirs="/DIR-1/;/DIR-2/;...;/DIR-N/"'
           This option allows to specify the directories to be used for
           file searches, e.g. for completion of LaTeX or BibTeX style
           file names.  They will be used in the variable

@@ -16,11 +16,11 @@ TEXI2PDF=@TEXI2PDF@
 MKINSTALLDIRS = ../mkinstalldirs
 DVIPS=@DVIPS@
 TEXIFILES = auctex.texi install.texi wininstall.texi intro.texi \
-	changes.texi todo.texi faq.texi
+	changes.texi todo.texi faq.texi macros.texi quickstart.texi
 
-all: auctex.dvi tex-ref.dvi auctex
+all: auctex.dvi tex-ref.dvi auctex.info
 
-dist: auctex INSTALL INSTALL.windows README CHANGES TODO FAQ \
+dist: auctex.info INSTALL INSTALL.windows README CHANGES TODO FAQ \
 	auctex_toc.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
 
 auctex_toc.html: auctex.texi
@@ -28,9 +28,6 @@ auctex_toc.html: auctex.texi
 
 tex-ref.dvi: tex-ref.tex
 	$(TEX) tex-ref
-	@echo "**********************************************************"
-	@echo "** doc/tex-ref.dvi may now be printed (1 page)"
-	@echo "**********************************************************"
 
 tex-ref.ps: tex-ref.dvi
 	$(DVIPS) tex-ref.dvi -Ppdf -o tex-ref.ps
@@ -38,22 +35,18 @@ tex-ref.ps: tex-ref.dvi
 tex-ref.pdf: tex-ref.tex
 	$(PDFTEX) tex-ref.tex
 
-auctex.dvi: auctex.texi
-	$(TEXI2DVI) auctex.texi
+auctex.dvi: $(TEXIFILES)
+	MAKEINFO="$(MAKEINFO)" $(TEXI2DVI) auctex.texi
 
-auctex.pdf: auctex.texi
-	$(TEXI2PDF) auctex.texi
+auctex.pdf: $(TEXIFILES)
+	MAKEINFO="$(MAKEINFO)" $(TEXI2PDF) auctex.texi
 
 # dvips spews two error lines.  I don't know why.
 auctex.ps: auctex.dvi
 	$(DVIPS) auctex.dvi -Ppdf -o auctex.ps
 
-auctex: $(TEXIFILES)
+auctex.info: $(TEXIFILES)
 	-$(MAKEINFO) auctex.texi
-	@echo "**********************************************************"
-	@echo "** If this gave trouble, maybe you need to install"
-	@echo "** a newer version of texinfo?"
-	@echo "**********************************************************"
 
 INSTALL: install.texi
 	-$(MAKEINFO) -D rawfile --no-headers --no-validate \
@@ -83,21 +76,22 @@ FAQ: faq.texi macros.texi
 	-$(MAKEINFO) -D rawfile --no-headers --no-validate \
 		faq.texi --output FAQ
 
-install: auctex
+install: auctex.info
 	-$(MKINSTALLDIRS) $(DESTDIR)$(infodir)
-	$(INSTALL_DATA) auctex $(DESTDIR)$(infodir)
-	for x in auctex-*; do \
+	rm -f $(DESTDIR)$(infodir)/auctex $(DESTDIR)$(infodir)/auctex-*
+	$(INSTALL_DATA) auctex.info $(DESTDIR)$(infodir)
+	for x in auctex.info-*; do \
 	  if [ -r $$x ]; then \
 	    $(INSTALL_DATA) $$x $(DESTDIR)$(infodir) ; \
 	  fi; \
 	done
-	-$(INSTALL_INFO)  --info-dir=$(DESTDIR)$(infodir) auctex
+	-$(INSTALL_INFO)  --info-dir=$(DESTDIR)$(infodir) auctex.info
 
 clean:
 	rm -f *.dvi *.ps *.pdf *.aux *.cp *.fn *.info *.ky *.log *~ \#*\# \
 		*.tp *.vr *.pg *.toc *.tp *.bak *.cps *.kys *.tps \
-		*.fns *.vrs *.pgs *.tmp auctex auctex-* *.html INSTALL \
-		INSTALL.windows README CHANGES HISTORY TODO FAQ
+		*.fns *.vrs *.pgs *.tmp auctex.info auctex.info-* *.html \
+		INSTALL INSTALL.windows README CHANGES HISTORY TODO FAQ
 
 distclean: clean
 	rm -f Makefile

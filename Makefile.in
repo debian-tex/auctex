@@ -13,6 +13,7 @@ infodir = @infodir@
 lispdir = @lispdir@
 packagedir = @packagedir@
 auctexdir= ${lispdir}/auctex
+aucteximagedir= ${auctexdir}/images
 autodir = @autodir@
 styledir = ${auctexdir}/style
 
@@ -41,11 +42,13 @@ CONTRIB_MULEELC = @CONTRIB_MULEELC@
 
 AUCSRC = tex.el tex-buf.el latex.el tex-info.el \
 	texmathp.el multi-prompt.el tex-mik.el font-latex.el tex-font.el \
-	context.el context-en.el context-nl.el tex-fold.el
+	context.el context-en.el context-nl.el tex-fold.el \
+	toolbar-x.el tex-bar.el
 AUCELC = tex.elc tex-buf.elc latex.elc tex-info.elc \
 	texmathp.elc multi-prompt.elc tex-mik.elc font-latex.elc tex-font.elc \
-	context.elc context-en.elc context-nl.elc tex-fold.elc
-
+	context.elc context-en.elc context-nl.elc tex-fold.elc \
+	toolbar-x.elc tex-bar.elc
+# Why not $(AUCSRC:.el=.elc) ?
 
 STYLESRC = style/prosper.el \
 	   style/slides.el    style/foils.el     style/amstex.el \
@@ -70,11 +73,13 @@ STYLESRC = style/prosper.el \
 	   style/jura.el      style/alphanum.el	 style/beamer.el \
 	   style/alltt.el     style/italian.el   style/doc.el \
 	   style/ltxdoc.el    style/ltx-base.el	 style/units.el \
-	   style/nicefrac.el
+	   style/nicefrac.el  style/url.el       style/listings.el \
+	   style/jurabib.el   style/csquotes.el
 
 DOCFILES = doc/Makefile.in doc/auctex.texi doc/intro.texi doc/install.texi \
 	doc/changes.texi doc/tex-ref.tex doc/history.texi \
-	doc/wininstall.texi doc/todo.texi doc/faq.texi doc/macros.texi
+	doc/wininstall.texi doc/todo.texi doc/faq.texi doc/macros.texi \
+	doc/quickstart.texi
 
 EXTRAFILES = RELEASE COPYING ChangeLog auctex.spec \
 	configure install-sh $(MKINSTALLDIRS) Makefile.in \
@@ -94,7 +99,7 @@ lisp:
 
 some:	$(AUCELC) $(STYLESRC:.el=.elc)
 
-install:	install-lisp install-info
+install:	install-lisp install-info install-images
 
 contrib:
 	$(ELCC) -f batch-byte-compile $(CONTRIB) $(COMPILE_MULE)
@@ -134,6 +139,13 @@ install-lisp:	some install-el
 	  echo ' $(INSTALL_DATA)' $${x}c '$(DESTDIR)$(styledir)' ; \
 	  $(INSTALL_DATA) $${x}c $(DESTDIR)$(styledir) ; \
 	done;
+
+install-images:
+	-$(MKINSTALLDIRS) $(DESTDIR)$(aucteximagedir)
+	set -x; for x in images/*.xpm ; do \
+	  $(INSTALL_DATA) $${x} $(DESTDIR)$(aucteximagedir) ; \
+	done;
+# $(INSTALL_DATA) $(NOSEARCH) $(DESTDIR)$(aucteximagedir)
 
 install-contrib-el:
 	for x in $(CONTRIB) $(CONTRIB_MULE); do \
@@ -199,13 +211,15 @@ tar-ball:
 	if [ -d auctex-$(TAG) ]; then rm -r auctex-$(TAG) ; fi
 	mkdir auctex-$(TAG)
 	mkdir auctex-$(TAG)/style
+	mkdir auctex-$(TAG)/images
 	mkdir auctex-$(TAG)/doc
 	cp $(AUCSRC) $(EXTRAFILES) auctex-$(TAG)
+	cp images/*.??m auctex-$(TAG)/images
 	cp $(STYLESRC) $(NOSEARCH) auctex-$(TAG)/style
 	cp $(DOCFILES)  auctex-$(TAG)/doc
-	(cd doc; $(MAKE) dist; cp auctex ../auctex-$(TAG)/doc )
+	(cd doc; $(MAKE) dist; cp auctex.info ../auctex-$(TAG)/doc )
 	(cd doc; \
-	for x in auctex-*; do \
+	for x in auctex.info-*; do \
 	  if [ -r $$x ]; then \
 	    cp $$x ../auctex-$(TAG)/doc ; \
 	  fi; \
@@ -218,7 +232,7 @@ tar-ball:
 	cp RELEASE $(FTPDIR)/RELEASE-$(TAG)
 	cp doc/auctex.ps doc/auctex.pdf doc/tex-ref.ps doc/tex-ref.pdf $(FTPDIR)
 	cp ChangeLog $(FTPDIR)
-	cp doc/*.html $(WWWDIR)/doc
+	cp doc/auctex/*.html $(WWWDIR)/doc
 	chmod -R go-w+rX auctex-$(TAG)
 	tar -cf - auctex-$(TAG) | gzip --best > $(FTPDIR)/auctex-$(TAG).tar.gz
 	-zip -r $(FTPDIR)/auctex-$(TAG).zip auctex-$(TAG)
