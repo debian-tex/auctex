@@ -5,7 +5,7 @@
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9j
+;; Version: 9.9o
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify

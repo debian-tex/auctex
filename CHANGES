@@ -1,6 +1,25 @@
 News in 9.9
 ===========
 
+   * Fixed some custom types.  Patch by Markus Rost
+     <markus.rost@mathematik.uni-regensburg.de>.
+
+   * Support loading byte compiled files, even if `TeX-byte-compile' is
+     nil.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+
+   * The command to replace a LaTeX2e font should work more reliably
+     now.  Patch by Christoph Wedler  <wedler@fmi.uni-passau.de>.
+
+   * Minor XEmacs packaging changes.  Patch by Christoph Wedler
+     <wedler@fmi.uni-passau.de>.
+
+   * `TeX-file-recurse' now accepts an integer value, max depth of
+     recursion.  Patch by Alastair Burt  <burt@dfki.bde>.
+
+   * Simple imenu support for LaTeX.
+
+   * Workaround for 20.3 bugs.
+
    * The `Spell' command now works on all open buffers in the document.
      Patch by Jason Stewart <jasons@cs.unm.edu>.
 

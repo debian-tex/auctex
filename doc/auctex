@@ -7,7 +7,7 @@ auc-tex.texi.
 Indirect:
 auctex-1: 160
 auctex-2: 49997
-auctex-3: 98938
+auctex-3: 98117
 
 Tag Table:
 (Indirect)
@@ -38,24 +38,24 @@ Node: Multifile45545
 Node: Parsing Files49997
 Node: I18n54120
 Node: European54642
-Node: Japanese58713
-Node: Automatic59439
-Node: Automatic Global61794
-Node: Automatic Private62956
-Node: Automatic Local64193
-Node: Style Files65266
-Node: Simple Style66059
-Node: Adding Macros67215
-Node: Adding Environments72793
-Node: Adding Other75366
-Node: Hacking the Parser75937
-Node: Installation80000
-Node: History84311
-Node: Projects85673
-Node: Credit95207
-Node: Key Index96726
-Node: Function Index98938
-Node: Variable Index102827
-Node: Concept Index106719
+Node: Japanese57086
+Node: Automatic57812
+Node: Automatic Global60302
+Node: Automatic Private61464
+Node: Automatic Local62701
+Node: Style Files63774
+Node: Simple Style64567
+Node: Adding Macros65723
+Node: Adding Environments71301
+Node: Adding Other73874
+Node: Hacking the Parser74445
+Node: Installation78508
+Node: History82819
+Node: Projects84852
+Node: Credit94386
+Node: Key Index95905
+Node: Function Index98117
+Node: Variable Index102006
+Node: Concept Index105898
 
 End Tag Table
