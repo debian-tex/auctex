@@ -1,10 +1,10 @@
-;;; slides.el --- AUCTeX style for the `slides' document class
+;;; italian.el --- Setup AUCTeX for editing Italian text.
 
 ;; Copyright (C) 2004 Free Software Foundation, Inc.
 
-;; Author: Ralf Angeli <angeli@iwi.uni-sb.de>
-;; Maintainer: auc-tex@sunsite.dk
-;; Created: 2004-04-21
+;; Author: Davide G. M. Salvetti <salve@debian.org>
+;; Maintainer: Davide G. M. Salvetti <salve@debian.org>
+;; Created: 2004-05-12
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
@@ -25,17 +25,26 @@
 ;; 02111-1307, USA.
 
 ;;; Commentary:
-
-;; This file adds support for the `slides' document class.  Currently
-;; the support is very limited.  You are welcome to improve it.
+;;
+;; I believe that the Italian correct quoting is achieved with `«' and
+;; `»'.  However, I will be glad to see a normative reference. -- DGMS
 
 ;;; Code:
 
-(TeX-add-style-hook
- "slides"
- (lambda ()
-   (LaTeX-add-environments "slide"
-			   "overlay"
-			   "note")))
+(defvar LaTeX-italian-open-quote "«"
+  "Initial value of `TeX-open-quote' for `italian.el'")
+(defvar LaTeX-italian-close-quote "»"
+  "Initial value of `TeX-close-quote' for `italian.el'")
+(defvar TeX-language-it-hook nil
+  "Hook run for Italian texts.")
 
-;;; slides.el ends here
+(TeX-add-style-hook
+ "italian"
+ (lambda ()
+   (make-local-variable 'TeX-open-quote)
+   (make-local-variable 'TeX-close-quote)
+   (setq TeX-open-quote LaTeX-italian-open-quote)
+   (setq TeX-close-quote LaTeX-italian-close-quote)
+   (run-hooks 'TeX-language-it-hook)))
+
+;;; italian.el ends here

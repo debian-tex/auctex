@@ -1,23 +1,27 @@
-;;; tex-info.el - Support for editing Texinfo source.
-;;
-;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.14
+;;; tex-info.el --- Support for editing Texinfo source.
 
 ;; Copyright (C) 1993, 1994, 1997, 2000, 2001 Per Abrahamsen 
-;; 
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
+;; Copyright (C) 2004 Free Software Foundation, Inc.
+
+;; Maintainer: auc-tex@sunsite.dk
+;; Keywords: tex
+
+;; This file is part of AUCTeX.
+
+;; AUCTeX is free software; you can redistribute it and/or modify it
+;; under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
-;; 
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-;; 
+
+;; AUCTeX is distributed in the hope that it will be useful, but
+;; WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; General Public License for more details.
+
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; if not, write to the Free Software
-;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;; along with AUCTeX; see the file COPYING.  If not, write to the Free
+;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+;; 02111-1307, USA.
 
 ;;; Code:
 
@@ -55,11 +59,24 @@ Subexpression 1 is what goes into the corresponding `@end' statement.")
 When called interactively, prompt for an environment."
   (interactive (list (completing-read "Environment: "
 				      TeXinfo-environment-list)))
-  (insert "@" env "\n\n@end " env "\n")
-  (if (null (cdr-safe (assoc "defcv" TeXinfo-environment-list)))
-      (forward-line -2)
-    ;; apply arguments
-    ))
+  (if (and (TeX-active-mark)
+	   (not (eq (mark) (point))))
+      (progn
+	(when (< (mark) (point))
+	  (exchange-point-and-mark))
+	(unless (TeX-looking-at-backward "^[ \t]*")
+	  (newline))
+	(insert "@" env)
+	(newline)
+	(goto-char (mark))
+	(unless (TeX-looking-at-backward "^[ \t]*")
+	  (newline))
+	(insert "@end" env)
+	(save-excursion (newline))
+	(end-of-line 0))
+    (insert "@" env "\n\n@end " env "\n")
+    (if (null (cdr-safe (assoc "defcv" TeXinfo-environment-list)))
+	(forward-line -2))))
 
 ;;; Keymap:
 
@@ -94,11 +111,11 @@ When called interactively, prompt for an environment."
   (define-key TeXinfo-mode-map "\C-c\C-m" 'TeX-insert-macro)
   (define-key TeXinfo-mode-map "\e\t"     'TeX-complete-symbol) 
 
-  (define-key TeXinfo-mode-map "\C-c;"    'TeX-comment-region)
-  (define-key TeXinfo-mode-map "\C-c%"    'TeX-comment-paragraph)
-  (define-key TeXinfo-mode-map "\C-c'"    'TeX-comment-paragraph) ;*** Old way
-  (define-key TeXinfo-mode-map "\C-c:"    'TeX-un-comment-region) ;*** Old way
-  (define-key TeXinfo-mode-map "\C-c\""   'TeX-un-comment) ;*** Old way
+  (define-key TeXinfo-mode-map "\C-c;"    'TeX-comment-or-uncomment-region)
+  (define-key TeXinfo-mode-map "\C-c%"    'TeX-comment-or-uncomment-paragraph)
+  (define-key TeXinfo-mode-map "\C-c'"    'TeX-comment-or-uncomment-paragraph) ;*** Old way
+  (define-key TeXinfo-mode-map "\C-c:"    'TeX-comment-or-uncomment-region) ;*** Old way
+  (define-key TeXinfo-mode-map "\C-c\""   'TeX-uncomment) ;*** Old way
 
   ;; From tex-buf.el
   (define-key TeXinfo-mode-map "\C-c\C-c" 'TeX-command-master)
@@ -112,11 +129,17 @@ When called interactively, prompt for an environment."
 
   ;; Simulating LaTeX-mode
 
+  (define-key TeXinfo-mode-map "\C-c\C-e" 'TeXinfo-insert-environment)
   (define-key TeXinfo-mode-map "\C-c\n"   'texinfo-insert-@item)
   (or (key-binding "\e\r")
       (define-key TeXinfo-mode-map "\e\r" 'texinfo-insert-@item)) ;*** Alias
   (define-key TeXinfo-mode-map "\C-c\C-s" 'texinfo-insert-@node)
   (define-key TeXinfo-mode-map "\C-c]" 'texinfo-insert-@end))
+
+(easy-menu-define TeXinfo-command-menu
+  TeXinfo-mode-map
+  "Menu used in TeXinfo mode for external commands."
+  (TeX-mode-specific-command-menu 'texinfo-mode))
 
 (easy-menu-define TeXinfo-mode-menu
     TeXinfo-mode-map
@@ -135,7 +158,7 @@ When called interactively, prompt for an environment."
 	      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
 	      ["Sample"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
 	      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"])
-	(list "Change Font"
+	(list "Replace Font"
 	      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
 	      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
 	      ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
@@ -158,18 +181,12 @@ When called interactively, prompt for an environment."
 	["Update Node" texinfo-update-node t]
 	["Update Every Node" texinfo-every-node-update t]
 	["Update All Menus" texinfo-all-menus-update t]
-	["Uncomment Region" TeX-un-comment-region t]
 	["Comment Region" TeX-comment-region t]
+	["Uncomment Region" TeX-uncomment-region t]
 	["Switch to Master file" TeX-home-buffer t]
 	["Submit bug report" TeX-submit-bug-report t]
 	["Reset Buffer" TeX-normal-mode t]
-	["Reset AUC TeX" (TeX-normal-mode t) :keys "C-u C-c C-n"]))
-
-(easy-menu-define TeXinfo-command-menu
-    TeXinfo-mode-map
-    "Menu used in TeXinfo mode for external commands."
-  (append '("Command")
-	  (mapcar 'TeX-command-menu-entry TeX-command-list)))
+	["Reset AUCTeX" (TeX-normal-mode t) :keys "C-u C-c C-n"]))
 
 (defvar TeXinfo-font-list
   '((?\C-b "@b{" "}")
@@ -238,7 +255,14 @@ value of `TeXinfo-mode-hook'."
     (make-local-variable 'imenu-generic-expression)
     (setq imenu-generic-expression texinfo-imenu-generic-expression))
   (make-local-variable 'font-lock-defaults)
-  (setq font-lock-defaults '(texinfo-font-lock-keywords t))
+  (setq font-lock-defaults
+	;; COMPATIBILITY for Emacs 20
+	(if (boundp 'texinfo-font-lock-syntactic-keywords)
+	    '(texinfo-font-lock-keywords
+	      nil nil nil backward-paragraph
+	      (font-lock-syntactic-keywords
+	       . texinfo-font-lock-syntactic-keywords))
+	  '(texinfo-font-lock-keywords t)))
   (if (not (boundp 'texinfo-section-list))
       ;; This was included in 19.31.
       ()
@@ -250,7 +274,7 @@ value of `TeXinfo-mode-hook'."
     (make-local-variable 'outline-level)
     (setq outline-level 'texinfo-outline-level))
   
-  ;; Mostly AUC TeX stuff
+  ;; Mostly AUCTeX stuff
   (easy-menu-add TeXinfo-command-menu TeXinfo-mode-map)
   (easy-menu-add TeXinfo-mode-menu TeXinfo-mode-map)
   (make-local-variable 'TeX-command-current)

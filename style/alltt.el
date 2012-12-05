@@ -1,10 +1,10 @@
-;;; slides.el --- AUCTeX style for the `slides' document class
+;;; alltt.el --- AUCTeX style for `alltt.sty'
 
 ;; Copyright (C) 2004 Free Software Foundation, Inc.
 
 ;; Author: Ralf Angeli <angeli@iwi.uni-sb.de>
 ;; Maintainer: auc-tex@sunsite.dk
-;; Created: 2004-04-21
+;; Created: 2004-04-30
 ;; Keywords: tex
 
 ;; This file is part of AUCTeX.
@@ -26,16 +26,22 @@
 
 ;;; Commentary:
 
-;; This file adds support for the `slides' document class.  Currently
-;; the support is very limited.  You are welcome to improve it.
+;; This file adds support for `alltt.sty'.
 
 ;;; Code:
 
 (TeX-add-style-hook
- "slides"
+ "alltt"
  (lambda ()
-   (LaTeX-add-environments "slide"
-			   "overlay"
-			   "note")))
+   (LaTeX-add-environments "alltt")
+   (make-local-variable 'LaTeX-indent-environment-list)
+   (add-to-list 'LaTeX-indent-environment-list
+		'("alltt" current-indentation))
+   (make-local-variable 'LaTeX-verbatim-regexp)
+   (setq LaTeX-verbatim-regexp (concat LaTeX-verbatim-regexp "\\|alltt"))
+   (make-local-variable 'font-latex-verbatim-environments)
+   (setq font-latex-verbatim-environments
+	 (append font-latex-verbatim-environments '("alltt")))
+   (font-latex-set-syntactic-keywords)))
 
-;;; slides.el ends here
+;;; alltt.el ends here
