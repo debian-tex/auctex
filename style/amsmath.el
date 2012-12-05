@@ -68,6 +68,22 @@
      "iint" "iiint" "iiiint" "idotsint"
      )
     
+    (setq  LaTeX-item-list 
+	   (append '(("split"    . LaTeX-item-equation)
+		     ("multline" . LaTeX-item-equation)
+		     ("gather"   . LaTeX-item-equations)
+		     ("gather*"  . LaTeX-item-equation)
+		     ("gathered" . LaTeX-item-equation)
+		     ("align"    . LaTeX-item-equations)
+		     ("align*"   . LaTeX-item-equation)
+		     ("aligned"  . LaTeX-item-equation)
+		     ("alignat"  . LaTeX-item-equations)
+		     ("alignat*" . LaTeX-item-equation)
+		     ("flalign"  . LaTeX-item-equations)
+		     ("flalign*" . LaTeX-item-equation)
+		     ("cases"    . LaTeX-item-equation))
+		   LaTeX-item-list))
+
     ;; amsmath includes amstext, amsbsy, & amsopn.
     ;; So we run their hooks, too.
     (TeX-run-style-hooks "amstext" "amsbsy" "amsopn")
@@ -90,4 +106,19 @@
       (setq where (concat "[" where "]")))
     (LaTeX-insert-environment env where)))
 
+(defun LaTeX-item-equation ()
+  (end-of-line 0)
+  (if (not (eq (preceding-char) ? ))
+      (insert " \\\\")
+    (insert "\\\\"))
+  (forward-line 1)
+  (indent-according-to-mode))
+
+(defun LaTeX-item-equations ()
+  (LaTeX-item-equation)
+  (let ((environment (LaTeX-current-environment 1)))
+    (and (LaTeX-label environment)
+	 (newline-and-indent))))
+
+  
 ;;; amsmath.el ends here.

@@ -1,7 +1,7 @@
 ;;; latex.el --- Support for LaTeX documents.
 ;; 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 10.0g
+;; Version: 11.06
 ;; Keywords: wp
 ;; X-URL: http://sunsite.dk/auctex
 
@@ -632,6 +632,11 @@ Set to nil if you don't want any float."
 		 (string :format "%v")))
  (make-variable-buffer-local 'LaTeX-float)
 
+(defcustom LaTeX-top-caption-list nil
+  "*List of float environments with top caption."
+  :group 'LaTeX-environment
+  :type '(repeat (string :format "%v")))
+
 (defgroup LaTeX-label nil
   "Adding labels for LaTeX commands in AUC TeX."
   :group 'LaTeX)
@@ -741,34 +746,49 @@ job to this function."
     (setq LaTeX-float (if (zerop (length float))
 			  LaTeX-float
 			float))
-	  
+
     (LaTeX-insert-environment environment
 			      (and LaTeX-float
 				   (concat LaTeX-optop
 					   LaTeX-float
 					   LaTeX-optcl)))
-    
+
     (if center
 	(progn
 	  (insert TeX-esc "centering")
 	  (indent-according-to-mode)
 	  (newline)))
-    
-    (newline-and-indent)
-    (LaTeX-label environment)
-    (end-of-line 0)
-    (indent-according-to-mode)
 
-    (if (zerop (length caption))
-	()
-      ;; NOTE: Caption is _inside_ center because that looks best typeset.
+    (if (member environment LaTeX-top-caption-list)
+	(progn
+	  (if (zerop (length caption))
+	      ()
+	    ;; NOTE: Caption is _inside_ center because that looks best typeset.
+	    (indent-according-to-mode)
+	    (insert TeX-esc "caption" TeX-grop caption TeX-grcl)
+	    (indent-according-to-mode))
+
+	  (newline-and-indent)
+	  (LaTeX-label environment)
+	  (indent-according-to-mode)
+	  (end-of-line 0)
+	  (newline-and-indent))
+      ;; not top capton but bottom caption (default).
       (newline-and-indent)
-      (insert TeX-esc "caption" TeX-grop caption TeX-grcl)
+      (LaTeX-label environment)
       (end-of-line 0)
-      (indent-according-to-mode))
-
-    (if (member environment '("table" "table*"))
-	(LaTeX-env-array "tabular"))))
+      (indent-according-to-mode)
+ 
+      (if (zerop (length caption))
+	  ()
+	;; NOTE: Caption is _inside_ center because that looks best typeset.
+	(newline-and-indent)
+	(insert TeX-esc "caption" TeX-grop caption TeX-grcl)
+	(end-of-line 0)
+	(indent-according-to-mode)))
+  
+  (if (member environment '("table" "table*"))
+      (LaTeX-env-array "tabular"))))
 
 (defun LaTeX-env-array (environment)
   "Insert ENVIRONMENT with position and column specifications.
@@ -2800,7 +2820,7 @@ larger than `LaTeX-menu-max-items'.
 This string should contain one %s for the name of the first entry and
 one %s for the name of the last entry in the submenu.
 If the value is a function, it should return the submenu name.  The
-function is be called with two arguments, the names of the first and
+function is called with two arguments, the names of the first and
 the last entry in the menu."
   :group 'LaTeX-environment
   :type '(choice (string :tag "Format string")
