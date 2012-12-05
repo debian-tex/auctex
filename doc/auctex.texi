@@ -15,13 +15,13 @@
 
 @include macros.texi
 
-@c $Id: auctex.texi,v 1.182 2004/08/17 09:36:58 angeli Exp $
+@c $Id: auctex.texi,v 1.184 2004/08/28 21:20:13 dak Exp $
 
 @finalout
 @titlepage
 @title @AUCTeX{}
 @subtitle A much enhanced @LaTeX{} mode for Emacs.
-@subtitle Version 11.52
+@subtitle Version 11.53
 
 @author by Kresten Krab Thorup
 @author updates from 6.1 to 11.13 by Per Abrahamsen
@@ -63,7 +63,7 @@ approved by the Free Software Foundation.
 @AUCTeX{} is an integrated environment for editing @LaTeX{} and
 @TeX{} files.
 
-This file documents @AUCTeX{} version 11.52.
+This file documents @AUCTeX{} version 11.53.
 
 Although @AUCTeX{} contains a large number of features, there are no
 reasons to despair.  You can continue to write @TeX{} and @LaTeX{}
@@ -729,6 +729,12 @@ The variable @code{LaTeX-math-list} holds the actual mapping.
 @defopt LaTeX-math-list
 A list containing key command mappings to use in @code{LaTeX-math-mode}.
 The car of each element is the key and the cdr is the macro name.
+@end defopt
+
+@defopt LaTeX-math-menu-unicode
+Whether the LaTeX menu should try using Unicode for effect.  Your Emacs
+built must be able to display include Unicode characters in menus for
+this feature.
 @end defopt
 
 @AUCTeX{}'s reference card @file{tex-ref.tex} includes a list of all
@@ -2893,9 +2899,10 @@ List of functions to be called after parsing a @TeX{} file.
 @comment  node-name,  next,  previous,  up
 @appendix Changes and New Features
 
-See the file @file{history.texi} for older changes.
-
 @include changes.texi
+
+@heading Older versions
+See the file @file{history.texi} for older changes.
 
 @node ToDo, FAQ, Changes, top
 @comment  node-name,  next,  previous,  up

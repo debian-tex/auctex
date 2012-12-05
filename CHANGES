@@ -1,6 +1,36 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.53
+=============
+
+   * The LaTeX math menu can include Unicode characters if your Emacs
+     built supports it.  See the variable `LaTeX-math-menu-unicode',
+     *Note Mathematics::.
+
+   * Bug fixes for XEmacs.
+
+News in 11.52
+=============
+
+   * Installation and menus under XEmacs work again (maybe for the first
+     time).
+
+   * Fontification of subscripts and superscripts is now disabled when
+     the fontification engine is not able to support it properly.
+
+   * Bug fixes in the build process.
+
+News in 11.51
+=============
+
+   * PDFTeX and Source Special support did not work with ConTeXt, this
+     has been fixed.  Similar for Source Special support under Windows.
+
+   * Omega support has been added.
+
+   * Bug fixes in the build process.
+
 News in 11.50
 =============
 

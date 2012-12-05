@@ -14,7 +14,7 @@
 
 Summary: 	Enhanced TeX modes for Emacsen
 Name: 		auctex
-Version: 	11.52
+Version: 	11.53
 Release: 	1%{distri}
 License: 	GPL
 Group: 		%{commongroup}
@@ -38,6 +38,7 @@ Summary: 	Enhanced TeX modes for GNU Emacs
 Group:          %{commongroup}
 Requires: 	emacs >= 21
 Obsoletes:      ge_auc emacs-auctex auctex
+Provides:       auctex
 
 %description emacs
 AUCTeX is an extensible package that supports writing and formatting TeX files
@@ -79,16 +80,16 @@ mkdir -p %{buildroot}{%{_datadir}/emacs/site-lisp,%{_infodir}}
 # file will not been included in the rpm distribution (make RPM 4.1+ happy)
 rm -f '%{buildroot}%{_infodir}/dir'
 
-%pre
+%pre emacs
 echo "; Autoactivation of AUCTeX" > %{startupfile}
 echo "; Created for %{name}-%{version}-%{release}.noarch.rpm" >> \
   %{startupfile}
 echo "(require 'tex-site)" >> %{startupfile}
 
-%post
+%post emacs
 /sbin/install-info --info-dir=%{_infodir} %{_infodir}/auctex
 
-%preun
+%preun emacs
 # $1 is the number of versions of this package installed
 # after this uninstallation
 if [ $1 -eq 0 ]; then
@@ -98,7 +99,7 @@ fi
 %clean
 rm -rf %{buildroot}
 
-%files
+%files emacs
 %defattr(-,root,root)
 %doc RELEASE COPYING INSTALL README TODO FAQ CHANGES
 %doc doc/tex-ref.pdf
