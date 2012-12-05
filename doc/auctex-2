@@ -160,7 +160,7 @@ capable of this.  For GNU Emacs 19, *note European Display:
      or need to use different character set for keyboard, buffer, and
      display.  An overkill if you just need ISO 8859 Latin 1.
      Currently in alpha test, but available by ftp from the host
-     ftp.iesd.auc.dk in `/packages/auctex/'.
+     sunsite.auc.dk in `/packages/auctex/'.
 
      To get dead keys for TeX, install remap and insert the following in
      your `.emacs' or `site-start.el' file.
@@ -946,55 +946,10 @@ The History of AUC TeX
 
    See the file `history.texi' for older changes.
 
-News in 9.8
+News in 9.9
 ===========
 
-   * Added `natbib.el' to support natbib.sty by Patrick W. Daly.
-     Submitted by Berwin A. Turlach `<berwin.turlach@anu.edu.au>'.
-
-   * More LaTeX2e support by Jan Vroonhof
-     `<vroonhof@frege.math.ethz.ch>'.
-
-   * Make `TeX-master' a local variable in BibTeX mode and set it to
-     true.  This seems to be necessary to enable auto-parsing of a .bib
-     file.  Patch by Berwin A. Turlach `<berwin.turlach@anu.edu.au>'.
-
-   * Support for Harvard style updated by Berwin A. Turlach
-     `<berwin.turlach@anu.edu.au>'.
-
-   * Support for `natbib' package.  By Berwin Turlach
-     `<berwin.turlach@anu.edu.au>'.
-
-   * Finer control of automatic parsing of TeX files: new variables
-     `TeX-auto-x-parse-length' and `TeX-auto-x-regexp-list'.  By
-     Christoph Wedler `<wedler@fmi.uni-passau.de>'.
-
-   * Finer control of indentation: new variables
-     `LaTeX-document-regexp', `LaTeX-verbatim-regexp',
-     `LaTeX-begin-regexp', `LaTeX-end-regexp' and
-     `LaTeX-indent-comment-start-regexp'.  By Christoph Wedler
-     `<wedler@fmi.uni-passau.de>'.
-
-   * When running LaTeX on a region, do not complain about undefined
-     citations.  See variable `TeX-region-extra'.  By Christoph Wedler
-     `<wedler@fmi.uni-passau.de>'.
-
-   * Split menu for LaTeX environments into submenus if number of
-     environments is larger than the value of the new variable
-     `LaTeX-menu-max-items'.  By Christoph Wedler
-     `<wedler@fmi.uni-passau.de>'.
-
-   * More reftex support with new `TeX-arg-ref' function.  By Soren
-     Dayton `<csdayton@cs.uchicago.edu>', with `amsmath' support by
-     Carsten Dominik `<dominik@strw.LeidenUniv.nl>'.
-
-   * Minimal parser now recognize `usepackage'.  By Carsten Dominik
-     `<dominik@strw.LeidenUniv.nl>'.
-
-   * More amstex styles recognized.  By Carsten Dominik
-     `<dominik@strw.LeidenUniv.nl>'.
-
-   * Czech and Slovak support.  By Milan Zamazal `<pdm@fi.muni.cz>'.
+   * No changes yet.
 
 
 File: auctex,  Node: Projects,  Next: Credit,  Prev: History,  Up: Top

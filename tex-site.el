@@ -5,7 +5,7 @@
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.8i
+;; Version: 9.9a
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,19 @@
   "This function is part of AUC TeX, but has not yet been loaded.
 Full documentation will be available after autoloading the function."
   "Documentation for autoload functions.")
+
+(eval-and-compile
+  ;; Kludge to allow `defcustom' for Emacs 19.
+  (condition-case ()
+      (require 'custom)
+    (error nil))
+  (if (and (featurep 'custom) (fboundp 'custom-declare-variable))
+      nil ;; We've got what we needed
+    ;; We have the old custom-library, hack around it!
+    (defmacro defgroup (&rest args)
+      nil)
+    (defmacro defcustom (var value doc &rest args) 
+      (` (defvar (, var) (, value) (, doc))))))
 
 ;;; Customization:
 ;;
