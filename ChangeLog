@@ -1,3 +1,56 @@
+2001-01-02  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0d released.
+
+2001-01-02  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex-mik.el (TeX-command-list): Don't prompt for view.
+
+2000-12-04  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0c released.
+
+2000-12-04  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el: Avoid :inherit font property with Emacs 20.
+	Reported by Damien WYART <wyart@iie.cnam.fr>.
+
+2000-12-01  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0b released.
+
+2000-11-30  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 10.0a released.
+
+2000-11-30  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el: Copied Emacs 21 font-lock defs here.
+	(VirTeX-common-initialization): Activate them.
+
+2000-10-25  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* PROBLEMS: Updated.
+
+	* WIN-NT: Removed.
+	* MSDOS: Removed.
+	* VMS: Removed.
+	* OS2: Removed.
+	* Makefile (EXTRAFILES): Removed above files.
+
+2000-10-20  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/graphicx.el: Updated by author.
+	Ryuichi Arafune <arafune@ushioda.riec.tohoku.ac.jp>
+
+2000-10-19  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/graphics.el: New file.
+	* Makefile (STYLESRC): Added it.
+	* style/graphicx.el: Renamed from `style/graphicx.el'.
+	* Makefile (STYLESRC): Updated.
+	Reported by "Dr. Thomas Baumann" <thomas.baumann@ch.tum.de>.
+
 2000-10-09  Per Abrahamsen  <abraham@dina.kvl.dk>
 
 	* Version 9.10t released.
