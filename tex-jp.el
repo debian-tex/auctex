@@ -21,8 +21,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -80,7 +80,6 @@ For detail, see `TeX-command-list', which this list is appended to."
 				(function-item TeX-run-discard)
 				(function-item TeX-run-background)
 				(function-item TeX-run-silent)
-				(function-item TeX-run-dviout)
 				(function :tag "Other"))
 			(boolean :tag "Prompt")
 			(choice :tag "Modes"
@@ -95,7 +94,7 @@ For detail, see `TeX-command-list', which this list is appended to."
 
 (setq TeX-command-list
       (append japanese-TeX-command-list
-	      '(("-" "" nil nil t)) ;; separator for command menu
+	      '(("-" "" ignore nil t)) ;; separator for command menu
 	      TeX-command-list))
 
 (mapcar (lambda (dir) (add-to-list 'TeX-macro-global dir t))
@@ -108,15 +107,15 @@ For detail, see `TeX-command-list', which this list is appended to."
 
 ;; Menus
 
-(easy-menu-define plain-TeX-mode-command-menu
-  plain-TeX-mode-map
-  "Command menu used in TeX mode."
-  (TeX-mode-specific-command-menu 'plain-tex-mode))
+;; (easy-menu-define plain-TeX-mode-command-menu
+;;   plain-TeX-mode-map
+;;   "Command menu used in TeX mode."
+;;   (TeX-mode-specific-command-menu 'plain-tex-mode))
 
-(easy-menu-define LaTeX-mode-command-menu
-  LaTeX-mode-map
-  "Command menu used in LaTeX mode."
-  (TeX-mode-specific-command-menu 'latex-mode))
+;; (easy-menu-define LaTeX-mode-command-menu
+;;   LaTeX-mode-map
+;;   "Command menu used in LaTeX mode."
+;;   (TeX-mode-specific-command-menu 'latex-mode))
 
 (setq LaTeX-command-style
       (append '(("^j-\\(article\\|report\\|book\\)$"
@@ -203,14 +202,14 @@ For detail, see `TeX-command-list', which this list is appended to."
 ;;; Japanese TeX modes
 
 (defvar japanese-TeX-mode nil
-  "Flag to determine if the current buffer is Japanese TeX/LaTeX.")
+  "Non-nil means the current buffer handles Japanese TeX/LaTeX.")
 (make-variable-buffer-local 'japanese-TeX-mode)
 (put 'japanese-TeX-mode 'permanent-local t)
 
 ;;;###autoload
 (defun japanese-plain-tex-mode ()
   "Major mode in AUCTeX for editing Japanese plain TeX files.
-Set japanese-TeX-mode to t, and enters plain-tex-mode."
+Set `japanese-TeX-mode' to t, and enter `TeX-plain-tex-mode'."
   (interactive)
   (setq japanese-TeX-mode t)
   (TeX-plain-tex-mode))
@@ -225,7 +224,7 @@ Set japanese-TeX-mode to t, and enters plain-tex-mode."
 ;;;###autoload
 (defun japanese-latex-mode ()
   "Major mode in AUCTeX for editing Japanese LaTeX files.
-Set japanese-TeX-mode to t, and enters latex-mode."
+Set `japanese-TeX-mode' to t, and enter `TeX-latex-mode'."
   (interactive)
   (setq japanese-TeX-mode t)
   (TeX-latex-mode))
@@ -242,21 +241,23 @@ Set japanese-TeX-mode to t, and enters latex-mode."
 
 ;;; Support for various self-insert-command
 
-(cond ((fboundp 'can-n-egg-self-insert-command)
-       (fset 'tex-jp-self-insert-command 'can-n-egg-self-insert-command))
-      ((fboundp 'egg-self-insert-command)
-       (fset 'tex-jp-self-insert-command 'egg-self-insert-command))
-      ((fboundp 'canna-self-insert-command)
-       (fset 'tex-jp-self-insert-command 'canna-self-insert-command))
-      (t
-       (fset 'tex-jp-self-insert-command 'self-insert-command)))
+(fset 'japanese-TeX-self-insert-command
+      (cond ((fboundp 'can-n-egg-self-insert-command)
+	     'can-n-egg-self-insert-command)
+	    ((fboundp 'egg-self-insert-command)
+	     'egg-self-insert-command)
+	    ((fboundp 'canna-self-insert-command)
+	     'canna-self-insert-command)
+	    (t
+	     'self-insert-command)))
 
 (defun TeX-insert-punctuation ()
   "Insert point or comma, cleaning up preceding space."
   (interactive)
+  (expand-abbrev)
   (if (TeX-looking-at-backward "\\\\/\\(}+\\)" 50)
       (replace-match "\\1" t))
-  (call-interactively 'tex-jp-self-insert-command))
+  (call-interactively 'japanese-TeX-self-insert-command))
 
 ;;; Error Messages
 
@@ -267,7 +268,7 @@ Set japanese-TeX-mode to t, and enters latex-mode."
 
     ("Bad math environment delimiter.*" .
 "数式モード中で数式モード開始コマンド\\[または\\(，または，数式モード外で
-数式モード終了コマンド\\[または\\(をTeXが見つけました．この問題は，数式モー
+数式モード終了コマンド\\]または\\)をTeXが見つけました．この問題は，数式モー
 ドのデリミタがマッチしていなかったり，括弧のバランスがとれていなかったりす
 るために生じます．")
 
@@ -282,7 +283,7 @@ Set japanese-TeX-mode to t, and enters latex-mode."
 れかでしょう．")
 
     ("Can be used only in preamble." .
-"プリアンブルでしか使えない\\documentstyle・\\nofiles・\\includeonly
+"プリアンブルでしか使えない\\documentclass・\\nofiles・\\includeonly
 \\makeindex・\\makeglossaryのうちのいずれかが\\begin{document}よりも
 後で使われているのをLaTeXが検出しました．このエラーは\\begin{document}
 が余分にあった時にも生じます．")
@@ -296,9 +297,13 @@ Set japanese-TeX-mode to t, and enters latex-mode."
 \\renew...命令を使わなければなりません．")
 
     ("Counter too large." .
-"文字で順序付けされたもの，たぶん番号付けされたリスト環境のラベルが，
+"1. 文字で順序付けされたもの，たぶん番号付けされたリスト環境のラベルが，
 26よりも大きい番号を受け取りました．非常に長いリストを使っているか，
-カウンタを再設定してしまったかのいずれかでしょう．")
+カウンタを再設定してしまったかのいずれかでしょう．
+
+2. 脚注が文字または脚注記号で順序づけされていますが，文字または記号を
+使い切ってしまいました．おそらく\\thanks命令の使いすぎです．")
+
 
     ("Environment [^ ]* undefined." .
 "定義されていない環境に対する\\begin命令をLaTeXが見つけました．おそらく
@@ -387,10 +392,6 @@ thebibliography環境で引数を忘れた場合にも生じます．")
     ("\\\\< in mid line." .
 "\\<命令がtabbing環境の行の途中に現れました．この命令は行の先頭になければ
 なりません．")
-
-    ("Counter too large." .
-"脚注が文字または脚注記号で順序づけされていますが，文字または記号を使い
-切ってしまいました．おそらく\\thanks命令の使いすぎです．")
 
     ("Double subscript." .
 "数式中の1つの列に2つの下付き文字がついています．例えばx_{2}_{3}のように．
@@ -543,7 +544,7 @@ main memory size
 る．(3)生成のための情報をTeXが保持しきれないような，あまりにも複雑なペー
 ジを生成しようとした．最初の2つの問題の解決方法は明らかです．命令定義
 の数あるいは\\index・\\glossary命令の数を減らすことです．3番目の問題は
-ちょっと厄介です．これは，大きなtabbin・tabular・array・picture環境の
+ちょっと厄介です．これは，大きなtabbing・tabular・array・picture環境の
 せいで生じることがあります．出力位置が決定されるのを待っている図や表で
 TeXのメモリがいっぱいになっているのかもしれません．本当にTeXの容量を超
 えてしまったのかどうか調べるためには，エラーの起こった場所の直前に
@@ -584,7 +585,7 @@ save size
 "TeXが未定義の命令名を発見しました．おそらく入力の誤りでしょう．もしこ
 のエラーがLaTeX命令の処理中に生じた場合は，その命令は間違った位置に置か
 れています．例えば，リスト環境の中でないのに\\item命令が使われた場合など
-です．また，\\documentstyle命令がない場合にもこのエラーが生じます．")
+です．また，\\documentclass命令がない場合にもこのエラーが生じます．")
 
     ("Use of [^ ]* doesn't match its definition." .
 "おそらく描画のための命令だと思われますが，引数の使いかたが間違ってい

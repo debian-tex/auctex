@@ -1,6 +1,6 @@
 ;;; tex-fold.el --- Fold TeX macros.
 
-;; Copyright (C) 2004, 2005 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2006 Free Software Foundation, Inc.
 
 ;; Author: Ralf Angeli <angeli@iwi.uni-sb.de>
 ;; Maintainer: auctex-devel@gnu.org
@@ -21,8 +21,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -63,7 +63,7 @@
   '(("[f]" ("footnote"))
     ("[c]" ("cite"))
     ("[l]" ("label"))
-    ("[r]" ("ref"))
+    ("[r]" ("ref" "pageref"))
     ("[i]" ("index"))
     ("*" ("item"))
     ("..." ("dots"))
@@ -724,7 +724,7 @@ the other elements.  The ordering among elements is maintained."
 ;;; available to tell people what to expect when using this mode
 ;;; before loading it.
 
-;;;###autoload (autoload 'TeX-fold-mode "tex-fold" "Minor mode for hiding and revealing macros and environments.")
+;;;###autoload (autoload 'TeX-fold-mode "tex-fold" "Minor mode for hiding and revealing macros and environments." t)
 (define-minor-mode TeX-fold-mode
   "Minor mode for hiding and revealing macros and environments.
 

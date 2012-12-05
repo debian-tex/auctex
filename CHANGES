@@ -1,6 +1,39 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.83
+=============
+
+   * The new function `TeX-doc' provides easy access to documentation
+     about commands and packages or information related to TeX and
+     friends in general.  It is accessible with the key binding `C-c ?'
+     or the `Find Documentation...' entry in the mode menus.
+
+   * You can now get rid of generated intermediate and output files by
+     means of the new `Clean' and `Clean All' entries in
+     `TeX-command-list' accessible with `C-c C-c' or the Command menu.
+
+   * Support for forward search with PDF files was added.  That means
+     you can jump to a place in the output file corresponding to the
+     position in the source file.  Currently this only works if you use
+     the pdfsync LaTeX package and xpdf as your PDF viewer.  The
+     accuracy is in the range of +/-1 page.
+
+     Adding support for this feature required the default value of the
+     variable `TeX-output-view-style' to be changed.  Please make sure
+     you either remove any customizations overriding the new default or
+     incorporate the changes into your customizations if you want to
+     use this feature.
+
+   * TeX error messages of the `-file-line-error' kind are now
+     understood in AUCTeX and preview-latex (parsers are still
+     separate).
+
+   * Bug fix in XyMTeX support.
+
+   * The LaTeX tool bar is now enabled by default.
+
+
 News in 11.82
 =============
 
@@ -393,7 +426,7 @@ News in 11.12
 News in 11.11
 =============
 
-   * Support for `prosper.sty', see `http://prosper.sourceforge.net/'.
+   * Support for `prosper.sty', see <http://prosper.sourceforge.net/>.
      Contributed by Phillip Lord <p.lord@russet.org.uk>.
 
 News in 11.10

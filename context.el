@@ -1,6 +1,6 @@
 ;;; context.el --- Support for ConTeXt documents.
 
-;; Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+;; Copyright (C) 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 ;; Maintainer: Berend de Boer <berend@pobox.com>
 ;; Keywords: tex
@@ -19,8 +19,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -85,6 +85,7 @@
 
 (defvar ConTeXt-current-interface "en"
   "Interface to be used for inserting macros and ConTeXt run.")
+(make-variable-buffer-local 'ConTeXt-current-interface)
 
 (defvar ConTeXt-menu-changed nil)
 ;; Need to update ConTeXt menu.
@@ -1406,10 +1407,35 @@ else.  There might be text before point."
 		       ConTeXt-section-block-list ConTeXt-section-list
 		       ConTeXt-text ConTeXt-item-list))
 
+(defcustom ConTeXt-clean-intermediate-suffixes
+  ;; See *suffixes in texutil.pl.
+  '("\\.tui" "\\.tup" "\\.ted" "\\.tes" "\\.top" "\\.log" "\\.tmp" "\\.run"
+    "\\.bck" "\\.rlg" "\\.mpt" "\\.mpx" "\\.mpd" "\\.mpo" "\\.tuo" "\\.tub"
+    "\\.top" "-mpgraph\\.mp" "-mpgraph\\.mpd" "-mpgraph\\.mpo" "-mpgraph\\.mpy"
+    "-mprun\\.mp" "-mprun\\.mpd" "-mprun\\.mpo" "-mprun\\.mpy")
+  "List of regexps matching suffixes of files to be deleted.
+The regexps will be anchored at the end of the file name to be matched,
+i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
+  :type '(repeat regexp)
+  :group 'TeX-command)
+
+(defcustom ConTeXt-clean-output-suffixes
+  '("\\.dvi" "\\.pdf" "\\.ps")
+  "List of regexps matching suffixes of files to be deleted.
+The regexps will be anchored at the end of the file name to be matched,
+i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
+  :type '(repeat regexp)
+  :group 'TeX-command)
 
 (defun ConTeXt-mode-common-initialization ()
   "Initialization code that is common for all ConTeXt interfaces."
-  (plain-TeX-common-initialization)
+  ;; `plain-TeX-common-initialization' kills all local variables, but
+  ;; we need to keep ConTeXt-current-interface, so save and restore
+  ;; it.
+  (let (save-ConTeXt-current-interface)
+    (setq save-ConTeXt-current-interface ConTeXt-current-interface)
+    (plain-TeX-common-initialization)
+    (setq ConTeXt-current-interface save-ConTeXt-current-interface))
   (setq major-mode 'context-mode)
 
   ;; Make language specific variables buffer local
@@ -1486,6 +1512,7 @@ else.  There might be text before point."
 
 (defun context-guess-current-interface ()
   "Guess what ConTeXt interface the current buffer is using."
+  (interactive)
   (save-excursion
     (goto-char (point-min))
     (setq ConTeXt-current-interface

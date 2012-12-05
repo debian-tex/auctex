@@ -19,8 +19,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -157,7 +157,7 @@ then the value of TeX-mode-hook, and then the value
 of context-mode-hook."
   (interactive)
   ;; set the ConTeXt interface
-  (set (make-local-variable 'ConTeXt-current-interface) "en")
+  (setq ConTeXt-current-interface "en")
 
   ;; initialization
   (ConTeXt-mode-common-initialization)

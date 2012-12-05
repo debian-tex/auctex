@@ -1,3 +1,76 @@
+2006-05-25  David Kastrup  <dak@gnu.org>
+
+	* latex/preview.dtx: Add another fix for XyMTeX (which got the
+	catcode for @ wrong).
+
+2006-05-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* configure.ac: Bump version number.
+
+	Update address of FSF in GPL notices.
+
+2006-04-20  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-parse-messages): Adapt parser to
+	`-file-line-error-style' messages.  Try to make the detection of
+	the current file more robust.  Utilize file-line-error messages
+	for that purpose if they are present.
+
+2006-03-22  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (.PHONY, install): Remove `install-metadata'.
+	(install-metadata): Remove.
+
+2006-03-22  David Kastrup  <dak@gnu.org>
+
+	* prv-install.el (preview-make-package-xemacs): Accept list of
+	files to be appended.
+
+2006-03-14  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Use `AC_PROG_MAKE_SET' instead of deprecated
+	`AC_SET_MAKE'.
+
+2006-02-21  Ikumi Keita <ikumi@revery.net>
+
+	* preview.el (preview-error-quote, TeX-inline-preview-internal):
+	Fix the problem that preview-latex put the preview-image in wrong
+	place if user compiles iso-2022-jp file on Windows or UNIX, by
+	using TeX-japanese-process-output-coding-system for
+	preview-coding-system instead of buffer-file-coding-system if
+	tex-jp.el is loaded.
+
+2006-01-29  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* Makefile.in (install-metadata): Let `for' loop return an exit
+	status of 0.
+
+2006-01-20  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* preview.el (preview-TeX-style-cooked): Fix cond expression.
+
+2006-01-17  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-TeX-style-cooked): New function, to be used
+	later.  Just checked in so that nobody else feels compelled
+	writing it.
+
+2006-01-14  David Kastrup  <dak@gnu.org>
+
+	* configure.ac: Remove infodir and INSTALL_INFO checks.  Don't
+	check for TEXHASH if it is already set.
+
+2006-01-13  David Kastrup  <dak@gnu.org>
+
+	* preview.el (preview-parse-messages): Some ugly fix for
+	`<xxx (PNG copy)>' style error messages.
+
+2005-12-31  David Kastrup  <dak@gnu.org>
+
+	* Makefile.in (ELCC, AUCTEX): Put "." in front of load-path to
+	avoid picking up outdated `prv-*.el*' files from the installation
+	directory.
+
 2005-12-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
 
 	* configure.ac: Bump version number.

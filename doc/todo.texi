@@ -71,6 +71,16 @@ using RefTeX.
 @section Wishlist
 
 @itemize @bullet
+@item Documentation lookup for macros
+
+A parser could gather information about which macros are defined in
+which @LaTeX{} packages and store the information in a hashtable which
+can be used in a backend for @code{TeX-doc} in order to open the
+matching documentation for a given macro.  The information could also be
+used to insert an appropriate @samp{\usepackage} statement if the user
+tries to insert a macro for which the respective package has not been
+requested yet.
+
 @item Spell checking of macros
 
 A special ispell dictionary for macros could be nice to have.
@@ -96,6 +106,7 @@ at the definition of that macro (using Source Specials), or the source
 code of the @file{.dtx} file.
 
 @item Better plain TeX support
+
 For starters, @code{LaTeX-math-mode} is not very @LaTeX{}-specific in
 the first place, and similar holds for indentation and formatting.
 
@@ -105,6 +116,14 @@ alternatives would be desirable.  One could implement inverse search by
 something like Heiko Oberdiek's @file{vpe.sty}, and forward search by
 using the @file{.aux} file info to correlate labels in the text
 (possibly in cooperation with Ref@TeX{}) with previewer pages.
+
+In @AUCTeX{} 11.83, support for forward search with PDF files was added.
+Currently this only works if you use the pdfsync @LaTeX{} package and
+xpdf as your PDF viewer.
+@ifclear rawfile
+@xref{Viewing}.
+@end ifclear
+
 
 @item
 Page count when compiling should (optionally) go to modeline of the

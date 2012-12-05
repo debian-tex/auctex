@@ -50,7 +50,7 @@ preview-latex, a combination of folding and in-source previewing that
 provides true "What You See Is What You Get" experience in your
 sourcebuffer, while letting you retain full control.  preview-latex
 comes with its own manual, see *Note preview-latex: (preview-latex)Top.
-For more information, consult the file `preview/README'.
+For more information, see further below.
 
    AUCTeX automatically indents your `LaTeX-source', not only as you
 write it -- you can also let it indent and format an entire document.
@@ -75,11 +75,11 @@ Version 2'.
 
 The most recent version is always available at
 
-                                   `http://ftp.gnu.org/pub/gnu/auctex/'
+                                   <http://ftp.gnu.org/pub/gnu/auctex/>
 
    WWW users may want to check out the AUCTeX page at
 
-                                  `http://www.gnu.org/software/auctex/'
+                                  <http://www.gnu.org/software/auctex/>
 
 4 Contacts
 **********

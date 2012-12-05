@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 1991 Kresten Krab Thorup
 ;; Copyright (C) 1993, 1994, 1995, 1996, 1997, 1999, 2000,
-;;   2003, 2004, 2005 Free Software Foundation, Inc.
+;;   2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
 ;; Maintainer: auctex-devel@gnu.org
 ;; Keywords: tex
@@ -21,8 +21,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -572,9 +572,10 @@ It may be customized with the following variables:
 	  (t
 	   (apply (nth 1 entry) environment (nthcdr 2 entry))))))
 
-(defun LaTeX-close-environment ()
-  "Create an \\end{...} to match the current environment."
-  (interactive "*")
+(defun LaTeX-close-environment (&optional reopen)
+  "Create an \\end{...} to match the current environment.
+With prefix-argument, reopen environment afterwards."
+  (interactive "*P")
   (if (> (point)
 	 (save-excursion
 	   (beginning-of-line)
@@ -584,17 +585,29 @@ It may be customized with the following variables:
 	   (skip-chars-forward " \t")
 	   (point)))
       (LaTeX-newline))
-  (insert "\\end{" (LaTeX-current-environment 1) "}")
-  (indent-according-to-mode)
-  (if (or (not (looking-at "[ \t]*$"))
-	  (and (TeX-in-commented-line)
-	       (save-excursion (beginning-of-line 2)
-			       (not (TeX-in-commented-line)))))
-      (LaTeX-newline)
-    (let ((next-line-add-newlines t))
-      (next-line 1)
-      (beginning-of-line)))
-  (indent-according-to-mode))
+  (let ((environment (LaTeX-current-environment 1)) marker)
+    (insert "\\end{" environment "}")
+    (indent-according-to-mode)
+    (if (or (not (looking-at "[ \t]*$"))
+	    (and (TeX-in-commented-line)
+		 (save-excursion (beginning-of-line 2)
+				 (not (TeX-in-commented-line)))))
+	(LaTeX-newline)
+      (let ((next-line-add-newlines t))
+	(next-line 1)
+	(beginning-of-line)))
+    (indent-according-to-mode)
+    (when reopen
+      (save-excursion
+	(setq marker (point-marker))
+	(set-marker-insertion-type marker t)
+	(LaTeX-environment-menu environment)
+	(delete-region (point)
+		       (if (save-excursion (goto-char marker)
+					   (bolp))
+			   (1- marker)
+			 marker))
+	(move-marker marker nil)))))
 
 (defun LaTeX-insert-environment (environment &optional extra)
   "Insert LaTeX ENVIRONMENT with optional argument EXTRA."
@@ -613,7 +626,7 @@ It may be customized with the following variables:
     ;; What to do with the line containing point.
     (cond ((save-excursion (beginning-of-line)
 			   (looking-at (concat prefix "[ \t]*$")))
-	   (kill-region (match-beginning 0) (match-end 0)))
+	   (delete-region (match-beginning 0) (match-end 0)))
 	  ((TeX-looking-at-backward (concat "^" prefix "[ \t]*")
 				    (line-beginning-position))
 	   (beginning-of-line)
@@ -635,7 +648,7 @@ It may be customized with the following variables:
 	(cond ((save-excursion (beginning-of-line)
 			       (or (looking-at (concat prefix "[ \t]*$"))
 				   (looking-at "[ \t]*$")))
-	       (kill-region (match-beginning 0) (match-end 0)))
+	       (delete-region (match-beginning 0) (match-end 0)))
 	      ((TeX-looking-at-backward (concat "^" prefix "[ \t]*")
 					(line-beginning-position))
 	       (beginning-of-line)
@@ -1805,38 +1818,85 @@ the cdr is the brace used with \\right.")
 
 (defcustom LaTeX-verbatim-macros-with-delims
   '("verb" "verb*")
-  "Macros for inline verbatim with arguments in delimiters, like \\foo|...|."
+  "Macros for inline verbatim with arguments in delimiters, like \\foo|...|.
+
+Programs should not use this variable directly but the function
+`LaTeX-verbatim-macros-with-delims' which returns a value
+including buffer-local keyword additions via
+`LaTeX-verbatim-macros-with-delims-local' as well."
   :group 'LaTeX
   :type '(repeat (string)))
 
 (defvar LaTeX-verbatim-macros-with-delims-local nil
   "Buffer-local variable for inline verbatim with args in delimiters.
+
 Style files should add constructs to this variable and not to
-`LaTeX-verbatim-macros-with-delims'.")
+`LaTeX-verbatim-macros-with-delims'.
+
+Programs should not use this variable directly but the function
+`LaTeX-verbatim-macros-with-delims' which returns a value
+including values of the variable
+`LaTeX-verbatim-macros-with-delims' as well.")
 (make-variable-buffer-local 'LaTeX-verbatim-macros-with-delims-local)
 
 (defcustom LaTeX-verbatim-macros-with-braces nil
-  "Macros for inline verbatim with arguments in braces, like \\foo{...}."
+  "Macros for inline verbatim with arguments in braces, like \\foo{...}.
+
+Programs should not use this variable directly but the function
+`LaTeX-verbatim-macros-with-braces' which returns a value
+including buffer-local keyword additions via
+`LaTeX-verbatim-macros-with-braces-local' as well."
   :group 'LaTeX
   :type '(repeat (string)))
 
 (defvar LaTeX-verbatim-macros-with-braces-local nil
   "Buffer-local variable for inline verbatim with args in braces.
+
 Style files should add constructs to this variable and not to
-`LaTeX-verbatim-macros-with-delims'.")
+`LaTeX-verbatim-macros-with-braces'.
+
+Programs should not use this variable directly but the function
+`LaTeX-verbatim-macros-with-braces' which returns a value
+including values of the variable
+`LaTeX-verbatim-macros-with-braces' as well.")
 (make-variable-buffer-local 'LaTeX-verbatim-macros-with-braces-local)
 
 (defcustom LaTeX-verbatim-environments
   '("verbatim" "verbatim*")
-  "Verbatim environments."
+  "Verbatim environments.
+
+Programs should not use this variable directly but the function
+`LaTeX-verbatim-environments' which returns a value including
+buffer-local keyword additions via
+`LaTeX-verbatim-environemts-local' as well."
   :group 'LaTeX
   :type '(repeat (string)))
 
 (defvar LaTeX-verbatim-environments-local nil
   "Buffer-local variable for inline verbatim environments.
+
 Style files should add constructs to this variable and not to
-`LaTeX-verbatim-environments'.")
-(make-variable-buffer-local 'LaTeX-verbatim-environments)
+`LaTeX-verbatim-environments'.
+
+Programs should not use this variable directly but the function
+`LaTeX-verbatim-environments' which returns a value including
+values of the variable `LaTeX-verbatim-environments' as well.")
+(make-variable-buffer-local 'LaTeX-verbatim-environments-local)
+
+(defun LaTeX-verbatim-macros-with-delims ()
+  "Return list of verbatim macros with delimiters."
+  (append LaTeX-verbatim-macros-with-delims
+	  LaTeX-verbatim-macros-with-delims-local))
+
+(defun LaTeX-verbatim-macros-with-braces ()
+  "Return list of verbatim macros with braces."
+  (append LaTeX-verbatim-macros-with-braces
+	  LaTeX-verbatim-macros-with-braces-local))
+
+(defun LaTeX-verbatim-environments ()
+  "Return list of verbatim environments."
+  (append LaTeX-verbatim-environments
+	  LaTeX-verbatim-environments-local))
 
 (defun LaTeX-verbatim-macro-boundaries ()
   "Return boundaries of verbatim macro.
@@ -1846,20 +1906,23 @@ start and the cdr the macro end.
 Only macros which enclose their arguments with special
 non-parenthetical delimiters, like \\verb+foo+, are recognized."
   (save-excursion
-    (let ((verbatim-regexp (regexp-opt LaTeX-verbatim-macros-with-delims)))
-      (catch 'found
-	(while (progn
-		 (skip-chars-backward (concat "^\n" (regexp-quote TeX-esc))
-				      (line-beginning-position))
-		 (when (looking-at verbatim-regexp) (throw 'found nil))
-		 (forward-char -1)
-		 (/= (point) (line-beginning-position)))))
+    (let ((orig (point))
+	  (verbatim-regexp (regexp-opt (LaTeX-verbatim-macros-with-delims) t)))
+      (unless (looking-at (concat (regexp-quote TeX-esc) verbatim-regexp))
+	(catch 'found
+	  (while (progn
+		   (skip-chars-backward (concat "^\n" (regexp-quote TeX-esc))
+					(line-beginning-position))
+		   (when (looking-at verbatim-regexp) (throw 'found nil))
+		   (forward-char -1)
+		   (/= (point) (line-beginning-position))))))
       (unless (= (point) (line-beginning-position))
 	(let ((beg (1- (point))))
 	  (goto-char (1+ (match-end 0)))
 	  (skip-chars-forward (concat "^" (buffer-substring-no-properties
 					   (1- (point)) (point))))
-	  (cons beg (1+ (point))))))))
+	  (when (<= orig (point))
+	    (cons beg (1+ (point)))))))))
 
 (defun LaTeX-current-verbatim-macro ()
   "Return name of verbatim macro containing point, nil if none is present."
@@ -1872,14 +1935,15 @@ non-parenthetical delimiters, like \\verb+foo+, are recognized."
 	 (point) (progn (skip-chars-forward "@A-Za-z") (point)))))))
 
 (defun LaTeX-verbatim-p (&optional pos)
-  "Return non-nil if position POS is not in a verbatim-like construct."
+  "Return non-nil if position POS is in a verbatim-like construct."
   (when pos (goto-char pos))
   (save-match-data
     (or (when (fboundp 'font-latex-faces-present-p)
 	  (font-latex-faces-present-p 'font-latex-verbatim-face))
-	(assoc (LaTeX-current-verbatim-macro) LaTeX-verbatim-macros-with-delims)
-	(assoc (TeX-current-macro) LaTeX-verbatim-macros-with-braces)
-	(assoc (LaTeX-current-environment) LaTeX-verbatim-environments))))
+	(member (LaTeX-current-verbatim-macro)
+		(LaTeX-verbatim-macros-with-delims))
+	(member (TeX-current-macro) (LaTeX-verbatim-macros-with-braces))
+	(member (LaTeX-current-environment) (LaTeX-verbatim-environments)))))
 
 
 ;;; Formatting
@@ -2796,11 +2860,9 @@ space does not end a sentence, so don't break a line there."
   ;; Cater for Japanese Macro
   (when (and (boundp 'japanese-TeX-mode) japanese-TeX-mode
 	     (aref (char-category-set (char-after)) ?j)
-	     (TeX-looking-at-backward (concat (regexp-quote TeX-esc) TeX-token-char "+")
-				      (1- (- (point) (line-beginning-position))))
-	     (save-excursion
-	       (goto-char (match-beginning 0))
-	       (zerop (logand 1 (skip-chars-backward "\\\\")))))
+	     (TeX-looking-at-backward (concat (regexp-quote TeX-esc) TeX-token-char "*")
+				      (1- (- (point) linebeg)))
+	     (not (TeX-escaped-p (match-beginning 0))))
       (goto-char (match-beginning 0)))
   ;; Cater for \verb|...| (and similar) contructs which should not be
   ;; broken. (FIXME: Make it work with shortvrb.sty (also loaded by
@@ -2809,22 +2871,24 @@ space does not end a sentence, so don't break a line there."
   ;; handled with `fill-nobreak-predicate', but this is not available
   ;; in XEmacs.
   (let ((final-breakpoint (point))
-	(verb-macros (regexp-opt LaTeX-verbatim-macros-with-delims)))
+	(verb-macros (regexp-opt (append (LaTeX-verbatim-macros-with-delims)
+					 (LaTeX-verbatim-macros-with-braces)))))
     (save-excursion
-      (when (and (re-search-backward
-		  (concat (regexp-quote TeX-esc) "\\(?:" verb-macros
-			  "\\)\\([^a-z@*]\\)")
-		  (line-beginning-position) t)
-		 (progn (goto-char (match-beginning 1))
-			(looking-at "\\([^a-z@*]\\).*?\\(\\1\\)"))
-		 (> (- (match-end 2) (line-beginning-position))
-		    (current-fill-column)))
-	(goto-char (match-beginning 0))
-	(skip-chars-backward "^ \n")
-	(when (bolp)
-	  (goto-char (match-end 2))
-	  (skip-chars-forward "^ \n" (point-max)))
-	(setq final-breakpoint (point))))
+      (when (re-search-backward (concat (regexp-quote TeX-esc)
+					"\\(?:" verb-macros "\\)\\([^a-z@*]\\)")
+				(line-beginning-position) t)
+	(let ((beg (point))
+	      (end (if (not (string-match "[ [{]" (match-string 1)))
+		       (cdr (LaTeX-verbatim-macro-boundaries))
+		     (TeX-find-macro-end))))
+	  (when (and end (> (- end (line-beginning-position))
+			    (current-fill-column)))
+	    (goto-char beg)
+	    (skip-chars-backward "^ \n")
+	    (when (bolp)
+	      (goto-char end)
+	      (skip-chars-forward "^ \n" (point-max)))
+	    (setq final-breakpoint (point))))))
     (goto-char final-breakpoint))
   (when LaTeX-fill-break-at-separators
     (let ((orig-breakpoint (point))
@@ -3296,7 +3360,7 @@ command.  Thereby subsections are not being marked.
 If the function `outline-mark-subtree' is not available,
 `LaTeX-mark-section' always behaves like this regardless of the
 value of NO-SUBSECTIONS."
-  (interactive "*P")
+  (interactive "P")
   (if (or no-subsections
 	  (not (fboundp 'outline-mark-subtree)))
       (progn
@@ -3383,7 +3447,8 @@ If COUNT is non-nil, do it COUNT times."
 	      (match-beginning 0))
 	     ;; Point is before a paragraph command in the same line.
 	     ((looking-at
-	       (concat "[ \t]*\\(?:" TeX-comment-start-regexp "+[ \t]*\\)*"
+	       (concat "[ \t]*\\(?:" TeX-comment-start-regexp
+		       "\\(?:" TeX-comment-start-regexp "\\|[ \t]\\)*\\)?"
 		       "\\(" LaTeX-paragraph-commands-regexp "\\)"))
 	      (match-beginning 1))))
 	   macro-end)
@@ -4377,7 +4442,7 @@ corresponds to the variables `LaTeX-environment-menu-name' and
   (TeX-menu-with-help
    `("LaTeX"
      ("Section  (C-c C-s)" :filter LaTeX-section-menu-filter)
-     ["Macro ..." TeX-insert-macro
+     ["Macro..." TeX-insert-macro
       :help "Insert a macro and possibly arguments"]
      ["Complete Macro" TeX-complete-symbol
       :help "Complete the current macro or environment name"]
@@ -4550,7 +4615,8 @@ If prefix argument FORCE is non-nil, always insert a regular hyphen."
 	   (hyphen-length (length hyphen)))
       (cond
        ;; "= --> -- / -
-       ((string= (buffer-substring (- (point) hyphen-length) (point))
+       ((string= (buffer-substring (max (- (point) hyphen-length) (point-min))
+				   (point))
 		 hyphen)
 	(if h-after-h
 	    (progn (delete-backward-char hyphen-length)
@@ -4558,7 +4624,9 @@ If prefix argument FORCE is non-nil, always insert a regular hyphen."
 	  (delete-backward-char hyphen-length)
 	  (call-interactively 'self-insert-command)))
        ;; -- --> [+]-
-       ((string= (buffer-substring (- (point) 2) (point)) "--")
+       ((string= (buffer-substring (max (- (point) 2) (point-min))
+				   (point))
+		 "--")
 	(call-interactively 'self-insert-command))
        ;; - --> "= / [+]-
        ((eq (char-before) ?-)
@@ -4570,6 +4638,17 @@ If prefix argument FORCE is non-nil, always insert a regular hyphen."
 	(call-interactively 'self-insert-command))
        (t (insert hyphen))))))
 
+(defcustom LaTeX-enable-toolbar t
+  "Enable LaTeX tool bar."
+  :group 'TeX-tool-bar
+  :type 'boolean)
+
+(defun LaTeX-maybe-install-toolbar ()
+  "Conditionally install tool bar buttons for LaTeX mode.
+Install tool bar if `LaTeX-enable-toolbar' is non-nil."
+  (when LaTeX-enable-toolbar
+    ;; Defined in `tex-bar.el':
+    (LaTeX-install-toolbar)))
 
 ;;; Mode
 
@@ -4625,9 +4704,12 @@ of `LaTeX-mode-hook'."
   (setq TeX-base-mode-name "LaTeX")
   (setq major-mode 'latex-mode)
   (setq TeX-command-default "LaTeX")
+  (setq TeX-sentinel-default-function 'TeX-LaTeX-sentinel)
+  (add-hook 'tool-bar-mode-on-hook 'LaTeX-maybe-install-toolbar)
+  (when (if (featurep 'xemacs) (featurep 'toolbar) tool-bar-mode)
+    (LaTeX-maybe-install-toolbar))
   (TeX-run-mode-hooks 'text-mode-hook 'TeX-mode-hook 'LaTeX-mode-hook)
   (TeX-set-mode-name)
-  (setq TeX-sentinel-default-function 'TeX-LaTeX-sentinel)
   ;; Defeat filladapt
   (if (and (boundp 'filladapt-mode)
 	   filladapt-mode)
@@ -4641,11 +4723,14 @@ of `LaTeX-mode-hook'."
   "Major mode in AUCTeX for editing .dtx files derived from `LaTeX-mode'.
 Runs `LaTeX-mode', sets a few variables and
 runs the hooks in `docTeX-mode-hook'."
-  
   (setq major-mode 'doctex-mode)
   (set (make-local-variable 'LaTeX-insert-into-comments) t)
   (set (make-local-variable 'LaTeX-syntactic-comments) t)
   (setq TeX-default-extension docTeX-default-extension)
+  ;; Make filling and indentation aware of DocStrip guards.
+  (setq paragraph-start (concat paragraph-start "\\|%<")
+	paragraph-separate (concat paragraph-separate "\\|%<")
+	TeX-comment-start-regexp "%\\(?:<[^>]+>\\)?")
   (setq TeX-base-mode-name "docTeX")
   (TeX-set-mode-name)
   (funcall TeX-install-font-lock))
@@ -4662,13 +4747,45 @@ runs the hooks in `docTeX-mode-hook'."
 ;;;###autoload
 (defalias 'TeX-doctex-mode 'docTeX-mode)
 
+(defcustom docTeX-clean-intermediate-suffixes
+  TeX-clean-default-intermediate-suffixes
+  "List of regexps matching suffixes of files to be deleted.
+The regexps will be anchored at the end of the file name to be matched,
+i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
+  :type '(repeat regexp)
+  :group 'TeX-command)
+
+(defcustom docTeX-clean-output-suffixes TeX-clean-default-output-suffixes
+  "List of regexps matching suffixes of files to be deleted.
+The regexps will be anchored at the end of the file name to be matched,
+i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
+  :type '(repeat regexp)
+  :group 'TeX-command)
+
 (defvar LaTeX-header-end
-  (concat (regexp-quote TeX-esc) "begin *" TeX-grop "document" TeX-grcl)
+  (concat "^[^%\n]*" (regexp-quote TeX-esc) "begin *"
+	  TeX-grop "document" TeX-grcl)
   "Default end of header marker for LaTeX documents.")
 
 (defvar LaTeX-trailer-start
-  (concat (regexp-quote TeX-esc) "end *" TeX-grop "document" TeX-grcl)
+  (concat "^[^%\n]*" (regexp-quote TeX-esc) "end *"
+	  TeX-grop "document" TeX-grcl)
   "Default start of trailer marker for LaTeX documents.")
+
+(defcustom LaTeX-clean-intermediate-suffixes
+  TeX-clean-default-intermediate-suffixes
+  "List of regexps matching suffixes of files to be deleted.
+The regexps will be anchored at the end of the file name to be matched,
+i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
+  :type '(repeat regexp)
+  :group 'TeX-command)
+
+(defcustom LaTeX-clean-output-suffixes TeX-clean-default-output-suffixes
+  "List of regexps matching suffixes of files to be deleted.
+The regexps will be anchored at the end of the file name to be matched,
+i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
+  :type '(repeat regexp)
+  :group 'TeX-command)
 
 (defun LaTeX-common-initialization ()
   "Common initialization for LaTeX derived modes."
@@ -4962,7 +5079,8 @@ runs the hooks in `docTeX-mode-hook'."
    "pounds" "copyright"
    "hfil" "hfill" "vfil" "vfill" "hrulefill" "dotfill"
    "indent" "noindent" "today"
-   "appendix")
+   "appendix"
+   "dots")
 
   (when (string-equal LaTeX-version "2e")
     (LaTeX-add-environments
@@ -5012,6 +5130,7 @@ runs the hooks in `docTeX-mode-hook'."
      '("renewcommand*" TeX-arg-macro
        [ "Number of arguments" ] [ "Default value for first argument" ] t)
      '("usepackage" LaTeX-arg-usepackage)
+     '("RequirePackage" LaTeX-arg-usepackage)
      '("documentclass" TeX-arg-document)))
 
   (TeX-add-style-hook "latex2e"

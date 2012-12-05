@@ -1,7 +1,7 @@
 ;;; tex-buf.el --- External commands for AUCTeX.
 
 ;; Copyright (C) 1993, 1996, 2001, 2003, 2004,
-;;   2005 Free Software Foundation, Inc.
+;;   2005, 2006 Free Software Foundation, Inc.
 ;; Copyright (C) 1991 Kresten Krab Thorup
 
 ;; Maintainer: auctex-devel@gnu.org
@@ -21,8 +21,8 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with AUCTeX; see the file COPYING.  If not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-;; 02111-1307, USA.
+;; Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+;; 02110-1301, USA.
 
 ;;; Commentary:
 
@@ -237,7 +237,9 @@ Prefix by C-u to start from the beginning of the errors."
   (interactive "P")
   (if (null (TeX-active-buffer))
       (next-error reparse)
-    (funcall (TeX-process-get-variable (TeX-active-master) 'TeX-parse-function)
+    (funcall (TeX-process-get-variable (with-current-buffer TeX-command-buffer
+					 (TeX-active-master))
+				       'TeX-parse-function)
 	     reparse)))
 
 (defun TeX-previous-error (arg)
@@ -346,44 +348,6 @@ in TeX-check-path."
 	      (if (file-newer-than-file-p name derived)
 		  (setq found t))))))
     found))
-
-(defun TeX-run-ispell-on-document (command ignored name)
-  "Run ispell on all open files belonging to the current document."
-  (interactive)
-  (TeX-ispell-document ""))
-
-(defun TeX-ispell-document (name)
-  "Run ispell on all open files belonging to the current document."
-  (interactive (list (TeX-master-file)))
-  (if (string-equal name "")
-      (setq name (TeX-master-file)))
-
-  (let ((found nil)
-	(regexp (concat "\\`\\("
-			(mapconcat (lambda (dir)
-				     (regexp-quote
-				      (expand-file-name 
-				       (file-name-as-directory dir))))
-				   (append (when (file-name-directory name)
-					     (list (file-name-directory name)))
-					   TeX-check-path)
-				   "\\|")
-			"\\).*\\("
-			(mapconcat 'regexp-quote
-				   (cons (file-name-nondirectory name)
-					 (TeX-style-list)) "\\|")
-			"\\)\\.\\("
-			(mapconcat 'regexp-quote TeX-file-extensions "\\|")
-			"\\)\\'"))
-	(buffers (buffer-list)))
-    (while buffers
-      (let* ((buffer (car buffers))
-	     (name (buffer-file-name buffer)))
-	(setq buffers (cdr buffers))
-	(if (and name (string-match regexp name))
-	    (progn
-	      (save-excursion (switch-to-buffer buffer) (ispell-buffer))
-	      (setq found t)))))))
 
 (defcustom TeX-save-query t
   "*If non-nil, ask user for permission to save files before starting TeX."
@@ -680,15 +644,16 @@ run of `TeX-run-TeX', use
 		  TeX-shell-command-option
 		  command)))
 
-(defun TeX-run-dviout (name command file)
-  "Call process with second argument, discarding its output. With support
-for the dviout previewer, especially when used with PC-9801 series."
-    (if (and (boundp 'dos-machine-type) (eq dos-machine-type 'pc98)) ;if PC-9801
+(defun TeX-run-discard-foreground (name command file)
+  "Call process with second argument in the foreground, discarding its output.
+With support for MS-DOS, especially when dviout is used with PC-9801 series."
+  (if (and (boundp 'dos-machine-type) (eq dos-machine-type 'pc98)) ;if PC-9801
       (send-string-to-terminal "\e[2J")) ; clear screen
-    (call-process TeX-shell (if (eq system-type 'ms-dos) "con") nil nil
+  (call-process TeX-shell (if (eq system-type 'ms-dos) "con") nil nil
 		TeX-shell-command-option command)
-    (if (eq system-type 'ms-dos)
+  (if (eq system-type 'ms-dos)
       (redraw-display)))
+(defalias 'TeX-run-dviout 'TeX-run-discard-foreground)
 
 (defun TeX-run-background (name command file)
   "Start process with second argument, show output when and if it arrives."
@@ -755,6 +720,20 @@ Error parsing on C-x ` should work with a bit of luck."
     (setq TeX-parse-function 'TeX-parse-TeX)
     ;; use the sentinel-function that the major mode sets, not the LaTeX one
     (setq TeX-sentinel-function sentinel-function)))
+
+(defun TeX-run-function (name command file)
+  "Execute Lisp function or function call given as the string COMMAND.
+Parameters NAME and FILE are ignored."
+  (let ((fun (car (read-from-string command))))
+    (if (functionp fun) (funcall fun) (eval fun))))
+
+(defun TeX-run-ispell-on-document (command ignored name)
+  "Run ispell on all open files belonging to the current document.
+This function is *obsolete* and only here for compatibility
+reasons.  Use `TeX-run-function' instead."
+  (interactive)
+  (TeX-ispell-document ""))
+
 
 ;;; Command Sentinels
 
@@ -863,7 +842,7 @@ Return nil ifs no errors were found."
 		    (match-string 1 output-file)
 		  "dvi")))))
   (if process (TeX-format-mode-line process))
-  (if (re-search-forward "^! " nil t)
+  (if (re-search-forward "^\\(!\\|.*:[0-9]+:\\) " nil t)
       (progn
 	(message (concat name " errors in `" (buffer-name)
 			 "'. Use C-c ` to display."))
@@ -1131,7 +1110,8 @@ command."
 
 (defun TeX-active-buffer ()
   "Return the buffer of the active process for this buffer."
-  (TeX-process-buffer (TeX-active-master)))
+  (TeX-process-buffer (with-current-buffer TeX-command-buffer
+			(TeX-active-master))))
 
 (defun TeX-active-master (&optional extension nondirectory)
   "The master file currently being compiled.
@@ -1360,7 +1340,9 @@ You might want to examine and modify the free variables `file',
 	(progn
 	  (re-search-forward
 	   (concat "\\("
-		   "^! \\|"
+		   ;; Match regular error indicator "!" as well as
+		   ;; file-line-error error indicator "file:line: error".
+		   "^\\(!\\|.*:[0-9]+:\\) \\|"
 		   "(\\|"
 		   ")\\|"
 		   "\\'\\|"
@@ -1374,7 +1356,7 @@ You might want to examine and modify the free variables `file',
 	  (let ((string (TeX-match-buffer 1)))
 
 	    (cond (;; TeX error
-		   (string= string "! ")
+		   (match-end 2)
 		   (TeX-error)
 		   nil)
 
@@ -1467,10 +1449,15 @@ You might want to examine and modify the free variables `file',
     (let ((runbuf (current-buffer))
 	  (master (with-current-buffer
 		      TeX-command-buffer
-		    (expand-file-name (TeX-master-file)))))
+		    (expand-file-name (TeX-master-file))))
+	  (command-buffer TeX-command-buffer)
+	  error-file-buffer)
       (run-hooks 'TeX-translate-location-hook)
-      (find-file-other-window file)
-      (setq TeX-master master)
+      (setq error-file-buffer (find-file-other-window file))
+      ;; Set the value of `TeX-command-buffer' in the next file with an
+      ;; error to be displayed to the value it has in the current buffer.
+      (with-current-buffer error-file-buffer
+	(set (make-local-variable 'TeX-command-buffer) command-buffer))
       (goto-line (+ offset line))
       (if (not (string= string " "))
 	  (search-forward string nil t))
@@ -1532,10 +1519,15 @@ You might want to examine and modify the free variables `file',
     (let ((runbuf (current-buffer))
 	  (master (with-current-buffer
 		      TeX-command-buffer
-		    (expand-file-name (TeX-master-file)))))
+		    (expand-file-name (TeX-master-file))))
+	  (command-buffer TeX-command-buffer)
+	  error-file-buffer)
       (run-hooks 'TeX-translate-location-hook)
-      (find-file-other-window file)
-      (setq TeX-master master)
+      (setq error-file-buffer (find-file-other-window file))
+      ;; Set the value of `TeX-command-buffer' in the next file with an
+      ;; error to be displayed to the value it has in the current buffer.
+      (with-current-buffer error-file-buffer
+	(set (make-local-variable 'TeX-command-buffer) command-buffer))
       ;; Find line and string
       (when line
 	(goto-line (+ offset line))
@@ -1543,8 +1535,9 @@ You might want to examine and modify the free variables `file',
 	(let ((start (point)))
 	  (goto-line (+ offset line-end))
 	  (end-of-line)
-	  (search-backward string start t)
-	  (search-forward string nil t)))
+	  (when string
+	    (search-backward string start t)
+	    (search-forward string nil t))))
       ;; Display help
       (if TeX-display-help
 	  (TeX-help-error error (if bad-box context (concat "\n" context))
@@ -1630,7 +1623,7 @@ declaration.")
     ("Can be used only in preamble." .
 "LaTeX has encountered, after the \\begin{document}, one of the
 following commands that should appear only in the preamble:
-\\documentstyle, \\nofiles, \\includeonly, \\makeindex, or
+\\documentclass, \\nofiles, \\includeonly, \\makeindex, or
 \\makeglossary.  The error is also caused by an extra \\begin{document}
 command.")
 
@@ -1643,9 +1636,13 @@ command \\gnu.) You'll have to choose a new name or, in the case of
 \\newcommand or \\newenvironment, switch to the \\renew ...  command.")
 
     ("Counter too large." .
-"Some object that is numbered with letters, probably an item in a
+"1. Some object that is numbered with letters, probably an item in a
 enumerated list, has received a number greater than 26. Either you're
-making a very long list or you've been resetting counter values.")
+making a very long list or you've been resetting counter values.
+
+2. Footnotes are being ``numbered'' with letters or footnote symbols 
+and LaTeX has run out of letters or symbols. This is probably caused
+by too many \\thanks commands.")
 
     ("Environment [^ ]* undefined." .
 "LaTeX has encountered a \\begin command for a nonexistent environment.
@@ -1747,11 +1744,6 @@ position---one not defined by a \\= command.")
 "A \\< command appears in the middle of a line in a tabbing environment.
 This command should come only at the beginning of a line.")
 
-    ("Counter too large." .
-"Footnotes are being ``numbered'' with letters or footnote symbols and
-LaTeX has run out of letters or symbols. This is probably caused by
-too many \\thanks commands.")
-
     ("Double subscript." .
 "There are two subscripts in a row in a mathematical
 formula---something like x_{2}_{3}, which makes no sense.")
@@ -1829,10 +1821,11 @@ is probably beyond the point where the incorrect input is.")
     ("Missing \\$ inserted." .
 "TeX probably found a command that can be used only in math mode when
 it wasn't in math mode.  Remember that unless stated otherwise, all
-the commands of Section can be used only in math mode. TeX is not in
-math mode when it begins processing the argument of a box-making
-command, even if that command is inside a math environment. This error
-also occurs if TeX encounters a blank line when it is in math mode.")
+all the commands of Section 3.3 in LaTeX Book (Lamport) can be used
+only in math mode. TeX is not in math mode when it begins processing
+the argument of a box-making command, even if that command is inside a
+math environment. This error also occurs if TeX encounters a blank
+line when it is in math mode.")
 
     ("Not a letter." .
 "Something appears in the argument of a \\hyphenation command that
@@ -1968,7 +1961,7 @@ offending character, consult the Local Guide for suggestions.")
 name. If this message occurs when a LaTeX command is being processed,
 the command is probably in the wrong place---for example, the error
 can be produced by an \\item command that's not inside a list-making
-environment. The error can also be caused by a missing \\documentstyle
+environment. The error can also be caused by a missing \\documentclass
 command.")
 
     ("Use of [^ ]* doesn't match its definition." .

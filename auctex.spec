@@ -3,17 +3,19 @@
 %if %{FOR_SUSE}
 %define distri       .suse
 %define commongroup  Productivity/Editors/Emacs
+%define texgroup     Productivity/Publishing/TeX/Utilities
 %define xemacspkgdir %{_datadir}/xemacs/xemacs-packages
 %else
 %define distri       .fedora
 %define commongroup  Applications/Editors
+%define texgroup     Applications/Publishing
 %define xemacspkgdir %{_datadir}/xemacs/site-packages
 %endif
 
 Summary: 	Enhanced TeX modes for Emacsen
 Name: 		auctex
-Version: 	11.82
-Release: 	0%{distri}
+Version: 	11.83
+Release: 	1%{distri}
 License: 	GPL
 Group: 		%{commongroup}
 URL: 		http://www.gnu.org/software/auctex/
@@ -31,11 +33,15 @@ Texinfo and basic support for ConTeXt.  Documentation can be found under
 manual is available in Emacs info (C-h i d m AUCTeX RET).  On the AUCTeX home
 page, we provide manuals in various formats.
 
+This version of AUCTeX comes with preview-latex, an addictive productivity
+tool providing a fine-grained interactive folding WYSIWYG display in the
+source buffer.
+
 %package emacs
 Summary: 	Enhanced TeX modes for GNU Emacs
 Group:          %{commongroup}
 Requires: 	emacs >= 21
-Obsoletes:      ge_auc emacs-auctex auctex preview-latex-common preview-latex-emacs
+Obsoletes:      ge_auc emacs-auctex auctex preview-latex-emacs
 Conflicts:      emacspeak < 18
 Provides:       auctex
 
@@ -54,6 +60,22 @@ installation.
 
 The package enables AUCTeX modes system-wide.  The README file
 contains information how users may override this choice.
+
+%package -n preview-tetex
+Summary:       LaTeX files for preview.sty
+Group:         %{texgroup}
+Requires:      tetex
+Obsoletes:     preview-latex-common
+Provides:      preview-tetex preview-latex-common
+
+%description -n preview-tetex
+The LaTeX package preview.sty can be used for extracting selected
+parts of LaTeX documents into graphics of their own.  Various TeX and
+editing applications use this as a subsystem.  AUCTeX by now comes
+with its own integrated version of preview-latex and the style files
+and does not require this package, and newer versions of teTeX might
+already contain preview.sty (in which case the resulting conflict is
+probably best solved by not installing this package).
 
 %prep
 %setup
@@ -87,6 +109,11 @@ EOFP
 mkdir -p %{buildroot}%{_datadir}/emacs/site-lisp/site-start.d
 %endif
 %makeinstall install-docs
+mkdir -p %{buildroot}%{_datadir}/texmf/tex/latex/preview
+cp -p preview/latex/*.{sty,def,cfg} %{buildroot}%{_datadir}/texmf/tex/latex/preview
+touch -a %{buildroot}%{_datadir}/texmf/tex/latex/preview/preview.cfg
+mkdir -p %{buildroot}%{_datadir}/texmf/doc/latex/styles
+cp -p preview/latex/preview.dvi %{buildroot}%{_datadir}/texmf/doc/latex/styles
 
 %post emacs
 /sbin/install-info --info-dir=%{_infodir} %{_infodir}/auctex.info
@@ -102,15 +129,26 @@ fi
 %clean
 rm -rf %{buildroot}
 
+%post -n preview-tetex
+/usr/bin/texhash
+
+%postun -n preview-tetex
+/usr/bin/texhash
+
+%files -n preview-tetex
+%defattr(-,root,root)
+%{_datadir}/texmf/tex/latex/preview
+%config %{_datadir}/texmf/tex/latex/preview/preview.cfg
+%{_datadir}/texmf/doc/latex/styles/preview.dvi
+
 %files emacs
 %defattr(-,root,root)
 %doc RELEASE COPYING INSTALL README TODO FAQ CHANGES
 %doc doc/tex-ref.pdf
 # %doc --parents preview/RELEASE preview/README preview/INSTALL preview/TODO preview/FAQ
 %doc %{_infodir}/*
-%exclude %{_infodir}/dir
+# %exclude %{_infodir}/dir
 %{_datadir}/emacs/site-lisp/%{name}
-%{_datadir}/emacs/site-lisp/preview
 %{_localstatedir}/%{name}
 %config %{_datadir}/emacs/site-lisp/tex-site.el
 %if %{FOR_SUSE}
@@ -127,6 +165,16 @@ rm -rf %{buildroot}
 %changelog
 # Shouldn't changelog include changes in the package instead of changes in the
 # spec file?
+
+* Tue Jun  6 2006 Reiner Steib  <Reiner.Steib@gmx.de>
+- Update to AUCTeX 11.83
+
+* Wed Dec 28 2005 Reiner Steib  <Reiner.Steib@gmx.de>
+- Remove bogus preview directory.  Add preview-latex in description.
+
+* Sat Dec 17 2005 Reiner Steib  <Reiner.Steib@gmx.de>
+- Update for AUCTeX 11.82.
+
 * Tue May  3 2005 David Kastrup <dak@gnu.org>
 - include preview-latex, so outdate other stuff.
 

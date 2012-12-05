@@ -1,6 +1,7 @@
-AC_INIT(auctex,11.82,bug-auctex@gnu.org)
+AC_INIT(auctex,11.83,bug-auctex@gnu.org)
 
-AC_SET_MAKE
+AC_CHECK_PROGS_REQUIRED(MAKECMD, make, [make not found, aborting!])
+AC_PROG_MAKE_SET
 AC_PROG_INSTALL
 
 AC_DATE_VERSION_FROM_CHANGELOG(AUCTEXDATE,AUCTEXVERSION)
@@ -121,7 +122,10 @@ AC_PATH_PROG(TEXI2PDF, texi2pdf, :)
 
 AC_ARG_VAR(INSTALL_INFO, [install-info executable.  Set to : to skip making a dir file.  This is the default when installing into an XEmacs package.])
 
-AC_PATH_PROG(INSTALL_INFO, install-info, :, ${PATH} /usr/sbin /sbin)
+if test "X${INSTALL_INFO}" = X
+then
+  AC_PATH_PROG(INSTALL_INFO, install-info, :, ${PATH} /usr/sbin /sbin)
+fi
 
 AC_ARG_ENABLE(preview,
   [  --disable-preview       disable inclusion of preview-latex],

@@ -17,12 +17,12 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with GNU Emacs; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-;; Boston, MA 02111-1307, USA.
+;; the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
 
-;; $Id: preview.el,v 1.262 2005/09/24 19:15:55 angeli Exp $
+;; $Id: preview.el,v 1.268 2006/05/25 07:50:57 angeli Exp $
 ;;
 ;; This style is for the "seamless" embedding of generated images
 ;; into LaTeX source code.  Please see the README and INSTALL files
@@ -2340,6 +2340,26 @@ filename=%s>
 
 (defvar preview-TeX-style-dir)
 
+(defun preview-TeX-style-cooked ()
+  "Return `preview-TeX-style-dir' in cooked form.
+This will be fine for prepending to a `TEXINPUT' style
+environment variable, including an initial `.' at the front."
+  (if (or (zerop (length preview-TeX-style-dir))
+	  (member (substring preview-TeX-style-dir -1) '(";" ":")))
+      preview-TeX-style-dir
+    (let ((sep
+	   (cond
+	    ((stringp TeX-kpathsea-path-delimiter)
+	     TeX-kpathsea-path-delimiter)
+	    ((string-match
+	      "\\`.[:]"
+	      (if (file-name-absolute-p TeX-kpathsea-path-delimiter)
+		  TeX-kpathsea-path-delimiter
+		(expand-file-name TeX-kpathsea-path-delimiter)))
+	     ";")
+	    (t ":"))))
+      (concat "." sep TeX-kpathsea-path-delimiter sep))))
+
 (defun preview-set-texinputs (&optional remove)
   "Add `preview-TeX-style-dir' into `TEXINPUT' variables.
 With prefix argument REMOVE, remove it again."
@@ -2583,7 +2603,10 @@ will not get matched, usually."
 	    string (substring string (match-end 0))))
     (setq output (concat output (regexp-quote string)))
     (if (featurep 'mule)
-	(decode-coding-string output buffer-file-coding-system)
+	(decode-coding-string output
+			      (or (and (boundp 'TeX-japanese-process-output-coding-system)
+				       TeX-japanese-process-output-coding-system)
+				  buffer-file-coding-system))
       output)))
 
 (defun preview-parse-messages (open-closure)
@@ -2619,10 +2642,11 @@ call, and in its CDR the final stuff for the placement hook."
 		(re-search-forward "\
 \\(^! \\)\\|\
 \(\\([^()\r\n{ ]+\\))*\\(?:{[^}\n]*}\\)?\\(?: \\|\r?$\\)\\|\
-)+\\( \\|\r?$\\)\\|\
+)+\\([ >]\\|\r?$\\)\\|\
  !\\(?:offset(\\([---0-9]+\\))\\|\
 name(\\([^)]+\\))\\)\\|\
-^Preview: \\([a-zA-Z]+\\) \\([^\n\r]*\\)\r?$" nil t)
+^Preview: \\([a-zA-Z]+\\) \\([^\n\r]*\\)\r?$\\|\
+^\\(.*\\):[0-9]+: " nil t)
 ;;; Ok, here is a line by line breakdown: match-alternative 1:
 ;;; \(^! \)
 ;;; exclamation point at start of line followed by blank: TeX error
@@ -2657,12 +2681,20 @@ name(\\([^)]+\\))\\)\\|\
 ;;; This would have caught overfull box messages that consist of
 ;;; several lines of context all with 79 characters in length except
 ;;; of the last one.  prauctex.def kills all such messages.
+	      (setq file (and (match-beginning 8)
+			      (match-string-no-properties 8)))
 	      (cond
-	       ((match-beginning 1)
+	       ((or (match-beginning 1) file)
 		(if (looking-at "\
 \\(?:Preview\\|Package Preview Error\\): Snippet \\([---0-9]+\\) \\(started\\|ended\\(\
 \\.? *(\\([---0-9]+\\)\\+\\([---0-9]+\\)x\\([---0-9]+\\))\\)?\\)\\.")
 		    (progn
+		      (when file
+			(unless TeX-error-file
+			  (push nil TeX-error-file)
+			  (push nil TeX-error-offset))
+			(unless (car TeX-error-offset)
+			  (rplaca TeX-error-file file)))
 		      (setq snippet (string-to-number (match-string 1))
 			    box (unless
 				    (string= (match-string 2) "started")
@@ -2704,7 +2736,7 @@ name(\\([^)]+\\))\\)\\|\
 			    ;; And we have now found to the end of the context.
 			    context (buffer-substring context-start (point))
 			    ;; We may use these in another buffer.
-			    offset (car TeX-error-offset)
+			    offset (or (car TeX-error-offset) 0)
 			    file (car TeX-error-file))
 		      (when (and (stringp file)
 				 (or (string= file "<none>")
@@ -2739,20 +2771,21 @@ name(\\([^)]+\\))\\)\\|\
 	       ((match-beginning 2)
 		;; New file -- Push on stack
 		(push (match-string-no-properties 2) TeX-error-file)
-		(push 0 TeX-error-offset)
+		(push nil TeX-error-offset)
 		(goto-char (match-end 2)))
 	       ((match-beginning 3)
 		;; End of file -- Pop from stack
-		(pop TeX-error-file)
-		(pop TeX-error-offset)
+		(when (> (length TeX-error-file) 1)
+		  (pop TeX-error-file)
+		  (pop TeX-error-offset))
 		(goto-char (1+ (match-beginning 0))))
 	       ((match-beginning 4)
 		;; Hook to change line numbers
-		(rplaca TeX-error-offset
-			(string-to-number (match-string 4))))
+		(setq TeX-error-offset
+		      (list (string-to-number (match-string 4)))))
 	       ((match-beginning 5)
 		;; Hook to change file name
-		(rplaca TeX-error-file (match-string-no-properties 5)))
+		(setq TeX-error-file (list (match-string-no-properties 5))))
 	       ((match-beginning 6)
 		(let ((var
 		       (assoc (match-string-no-properties 6)
@@ -3424,8 +3457,10 @@ internal parameters, STR may be a log to insert into the current log."
 	  (setq TeX-sentinel-function 'preview-TeX-inline-sentinel)
 	  (when (featurep 'mule)
 	    (setq preview-coding-system
-		  (with-current-buffer commandbuff
-		    buffer-file-coding-system))
+		  (or (and (boundp 'TeX-japanese-process-output-coding-system)
+			   TeX-japanese-process-output-coding-system)
+		      (with-current-buffer commandbuff
+			buffer-file-coding-system)))
 	    (when preview-coding-system
 	      (setq preview-coding-system
 		    (preview-buffer-recode-system
@@ -3442,8 +3477,8 @@ internal parameters, STR may be a log to insert into the current log."
 	     (preview-reraise-error process)))))
 
 (defconst preview-version (eval-when-compile
-  (let ((name "$Name: release_11_82 $")
-	(rev "$Revision: 1.262 $"))
+  (let ((name "$Name: release_11_83 $")
+	(rev "$Revision: 1.268 $"))
     (or (when (string-match "\\`[$]Name: *release_\\([^ ]+\\) *[$]\\'" name)
 	  (setq name (match-string 1 name))
 	  (while (string-match "_" name)
@@ -3457,7 +3492,7 @@ If not a regular release, CVS revision of `preview.el'.")
 
 (defconst preview-release-date
   (eval-when-compile
-    (let ((date "$Date: 2005/09/24 19:15:55 $"))
+    (let ((date "$Date: 2006/05/25 07:50:57 $"))
       (string-match
        "\\`[$]Date: *\\([0-9]+\\)/\\([0-9]+\\)/\\([0-9]+\\)"
        date)
