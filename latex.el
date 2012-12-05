@@ -1,16 +1,16 @@
 ;;; latex.el --- Support for LaTeX documents.
 ;; 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9p
+;; Version: 9.10t
 ;; Keywords: wp
 ;; X-URL: http://sunsite.auc.dk/auctex
 
 ;; Copyright 1991 Kresten Krab Thorup
-;; Copyright 1993, 1994, 1995, 1996, 1997 Per Abrahamsen
+;; Copyright 1993, 1994, 1995, 1996, 1997, 1999, 2000 Per Abrahamsen
 ;; 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 1, or (at your option)
+;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
 ;; 
 ;; This program is distributed in the hope that it will be useful,
@@ -252,7 +252,7 @@ If so, return the second element, otherwise return nil."
 (defun LaTeX-outline-name ()
   "Guess a name for the current header line."
   (save-excursion
-    (if (re-search-forward "\\{\\([^\}]*\\)\\}" (+ (point) 50) t)
+    (if (re-search-forward "{\\([^\}]*\\)}" (+ (point) 50) t)
 	(match-string 1)
       (buffer-substring (point) (+ 20 (point))))))
 
@@ -408,6 +408,8 @@ The beaviour of this hook is controled by `LaTeX-section-label'."
   :type 'string)
  (make-variable-buffer-local 'LaTeX-default-environment)
 
+(defvar LaTeX-environment-history nil)
+
 (defun LaTeX-environment (arg)
   "Make LaTeX environment (\\begin{...}-\\end{...} pair).
 With optional ARG, modify current environment.
@@ -429,7 +431,9 @@ It may be customized with the following variables:
                                                    "document"
                                                  LaTeX-default-environment)
                                                ") ")
-                                       (LaTeX-environment-list))))
+				      (LaTeX-environment-list)
+				      nil nil nil
+				      'LaTeX-environment-history)))
     ;; Get default
     (cond ((and (zerop (length environment))
                 (TeX-near-bobp))
@@ -465,8 +469,8 @@ It may be customized with the following variables:
 	     (while prompts
 	       (setq args (concat args
 				  TeX-grop
-				  (read-from-minibuffer (concat (car prompts)
-								": "))
+				  (read-from-minibuffer 
+				   (concat (car prompts) ": "))
 				  TeX-grcl))
 	       (setq prompts (cdr prompts)))
 	     (LaTeX-insert-environment environment args)))
@@ -483,13 +487,13 @@ It may be customized with the following variables:
 	   (point)))
       (insert "\n"))
   (insert "\\end{" (LaTeX-current-environment 1) "}")
-  (LaTeX-indent-line)
+  (indent-according-to-mode)
   (if (not (looking-at "[ \t]*$"))
       (insert "\n")
     (let ((next-line-add-newlines t))
       (next-line 1)
       (beginning-of-line)))
-  (LaTeX-indent-line))
+  (indent-according-to-mode))
 
 (autoload 'outline-flag-region "outline")
 
@@ -498,14 +502,14 @@ It may be customized with the following variables:
   (interactive)
   (outline-flag-region (save-excursion (LaTeX-find-matching-begin) (point))
 		       (save-excursion (LaTeX-find-matching-end) (point))
-		       ?\r))
+		       (if (featurep 'noutline) t ?\r)))
 
 (defun LaTeX-show-environment ()
   "Show current LaTeX environment."
   (interactive)
   (outline-flag-region (save-excursion (LaTeX-find-matching-begin) (point))
 		       (save-excursion (LaTeX-find-matching-end) (point))
-		       ?\n))
+		       (if (featurep 'noutline) nil ?\n)))
 
 (defun LaTeX-insert-environment (environment &optional extra)
   "Insert environment of type ENV, with optional argument EXTRA."
@@ -517,7 +521,7 @@ It may be customized with the following variables:
 	(or (TeX-looking-at-backward "^[ \t]*")
 	    (newline))
 	(insert TeX-esc "begin" TeX-grop environment TeX-grcl)
-	(LaTeX-indent-line)
+	(indent-according-to-mode)
 	(if extra (insert extra))
 	(newline)
 	(goto-char (mark))
@@ -526,21 +530,21 @@ It may be customized with the following variables:
 	(insert TeX-esc "end" TeX-grop environment TeX-grcl)
 	(or (looking-at "[ \t]*$")
 	    (save-excursion (newline-and-indent)))
-	(LaTeX-indent-line)
+	(indent-according-to-mode)
 	(end-of-line 0)
 	(or (assoc environment LaTeX-indent-environment-list)
 	    (LaTeX-fill-environment nil)))
     (or (TeX-looking-at-backward "^[ \t]*")
 	(newline))
     (insert TeX-esc "begin" TeX-grop environment TeX-grcl)
-    (LaTeX-indent-line)
+    (indent-according-to-mode)
     (if extra (insert extra))
     (newline-and-indent)
     (newline)
     (insert TeX-esc "end" TeX-grop environment TeX-grcl)
     (or (looking-at "[ \t]*$")
 	(save-excursion (newline-and-indent)))
-    (LaTeX-indent-line)
+    (indent-according-to-mode)
     (end-of-line 0)))
 
 (defun LaTeX-modify-environment (environment)
@@ -729,7 +733,7 @@ job to this function."
   "Create ENVIRONMENT with \\label and \\caption commands."
   (let ((float (read-string "Float to: " LaTeX-float))
 	(caption (read-string "Caption: "))
-        (center (y-or-n-p "Center: ")))
+        (center (y-or-n-p "Center? ")))
 
     (setq LaTeX-float (if (zerop (length float))
 			  LaTeX-float
@@ -743,12 +747,14 @@ job to this function."
     
     (if center
 	(progn
-	  (LaTeX-insert-environment "center")))
+	  (insert TeX-esc "centering")
+	  (indent-according-to-mode)
+	  (newline)))
     
     (newline-and-indent)
     (LaTeX-label environment)
     (end-of-line 0)
-    (LaTeX-indent-line)
+    (indent-according-to-mode)
 
     (if (zerop (length caption))
 	()
@@ -756,7 +762,7 @@ job to this function."
       (newline-and-indent)
       (insert TeX-esc "caption" TeX-grop caption TeX-grcl)
       (end-of-line 0)
-      (LaTeX-indent-line))
+      (indent-according-to-mode))
 
     (if (member environment '("table" "table*"))
 	(LaTeX-env-array "tabular"))))
@@ -872,7 +878,7 @@ You may use `LaTeX-item-list' to change the routines used to insert the item."
     (if (assoc environment LaTeX-item-list)
 	(funcall (cdr (assoc environment LaTeX-item-list)))
       (TeX-insert-macro "item"))
-    (LaTeX-indent-line)))
+    (indent-according-to-mode)))
 
 (defun LaTeX-item-argument ()
   "Insert a new item with an optional argument."
@@ -890,9 +896,9 @@ You may use `LaTeX-item-list' to change the routines used to insert the item."
 \\(\\[\\(\\([^#\\\\\\.%]\\|%[^\n\r]*[\n\r]\\)+\\)\\]\\)?\
 {\\([^#\\\\\\.\n\r]+\\)}"
      (3 5 1) LaTeX-auto-style)
-    ("\\\\usepackage\\(\\[[^\]\\\\]*\\]\\)?\
+    ("\\\\use\\(package\\)\\(\\[\\([^\]\\\\]*\\)\\]\\)?\
 {\\(\\([^#}\\\\\\.%]\\|%[^\n\r]*[\n\r]\\)+\\)}"
-     (2) LaTeX-auto-style))
+     (3 4 1) LaTeX-auto-style))
   "Minimal list of regular expressions matching LaTeX macro definitions.")
 
 (defvar LaTeX-auto-label-regexp-list
@@ -900,9 +906,9 @@ You may use `LaTeX-item-list' to change the routines used to insert the item."
   "List of regular expression matching LaTeX labels only.")
 
 (defvar LaTeX-auto-index-regexp-list
-  '(("\\\\index{\\([^}{]*\\({[^}{]*\\({[^}{]*\\({[^}{]*}[^}{]*\\)*}[^}{]*\\)*}[^}{]*\\)*\\)}"
-	1 LaTeX-auto-index-entry))
-  "List of regular expression matching LaTeX index entries only.
+   '(("\\\\\\(index\\|glossary\\){\\([^}{]*\\({[^}{]*\\({[^}{]*\\({[^}{]*}[^}{]*\\)*}[^}{]*\\)*}[^}{]*\\)*\\)}"
+ 	2 LaTeX-auto-index-entry))
+   "List of regular expression matching LaTeX index/glossary entries only.
 Regexp allows for up to 3 levels of parenthesis inside the index argument.
 This is necessary since index entries may contain commands and stuff.")
 
@@ -980,12 +986,14 @@ This is necessary since index entries may contain commands and stuff.")
 	;; Add them, to the style list.
 	(setq TeX-auto-file (append options TeX-auto-file))
 
-	;; The second argument if present is a normal style file.
-	(if (null style)
-	    ()
-	  (setq TeX-auto-file (cons style TeX-auto-file))
-
+	;; Treat documentclass/documentstyle specially.
+	(if (string-equal "package" class)
+	    (setq TeX-auto-file
+		  (append (TeX-split-string 
+			   "\\([ \t\r\n]\\|%[^\n\r]*[\n\r]\\|,\\)+" style)
+			  TeX-auto-file))
 	  ;; And a special "art10" style file combining style and size.
+	  (setq TeX-auto-file (cons style TeX-auto-file))
 	  (setq TeX-auto-file
 		(cons (concat 
 		       (cond ((string-equal "article" style)
@@ -1157,15 +1165,25 @@ Used for specifying extra syntax for a macro."
 
 (defalias 'TeX-arg-ref 'TeX-arg-label)
 
-(defun TeX-arg-define-index (optional &optional prompt definition)
-  (TeX-arg-index optional prompt t))
-(defun TeX-arg-index (optional &optional prompt definition)
+(defun TeX-arg-index-tag (optional &optional prompt &rest args)
+  "Prompt for an index tag.  This is the name of an index, not the entry."
+  (let (tag)
+    (setq prompt (concat (if optional "(Optional) " "")
+			 (if prompt prompt "Index tag")
+			 ": (default none) "))
+    (setq tag (read-string prompt))
+    (TeX-argument-insert tag optional)))
+
+(defun TeX-arg-index (optional &optional prompt &rest args)
   "Prompt for an index entry completing with known entries."
   (let ((entry (completing-read (TeX-argument-prompt optional prompt "Key")
 				(LaTeX-index-entry-list))))
-    (if (and definition (not (string-equal "" entry)))
+    (if (and (not (string-equal "" entry))
+	     (not (member (list entry) (LaTeX-index-entry-list))))
 	(LaTeX-add-index-entries entry))
     (TeX-argument-insert entry optional optional)))
+
+(defalias 'TeX-arg-define-index 'Tex-arg-index)
 
 (defun TeX-arg-macro (optional &optional prompt definition)
   "Prompt for a TeX macro with completion."
@@ -1480,7 +1498,7 @@ the cdr is the brace used with \\right.")
           (insert (completing-read
                    (TeX-argument-prompt optional prompt "Which brace")
                    TeX-left-right-braces)))
-	(LaTeX-indent-line)))))
+	(indent-according-to-mode)))))
 
 ;;; Indentation
 
@@ -1534,7 +1552,7 @@ From program, pass args FROM, TO and JUSTIFY-FLAG."
 	(narrow-to-region from to)
 	(goto-char from)
 	(while (not (eobp))
-	  (LaTeX-indent-line)
+	  (indent-according-to-mode)
 	  (forward-line))
 	(goto-char from)
 	(while (not (eobp))
@@ -1567,7 +1585,7 @@ From program, pass args FROM, TO and JUSTIFY-FLAG."
 	(goto-char (point-min))
 	(while (search-forward "$$ " nil t)
 	  (replace-match "$$\n" t t)
-	  (LaTeX-indent-line)))))
+	  (indent-according-to-mode)))))
 
 (defun LaTeX-fill-region-as-para-do (from to justify-flag)
   "Fill region as one paragraph: break lines to fit `fill-column'."
@@ -1578,7 +1596,7 @@ From program, pass args FROM, TO and JUSTIFY-FLAG."
 	(save-restriction
 	  (goto-char from)
 	  (skip-chars-forward " \n")
-	  (LaTeX-indent-line)
+	  (indent-according-to-mode)
 	  (beginning-of-line)
 	  (narrow-to-region (point) to)
 	  (setq from (point))
@@ -1625,7 +1643,7 @@ From program, pass args FROM, TO and JUSTIFY-FLAG."
 	(if (equal (preceding-char) ?\\)
 	    (insert ? ))
 	(insert ?\n)
-	(LaTeX-indent-line)
+	(indent-according-to-mode)
 	(setq prefixcol (current-column))
 	(and justify-flag (not (eobp))
 	     (progn
@@ -1776,7 +1794,7 @@ comments and verbatim environments"
      justify
      (concat " buffer " (buffer-name)))))
 
-(defvar LaTeX-indent-environment-list
+(defcustom LaTeX-indent-environment-list
   '(("verbatim" current-indentation)
     ("verbatim*" current-indentation)
     ;; The following should have there own, smart indentation function.
@@ -1796,7 +1814,10 @@ comments and verbatim environments"
     ("tabular*"))
     "Alist of environments with special indentation.
 The second element in each entry is the function to calculate the
-indentation level in columns.")
+indentation level in columns."
+    :group 'LaTeX-indentation
+    :type '(repeat (list (string :tag "Environment") 
+			 (option function))))
 
 (defcustom LaTeX-indent-environment-check t
   "*If non-nil, check for any special environments."
@@ -2534,7 +2555,7 @@ See also `LaTeX-math-menu'."
 (defcustom LaTeX-math-abbrev-prefix "`"
   "Prefix key for use in `LaTeX-math-mode'."
   :group 'LaTeX-math
-  :type 'string)
+  :type 'sexp)
 
 (defvar LaTeX-math-keymap (make-sparse-keymap)
   "Keymap used for `LaTeX-math-mode' commands.")
@@ -2549,7 +2570,8 @@ The menu entries will be generated dynamically, but you can specify
 the sequence by initializing this variable.")
 
 (define-key LaTeX-math-keymap
-  (concat LaTeX-math-abbrev-prefix LaTeX-math-abbrev-prefix)
+  (apply 'vector (append LaTeX-math-abbrev-prefix 
+			 LaTeX-math-abbrev-prefix nil))
   'LaTeX-math-insert-prefix)
 
 (let ((math (reverse (append LaTeX-math-list LaTeX-math-default)))
@@ -2637,7 +2659,9 @@ commands are defined:
   "Insert the value of `LaTeX-math-abbrev-prefix'."
   (interactive "*")
   (let (LaTeX-math-mode)
-    (call-interactively (key-binding LaTeX-math-abbrev-prefix))))
+    (if (key-binding LaTeX-math-abbrev-prefix)
+	(call-interactively (key-binding LaTeX-math-abbrev-prefix))
+      (error "%S has no default binding" LaTeX-math-abbrev-prefix))))
 
 (defcustom LaTeX-math-insert-function 'TeX-insert-macro
   "Function called with argument STRING to insert \\STRING." 
@@ -2670,7 +2694,6 @@ commands are defined:
     (define-key map "\n"      'reindent-then-newline-and-indent)
     
     ;; From latex.el
-    (define-key map "\t"      'LaTeX-indent-line)
     (define-key map "\eq"     'LaTeX-fill-paragraph) ;*** Alias
     ;; This key is now used by Emacs for face settings.
     ;; (define-key map "\eg"     'LaTeX-fill-region) ;*** Alias
@@ -3031,7 +3054,7 @@ of `LaTeX-mode-hook'."
 	 (regexp-quote TeX-esc)
 	 "\\("
 	 LaTeX-paragraph-commands
-	 "\\|item\\b"
+	 "\\|\\(bib\\)?item\\b"
 	 "\\)"
 	 "\\|"
 	 "^[ \t]*\\$\\$" ; display math delimitor
@@ -3066,6 +3089,8 @@ of `LaTeX-mode-hook'."
 		  ("\\\\ref{\\([^{}\n\r\\%,]*\\)" 1 LaTeX-label-list "}")
 		  ("\\\\eqref{\\([^{}\n\r\\%,]*\\)" 1 LaTeX-label-list "}")
 		  ("\\\\pageref{\\([^{}\n\r\\%,]*\\)" 1 LaTeX-label-list "}")
+ 		  ("\\\\\\(index\\|glossary\\){\\([^{}\n\r\\%]*\\)" 
+ 		   2 LaTeX-index-entry-list "}")
 		  ("\\\\begin{\\([A-Za-z]*\\)" 1 LaTeX-environment-list "}")
 		  ("\\\\end{\\([A-Za-z]*\\)" 1 LaTeX-environment-list "}")
 		  ("\\\\renewcommand\\*?{\\\\\\([A-Za-z]*\\)"
@@ -3260,8 +3285,8 @@ of `LaTeX-mode-hook'."
    '("verb" TeX-arg-verb)
    '("verb*" TeX-arg-verb)
    '("extracolsep" t)
-   '("index" TeX-arg-define-index)
-   '("glossary" t)
+   '("index" TeX-arg-index)
+   '("glossary" TeX-arg-index)
    '("numberline" "Section number" "Heading")
    '("caption" t)
    '("marginpar" [ "Left margin text" ] "Text")

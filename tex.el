@@ -1,18 +1,18 @@
 ;;; tex.el --- Support for TeX documents.
 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.auc.dk>
-;; Version: 9.9p
+;; Version: 9.10t
 ;; Keywords: wp
 ;; X-URL: http://sunsite.auc.dk/auctex
 
-;; Copyright (C) 1985, 1986 Free Software Foundation, Inc.
+;; Copyright (C) 1985, 1986, 2000 Free Software Foundation, Inc.
 ;; Copyright (C) 1987 Lars Peter Fischer
 ;; Copyright (C) 1991 Kresten Krab Thorup
-;; Copyright (C) 1993, 1994, 1996, 1997 Per Abrahamsen 
+;; Copyright (C) 1993, 1994, 1996, 1997, 1999 Per Abrahamsen 
 ;; 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 1, or (at your option)
+;; the Free Software Foundation; either version 2, or (at your option)
 ;; any later version.
 ;; 
 ;; This program is distributed in the hope that it will be useful,
@@ -26,17 +26,11 @@
 
 ;;; Code:
 
-(eval-and-compile
-  (condition-case ()
-      (require 'custom)
-    (error nil))
-  (if (and (featurep 'custom) (fboundp 'custom-declare-variable))
-      nil ;; We've got what we needed
-    ;; We have the old custom-library, hack around it!
-    (defmacro defgroup (&rest args)
-      nil)
-    (defmacro defcustom (var value doc &rest args) 
-      (` (defvar (, var) (, value) (, doc))))))
+(when (< emacs-major-version 20)
+  (error "AUC TeX requires Emacs 20 or later"))
+
+(require 'custom)
+(eval-when-compile (require 'cl))
 
 (defgroup AUC-TeX nil
   "A (La)TeX environment."
@@ -68,8 +62,11 @@
 
 (defcustom TeX-lisp-directory (or (and (fboundp 'locate-data-directory)
 				       (locate-data-directory "auctex"))
+				  (and (fboundp 'locate-library)
+				       (let ((f (locate-library "tex")))
+					 (and f (file-name-directory f))))
 				  (concat data-directory "auctex/"))
-  "The directory where the AUC TeX lisp files are located."
+  "The directory where the AUC TeX Lisp files are located."
   :group 'TeX-file
   :type 'directory)
 
@@ -130,7 +127,10 @@ performed as specified in TeX-expand-list."
 	(list "Spell" "<ignored>" 'TeX-run-ispell-on-document nil nil)
 	(list "Other" "" 'TeX-run-command t t)
 	;; Not part of standard TeX.
+	(list "LaTeX PDF" "pdflatex '\\nonstopmode\\input{%t}'"
+	      'TeX-run-LaTeX nil t)
 	(list "Makeinfo" "makeinfo %t" 'TeX-run-compile nil t)
+	(list "Makeinfo HTML" "makeinfo --html %t" 'TeX-run-compile nil t)
 	(list "AmSTeX" "amstex '\\nonstopmode\\input %t'"
 	      'TeX-run-TeX nil t))
   "List of commands to execute on the current document.
@@ -139,7 +139,7 @@ Each element is a list, whose first element is the name of the command
 as it will be presented to the user.  
 
 The second element is the string handed to the shell after being
-expanded. The expansion is done using the information found in
+expanded.  The expansion is done using the information found in
 TeX-expand-list. 
 
 The third element is the function which actually start the process.
@@ -322,7 +322,8 @@ string."
 	(list "%t" 'file 't t)
 	(list "%n" 'TeX-current-line)
 	(list "%d" 'file "dvi" t)
-	(list "%f" 'file "ps" t))
+	(list "%f" 'file "ps" t)
+        (list "%b" 'TeX-current-file-name-nondirectory))
   "List of expansion strings for TeX command names.
 
 Each entry is a list with two or more elements.  The first element is
@@ -350,9 +351,7 @@ Full documentation will be available after autoloading the function."
   "Documentation for autoload functions.")
 
 ;; This hook will store bibitems when you save a BibTeX buffer.
-(defvar bibtex-mode-hook nil)
-(or (memq 'BibTeX-auto-store bibtex-mode-hook) ;No `add-hook' yet.
-    (setq bibtex-mode-hook (cons 'BibTeX-auto-store bibtex-mode-hook)))
+(add-hook 'bibtex-mode-hook 'BibTeX-auto-store)
 
 (autoload 'BibTeX-auto-store "latex" no-doc t)
 
@@ -370,158 +369,10 @@ Full documentation will be available after autoloading the function."
 
 (require 'easymenu)
 
-;; An GNU Emacs 19 function.
-(or (fboundp 'set-text-properties)
-    (fset 'set-text-properties (symbol-function 'ignore)))
-
-;; An GNU Emacs 19 variable.
-(defvar minor-mode-map-alist nil)
-
-;;; Special support for Emacs 18
-
-(cond ((< (string-to-int emacs-version) 19)
-
-(condition-case error
-    (require 'outline)			;No provide in Emacs 18 outline.el 
-  (error (provide 'outline)))
-
-;; Emacs 18 grok this regexp, but you loose the ability to use
-;; whitespace anywhere in your documentstyle command.
-(defvar LaTeX-auto-minimal-regexp-list
-  '(("\\\\documentstyle\\[\\([^#\\\\\\.\n\r]+\\)\\]{\\([^#\\\\\\.\n\r]+\\)}"
-     (1 2) LaTeX-auto-style)
-    ("\\\\documentstyle{\\([^#\\\\\\.\n\r]+\\)}" (1) LaTeX-auto-style)
-    ("\\\\documentclass\\[\\([^#\\\\\\.\n\r]+\\)\\]{\\([^#\\\\\\.\n\r]+\\)}"
-     (1 2) LaTeX-auto-style)
-    ("\\\\documentclass{\\([^#\\\\\\.\n\r]+\\)}" (1) LaTeX-auto-style))
-  "Minimal list of regular expressions matching LaTeX macro definitions.")
-	    
-;; The Emacs 19 definition of `comment-region'.
-(defun comment-region (beg end &optional arg)
-  "Comment the region; third arg numeric means use ARG comment characters.
-If ARG is negative, delete that many comment characters instead.
-Comments are terminated on each line, even for syntax in which newline does
-not end the comment.  Blank lines do not get comments."
-  ;; if someone wants it to only put a comment-start at the beginning and
-  ;; comment-end at the end then typing it, C-x C-x, closing it, C-x C-x
-  ;; is easy enough.  No option is made here for other than commenting
-  ;; every line.
-  (interactive "r\np")
-  (or comment-start (error "No comment syntax is defined"))
-  (if (> beg end) (let (mid) (setq mid beg beg end end mid)))
-  (save-excursion
-    (save-restriction
-      (let ((cs comment-start) (ce comment-end))
-        (cond ((not arg) (setq arg 1))
-              ((> arg 1)
-               (while (> (setq arg (1- arg)) 0)
-                 (setq cs (concat cs comment-start)
-                       ce (concat ce comment-end)))))
-        (narrow-to-region beg end)
-        (goto-char beg)
-        (while (not (eobp))
-          (if (< arg 0)
-              (let ((count arg))
-                (while (and (> 1 (setq count (1+ count)))
-                            (looking-at (regexp-quote cs)))
-                  (delete-char (length cs)))
-                (if (string= "" ce) ()
-                  (setq count arg)
-                  (while (> 1 (setq count (1+ count)))
-                    (end-of-line)
-                    ;; this is questionable if comment-end ends in whitespace
-                    ;; that is pretty brain-damaged though
-                    (skip-chars-backward " \t")
-                    (backward-char (length ce))
-                    (if (looking-at (regexp-quote ce))
-                        (delete-char (length ce)))))
-		(forward-line 1))
-            (if (looking-at "[ \t]*$") ()
-              (insert cs)
-              (if (string= "" ce) ()
-                (end-of-line)
-                (insert ce)))
-            (search-forward "\n" nil 'move)))))))
-
-;; The Emacs 19 definition of `add-hook'.
-(defun add-hook (hook function &optional append)
-  "Add to the value of HOOK the function FUNCTION.
-FUNCTION is not added if already present.
-FUNCTION is added (if necessary) at the beginning of the hook list
-unless the optional argument APPEND is non-nil, in which case
-FUNCTION is added at the end.
- 
-HOOK should be a symbol, and FUNCTION may be any valid function.  If
-HOOK is void, it is first set to nil.  If HOOK's value is a single
-function, it is changed to a list of functions."
-  (or (boundp hook) (set hook nil))
-  ;; If the hook value is a single function, turn it into a list.
-  (let ((old (symbol-value hook)))
-    (if (or (not (listp old)) (eq (car old) 'lambda))
-        (set hook (list old))))
-  (or (if (consp function)
-          ;; Clever way to tell whether a given lambda-expression
-          ;; is equal to anything in the hook.
-          (let ((tail (assoc (cdr function) (symbol-value hook))))
-            (equal function tail))
-        (memq function (symbol-value hook)))
-      (set hook 
-           (if append
-               (nconc (symbol-value hook) (list function))
-             (cons function (symbol-value hook))))))
-
-;; An Emacs 19 function.
-(defun make-directory (dir)
-  "Create the directory DIR."
-  (shell-command (concat "mkdir " (if (string-match "/$" dir)
-				      (substring dir 0 -1)
-				    dir))))
- 
-;; An Emacs 19 function.
-(defun abbreviate-file-name (name)
-  name)
-
-;; Different interface for each variant.
-(defun TeX-active-mark ()
-  ;; Emacs 18 does not have active marks.
-  nil)
-
-;; Different interface for each variant.
-(defun TeX-mark-active ()
-  ;; In Emacs 18 (mark) returns nil when not active.
-  (mark))
-
-;; An Emacs 19 function.
-(defun member (elt list)
-  "Return non-nil if ELT is an element of LIST.  Comparison done with EQUAL.
-The value is actually the tail of LIST whose car is ELT."
-  (while (and list (not (equal elt (car list))))
-    (setq list (cdr list)))
-  list)
-
-;; An Emacs 19 macro.
-(defmacro save-match-data (&rest body)
-  "Execute the BODY forms, restoring the global value of the match data."
-  (let ((original (make-symbol "match-data")))
-    (list
-     'let (list (list original '(match-data)))
-     (list 'unwind-protect
-           (cons 'progn body)
-           (list 'store-match-data original)))))
-
-)
-
 ;;; Special support for XEmacs 
 
-((or (string-match "Lucid" emacs-version)
-     (string-match "XEmacs" emacs-version))
-
-(if (eq emacs-minor-version 13)
-    ;; XEmacs 19.13 had a partial defintion of set-text-properties.
-    (defadvice set-text-properties (around ignore-strings activate)
-      "Ignore strings."
-      (or (stringp (ad-get-arg 3))
-	  ad-do-it)))
+(cond ((or (string-match "Lucid" emacs-version)
+	   (string-match "XEmacs" emacs-version))
 
 (defadvice popup-mode-menu (before LaTeX-update activate)
   "Run `LaTeX-menu-update' before showing menu."
@@ -537,36 +388,6 @@ The value is actually the tail of LIST whose car is ELT."
 (defun TeX-active-mark ()
   (and zmacs-regions (mark)))
 
-;; Lucid 19.11 have no idea what `kill-all-local-variables' is
-;; supposed to do.  I have to explicitly clear `TeX-symbol-list'
-;; despite it being buffer local.  You can verify this by removing the
-;; hook below, setting a breakpoint just after the call to
-;; `kill-all-local-variables' in `VirTeX-common-initialization' and
-;; examine the local and global value of `TeX-symbol-list'.  Make sure
-;; you have a `%%% mode: latex' line in your file variable section,
-;; and have latex-mode as your default mode for ".tex" files.
-;; Unfortunately I have been unable to isolate the error further.
-(add-hook 'change-major-mode-hook
-	  '(lambda () (setq TeX-symbol-list nil
-			    LaTeX-environment-list nil)))
-
-;; Lucid 19.6 grok this regexp, but you loose the ability to use
-;; whitespace in your documentstyle command.
-(string-match "\\`[0-9]+\\.\\([0-9]+\\)" emacs-version)
-(or (> (string-to-int (substring emacs-version
-				 (match-beginning 1) (match-end 1)))
-       8)
-    (> (string-to-int emacs-version) 19)
-    (boundp 'LaTeX-auto-minimal-regexp-list)
-    (setq LaTeX-auto-minimal-regexp-list
-     '(("\\\\documentstyle\\[\\([^#\\\\\\.\n\r]+\\)\\]{\\([^#\\\\\\.\n\r]+\\)}"
-        (1 2) LaTeX-auto-style)
-       ("\\\\documentstyle{\\([^#\\\\\\.\n\r]+\\)}" (1) LaTeX-auto-style)
-       ("\\\\documentclass\\[\\([^#\\\\\\.\n\r]+\\)\\]{\\([^#\\\\\\.\n\r]+\\)}"
-        (1 2) LaTeX-auto-style)
-       ("\\\\documentclass{\\([^#\\\\\\.\n\r]+\\)}" (1) LaTeX-auto-style))))
-
-;; Lucid only
 (fset 'TeX-activate-region (symbol-function 'zmacs-activate-region))
 
 )
@@ -581,7 +402,8 @@ The value is actually the tail of LIST whose car is ELT."
 (defun TeX-active-mark ()
   (and transient-mark-mode mark-active))
 
-(defun TeX-activate-region ())
+(defun TeX-activate-region ()
+  nil)
 
 ))
 
@@ -590,11 +412,11 @@ The value is actually the tail of LIST whose car is ELT."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "9.9p"
-  "AUC TeX version number")
+(defconst AUC-TeX-version "9.10t"
+  "AUC TeX version number.")
 
-(defconst AUC-TeX-date "Thu Feb 11 11:19:02 MET 1999"
-  "AUC TeX release date")
+(defconst AUC-TeX-date "Mon Oct  9 10:05:56 MEST 2000"
+  "AUC TeX release date.")
 
 ;;; Buffer
 
@@ -604,14 +426,12 @@ The value is actually the tail of LIST whose car is ELT."
   :group 'AUC-TeX)
 
 (defcustom TeX-display-help t
-  "*Non-nil means popup help when stepping thrugh errors with
-\\[TeX-next-error]"
+  "*Non-nil means popup help when stepping thrugh errors with \\[TeX-next-error]."
   :group 'TeX-output
   :type 'boolean)
 
 (defcustom TeX-debug-bad-boxes nil
-  "*Non-nil means also find overfull/underfull boxes warnings with
-TeX-next-error"
+  "*Non-nil means also find overfull/underfull boxes warnings with \\[TeX-next-error]."
   :group 'TeX-output
   :type 'boolean)
 
@@ -686,11 +506,20 @@ this variable to \"<none>\"."
   :group 'TeX-command
   :type 'regexp)
 
+(defun TeX-dwim-master ()
+  "Find a likely `TeX-master'."
+  (let ((dir default-directory))
+    (dolist (buf (buffer-list))
+      (when (with-current-buffer buf
+	      (and (equal dir default-directory)
+		   (stringp TeX-master)))
+	(return (with-current-buffer buf TeX-master))))))
+
 (defun TeX-master-file (&optional extension nondirectory)
   "Return the name of the master file for the current document.
 
 If optional argument EXTENSION is non-nil, add that file extension to
-the name.  Special value `t' means use `TeX-default-extension'.
+the name.  Special value t means use `TeX-default-extension'.
 
 If optional second argument NONDIRECTORY is non-nil, do not include
 the directory.
@@ -708,23 +537,24 @@ the beginning of the file, but that feature will be phased out."
 	(goto-char (point-min))
 	(cond
 	 ;; Special value 't means it is own master (a free file).
-	 ((equal TeX-master my-name) 
+	 ((equal TeX-master my-name)
 	  (setq TeX-master t))
 
 	 ;; For files shared between many documents.
 	 ((eq 'shared TeX-master)
 	  (setq TeX-master
 		(TeX-strip-extension
-		 (read-file-name "Master file: (default this file) "
-				 nil "///")
+		 (let ((default (or (TeX-dwim-master) "this file")))
+		   (read-file-name (format "Master file: (default %s) " default)
+				   nil default)
 		 (list TeX-default-extension)
-		 'path))
-	  (if (or (string-equal TeX-master "///")
+		 'path)))
+	  (if (or (string-equal TeX-master "this file")
 		  (string-equal TeX-master ""))
 	      (setq TeX-master t)))
 
 	 ;; We might already know the name.
-	 (TeX-master)
+	 ((or (eq TeX-master t) (stringp TeX-master)) TeX-master)
 
 	 ;; Support the ``Master:'' line (under protest!)
 	 ((re-search-forward
@@ -745,13 +575,17 @@ the beginning of the file, but that feature will be phased out."
 	 ;; Ask the user (but add it as a local variable).
 	 (t
 	  (setq TeX-master
-		(TeX-strip-extension
-		 (condition-case name
-		     (read-file-name "Master file: (default this file) "
-				     nil "<default>")
-		   (quit "<quit>"))
-		 (list TeX-default-extension)
-		 'path))
+		(let ((default (TeX-dwim-master)))
+		  (or
+		   (and (eq 'dwim TeX-master) default)
+		   (TeX-strip-extension
+		    (condition-case name
+			(read-file-name (format "Master file: (default %s) "
+						(or default "this file"))
+					nil (or default "<default>"))
+		      (quit "<quit>"))
+		    (list TeX-default-extension)
+		    'path))))
 	  (cond ((string-equal TeX-master "<quit>")
 		 (setq TeX-master t))
 		((or (string-equal TeX-master "<default>")
@@ -785,8 +619,9 @@ the beginning of the file, but that feature will be phased out."
   "Directory of master file."
   (abbreviate-file-name
    (expand-file-name
-    (concat (file-name-directory buffer-file-name)
-	    (file-name-directory (TeX-master-file))))))
+    (substitute-in-file-name
+     (concat (file-name-directory buffer-file-name)
+	     (file-name-directory (TeX-master-file)))))))
 
 (defcustom TeX-master t
   "*The master file associated with the current buffer.
@@ -800,7 +635,10 @@ If the variable is t, AUC TeX will assume the file is a master file
 itself.
 
 If the variable is 'shared, AUC TeX will query for the name, but not
-change the file.  
+change the file.
+
+If the variable is 'dwim, AUC TeX will try to avoid querying by
+attempting to `do what I mean'; and then change the file.
 
 It is suggested that you use the File Variables (see the info node in
 the Emacs manual) to set this variable permanently for each file."
@@ -809,6 +647,7 @@ the Emacs manual) to set this variable permanently for each file."
   :type '(choice (const :tag "Query" nil)
 		 (const :tag "This file" t)
 		 (const :tag "Shared" shared)
+		 (const :tag "Dwim" dwim)
 		 (string :format "%v")))
 
  (make-variable-buffer-local 'TeX-master)
@@ -818,7 +657,7 @@ the Emacs manual) to set this variable permanently for each file."
 This will be done when AUC TeX first try to use the master file.")
 
 (defun TeX-add-local-master ()
-  "Add local variable for TeX-master."
+  "Add local variable for `TeX-master'."
 
   (if (and (buffer-file-name)
            (string-match TeX-one-master
@@ -878,8 +717,9 @@ These correspond to TeX macros found in the current directory."
   :type 'string)
 
 (defun TeX-split-string (regexp string)
-  "Returns a list of strings. given REGEXP the STRING is split into 
-sections which in string was seperated by REGEXP.
+  "Returns a list of strings. 
+Given REGEXP the STRING is split into sections which in string was
+seperated by REGEXP.
 
 Examples:
 
@@ -996,7 +836,7 @@ active.")
   :type 'boolean)
 
 (defun TeX-load-style (style)
-  "Search for and load each definition for style in TeX-style-path."
+  "Search for and load each definition for STYLE in TeX-style-path."
   (cond ((assoc style TeX-style-hook-list)) ; We already found it
 	((string-match "\\`\\(.+/\\)\\([^/]*\\)\\'" style) ;Complex path
 	 (let* ((dir (substring style (match-beginning 1) (match-end 1)))
@@ -1045,9 +885,16 @@ active.")
 (defun TeX-add-style-hook (style hook)
   "Give STYLE yet another HOOK to run."
   (let ((entry (assoc style TeX-style-hook-list)))
-    (if (null entry)
-        (setq TeX-style-hook-list (cons (list style hook) TeX-style-hook-list))
-      (setcdr entry (cons hook (cdr entry))))))
+    (cond ((null entry)
+	   ;; New style, add entry.
+	   (setq TeX-style-hook-list (cons (list style hook)
+					   TeX-style-hook-list)))
+	  ((member hook entry)
+	   ;; Old style, hook already there, do nothing.
+	   nil)
+	  (t
+	   ;; Old style, new hook.
+	   (setcdr entry (cons hook (cdr entry)))))))
 
 (defun TeX-unload-style (style)
   "Forget that we once loaded STYLE."
@@ -1428,7 +1275,11 @@ Unless optional argument COMPLETE is non-nil, ``: '' will be appended."
 ;;; The Mode
 
 (defvar TeX-format-list
-  '(("AMSTEX" ams-tex-mode
+  '(("JLATEX" japanese-latex-mode
+     "\\\\\\(documentstyle[^%\n]*{j\\|documentclass[^%\n]*{j\\)")
+    ("JTEX" japanese-plain-tex-mode
+     "-- string likely in Japanese TeX --")
+    ("AMSTEX" ams-tex-mode
      "\\\\document\\b")
     ("LATEX" latex-mode 
      "\\\\\\(begin\\|section\\|chapter\\|documentstyle\\|documentclass\\)\\b")
@@ -1820,52 +1671,43 @@ If TEX is a directory, generate style files for all files in the directory."
                            (expand-file-name (read-file-name
                                               "AUTO lisp directory: "
                                               TeX-auto-default
-                                              TeX-auto-default
-                                              'confirm)))))
-  (TeX-auto-generate-1 tex auto
-		       (cond 
-			((and (numberp TeX-file-recurse)
-			      (> TeX-file-recurse 0))
-			 TeX-file-recurse)
-			((null TeX-file-recurse) 1)
-			(t -1))))
-
-(defun TeX-auto-generate-1 (tex auto recursion-depth) 
+                                              TeX-auto-default 'confirm)))))
   (cond ((not (file-readable-p tex)))
 	((string-match TeX-ignore-file tex))
-	((and (file-directory-p tex)
-	      (not (eq recursion-depth 0)))
-
-	 (let ((files (directory-files tex))
-	       (default-directory
-		 (concat (if (TeX-directory-absolute-p tex)
-			     ""
-			   default-directory)
-			 (if (string-match "/$" tex)
-			     tex
-			   (concat tex "/")))))
+        ((file-directory-p tex)
+         (let ((files (directory-files tex))
+               (default-directory (concat (if (TeX-directory-absolute-p tex)
+                                              ""
+                                            default-directory)
+                                          (if (string-match "/$" tex)
+                                              tex
+                                            (concat tex "/"))))
+	       (TeX-file-recurse (cond ((symbolp TeX-file-recurse)
+					TeX-file-recurse)
+				       ((zerop TeX-file-recurse)
+					nil)
+				       ((1- TeX-file-recurse)))))
 	   (mapcar (function (lambda (file)
-			       (TeX-auto-generate-1 file auto 
-						    (1- recursion-depth))))
+			       (if (or TeX-file-recurse
+				       (not (file-directory-p file)))
+				   (TeX-auto-generate file auto))))
 		   files)))
-	((not (file-newer-than-file-p
-	       tex
-	       (concat auto (if (string-match "/$" auto) "" "/")
-		       (TeX-strip-extension tex TeX-all-extensions t)
-		       ".el"))))
-	((TeX-match-extension tex (append TeX-file-extensions
+        ((not (file-newer-than-file-p tex
+                   (concat auto (if (string-match "/$" auto) "" "/")
+                      (TeX-strip-extension tex TeX-all-extensions t) ".el"))))
+        ((TeX-match-extension tex (append TeX-file-extensions
 					  BibTeX-file-extensions))
-	 (save-excursion
-	   (set-buffer (find-file-noselect tex))
-	   (message "Parsing %s..." tex)
-	   (TeX-auto-store (concat auto
-				   (if (string-match "/$" auto) "" "/")
-				   (TeX-strip-extension tex
+         (save-excursion
+           (set-buffer (find-file-noselect tex))
+           (message "Parsing %s..." tex)
+           (TeX-auto-store (concat auto
+                                   (if (string-match "/$" auto) "" "/")
+                                   (TeX-strip-extension tex
 							TeX-all-extensions
 							t)
-				   ".el"))
-	   (kill-buffer (current-buffer))
-	   (message "Parsing %s... done" tex)))))
+                                   ".el"))
+           (kill-buffer (current-buffer))
+           (message "Parsing %s... done" tex)))))
 
 ;;;###autoload
 (defun TeX-auto-generate-global ()
@@ -2128,8 +1970,8 @@ Check for potential LaTeX environments."
   :group 'TeX-file-extension
   :type '(repeat (string :format "%v")))
 
-(defcustom TeX-ignore-file "\\(^\\|/\\)\\(\\.\\|\\.\\.\\|RCS\\|SCCS\\|CVS\\)$"
-  "*Regular expression matching file names to ignore.
+(defcustom TeX-ignore-file "\\(^\\|/\\)\\(\\.\\|\\.\\.\\|RCS\\|SCCS\\|CVS\\|babel\\..*\\)$"
+  "Regular expression matching file names to ignore.
 
 These files or directories will not be considered when searching for
 TeX files in a directory."
@@ -2194,51 +2036,50 @@ If optional argument STRIP is set, remove file extension.
 If optional argument DIRECTORIES is set, search in those directories. 
 Otherwise, search in all TeX macro directories.
 If optional argument EXTENSIONS is not set, use TeX-file-extensions"
+
   (if (null extensions)
       (setq extensions TeX-file-extensions))
+  
   (if (null directories)
       (setq directories
 	    (cons "./" (append TeX-macro-private TeX-macro-global))))
-  (mapcar (function
-	   (lambda (dir)
-	     (TeX-search-files-1 dir extensions nodir strip
-			      (cond 
-			       ((and (numberp TeX-file-recurse)
-				     (> TeX-file-recurse 0))
-				TeX-file-recurse)
-			       ((null TeX-file-recurse) 1)
-			       (t -1)))))
-	  directories))
-
-(defun TeX-search-files-1 (directory extensions nodir strip
-				     recursion-depth) 
-  (unless (eq recursion-depth 0)
-    (let* ((content (and directory
-			 (file-readable-p directory)
-			 (file-directory-p directory)
-			 (directory-files directory)))
-	   match)
-      (while content
-	(let ((file (concat directory (car content))))
-	  
-	  (setq content (cdr content))
-	  (cond ((string-match TeX-ignore-file file))
-		((not (file-readable-p file)))
-		((file-directory-p file)
-		 (setq match
-		       (nconc match
-			       (TeX-search-files-1 (concat file "/")
-						   extensions
-						   nodir strip
-						   (1- recursion-depth)))))
-		((TeX-match-extension file extensions)
-		 (setq match (cons (TeX-strip-extension file
-							extensions
-							nodir
-							(not strip))
-				   match))))))
-
-    match)))
+  
+  (let (match
+	(TeX-file-recurse (cond ((symbolp TeX-file-recurse)
+					TeX-file-recurse)
+				       ((zerop TeX-file-recurse)
+					nil)
+				       ((1- TeX-file-recurse)))))
+    (while directories
+      (let* ((directory (car directories))
+             (content (and directory
+			   (file-readable-p directory)
+			   (file-directory-p directory)
+			   (directory-files directory))))
+        
+        (setq directories (cdr directories))
+	
+        (while content
+          (let ((file (concat directory (car content))))
+	    
+            (setq content (cdr content))
+            (cond ((string-match TeX-ignore-file file))
+		  ((not (file-readable-p file)))
+                  ((file-directory-p file)
+		   (if TeX-file-recurse
+		       (setq match 
+			     (append match 
+				     (TeX-search-files (list (concat file "/"))
+						       extensions
+						       nodir strip)))))
+                  ((TeX-match-extension file extensions)
+                   (setq match (cons (TeX-strip-extension file
+							  extensions
+							  nodir
+							  (not strip))
+                                     match))))))))
+    
+    match))
 
 (defun TeX-car-string-lessp (a b)
   (string-lessp (car a) (car b)))
@@ -2293,7 +2134,12 @@ See match-data for details."
 
 (defun TeX-current-line ()
   "The current line number."
-  (count-lines (point-min) (point)))
+  (format "%d" (count-lines (point-min) (point))))
+
+(defun TeX-current-file-name-nondirectory ()
+  "Return current filename, without path."
+  (file-name-nondirectory buffer-file-name))
+
 
 ;;; Syntax Table
 
@@ -2434,8 +2280,9 @@ character ``\\'' will be bound to `TeX-electric-macro'."
   ;; From tex.el
   (define-key TeX-mode-map "\""       'TeX-insert-quote)
   (define-key TeX-mode-map "$"        'TeX-insert-dollar)
-  (define-key TeX-mode-map "."        'TeX-insert-punctuation)
-  (define-key TeX-mode-map ","        'TeX-insert-punctuation)
+  ;; Removed because LaTeX 2e have a better solution to italic correction.
+  ;; (define-key TeX-mode-map "."        'TeX-insert-punctuation)
+  ;; (define-key TeX-mode-map ","        'TeX-insert-punctuation)
   (define-key TeX-mode-map "\C-c{"    'TeX-insert-braces)
   (define-key TeX-mode-map "\C-c\C-f" 'TeX-font)
   (define-key TeX-mode-map "\C-c\C-m" 'TeX-insert-macro)
@@ -2773,7 +2620,8 @@ With optional ARG, insert that many dollar signs."
 		       (buffer-substring (point)
 					 (progn (end-of-line) (point)))))))
       ;; Math mode was not entered with dollar - we cannot finish it with one.
-      (error "No dollars inside a math environment!")))
+      (error "Math mode because of `%s'.  Use `C-q $' to force a dollar."
+	     (car texmathp-why))))
    (t
     ;; Just somewhere in the text.
     (insert "$"))))

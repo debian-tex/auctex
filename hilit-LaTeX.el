@@ -19,7 +19,7 @@
 ;;      distribution fee considered a charge.
 
 ;; LCD Archive Entry:
-;; hilit-LaTeX|Peter Galbraith|galbraith@mixing.qc.dfo.ca|
+;; hilit-LaTeX|Peter Galbraith|GalbraithP@dfo-mpo.gc.ca|
 ;; Enhancements for LaTeX highlighting w/ hilit19.el or hl319.el|
 ;; 06-Sep-1995|1.17|~/modes/hilit-LaTeX.el.gz|
 ;; ----------------------------------------------------------------------------
@@ -285,7 +285,6 @@ Used for patterns like:
 
   '((hilit-inside-bracket-region "\\\\\\(text\\(it\\|sl\\)\\|emph\\){" italic)
 
-  ;;("\\\\be\\b" "\\\\ee\\b" glob-struct)
     ("\\\\("  "\\\\)" glob-struct)           ; \( \)
     ("[^\\\\\\(\\\\begin{avm}\\)]\\\\\\[" "\\\\\\]" 
      glob-struct) ; \[ \] but not \\[len] or \begin{avm}\[
