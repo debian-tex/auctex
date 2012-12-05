@@ -51,14 +51,6 @@ resolve the issues involved. Please report success/failure to us at
           If you are using XEmacs, of course use `--with-xemacs' in the
           same manner.
 
-    `--with-texmf-dir=DIR'
-          This will specify the directory where your TeX installation
-          sits. If your TeX installation does not conform to the TDS
-          (TeX directory standard), you may need to specify more
-          options to get everything in place. See the `Configure'
-          section in the `INSTALL' file for more information about the
-          available options.
-
     `--with-lispdir=/DIR'
           This may be needed for GNU Emacs installation, but hopefully
           `configure' should figure this out by itself. Don't use this
@@ -68,6 +60,22 @@ resolve the issues involved. Please report success/failure to us at
           which gives the location of the package directory for XEmacs
           where stuff should be installed. Again, hopefully this is not
           necessary to specify.
+
+    `--with-tex-input-dirs=/DIR-1/;/DIR-2/;...;/DIR-N/'
+          This option allows to specify the directories to be used for
+          file searches, e.g. for completion of LaTeX or BibTeX style
+          file names.  They will be used in the variable
+          `TeX-macro-global'.
+
+          `configure' will try to determine the right value for this
+          option but will only succeed if it finds the necessary
+          programs of the TeX system in the system path.
+
+    `--with-auto-dir=/DIR'
+          Directory containing automatically generated information.
+
+     Some additional information about the above options may be found in
+     the `Configure' section in the `INSTALL' file.
 
   6. If you need to use the prebuilt documentation (see above), now is
      the time to unpack it over the rest of the installation directory.

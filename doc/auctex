@@ -3,7 +3,7 @@ This is auctex, produced by makeinfo version 4.6 from auc-tex.texi.
 INFO-DIR-SECTION Emacs
 INFO-DIR-SECTION TeX
 START-INFO-DIR-ENTRY
-* AUCTeX: (auctex).      A much enhanced TeX/LaTeX mode for Emacs.
+* AUCTeX: (auctex).     A much enhanced TeX/LaTeX mode for Emacs.
 END-INFO-DIR-ENTRY
 
 
@@ -2281,11 +2281,18 @@ it out with one of these options:
      case, a good value for this option is `~/.xemacs/xemacs-packages',
      as XEmacs looks there for per-user packages by default.
 
-`--with-texmf-dir=/DIR'
-     This option can be used to specify the location of the TeX TDS
-     directory hierarchy resides. It is not necessary for most TeX
-     installs, but may be used if you don't like the directory that
-     configure is suggesting.
+`--with-tex-input-dirs=/DIR-1/;/DIR-2/;...;/DIR-N/'
+     This option allows to specify the directories to be used for file
+     searches, e.g. for completion of LaTeX or BibTeX style file names.
+     They will be used in the variable `TeX-macro-global'.
+
+     Normally only the subdirectories `tex/' and `bibtex/bst/' below
+     the used texmf trees should be relevant.  Putting the roots of
+     texmf trees here is possible but may slow down file searching.
+
+     The directories should be separated by semicolons and each has to
+     end with a directory separator, i.e. a slash or a backslash
+     respectively.
 
 `--with-auto-dir=/DIR'
      You can use this option to specify the directory containing
@@ -2533,13 +2540,6 @@ resolve the issues involved. Please report success/failure to us at
           If you are using XEmacs, of course use `--with-xemacs' in the
           same manner.
 
-    `--with-texmf-dir=DIR'
-          This will specify the directory where your TeX installation
-          sits. If your TeX installation does not conform to the TDS
-          (TeX directory standard), you may need to specify more
-          options to get everything in place. See *Note Configure:: for
-          more information about the available options.
-
     `--with-lispdir=/DIR'
           This may be needed for GNU Emacs installation, but hopefully
           `configure' should figure this out by itself. Don't use this
@@ -2549,6 +2549,22 @@ resolve the issues involved. Please report success/failure to us at
           which gives the location of the package directory for XEmacs
           where stuff should be installed. Again, hopefully this is not
           necessary to specify.
+
+    `--with-tex-input-dirs=/DIR-1/;/DIR-2/;...;/DIR-N/'
+          This option allows to specify the directories to be used for
+          file searches, e.g. for completion of LaTeX or BibTeX style
+          file names.  They will be used in the variable
+          `TeX-macro-global'.
+
+          `configure' will try to determine the right value for this
+          option but will only succeed if it finds the necessary
+          programs of the TeX system in the system path.
+
+    `--with-auto-dir=/DIR'
+          Directory containing automatically generated information.
+
+     Some additional information about the above options may be found in
+     *Note Configure::.
 
   6. If you need to use the prebuilt documentation (see above), now is
      the time to unpack it over the rest of the installation directory.
@@ -3452,63 +3468,63 @@ Concept Index
 
 
 Tag Table:
-Node: Top221
-Node: Copying2790
-Node: Introduction4732
-Node: Frequently Used Commands11465
-Node: Quotes12230
-Node: Font Specifiers15001
-Node: Sectioning16620
-Node: Environments20935
-Node: Equations23265
-Node: Floats23857
-Node: Itemize-like25005
-Node: Tabular-like25503
-Node: Customizing environments26087
-Node: Advanced Features26310
-Node: Mathematics26995
-Node: Completion28390
-Node: Commenting31803
-Node: Marking and formatting33139
-Node: Outline38728
-Node: Running TeX and friends40249
-Node: Commands41004
-Node: Viewing45295
-Node: Debugging47218
-Node: Checking48420
-Node: Control49741
-Node: Multifile50450
-Node: Parsing Files55140
-Node: I18n59464
-Node: European59982
-Node: Japanese62400
-Node: Automatic64192
-Node: Automatic Global66674
-Node: Automatic Private67833
-Node: Automatic Local69066
-Node: Style Files70135
-Node: Simple Style70926
-Node: Adding Macros72058
-Node: Adding Environments77618
-Node: Adding Other80186
-Node: Hacking the Parser80754
-Node: Installation84688
-Node: Prerequisites85297
-Node: Configure86173
-Node: Build/install88847
-Node: Loading the package89295
-Node: Advice for package providers90741
-Node: Advice for non-privileged users92031
-Node: Installation under MS Windows96048
-Node: Customizing100440
-Node: History102984
-Node: ToDo106791
-Node: Mid-term Goals107317
-Node: Wishlist108407
-Node: Bugs114343
-Node: Key Index115728
-Node: Function Index117970
-Node: Variable Index121924
-Node: Concept Index126123
+Node: Top220
+Node: Copying2789
+Node: Introduction4731
+Node: Frequently Used Commands11464
+Node: Quotes12229
+Node: Font Specifiers15000
+Node: Sectioning16619
+Node: Environments20934
+Node: Equations23264
+Node: Floats23856
+Node: Itemize-like25004
+Node: Tabular-like25502
+Node: Customizing environments26086
+Node: Advanced Features26309
+Node: Mathematics26994
+Node: Completion28389
+Node: Commenting31802
+Node: Marking and formatting33138
+Node: Outline38727
+Node: Running TeX and friends40248
+Node: Commands41003
+Node: Viewing45294
+Node: Debugging47217
+Node: Checking48419
+Node: Control49740
+Node: Multifile50449
+Node: Parsing Files55139
+Node: I18n59463
+Node: European59981
+Node: Japanese62399
+Node: Automatic64191
+Node: Automatic Global66673
+Node: Automatic Private67832
+Node: Automatic Local69065
+Node: Style Files70134
+Node: Simple Style70925
+Node: Adding Macros72057
+Node: Adding Environments77617
+Node: Adding Other80185
+Node: Hacking the Parser80753
+Node: Installation84687
+Node: Prerequisites85296
+Node: Configure86172
+Node: Build/install89205
+Node: Loading the package89653
+Node: Advice for package providers91099
+Node: Advice for non-privileged users92389
+Node: Installation under MS Windows96406
+Node: Customizing101109
+Node: History103653
+Node: ToDo107460
+Node: Mid-term Goals107986
+Node: Wishlist109076
+Node: Bugs115012
+Node: Key Index116397
+Node: Function Index118639
+Node: Variable Index122593
+Node: Concept Index126792
 
 End Tag Table

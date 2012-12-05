@@ -1,3 +1,51 @@
+2004-05-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/install.texi (Configure): Remove unused option
+	`--with-texmf-dir'.  Document new option `--with-tex-input-dirs'.
+
+	* doc/wininstall.texi: Ditto.  Add information about new option
+	`--with-auto-dir'.
+
+2004-05-25  David Kastrup  <dak@gnu.org>
+
+	* doc/auc-tex.texi: Change dired formatting, adapt copyrights
+	according to the assignment process.
+
+2004-05-24  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-backward-paragraph): Recognize if point is at
+	the end of a line when the test for a macro following a paragraph
+	command is carried out.
+
+2004-05-23  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-doctex-^^A): Add mistakenly deleted
+	space again.
+
+2004-05-21  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* style/graphicx.el (TeX-string-divide-number-unit): Renamed from
+	misspelled `TeX-string-divide-nuber-unit'.  Reformat file.  Fix
+	some doc-strings and comments.
+
+2004-05-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* aclocal.m4 (TEX_INPUT_DIRS): New help string.  Better error
+	handling.
+
+2004-05-19  David Kastrup  <dak@gnu.org>
+
+	* aclocal.m4: Comment EMACS_LISP.
+	(EMACS_TEST_LISPDIR): remove both trailing backslash and slash.
+
+2004-05-19  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* latex.el (LaTeX-fill-move-to-break-point): Prevent infinite loop
+	in lines starting with whitespace.
+	(LaTeX-forward-paragraph): Don't consider paragraph commands
+	followed directly by a TeX macro as part of an adjacent paragraph.
+	(LaTeX-backward-paragraph): Ditto.
+
 2004-05-18  Davide G. M. Salvetti  <salve@debian.org>
 
 	* aclocal.m4 (AUCTEX_AUTO_DIR): Change `autodir' default to
