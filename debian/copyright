@@ -70,7 +70,7 @@ License: tobeclarified
 
 Files: style/dk.el style/dutch.el style/plfonts.el style/plhb.el
   style/virtex.el
-Copyright: amanda
+Copyright: Per Abrahamsen
 License: tobeclarified
 
 Files: style/dinbrief.el
