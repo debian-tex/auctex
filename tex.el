@@ -553,7 +553,7 @@ Full documentation will be available after autoloading the function."
 
 (defconst AUCTeX-version (eval-when-compile
   (let ((name "$Name:  $")
-	(rev "$Revision: 5.369 $"))
+	(rev "$Revision: 5.385 $"))
     (or (when (string-match "\\`[$]Name: *\\(release_\\)?\\([^ ]+\\) *[$]\\'"
 			    name)
 	  (setq name (match-string 2 name))
@@ -568,7 +568,7 @@ If not a regular release, CVS revision of `tex.el'.")
 
 (defconst AUCTeX-date
   (eval-when-compile
-    (let ((date "$Date: 2004/05/14 12:41:55 $"))
+    (let ((date "$Date: 2004/06/14 15:01:22 $"))
       (string-match
        "\\`[$]Date: *\\([0-9]+\\)/\\([0-9]+\\)/\\([0-9]+\\)"
        date)
@@ -600,8 +600,17 @@ In the form of yyyy.mmdd")
   :group 'TeX-output
   :type 'boolean)
 
-(defcustom TeX-source-specials-active-flag nil
-  "*Non-nil means generate and use LaTeX source specials.
+(defvar TeX-source-specials-map
+  (let ((map (make-sparse-keymap)))
+    ;; (if (featurep 'xemacs)
+    ;;	   (define-key map [(control button1)] #'TeX-view-mouse)
+    ;;   (define-key map [C-down-mouse-1] #'TeX-view-mouse))
+    map)
+  "Keymap for `TeX-source-specials' mode.
+You could use this for unusual mouse bindings.")
+
+(define-minor-mode TeX-source-specials
+  "Minor mode for generating and using LaTeX source specials.
 
 If enabled, an option that inserts source specials into the DVI
 file is added to the LaTeX commmand line and the DVI viewer is
@@ -620,7 +629,15 @@ details."
   :group 'TeX-command
   ;; FIXME: There's nothing about source-specials there yet:
   ;; :link '(custom-manual "(auctex)Viewing")
-  :type 'boolean)
+  :lighter (TeX-mode-p "^")
+  :global t
+  (set-keymap-parent TeX-mode-map
+		     (and TeX-source-specials
+			  TeX-source-specials-map)))
+
+(setq minor-mode-map-alist (delq
+		       (assq 'TeX-source-specials minor-mode-map-alist)
+		       minor-mode-map-alist))
 
 (defcustom TeX-source-specials-tex-flags "-src-specials"
   "Extra flags to pass to TeX commands to generate source specials."
@@ -658,9 +675,9 @@ If nil, use (La)TeX's defaults."
 
 (defun TeX-source-specials-expand-options ()
   "Return source specials command line option for TeX commands.
-The return value depends on the value of `TeX-source-specials-active-flag'.
+The return value depends on the value of `TeX-source-specials'.
 If this is nil, an empty string will be returned."
-  (if TeX-source-specials-active-flag
+  (if TeX-source-specials
       (concat
        TeX-source-specials-tex-flags
        (if TeX-source-specials-places
@@ -701,6 +718,7 @@ Must be the car of an entry in `TeX-command-list'."
 (autoload 'TeX-region-create "tex-buf" no-doc nil)
 (autoload 'TeX-save-document "tex-buf" no-doc t)
 (autoload 'TeX-home-buffer "tex-buf" no-doc t)
+(autoload 'TeX-pin-region "tex-buf" no-doc t)
 (autoload 'TeX-command-region "tex-buf" no-doc t)
 (autoload 'TeX-command-buffer "tex-buf" no-doc t)
 (autoload 'TeX-command-master "tex-buf" no-doc t)
@@ -976,19 +994,17 @@ Examples:
       (TeX-split-string \"\:\" \"abc:def:ghi\")
 	  -> (\"abc\" \"def\" \"ghi\")
 
-      (TeX-split-string \" *\" \"dvips -Plw -p3 -c4 testfile.dvi\")
+      (TeX-split-string \" +\" \"dvips  -Plw -p3 -c4 testfile.dvi\")
 
 	  -> (\"dvips\" \"-Plw\" \"-p3\" \"-c4\" \"testfile.dvi\")
 
 If REGEXP is nil, or \"\", an error will occur."
 
-  (let ((start 0)
-	(result '()))
-    (while (string-match regexp string start)
-      (let ((match (string-match regexp string start)))
-	(setq result (cons (substring string start match) result))
-	(setq start (match-end 0))))
-    (setq result (cons (substring string start nil) result))
+  (let ((start 0) result match)
+    (while (setq match (string-match regexp string start))
+      (push (substring string start match) result)
+      (setq start (match-end 0)))
+    (push (substring string start) result)
     (nreverse result)))
 
 (defun TeX-parse-path (env)
@@ -1004,7 +1020,7 @@ If REGEXP is nil, or \"\", an error will occur."
       (setq entry (car entries))
       (setq entries (cdr entries))
       (setq entry (file-name-as-directory
-		   (if (string-match "/?/?\\'$" entry)
+		   (if (string-match "/?/?\\'" entry)
 		       (substring entry 0 (match-beginning 0))
 		     entry)))
       (or (not (file-name-absolute-p entry))
@@ -1315,22 +1331,40 @@ Or alternatively:
   :group 'TeX-macro
   :type 'string)
 
- (make-variable-buffer-local 'TeX-default-macro)
+(make-variable-buffer-local 'TeX-default-macro)
 
 (defcustom TeX-insert-braces t
   "*If non-nil, append a empty pair of braces after inserting a macro."
   :group 'TeX-macro
   :type 'boolean)
 
-(defcustom TeX-no-braces-modes '(texinfo-mode)
-  "List of modes where braces are not useful."
+(defcustom TeX-insert-macro-default-style 'show-optional-args
+  "Specifies whether `TeX-insert-macro' will ask for all optional arguments.
+
+If set to the symbol `show-optional-args', `TeX-insert-macro' asks for
+optional arguments of TeX marcos.  If set to `mandatory-args-only',
+`TeX-insert-macro' asks only for mandatory argument.
+
+When `TeX-insert-macro' is called with \\[universal-argument], it's the other
+way round.
+
+Note that for some macros, there are special mechanisms, see e.g.
+`LaTeX-includegraphics-options-alist'."
   :group 'TeX-macro
-  :type '(repeat (symbol :tag "Mode")))
+  :type '(choice (const mandatory-args-only)
+		 (const show-optional-args)))
 
 (defun TeX-insert-macro (symbol)
   "Insert TeX macro SYMBOL with completion.
 
-AUCTeX knows of some macros, and may query for extra arguments."
+AUCTeX knows of some macros and may query for extra arguments, depending on
+the value of `TeX-insert-macro-default-style' and whether `TeX-insert-macro'
+is called with \\[universal-argument]."
+  ;; When called with a prefix (C-u), only ask for mandatory arguments,
+  ;; i.e. all optional arguments are skipped.  See `TeX-parse-arguments' for
+  ;; details.  Note that this behavior may be changed in favor of a more
+  ;; flexible solution in the future, therefore we don't document it at the
+  ;; moment.
   (interactive (list (completing-read (concat "Macro (default "
 					      TeX-default-macro
 					      "): "
@@ -1342,12 +1376,11 @@ AUCTeX knows of some macros, and may query for extra arguments."
 	 (setq TeX-default-macro symbol)))
   (TeX-parse-macro symbol (cdr-safe (assoc symbol (TeX-symbol-list)))))
 
-(defvar TeX-electric-macro-map nil)
-
-(if TeX-electric-macro-map
-    ()
-  (setq TeX-electric-macro-map (copy-keymap minibuffer-local-completion-map))
-  (define-key TeX-electric-macro-map " " 'minibuffer-complete-and-exit))
+(defvar TeX-electric-macro-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map minibuffer-local-completion-map)
+    (define-key map " " 'minibuffer-complete-and-exit)
+    map))
 
 (defun TeX-electric-macro ()
   "Insert TeX macro with completion.
@@ -1441,7 +1474,17 @@ INITIAL-INPUT is a string to insert before reading input."
   "Parse TeX macro arguments ARGS.
 
 See `TeX-parse-macro' for details."
-  (let ((last-optional-rejected nil))
+  (let ((last-optional-rejected nil)
+	skip-opt)
+    ;; Maybe get rid of all optional arguments.  See `TeX-insert-macro' for
+    ;; more comments.  See `TeX-insert-macro-default-style'.
+    (when (or (and (eq TeX-insert-macro-default-style 'show-optional)
+		   (equal current-prefix-arg '(4)))
+	      (and (eq TeX-insert-macro-default-style 'mandatory-only)
+		   (null (equal current-prefix-arg '(4)))))
+      (while (vectorp (car args))
+	(setq args (cdr args))))
+
     (while args
       (if (vectorp (car args))
 	  (if last-optional-rejected
@@ -1525,6 +1568,29 @@ Unless optional argument COMPLETE is non-nil, ``: '' will be appended."
 	  (if prompt prompt default)
 	  (if complete "" ": ")))
 
+(defun TeX-string-divide-number-unit (string)
+  "Divide number and unit in STRING.
+Return the number as car and unit as cdr."
+  (if (string-match "[0-9]*\\.?[0-9]+" string)
+      (list (substring string 0 (string-match "[^.0-9]" string))
+	    (substring string (if (string-match "[^.0-9]" string)
+				  (string-match "[^.0-9]" string)
+				(length string))))
+    (list "" string)))
+
+(defcustom TeX-default-unit-for-image "cm"
+  "Default unit when prompting for an image size."
+  :group 'TeX-macro
+  :type '(choice (const "cm")
+		 (const "in")
+		 (const "\\linewidth")
+		 (string :tag "Other")))
+
+(defun TeX-arg-maybe (symbol list form)
+  "Evaluates FORM, if SYMBOL is an element of LIST."
+  (when (memq symbol list)
+    (eval form)))
+
 ;;; The Mode
 
 (defvar TeX-format-list
@@ -1607,7 +1673,7 @@ The algorithm is as follows:
 See info under AUCTeX for documentation.
 
 Special commands:
-\\{TeX-mode-map}
+\\{plain-TeX-mode-map}
 
 Entering `plain-tex-mode' calls the value of `text-mode-hook',
 then the value of `TeX-mode-hook', and then the value
@@ -1636,9 +1702,14 @@ Choose `ignore' if you don't want AUCTeX to install support for font locking."
 		(function-item ignore)
 		(function :tag "Other")))
 
+(defvar TeX-mode-p nil
+  "This indicates a TeX mode being active.")
+(make-variable-buffer-local 'TeX-mode-p)
+
 (defun VirTeX-common-initialization ()
   "Perform basic initialization."
   (kill-all-local-variables)
+  (setq TeX-mode-p t)
   (setq local-abbrev-table text-mode-abbrev-table)
   (setq indent-tabs-mode nil)
 
@@ -2321,8 +2392,7 @@ EXTENSIONS defaults to `TeX-file-extensions'."
 
 (defcustom TeX-kpathsea-path-delimiter t
   "Path delimiter for kpathsea output.
-T means autodetect,
-NIL means kpathsea is disabled."
+t means autodetect, nil means kpathsea is disabled."
   :group 'TeX-file
   :type '(choice (const ":")
 		 (const ";")
@@ -2661,59 +2731,72 @@ be bound to `TeX-electric-macro'."
   :group 'TeX-macro
   :type 'boolean)
 
-(defvar TeX-mode-map nil
+(defcustom TeX-newline-function 'newline
+  "Function to be called upon pressing `RET'."
+  :group 'TeX-indentation
+  :type '(choice (const newline)
+		 (const newline-and-indent)
+		 (const reindent-then-newline-and-indent)
+		 (sexp :tag "Other")))
+
+(defun TeX-newline ()
+  "Call the function specified by the variable `TeX-newline-function'."
+  (interactive) (funcall TeX-newline-function))
+
+(defvar TeX-mode-map
+  (let ((map (make-sparse-keymap)))
+    ;; Standard
+    ;; (define-key map "\177"     'backward-delete-char-untabify)
+    (define-key map "\C-c}"    'up-list)
+    (define-key map "\C-c#"    'TeX-normal-mode)
+    (define-key map "\C-c\C-n" 'TeX-normal-mode)
+    (define-key map "\C-c?"    'describe-mode)
+    (define-key map "\C-c\C-i" 'TeX-goto-info-page)
+    (define-key map "\r"       'TeX-newline)
+    
+    ;; From tex.el
+    (define-key map "\""       'TeX-insert-quote)
+    (define-key map "$"        'TeX-insert-dollar)
+    ;; Removed because LaTeX 2e have a better solution to italic correction.
+    ;; (define-key map "."        'TeX-insert-punctuation)
+    ;; (define-key map ","        'TeX-insert-punctuation)
+    (define-key map "\C-c{"    'TeX-insert-braces)
+    (define-key map "\C-c\C-f" 'TeX-font)
+    (define-key map "\C-c\C-m" 'TeX-insert-macro)
+    (if TeX-electric-escape
+	(define-key map "\\" 'TeX-electric-macro))
+    (define-key map "\e\t"   'TeX-complete-symbol) ;*** Emacs 19 way
+    
+    (define-key map "\C-c'"    'TeX-comment-or-uncomment-paragraph) ;*** Old way
+    (define-key map "\C-c:"    'TeX-comment-or-uncomment-region) ;*** Old way
+    (define-key map "\C-c\""   'TeX-uncomment) ;*** Old way
+    
+    (define-key map "\C-c;"    'TeX-comment-or-uncomment-region)
+    (define-key map "\C-c%"    'TeX-comment-or-uncomment-paragraph)
+    
+    (define-key map "\C-c\C-t\C-s"   'TeX-source-specials)
+    (define-key map "\C-c\C-t\C-r"   'TeX-pin-region)
+    (define-key map "\C-c\C-v" 'TeX-view)
+    ;; From tex-buf.el
+    (define-key map "\C-c\C-d" 'TeX-save-document)
+    (define-key map "\C-c\C-r" 'TeX-command-region)
+    (define-key map "\C-c\C-b" 'TeX-command-buffer)
+    (define-key map "\C-c\C-c" 'TeX-command-master)
+    (define-key map "\C-c\C-k" 'TeX-kill-job)
+    (define-key map "\C-c\C-l" 'TeX-recenter-output-buffer)
+    (define-key map "\C-c^" 'TeX-home-buffer)
+    (define-key map "\C-c`"    'TeX-next-error)
+    (define-key map "\C-c\C-w" 'TeX-toggle-debug-boxes)
+    
+    ;; Multifile
+    (define-key map "\C-c_" 'TeX-master-file-ask)  ;*** temporary
+    map)
   "Keymap for common TeX and LaTeX commands.")
 
-(if TeX-mode-map
-    ()
-  (setq TeX-mode-map (make-sparse-keymap))
-
-  ;; Standard
-  ;; (define-key TeX-mode-map "\177"     'backward-delete-char-untabify)
-  (define-key TeX-mode-map "\C-c}"    'up-list)
-  (define-key TeX-mode-map "\C-c#"    'TeX-normal-mode)
-  (define-key TeX-mode-map "\C-c\C-n" 'TeX-normal-mode)
-  (define-key TeX-mode-map "\C-c?"    'describe-mode)
-  (define-key TeX-mode-map "\C-c\C-i" 'TeX-goto-info-page)
-
-  ;; From tex.el
-  (define-key TeX-mode-map "\""       'TeX-insert-quote)
-  (define-key TeX-mode-map "$"        'TeX-insert-dollar)
-  ;; Removed because LaTeX 2e have a better solution to italic correction.
-  ;; (define-key TeX-mode-map "."        'TeX-insert-punctuation)
-  ;; (define-key TeX-mode-map ","        'TeX-insert-punctuation)
-  (define-key TeX-mode-map "\C-c{"    'TeX-insert-braces)
-  (define-key TeX-mode-map "\C-c\C-f" 'TeX-font)
-  (define-key TeX-mode-map "\C-c\C-m" 'TeX-insert-macro)
-  (if TeX-electric-escape
-      (define-key TeX-mode-map "\\" 'TeX-electric-macro))
-  (define-key TeX-mode-map "\e\t"   'TeX-complete-symbol) ;*** Emacs 19 way
-
-  (define-key TeX-mode-map "\C-c'"    'TeX-comment-or-uncomment-paragraph) ;*** Old way
-  (define-key TeX-mode-map "\C-c:"    'TeX-comment-or-uncomment-region) ;*** Old way
-  (define-key TeX-mode-map "\C-c\""   'TeX-uncomment) ;*** Old way
-
-  (define-key TeX-mode-map "\C-c;"    'TeX-comment-or-uncomment-region)
-  (define-key TeX-mode-map "\C-c%"    'TeX-comment-or-uncomment-paragraph)
-
-  ;; FIXME: Which key?  -- rs
-  ;; (define-key TeX-mode-map "???"   'TeX-toggle-source-specials)
-
-  ;; From tex-buf.el
-  (define-key TeX-mode-map "\C-c\C-d" 'TeX-save-document)
-  (define-key TeX-mode-map "\C-c\C-r" 'TeX-command-region)
-  (define-key TeX-mode-map "\C-c\C-b" 'TeX-command-buffer)
-  (define-key TeX-mode-map "\C-c\C-c" 'TeX-command-master)
-  (define-key TeX-mode-map "\C-c\C-k" 'TeX-kill-job)
-  (define-key TeX-mode-map "\C-c\C-l" 'TeX-recenter-output-buffer)
-  (define-key TeX-mode-map "\C-c^" 'TeX-home-buffer)
-  (define-key TeX-mode-map "\C-c`"    'TeX-next-error)
-  (define-key TeX-mode-map "\C-c\C-w" 'TeX-toggle-debug-boxes)
-
-  ;; Multifile
-  (define-key TeX-mode-map "\C-c_" 'TeX-master-file-ask)) ;*** temporary
-
-(defvar plain-TeX-mode-map (copy-keymap TeX-mode-map)
+(defvar plain-TeX-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map TeX-mode-map)
+    map)
   "Keymap used in plain TeX mode.")
 
 (defun TeX-mode-specific-command-menu (mode)
@@ -2740,8 +2823,18 @@ be bound to `TeX-electric-macro'."
 	     [ "Region" TeX-command-select-region
 	       :keys "C-c C-r" :style radio
 	       :selected (eq TeX-command-current 'TeX-command-region) ])
-	    [ "Source specials" TeX-toggle-source-specials
-	      :style toggle :selected TeX-source-specials-active-flag ])
+	    [ "Pin region" TeX-pin-region
+	      :active (or (if prefix-arg
+			      (<= (prefix-numeric-value prefix-arg) 0)
+			    (and (boundp 'TeX-command-region-begin)
+				 (markerp TeX-command-region-begin)))
+			  (TeX-mark-active))
+	      ;; :visible (eq TeX-command-current 'TeX-command-region)
+	      :style toggle
+	      :selected (and (boundp 'TeX-command-region-begin)
+			     (markerp TeX-command-region-begin))]
+	    [ "Source specials" TeX-source-specials
+	      :style toggle :selected TeX-source-specials ])
 	  (let ((file 'TeX-command-on-current));; is this actually needed?
 	    (mapcar 'TeX-command-menu-entry
 		    (TeX-mode-specific-command-list mode)))))
@@ -2797,18 +2890,12 @@ be bound to `TeX-electric-macro'."
 	["Reset Buffer" TeX-normal-mode t]
 	["Reset AUCTeX" (TeX-normal-mode t) :keys "C-u C-c C-n"]))
 
-(defun TeX-toggle-source-specials ()
-  "Toggle generation and use of LaTeX source specials."
-  (interactive)
-  (setq TeX-source-specials-active-flag
-	(not TeX-source-specials-active-flag))
-  (message "TeX-source-specials-active-flag: %s"
-	   (if TeX-source-specials-active-flag "on" "off")))
-
 ;;; AmSTeX
 
 (defvar AmSTeX-mode-map
-  (copy-keymap TeX-mode-map)
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map TeX-mode-map)
+    map)
   "Keymap used in `AmSTeX-mode'.")
 
 ;; Menu for AmSTeX mode
@@ -2999,12 +3086,37 @@ is given, do not move point to a position less than this value."
   (unless limit (setq limit (point-min)))
   (TeX-forward-comment-skip (- count) limit))
 
+(defun TeX-comment-padding-string ()
+  "Return  comment padding as a string.
+The variable `comment-padding' can hold an integer or a string.
+This function will return the appropriate string representation
+regardless of its data type."
+  (if (integerp comment-padding)
+      (make-string comment-padding ? )
+    comment-padding))
+
 
 ;;; Indentation
 
 (defgroup TeX-indentation nil
   "Indentation of TeX buffers in AUCTeX."
   :group 'AUCTeX)
+
+(defcustom TeX-brace-indent-level 2
+  "*The level of indentation produced by an open brace."
+  :group 'TeX-indentation
+  :type 'integer)
+
+(defun TeX-comment-indent ()
+  "Determine the indentation of a comment."
+  (if (looking-at "%%%")
+      (current-column)
+    (skip-chars-backward " \t")
+    (max (if (bolp) 0 (1+ (current-column)))
+	 comment-column)))
+
+
+;;; Braces
 
 (defun TeX-brace-count-line ()
   "Count number of open/closed braces."
@@ -3024,22 +3136,6 @@ is given, do not move point to a position less than this value."
 	   ((string= "}" (TeX-match-buffer 1))
 	    (setq count (- count TeX-brace-indent-level)))))
 	count))))
-
-(defcustom TeX-brace-indent-level 2
-  "*The level of indentation produced by a open brace."
-  :group 'TeX-indentation
-  :type 'integer)
-
-(defun TeX-comment-indent ()
-  ;; FIXME: Add doc-string.  -- rs
-  (if (looking-at "%%%")
-      (current-column)
-    (skip-chars-backward " \t")
-    (max (if (bolp) 0 (1+ (current-column)))
-	 comment-column)))
-
-
-;;; Braces
 
 (defun TeX-find-closing-brace (&optional arg limit)
   "Return the position of the closing brace in a TeX group.
