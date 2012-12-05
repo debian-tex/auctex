@@ -1,6 +1,19 @@
 News in 9.9
 ===========
 
+   * Bug fix in JLATEX recognition.  Patch by Tsutomu OKUMURA
+     <oku@nml.t.u-tokyo.ac.jp>.
+
+   * Bug fix in foils package sypport.  Suggested by Bernt
+     Guldbrandtsen <bernt@jupiter.ansci.iastate.edu>.
+
+   * Made `make install-contrib' compile the contributed lisp files.
+     Suggested by Nils Ackermann <Nils.Ackermann@math.uni-giessen.de>.
+
+   * In `texinfo-mode', `C-c C-f C-d' now deletes the current font,
+     while `C-u C-c C-f KEY' changes it.  `@dfn' moved to `C-c C-f d'.
+     Suggested by Christoph Wedler <wedler@fmi.uni-passau.de>.
+
    * Fixed some custom types.  Patch by Markus Rost
      <markus.rost@mathematik.uni-regensburg.de>.
 
