@@ -5,7 +5,7 @@
 
 ;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.11
+;; Version: 11.13
 ;; Keywords: wp
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 
 ;;; Code:
 
-(when (< emacs-major-version 20)
+(if (< emacs-major-version 20)
   (error "AUC TeX requires Emacs 20 or later"))
 
 (defvar no-doc

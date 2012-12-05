@@ -1,7 +1,7 @@
 ;;; latex.el --- Support for LaTeX documents.
 ;; 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.11
+;; Version: 11.13
 ;; Keywords: wp
 ;; X-URL: http://sunsite.dk/auctex
 
@@ -886,6 +886,17 @@ Just like array and tabular."
   (delete-horizontal-space)
   (LaTeX-insert-item))
 
+(defun LaTeX-env-contents (environment)
+  "Insert ENVIRONMENT with filename for contents."
+  (save-excursion
+    (when (re-search-backward "^\\\\documentclass.*{" nil t)
+      (error "Put %s environment before \\documentclass" environment)))
+  (LaTeX-insert-environment environment
+			    (concat TeX-grop
+				    (read-string "File: ")
+				    TeX-grcl))
+  (delete-horizontal-space))
+
 ;;; Item hooks
 
 (defvar LaTeX-item-list nil
@@ -1692,7 +1703,9 @@ Prefix arg means justify as well."
 	  (start (progn
 		   (backward-paragraph)
 		   (point))))
-      (LaTeX-fill-region-as-paragraph start end prefix))))
+      (LaTeX-fill-region-as-paragraph start end prefix)))
+  ;; Done.
+  t)
 
 (defun LaTeX-fill-region (from to &optional justify what)
   "Fill and indent each of the paragraphs in the region as LaTeX text.
@@ -2722,7 +2735,8 @@ commands are defined:
     (define-key map "\n"      'reindent-then-newline-and-indent)
     
     ;; From latex.el
-    (define-key map "\eq"     'LaTeX-fill-paragraph) ;*** Alias
+    ;; We now set `fill-paragraph-function' instead.
+    ;; (define-key map "\eq"     'LaTeX-fill-paragraph) ;*** Alias
     ;; This key is now used by Emacs for face settings.
     ;; (define-key map "\eg"     'LaTeX-fill-region) ;*** Alias
     (define-key map "\e\C-e"  'LaTeX-find-matching-end)
@@ -3052,6 +3066,8 @@ of `LaTeX-mode-hook'."
   (set-syntax-table LaTeX-mode-syntax-table)
   (make-local-variable 'indent-line-function)
   (setq indent-line-function 'LaTeX-indent-line)
+  (make-local-variable 'fill-paragraph-function)
+  (setq fill-paragraph-function 'LaTeX-fill-paragraph)
   (use-local-map LaTeX-mode-map)
   (easy-menu-add TeX-mode-menu LaTeX-mode-map)
   (easy-menu-add LaTeX-mode-menu LaTeX-mode-map)
@@ -3292,7 +3308,7 @@ of `LaTeX-mode-hook'."
    '("hspace" "Length")
    '("mbox" t)
    '("newsavebox" TeX-arg-define-savebox)
-   '("parbox" [ TeX-arg-tb] "Width" t)
+   '("parbox" [ TeX-arg-tb ] "Width" t)
    '("raisebox" "Raise" [ "Height above" ] [ "Depth below" ] t)
    '("rule" [ "Raise" ] "Width" "Thickness")
    '("sbox" TeX-arg-define-savebox t)
@@ -3329,7 +3345,41 @@ of `LaTeX-mode-hook'."
    "hline" "vline" "cline" "thinlines" "thicklines" "and" "makeindex"
    "makeglossary" "reversemarginpar" "normalmarginpar"
    "raggedbottom" "flushbottom" "sloppy" "fussy" "newpage"
-   "clearpage" "cleardoublepage" "twocolumn" "onecolumn")
+   "clearpage" "cleardoublepage" "twocolumn" "onecolumn"
+
+   ;; Added 24/10/2002
+   "TeX" "maketitle" "tableofcontents" "listoffigures" "listoftables"
+   "tiny" "scriptsize" "footnotesize" "small"
+   "normalsize" "large" "Large" "LARGE" "huge" "Huge"
+   "pounds" "copyright"
+   "hfil" "hfill" "vfil" "vfill" "hrulefill" "dotfill"
+   "indent" "noindent" "today")
+
+  (when (string-equal LaTeX-version "2e")
+    (LaTeX-add-environments
+     '("filecontents" LaTeX-env-contents)
+     '("filecontents*" LaTeX-env-contents))
+
+    (TeX-add-symbols
+     '("enlargethispage" "Length")
+     '("enlargethispage*" "Length")
+     '("tabularnewline" [ "Length" ])
+     '("suppressfloats" [ TeX-arg-tb "Suppress floats position" ])
+     '("ensuremath" "Math commands")
+     '("textsuperscript" "Text")
+     '("textcircled" "Text")
+
+     "LaTeXe"
+     "listfiles" "frontmatter" "mainmatter" "backmatter"
+     "textcompwordmark" "textvisiblespace" "textemdash" "textendash" 
+     "textexclamdown" "textquestiondown" "textquotedblleft"
+     "textquotedblright" "textquoteleft" "textquoteright"
+     "textbullet" "textperiodcentered"
+     "textbackslash" "textbar" "textless" "textgreater"
+     "textasciicircum" "textasciitilde"
+     "textregistered" "texttrademark"
+     "rmfamily" "sffamily" "ttfamily" "mdseries" "bfseries"
+     "itshape" "slshape" "upshape" "scshape"))
 
   (TeX-run-style-hooks "LATEX")
 

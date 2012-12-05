@@ -1,7 +1,7 @@
 ;;; tex.el --- Support for TeX documents.
 
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.11
+;; Version: 11.13
 ;; Keywords: wp
 ;; X-URL: http://sunsite.dk/auctex
 
@@ -264,7 +264,7 @@ printer.  It defaults to the value of TeX-print-command.
 The third element is the command used to examine the print queue for
 this printer.  It defaults to the value of TeX-queue-command.
 
-Any occurence of `%p' in the second or third element is expanded to
+Any occurrence of `%p' in the second or third element is expanded to
 the printer name given in the first element, then ordinary expansion
 is performed as specified in TeX-expand-list."
   :group 'TeX-command
@@ -429,10 +429,10 @@ Full documentation will be available after autoloading the function."
 ;; These two variables are automatically updated with "make dist", so
 ;; be careful before changing anything.
 
-(defconst AUC-TeX-version "11.11"
+(defconst AUC-TeX-version "11.13"
   "AUC TeX version number.")
 
-(defconst AUC-TeX-date "Thu Jan 24 10:52:34 CET 2002"
+(defconst AUC-TeX-date "Mon Nov 25 15:40:14 MET 2002"
   "AUC TeX release date.")
 
 ;;; Buffer
@@ -587,7 +587,7 @@ the beginning of the file, but that feature will be phased out."
 		(TeX-add-local-master))))
 
 	 ;; Is this a master file?
-	 ((re-search-forward TeX-header-end 10000 t)
+	 ((and TeX-header-end (re-search-forward TeX-header-end 10000 t))
 	  (setq TeX-master my-name))
 
 	 ;; Ask the user (but add it as a local variable).
@@ -997,13 +997,13 @@ FORCE is not nil."
  (make-variable-buffer-local 'TeX-remove-style-hook)
 
 (defun TeX-remove-style ()
-  "Remnove all style specific information."
+  "Remove all style specific information."
   (setq TeX-style-hook-applied-p nil)
   (run-hooks 'TeX-remove-style-hooks)
   (setq TeX-active-styles (list TeX-virgin-style)))
 
 (defun TeX-style-list ()
-  "Return a list of all styles (subfils) use by the current document."
+  "Return a list of all styles (subfiles) used by the current document."
   (TeX-update-style)
   TeX-active-styles)
 
@@ -1715,7 +1715,7 @@ If TEX is a directory, generate style files for all files in the directory."
   (cond ((not (file-readable-p tex)))
 	((string-match TeX-ignore-file tex))
         ((file-directory-p tex)
-         (let ((files (directory-files tex))
+         (let ((files (directory-files (expand-file-name tex)))
                (default-directory (concat (if (TeX-directory-absolute-p tex)
                                               ""
                                             default-directory)

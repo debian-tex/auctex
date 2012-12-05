@@ -1,7 +1,7 @@
 ;;; tex-buf.el - External commands for AUC TeX.
 ;;
 ;; Maintainer: Per Abrahamsen <auc-tex@sunsite.dk>
-;; Version: 11.11
+;; Version: 11.13
 
 ;; Copyright (C) 1993, 1996, 2001 Per Abrahamsen 
 ;; Copyright (C) 1991 Kresten Krab Thorup
@@ -1043,7 +1043,8 @@ Prefix by C-u to start from the beginning of the errors.
 If the file occurs in an included file, the file is loaded (if not
 already in an Emacs buffer) and the cursor is placed at the error."
 
-  (let ((old-buffer (current-buffer)))
+  (let ((old-buffer (current-buffer))
+	(default-major-mode major-mode))
     (pop-to-buffer (TeX-active-buffer))
     (if reparse
 	(TeX-parse-reset))
