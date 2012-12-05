@@ -12,7 +12,7 @@ AUC TeX
 
    AUC TeX is an integrated environment for editing LaTeX and TeX files.
 
-   This file documents AUC TeX version 11.01.
+   This file documents AUC TeX version 11.
 
    Although AUC TeX contains a large number of features, there are no
 reasons to despair.  You can continue to write TeX and LaTeX documents
@@ -248,14 +248,11 @@ Availability
 
    The most recent version is always available by ftp at
 
-                   `ftp://ftp.iesd.auc.dk/pub/emacs-lisp/auctex.tar.gz'
-
-   In case you don't have access anonymous ftp, you can get it by email
-requests to `<ftpmail@decwrl.dec.com>'.
+                       <ftp://sunsite.dk/packages/auctex/auctex.tar.gz>
 
    WWW users may want to check out the AUC TeX page at
 
-                               `http://www.iesd.auc.dk/~amanda/auctex/'
+                                            <http://sunsite.dk/auctex/>
 
 Contacts
 ========
@@ -267,19 +264,11 @@ in bursts.  If you are only interested in information on updates, you
 could refer to the newsgroups `comp.text.tex' and `gnu.emacs.sources'.
 
    If you want to contact the AUC TeX mailing list, send mail to
-`<auc-tex-request@iesd.auc.dk>' in order to join.  Articles should be
-sent to `<auc-tex@iesd.auc.dk>'.
+<mailto:auc-tex-subscribe@sunsite.dk> in order to join.  Articles
+should be sent to <mailto:auc-tex@sunsite.dk>.
 
    To contact the current maintainers of AUC TeX directly, email
-`<auc-tex_mgr@iesd.auc.dk>'.
-
-             AUC TeX development
-             c/o Kresten Krab Thorup
-     
-             Mathematics and Computer Science
-             University of Aalborg
-             DK 9000 Aalborg
-             Denmark
+<mailto:auc-tex_mgr@sunsite.dk>.
 
 
 File: auctex,  Node: Frequently Used Commands,  Next: Advanced Features,  Prev: Introduction,  Up: Top

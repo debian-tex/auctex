@@ -89,6 +89,9 @@ Variable Index
 
 * Menu:
 
+* japanese-LaTeX-command-default:        Japanese.
+* japanese-LaTeX-default-style:          Japanese.
+* japanese-TeX-command-default:          Japanese.
 * LaTeX-auto-label-regexp-list:          Parsing Files.
 * LaTeX-auto-minimal-regexp-list:        Parsing Files.
 * LaTeX-auto-regexp-list:                Parsing Files.
@@ -122,6 +125,7 @@ Variable Index
 * TeX-command-list <1>:                  Installation.
 * TeX-command-list:                      Commands.
 * TeX-default-macro:                     Completion.
+* TeX-default-mode:                      Japanese.
 * TeX-display-help:                      Debugging.
 * TeX-electric-escape:                   Completion.
 * TeX-file-recurse:                      Automatic.
@@ -324,7 +328,6 @@ Concept Index
 * Multifile Documents:                   Multifile.
 * Multiple Files:                        Multifile.
 * National letters:                      I18n.
-* NEMACS:                                Japanese.
 * Next error:                            Debugging.
 * Nippon:                                Japanese.
 * Other information, adding:             Adding Other.
@@ -342,6 +345,7 @@ Concept Index
 * Personal information:                  Automatic Private.
 * Personal macro directory:              Automatic Private.
 * Personal TeX macro directory:          Automatic Private.
+* pLaTeX:                                Japanese.
 * Poland:                                European.
 * Prefix for labels <1>:                 Floats.
 * Prefix for labels:                     Sectioning.
@@ -353,6 +357,7 @@ Concept Index
 * Private TeX macro directory:           Automatic Private.
 * Problems:                              Checking.
 * Processes:                             Control.
+* pTeX:                                  Japanese.
 * Quotes:                                Quotes.
 * Redisplay output:                      Control.
 * Reformatting:                          Marking and formatting.

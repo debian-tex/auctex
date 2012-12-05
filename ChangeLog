@@ -1,3 +1,123 @@
+2002-01-24  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 11.11 released.
+
+2002-01-24  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex.el (TeX-format-list): Support t(article|report|book) class file.
+	Reported by Atsuhito Kohda <kohda@pm.tokushima-u.ac.jp>
+
+	* tex-jp.el (japanese-TeX-command-list): Undo last change.
+	(LaTeX-command-style): Support t(article|report|book) class file.
+	(japanese-LaTeX-style-list): Ditto.
+	Reported by Atsuhito Kohda <kohda@pm.tokushima-u.ac.jp>
+
+2002-01-21  Peter S Galbraith  <psg@debian.org>
+
+	* font-latex.el: Updated to V0.800.
+	Added font-lock-syntactic-keywords to font-lock-defaults to handle
+        verbatim environment, as suggested by Stefan Monnier 5 years ago (!)
+	* bib-cite.el: Updated to V3.17.
+	XEmacs has imenu after all.
+
+2002-01-21  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex.el (TeX-format-list): Fix problem that AUC TeX switch to
+	JLATEX mode if the class file starts with the letter `j'.
+	Reported by Joe Reinhardt <jmr@everest.radiology.uiowa.edu>.
+	
+	* tex-jp.el (japanese-TeX-command-list): Use `%l' instead
+	of [pj]latex command.
+	Patch by Atsuhito Kohda	<kohda@pm.tokushima-u.ac.jp>.
+	(LaTeX-command-style): Support js(article|book).
+
+2002-01-18  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (LaTeX-command-style): Fix comment.
+	Reported by Atsuhito Kohda <kohda@pm.tokushima-u.ac.jp>
+	via. Debian. 
+
+	* latex.el (LaTeX-outline-name): Allow longer names.
+	Reported by "Michael Soulier" <msoulier@nortelnetworks.com>
+	via. Debian.
+
+2001-12-22  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-imenu-create-index-function): Strip text
+	properties. 
+	Reported by Venkatesh Prasad Ranganath <rvprasad@@cis.ksu.edu>.
+
+2001-12-13  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* style/prosper.el: New file.
+	Contributed by Phillip Lord <p.lord@russet.org.uk>.
+	* Makefile (STYLESRC): Added it.
+
+2001-11-27  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 11.10 released.
+
+2001-11-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 11.09 released.
+
+2001-11-26  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* auc-old.el (insert-mode-line): Use `insert' instead of
+	`insert-string'. 
+
+2001-10-27  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* latex.el (LaTeX-ignore-comment-regexp): Doc fix.
+	Reported by Reuben Thomas <rrt@sc3d.org>.
+
+2001-11-16  David Kastrup  <David.Kastrup@t-online.de>
+
+	* tex-buf.el (TeX-process-check): We didn't catch the case where
+	during the question a different process got started in the
+	buffer.  In that case, we just ask again.
+
+2001-11-06  David Kastrup  <David.Kastrup@t-online.de>
+
+	* tex-buf.el (TeX-command-sentinel): insert post-mortem info
+	before any markers in order to keep markers/point at end of file.
+
+2001-11-02  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* style/graphicx.el (TeX-arg-includegraphics): Accept prefix
+	argument and find all files. dvipdfm image file support.
+
+2001-10-19  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex-jp.el (japanese-TeX-command-list): Fixed for mendex.
+	* doc/auc-tex.texi (Japanese): Doc fix.
+	
+2001-10-17  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 11.08 released.
+
+2001-10-17  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* doc/intro.texi, doc/install.texi: Updated contact info.
+	Reported by Henrik Holm <h.holm@spray.no>.
+
+2001-10-16  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* Version 11.07 released.
+
+2001-10-16  Per Abrahamsen  <abraham@dina.kvl.dk>
+
+	* tex.el (VirTeX-common-initialization): Set `comment-add' in
+	order to get "%%" by default by comment region like Lisp mode.
+	Suggested by "Davide G. M. Salvetti" <salve@debian.org>.
+	Change `comment-indent-hook' to `comment-indent-function'.
+
+	
+2001-10-15  Peter S Galbraith  <psg@debian.org>
+
+	* font-latex.el: Remove self-installation to LaTeX-mode-hook now
+	that TeX-install-font-lock does it.
+
 2001-10-15  Per Abrahamsen  <abraham@dina.kvl.dk>
 
 	* Version 11.06 released.
