@@ -1,6 +1,34 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.55
+=============
+
+   * A bug was fixed which lead to the insertion of trailing whitespace
+     during filling.  In particular extra spaces were added to sentence
+     endings at the end of lines.  You can make this whitespace visible
+     by setting the variable `show-trailing-whitespace' to `t'.  If you
+     want to delete all trailing whitespace in a buffer, type `M-x
+     delete-trailing-whitespace RET'.
+
+   * A bug was fixed which lead to a `*Compile-Log*' buffer popping up
+     when the first LaTeX file was loaded in an Emacs session.
+
+   * On some systems the presence of an outdated Emacspeak package lead
+     to the error message `File mode specification error: (error
+     "Variable binding depth exceeds max-specpdl-size")'.  Precautions
+     were added which prevent this error from happening.  But
+     nevertheless, it is advised to upgrade or uninstall the outdated
+     Emacspeak package.
+
+   * The value of `TeX-macro-global' is not determined during
+     configuration anymore but at load time of AUCTeX.  Consequently the
+     associated configuration option `--with-tex-input-dirs' was
+     removed.
+
+   * Support for the LaTeX Japanese classes `jsarticle' and `jsbook'
+     was added.
+
 News in 11.54
 =============
 
@@ -166,7 +194,7 @@ News in 11.50
 
    * Sectioning commands are now shown in a larger font on display
      devices which support such fontification.  The variable
-     `font-latex-title-fontity' can be customized to restore the old
+     `font-latex-title-fontify' can be customized to restore the old
      appearance, i.e. the usage of a different color instead of a
      change in size.
 

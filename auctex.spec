@@ -14,7 +14,7 @@
 
 Summary: 	Enhanced TeX modes for Emacsen
 Name: 		auctex
-Version: 	11.54
+Version: 	11.55
 Release: 	1%{distri}
 License: 	GPL
 Group: 		%{commongroup}
@@ -38,6 +38,7 @@ Summary: 	Enhanced TeX modes for GNU Emacs
 Group:          %{commongroup}
 Requires: 	emacs >= 21
 Obsoletes:      ge_auc emacs-auctex auctex
+Conflicts:      emacspeak < 18
 Provides:       auctex
 
 %description emacs
@@ -87,13 +88,13 @@ echo "; Created for %{name}-%{version}-%{release}.noarch.rpm" >> \
 echo "(require 'tex-site)" >> %{startupfile}
 
 %post emacs
-/sbin/install-info --info-dir=%{_infodir} %{_infodir}/auctex
+/sbin/install-info --info-dir=%{_infodir} %{_infodir}/auctex.info
 
 %preun emacs
 # $1 is the number of versions of this package installed
 # after this uninstallation
 if [ $1 -eq 0 ]; then
-  /sbin/install-info --delete --info-dir=%{_infodir} %{_infodir}/auctex
+  /sbin/install-info --delete --info-dir=%{_infodir} %{_infodir}/auctex.info
   rm -f %{startupfile}
 fi
 %clean
@@ -109,6 +110,12 @@ rm -rf %{buildroot}
 %config %{_datadir}/emacs/site-lisp/tex-site.el
 
 %changelog
+* Fri Jan 21 2005 David Kastrup <dak@gnu.org>
+- Conflict with outdated Emacspeak versions
+
+* Fri Jan 14 2005 David Kastrup <dak@gnu.org>
+- Install and remove auctex.info, not auctex
+
 * Thu Aug 19 2004 David Kastrup <dak@gnu.org>
 - Change tex-site.el to overwriting config file mode.  New naming scheme.
 

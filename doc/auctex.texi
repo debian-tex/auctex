@@ -19,7 +19,7 @@
 @titlepage
 @title @AUCTeX{}
 @subtitle A much enhanced @TeX{}/@LaTeX{} mode for Emacs.
-@subtitle Version 11.54
+@subtitle Version 11.55
 
 @author by Kresten Krab Thorup
 @author updates from 6.1 to 11.13 by Per Abrahamsen
@@ -69,7 +69,7 @@ approved by the Free Software Foundation.
 @AUCTeX{} is an integrated environment for editing @LaTeX{} and
 @TeX{} files.
 
-This file documents @AUCTeX{} version 11.54.
+This file documents @AUCTeX{} version 11.55.
 
 Although @AUCTeX{} contains a large number of features, there are no
 reasons to despair.  You can continue to write @TeX{} and @LaTeX{}
@@ -108,8 +108,10 @@ TeX-submit-bug-report RET} to report bugs if possible.
 
 @end ifnottex
 
+@ifnothtml
 @shortcontents
 @contents
+@end ifnothtml
 
 @menu
 * Copying::                     Copying
@@ -1373,9 +1375,9 @@ Face: @code{font-latex-warning-face}
 
 Sectioning commands are macros like @samp{\chapter} or @samp{\section}.
 For these commands there are two fontification schemes which may be
-selected by customizing the variable @code{font-latex-title-fontity}.
+selected by customizing the variable @code{font-latex-title-fontify}.
 
-@defopt font-latex-title-fontity
+@defopt font-latex-title-fontify
 Per default sectioning commands will be shown in a larger, proportional
 font, which corresponds to the value @samp{height} for this variable.
 The font size varies with the sectioning level, e.g. @samp{\part} will
@@ -2526,12 +2528,6 @@ of @TeX{} and Emacs are needed for Korean, Japanese, and Chinese.
 @cindex ISO 8859 Latin 2
 @cindex Latin 2
 @cindex ANSI
-@cindex Denmark
-@cindex Danish
-@cindex Holland
-@cindex Dutch
-@cindex Germany
-@cindex Poland
 
 First you will need a way to write non-ASCII characters.  You can either
 use macros, or teach @TeX{} about the ISO character sets.  I prefer the
@@ -2566,13 +2562,14 @@ handle a lot of mathematical characters and input methods.
 
 @end table
 
+@cindex ispell
 @AUCTeX{} supports style files for several languages.  Each style file
-may modify some @AUCTeX{} to better support the language, and will run
+may modify @AUCTeX{} to better support the language, and will run
 a language specific hook that will allow you to for example change
 ispell dictionary, or run code to change the keyboard remapping.  The
 following will for example choose a Danish dictionary for documents
-including the @file{dk.sty} file.  This requires parsing to be enabled,
-@pxref{Parsing Files}.
+including @samp{\usepackage[danish]@{babel@}}.
+This requires parsing to be enabled, @pxref{Parsing Files}.
 
 @lisp
 (add-hook 'TeX-language-dk-hook
@@ -2580,14 +2577,43 @@ including the @file{dk.sty} file.  This requires parsing to be enabled,
 @end lisp
 
 The following style files are recognized.
+@c In alphabetic order of the hooks:
+@vindex TeX-language-cz-hook
+@vindex TeX-language-dk-hook
+@vindex TeX-language-nl-hook
+@vindex TeX-language-de-hook
+@vindex TeX-language-it-hook
+@vindex TeX-language-pl-hook
+@vindex TeX-language-sk-hook
+@vindex TeX-language-sv-hook
+@cindex Czech
+@cindex Italy
+@cindex Denmark
+@cindex Danish
+@cindex Holland
+@cindex Dutch
+@cindex Germany
+@cindex Poland
+@cindex Slovakia
+@cindex Sweden
 @table @file
-@item dk
-Runs style hook @code{TeX-language-dk-hook}.
+@item czech
+Runs style hook @code{TeX-language-cz-hook}.  Pressing @key{"} will
+insert @samp{\uv@{} and @samp{@}} depending on context.
+
+@c Is the difference between dk and danish really intented?
+@item danish
+Runs style hook @code{TeX-language-dk-hook}.  Pressing @key{"} will
+insert @samp{"`} and @samp{"'} depending on context.
+@c dk.sty seems to be obsolete, so we don't want to encourage using it.
+@c @item dk
+@c Runs style hook @code{TeX-language-dk-hook}.
 
 @item dutch
 Runs style hook @code{TeX-language-nl-hook}.
 
 @item german
+@itemx ngerman
 Runs style hook @code{TeX-language-de-hook}.  Gives @samp{"} word
 syntax, makes the @key{"} key insert a literal @samp{"}, and pressing it
 twice will give you opening or closing german quotes (@samp{"`} or
@@ -2596,7 +2622,8 @@ twice will give you opening or closing german quotes (@samp{"`} or
 
 @item italian
 Runs style hook @code{TeX-language-it-hook}.  Pressing @key{"} will
-insert @samp{"<} and @samp{">} depending on context.
+insert @samp{"<} (@code{LaTeX-italian-open-quote}) and @samp{">}
+(@code{LaTeX-italian-close-quote}) depending on context.
 
 @item plfonts
 @itemx plhb
@@ -2604,6 +2631,14 @@ Runs style hook @code{TeX-language-pl-hook}.
 Gives  @samp{"} word syntax and makes the @key{"} key insert a literal
 @samp{"}.  Pressing @key{"} twice will insert @samp{"<} or @samp{">}
 depending on context.
+
+@item slovak
+Runs style hook @code{TeX-language-sk-hook}.  Pressing @key{"} will
+insert @samp{\uv@{} and @samp{@}} depending on context.
+
+@item swedish
+Runs style hook @code{TeX-language-sv-hook}.  Pressing @key{"} will
+insert @samp{''}.
 @end table
 
 @node Japanese

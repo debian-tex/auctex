@@ -573,7 +573,9 @@ It may be customized with the following variables:
       (save-excursion
 	(goto-char (mark))
 	(unless (progn (skip-chars-forward " \t") (eolp))
-	  (if (bolp) (newline) (LaTeX-newline))
+	  ;; Use `(insert "\n")' instead of `(newline)' because in contrast
+	  ;; to Emacs, XEmacs moves the mark if `newline' is used.
+	  (if (bolp) (insert "\n") (LaTeX-newline))
 	  (indent-according-to-mode))))
     (when (and LaTeX-insert-into-comments
 	       (looking-at
@@ -1103,7 +1105,17 @@ This is necessary since index entries may contain commands and stuff.")
      (1 2 3) LaTeX-auto-optional)
     ("\\\\DeclareRobustCommand\\*?{?\\\\\\([A-Za-z]+\\)}?\\[\\([0-9]+\\)\\]"
      (1 2) LaTeX-auto-arguments)
-    ("\\\\DeclareRobustCommand\\*?{?\\\\\\([A-Za-z]+\\)}?" 1 TeX-auto-symbol))
+    ("\\\\DeclareRobustCommand\\*?{?\\\\\\([A-Za-z]+\\)}?"
+     1 TeX-auto-symbol)
+    ;; Patterns for commands described in "LaTeX2e font selection" (fntguide)
+    ("\\\\DeclareMath\\(?:Symbol\\|Delimiter\\|Accent\\|Radical\\)\
+{?\\\\\\([A-Za-z]+\\)}?"
+     1 TeX-auto-symbol)
+    ("\\\\\\(Declare\\|Provide\\)Text\
+\\(?:Command\\|Symbol\\|Accent\\|Composite\\){?\\\\\\([A-Za-z]+\\)}?"
+     1 TeX-auto-symbol)
+    ("\\\\Declare\\(?:Text\\|Old\\)FontCommand{?\\\\\\([A-Za-z]+\\)}?"
+     1 TeX-auto-symbol))
   "List of regular expressions matching macros in LaTeX classes and packages.")
 
 (defvar LaTeX-auto-regexp-list
@@ -2419,7 +2431,7 @@ space does not end a sentence, so don't break a line there."
 		  sentence-end-double-space)
 	      (progn
 		(goto-char from)
-		(while (re-search-forward "[.?!][]})\"']*$" nil t)
+		(while (re-search-forward "[.?!][]})\"']*$" to t)
 		  (insert ? ))))
 	  ;; Then change all newlines to spaces.
 	  (let ((point-max (progn
@@ -2900,33 +2912,32 @@ Prefix arg (non-nil third arg JUSTIFY, if called from program)
 means justify as well.  Fourth arg WHAT is a word to be displayed when
 formatting."
   (interactive "*r\nP")
-  (save-restriction
-    (save-excursion
-      (let ((to (set-marker (make-marker) to))
-	    (next-par (make-marker)))
-	(goto-char from)
-	(beginning-of-line)
-	(setq from (point))
-	(catch 'end-of-buffer
-	  (while (and (< (point) to))
-	    (message "Formatting%s ... %d%%"
-		     (or what "")
-		     (/ (* 100 (- (point) from)) (- to from)))
-	    (save-excursion (LaTeX-fill-paragraph justify))
-	    (if (marker-position next-par)
-		(goto-char (marker-position next-par))
-	      (LaTeX-forward-paragraph))
-	    (when (eobp) (throw 'end-of-buffer t))
-	    (LaTeX-forward-paragraph)
-	    (set-marker next-par (point))
-	    (LaTeX-backward-paragraph)
-	    (while (and (not (eobp))
-			(looking-at
-			 (concat "^\\($\\|[ \t]+$\\|[ \t]*"
-				 TeX-comment-start-regexp "+[ \t]*$\\)")))
-	      (forward-line 1))))
-	(set-marker to nil)))
-    (message "Finished")))
+  (save-excursion
+    (let ((to (set-marker (make-marker) to))
+	  (next-par (make-marker)))
+      (goto-char from)
+      (beginning-of-line)
+      (setq from (point))
+      (catch 'end-of-buffer
+	(while (and (< (point) to))
+	  (message "Formatting%s ... %d%%"
+		   (or what "")
+		   (/ (* 100 (- (point) from)) (- to from)))
+	  (save-excursion (LaTeX-fill-paragraph justify))
+	  (if (marker-position next-par)
+	      (goto-char (marker-position next-par))
+	    (LaTeX-forward-paragraph))
+	  (when (eobp) (throw 'end-of-buffer t))
+	  (LaTeX-forward-paragraph)
+	  (set-marker next-par (point))
+	  (LaTeX-backward-paragraph)
+	  (while (and (not (eobp))
+		      (looking-at
+		       (concat "^\\($\\|[ \t]+$\\|[ \t]*"
+			       TeX-comment-start-regexp "+[ \t]*$\\)")))
+	    (forward-line 1))))
+      (set-marker to nil)))
+  (message "Finished"))
 
 (defun LaTeX-find-matching-end ()
   "Move point to the \\end of the current environment.

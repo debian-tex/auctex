@@ -1,3 +1,174 @@
+2005-02-04  David Kastrup  <dak@gnu.org>
+
+	* Version 11.55 released.
+
+	* Makefile.in (tar-ball): 
+
+	* doc/Makefile.in (clean, html/auctex_toc.html, dist): Move HTML
+	stuff into html directory.
+
+2005-02-04  David Kastrup  <dak@gnu.org>
+
+	* RELEASE: Some more Emacspeak blurb.
+
+2005-02-04  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* RELEASE: Make description of changes clearer.
+
+2005-02-04  David Kastrup  <dak@gnu.org>
+
+	* RELEASE (Warning): warn about XEmacs 21.4.16.
+
+2005-02-01  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-search-syntax-table): Give ?\" character punctuation
+	syntax.  Prevents parenthetical characters from being hidden from
+	`TeX-find-opening-brace' if they happen to be enclosed between two
+	quotation marks.
+	Better use whitespace syntax for ?\" as this is the equivalent of
+	a nil entry in the syntax table.
+	(TeX-search-syntax-table): Remove superfluous possibility to
+	specify comment and escape characters as arguments.
+
+2005-02-01  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* doc/changes.texi: Mention support for the jsarticle and jsbook
+	classes.
+
+	* tex-jp.el (japanese-LaTeX-style-list): Added
+	jsclasses (jsarticle and jsbook).
+
+2005-01-31  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* configure.ac: Bump version info to 11.55.
+
+	* auctex.spec (Version): Bump to 11.55.
+	(Release): Reset to 1.
+
+	* doc/tex-ref.tex: Bump version info to 11.55.
+	(Source Display): Adapt information about key bindings to current
+	implementation.
+
+	* doc/auctex.texi: Bump version info to 11.55.
+
+	* doc/changes.texi: Add information about changes in AUCTeX 11.55.
+
+	* RELEASE: Add information about fixed bugs in AUCTeX 11.55.
+
+	* latex.el (LaTeX-fill-region-as-para-do): Limit the search for
+	sentence ends.  Fixes erroneous addition of spaces at places
+	following a paragraph to be filled.
+
+2005-01-31  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* style/jsarticle.el: New file.
+
+	* style/jsbook.el: New file.
+
+	* Makefile.in (STYLESRC): Add them.
+
+2005-01-29  Masayuki Ataka  <ataka@milk.freemail.ne.jp>
+
+	* tex-jp.el (LaTeX-fill-region-as-para-do): Removed.
+
+2005-01-28  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex.el (AUCTeX-date): Use ISO 8601 format.
+	(TeX-submit-bug-report): Include AUCTeX-date when using a
+	non-released version.
+
+2005-01-26  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el: Do not use whitespace syntax for ?~.  Prevents these
+	characters from being deleted during filling.
+
+2005-01-25  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-buf.el: Update header.
+	(TeX-view-output-file): Let `TeX-active-master' return file name
+	without directory.  Fixes viewer not finding output file when
+	being called in a subdirectory.
+	(TeX-active-master): Add new parameter `nondirectory'.  Doc fix.
+
+2005-01-21  David Kastrup  <dak@gnu.org>
+
+	* auctex.spec (Conflicts): Mention the outdated emacspeak from
+	FC3.
+
+2005-01-20  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* font-latex.el (font-latex-set-syntactic-keywords): Do not call
+	`regexp-opt' on empty lists.  Prevents `regexp-opt-group' from
+	entering a loop on installations with an outdated regexp-opt.el.
+
+	* tex-buf.el (TeX-command-region): Pass name of region file
+	without directory to `TeX-command-query' because a test in the
+	latter expects it like that.
+	(TeX-command-query): Doc fix.
+
+2005-01-19  Jan-Ake Larsson  <jalar@mai.liu.se>
+
+	* aclocal.m4, configure.ac: A few small changes to allow sync with
+	preview-latex' aclocal.m4
+
+2005-01-19  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (hack-one-local-variable): Make sure the byte compiler
+	does not barf on `minor-mode-list' by eliminating the reference to
+	this variable.
+
+2005-01-15  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* doc/auctex.texi (top): Restrict to one content listing in HTML
+	output.
+
+	* doc/todo.texi (Wishlist): Remove bug regarding parsing of LaTeX
+	class files.
+
+	* tex.el (TeX-macro-global): New function.
+	(TeX-macro-global): (the variable) Moved here from tex-site.el.in.
+	Use new `TeX-macro-global' function.
+
+	* aclocal.m4 (library): Remove TEX_INPUT_DIRS function.
+
+	* configure.ac (auctexdir): Remove call to TEX_INPUT_DIRS.
+
+	* lpath.el: Setting `TeX-macro-global' is not necessary anymore as
+	it now is in tex.el.
+
+	* tex-site.el.in (TeX-macro-global): Move defcustom to tex.el.
+
+	* doc/install.texi (Configure): Remove documentation of
+	--with-tex-input-dirs.
+
+	* doc/wininstall.texi: Remove documentation of
+	--with-tex-input-dirs.
+
+	* latex.el (LaTeX-insert-environment): Insert a simple newline
+	character instead of using `newline'.  Fixes insertion of
+	environment end at wrong place in XEmacs.
+	(LaTeX-fill-region): Remove superfluous `save-restriction'.
+	(LaTeX-auto-class-regexp-list): Add patterns for commands
+	described in "LaTeX2e font selection" (fntguide).
+
+2005-01-14  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/auctex.texi (European): Document all TeX-language-*-hook
+	variables.  Don't document obsolete `dk.sty'.
+
+2005-01-14  David Kastrup  <dak@gnu.org>
+
+	* auctex.spec: Add and remove auctex.info instead of auctex in
+	info dir.  Bump release to 2 to match upload.
+
+2005-01-13  David Kastrup  <dak@gnu.org>
+
+	* font-latex.el (font-latex-set-title-face)
+	(font-latex-title-fontify): font-latex-title-fontify, not
+	fontity.  fontify, fontify, fontify.
+	* doc/changes.texi: Ditto.
+	* doc/auctex.texi (Font Locking): Ditto.
+
 2005-01-12  David Kastrup  <dak@gnu.org>
 
 	* Version 11.54 released.
