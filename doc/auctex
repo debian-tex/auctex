@@ -1,59 +1,61 @@
 This is Info file auctex, produced by Makeinfo-1.55 from the input file
 auc-tex.texi.
 
+   * AUCTeX::      A much enhanced LaTeX mode for GNU Emacs.   direntry
+
 
 Indirect:
-auctex-1: 87
-auctex-2: 49940
-auctex-3: 97503
+auctex-1: 160
+auctex-2: 49997
+auctex-3: 98938
 
 Tag Table:
 (Indirect)
-Node: Top87
-Node: Copying2654
-Node: Introduction4596
-Node: Frequently Used Commands11610
-Node: Quotes12374
-Node: Font Specifiers14555
-Node: Sectioning16424
-Node: Environments20771
-Node: Floats23063
-Node: Itemize-like24218
-Node: Tabular-like24715
-Node: Customizing environments24989
-Node: Advanced Features25215
-Node: Mathematics25890
-Node: Completion27288
-Node: Commenting30701
-Node: Marking and formatting31920
-Node: Outline35625
-Node: Formatting37405
-Node: Commands38036
-Node: Debugging42292
-Node: Checking43489
-Node: Control44793
-Node: Multifile45491
-Node: Parsing Files49940
-Node: I18n54063
-Node: European54585
-Node: Japanese58660
-Node: Automatic59386
-Node: Automatic Global61741
-Node: Automatic Private62903
-Node: Automatic Local64140
-Node: Style Files65213
-Node: Simple Style66006
-Node: Adding Macros67162
-Node: Adding Environments72740
-Node: Adding Other75313
-Node: Hacking the Parser75884
-Node: Installation79947
-Node: History84258
-Node: Projects84483
-Node: Credit93772
-Node: Key Index95291
-Node: Function Index97503
-Node: Variable Index101392
-Node: Concept Index105284
+Node: Top160
+Node: Copying2727
+Node: Introduction4669
+Node: Frequently Used Commands11682
+Node: Quotes12443
+Node: Font Specifiers14626
+Node: Sectioning16482
+Node: Environments20829
+Node: Floats23121
+Node: Itemize-like24276
+Node: Tabular-like24773
+Node: Customizing environments25047
+Node: Advanced Features25273
+Node: Mathematics25948
+Node: Completion27348
+Node: Commenting30761
+Node: Marking and formatting31980
+Node: Outline35686
+Node: Formatting37466
+Node: Commands38097
+Node: Debugging42353
+Node: Checking43550
+Node: Control44845
+Node: Multifile45545
+Node: Parsing Files49997
+Node: I18n54120
+Node: European54642
+Node: Japanese58713
+Node: Automatic59439
+Node: Automatic Global61794
+Node: Automatic Private62956
+Node: Automatic Local64193
+Node: Style Files65266
+Node: Simple Style66059
+Node: Adding Macros67215
+Node: Adding Environments72793
+Node: Adding Other75366
+Node: Hacking the Parser75937
+Node: Installation80000
+Node: History84311
+Node: Projects85673
+Node: Credit95207
+Node: Key Index96726
+Node: Function Index98938
+Node: Variable Index102827
+Node: Concept Index106719
 
 End Tag Table

@@ -31,9 +31,9 @@ write it -- you can also let it indent and format an entire document.
 It has a special outline feature, which can greatly help you `getting an
 overview' of a document.
 
-   Apart from these special features, AUC TeX provides an large range of
+   Apart from these special features, AUC TeX provides a large range of
 handy Emacs macros, which in several different ways can help you write
-your LaTeX documents fast and painless.
+your LaTeX documents fast and painlessly.
 
    All features of AUC TeX are documented using the GNU Emacs online
 documentation system.  That is, documentation for any command is just a
@@ -46,7 +46,7 @@ itself).  AUC TeX is distributed under the `GNU Emacs General Public
 License' and may therefore almost freely be copied and redistributed.
 
    The next sections are a short introduction to some `actual' features.
-For further information, refer to the build-in online documentation of
+For further information, refer to the built-in online documentation of
 AUC TeX.
 
 Indentation and formatting
@@ -65,10 +65,10 @@ lets you indent an entire document like the well-known C utility indent
 Completion
 ==========
 
-   By studying your `\documentstyle' command (in the top of your
+   By studying your `\documentclass' command (in the top of your
 document), and consulting a precompiled list of (La)TeX symbols from a
 large number of TeX and LaTeX files, AUC TeX is aware of the LaTeX
-commands you should able to use in this particular document.  This
+commands you should be able to use in this particular document.  This
 `knowledge' of AUC TeX is used for two purposes.
 
   1. To make you able to `complete' partly written LaTeX commands. You
@@ -86,7 +86,7 @@ Editing your document
 
    A number of more or less intelligent keyboard macros have been
 defined to aid you editing your document.  The most important are
-listed here below.
+listed below.
 
 `LaTeX-environment'
      (`C-c C-e') Insert a `\begin{}' -- `\end{}' pair as described
@@ -97,7 +97,7 @@ listed here below.
 
 `TeX-font'
      (`C-c C-f C-r', `C-c C-f C-i', `C-c C-f C-b') Insert one of
-     `{\textrm }'), `{\textit \/}' `{\textbf }' etc.
+     `\textrm{ }'), `\textit{ \/}' `\textbf{ }' etc.
 
    A number of additional functions are available.  But it would be far
 too much to write about here.  Refer to the rest of the AUC TeX
@@ -106,12 +106,12 @@ documentation for further information.
 Running LaTeX
 =============
 
-   When invoking on of the commands `TeX-command-master' (`C-c C-c') or
-`TeX-command-region' (`C-c C-r') LaTeX is run on either the entire
+   When invoking one of the commands `TeX-command-master' (`C-c C-c')
+or `TeX-command-region' (`C-c C-r') LaTeX is run on either the entire
 current document or a given region of it.  The Emacs view is split in
 two, and the output of TeX is printed in the second half of the screen,
 as you may simultaneously continue editing your document.  In case TeX
-found any errors when processing your input you can call the function
+find any errors when processing your input you can call the function
 `TeX-next-error' (`C-c `') which will move the cursor to the first
 given error, and display a short explanatory text along with the
 message TeX gave.  This procedure may be repeated until all errors have
@@ -155,9 +155,9 @@ could refer to the newsgroups `comp.text.tex' and `gnu.emacs.sources'.
 
    If you want to contact the AUC TeX mailing list, send mail to
 `<auc-tex-request@iesd.auc.dk>' in order to join.  Articles should be
-send to `<auc-tex@iesd.auc.dk>'.
+sent to `<auc-tex@iesd.auc.dk>'.
 
-   To contact the current maintainers of auc-TeX directly, email
+   To contact the current maintainers of AUC TeX directly, email
 `<auc-tex_mgr@iesd.auc.dk>'.
 
              AUC TeX development
