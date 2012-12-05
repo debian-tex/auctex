@@ -5,7 +5,7 @@ auc-tex.texi.
 Indirect:
 auctex-1: 87
 auctex-2: 49940
-auctex-3: 97340
+auctex-3: 97503
 
 Tag Table:
 (Indirect)
@@ -50,10 +50,10 @@ Node: Hacking the Parser75884
 Node: Installation79947
 Node: History84258
 Node: Projects84483
-Node: Credit93609
-Node: Key Index95128
-Node: Function Index97340
-Node: Variable Index101229
-Node: Concept Index105121
+Node: Credit93772
+Node: Key Index95291
+Node: Function Index97503
+Node: Variable Index101392
+Node: Concept Index105284
 
 End Tag Table

@@ -963,8 +963,12 @@ some time for emacs lisp hacking, you are encouraged to try to provide a
 solution to one of the following problems.  It might be a good idea to
 mail me first, though.
 
-   *  Filling messes up comments, but only at the end of the file.
-     Reported by uergen Reiss <psy3022@rzbox.uni-wuerzburg.de>.
+   * Command to insert a macrodefinition in the preamble, without moving
+     point from the current location.  Suggested by "Jeffrey C. Ely"
+     <ely@nwu.edu>.
+
+   * Filling messes up comments, but only at the end of the file.
+     Reported by Juergen Reiss <psy3022@rzbox.uni-wuerzburg.de>.
 
    * `C-c C-q C-e' doesn't work properly on nested itemize environments.
      Reported by  "Robert B. Love"  <rlove@raptor.rmNUG.ORG>.
