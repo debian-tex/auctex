@@ -79,6 +79,12 @@ it out with one of these options:
      installs, but may be used if you don't like the directory that
      configure is suggesting.
 
+`--with-auto-dir=/DIR'
+     You can use this option to specify the directory containing
+     automatically generated information.  It is not necessary for most
+     TeX installs, but may be used if you don't like the directory that
+     configure is suggesting.
+
 `--help'
      This is not an option specific to AUCTeX. A number of standard
      options to `configure' exist, and we do not have the room to
@@ -278,7 +284,7 @@ AUCTeX, you will be able to complete on all macros available in the
 standard style files used by your document. To do this, you must set
 this variable to a list of directories where the standard style files
 are located. The directories will be searched recursively, so there is
-no reason to list subsirectories explicitly.
+no reason to list subdirectories explicitly.
 
    You probably also need to change `TeX-command-list' to make sure
 that the commands used for starting TeX, printing, etc. work on your

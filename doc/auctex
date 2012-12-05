@@ -847,7 +847,7 @@ or remove a single `%' respectively.
      solely commented lines.  If AUCTeX should not try to guess if the
      region should be commented or uncommented the commands
      `TeX-comment-region' and `TeX-uncomment-region' can be used to
-     explicitely comment or uncomment the region in concern.
+     explicitly comment or uncomment the region in concern.
 
  - Command: TeX-comment-or-uncomment-paragraph
      (`C-c %') Add or remove `%' from the beginning of each line in the
@@ -1550,15 +1550,15 @@ including the `dk.sty' file.  This requires parsing to be enabled,
      Runs style hook `TeX-language-de-hook'.  Gives  `"' word syntax
      and makes the <"> key insert a literal `"'.
 
+`italian'
+     Runs style hook `TeX-language-it-hook'.  Pressing <"> will insert
+     `«' or `»' depending on context.
+
 `plfonts'
 `plhb'
      Runs style hook `TeX-language-pl-hook'.  Gives  `"' word syntax
      and makes the <"> key insert a literal `"'.  Pressing <"> twice
      will insert `"<' or `">' depending on context.
-
-`italian'
-     Runs style hook `TeX-language-it-hook'.  Pressing <"> will insert
-     `«' or `»' depending on context.
 
 
 File: auctex,  Node: Japanese,  Prev: European,  Up: I18n
@@ -1569,7 +1569,7 @@ Japanese TeX
 To write Japanese text with AUCTeX you need to have versions of TeX and
 Emacs that support Japanese.  There exist at least two variants of TeX
 for Japanese text (jTeX and pTeX), and AUCTeX can be used with MULE
-supported Emacsens.
+supported Emacsen.
 
    To install Japanese support for AUCTeX, copy `tex-jp.el' to AUCTeX
 installed directory.  Next two commands will automatically install
@@ -2287,6 +2287,12 @@ it out with one of these options:
      installs, but may be used if you don't like the directory that
      configure is suggesting.
 
+`--with-auto-dir=/DIR'
+     You can use this option to specify the directory containing
+     automatically generated information.  It is not necessary for most
+     TeX installs, but may be used if you don't like the directory that
+     configure is suggesting.
+
 `--help'
      This is not an option specific to AUCTeX. A number of standard
      options to `configure' exist, and we do not have the room to
@@ -2598,7 +2604,7 @@ AUCTeX, you will be able to complete on all macros available in the
 standard style files used by your document. To do this, you must set
 this variable to a list of directories where the standard style files
 are located. The directories will be searched recursively, so there is
-no reason to list subsirectories explicitly.
+no reason to list subdirectories explicitly.
 
    You probably also need to change `TeX-command-list' to make sure
 that the commands used for starting TeX, printing, etc. work on your
@@ -3463,46 +3469,46 @@ Node: Advanced Features26310
 Node: Mathematics26995
 Node: Completion28390
 Node: Commenting31803
-Node: Marking and formatting33140
-Node: Outline38729
-Node: Running TeX and friends40250
-Node: Commands41005
-Node: Viewing45296
-Node: Debugging47219
-Node: Checking48421
-Node: Control49742
-Node: Multifile50451
-Node: Parsing Files55141
-Node: I18n59465
-Node: European59983
-Node: Japanese62401
-Node: Automatic64194
-Node: Automatic Global66676
-Node: Automatic Private67835
-Node: Automatic Local69068
-Node: Style Files70137
-Node: Simple Style70928
-Node: Adding Macros72060
-Node: Adding Environments77620
-Node: Adding Other80188
-Node: Hacking the Parser80756
-Node: Installation84690
-Node: Prerequisites85299
-Node: Configure86175
-Node: Build/install88586
-Node: Loading the package89034
-Node: Advice for package providers90480
-Node: Advice for non-privileged users91770
-Node: Installation under MS Windows95787
-Node: Customizing100179
-Node: History102723
-Node: ToDo106530
-Node: Mid-term Goals107056
-Node: Wishlist108146
-Node: Bugs114082
-Node: Key Index115467
-Node: Function Index117709
-Node: Variable Index121663
-Node: Concept Index125862
+Node: Marking and formatting33139
+Node: Outline38728
+Node: Running TeX and friends40249
+Node: Commands41004
+Node: Viewing45295
+Node: Debugging47218
+Node: Checking48420
+Node: Control49741
+Node: Multifile50450
+Node: Parsing Files55140
+Node: I18n59464
+Node: European59982
+Node: Japanese62400
+Node: Automatic64192
+Node: Automatic Global66674
+Node: Automatic Private67833
+Node: Automatic Local69066
+Node: Style Files70135
+Node: Simple Style70926
+Node: Adding Macros72058
+Node: Adding Environments77618
+Node: Adding Other80186
+Node: Hacking the Parser80754
+Node: Installation84688
+Node: Prerequisites85297
+Node: Configure86173
+Node: Build/install88847
+Node: Loading the package89295
+Node: Advice for package providers90741
+Node: Advice for non-privileged users92031
+Node: Installation under MS Windows96048
+Node: Customizing100440
+Node: History102984
+Node: ToDo106791
+Node: Mid-term Goals107317
+Node: Wishlist108407
+Node: Bugs114343
+Node: Key Index115728
+Node: Function Index117970
+Node: Variable Index121924
+Node: Concept Index126123
 
 End Tag Table
