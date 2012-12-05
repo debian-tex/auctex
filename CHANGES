@@ -1,6 +1,12 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.54
+=============
+
+   * You can customize the completion for graphic files with
+     `LaTeX-includegraphics-read-file'.
+
 News in 11.53
 =============
 
@@ -9,6 +15,11 @@ News in 11.53
      *Note Mathematics::.
 
    * Bug fixes for XEmacs.
+
+   * Completion for graphic files in the TeX search path has been added.
+
+   * `start' is used for the viewer for MikTeX and fpTeX.
+
 
 News in 11.52
 =============

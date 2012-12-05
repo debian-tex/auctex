@@ -1,3 +1,49 @@
+2004-09-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* latex.el (TeX-arg-input-file): Remove duplicates from the
+	completion list.  Simplify code by using `unless'.
+
+2004-09-08  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (Texinfo-insert-node): New function.
+	(Texinfo-mode-map): Use it.
+
+2004-09-07  Davide G. M. Salvetti  <salve@debian.org>
+
+	* aclocal.m4 (EMACS_LISP): Sync echo output with real emacs
+	invocation.
+
+2004-09-07  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex-info.el (Texinfo-insert-environment): Add a space between
+	inserted "@end" and environment name in case of active region.
+
+2004-09-05  Ralf Angeli  <angeli@iwi.uni-sb.de>
+
+	* tex.el (TeX-search-syntax-table): New function and variable.
+	(TeX-find-balanced-brace): New function.
+	(TeX-find-closing-brace): Use `TeX-find-balanced-brace'.
+	(TeX-find-opening-brace): Ditto.
+	(TeX-find-macro-boundaries): Add `lower-bound' argument.
+	(TeX-find-macro-start-helper): Add `limit' argument.
+	(TeX-find-macro-start): Ditto.
+
+2004-08-31  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* doc/changes.texi: Add `LaTeX-includegraphics-read-file'.
+	Mention use of `start' for MikTeX and fpTeX.
+
+	* latex.el (LaTeX-includegraphics-read-file): New variable.
+
+	* tex.el (TeX-delete-dups): New defun or defalias.
+
+	* style/graphicx.el (LaTeX-includegraphics-read-file-TeX): Renamed
+	from `LaTeX-includegraphics-read-file'.  Remove duplicates using
+	`TeX-delete-dups'.
+	(LaTeX-includegraphics-read-file-relative): Insert relative
+	filename.  From Dan Nicolaescu <dann@ics.uci.edu>.
+	(LaTeX-arg-includegraphics): Use funcall for image-file.
+
 2004-08-28  David Kastrup  <dak@gnu.org>
 
 	* Version 11.53 released.
@@ -324,7 +370,7 @@
 
 	* texmathp.el (texmathp-tex-commands-default): Added \label.
 	Various checkdoc-related fixes.
-	
+
 2004-08-17  Ralf Angeli  <angeli@iwi.uni-sb.de>
 
 	* tex-fold.el (TeX-fold-buffer-type): Use alternative way to
@@ -446,8 +492,8 @@
 
 2004-08-15  Dan Nicolaescu  <dann@ics.uci.edu>
 
-        * latex.el (LaTeX-common-initialization): Don't set
-        `selective-display'.
+	* latex.el (LaTeX-common-initialization): Don't set
+	`selective-display'.
 
 2004-08-15  David Kastrup  <dak@gnu.org>
 
@@ -590,7 +636,7 @@
 	doc/todo.texi: various changes and smaller typos corrected.
 
 	* doc/macros.texi fix problems with PDF links and indexing.
-	
+
 	* configure.in: Check for pdftex, dvips, texi2html, texi2dvi,
 	texi2pdf.
 
@@ -692,7 +738,7 @@
 	stuff.
 
 	* math-ref.tex: removed.
-	
+
 	* doc/Makefile.in (all): Remove math-ref.tex
 
 	* Makefile.in (DOCFILES): Remove math-ref.tex

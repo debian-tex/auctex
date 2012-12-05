@@ -884,7 +884,7 @@ esac
     else
       echo "$as_me: WARNING: no configuration information is in $ac_dir" >&2
     fi
-    cd $ac_popdir
+    cd "$ac_popdir"
   done
 fi
 
@@ -1457,7 +1457,7 @@ echo $ECHO_N "checking if $EMACS is XEmacs... $ECHO_C" >&6
 
   elisp="(if (string-match \"XEmacs\" emacs-version) \"yes\" \"no\")"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   XEMACS="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1484,7 +1484,7 @@ echo $ECHO_N "checking if (X)Emacs is recent enough... $ECHO_C" >&6
 
   elisp="emacs-major-version"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   EMACS_MAJOR_VERSION="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1515,7 +1515,7 @@ library=`echo mule | tr _ -`
   elisp="(condition-case nil (require '$library ) \
 	(error (prog1 nil (message \"$library not found\"))))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   mule="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1547,7 +1547,10 @@ fi
 
 
 
-
+# If needed, VALID_BUILD_DIR may be disabled by setting the environment
+# variable ${DISABLE_VALID_BUILD_DIR}.  Used by the Debian package.
+if ! test "X-${DISABLE_VALID_BUILD_DIR}" = "X-YES"
+  then
   echo "$as_me:$LINENO: checking if build directory is valid" >&5
 echo $ECHO_N "checking if build directory is valid... $ECHO_C" >&6
 
@@ -1555,7 +1558,7 @@ echo $ECHO_N "checking if build directory is valid... $ECHO_C" >&6
 	      (member (file-name-as-directory default-directory) load-path))\
 	 \"no\" \"yes\")"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   valid_build_dir="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1570,6 +1573,7 @@ echo "$as_me: error: Build directory inside load-path!  Aborting!" >&2;}
 echo "${ECHO_T}yes" >&6
   fi
 
+fi
 
     if test ${EMACS_FLAVOR} = xemacs; then
     echo "$as_me:$LINENO: checking for XEmacs package directory" >&5
@@ -1618,7 +1622,7 @@ EOF
 	      package-dir))\
 	\"NONE\"))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((prefix(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "${tmpprefix}" >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((prefix(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "${tmpprefix}" >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((prefix(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "${tmpprefix}" >& 5 2>&1
   packagedir="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1667,7 +1671,7 @@ EOF
 	      package-dir))\
 	\"NONE\"))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((prefix(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "${tmpprefix}" >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((prefix(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "${tmpprefix}" >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((prefix(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "${tmpprefix}" >& 5 2>&1
   packagedir="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1737,7 +1741,7 @@ EOF
 		(setq load-path (cdr load-path)))
 	 (if load-path \"yes\" \"no\"))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
   EMACS_LISPDIR="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1752,11 +1756,11 @@ EOF
   fi
 
        if test "$lispdir" = "NONE"; then
-         # No? Test paths relative to binary
+	 # No? Test paths relative to binary
 
   elisp="(expand-file-name \"..\" invocation-directory)"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))"  >& 5 2>&1
   prefix="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1784,7 +1788,7 @@ EOF
 		(setq load-path (cdr load-path)))
 	 (if load-path \"yes\" \"no\"))"
   OUTPUT=./conftest-$$
-  echo ${EMACS} -batch -no-site-file  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
+  echo ${EMACS} -batch  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
   ${EMACS} -batch  -eval "(let* ((cmdpath(pop command-line-args-left))(x ${elisp})) (write-region (if (stringp x) x (prin1-to-string x)) nil \"${OUTPUT}\"))" "$i" >& 5 2>&1
   EMACS_LISPDIR="`cat ${OUTPUT}`"
   echo "=> ${1}" >& 5 2>&1
@@ -1805,8 +1809,8 @@ EOF
 `";; *) break ;; esac; done
        fi
        if test "$lispdir" = "NONE"; then
-         # No? notify user.
-         { { echo "$as_me:$LINENO: error: Cannot locate lisp directory,
+	 # No? notify user.
+	 { { echo "$as_me:$LINENO: error: Cannot locate lisp directory,
 use  --with-lispdir, --datadir, or possibly --prefix to rectify this" >&5
 echo "$as_me: error: Cannot locate lisp directory,
 use  --with-lispdir, --datadir, or possibly --prefix to rectify this" >&2;}
@@ -3204,11 +3208,6 @@ esac
   *) ac_INSTALL=$ac_top_builddir$INSTALL ;;
   esac
 
-  if test x"$ac_file" != x-; then
-    { echo "$as_me:$LINENO: creating $ac_file" >&5
-echo "$as_me: creating $ac_file" >&6;}
-    rm -f "$ac_file"
-  fi
   # Let's still pretend it is `configure' which instantiates (i.e., don't
   # use $as_me), people would be surprised to read:
   #    /* config.h.  Generated by config.status.  */
@@ -3247,6 +3246,12 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
 	 fi;;
       esac
     done` || { (exit 1); exit 1; }
+
+  if test x"$ac_file" != x-; then
+    { echo "$as_me:$LINENO: creating $ac_file" >&5
+echo "$as_me: creating $ac_file" >&6;}
+    rm -f "$ac_file"
+  fi
 _ACEOF
 cat >>$CONFIG_STATUS <<_ACEOF
   sed "$ac_vpsub

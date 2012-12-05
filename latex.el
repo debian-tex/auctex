@@ -1492,8 +1492,7 @@ May be reset with `C-u \\[TeX-normal-mode]'.")
 
 First optional argument is the promt, the second is a flag.
 If the flag is set, only complete with local files."
-  (if (or TeX-global-input-files local)
-      ()
+  (unless (or TeX-global-input-files local)
     (message "Searching for files...")
     (setq TeX-global-input-files
 	  (mapcar 'list (TeX-search-files (append TeX-macro-private
@@ -1502,13 +1501,13 @@ If the flag is set, only complete with local files."
   (let ((file (if TeX-check-path
 		  (completing-read
 		   (TeX-argument-prompt optionel prompt "File")
-		   (append (mapcar 'list
-				   (TeX-search-files '("./")
-						     TeX-file-extensions
-						     t t))
-			   (if local
-			       nil
-			     TeX-global-input-files)))
+		   (TeX-delete-dups
+		    (append (mapcar 'list
+				    (TeX-search-files '("./")
+						      TeX-file-extensions
+						      t t))
+			    (unless local
+			      TeX-global-input-files))))
 		(read-file-name
 		 (TeX-argument-prompt optionel prompt "File")))))
     (if (null file)
@@ -4698,6 +4697,45 @@ type and should be used for frequently needed combinations."
   "Non-nil means to strip known extensions from image file name."
   :group 'LaTeX-macro
   :type 'boolean)
+
+(defcustom LaTeX-includegraphics-read-file
+  'LaTeX-includegraphics-read-file-TeX
+  "Function for reading \\includegraphics files.
+
+`LaTeX-includegraphics-read-file-TeX' lists all graphic files
+found in the TeX search path.
+
+`LaTeX-includegraphics-read-file-relative' lists all graphic files
+in the master directory and its subdirectories and inserts the
+relative file name.  This option doesn't works with Emacs 21.3 or
+XEmacs.
+
+The custom option `simple' works as
+`LaTeX-includegraphics-read-file-relative' but it lists all kind of
+files.
+
+Inserting the subdirectory in the filename (as
+`LaTeX-includegraphics-read-file-relative') is discouraged by
+`epslatex.ps'."
+;; ,----[ epslatex.ps; Section 12; (page 26) ]
+;; | Instead of embedding the subdirectory in the filename, there are two
+;; | other options
+;; |   1. The best method is to modify the TeX search path [...]
+;; |   2. Another method is to specify sub/ in a \graphicspath command
+;; |      [...].  However this is much less efficient than modifying the
+;; |      TeX search path
+;; `----
+;; See "Inefficiency" and "Unportability" in the same section for more
+;; information.
+  :group 'LaTeX-macro
+  :type '(choice (const :tag "TeX" LaTeX-includegraphics-read-file-TeX)
+		 (const :tag "relative"
+			LaTeX-includegraphics-read-file-relative)
+		 (const :tag "simple" (lambda ()
+					(file-relative-name
+					 (read-file-name "Image file: ")
+					 (TeX-master-directory))))
+		 (function :tag "other")))
 
 (defun LaTeX-imenu-create-index-function ()
   "Imenu support function for LaTeX."
