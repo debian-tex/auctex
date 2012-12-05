@@ -1,18 +1,18 @@
-Installing AUCTeX
-*****************
+1 Installing AUCTeX
+*******************
 
 Installing AUCTeX should be simple: merely `./configure', `make', and
 `make install'. This does not yet activate the package, but merely
 makes it available. See *Note Loading the package:: for the activation.
 Please read through this document fully before installing anything.
+The installation procedure has changed as compared to earlier versions.
+In particular, note that there is some additional information for
+MS Windows installations in the file `INSTALL.windows'.
 
-Prerequisites
-=============
+1.1 Prerequisites
+=================
 
-   * A recent version of Emacs 20 or 21, alternatively XEmacs 20 or 21
-
-     There is additional information for Windows installations in the
-     file `INSTALL.windows'.
+   * A recent version of Emacs 21, alternatively XEmacs 21.
 
    * A working LaTeX installation
 
@@ -29,8 +29,8 @@ Prerequisites
      documentation from Savannah and install it over the main unpacked
      tar archive.
 
-Configure
-=========
+1.2 Configure
+=============
 
 The first step is to configure the source code, telling it where
 various files will be.  To do so, run
@@ -99,14 +99,13 @@ it out with one of these options:
      `--help'.
 
 
-Build/install
-=============
+1.3 Build/install
+=================
 
 Once `configure' has been run, simply enter
 
      make
-
-at the prompt to byte-compile the lisp files, and build the
+   at the prompt to byte-compile the lisp files, and build the
 documentation files. To install the files into the locations chosen
 earlier, type
 
@@ -115,8 +114,8 @@ earlier, type
 You may need special privileges to install, e.g., if you are installing
 into system directories.
 
-Loading the package
-===================
+1.4 Loading the package
+=======================
 
 First you should make sure that AUCTeX gets loaded.  You then need to
 place a few lines in your personal `.emacs' file (or a site-wide
@@ -150,8 +149,8 @@ would instead use, e.g.,
 but we don't mention them here any more since they are not better, and
 people got confused into trying everything at once.
 
-Providing AUCTeX as a package
-=============================
+1.5 Providing AUCTeX as a package
+=================================
 
 As a package provider, you should make sure that your users will be
 served best according to their intentions, and keep in mind that a
@@ -177,8 +176,8 @@ may place the following line in `default.el':
    XEmacs uses a package system.  The default AUCTeX installation
 should cater for everything necessary in that case.
 
-Installation for non-privileged users
-=====================================
+1.6 Installation for non-privileged users
+=========================================
 
 Often people without system administration privileges want to install
 software for their private use.  In that case you need to specify more
@@ -260,53 +259,49 @@ visible.  However, you might want to set `INFOPATH' anyway, for the
 sake of standalone readers outside of XEmacs. (The info files in XEmacs
 are normally in `~/.xemacs/xemacs-packages/info'.)
 
-Customizing
-===========
+1.7 Customizing
+===============
 
-Next, you should edit the file `tex-site.el' to fit your local site.
-You do this by looking at the customization section in the beginning of
-`tex.el' and copy the definitions that are wrong for your site to
-`tex-site.el'. Do _not_ edit `tex.el' directly, or you will have to do
-all the work over again when you upgrade AUCTeX. AUCTeX will not
-overwrite your old `tex-site.el' file next time you install, so you
-will be able to keep all your customizations.
+Most of the site-specific customization should already have happened
+during configuration of AUCTeX.  Any further customization can be done
+with customization buffers directly in Emacs.  Just type `M-x
+customize-group RET AUCTeX RET' to open the customization group for
+AUCTeX or use the menu entries provided in the mode menus.  Editing the
+file `tex-site.el' as suggested in former versions of AUCTeX should not
+be done anymore because the installation routine will overwrite those
+changes.
 
-   There are two variables with a special significance.
+   You might check some variables with a special significance.  They are
+accessible directly by typing `M-x customize-variable RET <variable>
+RET'.
 
- - User Option: TeX-lisp-directory
+ -- User Option: TeX-lisp-directory
      The directory where you installed the AUCTeX lisp files.
 
-   This variable is set automatically by the `make install' command.
-If you don't issue a `make install', for example if you don't want to
-install AUCTeX in a different place, you will have to set this variable
-manually to the location of the compiled files.
+   This variable is set automatically during configuration.  If you
+don't issue a `make install', for example if you don't want to install
+AUCTeX in a different place, you will have to set this variable
+manually to the location of the compiled files.  It is generally
+advisable to do a full installation including `make install' because
+program and documentation files will be copied to their proper places.
 
- - User Option: TeX-macro-global
+ -- User Option: TeX-macro-global
      Directories containing the site's TeX style files.
 
-   Normally, AUCTeX will only allow you to complete a short list of
-built-in macros and environments and on the macros you define yourself.
-If you issue the `M-x TeX-auto-generate-global' command after loading
-AUCTeX, you will be able to complete on all macros available in the
-standard style files used by your document. To do this, you must set
-this variable to a list of directories where the standard style files
-are located. The directories will be searched recursively, so there is
-no reason to list subdirectories explicitly.
+   Normally, AUCTeX will only allow you to complete macros and
+environments which are built-in, specified in AUCTeX style files or
+defined by yourself.  If you issue the `M-x TeX-auto-generate-global'
+command after loading AUCTeX, you will be able to complete on all
+macros available in the standard style files used by your document.  To
+do this, you must set this variable to a list of directories where the
+standard style files are located.  The directories will be searched
+recursively, so there is no reason to list subdirectories explicitly.
+Automatic configuration will already have set the variable for you if
+it could use the program `kpsewhich'.  In this case you normally don't
+have to alter anything.
 
-   You probably also need to change `TeX-command-list' to make sure
-that the commands used for starting TeX, printing, etc. work on your
-system.  Copy the definition from `tex.el' to `tex-site.el' and edit
-the command names appropriately.
-
-   Finally, copy and edit `TeX-printer-list' to contain the printers
-available at your site.
-
-   To extract information from your sites TeX macros, type `M-x
-TeX-auto-generate-global' in your emacs.  This will only work if you
-have set `TeX-macro-global' correctly in `tex-site.el'.
-
-Contributed files
-=================
+1.8 Contributed files
+=====================
 
 There are several files that are not part of AUCTeX proper, but
 included in the distribution in case they are useful.
@@ -318,6 +313,8 @@ included in the distribution in case they are useful.
      Support for Japanese.
 
 
-   Read the comments in the start of each file for more information
-about how to install, what they do, and who wrote and maintains them.
+   They can be installed together with AUCTeX by executing `make
+contrib' and `make install-contrib'.  Read the comments in the start of
+each file for more information about how to use the files, what they
+do, and who wrote and maintains them.
 

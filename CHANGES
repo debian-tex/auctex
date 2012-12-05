@@ -1,17 +1,43 @@
+Changes and New Features in AUCTeX
+**********************************
+
 News in 11.50
 =============
 
+   * The use of source specials when processing or viewing the document
+     can now be controlled with the new `TeX-source-specials' minor mode
+     which can be toggled via an entry in the Command menu or the key
+     binding `C-c C-t C-s'.  If you have customized the variable
+     `TeX-command-list', you have to re-initialize it for this to work.
+     This means to open a customization buffer for the variable by
+     typing `M-x customize-variable RET TeX-command-list RET', selecting
+     "Erase Customization" and do your customization again with the new
+     default.
+
    * The content of the command menu now depends on the mode (plain TeX,
      LaTeX, ConTeXt etc.).  Any former customization of the variable
-     `TeX-command-menu' has to be erased.  Otherwise the command menu
+     `TeX-command-list' has to be erased.  Otherwise the command menu
      and the customization will not work correctly.
 
-   * Limited support for `doc.sty' (`dtx' files) was added.  The new
-     docTeX mode provides functionality for editing documentation
-     parts.  This includes formatting (indenting and filling), adding
-     macros and environments while staying in comments as well as syntax
-     highlighting.  Please note that the mode is by for not finished
-     yet.
+   * Support for hiding and auto-revealing macros, e.g. footnotes or
+     citations, and environments in a buffer was added, *Note Folding::.
+
+   * You can now control if indentation is done upon typing <RET> by
+     customizing the variable `TeX-newline-function', *Note Indenting::.
+
+   * Limited support for `doc.sty' and `ltxdoc.cls' (`dtx' files) was
+     added.  The new docTeX mode provides functionality for editing
+     documentation parts.  This includes formatting (indenting and
+     filling), adding and completion of macros and environments while
+     staying in comments as well as syntax highlighting.  (Please note
+     that the mode is not finished yet.  For example syntax
+     highlighting does not work yet in XEmacs.)
+
+   * For macro completion in docTeX mode the AUCTeX style files
+     `doc.el', `ltxdoc.el' and `ltx-base.el' were included.  The latter
+     provides general support for low-level LaTeX macros and may be
+     used with LaTeX class and style files as well.  It is currently
+     not loaded automatically for those files.
 
    * Support for ConTeXt with a separate ConTeXt mode is now included.
      Macro definitions for completion are available in Dutch and
@@ -21,6 +47,10 @@ News in 11.50
      format commented parts of the source syntactically correct.  Newly
      available functionality and customization options are explained in
      the manual.
+
+   * Filling and indentation in XEmacs with preview-latex and activated
+     previews lead to the insertion of whitespace before multi-line
+     previews.  AUCTeX now contains facilities to prevent this problem.
 
    * If `TeX-master' is set to `t', AUCTeX will now query for a master
      file only when a new file is opened.  Existing files will be left
@@ -34,8 +64,18 @@ News in 11.50
      change in size.
 
    * Support for `alphanum.sty', `beamer.cls', `booktabs.sty',
-     `emp.sty' and `paralist.sty' was added.  Credits go to the authors
+     `captcont.sty', `emp.sty', `paralist.sty', `subfigure.sty' and
+     `units.sty'/`nicefrac.sty' was added.  Credits go to the authors
      mentioned in the respective AUCTeX style files.
+
+   * Inserting graphics with `C-c RET \includegraphics RET' was
+     improved.  See the variable `LaTeX-includegraphics-options-alist'.
+
+   * If `LaTeX-default-position' is `nil', don't prompt for position
+     arguments in Tabular-like environments, see *Note Tabular-like::.
+
+   * Completion for available packages when using `C-c RET \usepackage
+     RET' was improved on systems using the kpathsea library.
 
    * The commenting functionality was fixed.  The separate functions for
      commenting and uncommenting were unified in one function for
@@ -66,10 +106,17 @@ News in 11.50
      source file.  The behavior can be adapted or extended respectively
      by customizing the variable `TeX-output-view-style'.
 
+   * You can control whether `TeX-insert-macro' (`C-c RET') ask for all
+     optional arguments by customizing the variable
+     `TeX-insert-macro-default-style', *Note Completion::.
+
    * `TeX-run-discard' is now able to completely detach a process that
      it started.
 
-   * The build process was enhanced and is now based on `autoconf'.
+   * The build process was enhanced and is now based on `autoconf'
+     making installing AUCTeX a mostly automatic process.  See *Note
+     Installation:: and *Note Installation under MS Windows:: for
+     details.
 
 News in 11.14
 =============
@@ -86,7 +133,7 @@ News in 11.12
 News in 11.11
 =============
 
-   * Support for `prosper.sty', see <http://prosper.sourceforge.net/>.
+   * Support for `prosper.sty', see `http://prosper.sourceforge.net/'.
      Contributed by Phillip Lord <p.lord@russet.org.uk>.
 
 News in 11.10

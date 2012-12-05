@@ -1,8 +1,8 @@
 ;;; latex.el --- Support for LaTeX documents.
 
 ;; Copyright (C) 1991 Kresten Krab Thorup
-;; Copyright (C) 1993, 1994, 1995, 1996, 1997, 1999, 2000 Per Abrahamsen
-;; Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+;; Copyright (C) 1993, 1994, 1995, 1996, 1997, 1999, 2000,
+;;               2003, 2004 Free Software Foundation, Inc.
 
 ;; Maintainer: auc-tex@sunsite.dk
 ;; Keywords: tex
@@ -537,25 +537,6 @@ It may be customized with the following variables:
       (beginning-of-line)))
   (indent-according-to-mode))
 
-(autoload 'outline-flag-region "outline")
-
-(defun LaTeX-hide-environment ()
-  "Hide current LaTeX environment using selective display."
-  (interactive)
-  (outline-flag-region (save-excursion (LaTeX-find-matching-begin) (point))
-		       (save-excursion (LaTeX-find-matching-end) (point))
-		       (if (featurep 'noutline) t ?\r)))
-
-(unless (widget-plist-member (symbol-plist 'LaTeX-hide-environment) 'disabled)
-  (put 'LaTeX-hide-environment 'disabled t))
-
-(defun LaTeX-show-environment ()
-  "Show current LaTeX environment."
-  (interactive)
-  (outline-flag-region (save-excursion (LaTeX-find-matching-begin) (point))
-		       (save-excursion (LaTeX-find-matching-end) (point))
-		       (if (featurep 'noutline) nil ?\n)))
-
 (defun LaTeX-insert-environment (environment &optional extra)
   "Insert ENVIRONMENT of type ENV, with optional argument EXTRA."
   (if (and (TeX-active-mark)
@@ -899,36 +880,45 @@ job to this function."
 	  (LaTeX-newline)))
 
     (if (member environment LaTeX-top-caption-list)
+	;; top caption
 	(progn
-	  (if (zerop (length caption))
-	      ()
-	    ;; NOTE: Caption is _inside_ center because that looks best typeset.
-	    (indent-according-to-mode)
+	  ;; do nothing if user skips caption
+	  (unless (zerop (length caption))
 	    (insert TeX-esc "caption" TeX-grop caption TeX-grcl)
-	    (indent-according-to-mode))
-
-	  (LaTeX-newline) (indent-according-to-mode)
-	  (LaTeX-label environment)
-	  (indent-according-to-mode)
-	  (end-of-line 0)
-	  (LaTeX-newline) (indent-according-to-mode))
-      ;; not top caption but bottom caption (default).
-      (LaTeX-newline) (indent-according-to-mode)
-      (LaTeX-label environment)
-      (end-of-line 0)
-      (indent-according-to-mode)
-
-      (if (zerop (length caption))
-	  ()
-	;; NOTE: Caption is _inside_ center because that looks best typeset.
+	    (LaTeX-newline)
+	    (indent-according-to-mode)
+	    ;; ask for a label and insert a new line only if a label
+	    ;; is actually inserted
+	    (when (LaTeX-label environment)
+	      (LaTeX-newline)
+	      (indent-according-to-mode))))
+      ;; bottom caption (default) -- do nothing if user skips caption
+      (unless (zerop (length caption))
 	(LaTeX-newline)
 	(indent-according-to-mode)
 	(insert TeX-esc "caption" TeX-grop caption TeX-grcl)
-	(end-of-line 0)
-	(indent-according-to-mode)))
+	(LaTeX-newline)
+	(indent-according-to-mode)
+	;; ask for a label -- if user skips label, remove the last new
+	;; line again
+	(unless (LaTeX-label environment)
+	  (delete-blank-lines)
+	  (end-of-line 0))
+	;; if there is a caption or a label, move point upwards again
+	;; so that it is placed above the caption or the label (or
+	;; both) -- search the current line (even long captions are
+	;; inserted on a single line, even if auto-fill is turned on,
+	;; so it is enough to search the current line) for \label or
+	;; \caption and go one line upwards if any of them is found
+	(while (re-search-backward
+		(concat "^\\s-*" (regexp-quote TeX-esc)
+			"\\(label\\|caption\\)")
+		(line-beginning-position) t)
+	  (end-of-line 0)
+	  (indent-according-to-mode))))
 
-  (if (member environment '("table" "table*"))
-      (LaTeX-env-array "tabular"))))
+    (if (member environment '("table" "table*"))
+	(LaTeX-env-array "tabular"))))
 
 (defun LaTeX-env-array (environment)
   "Insert ENVIRONMENT with position and column specifications.
@@ -1441,6 +1431,7 @@ ELSE as an argument list."
 (defcustom LaTeX-style-list '(("amsart")
 			      ("amsbook")
 			      ("article")
+			      ("beamer")
 			      ("book")
 			      ("dinbrief")
 			      ("foils")
@@ -1453,7 +1444,7 @@ ELSE as an argument list."
 			      ("scrlttr2")
 			      ("scrreprt")
 			      ("slides"))
-  "List of document classes."
+  "List of document classes offered when inserting a document environment."
   :group 'LaTeX-environment
   :type '(repeat (group (string :format "%v"))))
 
@@ -1596,11 +1587,20 @@ May be reset with `C-u \\[TeX-normal-mode]'.")
 		    '(("plain") ("empty") ("headings") ("myheadings")))
    optional))
 
+(defcustom LaTeX-default-verb-delimiter ?|
+  "Default delimiter for `\\verb' macros."
+  :group 'LaTeX-macro
+  :type 'character)
+
 (defun TeX-arg-verb (optional &optional ignore)
   "Prompt for delimiter and text."
-  (let ((del (read-quoted-char "Delimiter: "))
+  (let ((del (read-quoted-char
+	      (concat "Delimiter: (default "
+		      (char-to-string LaTeX-default-verb-delimiter) ") ")))
 	(text (read-from-minibuffer "Text: ")))
-    (insert del text del)))
+    (when (<= del ?\ ) (setq del LaTeX-default-verb-delimiter))
+    (insert del text del)
+    (setq LaTeX-default-verb-delimiter del)))
 
 (defun TeX-arg-pair (optional first second)
   "Insert a pair of number, prompted by FIRST and SECOND.
@@ -1850,9 +1850,19 @@ Lines starting with an item is given an extra indentation of
 			   (save-excursion
 			     (beginning-of-line)
 			     (looking-at (concat "[ \t]*" comment-start "+"))
-			     (concat
-			      (match-string 0)
-			      (TeX-comment-padding-string))))))
+			     (concat (match-string 0)
+				     (TeX-comment-padding-string)))))
+	 (overlays (when (featurep 'xemacs)
+		     (overlays-at (line-beginning-position))))
+	 ol-specs)
+    ;; XEmacs' `indent-to' function (at least in version 21.4.15) has
+    ;; a bug which leads to the insertion of whitespace in front of an
+    ;; invisible overlay.  So during indentation we temporarily remove
+    ;; the invisible property.
+    (dolist (ol overlays)
+      (when (overlay-get ol 'invisible)
+	(add-to-list 'ol-specs (list ol (overlay-get ol 'invisible)))
+	(overlay-put ol 'invisible nil)))
     (save-excursion
       (cond ((and fill-prefix
 		  (TeX-in-line-comment)
@@ -1880,6 +1890,9 @@ Lines starting with an item is given an extra indentation of
 	     (let ((outer-indent (LaTeX-indent-calculate 'outer)))
 	       (when (/= (LaTeX-current-indentation 'outer) outer-indent)
 		   (LaTeX-indent-outer-do outer-indent))))))
+    ;; Make the overlays invisible again.
+    (dolist (ol-spec ol-specs)
+      (overlay-put (car ol-spec) 'invisible (cadr ol-spec)))
     (if (< (current-column) (save-excursion
 			      (beginning-of-line)
 			      (re-search-forward
@@ -2886,7 +2899,6 @@ depends on the value of `LaTeX-syntactic-comments'."
 				    (re-search-forward comment-start-skip nil t)
 				    (point)))))))
 
-
 (defun LaTeX-fill-region (from to &optional justify what)
   "Fill and indent the text in region from FROM to TO as LaTeX text.
 Prefix arg (non-nil third arg JUSTIFY, if called from program)
@@ -2896,23 +2908,27 @@ formatting."
   (save-restriction
     (save-excursion
       (let ((to (set-marker (make-marker) to))
-	    end-of-buffer)
+	    (next-par (make-marker)))
 	(goto-char from)
 	(beginning-of-line)
 	(setq from (point))
-	(while (and (< (point) to)
-		    (not end-of-buffer))
-	  (message "Formatting%s ... %d%%"
-		   (or what "")
-		   (/ (* 100 (- (point) from)) (- to from)))
-	  (save-excursion (LaTeX-fill-paragraph justify))
-	  (LaTeX-forward-paragraph)
-	  (when (eobp) (setq end-of-buffer t))
-	  (LaTeX-forward-paragraph)
-	  (LaTeX-backward-paragraph)
-	  (while (and (not (eobp))
-		      (looking-at (concat "^[ \t]*" comment-start "*[ \t]*$")))
-	    (forward-line 1)))
+	(catch 'end-of-buffer
+	  (while (and (< (point) to))
+	    (message "Formatting%s ... %d%%"
+		     (or what "")
+		     (/ (* 100 (- (point) from)) (- to from)))
+	    (save-excursion (LaTeX-fill-paragraph justify))
+	    (if (marker-position next-par)
+		(goto-char (marker-position next-par))
+	      (LaTeX-forward-paragraph))
+	    (when (eobp) (throw 'end-of-buffer t))
+	    (LaTeX-forward-paragraph)
+	    (set-marker next-par (point))
+	    (LaTeX-backward-paragraph)
+	    (while (and (not (eobp))
+			(looking-at
+			 (concat "^[ \t]*" comment-start "*[ \t]*$")))
+	      (forward-line 1))))
 	(set-marker to nil)))
     (message "Finished")))
 
@@ -3057,7 +3073,7 @@ comments and verbatim environments"
 If COUNT is non-nil, do it COUNT times."
   (or count (setq count 1))
   (dotimes (i count)
-    (let* ((macro-start (LaTeX-find-macro-start))
+    (let* ((macro-start (TeX-find-macro-start))
 	   (paragraph-command-start
 	    (cond
 	     ;; Point is inside of a paragraph command.
@@ -3091,7 +3107,7 @@ If COUNT is non-nil, do it COUNT times."
       (if (and paragraph-command-start
 	       (save-excursion
 		 (goto-char paragraph-command-start)
-		 (setq macro-end (goto-char (LaTeX-find-macro-end)))
+		 (setq macro-end (goto-char (TeX-find-macro-end)))
 		 (looking-at (concat (regexp-quote TeX-esc) "[@A-Za-z]+\\|"
 				     "[ \t]*\\($\\|" comment-start "\\)"))))
 	  (progn
@@ -3100,7 +3116,7 @@ If COUNT is non-nil, do it COUNT times."
 	    ;; another macro, regard the latter as part of the
 	    ;; paragraph command's paragraph.
 	    (when (looking-at (concat (regexp-quote TeX-esc) "[@A-Za-z]+"))
-	      (goto-char (LaTeX-find-macro-end)))
+	      (goto-char (TeX-find-macro-end)))
 	    (forward-line))
 	(let (limit)
 	  (goto-char (min (save-excursion
@@ -3115,7 +3131,7 @@ If COUNT is non-nil, do it COUNT times."
 If COUNT is non-nil, do it COUNT times."
   (or count (setq count 1))
   (dotimes (i count)
-    (let* ((macro-start (LaTeX-find-macro-start))
+    (let* ((macro-start (TeX-find-macro-start))
 	   (paragraph-command-start
 	    (cond
 	     ;; Point is inside of a paragraph command.
@@ -3159,7 +3175,7 @@ If COUNT is non-nil, do it COUNT times."
 			(save-excursion
 			  (goto-char (match-end 1))
 			  (save-match-data
-			    (goto-char (LaTeX-find-macro-end)))
+			    (goto-char (TeX-find-macro-end)))
 			  ;; For an explanation of this distinction
 			  ;; see `LaTeX-forward-paragraph'.
 			  (if (save-match-data
@@ -3171,7 +3187,7 @@ If COUNT is non-nil, do it COUNT times."
 				(when (looking-at
 				       (concat (regexp-quote TeX-esc)
 					       "[@A-Za-z]+"))
-				  (goto-char (LaTeX-find-macro-end)))
+				  (goto-char (TeX-find-macro-end)))
 				(forward-line 1)
 				(setq end-point (if (< (point) start)
 						    (point)
@@ -3182,68 +3198,6 @@ If COUNT is non-nil, do it COUNT times."
 			end-point
 		      0))))))
 	(beginning-of-line)))))
-
-(defun LaTeX-find-macro-start (&optional arg)
-  "Find the start of a macro.
-Arguments enclosed in brackets or braces are considered part of
-the macro.  If ARG is non-nil, find the end of a macro."
-  (save-excursion
-    (let ((orig-point (point))
-	  start-point
-	  found-end-flag)
-      (cond
-       ;; Point is located directly at the start of a macro.
-       ((and (looking-at (concat "\\(" (regexp-quote TeX-esc) "\\)[@A-Za-z]+"))
-	     (save-match-data
-	       (not (TeX-looking-at-backward
-		     (concat "\\(" (regexp-quote (concat TeX-esc TeX-esc)) "\\)*"
-			     "\\(" (regexp-quote TeX-esc) "\\)")))))
-	(setq start-point (point))
-	(goto-char (match-end 1)))
-       ;; Search backward for a macro start.
-       ((and (re-search-backward
-	      (concat "\\(^\\|[^" TeX-esc "\n]\\)"
-		      "\\(" (regexp-quote (concat TeX-esc TeX-esc)) "\\)*"
-		      "\\(" (regexp-quote TeX-esc) "\\)")
-	      nil t)
-	     (save-excursion
-	       (goto-char (match-end 3))
-	       (not (looking-at (regexp-quote TeX-esc)))))
-	(setq start-point (match-beginning 3))
-	(goto-char (match-end 3))))
-      (if (not start-point)
-	  nil
-	;; Search forward for the end of the macro.
-	(skip-chars-forward (concat "^ \t{[\n" (regexp-quote TeX-esc)))
-	(while (not found-end-flag)
-	  (cond
-	   ((or (looking-at "[ \t]*\\(\\[\\)")
-		(and (looking-at (concat "[ \t]*" comment-start))
-		     (save-excursion
-		       (forward-line 1)
-		       (looking-at "[ \t]*\\(\\[\\)"))))
-	    (goto-char (match-beginning 1))
-	    (forward-sexp))
-	   ((or (looking-at "[ \t]*{")
-		(and (looking-at (concat "[ \t]*" comment-start))
-		     (save-excursion
-		       (forward-line 1)
-		       (looking-at "[ \t]*{"))))
-	    (goto-char (match-end 0))
-	    (goto-char (TeX-find-closing-brace)))
-	   (t
-	    (setq found-end-flag t))))
-	(if (< orig-point (point))
-	    (if arg
-		(point)
-	      start-point)
-	  nil)))))
-
-(defun LaTeX-find-macro-end ()
-  "Find the end of a macro.
-Arguments enclosed in brackets or braces are considered part of
-the macro."
-  (LaTeX-find-macro-start t))
 
 
 ;;; Math Minor Mode
@@ -3275,43 +3229,43 @@ See also `LaTeX-math-menu'."
 (defconst LaTeX-math-default
   '((?a "alpha" "greek")
     (?b "beta" "greek")
-    (?c LaTeX-math-cal "Cal-whatever")
+    (?g "gamma" "greek")
     (?d "delta" "greek")
     (?e "epsilon" "greek")
-    (?f "phi" "greek")
-    (?g "gamma" "greek")
+    (?z "zeta" "greek")
     (?h  "eta" "greek")
+    (?j "theta" "greek")
     (?k "kappa" "greek")
     (?l "lambda" "greek")
     (?m "mu" "greek")
-    (?N "nabla" "greek")
     (?n "nu" "greek")
-    (?o "omega" "greek")
+    (?x "xi" "greek")
     (?p "pi" "greek")
-    (?q "theta" "greek")
     (?r "rho" "greek")
     (?s "sigma" "greek")
     (?t "tau" "greek")
     (?u "upsilon" "greek")
-    (?x "chi" "greek")
+    (?f "phi" "greek")
+    (?q "chi" "greek")
     (?y "psi" "greek")
-    (?z "zeta" "greek")
+    (?w "omega" "greek")
     (nil "varepsilon" "greek")
-    (nil "varphi" "greek")
+    (nil "vartheta" "greek")
     (nil "varpi" "greek")
     (nil "varrho" "greek")
     (nil "varsigma" "greek")
-    (nil "vartheta" "greek")
-    (?D "Delta" "Greek")
-    (?F "Phi" "Greek")
+    (nil "varphi" "greek")
     (?G "Gamma" "Greek")
-    (?Q "Theta" "Greek")
+    (?D "Delta" "Greek")
+    (?J "Theta" "Greek")
     (?L "Lambda" "Greek")
-    (?Y "Psi" "Greek")
     (?P "Pi" "Greek")
     (?S "Sigma" "Greek")
     (?U "Upsilon" "Greek")
+    (?F "Phi" "Greek")
+    (?Y "Psi" "Greek")
     (?O "Omega" "Greek")
+    (?c LaTeX-math-cal "Cal-whatever")
     (nil "pm" "Binary Op")
     (nil "mp" "Binary Op")
     (?* "times" "Binary Op")
@@ -3419,6 +3373,7 @@ See also `LaTeX-math-menu'."
     (nil "cdots" "Misc Symbol")
     (nil "vdots" "Misc Symbol")
     (nil "ddots" "Misc Symbol")
+    (?N "nabla" "Misc Symbol")
     (nil "aleph" "Misc Symbol")
     (nil "prime" "Misc Symbol")
     (?A "forall" "Misc Symbol")
@@ -3870,9 +3825,6 @@ the sequence by initializing this variable.")
 
  (make-variable-buffer-local 'LaTeX-math-mode)
 
-(or (assoc 'LaTeX-math-mode minor-mode-alist)
-    (setq minor-mode-alist (cons '(LaTeX-math-mode " Math") minor-mode-alist)))
-
 (or (assoc 'LaTeX-math-mode minor-mode-map-alist)
     (setq minor-mode-map-alist
 	  (cons (cons 'LaTeX-math-mode LaTeX-math-keymap)
@@ -3893,7 +3845,7 @@ commands are defined:
   (if LaTeX-math-mode
       (easy-menu-add LaTeX-math-mode-menu LaTeX-math-keymap)
     (easy-menu-remove LaTeX-math-mode-menu))
-  (set-buffer-modified-p (buffer-modified-p)))
+  (TeX-set-mode-name))
 
 (fset 'latex-math-mode 'LaTeX-math-mode)
 
@@ -3958,19 +3910,6 @@ commands are defined:
 	(define-key map "\e\r"    'LaTeX-insert-item)) ;*** Alias
     (define-key map "\C-c]" 'LaTeX-close-environment)
     (define-key map "\C-c\C-s" 'LaTeX-section)
-
-    ;; Outline commands...
-    ;; We want to use the right prefix, if possible.
-    (let ((outline (cond ((not (boundp 'outline-minor-mode-prefix))
-			  (lookup-key map "\C-c"))
-			 ((keymapp (lookup-key map outline-minor-mode-prefix))
-			  (lookup-key map outline-minor-mode-prefix))
-			 (t
-			  (define-key map
-			    outline-minor-mode-prefix (make-sparse-keymap))
-			  (lookup-key map outline-minor-mode-prefix)))))
-      (define-key outline "\C-z" 'LaTeX-hide-environment)
-      (define-key outline "\C-x" 'LaTeX-show-environment))
 
     (define-key map "\C-c~"    'LaTeX-math-mode) ;*** Dubious
 
@@ -4105,84 +4044,78 @@ the last entry in the menu."
     (TeX-mode-specific-command-menu 'latex-mode))
 
 (easy-menu-define LaTeX-mode-menu
-    LaTeX-mode-map
-    "Menu used in LaTeX mode."
-  (list "LaTeX"
-	(list LaTeX-environment-menu-name)
-	(list LaTeX-environment-modify-menu-name)
-	"-"
-	(LaTeX-section-menu-create)
-	["Macro..." TeX-insert-macro t]
-	["Complete" TeX-complete-symbol t]
-	["Item" LaTeX-insert-item t]
-	"-"
-	(list "Insert Font"
-	      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
-	      ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
-	      ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
-	      ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
-	      ["Sans Serif" (TeX-font nil ?\C-f) :keys "C-c C-f C-f"]
-	      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
-	      ["Slanted"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
-	      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"]
-	      ["Calligraphic" (TeX-font nil ?\C-a) :keys "C-c C-f C-a"])
-	(list "Replace Font"
-	      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
-	      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
-	      ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
-	      ["Small Caps" (TeX-font t ?\C-c) :keys "C-u C-c C-f C-c"]
-	      ["Sans Serif" (TeX-font t ?\C-f) :keys "C-u C-c C-f C-f"]
-	      ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
-	      ["Slanted"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
-	      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"]
-	      ["Calligraphic" (TeX-font t ?\C-a) :keys "C-u C-c C-f C-a"])
-	["Delete Font" (TeX-font t ?\C-d) :keys "C-c C-f C-d"]
-	"-"
-	["Next Error" TeX-next-error t]
-	(list "TeX Output"
-	      ["Kill Job" TeX-kill-job t]
-	      ["Debug Bad Boxes" TeX-toggle-debug-boxes
-	       :style toggle :selected TeX-debug-bad-boxes ]
-	      ["Recenter Output Buffer" TeX-recenter-output-buffer t])
-	(list "Commenting"
-	      ["Comment or Uncomment Region"
-	       TeX-comment-or-uncomment-region t]
-	      ["Comment or Uncomment Paragraph"
-	       TeX-comment-or-uncomment-paragraph t])
-	(list "Multifile"
-	      ["Switch to Master File" TeX-home-buffer t]
-	      ["Save Document" TeX-save-document t]
-	      ["Set Master File" TeX-master-file-ask
-	       :active (not (TeX-local-master-p))])
-	(list "Formatting and Marking"
-	      ["Format Environment" LaTeX-fill-environment t]
-	      ["Format Paragraph" LaTeX-fill-paragraph t]
-	      ["Format Region" LaTeX-fill-region t]
-	      ["Format Section" LaTeX-fill-section t]
-	      ["Mark Environment" LaTeX-mark-environment t]
-	      ["Mark Section" LaTeX-mark-section t]
-	      ["Beginning of Environment" LaTeX-find-matching-begin t]
-	      ["End of Environment" LaTeX-find-matching-end t]
-	      ["Hide Environment" LaTeX-hide-environment t]
-	      ["Show Environment" LaTeX-show-environment t])
-	(list "Miscellaneous"
-	      ["Math Mode" LaTeX-math-mode
-	       :style toggle :selected LaTeX-math-mode ]
-	      [ "Convert 209 to 2e" LaTeX-209-to-2e
-		:active (member "latex2" (TeX-style-list)) ])
-	"-"
-	(list "AUCTeX"
-	      (list "Customize"
-		    ["Browse options"
-		     (customize-group 'AUCTeX)]
-		    ["Extend this menu"
-		     (easy-menu-add-item
-		      nil '("LaTeX" "AUCTeX")
-		      (customize-menu-create 'AUCTeX))])
-	      ["Documentation" TeX-goto-info-page t]
-	      ["Submit bug report" TeX-submit-bug-report t]
-	      ["Reset Buffer" TeX-normal-mode t]
-	      ["Reset AUCTeX" (TeX-normal-mode t) :keys "C-u C-c C-n"])))
+  LaTeX-mode-map
+  "Menu used in LaTeX mode."
+  (TeX-menu-with-help
+   `("LaTeX"
+     ,(LaTeX-section-menu-create)
+     ["Macro ..." TeX-insert-macro
+      :help "Insert a macro and possibly arguments"]
+     ["Complete Macro" TeX-complete-symbol
+      :help "Complete the current macro or environment name"]
+     (,LaTeX-environment-menu-name)
+     (,LaTeX-environment-modify-menu-name)
+     ["Close Environment" LaTeX-close-environment
+      :help "Insert the \\end part of the current environment"]
+     ["Item" LaTeX-insert-item
+      :help "Insert a new \\item into current environment"]
+     "-"
+     ("Insert Font"
+      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"
+       :help ""]
+      ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
+      ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
+      ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
+      ["Sans Serif" (TeX-font nil ?\C-f) :keys "C-c C-f C-f"]
+      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
+      ["Slanted"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
+      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"]
+      ["Calligraphic" (TeX-font nil ?\C-a) :keys "C-c C-f C-a"])
+     ("Replace Font"
+      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
+      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
+      ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
+      ["Small Caps" (TeX-font t ?\C-c) :keys "C-u C-c C-f C-c"]
+      ["Sans Serif" (TeX-font t ?\C-f) :keys "C-u C-c C-f C-f"]
+      ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
+      ["Slanted"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
+      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"]
+      ["Calligraphic" (TeX-font t ?\C-a) :keys "C-u C-c C-f C-a"])
+     ["Delete Font" (TeX-font t ?\C-d) :keys "C-c C-f C-d"]
+     "-"
+     ["Comment or Uncomment Region"
+      TeX-comment-or-uncomment-region
+      :help "Make the selected region outcommented or active again"]
+     ["Comment or Uncomment Paragraph"
+      TeX-comment-or-uncomment-paragraph
+      :help "Make the current paragraph outcommented or active again"]
+     ("Formatting and Marking"
+      ["Format Environment" LaTeX-fill-environment
+       :help "Fill and indent the current environment"]
+      ["Format Paragraph" LaTeX-fill-paragraph
+       :help "Fill and ident the current paragraph"]
+      ["Format Region" LaTeX-fill-region
+       :help "Fill and indent the currently selected region"]
+      ["Format Section" LaTeX-fill-section
+       :help "Fill and indent the current section"]
+      "-"
+      ["Mark Environment" LaTeX-mark-environment
+       :help "Mark the current environment"]
+      ["Mark Section" LaTeX-mark-section
+       :help "Mark the current section"]
+      "-"
+      ["Beginning of Environment" LaTeX-find-matching-begin
+       :help "Move point to the beginning of the current environment"]
+      ["End of Environment" LaTeX-find-matching-end
+       :help "Move point to the end of the current environment"])
+     ,TeX-fold-menu
+     ["Math Mode" LaTeX-math-mode
+      :style toggle :selected LaTeX-math-mode
+      :help "Toggle math mode"]
+     "-"
+      [ "Convert 209 to 2e" LaTeX-209-to-2e
+        :visible (member "latex2" (TeX-style-list)) ]
+      . ,TeX-common-menu-entries)))
 
 (defcustom LaTeX-font-list
   '((?\C-a ""              ""  "\\mathcal{"    "}")
@@ -4255,8 +4188,8 @@ This happens when \\left is inserted."
   :group 'LaTeX)
 
 ;;; Do not ;;;###autoload because of conflict with standard tex-mode.el.
-(defun latex-mode ()
-  "Major mode for editing files of input for LaTeX.
+(TeX-defun latex-mode ()
+  "Major mode in %s for editing LaTeX files.
 See info under AUCTeX for full documentation.
 
 Special commands:
@@ -4267,10 +4200,11 @@ then the value of `TeX-mode-hook', and then the value
 of `LaTeX-mode-hook'."
   (interactive)
   (LaTeX-common-initialization)
-  (setq mode-name "LaTeX")
+  (setq TeX-base-mode-name "LaTeX")
   (setq major-mode 'latex-mode)
   (setq TeX-command-default "LaTeX")
   (run-hooks 'text-mode-hook 'TeX-mode-hook 'LaTeX-mode-hook)
+  (TeX-set-mode-name)
   (setq TeX-sentinel-default-function 'TeX-LaTeX-sentinel)
   ;; Defeat filladapt
   (if (and (boundp 'filladapt-mode)
@@ -4283,6 +4217,7 @@ Runs `latex-mode', sets a few variables and
 runs the hooks in `doctex-mode-hook'."
   (set (make-local-variable 'LaTeX-insert-into-comments) t)
   (set (make-local-variable 'LaTeX-syntactic-comments) t)
+  (setq TeX-default-extension docTeX-default-extension)
   (funcall TeX-install-font-lock))
 
 (defvar LaTeX-header-end
@@ -4309,8 +4244,8 @@ runs the hooks in `doctex-mode-hook'."
   (setq adaptive-fill-mode nil)
 
   (use-local-map LaTeX-mode-map)
-  (easy-menu-add LaTeX-mode-command-menu LaTeX-mode-map)
   (easy-menu-add LaTeX-mode-menu LaTeX-mode-map)
+  (easy-menu-add LaTeX-mode-command-menu LaTeX-mode-map)
 
   (or LaTeX-largest-level
       (setq LaTeX-largest-level (LaTeX-section-level "section")))
@@ -4346,8 +4281,6 @@ runs the hooks in `doctex-mode-hook'."
 	 "[ \t]*%*[ \t]*\\("
 	 "\\$\\$" ; display math delimitor
 	 "\\|$\\)"))
-
-  (setq selective-display t)
 
   (make-local-variable 'LaTeX-item-list)
   (setq LaTeX-item-list '(("description" . LaTeX-item-argument)
@@ -4646,8 +4579,6 @@ runs the hooks in `doctex-mode-hook'."
    (lambda ()
      (setq TeX-font-list LaTeX-font-list)
      (setq TeX-font-replace-function 'TeX-font-replace-macro)
-     (if (equal LaTeX-version "2")
-	 (setq TeX-command-default "LaTeX2e"))
      (run-hooks 'LaTeX2e-hook)))
 
   (TeX-add-style-hook "latex2"
@@ -4657,6 +4588,26 @@ runs the hooks in `doctex-mode-hook'."
      (setq TeX-font-replace-function
 	   (default-value 'TeX-font-replace-function))
      (run-hooks 'LaTeX2-hook)))
+
+  ;; There must be something better-suited, but I don't understand the
+  ;; parsing properly.  -- dak
+  (TeX-add-style-hook "pdftex" 'TeX-PDF-mode-on)
+  (TeX-add-style-hook "pdftricks" 'TeX-PDF-mode-on)
+  (TeX-add-style-hook "dvips" 'TeX-PDF-mode-off)
+  (TeX-add-style-hook "pstricks" 'TeX-PDF-mode-off)
+  (TeX-add-style-hook "psfrag" 'TeX-PDF-mode-off)
+  (TeX-add-style-hook "dvipdf" 'TeX-PDF-mode-off)
+  (TeX-add-style-hook "dvipdfm" 'TeX-PDF-mode-off)
+;;  (TeX-add-style-hook "DVIoutput" 'TeX-PDF-mode-off)
+;;
+;;  Well, DVIoutput indicates that we want to run PDFTeX and expect to
+;;  get DVI output.  Ugh.
+  (TeX-add-style-hook "ifpdf" (lambda ()
+				(TeX-PDF-mode-on)
+				(TeX-PDF-mode-off)))
+;; ifpdf indicates that we cater for either.  So calling both
+;; functions will make sure that the default will get used unless the
+;; user overrode it.
 
   (set (make-local-variable 'imenu-create-index-function)
        'LaTeX-imenu-create-index-function))

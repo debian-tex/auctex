@@ -1,8 +1,7 @@
 ;;; tex-buf.el --- External commands for AUCTeX.
 
-;; Copyright (C) 1993, 1996, 2001 Per Abrahamsen
+;; Copyright (C) 1993, 1996, 2001, 2003, 2004 Free Software Foundation, Inc.
 ;; Copyright (C) 1991 Kresten Krab Thorup
-;; Copyright (C) 2003, 2004 Free Software Foundation, Inc.
 
 ;; Maintainer: auc-tex@sunsite.dk
 ;; Keywords: tex
@@ -280,7 +279,9 @@ asked if it is positive, and suppressed if it is not."
 
 (defun TeX-command-expand (command file &optional list)
   "Expand COMMAND for FILE as described in LIST.
-LIST default to TeX-expand-list."
+LIST default to `TeX-expand-list'.  As a special exception,
+`%%' can be used to produce a single `%' sign in the output
+without further expansion."
   (let (pat
 	pos
 	entry
@@ -413,36 +414,38 @@ in TeX-check-path."
 
  (make-variable-buffer-local 'TeX-command-next)
 
-(defun TeX-printer-query (&optional command element)
+(defun TeX-printer-query (&optional queue)
   "Query the user for a printer name.
-COMMAND is the default command to use if the entry for the printer in
-TeX-printer-list does not itself have it specified in the ELEMENT'th
-entry."
-  (or command (setq command TeX-print-command))
-  (or element (setq element 1))
-  (let ((printer (if TeX-printer-list
-		     (let ((completion-ignore-case t))
-		       (completing-read (concat "Printer: (default "
-						TeX-printer-default ") ")
-					TeX-printer-list))
-		   "")))
-
-    (setq printer (or (car-safe (TeX-assoc printer TeX-printer-list))
-		      printer))
-    (if (or (null printer) (string-equal "" printer))
-	(setq printer TeX-printer-default)
-      (setq TeX-printer-default printer))
+QUEUE is non-nil when we are checking for the printer queue."
+  (let (command element printer)
+    (if queue
+	(unless (setq element 2 command TeX-queue-command)
+	  (error "Need to customize `TeX-queue-command'"))
+      (unless (setq element 1 command TeX-print-command)
+	  (error "Need to customize `TeX-print-command'")))
+    (while (progn
+	     (setq printer (if TeX-printer-list
+			       (let ((completion-ignore-case t))
+				 (completing-read
+				  (concat "Printer: "
+					  (and TeX-printer-default
+					       (concat "(default "
+						       TeX-printer-default ") ")))
+				  TeX-printer-list))
+			     ""))
+	     (setq printer (or (car-safe (TeX-assoc printer TeX-printer-list))
+			       printer))
+	     (not (if (or (null printer) (string-equal "" printer))
+		      (setq printer TeX-printer-default)
+		    (setq TeX-printer-default printer)))))
 
     (let ((expansion (let ((entry (assoc printer TeX-printer-list)))
-		       (if (and entry (nth element entry))
-			   (nth element entry)
-			 command))))
+		       (or (nth element entry)
+			   command))))
       (if (string-match "%p" printer)
 	  (error "Don't use %s in printer names" "%p"))
       (while (string-match "%p" expansion)
-	(setq expansion (concat (substring expansion 0 (match-beginning 0))
-				printer
-				(substring expansion (match-end 0)))))
+	(setq expansion (replace-match printer t t expansion 0)))
       expansion)))
 
 (defun TeX-style-check (styles)
@@ -464,14 +467,9 @@ entry."
 				TeX-output-extension)
 	TeX-output-extension)))
 
-(defun TeX-view-extension ()
-  "Get the extension of the current view output file"
-  (or TeX-view-extension
-      (TeX-output-extension)))
-
 (defun TeX-view-output-file ()
   "Get the name of the current TeX output file"
-  (TeX-active-master (TeX-view-extension)))
+  (TeX-active-master (TeX-output-extension)))
 
 (defun TeX-view-mouse (event)
   "Start `TeX-view' at mouse position."
@@ -486,10 +484,17 @@ entry."
 The viewer is started either on region or master file,
 depending on the last command issued."
   (interactive)
-  (TeX-command "View" (if TeX-current-process-region-p
-			  'TeX-region-file
-			'TeX-master-file)
-	       0))
+  (let ((output-file (concat (if TeX-current-process-region-p
+				 (TeX-region-file)
+			       (TeX-master-file)) "." (TeX-output-extension))))
+    (cond ((and TeX-current-process-region-p
+		(file-exists-p output-file))
+	   (TeX-command "View" 'TeX-region-file 0))
+	  ((and (not TeX-current-process-region-p)
+		(file-exists-p output-file))
+	   (TeX-command "View" 'TeX-master-file 0))
+	  (t
+	   (message "Output file %S does not exist." output-file)))))
 
 (defun TeX-output-style-check (styles)
   "Check STYLES compared to the current view output file extension and
@@ -511,10 +516,7 @@ the current style options."
 		((not (TeX-member style files 'string-match)))))))
       (setq styles (cdr styles)))
     (if styles
-	(concat (nth 2 (car styles))
-		(if TeX-source-specials
-		    (concat " " TeX-source-specials-viewer-flags)
-		  ""))
+	(nth 2 (car styles))
       "%v")))
 
 ;;; Command Hooks
@@ -574,7 +576,7 @@ Return the new process."
 (defun TeX-run-set-command (name command)
   "Remember TeX command to use to NAME and set corresponding output extension"
   (setq TeX-command-default name
-	TeX-view-extension nil)
+	TeX-output-extension (if TeX-PDF-mode "pdf" "dvi"))
   (let ((case-fold-search t)
 	(lst TeX-command-output-list))
     (while lst
@@ -608,12 +610,14 @@ Return the new process."
   ;; can we assume that TeX-sentinel-function will not be changed
   ;; during (TeX-run-format ..)? --pg
   ;; rather use let* ? --pg
-  (let ((sentinel-function TeX-sentinel-default-function))
-    (let ((process (TeX-run-format name command file)))
-      (setq TeX-sentinel-function sentinel-function)
-      (if TeX-process-asynchronous
-	  process
-	(TeX-synchronous-sentinel name file process)))))
+  (if TeX-interactive-mode
+      (TeX-run-interactive name command file)
+    (let ((sentinel-function TeX-sentinel-default-function))
+      (let ((process (TeX-run-format name command file)))
+	(setq TeX-sentinel-function sentinel-function)
+	(if TeX-process-asynchronous
+	    process
+	  (TeX-synchronous-sentinel name file process))))))
 
 ;; backward compatibilty
 

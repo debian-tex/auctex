@@ -1,8 +1,8 @@
-;;; jura.el --- AUCTeX style for `jura.cls'
+;;; units.el --- AUCTeX style for the LaTeX package `units.sty' (v0.9b)
 
 ;; Copyright (C) 2004 Free Software Foundation, Inc.
 
-;; Author: Frank Küster <frank@kuesterei.ch>
+;; Author: Christian Schlauer <cschl@arcor.de>
 ;; Maintainer: auc-tex@sunsite.dk
 ;; Keywords: tex
 
@@ -25,15 +25,23 @@
 
 ;;; Commentary:
 
-;; This file adds support for `jura.cls'.
+;; This file adds support for `units.sty'.
 
 ;;; Code:
 
 (TeX-add-style-hook
- "jura"
- (lambda ()
-   (TeX-run-style-hooks "alphanum")))
+ "units"
+ (function
+  (lambda ()
+    (TeX-add-symbols
+     '("unit" [ "Value" ] "Unit")
+     '("unitfrac" [ "Value" ] "Unit in numerator" "Unit in denominator"))
+    ;; units.sty requires the package nicefrac.sty, thus we enable the
+    ;; macros of nicefrac.sty, too
+    (TeX-run-style-hooks "nicefrac")
+    ;; enable fontifying
+    (add-to-list 'font-latex-match-textual-keywords-local "unit")
+    (add-to-list 'font-latex-match-textual-keywords-local "unitfrac")
+    (font-latex-match-textual-make))))
 
-;; Local Variables:
-;; coding: iso-8859-1
-;; End:
+;;; units.el ends here

@@ -1,7 +1,7 @@
 ;;; tex-jp.el --- Support for Japanese TeX.
 
 ;; Copyright (C) 1999, 2001 Hidenobu Nabetani <nabe@debian.or.jp>
-;; Copyright (C) 2002, 2003, 2004 Masayuki Ataka <ataka@milk.freemail.ne.jp>
+;; Copyright (C) 2002, 2003, 2004 Free Software Foundation
 
 ;; Author:     KOBAYASHI Shinji <koba@flab.fujitsu.co.jp>
 ;; Maintainer: Masayuki Ataka <ataka@milk.freemail.ne.jp>
@@ -49,22 +49,24 @@
 ;	      TeX-format-list))
 
 (defvar japanese-TeX-command-list
-  ;; Changed to double quotes for Windows afflicted people.
-  (list (list "jTeX" "jtex %S \"\\nonstopmode\\input %t\""
-	      'TeX-run-TeX nil (list 'plain-tex-mode))
-	(list "jLaTeX" "jlatex %S \"\\nonstopmode\\input{%t}\""
-	      'TeX-run-LaTeX nil (list 'latex-mode))
-	(list "pTeX" "ptex %S \"\\nonstopmode\\input %t\""
-	      'TeX-run-TeX nil (list 'plain-tex-mode))
-	(list "pLaTeX" "platex %S \"\\nonstopmode\\input{%t}\""
-	      'TeX-run-LaTeX nil (list 'latex-mode))
-	(list "Mendex" "mendex %s" 'TeX-run-command nil t)
-	(list "jBibTeX" "jbibtex %s" 'TeX-run-BibTeX nil t))
+  ;; Changed to double quotes for Windows afflicted people.  I don't
+  ;; use the %(latex) and %(tex) shorthands here because I have not
+  ;; clue whether Omega-related versions exist.  --dak
+  '(("jTeX" "%(PDF)jtex %S%(PDFout) \"%(mode)\\input %t\""
+     TeX-run-TeX nil (plain-tex-mode))
+    ("jLaTeX" "%(PDF)jlatex %S%(PDFout) \"%(mode)\\input{%t}\""
+     TeX-run-LaTeX nil (latex-mode))
+    ("pTeX" "%(PDF)ptex %S%(PDFout) \"%(mode)\\input %t\""
+     TeX-run-TeX nil (plain-tex-mode))
+    ("pLaTeX" "%(PDF)platex %S%(PDFout) \"%(mode)\\input{%t}\""
+     TeX-run-LaTeX nil (latex-mode))
+    ("Mendex" "mendex %s" TeX-run-command nil t)
+    ("jBibTeX" "jbibtex %s" TeX-run-BibTeX nil t))
   "Additional list of commands to execute in japanese-LaTeX-mode")
 
 (setq TeX-command-list
       (append japanese-TeX-command-list
-	      '(("-" "" nil nil t)) ;; separetor for command menu
+	      '(("-" "" nil nil t)) ;; separator for command menu
 	      TeX-command-list))
 
 ;; Menus
@@ -80,12 +82,10 @@
   (TeX-mode-specific-command-menu 'latex-mode))
 
 (setq LaTeX-command-style
-      (append (if (string-equal LaTeX-version "2")
-		  '(("^ams" "amsjlatex")
-		    ("^jslides$" "jslitex")
-		    ("^j-?\\(article\\|report\\|book\\)$" "jlatex"))
-		'(("^j-\\(article\\|report\\|book\\)$" "jlatex")
-		  ("^[jt]s?\\(article\\|report\\|book\\)$" "platex")))
+      (append '(("^j-\\(article\\|report\\|book\\)$"
+		 "%(PDF)jlatex %S%(PDFout)")
+		("^[jt]s?\\(article\\|report\\|book\\)$"
+		 "%(PDF)platex %S%(PDFout)"))
 	      LaTeX-command-style))
 
 (setcdr (assoc "%l" TeX-expand-list)
@@ -227,7 +227,7 @@
 
 ;;;###autoload
 (defun japanese-plain-tex-mode ()
-  "Major mode for editing files of input for Japanese plain TeX.
+  "Major mode for editing Japanese plain TeX files.
 Set japanese-TeX-mode to t, and enters plain-tex-mode."
   (interactive)
   (setq japanese-TeX-mode t)
@@ -242,7 +242,7 @@ Set japanese-TeX-mode to t, and enters plain-tex-mode."
 
 ;;;###autoload
 (defun japanese-latex-mode ()
-  "Major mode for editing files of input for Japanese plain TeX.
+  "Major mode for editing Japanese LaTeX files.
 Set japanese-TeX-mode to t, and enters latex-mode."
   (interactive)
   (setq japanese-TeX-mode t)

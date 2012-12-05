@@ -1,4 +1,4 @@
-;;; jura.el --- AUCTeX style for `jura.cls'
+;;; ltxdoc.el --- AUCTeX style for `ltxdoc.cls'
 
 ;; Copyright (C) 2004 Free Software Foundation, Inc.
 
@@ -25,14 +25,15 @@
 
 ;;; Commentary:
 
-;; This file adds support for `jura.cls'.
+;; This file adds support for `ltxdoc.cls'.
 
 ;;; Code:
 
 (TeX-add-style-hook
- "jura"
+ "ltxdoc"
  (lambda ()
-   (TeX-run-style-hooks "alphanum")))
+   (TeX-run-style-hooks "doc")
+   (TeX-run-style-hooks "ltx-base")))
 
 ;; Local Variables:
 ;; coding: iso-8859-1
