@@ -72,7 +72,7 @@ install-man:
 
 dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
 
-extradist: html/auctex_toc.html auctex.ps auctex.pdf tex-ref.ps
+extradist: html/auctex_toc.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
 
 .PHONY: all info dvi dist install-auctex disttexts clean distclean \
 	maintainer-clean install-preview install-man html-docs extradist
@@ -120,9 +120,11 @@ install-auctex: auctex.info tex-ref.pdf
 	  fi; \
 	done
 	-$(INSTALL_INFO)  --info-dir=$(DESTDIR)$(infodir) auctex.info
-	-$(MKINSTALLDIRS) $(DESTDIR)$(docdir)
-	rm -f $(DESTDIR)$(docdir)/tex-ref.pdf
-	$(INSTALL_DATA) tex-ref.pdf $(DESTDIR)$(docdir)
+	test X$(packagedir) != Xno || { \
+	  $(MKINSTALLDIRS) $(DESTDIR)$(docdir); \
+	  rm -f $(DESTDIR)$(docdir)/tex-ref.pdf; \
+	  $(INSTALL_DATA) tex-ref.pdf $(DESTDIR)$(docdir); \
+	}
 
 # preview
 

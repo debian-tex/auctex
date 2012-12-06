@@ -1,3 +1,937 @@
+2010-02-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Version 11.86 released.
+
+2010-02-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* RELEASE: Update for upcoming release.
+
+	* doc/install.texi (Prerequisites): Update information about Emacs
+	distributions.
+
+	* doc/tex-ref.tex: Bump version number.  Update section on TeXing
+	options.
+
+	* configure.ac: Bump version number.
+
+	* auctex.spec (Version): Bump version number.
+
+	* doc/fdl.texi: Switch to GFDL 1.3.
+
+	* doc/auctex.texi: Switch to GFDL 1.3.
+
+	* doc/preview-latex.texi: Switch to GFDL 1.3.
+
+	* doc/changes.texi: Update for next release.
+
+2010-02-20  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc): Add a fallback in case nothing is found via
+	the backend list, e.g. when using MiKTeX 2.8.
+
+	* doc/auctex.texi (Documentation): Document change in `TeX-doc'.
+
+2010-02-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/changes.texi: Mention preview.sty supporting XeTeX.
+
+2010-02-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-XeTeX-command, LaTeX-XeTeX-command): Remove.
+	(ConTeXt-engine): Doc fix.
+	(ConTeXt-Omega-engine): Doc fix.  Make obsolote.
+	(TeX-expand-list): Add support for LuaTeX.  Adapt to new engine
+	handling.
+	(AUC-TeX-version, AUC-TeX-date): Remove.
+	(TeX-engine-alist-builtin): New variable.
+	(TeX-engine-alist): Adapt to new engine handling and make it a
+	defcustom.
+	(TeX-engine-alist): New function.
+	(TeX-engine): Adapt to new engine handling and make it
+	buffer-local.
+	(LaTeX-engine-alist): Remove.
+	(TeX-engine-set): Adapt to new engine handling and take care of
+	TeX PDF mode.
+	(TeX-clean-default-output-suffixes): Add .xdv.
+	(TeX-mode-specific-command-menu-entries): Construct list of
+	engines from `TeX-engine-alist'.
+
+	* context.el (ConTeXt-expand-options): Adapt to new engine
+	handling.
+
+	* doc/auctex.texi (Processor Options): Document options and
+	functions of new engine handling.
+
+2009-12-30  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-view-command-raw): Abort if no matching viewer is
+	found.
+
+	* doc/preview-faq.texi (Troubleshooting): Add some hints about
+	preview-latex overwriting output files.
+
+2009-12-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/austrian.el: New file.
+
+	* style/naustrian.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/austrian.el and
+	style/naustrian.el.
+
+2009-12-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Known problems): New subsection on dealing with
+	font locking problems.
+
+	* font-latex.el (font-latex-syntax-alist): New variable.
+	(font-latex-add-to-syntax-alist): New function.
+	(font-latex-setup): Use `font-latex-syntax-alist'.
+
+	* style/shortvrb.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/shortvrb.el.
+
+	* tex-style.el (LaTeX-shortvrb-chars): New variable.
+
+	* doc/changes.texi: Document changes after 11.85.
+
+	* context.el (ConTeXt-expand-options): Check for XeTeX engine, not
+	for mode which does not exist anymore.
+
+	* tex.el (plain-TeX-common-initialization): Let commented lines be
+	matched by `paragraph-separate' in order for commented and
+	non-commented paragraphs to be filled separately.
+
+2009-12-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-parse-error): Also find quoted file names with
+	newlines.  Remove the newlines from the matched string if
+	necessary.
+
+2009-12-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-parse-error): Add an alternative in the parser
+	regexp for quoted file names.  Strip the quotation marks if a file
+	name was found with the alternative.
+
+2009-12-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-fold.el (TeX-fold-command-prefix): New variable.
+	(TeX-fold-mode): Use it.
+	(TeX-fold-keymap): Remove prefix strings.
+
+	* tex.el (TeX-fold-menu): Remove hard-coded key binding labels.
+
+	* doc/auctex.texi (Folding): Mention `TeX-fold-command-prefix'.
+
+2009-11-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/wininstall.texi: Do not refer to Emacs 22 anymore.  Improve
+	the paragraphs about PNG support.
+
+2009-11-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/pstricks.el: Disable key bindings for macro parameter
+	addition and change.
+	(LaTeX-pst-color-list, LaTeX-pst-boolean-list)
+	(LaTeX-pst-fillstyle-list): Remove information for completion
+	mechanism.
+	(LaTeX-pst-trimode-list, LaTeX-pst-linestyle-list): Remove.
+	Handled directly in `LaTeX-pst-basic-parameters-list'.
+	(LaTeX-pst-basic-parameters-list): New variable.
+	(LaTeX-pst-parameters): Call `TeX-arg-key-val' instead of
+	`LaTeX-package-parameters' and thereby use a different completion
+	mechanism.
+	(LaTeX-pst-macro-psdots): Do not add a dotstyle parameter.
+	(LaTeX-pst-env-pspicture): Handle optional parameter via
+	`multi-prompt-key-value'.
+	("pstricks"): Handle arguments of \psdot and \psdots correctly.
+
+2009-10-31  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-verbatim-p-function): New variable.
+	(TeX-verbatim-p): New function.
+	(TeX-in-comment): Use it.
+	(TeX-brace-count-line): Use `TeX-in-comment' instead of just
+	checking for a comment character.
+
+	* latex.el (LaTeX-common-initialization): Set
+	`TeX-verbatim-p-function'.
+
+2009-10-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Starting Viewers): Describe new viewer
+	selection options.
+	(Folding): Add some hints on how to do automatic folding.
+
+	* tex.el (TeX-view-predicate-list-builtin)
+	(TeX-view-predicate-list, TeX-view-program-list): Doc fix.
+	(TeX-view-program-list-builtin, TeX-view-program-selection):
+	Conditionalize default value based on system type.  Doc fix.
+	(TeX-synctex-output-page): Do not return random stuff if there was
+	no match.
+	(TeX-clean-default-intermediate-suffixes): Remove SyncTeX files as
+	well.
+
+2009-10-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-synctex-output-page): Handle files in subdirectories
+	correctly.
+
+2009-10-18  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-run-discard): Doc fix.
+	(TeX-run-discard-or-function): New function.
+
+	* tex.el (TeX-command-list): Use `TeX-run-discard-or-function' as
+	hook for View command and provide it as a customization option.
+	(TeX-view-program-list): Add the possibility to use a function to
+	call the viewer.
+	(TeX-view-command-raw): Support the use of a function to call the
+	viewer.
+
+2009-10-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-view-predicate-list-builtin): Remove combined
+	predicates for paper properties and add new predicates testing
+	only one property.
+	(TeX-view-program-list-builtin): Use new predicates.
+	(TeX-view-program-list): Provide the possibility to use a list of
+	predicates.
+
+2009-10-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-view-program-list): Shave off extra closing paren.
+
+2009-10-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (LaTeX-command-style, TeX-print-style, TeX-view-style):
+	Doc fix.
+	(TeX-view-predicate-list-builtin, TeX-view-program-list-builtin):
+	New variables.
+	(TeX-view-predicate-list, TeX-view-program-list)
+	(TeX-view-program-selection): New user options.
+	(TeX-match-style, TeX-view-match-predicate)
+	(TeX-view-command-raw): New functions.
+	(TeX-expand-list): Use `TeX-view-command-raw' for %V expander.
+
+2009-09-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-error): Cater for case of file:line:error
+	messages without context.
+	(TeX-parse-error): Add support for quoted file names with
+	backslashes as path separators.  Those might be emitted by MiKTeX
+	2.8.
+
+2009-06-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Indenting): Mention `LaTeX-item-regexp'.
+	(Fontification of math): New section replacing and extending
+	`Subscript and superscript'.
+
+2009-04-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-source-correlate-mode): Clean `custom-requests'
+	property.
+	(VirTeX-common-initialization): Call `TeX-source-correlate-mode'
+	minor mode function when initializing the mode instead of when
+	loading the file.
+
+2009-04-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (TeX-arg-key-val): Eval `key-val-alist' argument if it
+	is a symbol.
+
+	* style/listings.el ("listings"): Do not eval arguments of
+	`TeX-arg-key-val'.
+
+	* multi-prompt.el (multi-prompt-expand-completion-table): New
+	function.
+	(multi-prompt-key-value): Use it.
+
+	* style/pstricks.el: Correct header info.
+	(LaTeX-pst-input-int, LaTeX-pst-point, LaTeX-pst-angle)
+	(LaTeX-pst-extdir, LaTeX-pst-arrows, LaTeX-pst-dotstyle-list)
+	(LaTeX-pst-refpoint-list, LaTeX-pst-refpoint)
+	(LaTeX-pst-macro-multirputps, LaTeX-pst-env-pspicture): Improve or
+	correct prompt.
+	("pstricks"): Move to the bottom of the file.  Do not use
+	`function' to quote `lambda'.  Turn off TeX PDF mode.  Use `mapc'
+	instead of `mapcar'.
+
+2009-04-05  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-help-error): Make search for help text in log
+	file more robust.
+
+2009-04-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/listings.el ("listings"): Remove redundant list when
+	calling `TeX-arg-key-val'.  Use `LaTeX-env-args' for lstlisting
+	environment.
+
+	* latex.el (LaTeX-env-args): New function.
+	(TeX-arg-conditional, TeX-arg-eval, TeX-arg-label)
+	(TeX-arg-index-tag, TeX-arg-index, TeX-arg-macro)
+	(TeX-arg-environment, TeX-arg-cite, TeX-arg-counter)
+	(TeX-arg-savebox, TeX-arg-file, TeX-arg-define-label)
+	(TeX-arg-define-macro, TeX-arg-define-environment)
+	(TeX-arg-define-cite, TeX-arg-define-counter)
+	(TeX-arg-define-savebox, TeX-arg-document, LaTeX-arg-usepackage)
+	(TeX-arg-input-file, TeX-arg-bibstyle, TeX-arg-bibliography)
+	(TeX-arg-corner, TeX-arg-lr, TeX-arg-tb, TeX-arg-pagestyle)
+	(TeX-arg-verb, TeX-arg-pair, TeX-arg-size, TeX-arg-coordinate)
+	(TeX-arg-insert-braces): Doc fix.
+
+	* multi-prompt.el (multi-prompt-separator): Remove.
+	(multi-prompt-key-value-collection-fn): Do not search for
+	`multi-prompt-separator'.
+	(crm-local-must-match-map, crm-local-completion-map): Silence the
+	byte compiler.
+	(multi-prompt-key-value): Require crm.el here and not at
+	top-level.
+
+	* tex-info.el (TeX-texinfo-mode): Add @lowersections and
+	@raisesections.
+
+	* doc/auctex.texi (Adding Environments): Document hooks for
+	`LaTeX-add-environments'.
+
+2009-03-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/listings.el (LaTeX-listings-key-val-options): New
+	variable.
+	("listings"): Use it.  Check for font-latex function, not feature.
+
+	* latex.el (TeX-arg-key-val): New function.
+
+	* multi-prompt.el: Require crm.el.
+	(multi-prompt-separator, multi-prompt-key-value-sep)
+	(multi-prompt-completion-table): New variables.
+	(multi-prompt-key-value-collection-fn, multi-prompt-key-value):
+	New functions.
+
+2009-03-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-site.el.in: Revitalize support for completion in \cite
+	macros via `BibTeX-auto-store'.
+
+2009-03-02  Holger Sparr  <holger.sparr@gmx.net>
+
+	* Makefile.in (STYLESRC): Add style/multido.el;
+	style/pst-{grad|node|plot|slpe}.el
+
+2009-03-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-verbatim-macro-boundaries): Do step backwards at
+	beginning of buffer.
+	(LaTeX-search-forward-comment-start): Treat find of comment at
+	limit correctly.
+
+	* tex-fold.el (TeX-fold-comment-do): Abort backward search for
+	comment start at beginning of buffer.  Do not fold empty comment.
+
+2009-02-24  Holger Sparr  <holger.sparr@gmx.net>
+
+	* style/multido.el: New file.
+
+	* style/pst-grad.el: New file.
+
+	* style/pst-node.el: New file.
+
+	* style/pst-plot.el: New file.
+
+	* style/pst-slpe.el: New file.
+
+2009-02-23  Holger Sparr  <holger.sparr@gmx.net>
+
+	* style/pstricks.el: Actually implement support for writing
+	PSTricks code.
+
+2009-02-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Multi-line fontification): Remove.
+
+	* doc/todo.texi (Wishlist): Fix typo.  Remove entry which is
+	already supported.
+
+	* style/tabularx.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/tabularx.el
+
+2009-02-15  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/natbib.el ("natbib"): Check for font-latex function rather
+	than feature.  Add fontification spec for \cite.
+
+	* doc/auctex.texi (Simple Style): Bring example in line with
+	reality.
+
+2009-01-24  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-source-correlate-method): Doc fix.
+	(TeX-source-correlate-mode): Call minor mode function after file
+	is loaded.
+
+2009-01-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-babel-insert-hyphen): Put `delete-selection'
+	property on function symbol.
+
+2009-01-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/CJK.el: New file.
+
+	* style/ruby.el: New file.  Correct argument numbers of \rubysize
+	and \rubysep.
+
+	* style/CJKutf8.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/CJK.el and style/ruby.el.  Add
+	style/CJKutf8.el.
+
+2009-01-03  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/flashcards.el ("flashcards"): Test for font-latex function
+	instead of feature.  Reflect that \cardbackstyle has an optional
+	argument.
+
+2008-12-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/hyperref.el ("hyperref"): Test for font-latex function
+	instead of feature.  Activate hyperref referencing style if
+	possible.
+
+2008-12-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-current-pages): Get rid of trailing periods.
+	(TeX-LaTeX-sentinel): Add support for longtable warning.  Use only
+	one search per condition.  Call `message' like `format'.
+
+2008-12-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-doc-backend-alist): Call `TeX-tree-expand' instead
+	of `TeX-macro-global-internal'.
+
+	* tex-jp.el (TeX-macro-global): Call `TeX-tree-expand' instead of
+	`TeX-macro-global-internal'.
+
+	* latex.el (LaTeX-env-item): Deactivate the mark before inserting
+	\item.
+	(LaTeX-insert-item): Swap point and mark when mark if necessary.
+	Insert newline only when not at beginning of line.
+
+	* tex.el (TeX-deactivate-mark): New function.
+	(TeX-parse-argument): Use it.
+
+2008-12-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-auto-private, TeX-style-private): Per default
+	propose a place in the user's Emacs directory, not in the TeX
+	tree.
+	(TeX-style-path): Add values to the end of the list.  Doc fix.
+
+	* doc/auctex.texi (Automatic Private): Adjust descriptions of
+	`TeX-macro-private', `TeX-auto-private', and `TeX-style-private'.
+
+2008-12-16  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-tree-expand): New name for
+	`TeX-macro-global-internal'.  Adapt parameter list to make it more
+	flexible.  Update doc string.  Do not return removed default
+	argument.
+	(TeX-macro-global): Change to accomodate new interface of
+	`TeX-tree-expand'.
+	(TeX-macro-private): New function.
+	(TeX-macro-private): Use it to determine variable value.
+
+2008-12-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (plain-TeX-clean-intermediate-suffixes)
+	(plain-TeX-clean-output-suffixes): New variables.
+
+2008-12-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (VirTeX-common-initialization): Revert last change.
+
+2008-11-30  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (VirTeX-common-initialization): Do not add call to
+	`TeX-update-style' to `find-file-hooks' but call it directly.
+
+2008-11-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-source-correlate-determine-method): Use configured
+	LaTeX command and find -synctex switch even if there are spaces in
+	front of it, as e.g. with MiKTeX.
+	(TeX-format-list): Use \subsection and \subsubsection as well to
+	identify a LaTeX file.
+
+2008-11-02  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-match-math-env)
+	(font-latex-extend-region-backwards-math-env): Do not match
+	\\[...].
+
+	* tex-fold.el (TeX-fold-expand-spec): Do not treat `\' special in
+	replacement text.
+
+2008-10-26  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (plain-TeX-common-initialization): Respect double dollar,
+	i.e. "$$", as a paragraph separator.
+
+2008-10-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-current-environment): Fix handling of commented
+	parts.
+
+	* tex.el (TeX-comment-prefix): Save match data.
+
+2008-10-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/changes.texi, doc/install.texi, doc/intro.texi,
+	doc/preview-readme.texi, doc/quickstart.texi: Make some
+	corrections and updates.
+
+2008-10-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-warning): Fix regexp for detecting bad boxes.
+
+2008-10-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-set-mode-name): Indicate TeX PDF mode as a trailing
+	flag.
+	(TeX-engine): Doc fix.
+
+	* doc/auctex.texi: Restructure some parts.  Update and extend it a
+	bit to reflect the recent changes of functionality.
+
+2008-10-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-interactive-mode): Add to `minor-mode-alist'.
+	("desktop"): Remove `TeX-interactive-mode' from
+	`desktop-locals-to-save'.
+
+2008-10-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-paragraph-commands-regexp-make): Make it work
+	for the case that `LaTeX-paragraph-commands' is set.
+
+2008-10-05  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-engine): New variable.
+	(TeX-expand-list): Use it instead of XeTeX and Omega mode
+	variables.
+	(hack-one-local-variable): Remove references to XeTeX and Omega
+	mode variables.
+	(TeX-set-mode-name): Remove lighters for XeTeX and Omega mode.
+	(TeX-engine-alist, LaTeX-engine-alist): New variables.
+	(TeX-engine-set): New function.
+	(TeX-Omega-mode): Mark as obsolete.  Remove defcustom.
+	(TeX-PDF-mode): Use `TeX-engine' instead of mode variables.
+	(TeX-XeTeX-mode): Remove.
+	(TeX-mode-map): Remove key bindings for toggling XeTeX and Omega
+	mode.
+	(TeX-mode-specific-command-menu-entries): Use new facilities for
+	switching TeX engines.
+	("desktop"): Remove reference to TeX Omega mode.
+
+	* context.el (ConTeXt-expand-options): Use `TeX-engine' instead of
+	XeTeX and Omega mode variables.
+
+2008-09-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-PDF-mode): Add to `minor-mode-alist'.  Use "" as
+	lighter.
+	("desktop"): Remove `TeX-PDF-mode' from `desktop-locals-to-save'.
+
+	* latex.el (LaTeX-mark-environment): Swap beg and end.
+
+2008-08-02  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-bar.el (TeX-bar-TeX-buttons, TeX-bar-LaTeX-buttons): Mimic
+	the default tool bars more closely.
+
+2008-08-02  Reiner Steib  <reiner.steib@gmx.de>
+
+	* toolbar-x.el (toolbarx-default-toolbar-meaning-alist): Provide
+	different defaults for different Emacs and XEmacs versions.
+	Conditionally add a `new-file' entry.
+
+2008-07-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* toolbar-x.el (toolbarx-image-path): Protect against load-path
+	items being nil.
+
+	* style/foils.el (LaTeX-style-foils): Silence the byte compiler.
+
+	* style/epsf.el (TeX-arg-epsfsize): Silence the byte compiler.
+
+	* tex.el (TeX-source-specials-view-start-server): Alias only if
+	`defvaralias' is available.
+	(TeX-master, TeX-convert-master): Move upwards to prevent some
+	compiler warnings.
+
+2008-07-27  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-synctex-tex-flags): New variable.
+	(TeX-source-correlate-expand-options): Use it.
+	(TeX-source-specials-tex-flags): Remove possibility to create
+	lists.
+
+	* context.el (ConTeXt-expand-options): Support TeX XeTeX mode and
+	TeX Source Correlate mode.
+
+2008-07-24  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-source-specials-mode): Fix last change.
+
+2008-07-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-expand-list): Prevent "%(PDF)" expander from
+	returning "pdf" if `TeX-XeTeX-mode' is active.  Make "%(tex)" and
+	"%(latex)" expanders aware of the XeTeX commands.
+	(hack-one-local-variable): Cater for `TeX-XeTeX-mode'.
+	(TeX-set-mode-name): Cater for `TeX-XeTeX-mode'.
+	(TeX-source-specials-mode): Mark as obsolete.
+	(TeX-PDF-mode): Disable TeX XeTeX mode if TeX PDF mode is
+	disabled.
+	(TeX-Omega-mode): Disable TeX XeTeX mode if TeX Omega mode is to
+	be enabled.
+	(TeX-XeTeX-command, LaTeX-XeTeX-command): New variables.
+	(TeX-XeTeX-mode): New minor mode.
+	(TeX-mode-map): Define key for TeX XeTeX mode.
+	(TeX-mode-specific-command-menu-entries): Add entry for TeX XeTeX
+	mode.  Make the engine-related options exclusive by using radio
+	buttons.  Refine the wording for some options.
+
+2008-07-19  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-source-correlate-determine-method): Do not error out
+	if calling the engine fails.
+
+	* latex.el (LaTeX-mark-environment): Keep point upon unsuccessful
+	search.
+
+2008-07-19  Vincent Belaïche  <vincent.b.1@hotmail.fr>  (tiny change)
+
+	* latex.el (LaTeX-mark-environment): Support marking of multiple
+	nested environments.
+
+2008-07-17  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (LaTeX-paragraph-commands-regexp-make): Take
+	`LaTeX-paragraph-commands' into account.
+	(LaTeX-paragraph-commands-regexp): Move behind
+	`LaTeX-paragraph-commands' definition.
+
+2008-07-14  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/pdfsync.el ("pdfsync"): Use
+	`TeX-source-correlate-output-page-function' rather than
+	`TeX-sync-output-page-function'.
+
+	* tex.el (TeX-command-list): Remove SyncTeX expanders.
+	(TeX-expand-list): Adapt function calls.  Remove SyncTeX expander.
+	(hack-one-local-variable, TeX-set-mode-name): Remove
+	`TeX-synctex-mode' and `TeX-source-specials-mode'.  Add
+	`TeX-source-correlate-mode'.
+	(TeX-source-correlate-method): New variable.
+	(TeX-source-correlate-method-active): New variable.
+	(TeX-source-correlate-output-page-function): Renamed from
+	`TeX-sync-output-page-function'.
+	(TeX-source-correlate-start-server): Renamed from
+	`TeX-view-start-server'.
+	(TeX-source-correlate-start-server-asked): Renamed from
+	`TeX-view-start-server-asked'.
+	(TeX-source-correlate-start-server-flag): Renamed from
+	`TeX-view-start-server-flag'.
+	(TeX-source-correlate-gnuserv-p): Renamed from
+	`TeX-view-gnuser-p'.
+	(TeX-source-correlate-server-enabled-p): Renamed from
+	`TeX-view-server-enabled-p'.
+	(TeX-source-correlate-start-server-maybe): Renamed from
+	`TeX-view-start-server-maybe'.
+	(TeX-source-specials): Remove custom group.
+	(TeX-source-correlate-determine-method): New function.
+	(TeX-source-correlate-expand-options): Renamed from
+	`TeX-source-specials-expand-options'.  Support SyncTeX as well.
+	(TeX-source-correlate-map): Renamed from
+	`TeX-source-specials-map'.
+	(TeX-source-correlate-mode): Renamed from
+	`TeX-source-specials-mode'.  Support SyncTeX as well.
+	(TeX-source-specials-mode): Now an alias for
+	`TeX-source-specials-mode'.
+	(TeX-source-specials-tex-flags, TeX-source-specials-places)
+	(TeX-source-specials-view-position-flags)
+	(TeX-source-specials-view-editor-flags)
+	(TeX-source-specials-view-gnuclient-flags)
+	(TeX-source-specials-view-emacsclient-flags): Put into `TeX-view'
+	rather than `TeX-command' group.
+	(TeX-source-specials-view-expand-options): Adapt for new function
+	names and distinction between source specials and SyncTeX.
+	(TeX-synctex-mode): Remove.
+	(TeX-mode-map): Remove binding for TeX SyncTeX mode.
+	(TeX-mode-specific-command-menu-entries): Remove menu entry for
+	TeX SyncTeX mode.  Use Source Correlate moniker instead of Source
+	Specials.
+
+2008-07-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Folding): Fix last change.
+
+2008-07-06  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Folding): Document folding of math constructs
+	and the possibilities of providing expanders and alternatives in
+	replacement specifiers.
+
+	* tex.el (TeX-command-list): Add expanders for SyncTeX.
+	(TeX-expand-list): Start server if necessary when viewing.  Define
+	expander for SyncTeX.
+	(hack-one-local-variable): Cater for TeX SyncTeX mode.
+	(TeX-set-mode-name): Add lighter for TeX SyncTeX mode.
+	(TeX-view): New customization group.
+	(TeX-view-start-server): Renamed from
+	`TeX-source-specials-view-start-server'.
+	(TeX-source-specials-view-start-server): Rename to
+	`TeX-view-start-server' and define alias.
+	(TeX-view-start-server-asked): Renamed from
+	`TeX-source-specials-view-start-server-asked'.
+	(TeX-source-specials-view-start-server-asked): Rename to
+	`TeX-view-start-server-asked'.
+	(TeX-view-start-server-flag): New variable.
+	(TeX-view-gnuserv-p): Renamed from
+	`TeX-source-specials-view-gnuserv-p'.
+	(TeX-source-specials-view-gnuserv-p): Rename to
+	`TeX-view-gnuserv-p'.
+	(TeX-view-server-enabled-p): New function.
+	(TeX-view-start-server-maybe): New function.
+	(TeX-source-specials-mode): Set `TeX-view-start-server-flag'.
+	(TeX-source-specials-view-expand-client): Adapt call to new
+	function name.
+	(TeX-source-specials-view-expand-options): Do not try to start the
+	server here anymore.
+	(TeX-synctex-mode): New minor mode.
+	(TeX-synctex-output-page): New function.
+	(TeX-mode-map): Add key for toggling TeX SyncTeX mode.
+	(TeX-mode-specific-command-menu-entries): Add menu entry for TeX
+	SyncTeX mode.
+	(TeX-math-input-method-off-regexp): New variable.
+	(TeX-toggle-off-input-method): Remove.
+	(TeX-math-input-method-off): Do without
+	`TeX-toggle-off-input-method'.
+
+2008-07-04  Berend de Boer  <berend@pobox.com>
+
+	* context.el, context-en.el: added a few more entries to the menu
+	to select ConTeXt macro's from.
+
+2008-06-29  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/bulgarian.el ("bulgarian"): Use value of
+	`TeX-quote-after-quote' for default quote insertion behavior.
+
+2008-06-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-find-matching-close): Simplify.  There
+	is no need for a general mechanism if the supported chars are
+	limited at another place.
+
+	* tex.el (TeX-search-syntax-table): Support (...) and <...>.
+
+	* tex-fold.el (TeX-fold-macro-spec-list): New spec for \item.
+	Adapt doc string to reflect new functionality.
+	(TeX-fold-macro-nth-arg): New `delims' parameter which can be used
+	to find other macro args than those enclosed by braces.
+	(TeX-fold-expand-spec): New function.
+	(TeX-fold-hide-item): Use it.
+
+	* doc/auctex.texi (European): Document `bulgarian' language
+	option.
+
+	* Makefile.in (STYLESRC): Add style/bulgarian.el.
+
+	* style/bulgarian.el: New file.
+
+2008-06-21  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/hyperref.el: New file.
+
+	* Makefile.in (STYLESRC): Add style/hyperref.el.
+
+2008-06-07  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-make-built-in-keywords): Distinguish
+	command-type keyword classes from others when creating the
+	respective variables.
+
+	* doc/auctex.texi (Font Locking): Structure with nodes.
+	(Fontification of macros): Describe format specifiers for macros
+	with arguments.
+
+2008-05-30  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Add some documentation.
+	(TeX-fold-hide-item): Support replacement of argument specifiers
+	like "{1}" by the respective argument value in the display string.
+
+2008-05-30  Joost Kremers  <joostkremers@fastmail.fm>  (tiny change)
+
+	* tex-fold.el (TeX-fold-macro-spec-list): Add function choice.
+	(TeX-fold-hide-item): If specifier is a function, call it with all
+	mandatory arguments of macro.
+
+2008-05-25  Ralf Angeli  <angeli@caeruleus.net>
+
+	* latex.el (docTeX-mode): Add regexp group to value of
+	`TeX-comment-start-regexp'.
+
+	* style/doc.el (LaTeX-doc-after-insert-macrocode): New function.
+	("doc"): Add it to `LaTeX-after-insert-env-hooks'.
+
+	* latex.el: Get rid of some compiler warnings.
+	(LaTeX-after-insert-env-hooks): New variable.
+	(LaTeX-insert-environment): Remove docTeX-specific code.
+	Run `LaTeX-after-insert-env-hooks'
+
+	* style/beamer.el (LaTeX-beamer-after-insert-env): New function.
+	("beamer"): Add it to `LaTeX-after-insert-env-hooks'.  Get rid of
+	some compiler warnings.  Support the semiverbatim environment.
+
+	* style/dinbrief.el: Get rid of some compiler warnings.
+
+	* style/dk-bib.el: Get rid of some compiler warnings.
+
+	* style/emp.el: Get rid of some compiler warnings.
+
+	* style/epsf.el: Get rid of some compiler warnings.
+
+	* style/foils.el: Get rid of some compiler warnings.
+
+	* style/graphicx.el: Get rid of some compiler warnings.
+
+	* style/letter.el: Get rid of some compiler warnings.
+
+	* style/prosper.el: Get rid of some compiler warnings.
+
+	* style/psfig.el: Get rid of some compiler warnings.
+
+	* texmathp.el: Get rid of some compiler warnings.
+
+	* tex.el: Get rid of some compiler warnings.
+
+	* tex-jp.el: Get rid of some compiler warnings.
+
+	* tex-buf.el: Get rid of some compiler warnings.
+
+	* font-latex.el: Get rid of some compiler warnings.
+
+	* context.el: Get rid of some compiler warnings.
+
+	* context-en.el: Get rid of some compiler warnings.
+
+	* context-nl.el: Get rid of some compiler warnings.
+
+2008-05-22  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-buf.el (TeX-command-sentinel): Use `TeX-master-file' instead
+	of `TeX-active-master' for `TeX-transient-master'.
+
+2008-05-17  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Font Specifiers): Correct argument list of
+	`TeX-font'.
+
+2008-05-13  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi (Font Specifiers): Document `LaTeX-font-list'.
+
+2008-05-10  Reiner Steib  <reiner.steib@gmx.de>
+
+	* tex-bar.el (TeX-bar-TeX-buttons, TeX-bar-LaTeX-buttons): Add
+	standard Emacs buttons to custom set.
+	(TeX-bar-TeX-buttons): Use `tex' instead of `latex' in custom set.
+
+2008-05-04  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-site.el.in (AUCTeX): Move customization group here from
+	tex.el and load the main files defining customization options.
+
+	* tex.el (AUCTeX): Move customization group to tex-site.el.in.
+	(TeX-expand-list): Make %(outpage) default to "1".
+
+2008-05-01  Ralf Angeli  <angeli@caeruleus.net>
+
+	* toolbar-x.el (toolbarx-xemacs-refresh): Only activate the tool
+	bar if it is already visible.  Remove redundant if clause.
+
+	* tex-buf.el (TeX-format-filter): Do not remove linebreak if the
+	following line starts with an opening parenthesis.
+
+2008-04-28  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/Makefile.in (install-auctex): Do not use `-' to suppress
+	errors within command.
+
+2008-04-28  David Kastrup  <dak@gnu.org>
+
+	* tex-buf.el (TeX-run-command): disable undo in run buffer
+
+2008-03-12  Ralf Angeli  <angeli@caeruleus.net>
+
+	* style/pdfsync.el (LaTeX-pdfsync-output-page): Kill buffer with
+	pdfsync file if it was loaded by us.
+
+2008-03-02  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex-info.el (texinfo-environment-regexp): Terminate.
+
+2008-03-01  Matan Ninio  <emacs@auctexdev.ninio.org>  (tiny change)
+
+	* style/pdfsync.el (LaTeX-pdfsync-output-page): Include
+	subdirectories relative to master file in file names.  Searching
+	for the file entry in the .pdfsync file allows for an optional
+	`.tex' extension in the filename.  Find further p lines if the
+	current context does not contain any more.
+
+2008-02-24  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Makefile.in: Add windows-package target and related variables.
+
+2008-02-23  Ralf Angeli  <angeli@caeruleus.net>
+
+	* tex.el (TeX-common-menu-entries): Add exception for docTeX mode
+	when extending the customization menu.
+
+2008-02-17  Ralf Angeli  <angeli@caeruleus.net>
+
+	* doc/auctex.texi: Repeat direntry after each category as per
+	recommendation of Karl Berry.
+
+	* doc/preview-latex.texi: Repeat direntry after each category as
+	per recommendation of Karl Berry.
+
+2008-02-11  Ralf Angeli  <angeli@caeruleus.net>
+
+	* font-latex.el (font-latex-make-match-defun)
+	(font-latex-keyword-matcher): Recognize old-style type specs which
+	could be lists.  Prevents "void-function nil" error during font
+	locking.
+
+2008-02-10  Ralf Angeli  <angeli@caeruleus.net>
+
+	* Makefile.in (maintainer-clean): Do not depend on distclean.  How
+	did this ever work?
+	(www-doc): Use release files.  Update URLs.  Make gendocs.sh use
+	texi2html.
+
+	* doc/Makefile.in (extradist): Re-add tex-ref.pdf dependency.
+	(install-auctex): Do not install reference card when producing an
+	XEmacs package.
+
 2008-02-10  Ralf Angeli  <angeli@caeruleus.net>
 
 	* Version 11.85 released.
@@ -37,6 +971,12 @@
 	(Debugging): Reflect new option of `TeX-display-help'.
 
 	* doc/changes.texi: Add changes for 11.85.  Add copyright notice.
+
+2008-02-08  Reiner Steib  <Reiner.Steib@gmx.de>
+
+	* tex-bar.el (LaTeX-symbols-toolbar-visible-flag): Improve doc string.
+
+	* toolbar-x.el (toolbarx-image-path): Improve doc string.
 
 2008-02-07  Ralf Angeli  <angeli@caeruleus.net>
 
@@ -895,7 +1835,7 @@
 	Using `nreverse' directly inside `let'.
 	`nreverse' is applied to lists generated from actual
 	data-structures, leaving such data-structures alone.
-	
+
 2006-11-26  Ralf Angeli  <angeli@caeruleus.net>
 
 	* context.el (ConTeXt-texexec-option-nonstop): New variable.
@@ -964,7 +1904,7 @@
 
 	* RELEASE: Mention space in file names, PostScript stack
 	tolerance.
-	
+
 	* tex-buf.el (TeX-command-expand): Make `file' self-quoting in
 	expansion, and trick around with `TeX-command-pos' and other junk
 	in order to make the quoting stuff of "%`" and "%'" work.

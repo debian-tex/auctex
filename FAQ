@@ -374,6 +374,26 @@ preview-latex is operating.  There might be also real errors, so in
 case of doubt, look for them explicitly in either run buffer or the
 resulting `.log' file.
 
+5.2 Why do my DVI and PDF output files vanish?
+==============================================
+
+In order to produce the preview images preview-latex runs LaTeX on the
+master or region file.  The resulting DVI or PDF file can happen to
+have the same name as the output file of a regular LaTeX run.  So the
+regular output file gets overwritten and is subsequently deleted by
+preview-latex.
+
+5.3 My output file suddenly only contains preview images?!
+==========================================================
+
+As mentioned in the previews FAQ entry, preview-latex might use the
+file name of the original output file for the creation of preview
+images.  If the original output file is being displayed with a viewer
+when this happens, you might see strange effects depending on the
+viewer, e.g. a message about the file being corrupted or the display of
+all the preview images instead of your typeset document.  (Also *Note
+Customization::.)
+
 6 preview-latex when not using LaTeX
 ************************************
 

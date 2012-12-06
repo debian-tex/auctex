@@ -1,6 +1,37 @@
 Changes and New Features in AUCTeX
 **********************************
 
+News in 11.86
+=============
+
+   * Parsing of LaTeX output was improved.  It is now less likely that
+     AUCTeX opens a non-existent file upon calling `TeX-next-error'; a
+     problem for example encountered when using MiKTeX 2.8.  In addition
+     quoted file names as emitted by MiKTeX are now supported.
+
+   * A new framework for the definition and selection of viewers was
+     implemented.  If you have customizations regarding viewers you
+     will have to redo them in this new framework or reenable the old
+     one.  See the section on viewers in the manual for details.
+
+   * Comprehensive editing support for PSTricks was added.
+
+   * Support for various LaTeX packages was added, e.g. `tabularx',
+     `CJK', and `hyperref'.
+
+   * An easy way to switch between TeX engines (PDFTeX, LuaTeX, XeTeX,
+     Omega) was added.
+
+   * Support for SyncTeX was added.  This involves the command line
+     options for LaTeX and the viewer.
+
+   * Folding can now be customized to use macro arguments as replacement
+     text.
+
+   * `preview.sty' now works with XeTeX.
+
+   * A lot of smaller and larger bugs have been squashed.
+
 News in 11.85
 =============
 
