@@ -133,7 +133,7 @@ changes on the mailing list of AUCTeX first.
    * Multiple argument completion for `\bibliography'.  In general, I
      ought to make `,' special for these kind of completions.
 
-   * Suggest `makindex' when appropriate.
+   * Suggest `makeindex' when appropriate.
 
    * Use index files (when available) to speed up `C-c C-m include
      <RET>'.
@@ -147,9 +147,6 @@ changes on the mailing list of AUCTeX first.
 
    * Included PostScript files should also be counted as part of the
      document.
-
-   * The parser should catch warnings about undefined crossreferences.
-     Suggested by Richard Hirsch `i3080501@ws.rz.tu-bs.de'.
 
    * A nice hierarchical by-topic organization of all officially
      documented LaTeX macros, available from the menu bar.

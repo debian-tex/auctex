@@ -133,8 +133,8 @@ used single quotes for that.
      might save headaches, _if_ things don't work out.
 
   3. Install a current version of XEmacs from `http://www.xemacs.org/'
-     or Emacs 22 from `ftp://ftp.gnu.org/gnu/emacs/windows/'.  Emacs 22
-     is the recommended choice because it is currently the primary
+     or Emacs from `ftp://ftp.gnu.org/gnu/emacs/windows/'.  Emacs is
+     the recommended choice because it is currently the primary
      platform for AUCTeX development.
 
   4. You need a working TeX installation.  One popular installation
@@ -298,17 +298,29 @@ used single quotes for that.
  13. Check whether the `Preview' menu is available in this file.  Use it
      to generate previews for the document.
 
-     If this barfs and tells you that image type `png' is not
-     supported, try adding the line
+     If this barfs and tells you that image type `png' is not supported,
+     you can either add PNG support to your Emacs installation or
+     choose another image format to be used by preview-latex.
+
+     Adding support for an image format usually involves the
+     installation of a library, e.g. from `http://gnuwin32.sf.net/'.
+     If you got your Emacs from `gnu.org' you might want to check its
+     README file (ftp://ftp.gnu.org/gnu/emacs/windows/README) for
+     details.
+
+     A different image format can be chosen by setting the variable
+     `preview-image-type'.  While it is recommended to keep the
+     `dvipng' or `png' setting, you can temporarily select a different
+     format like `pnm' to check if the lack of PNG support is the only
+     problem with your Emacs installation.
+
+     Try adding the line
 
           (setq preview-image-type 'pnm)
 
-     at the end of your installed version of `preview-latex.el'.  If
-     this helps, complain to wherever you got your Emacs from: all
-     current Emacs/XEmacs versions capable of running preview-latex by
-     now can be compiled to support PNG images.  Which is important,
-     because PNM files take away *vast* amounts of disk space, and thus
-     also of load/save time.
+     to your init file for a quick test.  You should remove the line
+     after the test again, because PNM files take away *vast* amounts
+     of disk space, and thus also of load/save time.
 
-        Well, that about is all.  Have fun!
+   Well, that about is all.  Have fun!
 

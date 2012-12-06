@@ -21,37 +21,27 @@ MS Windows are asked to consult the file `INSTALL.windows'.
      version of `xemacs-base' older than 1.84 (released in sumo from
      02/02/2004).  Using preview-latex requires a version of Emacs
      compiled with image support.  While the X11 version of Emacs 21
-     will likely work, Emacs 22 is the preferred platform.
+     will likely work, Emacs 22 and later is the preferred platform.
 
     Windows
           Precompiled versions are available from
           `ftp://ftp.gnu.org/gnu/emacs/windows/'.
 
     Mac OS X
-          A precompiled version including an installer as well as
-          preinstalled versions of AUCTeX and preview-latex is
-          available from
-          `http://homepage.mac.com/zenitani/emacs-e.html'.
+          For an overview of precompiled versions of Emacs for Mac OS X
+          see for example
+          `http://www.emacswiki.org/cgi-bin/wiki/EmacsForMacOS'.
 
-    Debian GNU/Linux
-          Debian provides `emacs22-gtk' (probably preferable) and
-          `emacs22' packages in its `unstable' distribution.
-
-    Fedora GNU/Linux
-          Fedora 8 comes with Emacs 22.1 and Fedora 7 comes with a
-          developer version of the same.
-
-    openSUSE
-          openSUSE 10.3 comes with Emacs 22.1.  For some earlier
-          openSUSE versions, Emacs 22.1 is available from
-          `http://packages.opensuse-community.org/'.
+    GNU/Linux
+          Most GNU/Linux distributions nowadays provide a variant of
+          Emacs 22 or later via their package repositories.
 
     Self-compiled
           Compiling Emacs yourself requires a C compiler and a number
           of tools and development libraries.  Details are beyond the
           scope of this manual.  Instructions for checking out the
           source code can be found at
-          `http://savannah.gnu.org/cvs/?group=emacs'.
+          `https://savannah.gnu.org/bzr/?group=emacs'.
 
      If you really need to use Emacs 21 on platforms where this implies
      missing image support, you should disable the installation of
@@ -248,7 +238,7 @@ load them by placing the lines
      (load "auctex.el" nil t t)
      (load "preview-latex.el" nil t t)
 
-   into your `~/.emacs' file.
+   into your init file.
 
    If you explicitly used `--with-lispdir', you may need to add the
 specified directory into Emacs' `load-path' variable by adding
@@ -260,9 +250,15 @@ something like
 
    For site-wide activation in GNU Emacs, see below.
 
-   That is all.  There are other ways of achieving the equivalent thing,
-but we don't mention them here any more since they are not better, and
-people got confused into trying everything at once.
+   Once activated, the modes provided by AUCTeX are used per default for
+all supported file types.  If you want to change the modes for which it
+is operative instead of the default, use
+     M-x customize-variable <RET> TeX-modes <RET>
+
+   If you want to remove a preinstalled AUCTeX completely before any of
+its modes have been used,
+     (unload-feature 'tex-site)
+   should accomplish that.
 
 5 Providing AUCTeX as a package
 *******************************

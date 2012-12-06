@@ -2,7 +2,7 @@ The main purpose of this package is the extraction of certain
 environments (most notably displayed formulas) from @LaTeX{} sources
 as graphics.  This works with @acronym{DVI} files postprocessed by either
 Dvips and Ghostscript or dvipng, but it also works when you are
-using PDF@TeX{}for generating PDF files (usually also postprocessed
+using PDF@TeX{} for generating PDF files (usually also postprocessed
 by Ghostscript).
 
 Current uses of the package include the @previewlatex{} package for
@@ -116,6 +116,9 @@ previews.  If this option is specified, the changes will be undone
 if possible.
 @item @code{pdftex}
 If this option is set, PDF@TeX{} is assumed as the
+output driver.  This mainly affects the @code{tightpage} option.
+@item @code{xetex}
+If this option is set, Xe@TeX{} is assumed as the
 output driver.  This mainly affects the @code{tightpage} option.
 @item @code{displaymath}
 will make all displayed math environments
