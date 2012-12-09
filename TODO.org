@@ -1,81 +1,160 @@
+#+TITLE: AUCTeX Debian package plan
+
+* Package info
+** [[alioth][Debian package repository]]
+** [[pts][Debian package tracking system]]
+** [[bts][Debian bug tracking system]]
+** [[lintian][Debian Lintian report]]
+** [[home][Upstream home page]]
+** [[savannah][Upstream project home]]
+** [[buglist][Upstream bug list]]
 * Package bugs
 ** Unreported bugs
-These bugs should be reported via the BTS.
-*** TODO missing workaround for #560317
-- dpkg-reconfigure does not set DPKG_MAINTSCRIPT_PACKAGE (et al)
-Due to this bug I had to add a workaround to auctex.postinst to let
-"dpkg-reconfigure auctex" work; "dpkg-reconfigure preview-latex-style" does
-not work because of dh_installtex added stuff to preview-latex-style.postinst.
-*** TODO (unload-feature 'tex-site)
+These bugs should perhaps be reported via the BTS?
+*** TODO missing workaround for [[bug:560317][#560317]]
+=dpkg-reconfigure= does not set =DPKG_MAINTSCRIPT_PACKAGE= (et al)
+
+Due to this bug I had to add a workaround to =auctex.postinst= to let
+=dpkg-reconfigure auctex= work; =dpkg-reconfigure preview-latex-style= does
+not work because of =dh_installtex= added stuff to
+=preview-latex-style.postinst=.
+*** TODO broken =(unload-feature 'tex-site)=
 This new feature does not work.  Maybe preview has to be unloaded first, maybe
 the lisp startup files do not do the right thing.
 *** TODO update reportbug scripts
-The scripts should also cater for preview-latex and for the new auctex.el and
-preview.el startup files.  In particular, the md5sum of the new startup files
-should be reported.
-*** TODO selectively update-auctex-elisp
-When new (La)TeX macros get installed to the system it would be good to rescan
-only them for all installed and supported Emacs flavors; currently all
-installed macros get rescanned for each installed and supported Emacs flavor.
-** Open bugs
-These bugs should be checked to see if they still apply to the current
-release.
-*** TODO #120031
-*** TODO #172237
-*** TODO #276102
-*** TODO #290635
-*** TODO #514431
-I'm not sure I can confirm.  Trying to produce a minimal doc, at this moment
-I'm here:
-========================================================================
-\documentclass{article}
+The scripts should also cater for =preview-latex= and for the new =auctex.el=
+and =preview.el= startup files.  In particular, the md5sum of the new startup
+files should be reported.
+*** TODO selectively =update-auctex-elisp=
+When new (La)TeX macros get installed to the system it would be good to
+re-scan only them for all installed and supported Emacs flavors; currently all
+installed macros get re-scanned for each installed and supported Emacs flavor.
+** Reported bugs
+*** By Topic
+**** [[http://bugs.debian.org/cgi-bin/pkgreport.cgi?src%3Dauctex%3Bexclude%3Dtags%253Aconfirmed][To be confirmed bugs]]
+What does the maintainer wait to care for these bugs?
+**** [[usertag:fixed-in-experimental][Fixed in experimental bugs]]
+These bugs have been fixed in the package of the experimental
+distribution, but not yet in the unstable distribution.
+**** [[usertag:pending][Pending bugs]]
+A solution to these bugs has been found and an upload will be made soon,
+more or less.  Maybe the maintainer sent a patch to the BTS, maybe he
+committed it into the [[http://anonscm.debian.org/gitweb/?p%3Dusers/salve/auctex.git%3Ba%3Dshortlog%3Bh%3Drefs/heads/next][next branch]].
+**** [[usertag:fixed][Fixed bugs]]
+These bugs are fixed or worked around, but there's still some issue that
+needs to be resolved.
+**** [[usertag:old-bug-does-this-still-apply-today-p][Old bugs: do they still apply to the current package release?]]
+Maybe /you/ can help the maintainer to decide it?
+**** [[usertag:help][Help the maintainer with these bugs, please!]]
+The maintainer does not know how to deal with them and is waiting for all
+persons of good will to help him.
+**** [[usertag:unreproducible][These bugs cannot be reproduced by the maintainer]]
+These bugs can't be reproduced on the maintainer system.  Assistance from
+third parties is needed in diagnosing the cause of the problem.  Meanwhile,
+the maintainer is unlikely to fix them until he will be able to reproduce
+them.  These bugs will likely be closed after a reasonable amount of time
+without progress.
+**** [[usertag:moreinfo][More information is needed for these bugs]]
+These bugs can't be addressed until more information is provided by the
+submitter.  The bugs will be closed if the submitter doesn't provide more
+information in a reasonable time frame.
+**** [[usertag:wontfix][Will not fix bugs]]
+The maintainer acknowledges these bugs as open issues, but he won't do
+anything about them.
+**** [[usertag:l10n][Localization bugs]]
+Better fix them ASAP, otherwise /that guy/ will do another NMU. :-)
+**** [[usertag:upstream][Upstream bugs]]
+These bugs applies to the upstream part of the package.  Hopefully the
+maintainer has forwarded them upstream; [[http://bugs.debian.org/cgi-bin/pkgreport.cgi?src%3Dauctex%3Brepeatmerged%3Don%3Btag%3Dupstream%3Bexclude%3Dforwarded%253A%2540][if not]], /you/ should perhaps do it
+now, thanks.
+**** [[usertag:fixed-upstream][Fixed upstream bugs]]
+The bug has been fixed by the upstream maintainer, but not yet in the
+package (for whatever reason: perhaps it is too complicated to backport
+the change or too minor to be worth bothering).
+*** By severity level
+**** [[severity:critical][Critical bugs]]
+**** [[severity:grave][Grave bugs]]
+**** [[severity:serious][Serious bugs]]
+**** [[severity:important][Important bugs]]
+**** [[severity:normal][Normal bugs]]
+**** [[severity:minor][Minor bugs]]
+**** [[severity:wishlist][Wish list bugs]]
+**** [[severity:fixed][Fixed bugs]]
+** Unreported notes about bugs
+These notes should be sent to the BTS, as soon as they have been made
+clear enough.
+*** TODO [[bug:514431][#514431]]
+I'm not sure I can confirm this bug.  Trying to produce a minimal doc, at
+this moment I'm here:
+#+begin_src LaTeX
+  \documentclass{article}
+  
+  \begin{document}
+  
+    \begin{equation}
+      \int h \Big(
+      (\mbox{Id} - D_scD_s c^T   - D^2_s c c^T ) {(f + c(D_s f \cdot D_s c)) }
+      +  (D_s^2 c {(f \cdot D_s^2 c)}+
+      D_s(P(D_s k)) \Big) ~ s
+    \end{equation}
+  
+  \undefined
+  
+  \end{document}
+#+end_src
+* Open issues and speculative ideas
+** TODO Evaluate =auctex.el=, =preview-latex.el=, =tex-site.el= status
+Do we need these files (there)?  Wouldn't be better to move the code to the
+Emacs startup file?  Should these files mess with the =load-path=?  Could the
+unload feature be made to work?
+** TODO Evaluate =.nosearch= files status
+Do we really need
+<file:/usr/share/emacs-snapshot/site-lisp/auctex/.nosearch> and
+<file:/usr/share/emacs-snapshot/site-lisp/auctex/style/.nosearch>?
+** TODO Discuss =debian/patches= upstream
+Those patches should be evaluated and discussed on
+<mailto:auctex-devel@gnu.org>.
+** TODO Use =xdg-open=?
+Maybe auctex should recommend and use =xdg-open=?  WRT this me think source
+specials need to be considered, otherwise it would be a big minus.
+** SOMEDAY Customize =TeX-printer-list=, =TeX-printer-default=
+It would be good to collect local printer info at installation time, or,
+even better, at load time.
+** SOMEDAY Let the user choose which Emacs flavor =auctex= should cater
+What about letting the user choose which Emacs flavor AUCTeX should byte
+compile and be activated for?
 
-\begin{document}
+Upstream supported flavors should be on by default, the user could however
+choose to /switch them off/, whatever this might mean.
 
-  \begin{equation}
-    \int h \Big(
-    (\mbox{Id} - D_scD_s c^T   - D^2_s c c^T ) {(f + c(D_s f \cdot D_s c)) }
-    +  (D_s^2 c {(f \cdot D_s^2 c)}+
-    D_s(P(D_s k)) \Big) ~ s
-  \end{equation}
-
-\undefined
-
-\end{document}
-========================================================================
-** Non bugs
-These are not bugs, even if they might look like as if they were such.
-** Unsettled issues
-*** TODO XEmacs integration (#63513/#74702, #144846)
-XEmacs includes its own AUCTeX: if the Debian auctex package were to provide
-an upgrade, it should be careful to avoid load-path conflicts, both for the
-byte compiled files as well as for the source elisp files. Moreover, upstream
+Unsupported flavors could be dynamically added to the list of /switched on/
+flavors to be byte compiled and activated for; something sane should be
+decided in case of failures, however.
+** SOMEDAY XEmacs integration
+XEmacs includes its own AUCTeX: if the Debian =auctex= package were to provide
+an upgrade, it should be careful to avoid =load-path= conflicts, both for the
+byte compiled files as well as for the source elisp files.  Moreover, upstream
 says that there are not so many feedback by AUCTeX XEmacs users, and states
 that GNU Emacs is much better supported.  Is it worth to cater for XEmacs in
-the Debian auctex package?
-
-* Miscellaneous stuff
-** TODO "auctex.el", "preview-latex.el", "tex-site.el"
-Do we need those files (there)?  Wouldn't be better to move the code in
-lisp-startup?  Should those files mess with "load-path"?  Make the unload
-feature work.
-** TODO .nosearch
-Do we really need "/usr/share/emacs-snapshot/site-lisp/auctex/.nosearch" and
-"/usr/share/emacs-snapshot/site-lisp/auctex/style/.nosearch"?
-** TODO Patches to upstream sources
-Evaluate and discuss them with upstream developers.
-** TODO TeX-printer-list, TeX-printer-default
-Is there any simple way to collect local printer info at installation time,
-or, even better, at load time?
-** TODO xdg-open
-Maybe auctex should recommend xdg-open instead of xpdf?  WRTT me think source
-specials need to be considered.
-
-
-* Local variables
-# local variables:
-# fill-column: 78
-# ispell-local-dictionary: "american"
-# end:
-
-# LocalWords:  BTS TODO tex reportbug auctex el md AUCTeX elisp nosearch
+the Debian =auctex= package?
+* Uninteresting org init stuff, local variables, local words
+:PROPERTIES:
+:VISIBILITY: folded
+:END:
+#+STARTUP: content fninline hidestars
+#+LINK: alioth http://anonscm.debian.org/gitweb/?p=users/salve/auctex.git;a=summary
+#+LINK: pts http://packages.qa.debian.org/a/auctex.html
+#+LINK: bts http://bugs.debian.org/cgi-bin/pkgreport.cgi?repeatmerged=yes&src=auctex
+#+LINK: bug http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=
+#+LINK: usertag http://bugs.debian.org/cgi-bin/pkgreport.cgi?src=auctex;repeatmerged=on;users=auctex@packages.debian.org;tag=
+#+LINK: severity http://bugs.debian.org/cgi-bin/pkgreport.cgi?src=auctex;repeatmerged=on;severity=
+#+LINK: lintian http://lintian.debian.org/maintainer/salve@debian.org.html#auctex
+#+LINK: home http://www.gnu.org/software/auctex/
+#+LINK: savannah http://savannah.gnu.org/projects/auctex
+#+LINK: buglist http://lists.gnu.org/archive/html/bug-auctex/
+#- local variables:
+#- fill-column: 78
+#- ispell-local-dictionary: "american"
+#- end:
+# LocalWords:  BTS TODO reportbug AUCTeX PTS Lintian Savannah dpkg postinst
+# LocalWords:  NMU LaTeX
