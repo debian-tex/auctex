@@ -137,6 +137,50 @@ byte compiled files as well as for the source elisp files.  Moreover, upstream
 says that there are not so many feedback by AUCTeX XEmacs users, and states
 that GNU Emacs is much better supported.  Is it worth to cater for XEmacs in
 the Debian =auctex= package?
+* Repository layout info
+** Branches
+*** =master=
+Stable integration branch; Debian package releases happen here.
+- Not meant to be rebased: this branch records /the/ official history of the
+  Debian package, which should be as linear as possible, but for upstream
+  releases merges.
+- Therefore, this branch is meant to be fast forward merged with =next= as
+  soon as =next= graduates to releasable status.
+*** =next=
+Unstable integration branch; commits meant to be included into the next Debian
+package release can be reached from here.
+- *It will be rebased* to rewrite history in the most convenient way.[fn:1:
+  After the subjective maintainer point of view, of course.]
+- Adding commits to this branch is a honest promise from the maintainer that
+  they should be included into the next Debian package release; however, the
+  final call will be taken at package release time.
+*** =bpo/*=
+These branches record all of the Debian backports the maintainer is aware of.
+*** =nmu/*=
+These branches record all of the Debian NMUs the maintainer is aware of.
+*** =upstream=
+The usual branch tracking upstream releases.  Sometimes it could also track
+upstream snapshots, as the maintainer sees fit.
+- Not meant to be rebased: this branch records /the/ official history of the
+  upstream releases packaged for Debian, which should be linear.
+- This branch is meant to be merged into =master= to include new upstream
+  releases.
+*** =pristine-tar=
+The usual auxiliary branch storing deltas for =pristine-tar= to be able to
+recreate exact copies of upstream tarballs.
+*** =plan=
+If you are reading these notes, you should understand what this branch is for.
+** Tags
+*** =debian/*=
+These tag official Debian package releases, by the maintainer.  Special ones
+of the form =debian/release/*= tag Debian package releases which have been
+included in Debian distribution releases.
+*** =bpo/*=
+These tag Debian backports.
+*** =nmu/*=
+These tag Debian NMUs.
+*** =upstream/*=
+These tag upstream releases.
 * Uninteresting org init stuff, local variables, local words
 :PROPERTIES:
 :VISIBILITY: folded
@@ -157,4 +201,4 @@ the Debian =auctex= package?
 #- ispell-local-dictionary: "american"
 #- end:
 # LocalWords:  BTS TODO reportbug AUCTeX PTS Lintian Savannah dpkg postinst
-# LocalWords:  NMU LaTeX
+# LocalWords:  NMU NMUs LaTeX rebased backports
