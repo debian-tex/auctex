@@ -130,6 +130,8 @@ choose to /switch them off/, whatever this might mean.
 Unsupported flavors could be dynamically added to the list of /switched on/
 flavors to be byte compiled and activated for; something sane should be
 decided in case of failures, however.
+
+Also see [[bug:378577][#378577]].
 ** SOMEDAY XEmacs integration
 XEmacs includes its own AUCTeX: if the Debian =auctex= package were to provide
 an upgrade, it should be careful to avoid =load-path= conflicts, both for the
