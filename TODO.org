@@ -3,8 +3,8 @@
 * Package info
 ** [[alioth][Debian package repository]]
 ** [[pts][Debian package tracking system]]
-** [[bts][Debian bug tracking system]]
-** [[lintian][Debian Lintian report]]
+** [[bts][Debian package bugs tracked by Debian BTS]]
+** [[lintian][Debian package Lintian report]]
 ** [[home][Upstream home page]]
 ** [[savannah][Upstream project home]]
 ** [[buglist][Upstream bug list]]
