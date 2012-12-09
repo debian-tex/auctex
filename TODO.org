@@ -31,7 +31,7 @@ re-scan only them for all installed and supported Emacs flavors; currently all
 installed macros get re-scanned for each installed and supported Emacs flavor.
 ** Reported bugs
 *** By Topic
-**** [[http://bugs.debian.org/cgi-bin/pkgreport.cgi?src%3Dauctex%3Bexclude%3Dtags%253Aconfirmed][To be confirmed bugs]]
+**** [[http://bugs.debian.org/cgi-bin/pkgreport.cgi?src%3Dauctex%3Bexclude%3Dtags%253Aconfirmed%3Bexclude%3Dtags%253Awontfix][To be confirmed bugs]]
 What does the maintainer wait to care for these bugs?
 **** [[usertag:fixed-in-experimental][Fixed in experimental bugs]]
 These bugs have been fixed in the package of the experimental
