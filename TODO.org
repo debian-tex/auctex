@@ -11,13 +11,20 @@
 * Package bugs
 ** Unreported bugs
 These bugs should perhaps be reported via the BTS?
-*** TODO missing workaround for [[bug:560317][#560317]]
+*** TODO =dpkg-reconfigure=: missing workaround for [[bug:560317][#560317]]
 =dpkg-reconfigure= does not set =DPKG_MAINTSCRIPT_PACKAGE= (et al)
 
-Due to this bug I had to add a workaround to =auctex.postinst= to let
-=dpkg-reconfigure auctex= work; =dpkg-reconfigure preview-latex-style= does
-not work because of =dh_installtex= added stuff to
-=preview-latex-style.postinst=.
+Update: [[bug:560317][#560317]] has been fixed in =debconf/1.5.42= since [2012-03-14 Wed].
+
+Due to this bug I had to add a workaround to =auctex.postinst= to skip cleanup
+code when called by =dpkg-reconfigure= and let =dpkg-reconfigure auctex=
+work.  I think that code does the right thing and should be left installed.
+
+Both =dpkg-reconfigure auctex= and =dpkg-reconfigure preview-latex-style= stop
+waiting for input by debconf; they work if provided of the right input:
+: echo -e "\nBackground\n" | dpkg-reconfigure auctex
+: echo | dpkg-reconfigure preview-latex-style
+I need some more time to research what exactly is going on here.
 *** TODO broken =(unload-feature 'tex-site)=
 This new feature does not work.  Maybe preview has to be unloaded first, maybe
 the lisp startup files do not do the right thing.
