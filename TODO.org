@@ -8,6 +8,7 @@
 ** [[home][Upstream home page]]
 ** [[savannah][Upstream project home]]
 ** [[buglist][Upstream bug list]]
+
 * Package bugs
 ** Unreported bugs
 These bugs should perhaps be reported via the BTS?
@@ -109,6 +110,7 @@ this moment I'm here:
   
   \end{document}
 #+end_src
+
 * Open issues and speculative ideas
 ** TODO Evaluate =auctex.el=, =preview-latex.el=, =tex-site.el= status
 Do we need these files (there)?  Wouldn't be better to move the code to the
@@ -146,6 +148,7 @@ byte compiled files as well as for the source elisp files.  Moreover, upstream
 says that there are not so many feedback by AUCTeX XEmacs users, and states
 that GNU Emacs is much better supported.  Is it worth to cater for XEmacs in
 the Debian =auctex= package?
+
 * Repository layout info
 ** Branches
 *** =master=
@@ -178,7 +181,8 @@ upstream snapshots, as the maintainer sees fit.
 The usual auxiliary branch storing deltas for =pristine-tar= to be able to
 recreate exact copies of upstream tarballs.
 *** =plan=
-If you are reading these notes, you should understand what this branch is for.
+If you are reading these notes, you have probably already understood what this
+branch is for.
 ** Tags
 *** =debian/*=
 These tag official Debian package releases, by the maintainer.  Special ones
@@ -190,6 +194,7 @@ These tag Debian backports.
 These tag Debian NMUs.
 *** =upstream/*=
 These tag upstream releases.
+
 * Uninteresting org init stuff, local variables, local words
 :PROPERTIES:
 :VISIBILITY: folded
