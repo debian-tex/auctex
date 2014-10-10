@@ -1,3 +1,0 @@
-<: $HTML="/usr/share/doc/auctex/HTML" :>//
-<:=$HTML:>/auctex/auctex.html <:=$HTML:>/auctex/index.html
-<:=$HTML:>/preview-latex/preview-latex.html <:=$HTML:>/preview-latex/index.html

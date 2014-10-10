@@ -46,8 +46,8 @@ override_dh_auto_build:
 	rm --force auto-loads.el
 	$(MAKE) auto-loads.el
 	$(MAKE) tex-site.el
-	cd doc && $(MAKE) auctex.htmls/auctex.html
-	cd doc && $(MAKE) preview-latex.htmls/preview-latex.html
+	cd doc && $(MAKE) auctex.htmls/index.html
+	cd doc && $(MAKE) preview-latex.htmls/index.html
 
 %:
 	dh $@ --exclude .eperl --with tex
