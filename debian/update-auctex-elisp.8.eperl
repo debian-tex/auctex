@@ -61,7 +61,7 @@ None known.
 .BR tex (1),
 .BR latex (1).
 .SH UNRESTRICTIONS
-This program is copylefted.  Refer to the GNU General License for
+This program is copylefted.  Refer to the GNU General Public License for
 conditions of use.
 .SH AUTHOR
 This program has been written and is actively maintained by Davide
