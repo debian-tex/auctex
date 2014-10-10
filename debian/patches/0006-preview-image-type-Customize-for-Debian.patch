@@ -8,7 +8,7 @@ Subject: preview-image-type: Customize for Debian
 Rationale: "dvipng is much faster than the combination of Dvips and
 Ghostscript", the AUCTeX README says.
 ---
- preview/preview.el |    2 +-
+ preview/preview.el | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/preview/preview.el b/preview/preview.el

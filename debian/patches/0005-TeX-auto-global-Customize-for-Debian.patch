@@ -4,7 +4,7 @@ Subject: TeX-auto-global: Customize for Debian
 
 Use "debian-emacs-flavor", according to the Debian Emacs policy.
 ---
- tex-site.el.in |    2 +-
+ tex-site.el.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tex-site.el.in b/tex-site.el.in

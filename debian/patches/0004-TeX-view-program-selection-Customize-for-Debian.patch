@@ -11,7 +11,7 @@ Rationale:
   choosing Evince by default if it is installed, falling back to xpdf
   otherwise.
 ---
- tex.el |    4 ++--
+ tex.el | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tex.el b/tex.el

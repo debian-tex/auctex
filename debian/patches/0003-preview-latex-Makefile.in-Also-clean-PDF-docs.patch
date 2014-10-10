@@ -2,13 +2,13 @@ From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Tue, 27 Dec 2011 22:40:49 +0100
 Subject: preview/latex/Makefile.in: Also clean PDF docs
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 Closes: #628787
 Thanks: Matthias Kümmerer
 ---
- preview/latex/Makefile.in |    2 +-
+ preview/latex/Makefile.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/preview/latex/Makefile.in b/preview/latex/Makefile.in
