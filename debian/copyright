@@ -11,7 +11,7 @@ Copyright: 1985-2010 Free Software Foundation, Inc.
 License: GPL-3+
 
 Files: configure preview/configure
-Copyright: 1992-2009 Free Software Foundation, Inc.
+Copyright: 1992-1996, 1998-2012 Free Software Foundation, Inc.
 License: permissive
   This configure script is free software; the Free Software Foundation
   gives unlimited permission to copy, distribute and modify it.
@@ -49,7 +49,7 @@ License: preserve-notice
   on all copies.
 
 Files: debian/*
-Copyright: 1997-2012 Davide G. M. Salvetti
+Copyright: 1997-2014 Davide G. M. Salvetti
 License: GPL-3+
 
 Files: style/foils.el style/jarticle.el style/jbook.el style/jreport.el
