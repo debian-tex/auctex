@@ -15,7 +15,7 @@ Abstract: The main purpose of this package is the extraction of certain
 Section: Editors
 
 Format: PDF
-Files: /usr/share/doc/preview-latex-style/preview.pdf.gz
+Files: /usr/share/doc/preview-latex-style/preview.pdf
 
 <:
 # local variables:
