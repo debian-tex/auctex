@@ -201,7 +201,7 @@ These tag upstream releases.
 :END:
 #+STARTUP: content fninline hidestars
 #+LINK: alioth http://anonscm.debian.org/gitweb/?p=users/salve/auctex.git;a=summary
-#+LINK: pts http://packages.qa.debian.org/a/auctex.html
+#+LINK: pts https://tracker.debian.org/pkg/auctex
 #+LINK: bts http://bugs.debian.org/cgi-bin/pkgreport.cgi?repeatmerged=yes&src=auctex
 #+LINK: bug http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=
 #+LINK: usertag http://bugs.debian.org/cgi-bin/pkgreport.cgi?src=auctex;repeatmerged=on;users=auctex@packages.debian.org;tag=
