@@ -18,6 +18,11 @@
 				     (symbol-name debian-emacs-flavor)
 				     "/site-lisp/" (cdr elt))))
 		    (when (file-directory-p dir)
+<: # since the package depends on emacsen-common (>= 2.0.8),
+   # which is greater than (>= 1.4.14), as per Debian Emacs policy
+   # (fboundp 'debian-pkg-add-load-path-item) should be 't;
+   # however, looking ahead for troubles,
+   # it's safer to leave the (if) form :>//
 		      (if (fboundp 'debian-pkg-add-load-path-item)
 			  (debian-pkg-add-load-path-item dir)
 			(add-to-list 'load-path dir 'append)))))

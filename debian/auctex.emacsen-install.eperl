@@ -48,7 +48,7 @@ do_install () {
     local FLAVOR=${1}
     local srcdir=${prefix}/usr/share/emacs/site-lisp/auctex
     local objdir=${prefix}/usr/share/${FLAVOR}/site-lisp/auctex
-    local ELCC="${FLAVOR} --batch --no-site-file --no-init-file"
+    local ELCC="/usr/bin/${FLAVOR} --batch --no-site-file --no-init-file"
     local LOGFILE=${objdir}/CompilationLog
     echo -n "${PROGNAME}:" \
 	"Byte-compiling for Emacs flavor ${FLAVOR}" \
