@@ -1,3 +1,22 @@
+auctex (11.87-2) unstable; urgency=medium
+
+  * [d6ee432] debian/copyright: Update
+  * [7544d1b] debian/control: Add VCS fields.
+    Thanks to Thomas Koch (Closes: #694801)
+  * [0f805ef] debian/update-auctex-elisp.8: Fix license name misspelling.
+    Thanks to Axel Beckert (Closes: #714949)
+  * [8e8c77b] Documentation: fix texdoc compatibility.
+    Thanks to Norbert Preining
+  * [137c142] Build with "makeinfo --html" instead of "texi2html"
+    Thanks to Norbert Preining
+  * [4c771ca] Upgrade Standards-Version to 3.9.6.
+    Thanks to Norbert Preining
+  * [adeaf4a] debian/po/ja.po: Update.
+    Thanks to Victory (Closes: #712918)
+  * [5acdaba] Update Debian Emacs policy support to emacsen-common 2.0.8
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Mon, 13 Oct 2014 15:56:19 +0200
+
 auctex (11.87-1) unstable; urgency=low
 
   * [2d85583] Imported Upstream version 11.87
