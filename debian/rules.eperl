@@ -138,7 +138,7 @@ release:
 	gbp-pq rebase
 	gbp-pq export
 	git-dch --release --commit
-	git-buildpackage -tc --git-pbuilder --git-tag
+	git-buildpackage -tc -us -uc --git-pbuilder --git-tag
 <:
 # local variables:
 # mode: makefile-gmake
