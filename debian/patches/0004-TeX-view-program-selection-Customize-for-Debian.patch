@@ -2,31 +2,29 @@ From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Sat, 14 Jan 2012 22:57:11 +0100
 Subject: TeX-view-program-selection: Customize for Debian
 
-* tex.el (TeX-view-program-selection): Look for an evince executable and
-  use it if available; fall back to xpdf otherwise.
-
-Rationale:
-- upstream support Evince and xpdf, choosing Evince by default;
-- the Debian auctex package recommends xpdf-reader | evince | evince-gtk,
-  choosing Evince by default if it is installed, falling back to xpdf
-  otherwise.
+* tex.el (TeX-view-program-selection): Look for Evince and use it if
+  available, else look for Okular and use it if available, fall back to
+  xdvi or xpdf otherwise.
 ---
- tex.el | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tex.el | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/tex.el b/tex.el
-index 85f82b3..24b3e02 100644
+index b634a74..b94e8c3 100644
 --- a/tex.el
 +++ b/tex.el
-@@ -1199,9 +1199,9 @@ restarting Emacs."
- ;;       (output-pdf "open")
- ;;       (output-html "open")))
+@@ -1235,9 +1235,11 @@ restarting Emacs."
+       (output-pdf "open")
+       (output-html "open")))
     (t
 -    '(((output-dvi style-pstricks) "dvips and gv")
-+    `(((output-dvi style-pstricks) "dvips and gv")
-       (output-dvi "xdvi")
+-      (output-dvi "xdvi")
 -      (output-pdf "Evince")
-+      (output-pdf ,(if (executable-find "evince") "Evince" "xpdf"))
++    `(((output-dvi style-pstricks) "dvips and gv")
++      (output-dvi ,(if (executable-find "evince") "Evince"
++		     (if (executable-find "okular") "Okular" "xdvi")))
++      (output-pdf ,(if (executable-find "evince") "Evince"
++		     (if (executable-find "okular") "Okular" "xpdf")))
        (output-html "xdg-open"))))
    "Alist of predicates and viewers.
  Each entry consists of a list with two elements.  The first

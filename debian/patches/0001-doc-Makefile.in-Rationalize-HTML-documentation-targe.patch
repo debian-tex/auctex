@@ -1,19 +1,15 @@
 From: "Davide G. M. Salvetti" <salve@debian.org>
-Date: Wed, 28 Dec 2011 23:21:16 +0100
+Date: Thu, 30 Oct 2014 17:47:53 +0100
 Subject: doc/Makefile.in: Rationalize HTML documentation targets
 
 - Use auctex.htmls instead of html as the name of the directory where
   AUCTeX HTMLs go.
-- Use auctex.html instead of auctex_toc.html as the AUCTeX HTML
-  documentation entry point; add index.html as a symlink to it.
 - Let the auctex.htmls/auctex.html target (ex html/auctex_toc.html) depend
   on all $(AUCTEXTEXIFILES) instead of just auctex.texi.
 - Refactor AUCTeX HTML documentation build command.
 
 - Use preview-latex.htmls instead of preview-latex as the name of the
   directory where preview-latex HTMLs go.
-- Use preview-latex.html instead of index.html as the preview-latex HTML
-  documentation entry point; add index.html as a symlink to it.
 - Refactor preview-latex HTML documentation build command.
 
 - Update references in extradist, html-docs, and clean targets.
@@ -22,42 +18,42 @@ Subject: doc/Makefile.in: Rationalize HTML documentation targets
  1 file changed, 11 insertions(+), 12 deletions(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index d2be29e..227e347 100644
+index 8507821..8ecd37f 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
-@@ -35,7 +35,7 @@ INSTALL_INFO=@INSTALL_INFO@
- INSTALL=@INSTALL@
- INSTALL_DATA=@INSTALL_DATA@
- DESTDIR=
--TEXI2HTML=@TEXI2HTML@
-+TEXI2HTML=@MAKEINFO@ --html
- TEXI2DVI=@TEXI2DVI@
- TEXI2PDF=@TEXI2PDF@
- MKINSTALLDIRS = ../mkinstalldirs
-@@ -72,18 +72,16 @@ install-man:
+@@ -2,7 +2,7 @@
+ 
+ # Maintainer: auctex-devel@gnu.org
+ 
+-# Copyright (C) 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
++# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2014 Free Software Foundation, Inc.
+ 
+ # This file is part of AUCTeX.
+ 
+@@ -87,18 +87,16 @@ install-man:
  
  dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
  
--extradist: html/auctex_toc.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
-+extradist: auctex.htmls/index.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
+-extradist: html/$(TEXI2HTML_TOC) auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
++extradist: auctex.htmls/$(TEXI2HTML_TOC) auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
  .PHONY: all info dvi dist install-auctex disttexts clean distclean \
  	maintainer-clean install-preview install-man html-docs extradist
  
  # AUCTeX
  
--html/auctex_toc.html: auctex.texi
+-html/$(TEXI2HTML_TOC): auctex.texi
 -	rm -rf html
 -	mkdir html
--	cd html && $(TEXI2HTML) -split_node -I .. ../auctex.texi && \
+-	cd html && $(TEXI2HTML) --split=node -I .. ../auctex.texi && \
 -	test ! -d auctex || { mv auctex/* . && rm -rf auctex ; }
-+auctex.htmls/index.html: $(AUCTEXTEXIFILES)
++auctex.htmls/$(TEXI2HTML_TOC): $(AUCTEXTEXIFILES)
 +	rm -rf auctex.htmls/
 +	$(TEXI2HTML) --output=auctex.htmls --split=chapter auctex.texi
  
  tex-ref.dvi: tex-ref.tex
  	$(TEX) tex-ref
-@@ -128,11 +126,12 @@ install-auctex: auctex.info tex-ref.pdf
+@@ -143,11 +141,12 @@ install-auctex: auctex.info tex-ref.pdf
  
  # preview
  
@@ -65,7 +61,7 @@ index d2be29e..227e347 100644
 -	rm -f preview-latex/*
 -	$(TEXI2HTML) preview-latex.texi
 +preview-latex.htmls/index.html: $(PREVIEWTEXIFILES)
-+	rm -rf preview-latex.htmls/
++	rm -f preview-latex.htmls/*
 +	$(TEXI2HTML) --output=preview-latex.htmls \
 +		--split=chapter preview-latex.texi
  
@@ -74,7 +70,7 @@ index d2be29e..227e347 100644
  
  preview-dtxdoc.texi: ../preview/latex/preview.dtx preview-dtxdoc.pl
  	-$(PERL) preview-dtxdoc.pl ../preview/latex/preview.dtx \
-@@ -189,7 +188,7 @@ clean:
+@@ -204,7 +203,7 @@ clean:
  	rm -f *.dvi *.ps *.pdf *.aux *.cp *.fn *.ky *.log *~ \#*\# \
  		*.tp *.vr *.pg *.toc *.tp *.bak *.cps *.kys *.tps \
  		*.fns *.vrs *.pgs *.tmp *.html

@@ -8,15 +8,15 @@ Depend on the info target instead of on the individual info manuals.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index 227e347..fd4388a 100644
+index 8ecd37f..ca1467b 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
-@@ -70,7 +70,7 @@ install-man:
+@@ -85,7 +85,7 @@ install-man:
  	done ; \
  	}
  
 -dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
 +dist: $(DISTTEXTS) info tex-ref.pdf
  
- extradist: auctex.htmls/index.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
+ extradist: auctex.htmls/$(TEXI2HTML_TOC) auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  

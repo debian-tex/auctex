@@ -8,7 +8,7 @@ Use "debian-emacs-flavor", according to the Debian Emacs policy.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tex-site.el.in b/tex-site.el.in
-index 3c43aae..d3f5aac 100644
+index 8937315..88fcecd 100644
 --- a/tex-site.el.in
 +++ b/tex-site.el.in
 @@ -66,7 +66,7 @@ TeX-auto-* (automatically generated lisp).")

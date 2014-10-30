@@ -8,14 +8,14 @@ Subject: preview-image-type: Customize for Debian
 Rationale: "dvipng is much faster than the combination of Dvips and
 Ghostscript", the AUCTeX README says.
 ---
- preview/preview.el | 2 +-
+ preview/preview.el.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/preview/preview.el b/preview/preview.el
-index d39c0b2..fb4c446 100644
---- a/preview/preview.el
-+++ b/preview/preview.el
-@@ -233,7 +233,7 @@ method, like when PDFTeX was used."
+diff --git a/preview/preview.el.in b/preview/preview.el.in
+index 57e056b..42217c9 100644
+--- a/preview/preview.el.in
++++ b/preview/preview.el.in
+@@ -229,7 +229,7 @@ method, like when PDFTeX was used."
  		       (symbol :tag "Emacs image-type")
  		       (repeat :inline t :tag "Ghostscript options" string))))
  
