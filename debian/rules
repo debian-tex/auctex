@@ -133,7 +133,7 @@ cvs-import:
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
 snapshot:
 	git-dch --debian-branch=$(BRANCH) --snapshot --auto --commit
-	git-buildpackage -tc -us -uc --git-pbuilder --git-tag \
+	git-buildpackage -tc -us -uc --git-pbuilder \
 		--git-debian-branch=$(BRANCH)
 
 .PHONY: release
