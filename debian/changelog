@@ -1,3 +1,20 @@
+auctex (11.88-1) unstable; urgency=medium
+
+  * [9129986] Imported Upstream version 11.88
+    (Closes: #686114, #693418, #708550, #712889)
+  * [4a29f1d] debian/copyright: Update for new upstream release
+  * [a5a9f3f] debian/patches: Synchronize with new upstream release
+  * [eef8665] Add patch: Add new TeX-file-line-error option
+    (Closes: #514431, #628790, #685252, #695282)
+  * [7251f44] debian/auctex.NEWS: Update for new upstream release
+  * [4957daf] debian/rules (release): Defer signing dsc and changes files
+  * [d46b78d] debian/rules (upload): New target
+  * [a3e1f95] debian/rules (snapshot): Do not tag snapshots by default
+  * [692b62c] debian/control (Recommends): Add "okular" as an alternative
+    to "xpdf"
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 01 Nov 2014 21:06:26 +0100
+
 auctex (11.87-2) unstable; urgency=medium
 
   * [d6ee432] debian/copyright: Update
