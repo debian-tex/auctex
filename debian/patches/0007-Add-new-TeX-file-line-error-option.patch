@@ -1,0 +1,131 @@
+From: "Davide G. M. Salvetti" <salve@debian.org>
+Date: Fri, 31 Oct 2014 22:07:22 +0100
+Subject: Add new TeX-file-line-error option
+
+This new option allows the user to select the style TeX prints error
+messages with (also see FAQ number 8).
+
+* tex.el (TeX-file-line-error): New customizable option.
+  (TeX-expand-list): New expander "$(file-line-error)".
+  (TeX-command-list): Use it.
+  (LaTeX-command-style): Use it.
+
+* doc/auctex.texi (Processor Options): Document `TeX-file-line-error'.
+
+* doc/changes.texi: Mention `TeX-file-line-error'.
+---
+ ChangeLog        | 12 ++++++++++++
+ doc/auctex.texi  |  9 ++++++++-
+ doc/changes.texi |  8 ++++++++
+ tex.el           | 11 +++++++++--
+ 4 files changed, 37 insertions(+), 3 deletions(-)
+
+diff --git a/ChangeLog b/ChangeLog
+index 6a6599e..0a634a2 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,15 @@
++2014-11-01  Davide G. M. Salvetti  <salve@linux.it>
++
++        * tex.el (TeX-file-line-error): New customizable option.
++        (TeX-expand-list): New expander "$(file-line-error)".
++        (TeX-command-list): Use it.
++        (LaTeX-command-style): Use it.
++
++        * doc/auctex.texi (Processor Options): Document
++        `TeX-file-line-error'.
++
++        * doc/changes.texi: Mention `TeX-file-line-error'.
++
+ 2014-10-29  Mosè Giordano  <mose@gnu.org>
+ 
+ 	* Version 11.88 released.
+diff --git a/doc/auctex.texi b/doc/auctex.texi
+index 08bf8cf..10af8dc 100644
+--- a/doc/auctex.texi
++++ b/doc/auctex.texi
+@@ -2786,7 +2786,7 @@ should be produced, if @TeX{} should be started in interactive or
+ nonstop mode, if source specials or a Sync@TeX{} file should be produced
+ for making inverse and forward search possible or which @TeX{} engine
+ should be used instead of regular @TeX{}, like PDF@TeX{}, Omega or
+-Xe@TeX{}.
++Xe@TeX{}, and the style error messages are printed with.
+ 
+ @deffn Command TeX-PDF-mode
+ @kindex C-c C-t C-p
+@@ -2929,6 +2929,13 @@ produced.
+ If non-nil, the output of @TeX{} compilation is shown in another window.
+ @end defopt
+ 
++You can instruct @TeX{} to print error messages in the form
++file:line:error which is similar to the way many compilers format them.
++
++@defopt TeX-file-line-error
++If non-nil, @TeX{} will produce file:line:error style error messages.
++@end defopt
++
+ @node Viewing
+ @section Viewing the Formatted Output
+ @cindex Viewing
+diff --git a/doc/changes.texi b/doc/changes.texi
+index 056177e..0dd30bd 100644
+--- a/doc/changes.texi
++++ b/doc/changes.texi
+@@ -8,6 +8,14 @@
+ 
+ @end ifset
+ 
++@heading News since 11.88
++
++@itemize @bullet
++@item
++New option @code{TeX-file-line-error} allows to select file:line:error
++style for error messages.
++@end itemize
++
+ @heading News in 11.88
+ 
+ @itemize @bullet
+diff --git a/tex.el b/tex.el
+index b94e8c3..02f8422 100644
+--- a/tex.el
++++ b/tex.el
+@@ -79,6 +79,11 @@
+   :group 'TeX-command
+   :type 'string)
+ 
++(defcustom TeX-file-line-error t
++  "Whether to have TeX produce file:line:error style error messages."
++  :group 'TeX-command
++  :type 'boolean)
++
+ (defcustom ConTeXt-engine nil
+   "Engine to use for --engine in the texexec command.
+ If nil, none is specified."
+@@ -112,7 +117,7 @@ If nil, none is specified."
+ ;; TeX-expand-list for a description of the % escapes
+ 
+ (defcustom TeX-command-list
+-  `(("TeX" "%(PDF)%(tex) %(extraopts) %`%S%(PDFout)%(mode)%' %t"
++  `(("TeX" "%(PDF)%(tex) %(file-line-error) %(extraopts) %`%S%(PDFout)%(mode)%' %t"
+      TeX-run-TeX nil
+      (plain-tex-mode ams-tex-mode texinfo-mode) :help "Run plain TeX")
+     ("LaTeX" "%`%l%(mode)%' %t"
+@@ -301,7 +306,7 @@ The executable `latex' is LaTeX version 2e."
+ 
+ (defcustom LaTeX-command-style
+   ;; They have all been combined in LaTeX 2e.
+-  '(("" "%(PDF)%(latex) %(extraopts) %S%(PDFout)"))
++  '(("" "%(PDF)%(latex) %(file-line-error) %(extraopts) %S%(PDFout)"))
+ "List of style options and LaTeX commands.
+ 
+ If the first element (a regular expression) matches the name of one of
+@@ -456,6 +461,8 @@ string."
+ 		 (if TeX-interactive-mode
+ 		     ""
+ 		   " -interaction=nonstopmode")))
++    ("%(file-line-error)"
++     (lambda () (if TeX-file-line-error " -file-line-error" "")))
+     ("%(o?)" (lambda () (if (eq TeX-engine 'omega) "o" "")))
+     ("%(tex)" (lambda () (eval (nth 2 (assq TeX-engine (TeX-engine-alist))))))
+     ("%(latex)" (lambda () (eval (nth 3 (assq TeX-engine (TeX-engine-alist))))))
