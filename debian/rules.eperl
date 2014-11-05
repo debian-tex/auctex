@@ -24,6 +24,7 @@ debian/clean: $(EPERL_OBJ)
 %:: %.eperl
 	eperl -P -o $@ $<
 
+.PHONY: build
 build: debian/clean
 	dh $@ --exclude .eperl --with tex
 
