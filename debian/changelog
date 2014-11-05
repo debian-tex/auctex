@@ -1,3 +1,10 @@
+auctex (11.86-11~bpo60+1) squeeze-backports; urgency=medium
+
+  * Rebuild for squeeze-backports.
+    (Closes: #688859)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Wed, 05 Nov 2014 16:42:06 +0100
+
 auctex (11.86-11) unstable; urgency=medium
 
   * [a55fbb7] Fix debian/control WRT emacs-snapshot.
