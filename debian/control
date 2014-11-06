@@ -4,7 +4,7 @@ Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 3.9.6
-Build-Depends-Indep: debhelper (>= 8), emacs23 | emacs24 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common, texlive-latex-base, texinfo (>= 5)
+Build-Depends-Indep: debhelper (>= 8), emacs23 | emacs24 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common, texlive-latex-base, texinfo, texi2html (>=1.76)
 Homepage: http://www.gnu.org/software/auctex/
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/salve/auctex.git;a=summary
 Vcs-Git: git://anonscm.debian.org/users/salve/auctex.git

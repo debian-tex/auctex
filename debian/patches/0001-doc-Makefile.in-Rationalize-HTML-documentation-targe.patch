@@ -18,28 +18,19 @@ Subject: doc/Makefile.in: Rationalize HTML documentation targets
 
 - Update references in extradist, html-docs, and clean targets.
 ---
- doc/Makefile.in | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ doc/Makefile.in |   23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index d2be29e..227e347 100644
+index d2be29e..32e77b9 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
-@@ -35,7 +35,7 @@ INSTALL_INFO=@INSTALL_INFO@
- INSTALL=@INSTALL@
- INSTALL_DATA=@INSTALL_DATA@
- DESTDIR=
--TEXI2HTML=@TEXI2HTML@
-+TEXI2HTML=@MAKEINFO@ --html
- TEXI2DVI=@TEXI2DVI@
- TEXI2PDF=@TEXI2PDF@
- MKINSTALLDIRS = ../mkinstalldirs
-@@ -72,18 +72,16 @@ install-man:
+@@ -72,18 +72,17 @@ install-man:
  
  dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
  
 -extradist: html/auctex_toc.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
-+extradist: auctex.htmls/index.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
++extradist: auctex.htmls/auctex.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
  .PHONY: all info dvi dist install-auctex disttexts clean distclean \
  	maintainer-clean install-preview install-man html-docs extradist
@@ -51,30 +42,32 @@ index d2be29e..227e347 100644
 -	mkdir html
 -	cd html && $(TEXI2HTML) -split_node -I .. ../auctex.texi && \
 -	test ! -d auctex || { mv auctex/* . && rm -rf auctex ; }
-+auctex.htmls/index.html: $(AUCTEXTEXIFILES)
++auctex.htmls/auctex.html: $(AUCTEXTEXIFILES)
 +	rm -rf auctex.htmls/
 +	$(TEXI2HTML) --output=auctex.htmls --split=chapter auctex.texi
++	ln -s auctex.html auctex.htmls/index.html
  
  tex-ref.dvi: tex-ref.tex
  	$(TEX) tex-ref
-@@ -128,11 +126,12 @@ install-auctex: auctex.info tex-ref.pdf
+@@ -128,11 +127,13 @@ install-auctex: auctex.info tex-ref.pdf
  
  # preview
  
 -preview-latex/index.html: $(PREVIEWTEXIFILES)
 -	rm -f preview-latex/*
 -	$(TEXI2HTML) preview-latex.texi
-+preview-latex.htmls/index.html: $(PREVIEWTEXIFILES)
++preview-latex.htmls/preview-latex.html: $(PREVIEWTEXIFILES)
 +	rm -rf preview-latex.htmls/
 +	$(TEXI2HTML) --output=preview-latex.htmls \
 +		--split=chapter preview-latex.texi
++	ln -s preview-latex.html preview-latex.htmls/index.html
  
 -html-docs: preview-latex/index.html
-+html-docs: preview-latex.htmls/index.html
++html-docs: preview-latex.htmls/preview-latex.html
  
  preview-dtxdoc.texi: ../preview/latex/preview.dtx preview-dtxdoc.pl
  	-$(PERL) preview-dtxdoc.pl ../preview/latex/preview.dtx \
-@@ -189,7 +188,7 @@ clean:
+@@ -189,7 +190,7 @@ clean:
  	rm -f *.dvi *.ps *.pdf *.aux *.cp *.fn *.ky *.log *~ \#*\# \
  		*.tp *.vr *.pg *.toc *.tp *.bak *.cps *.kys *.tps \
  		*.fns *.vrs *.pgs *.tmp *.html

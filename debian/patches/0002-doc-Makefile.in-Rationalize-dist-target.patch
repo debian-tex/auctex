@@ -4,11 +4,11 @@ Subject: doc/Makefile.in: Rationalize dist target
 
 Depend on the info target instead of on the individual info manuals.
 ---
- doc/Makefile.in | 2 +-
+ doc/Makefile.in |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index 227e347..fd4388a 100644
+index 32e77b9..c3c4656 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
 @@ -70,7 +70,7 @@ install-man:
@@ -18,5 +18,5 @@ index 227e347..fd4388a 100644
 -dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
 +dist: $(DISTTEXTS) info tex-ref.pdf
  
- extradist: auctex.htmls/index.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
+ extradist: auctex.htmls/auctex.html auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
