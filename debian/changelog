@@ -1,3 +1,9 @@
+auctex (11.87-2~bpo70+1) wheezy-backports; urgency=medium
+
+  * Rebuild for wheezy-backports.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 06 Nov 2014 18:50:55 +0100
+
 auctex (11.87-2) unstable; urgency=medium
 
   * [d6ee432] debian/copyright: Update
