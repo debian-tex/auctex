@@ -91,16 +91,12 @@ from within Emacs (load AUCTeX first), or browse through the file
 Contributed Files
 =================
 
-There are several files that are not part of AUCTeX proper, but included in
-the distribution in case they are useful:
+There is a file that is not part of AUCTeX proper, but is included in the
+distribution in case it proves useful:
 
     - `bib-cite.el': better support for bibliographies and much more;
 
-    - `tex-jp.el': Japanese support;
-
-    - `tex-fptex.el': fpTeX support.
-
-Read the comments at the start of each file for more information about how to
+Read the comments at the start of that file for more information about how to
 load it, what does it do, and who wrote and maintains it.
 
 
