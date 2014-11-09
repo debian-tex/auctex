@@ -46,7 +46,7 @@ undo_update_auctex_elisp () {
 case "${FLAVOR}" in
     (emacs)
 	;;
-    (emacs23|emacs24|emacs-snapshot)
+    (emacs24|emacs-snapshot)
 	undo_update_auctex_elisp
 	undo_install
 	;;
