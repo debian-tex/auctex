@@ -1,3 +1,10 @@
+auctex (11.87-3) testing; urgency=medium
+
+  * [59fd7bc] Drop emacs23 dependencies, keep emacs24 to the front.
+    Thanks to Lucas Nussbaum (Closes: #768724)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 09 Nov 2014 14:20:48 +0100
+
 auctex (11.87-2) unstable; urgency=medium
 
   * [d6ee432] debian/copyright: Update
