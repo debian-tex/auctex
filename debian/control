@@ -4,14 +4,14 @@ Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 3.9.6
-Build-Depends-Indep: debhelper (>= 8), emacs23 | emacs24 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common (>= 4.01), texlive-latex-base, texinfo (>= 5)
+Build-Depends-Indep: debhelper (>= 8), emacs24 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common (>= 4.01), texlive-latex-base, texinfo (>= 5)
 Homepage: http://www.gnu.org/software/auctex/
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/salve/auctex.git;a=summary
 Vcs-Git: git://anonscm.debian.org/users/salve/auctex.git
 
 Package: auctex
 Architecture: all
-Depends: emacs23 | emacs24 | emacs-snapshot, emacsen-common (>= 2.0.8), preview-latex-style, ${misc:Depends}
+Depends: emacs24 | emacs-snapshot, emacsen-common (>= 2.0.8), preview-latex-style, ${misc:Depends}
 Recommends: ghostscript, texlive-latex-recommended, xpdf | evince | evince-gtk
 Suggests: catdvi, dvipng, lacheck
 Breaks: emacspeak (<= 17.0-1)
