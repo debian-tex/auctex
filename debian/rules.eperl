@@ -107,24 +107,25 @@ debconf-ask-for-translations: debian/auctex.templates.dcobj
 		--from='"Davide G. M. Salvetti (Debian auctex maintainer)" <salve@debian.org>' \
 		--postpone=../+RFT.mbox
 
-.PHONY: cvs-import
-cvs-import: VERSION := 11.86+cvs.$(shell date +%Y.%m.%d.%H.%M)
-cvs-import:
-	cd .. && cvs -z3 \
-		-d:ext:salve@cvs.savannah.gnu.org:/sources/auctex \
-		export -d auctex_$(VERSION) -D $$(date +%F) auctex
-	find ../auctex_$(VERSION) -type f -name .cvsignore -print0 \
-		| xargs --null --no-run-if-empty rm --force
-	cd ../auctex_$(VERSION) && ./autogen.sh
-	tar --create --verbose --auto-compress \
-		--file=../auctex_$(VERSION).orig.tar.gz \
-		--directory=.. auctex_$(VERSION)
-	rm --recursive --force ../auctex_$(VERSION)
+.PHONY: vcs-switch
+vcs-switch:
+	git checkout vcs/debian
+
+.PHONY: vcs-import
+vcs-import: B := $(shell dpkg-parsechangelog --show-field Version \
+	| cut --fields 1 --delimiter '-')
+vcs-import: D := $(shell date --utc +%Y%m%d%H%M)
+vcs-import: V := "$(B)+vcs.$(D)"
+vcs-import: vcs-switch
+	git archive --verbose --worktree-attributes \
+		--prefix="auctex-$(V)/" \
+		--output="../auctex_$(V).orig.tar.gz" \
+		vcs/upstream-git
 	git-import-orig --verbose \
-		--upstream-branch=cvs/upstream \
-		--debian-branch=cvs/master \
-		../auctex_$(VERSION).orig.tar.gz
-	rm --force ../auctex_$(VERSION).orig.tar.gz
+		--upstream-branch=vcs/upstream-snapshot \
+		--debian-branch=vcs/debian \
+		"../auctex_$(V).orig.tar.gz"
+	rm --force "../auctex_$(V).orig.tar.gz"
 
 .PHONY: snapshot
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
