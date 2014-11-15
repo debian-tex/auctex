@@ -1,0 +1,55 @@
+From: "Davide G. M. Salvetti" <salve@debian.org>
+Date: Mon, 10 Nov 2014 21:20:46 +0100
+Subject: Add copyright notice to style/foils.el
+
+---
+ ChangeLog      |  3 ++-
+ style/foils.el | 22 ++++++++++++++++++++--
+ 2 files changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/ChangeLog b/ChangeLog
+index fb50ff9..9973ff7 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -24,7 +24,8 @@
+ 
+         * style/filecontents.el: Replace `read-string' with `TeX-read-string'.
+ 
+-        * style/foils.el: Replace `read-string' with `TeX-read-string'.
++        * style/foils.el: Replace `read-string' with `TeX-read-string';
++        add copyright notice.
+ 
+         * style/graphicx.el: Replace `read-string' with `TeX-read-string'.
+ 
+diff --git a/style/foils.el b/style/foils.el
+index a82cfe6..d450090 100644
+--- a/style/foils.el
++++ b/style/foils.el
+@@ -1,7 +1,25 @@
+ ;;; foils.el - Special code for FoilTeX.
+ 
+-;; Copyright (C) 2014 Free Software Foundation, Inc.
+-;; FIXME: What about the copyright for <= 2014?
++;; Copyright (C) 1994-2014 Free Software Foundation, Inc.
++
++;; Author: Per Abrahamsen <abraham@dina.kvl.dk>
++;; Maintainer: auctex-devel@gnu.org
++;; Keywords: tex
++
++;; This file is part of AUCTeX.
++
++;; AUCTeX is free software; you can redistribute it and/or modify it
++;; under the terms of the GNU General Public License as published by the
++;; Free Software Foundation; either version 3, or (at your option) any
++;; later version.
++
++;; AUCTeX is distributed in the hope that it will be useful, but WITHOUT
++;; ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++;; FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
++;; for more details.
++
++;; You should have received a copy of the GNU General Public License
++;; along with AUCTeX.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ ;;; Code:
+ 
