@@ -1,0 +1,187 @@
+From: "Davide G. M. Salvetti" <salve@debian.org>
+Date: Mon, 10 Nov 2014 18:42:21 +0100
+Subject: Add ChangeLog entries
+
+---
+ ChangeLog | 171 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 171 insertions(+)
+
+diff --git a/ChangeLog b/ChangeLog
+index 0a634a2..fb50ff9 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -1,3 +1,174 @@
++2014-11-10  Davide G. M. Salvetti  <salve@linux.it>
++
++        * context.el: Replace `read-string' with `TeX-read-string'.
++
++        * latex.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/CJK.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/amsmath.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/amsthm.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/beamer.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/csquotes.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/dinbrief.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/dk-bib.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/emp.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/epsf.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/filecontents.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/foils.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/graphicx.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/inputenc.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/letter.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/longtable.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/mathtools.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/natbib.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/paralist.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/plext.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/prosper.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/psfig.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/pstricks.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/scrbase.el: Replace `read-string' with `TeX-read-string'.
++
++        * style/scrlttr2.el: Replace `read-string' with `TeX-read-string'.
++
++        * tex-info.el: Replace `read-string' with `TeX-read-string'.
++
++        * tex.el: Replace `read-string' with `TeX-read-string'.
++
++2014-11-04  Tassilo Horn  <tsdh@gnu.org>
++
++	* tex.el (VirTeX-common-initialization): Define a variable alias
++	for find-file-hook on XEmacs.
++
++2014-11-04  Stefan Monnier  <monnier@iro.umontreal.ca>
++
++	* toolbar-x.el: Adjust copyright years.
++	(require): Require cl at compile-time.
++	(toolbarx-good-option-list-p): Use pushnew instead of add-to-list.
++
++	* tex.el (url-unreserved-chars): Declare to silence byte-compiler.
++	(TeX-tree-expand): Use pushnew instead of add-to-list.  Iterate
++	path-list in reversed order.
++	(TeX-style-path): Use mapc instead of mapcar for side-effects.
++	(TeX-file-extensions, BibTeX-file-extensions)
++	(TeX-Biber-file-extensions): Declare to silence byte-compiler.
++	(TeX-tree-roots): Use pushnew instead of add-to-list.
++	(TeX-search-files-by-type): Use setq/pushnew instead of
++	dolist/add-to-list.
++	(TeX-doc): Use pushnew instead of add-to-list.
++
++	* tex-info.el (require): Require cl at compile-time.
++	(Texinfo-insert-node): Use pushnew instead of add-to-list.
++	(reftex-section-levels-all, reftex-level-indent)
++	(reftex-label-menu-flags, reftex-tables-dirty): Always
++	forward-declare (not only at compile-time).
++	(when): declare-function only at compile-time.
++
++	* tex-fold.el: Adjust copyright years.
++	(require): Require cl at compile-time.
++	(TeX-fold-region-macro-or-env, TeX-fold-update-at-point): Use
++	pushnew instead of add-to-list.
++	(TeX-fold-hide-item): Use setq instead of add-to-list.
++
++	* tex-buf.el (font-lock-mode-enable-list)
++	(font-lock-auto-fontify, font-lock-defaults-alist): Declare vars
++	to silence byte-compiler.
++
++	* multi-prompt.el: Adjust copyright years.
++	(multi-prompt): Don't let-bind unused var done.
++	(multi-prompt-next-must-match): Use minibuffer-completion-table
++	instead of dynamically bound table.
++
++	* latex.el (require): Require cl at compile-time.
++	(title, name, level, done-mark, toc): Declare dynamic vars.
++	(LaTeX-env-document, TeX-arg-index-tag, TeX-arg-document)
++	(LaTeX-arg-usepackage, TeX-arg-verb, ): Rename unused arg.
++	(LaTeX-listify-package-options): Use setq instead of add-to-list
++	to add to local var.
++	(reftex-ref-macro-prompt, TeX-arg-item-label-p)
++	(TeX-arg-right-insert-p): Declare to silence byte-compiler.
++	(LaTeX-indent-line): Use pushnew instead of add-to-list.
++	(LaTeX-fill-move-to-break-point): Don't let-bind unused math-sep.
++	(LaTeX-section-enable-symbol): Downcase arg.
++	(LaTeX-indent-tabular): Use mapc instead of mapcar for
++	side-effects.
++
++	* context.el (done-mark, reference, title, name, level): Declare
++	dynamic vars without global nil value.
++	(ConTeXt-section): let-bind reference.  Remove binding of unused
++	var toc.
++	(ConTeXt-numbered-section-hook, ConTeXt-unnumbered-section-hook):
++	Improve docstring.
++	(ConTeXt-find-matching-stop): Don't let-bind pos.
++	(ConTeXt-optional-argument-insert)
++	(ConTeXt-required-argument-insert, ConTeXt-indent-line): Rename
++	unused arg.
++	(ConTeXt-mode-common-initialization): Use fboundp to check if
++	make-local-hook is defined.
++
++	* bib-cite.el: Expand copyright years.
++	(bib-cite-is-XEmacs): Remove.
++	(bib-cite-minor-mode, bib-cite-setup-highlight-mouse-keymap)
++	(bib-etags, bib-highlight-mouse, bib-toggle-highlight)
++	(bib-etags-find-noselect): Check for XEmacs with featurep.
++	(bib-cite-setup-mouse-function): Rename unused arg.
++	(bib-apropos): Use mapc instead of mapcar for side effects.
++	(bib-cite-fontify-help-xemacs): Define only on XEmacs.
++	(bib-cite-fontify-help-as-bibtex, bib-cite-fontify-help-as-latex):
++	Check for XEmacs with featurep.  Fix fontification code.
++	(bib-display-this-ref): Use point-min instead of 1.
++	(TeX-auto-save, TeX-auto-update, TeX-auto-regexp-list): Declare to
++	silence the byte-compiler.
++
++2014-11-03  Arash Esbati  <esbati@gmx.de>
++
++	* style/zlmtt.el: New file.
++
++	* style/XCharter.el: New file.
++
++	* style/textcomp.el: New file.
++
++	* style/MyriadPro.el: New file.
++
++	* style/mdsymbol.el: New file.
++
++	* style/fontaxes.el: New file.
++
++	* style/eso-pic.el: New file.
++
++	* style/AnonymousPro.el: New file.
++
++2014-11-02  Arash Esbati  <esbati@gmx.de>
++
++	* style/MinionPro.el (TeX-add-symbols): Remove `figureversion',
++	`textsw', `textssc', `sscshape' and `swshape'.
++	(TeX-run-style-hooks): Added "fontaxes".
++
++	* style/MinionPro.el (LaTeX-MinionPro-package-options): Added
++	additional options from v2.3 of `MinionPro.sty', available from
++	<https://github.com/sebschub>
++
+ 2014-11-01  Davide G. M. Salvetti  <salve@linux.it>
+ 
+         * tex.el (TeX-file-line-error): New customizable option.

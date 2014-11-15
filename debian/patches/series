@@ -5,3 +5,5 @@
 0005-TeX-auto-global-Customize-for-Debian.patch
 0006-preview-image-type-Customize-for-Debian.patch
 0007-Add-new-TeX-file-line-error-option.patch
+0008-Replace-read-string-with-TeX-read-string.patch
+0009-Added-ChangeLog-entries.patch
