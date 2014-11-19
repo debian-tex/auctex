@@ -7,7 +7,7 @@
 ** [[lintian][Debian package Lintian report]]
 ** [[home][Upstream home page]]
 ** [[savannah][Upstream project home]]
-** [[buglist][Upstream bug list]]
+** [[upstreambugs:][Upstream bug list]] [[[buglist][Old upstream bug mailing list]]]
 
 * Package bugs
 ** Unreported bugs
@@ -210,6 +210,8 @@ These tag upstream releases.
 #+LINK: home http://www.gnu.org/software/auctex/
 #+LINK: savannah http://savannah.gnu.org/projects/auctex
 #+LINK: buglist http://lists.gnu.org/archive/html/bug-auctex/
+#+LINK: upstreambug http://debbugs.gnu.org/cgi/bugreport.cgi?bug=
+#+LINK: upstreambugs http://debbugs.gnu.org/cgi/pkgreport.cgi?pkg=auctex
 #- local variables:
 #- fill-column: 78
 #- ispell-local-dictionary: "american"
