@@ -1,3 +1,18 @@
+auctex (11.88-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Bug fix: "FTBFS: build-dependency not installable: emacs23", thanks to
+    Lucas Nussbaum (Closes: #768724).
+
+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 23 Sep 2016 17:36:05 +0200
+
+auctex (11.88-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Use interest-nowait triggers for files in /usr/share (closes: #772873).
+
+ -- Michael Gilbert <mgilbert@debian.org>  Fri, 02 Jan 2015 18:14:08 +0000
+
 auctex (11.88-1) unstable; urgency=medium
 
   * [9129986] Imported Upstream version 11.88
