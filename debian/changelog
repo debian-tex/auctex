@@ -1,3 +1,31 @@
+auctex (11.88-1.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * auctex support for emacs25, thanks to Dan Torop (Closes: #841123).
+  * update the Brazilian Portuguese Translation (Closes: #823367)
+    thanks to Diego Neves.
+  * Fix building with dpkg-buildpackage -A thanks to Santiago Vila
+    (Closes: #839579).
+  * Drop support for emacs23
+  * Upgrade Standards-Version to 3.9.8 (no change).
+
+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 25 Nov 2016 12:00:39 +0100
+
+auctex (11.88-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Bug fix: "FTBFS: build-dependency not installable: emacs23", thanks to
+    Lucas Nussbaum (Closes: #768724).
+
+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 23 Sep 2016 17:36:05 +0200
+
+auctex (11.88-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Use interest-nowait triggers for files in /usr/share (closes: #772873).
+
+ -- Michael Gilbert <mgilbert@debian.org>  Fri, 02 Jan 2015 18:14:08 +0000
+
 auctex (11.88-1) unstable; urgency=medium
 
   * [9129986] Imported Upstream version 11.88

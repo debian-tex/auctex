@@ -31,15 +31,15 @@ debian/clean: $(EPERL_OBJ)
 		debian/auctex.templates.dcobj \
 		debian/clean > debian/clean
 
+%:
+	dh $@ --exclude .eperl --with tex
+
 %:: %.eperl
 	eperl -P -o $@ $<
 
-build: debian/clean
-	dh $@ --exclude .eperl --with tex
-
 ELCC := $(shell pwd)/debian/elcc
 .PHONY: override_dh_auto_build
-override_dh_auto_build:
+override_dh_auto_build: debian/elcc debian/clean
 	chmod a+x debian/elcc
 	$(MAKE) ELCC=$(ELCC)
 	rm --force auto-loads.el
