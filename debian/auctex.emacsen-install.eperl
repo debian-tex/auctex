@@ -107,7 +107,7 @@ function do_update_auctex_elisp () {
 case "${FLAVOR}" in
     (emacs)
 	;;
-    (emacs24|emacs-snapshot)
+    (emacs24|emacs25|emacs-snapshot)
 	do_install ${FLAVOR}
 	do_update_auctex_elisp ${FLAVOR}
 	;;
