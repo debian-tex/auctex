@@ -1,4 +1,4 @@
-interest /usr/share/texmf
-interest /usr/share/texlive/texmf-dist
+interest-noawait /usr/share/texmf
+interest-noawait /usr/share/texlive/texmf-dist
 interest auctex-install-emacs24
 interest auctex-install-emacs-snapshot
