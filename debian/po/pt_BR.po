@@ -1,26 +1,27 @@
 # Brazilian Portuguese translations of the "debian/auctex/templates" file of
 # the auctex Debian package.
 #
-# Copyright (C) 2002, 03, 04, 05, 06, 07 Davide G. M. Salvetti
+# Copyright (C) 2002, 03, 04, 05, 06, 07, 16 Davide G. M. Salvetti
 #
 # This file is distributed under the same license as the auctex Debian
 # package.
 #
 # Paulo R. Ormenese <pormenese@uol.com.br>, 2002
 # André Luís Lopes <andrelop@debian.org>, 2007
+# Diego Neves <diego@diegoneves.eti.br>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: auctex\n"
 "Report-Msgid-Bugs-To: auctex@packages.debian.org\n"
 "POT-Creation-Date: 2012-01-02 02:04+0100\n"
-"PO-Revision-Date: 2011-06-22 00:33+0200\n"
-"Last-Translator: André Luís Lopes <dndrelop@debian.org>\n"
-"Language-Team: Debian-BR Project <debian-l10n-portuguese@lists.debian.org>\n"
+"PO-Revision-Date: 2016-02-24 23:02-0300\n"
+"Last-Translator: Diego Neves <diego@diegoneves.eti.br>\n"
+"Language-Team: Brazilian Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"pt_BR utf8\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #. Type: select
 #. Choices
@@ -49,68 +50,47 @@ msgstr "Modo de interpretação de macros (La)TeX:"
 #. Type: select
 #. Description
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid ""
-#| "To greatly improve AUCTeX performances, every TeX macro package and LaTeX "
-#| "style file currently installed at your site will be parsed."
 msgid ""
 "To improve the performance of AUCTeX, every currently installed TeX macro "
 "package and LaTeX style file will be parsed."
 msgstr ""
-"Para melhorar enormemente a performance de AUCTeX, todo pacote de macro TeX "
-"e arquivo de estilo LaTeX instalados atualmente em seu sistema serão "
-"interpretados."
+"Para melhorar o desempenho do AUCTeX, será analisado cada arquivo de estilo "
+"do LaTeX e de pacote de macro TeX atualmente instalado."
 
 #. Type: select
 #. Description
 #. Translators: do NOT translate ${LOGFILE}
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid ""
-#| "This may take a lot of time, so it should be probably done in the "
-#| "background; however you may also choose to have it done in the "
-#| "foreground, or to skip the parsing at all instead.  If you choose "
-#| "Background, you will find a detailed log of the process in the file: "
-#| "${LOGFILE}."
 msgid ""
 "This may take a lot of time, so it should probably be done in the "
 "background.  You may also choose to have it done in the foreground, or to "
 "skip that step."
 msgstr ""
-"Isso pode consumir um bom tempo, então pode ser feito provavelmente em "
-"segundo plano; entretanto, você pode optar por ter isso feito em primeiro "
-"plano, ou ao invés disso pular o processo de interpretação. Caso você optar "
-"por fazer a interpretação em segundo plano, encontrará um log detalhado do "
-"processo no arquivo: ${LOGFILE}."
+"Isso pode demorar muito tempo, por isso provavelmente deve ser feito em "
+"segundo plano. Você também pode optar por fazer em primeiro plano, ou pular "
+"esta etapa."
 
 #. Type: select
 #. Description
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid ""
-#| "A weekly cron job will also take care of updating the data collected now, "
-#| "so usually you won't need to worry about them whenever you install new "
-#| "(La)TeX packages or remove old ones."
 msgid ""
 "The cached data gets automatically updated via dpkg triggers, so that no "
 "specific action is required whenever you install new (La)TeX packages or "
 "remove old ones."
 msgstr ""
-"Um trabalho semanal do cron também tomará o cuidado de atualizar as "
-"informações obtidas agora, então você normalmente não precisará preocupar-se "
-"com elas mesmo quando instalar novos pacotes (La)TeX ou remover antigos."
+"Os dados em cache serão atualizados automaticamente via gatilhos do dpkg, de "
+"modo que não é necessária nenhuma ação específica para instalar ou remover "
+"pacotes (La)TeX."
 
 #. Type: select
 #. Description
 #: ../auctex.templates:1002
-#, fuzzy
-#| msgid "Anyway, you can update them by hand running update-auctex-elisp."
 msgid ""
 "This update can be run manually at any moment by running 'update-auctex-"
 "elisp'."
 msgstr ""
-"De qualquer forma, você pode atualizá-las manualmente executando update-"
-"auctex-elisp."
+"Esta atualização pode ser executada manualmente a qualquer momento, "
+"executando \"update-auctex elisp\"."
 
 #~ msgid "Console"
 #~ msgstr "Console"
