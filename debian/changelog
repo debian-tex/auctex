@@ -1,3 +1,16 @@
+auctex (11.88-1.3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * auctex support for emacs25, thanks to Dan Torop (Closes: #841123).
+  * update the Brazilian Portuguese Translation (Closes: #823367)
+    thanks to Diego Neves.
+  * Fix building with dpkg-buildpackage -A thanks to Santiago Vila
+    (Closes: #839579).
+  * Drop support for emacs23
+  * Upgrade Standards-Version to 3.9.8 (no change).
+
+ -- Rémi Vanicat <vanicat@debian.org>  Fri, 25 Nov 2016 12:00:39 +0100
+
 auctex (11.88-1.2) unstable; urgency=medium
 
   * Non-maintainer upload.
