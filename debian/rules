@@ -2,7 +2,7 @@
 #
 # makefile rules for the Debian package auctex
 #
-# Copyright (C) 1997-2014 Davide G. M. Salvetti.
+# Copyright (C) 1997-2014, 2016 Davide G. M. Salvetti.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -31,16 +31,15 @@ debian/clean: $(EPERL_OBJ)
 		debian/auctex.templates.dcobj \
 		debian/clean > debian/clean
 
+%:
+	dh $@ --exclude .eperl --with tex
+
 %:: %.eperl
 	eperl -P -o $@ $<
 
-.PHONY: build
-build: debian/clean
-	dh $@ --exclude .eperl --with tex
-
 ELCC := $(shell pwd)/debian/elcc
 .PHONY: override_dh_auto_build
-override_dh_auto_build:
+override_dh_auto_build: debian/elcc debian/clean
 	chmod a+x debian/elcc
 	$(MAKE) ELCC=$(ELCC)
 	rm --force auto-loads.el
