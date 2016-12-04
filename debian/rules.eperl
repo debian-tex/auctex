@@ -120,7 +120,7 @@ vcs-import: vcs-switch
 		--prefix="auctex-$(V)/" \
 		--output="../auctex_$(V).orig.tar.gz" \
 		vcs/upstream-git
-	git-import-orig --verbose \
+	gbp import-orig --verbose \
 		--upstream-branch=vcs/upstream-snapshot \
 		--debian-branch=vcs/debian \
 		"../auctex_$(V).orig.tar.gz"
@@ -129,17 +129,17 @@ vcs-import: vcs-switch
 .PHONY: snapshot
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
 snapshot:
-	git-dch --debian-branch=$(BRANCH) --snapshot --auto --commit
-	git-buildpackage -tc -us -uc --git-pbuilder \
+	gbp dch --debian-branch=$(BRANCH) --snapshot --auto --commit
+	gbp buildpackage -tc -us -uc --git-pbuilder \
 		--git-debian-branch=$(BRANCH)
 
 .PHONY: release
 release:
 	git checkout master
-	gbp-pq rebase
-	gbp-pq export
-	git-dch --release --commit
-	git-buildpackage -tc -us -uc --git-pbuilder --git-tag
+	gbp pq rebase
+	gbp pq export
+	gbp dch --release --commit
+	gbp buildpackage -tc -us -uc --git-pbuilder --git-tag
 
 .PHONY: upload
 upload: V := $(shell dpkg-parsechangelog --show-field Version)
