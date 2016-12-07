@@ -130,7 +130,8 @@ vcs-import: vcs-switch
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
 snapshot:
 	gbp dch --debian-branch=$(BRANCH) --snapshot --auto --commit
-	gbp buildpackage -tc -us -uc --git-pbuilder \
+	gbp buildpackage --clean-source \
+		--git-builder='sbuild --verbose --arch-all --source --dist=unstable' \
 		--git-debian-branch=$(BRANCH)
 
 .PHONY: release
@@ -139,7 +140,9 @@ release:
 	gbp pq rebase
 	gbp pq export
 	gbp dch --release --commit
-	gbp buildpackage -tc -us -uc --git-pbuilder --git-tag
+	gbp buildpackage --clean-source \
+		--git-builder='sbuild --verbose --arch-all --source --source-only-changes --dist=unstable' \
+		--git-tag
 
 .PHONY: upload
 upload: V := $(shell dpkg-parsechangelog --show-field Version)
