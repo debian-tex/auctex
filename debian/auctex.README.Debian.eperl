@@ -100,7 +100,7 @@ Read the comments at the start of that file for more information about how to
 load it, what does it do, and who wrote and maintains it.
 
 
--- Davide G. M. Salvetti <salve@debian.org>, <:=$_=gmtime:>.
+-- Davide G. M. Salvetti <salve@debian.org>
 <:
 # local variables:
 # mode: text
