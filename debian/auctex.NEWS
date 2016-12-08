@@ -1,95 +1,93 @@
 auctex (11.88-1) unstable; urgency=medium
 
-   * 'TeX-PDF-mode' is now enabled by default.
+  'TeX-PDF-mode' is now enabled by default.
 
-   * Now 'TeX-previous-error' works with TeX commands if the new option
-     'TeX-parse-all-errors' is non-nil, which is the default.  When this
-     option is non-nil, an overview of errors and warnings reported by
-     the TeX compiler can be opened with 'M-x TeX-error-overview <RET>'.
+  Now 'TeX-previous-error' works with TeX commands if the new option
+  'TeX-parse-all-errors' is non-nil, which is the default.  When this
+  option is non-nil, an overview of errors and warnings reported by
+  the TeX compiler can be opened with 'M-x TeX-error-overview <RET>'.
 
-   * Style file authors are encouraged to distinguish common from expert
-     macros and environments, and mark the latter using
-     'TeX-declare-expert-macros' and
-     'LaTeX-declare-expert-environments'.
+  Style file authors are encouraged to distinguish common from expert
+  macros and environments, and mark the latter using
+  'TeX-declare-expert-macros' and
+  'LaTeX-declare-expert-environments'.
 
-     Users can then restrict completion using
-     'TeX-complete-expert-commands'.
+  Users can then restrict completion using 'TeX-complete-expert-commands'.
 
-   * Management of LaTeX package options in the parser was improved.
-     You might need to reparse your documents, especially if you loaded
-     the 'babel' package with language options.
+  Management of LaTeX package options in the parser was improved.
+  You might need to reparse your documents, especially if you loaded
+  the 'babel' package with language options.
 
-   * Now you can insert '$...$' or '\(...\)' by typing a single '$'.  To
-     do this, customize the new option 'TeX-electric-math'.
-     'TeX-math-close-double-dollar' was removed.
+  Now you can insert '$...$' or '\(...\)' by typing a single '$'.  To
+  do this, customize the new option 'TeX-electric-math'.
+  'TeX-math-close-double-dollar' was removed.
 
-   * 'C-c <RET> documentclass <RET>' completes with all available LaTeX
-     classes, if the 'TeX-arg-input-file-search' variable is non-nil.
-     Completion for class options of the standard LaTeX classes is
-     provided as well.
+  'C-c <RET> documentclass <RET>' completes with all available LaTeX
+  classes, if the 'TeX-arg-input-file-search' variable is non-nil.
+  Completion for class options of the standard LaTeX classes is
+  provided as well.
 
-   * New user options 'LaTeX-default-author',
-     'LaTeX-fontspec-arg-font-search',
-     'LaTeX-fontspec-font-list-default', 'TeX-date-format', and
-     'TeX-insert-braces-alist'.  A new possible value
-     ('show-all-optional-args') for 'TeX-insert-macro-default-style' was
-     added.  The default value of 'TeX-source-correlate-method' has been
-     changed.
+  New user options 'LaTeX-default-author', 'LaTeX-fontspec-arg-font-search',
+  'LaTeX-fontspec-font-list-default', 'TeX-date-format', and
+  'TeX-insert-braces-alist'.  A new possible value
+  ('show-all-optional-args') for 'TeX-insert-macro-default-style' was
+  added.  The default value of 'TeX-source-correlate-method' has been
+  changed.
 
-   * 'biblatex' support was greatly expanded.  If parsing is enabled,
-     AUCTeX looks at 'backend' option to decide whether to use Biber or
-     BibTeX. The 'LaTeX-biblatex-use-Biber' variable was changed to be
-     file local only and is no more customizable.
+  'biblatex' support was greatly expanded.  If parsing is enabled,
+  AUCTeX looks at 'backend' option to decide whether to use Biber or
+  BibTeX. The 'LaTeX-biblatex-use-Biber' variable was changed to be
+  file local only and is no more customizable.
 
-   * With some LaTeX classes, the default environment suggested by
-     'LaTeX-environment' ('C-c C-e') when the current environment is
-     'document' was changed.  With 'beamer' class the default
-     environment is 'frame', with 'letter' it is 'letter', with 'slides'
-     it is 'slide'.
+  With some LaTeX classes, the default environment suggested by
+  'LaTeX-environment' ('C-c C-e') when the current environment is
+  'document' was changed.  With 'beamer' class the default
+  environment is 'frame', with 'letter' it is 'letter', with 'slides'
+  it is 'slide'.
 
-   * Brace pairing feature was enhanced in LaTeX documents.  Support for
-     '\bigl', '\Bigl', '\biggl' and '\Biggl', the same as the one for
-     '\left', was added to 'TeX-insert-macro'.  For example, 'C-c <RET>
-     bigl <RET> ( <RET>' inserts '\bigl(\bigr)'.
+  Brace pairing feature was enhanced in LaTeX documents.  Support for
+  '\bigl', '\Bigl', '\biggl' and '\Biggl', the same as the one for
+  '\left', was added to 'TeX-insert-macro'.  For example, 'C-c <RET>
+  bigl <RET> ( <RET>' inserts '\bigl(\bigr)'.
 
-     You can insert brace pair '()', '{}' and '[]' by typing a single
-     left brace if the new user option 'LaTeX-electric-left-right-brace'
-     is enabled.
+  You can insert brace pair '()', '{}' and '[]' by typing a single
+  left brace if the new user option 'LaTeX-electric-left-right-brace'
+  is enabled.
 
-     Macros '\langle', '\lfloor' and '\lceil', which produce the left
-     part of the paired braces, are treated similarly as '(', '{' and
-     '[' during the course of 'TeX-insert-macro'.
+  Macros '\langle', '\lfloor' and '\lceil', which produce the left
+  part of the paired braces, are treated similarly as '(', '{' and
+  '[' during the course of 'TeX-insert-macro'.
 
-   * Support for dozens of LaTeX packages was added.
+  Support for dozens of LaTeX packages was added.
 
-   * Tabular-like environments (tabular, tabular*, tabularx, tabulary,
-     array, align, ...)  are indented in a nicer and more informative
-     way when the column values of a table line are written across
-     multiple lines in the tex file.
+  Tabular-like environments (tabular, tabular*, tabularx, tabulary,
+  array, align, ...)  are indented in a nicer and more informative
+  way when the column values of a table line are written across
+  multiple lines in the tex file.
 
-   * The suitable number of ampersands are inserted when you insert
-     array, tabular and tabular* environments with 'C-c C-e'.  Similar
-     experience is obtained if you terminate rows in these environments
-     with 'C-c <LFD>'.  It supplies line break macro '\\' and inserts
-     the suitable number of ampersands on the next line.
+  The suitable number of ampersands are inserted when you insert
+  array, tabular and tabular* environments with 'C-c C-e'.  Similar
+  experience is obtained if you terminate rows in these environments
+  with 'C-c <LFD>'.  It supplies line break macro '\\' and inserts
+  the suitable number of ampersands on the next line.
 
-     Similar supports are provided for various amsmath environments.
+  Similar supports are provided for various amsmath environments.
 
-   * Commands for narrowing to a group ('TeX-narrow-to-group') and to
-     LaTeX environments ('LaTeX-narrow-to-environment') were added.
+  Commands for narrowing to a group ('TeX-narrow-to-group') and to
+  LaTeX environments ('LaTeX-narrow-to-environment') were added.
 
-   * Now arbitrary options can be passed to the TeX processor on a per
-     file basis using the 'TeX-command-extra-options' option.
+  Now arbitrary options can be passed to the TeX processor on a per
+  file basis using the 'TeX-command-extra-options' option.
 
-   * Now 'C-c C-e document <RET>', in an empty document, prompts for
-     '\usepackage' macros in addition to '\documentclass'.
+  Now 'C-c C-e document <RET>', in an empty document, prompts for
+  '\usepackage' macros in addition to '\documentclass'.
 
-   * 'TeX-add-style-hook' has now a third argument to tell AUCTeX for
-     which dialect (LaTeX, Texinfo or BibTeX) the style hook is
-     registers.  Labelling style hook by dialect will avoid applying
-     them not in the right context.
+  'TeX-add-style-hook' has now a third argument to tell AUCTeX for
+  which dialect (LaTeX, Texinfo or BibTeX) the style hook is
+  registers.  Labelling style hook by dialect will avoid applying
+  them not in the right context.
 
-   * There have been lots of bug fixes and feature additions.
+  There have been lots of bug fixes and feature additions.
 
  -- Davide G. M. Salvetti <salve@debian.org>  Thu, 30 Oct 2014 23:29:37 +0100
 
