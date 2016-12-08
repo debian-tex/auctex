@@ -8,3 +8,4 @@
 0008-Replace-read-string-with-TeX-read-string.patch
 0009-Added-ChangeLog-entries.patch
 0010-Add-copyright-notice-to-style-foils.el.patch
+0011-style-subfigure.el-Fix-nesting-error.patch
