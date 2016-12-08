@@ -5,9 +5,9 @@ Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 3.9.8
 Build-Depends-Indep: debhelper (>= 9), emacs25 | emacs24 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common (>= 4.01), texlive-latex-base, texinfo (>= 5)
-Homepage: http://www.gnu.org/software/auctex/
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/salve/auctex.git;a=summary
-Vcs-Git: git://anonscm.debian.org/users/salve/auctex.git
+Homepage: https://www.gnu.org/software/auctex/
+Vcs-Browser: https://anonscm.debian.org/gitweb/?p=users/salve/auctex.git;a=summary
+Vcs-Git: https://anonscm.debian.org/git/users/salve/auctex.git
 
 Package: auctex
 Architecture: all
