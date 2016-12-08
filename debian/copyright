@@ -18,7 +18,7 @@ License: permissive
 
 Files: README doc/intro.texi
 Copyright: 2008 Free Software Foundation, Inc.
-License: preserve-notice
+License: preserve-notice-1
   Copying and distribution of this file, with or without modification, are
   permitted in any medium without royalty provided the copyright notice
   and this notice are preserved.
@@ -43,7 +43,7 @@ License: GFDL-NIV-1.3
 
 Files: doc/tex-ref.tex
 Copyright: 1987-2014 Free Software Foundation, Inc.
-License: preserve-notice
+License: preserve-notice-2
   Permission is granted to make and distribute copies of this card
   provided the copyright notice and this permission notice are preserved
   on all copies.
