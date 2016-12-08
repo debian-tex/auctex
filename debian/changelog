@@ -1,3 +1,41 @@
+auctex (11.88-2) unstable; urgency=medium
+
+  * [1451bf3] Switch to debhelper compatibility level 9
+  * [3541d2b] auctex.README.Debian (Contributed Files): Update
+  * [fffa9ac] Drop emacs23, default to emacs24.
+    Thanks to Lucas Nussbaum (Closes: #768724)
+  * [9ab3f31] debian/rules: Update from cvs-import to vcs-import
+  * [fe20d00] debian/changelog: Add entry for 11.87-3
+  * [a9a134a] Add patch: Replace `read-string' with `TeX-read-string'
+    (Closes: #120031)
+  * [5a43770] Add patch: Add copyright notice to style/foils.el
+  * [a629193] debian/copyright: Update
+  * [d83b7f0] debian/auctex.triggers: Use interest-nowait.
+    Thanks to Guillem Jover, Dimitri John Ledkov (Closes: #772873)
+  * [da831a0] Aknowledge NMU 11.88-1.1.
+    Thanks to Michael Gilbert
+  * [46a411f] Aknowledge NMU 11.88-1.2.
+    Thanks to Rémi Vanicat
+  * [4e1e65a] Add emacs25 GNU Emacs flavor support.
+    Thanks to Dan Torop (Closes: #841123)
+  * [43bab91] debian/po: Update pt_BR.po.
+    Thanks to Diego Neves (Closes: #823367)
+  * [99b75c1] Fix building with `dpkg-buildpackage -A'
+    Thanks to Santiago Vila, Rémi Vanicat (Closes: #839579)
+  * [b2ccb87] Upgrade Standards-Version to 3.9.8.
+    Thanks to Rémi Vanicat
+  * [9ad2c74] Aknowledge NMU 11.88-1.3.
+    Thanks to Rémi Vanicat
+  * [fc2873f] debian/rules: Use sbuild instead of pbuilder
+  * [86a0bf4] Add patch: style/subfigure.el: Fix nesting error.
+    Thanks to Julian Gilbey (Closes: #846537)
+  * [469d54d] debian/copyright: Use unique license names
+  * [9f79e72] debian/control: Use secure uris in VCS fields
+  * [747986f] debian/NEWS.Debian: Use regular paragraphs
+  * [51a35ab] debian/*.README.Debian: Do not include timestamps
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Thu, 08 Dec 2016 21:12:49 +0100
+
 auctex (11.88-1.3) unstable; urgency=medium
 
   * Non-maintainer upload.
