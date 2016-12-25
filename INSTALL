@@ -18,8 +18,8 @@ installations can be done by specifying a '--prefix=...' option).
 modes the default instead of the built-in modes of Emacs.  If this is
 not the case, consult *note Loading the package::.  Please read through
 this document fully before installing anything.  The installation
-procedure has changed as compared to earlier versions.  Users of MS Windows
-are asked to consult the file 'INSTALL.windows'.
+procedure has changed as compared to earlier versions.  Users of
+MS Windows are asked to consult the file 'INSTALL.windows'.
 
 1 Prerequisites
 ***************
@@ -203,8 +203,8 @@ it out with one of these options:
      goes.  It is to be used when you are using '--with-tex-dir=/DIR',
      but is normally not necessary otherwise.
 
-3 Build/install
-***************
+3 Build/install and uninstall
+*****************************
 
 Once 'configure' has been run, simply enter
 
@@ -216,8 +216,16 @@ chosen earlier, type
 
      make install
 
-   You may need special privileges to install, e.g., if you are
-installing into system directories.
+You may need special privileges to install, e.g., if you are installing
+into system directories.
+
+   Should you want to completely remove the installed package, in the
+same directory you built AUCTeX run
+
+     make uninstall
+
+You will need administration privileges if you installed the package
+into system directories.
 
 4 Loading the package
 *********************
@@ -453,3 +461,4 @@ recursively, so there is no reason to list subdirectories explicitly.
 Automatic configuration will already have set the variable for you if it
 could use the program 'kpsewhich'.  In this case you normally don't have
 to alter anything.
+

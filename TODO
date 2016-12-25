@@ -107,8 +107,6 @@ on the mailing list of AUCTeX first.
      This default value for TeX-master could then be controled with
      mapping based on the extension.
 
-   * Suggest 'makeindex' when appropriate.
-
    * Use index files (when available) to speed up 'C-c C-m include
      <RET>'.
 
@@ -146,16 +144,6 @@ on the mailing list of AUCTeX first.
    * Use Emacs 19 minibuffer history to choose between previewers, and
      other stuff.  Suggested by John Interrante
      '<interran@uluru.Stanford.EDU>'.
-
-   * Make features.
-
-     A new command 'TeX-update' ('C-c C-u') could be used to create an
-     up-to-date dvi file by repeatedly running BibTeX, MakeIndex and
-     (La)TeX, until an error occurs or we are done.
-
-     An alternative is to have an 'Update' command that ensures the
-     'dvi' file is up to date.  This could be called before printing and
-     previewing.
 
    * Documentation of variables that can be set in a style hook.
 
