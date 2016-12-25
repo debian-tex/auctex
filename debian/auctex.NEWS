@@ -1,3 +1,55 @@
+auctex (11.89-1) unstable; urgency=medium
+
+  You can now run all commands needed to compile a document and then open
+  the viewer with a single command: 'TeX-command-run-all', bound to 'C-c
+  C-a'.
+
+  Commands such as LaTeX and View can now be executed conveniently on the
+  current section (or part, chapter, subsection, etc).  See
+  'LaTeX-command-section' and 'LaTeX-command-section-change-level'.
+
+  Forward and backward search with Evince now also work when only a region
+  of the document is compiled/viewed.
+
+  To open the PDF output file you can now use also PDF Tools, a document
+  viewer for Emacs.  With it, as a plus, forward and backward search is
+  accurate at word level.
+
+  With new option 'TeX-PDF-via-dvips-ps2pdf' it is possible to compile a
+  document to DVI and then convert it to PDF using 'dvips'-'ps2pdf'
+  before viewing it.
+
+  New option 'TeX-file-line-error' allows users to select file:line:error style
+  for error messages.
+
+  Indent '\[...\]' math mode as a regular environment by default.
+
+  Now AUCTeX suggests to run 'makeindex' when appropriate.
+
+  'TeX-view-program-list' can contain, as third optional element of each
+  item, the name of the executable(s) needed to open the viewer.
+
+  'TeX-expand-list' variable has been split into 'TeX-expand-list' and
+  'TeX-expand-list-builtin'.  Only the former is intended to be
+  customized by the user, the latter contains built-in expanders. You
+  might want to keep in 'TeX-expand-list' only new expansion strings.
+
+  When new option 'TeX-check-engine' is non-nil, before running LaTeX
+  commands AUCTeX will check whether the correct engine has been set,
+  based upon known restrictions posed by LaTeX packages.
+
+  Basic support to ConTeXt Mark IV has been added.  Users can now select
+  the Mark version to be used with new option 'ConTeXt-Mark-version',
+  and AUCTeX is able to catch error messages in the output log of a Mark
+  IV document.
+
+  Support for tons of LaTeX packages has been addedd.
+
+  Numbers of bugs have been fixed, many minor features have been
+  addedd.
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 25 Dec 2016 19:35:14 +0100
+
 auctex (11.88-1) unstable; urgency=medium
 
   'TeX-PDF-mode' is now enabled by default.
@@ -89,7 +141,7 @@ auctex (11.88-1) unstable; urgency=medium
 
   There have been lots of bug fixes and feature additions.
 
- -- Davide G. M. Salvetti <salve@debian.org>  Thu, 30 Oct 2014 23:29:37 +0100
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 25 Dec 2016 19:34:58 +0100
 
 auctex (11.87-1) unstable; urgency=low
 
