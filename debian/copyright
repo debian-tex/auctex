@@ -10,7 +10,7 @@ Files: * doc/Makefile.in doc/preview-dtxdoc.pl
 Copyright: 1985-2014 Free Software Foundation, Inc.
 License: GPL-3+
 
-Files: configure preview/configure
+Files: configure
 Copyright: 1992-1996, 1998-2012 Free Software Foundation, Inc.
 License: permissive
   This configure script is free software; the Free Software Foundation

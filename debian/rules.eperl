@@ -52,11 +52,6 @@ override_dh_install:
 		-print0 | xargs --null --no-run-if-empty rm -f
 	dh_install
 
-.PHONY: override_dh_auto_install
-override_dh_auto_install:
-	dh_auto_install
-	cd preview/latex && $(MAKE) DESTDIR=../../debian/tmp install
-
 .PHONY: override_dh_compress
 override_dh_compress:
 	dh_compress --exclude=.pdf
@@ -72,10 +67,6 @@ override_dh_installdocs:
 		debian/tmp/usr/doc/auctex/HTML/auctex
 	install -m 644 doc/preview-latex.htmls/* \
 		debian/tmp/usr/doc/auctex/HTML/preview-latex
-	cd preview; for i in ChangeLog*; do \
-		install -m 644 $$i \
-		../debian/tmp/usr/doc/auctex/preview-$$i; \
-	done
 	dh_installdocs
 
 .PHONY: override_dh_installtex
