@@ -2,20 +2,20 @@ From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Sat, 14 Jan 2012 22:57:31 +0100
 Subject: preview-image-type: Customize for Debian
 
-* preview/preview.el (preview-image-type): Look for a dvipng executable
-  and use it if available.
+* preview.el (preview-image-type): Look for a dvipng executable and use it
+  if available.
 
 Rationale: "dvipng is much faster than the combination of Dvips and
-Ghostscript", the AUCTeX README says.
+Ghostscript", the AUCTeX README states.
 ---
- preview/preview.el.in | 2 +-
+ preview.el.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/preview/preview.el.in b/preview/preview.el.in
-index 57e056b..42217c9 100644
---- a/preview/preview.el.in
-+++ b/preview/preview.el.in
-@@ -229,7 +229,7 @@ method, like when PDFTeX was used."
+diff --git a/preview.el.in b/preview.el.in
+index 2eee66ec..013f3e79 100644
+--- a/preview.el.in
++++ b/preview.el.in
+@@ -228,7 +228,7 @@ method, like when PDFTeX was used."
  		       (symbol :tag "Emacs image-type")
  		       (repeat :inline t :tag "Ghostscript options" string))))
  

@@ -11,7 +11,7 @@ Reviewed-by: Davide G. M. Salvetti <salve@debian.org>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/style/subfigure.el b/style/subfigure.el
-index e129e62..cc53e55 100644
+index e129e62e..cc53e554 100644
 --- a/style/subfigure.el
 +++ b/style/subfigure.el
 @@ -1,6 +1,6 @@

@@ -2,35 +2,26 @@ From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Thu, 30 Oct 2014 17:47:53 +0100
 Subject: doc/Makefile.in: Rationalize HTML documentation targets
 
-- Use auctex.htmls instead of html as the name of the directory where
+* Use auctex.htmls instead of html as the name of the directory where
   AUCTeX HTMLs go.
-- Let the auctex.htmls/auctex.html target (ex html/auctex_toc.html) depend
+* Let the auctex.htmls/auctex.html target (ex html/auctex_toc.html) depend
   on all $(AUCTEXTEXIFILES) instead of just auctex.texi.
-- Refactor AUCTeX HTML documentation build command.
+* Refactor AUCTeX HTML documentation build command.
 
-- Use preview-latex.htmls instead of preview-latex as the name of the
+* Use preview-latex.htmls instead of preview-latex as the name of the
   directory where preview-latex HTMLs go.
-- Refactor preview-latex HTML documentation build command.
+* Refactor preview-latex HTML documentation build command.
 
-- Update references in extradist, html-docs, and clean targets.
+* Update references in extradist, html-docs, and clean targets.
 ---
- doc/Makefile.in | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ doc/Makefile.in | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index 8507821..8ecd37f 100644
+index 01e7e2af..50795b56 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
-@@ -2,7 +2,7 @@
- 
- # Maintainer: auctex-devel@gnu.org
- 
--# Copyright (C) 2003, 2004, 2005, 2006, 2007 Free Software Foundation, Inc.
-+# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2014 Free Software Foundation, Inc.
- 
- # This file is part of AUCTeX.
- 
-@@ -87,18 +87,16 @@ install-man:
+@@ -87,7 +87,7 @@ install-man:
  
  dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
  
@@ -38,7 +29,8 @@ index 8507821..8ecd37f 100644
 +extradist: auctex.htmls/$(TEXI2HTML_TOC) auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
  .PHONY: all info dvi dist install-auctex disttexts clean distclean \
- 	maintainer-clean install-preview install-man html-docs extradist
+ 	maintainer-clean install-preview install-man uninstall html-docs \
+@@ -95,11 +95,9 @@ extradist: html/$(TEXI2HTML_TOC) auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
  
  # AUCTeX
  
@@ -53,7 +45,7 @@ index 8507821..8ecd37f 100644
  
  tex-ref.dvi: tex-ref.tex
  	$(TEX) tex-ref
-@@ -143,11 +141,12 @@ install-auctex: auctex.info tex-ref.pdf
+@@ -144,11 +142,12 @@ install-auctex: auctex.info tex-ref.pdf
  
  # preview
  
@@ -68,9 +60,9 @@ index 8507821..8ecd37f 100644
 -html-docs: preview-latex/index.html
 +html-docs: preview-latex.htmls/index.html
  
- preview-dtxdoc.texi: ../preview/latex/preview.dtx preview-dtxdoc.pl
- 	-$(PERL) preview-dtxdoc.pl ../preview/latex/preview.dtx \
-@@ -204,7 +203,7 @@ clean:
+ preview-dtxdoc.texi: ../latex/preview.dtx preview-dtxdoc.pl
+ 	-$(PERL) preview-dtxdoc.pl ../latex/preview.dtx \
+@@ -214,7 +213,7 @@ clean:
  	rm -f *.dvi *.ps *.pdf *.aux *.cp *.fn *.ky *.log *~ \#*\# \
  		*.tp *.vr *.pg *.toc *.tp *.bak *.cps *.kys *.tps \
  		*.fns *.vrs *.pgs *.tmp *.html

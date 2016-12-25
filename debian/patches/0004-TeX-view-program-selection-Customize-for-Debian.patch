@@ -10,17 +10,18 @@ Subject: TeX-view-program-selection: Customize for Debian
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/tex.el b/tex.el
-index b634a74..b94e8c3 100644
+index ce0c344f..78557d60 100644
 --- a/tex.el
 +++ b/tex.el
-@@ -1235,9 +1235,11 @@ restarting Emacs."
+@@ -1393,10 +1393,12 @@ restarting Emacs."
        (output-pdf "open")
        (output-html "open")))
     (t
--    '(((output-dvi style-pstricks) "dvips and gv")
+-    '(((output-dvi has-no-display-manager) "dvi2tty")
++    `(((output-dvi has-no-display-manager) "dvi2tty")
+       ((output-dvi style-pstricks) "dvips and gv")
 -      (output-dvi "xdvi")
 -      (output-pdf "Evince")
-+    `(((output-dvi style-pstricks) "dvips and gv")
 +      (output-dvi ,(if (executable-find "evince") "Evince"
 +		     (if (executable-find "okular") "Okular" "xdvi")))
 +      (output-pdf ,(if (executable-find "evince") "Evince"

@@ -1,6 +1,6 @@
 From: "Davide G. M. Salvetti" <salve@debian.org>
 Date: Tue, 27 Dec 2011 22:40:49 +0100
-Subject: preview/latex/Makefile.in: Also clean PDF docs
+Subject: latex/Makefile.in: Also clean PDF docs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -8,17 +8,17 @@ Content-Transfer-Encoding: 8bit
 Closes: #628787
 Thanks: Matthias Kümmerer
 ---
- preview/latex/Makefile.in | 2 +-
+ latex/Makefile.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/preview/latex/Makefile.in b/preview/latex/Makefile.in
-index bccc79e..dddb543 100644
---- a/preview/latex/Makefile.in
-+++ b/preview/latex/Makefile.in
-@@ -87,5 +87,5 @@ preview.pdf: preview.drv preview.dtx preview.sty
+diff --git a/latex/Makefile.in b/latex/Makefile.in
+index afb0a62a..02cab15a 100644
+--- a/latex/Makefile.in
++++ b/latex/Makefile.in
+@@ -93,5 +93,5 @@ preview.pdf: preview.drv preview.dtx preview.sty
  	$(PDFLATEX) '\nonstopmode \AtBeginDocument{\OnlyDescription}\input{preview.drv}'
  
  clean:
--	rm -f *~ *.aux *.dvi *.drv *.log 
+-	rm -f *~ *.aux *.dvi *.drv *.log
 +	rm -f *~ *.aux *.dvi *.drv *.log *.pdf
- 	rm -f $(TEXMFGEN) preview.ins preview-mk.ins 
+ 	rm -f $(TEXMFGEN) preview.ins preview-mk.ins
