@@ -1,9 +1,9 @@
-This is auctex.info, produced by makeinfo version 5.2 from auctex.texi.
+This is auctex.info, produced by makeinfo version 6.0 from auctex.texi.
 
-This manual is for AUCTeX (version 11.88 from 2014-10-29), a
+This manual is for AUCTeX (version 11.89 from 2015-11-12), a
 sophisticated TeX environment for Emacs.
 
-   Copyright (C) 1992-1995, 2001, 2002, 2004-2014 Free Software
+   Copyright (C) 1992-1995, 2001, 2002, 2004-2015 Free Software
 Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
@@ -139,6 +139,10 @@ Viewing the Formatted Output
 
 * Starting Viewers::            Starting viewers
 * I/O Correlation::             Forward and inverse search
+
+Catching the errors
+
+* Error overview::              List of all errors and warnings
 
 Customization and Extension
 
@@ -322,14 +326,14 @@ installations can be done by specifying a '--prefix=...' option).
 modes the default instead of the built-in modes of Emacs.  If this is
 not the case, consult *note Loading the package::.  Please read through
 this document fully before installing anything.  The installation
-procedure has changed as compared to earlier versions.  Users of MS Windows
-are asked to consult *Note Installation under MS Windows::.
+procedure has changed as compared to earlier versions.  Users of
+MS Windows are asked to consult *Note Installation under MS Windows::.
 
 * Menu:
 
 * Prerequisites::
 * Configure::
-* Build/install::
+* Build/install and uninstall::
 * Loading the package::
 * Advice for package providers::
 * Advice for non-privileged users::
@@ -403,7 +407,7 @@ File: auctex.info,  Node: Prerequisites,  Next: Configure,  Up: Installation
 (preview-latex)Known problems::.
 
 
-File: auctex.info,  Node: Configure,  Next: Build/install,  Prev: Prerequisites,  Up: Installation
+File: auctex.info,  Node: Configure,  Next: Build/install and uninstall,  Prev: Prerequisites,  Up: Installation
 
 1.2.2 Configure
 ---------------
@@ -526,10 +530,10 @@ it out with one of these options:
      but is normally not necessary otherwise.
 
 
-File: auctex.info,  Node: Build/install,  Next: Loading the package,  Prev: Configure,  Up: Installation
+File: auctex.info,  Node: Build/install and uninstall,  Next: Loading the package,  Prev: Configure,  Up: Installation
 
-1.2.3 Build/install
--------------------
+1.2.3 Build/install and uninstall
+---------------------------------
 
 Once 'configure' has been run, simply enter
 
@@ -541,11 +545,19 @@ chosen earlier, type
 
      make install
 
-   You may need special privileges to install, e.g., if you are
-installing into system directories.
+You may need special privileges to install, e.g., if you are installing
+into system directories.
+
+   Should you want to completely remove the installed package, in the
+same directory you built AUCTeX run
+
+     make uninstall
+
+You will need administration privileges if you installed the package
+into system directories.
 
 
-File: auctex.info,  Node: Loading the package,  Next: Advice for package providers,  Prev: Build/install,  Up: Installation
+File: auctex.info,  Node: Loading the package,  Next: Advice for package providers,  Prev: Build/install and uninstall,  Up: Installation
 
 1.2.4 Loading the package
 -------------------------
@@ -1065,9 +1077,9 @@ single quotes for that.
 
      Adding support for an image format usually involves the
      installation of a library, e.g.  from <http://gnuwin32.sf.net/>.
-     If you got your Emacs from <gnu.org> you might want to check its
-     README file (ftp://ftp.gnu.org/gnu/emacs/windows/README) for
-     details.
+     If you got your Emacs from <http://www.gnu.org> you might want to
+     check its README file (ftp://ftp.gnu.org/gnu/emacs/windows/README)
+     for details.
 
      A different image format can be chosen by setting the variable
      'preview-image-type'.  While it is recommended to keep the 'dvipng'
@@ -1276,10 +1288,10 @@ which font you want:
 'C-c C-f C-d'
      Delete the innermost font specification containing point.
 
-   If you want to change font attributes of existing text, mark it as a
-region, and then invoke the commands.  If no region is selected, the
-command will be inserted with empty braces, and you can start typing the
-changed text.
+   If you want to change font attributes of existing text, mark it as an
+active region, and then invoke the commands.  If no region is selected,
+the command will be inserted with empty braces, and you can start typing
+the changed text.
 
    Most of those commands will also work in math mode, but then macros
 like '\mathbf' will be inserted.
@@ -1319,6 +1331,12 @@ afterwards--the same holds for BibTeX.
 suggest to run a viewer, or you can chose to create a PostScript file
 using 'dvips', or to directly print it.
 
+   Actually, there is another command which comes in handy to compile
+documents: type 'C-c C-a' ('TeX-command-run-all') and AUCTeX will
+compile the document for you until it is ready and then run the viewer.
+This is the same as issuing repeatedly 'C-c C-c' and letting AUCTeX
+guess the next command to run.
+
    At this place, a warning needs to be given: First, although AUCTeX is
 really good in detecting the standard situations when an additional
 'latex' run is necessary, it cannot detect it always.  Second, the
@@ -1352,6 +1370,13 @@ easy to memorize:
 'C-c C-t C-o'
      toggles usage of Omega/lambda.
 
+   There is also another possibility: compile the document with 'tex'
+(or 'latex') and then convert the resulting DVI file to PDF using
+'dvips'-'ps2pdf' sequence.  If you want to go by this route, when
+'TeX-PDF-via-dvips-ps2pdf' variable is non-nil, AUCTeX will suggest you
+to run the appropriate command when you type 'C-C C-c'.  For details,
+see *note Processor Options::.
+
 1.3.2.3 Debugging LaTeX
 .......................
 
@@ -1367,6 +1392,10 @@ same keystrokes to get to the next error.  This procedure may be
 repeated until all errors have been dealt with.  By pressing 'C-c C-w'
 ('TeX-toggle-debug-boxes') you can toggle whether AUCTeX should notify
 you of overfull and underfull boxes in addition to regular errors.
+
+   If you have a recent version of GNU Emacs (24 or later), issue 'M-x
+TeX-error-overview RET' to see a nicely formatted list of all errors and
+warnings reported by the compiler.
 
    If a command got stuck in a seemingly infinite loop, or you want to
 stop execution for other reasons, you can use 'C-c C-k' (for "kill").
@@ -2462,6 +2491,11 @@ to indenting with a small summary in each case:
      choose 'Other', you can specify your own fancy function to be
      called when <RET> is pressed.
 
+   AUCTeX treats by default '\[...\]' math mode as a regular environment
+and indents it accordingly.  If you do not like such behavior you only
+need to remove '\|\[' and '\|\]' from 'LaTeX-begin-regexp' and
+'LaTeX-end-regexp' variables respectively.
+
 
 File: auctex.info,  Node: Filling,  Prev: Indenting,  Up: Editing
 
@@ -2584,6 +2618,23 @@ inside the comment, AUCTeX will report an error.
      default) and the comment does not fit into the line, a line break
      will be inserted before the last non-comment word to minimize the
      chance that the line becomes overfull.
+
+ -- User Option: LaTeX-fill-excluded-macros
+     A list of macro names (without leading backslash) for whose
+     arguments filling should be disabled.  Typically, you will want to
+     add macros here which have long, multi-line arguments.  An example
+     is '\pgfplotstabletypeset' from the pgfplotstable package which is
+     used as shown in the following listing:
+
+     \pgfplotstabletypeset[skip first n=4]{%
+       XYZ Format,
+       Version 1.234
+       Date 2010-09-01
+       @author Mustermann
+       A B C
+       1 2 3
+       4 5 6
+     }
 
 
 File: auctex.info,  Node: Display,  Next: Processing,  Prev: Editing,  Up: Top
@@ -3377,6 +3428,30 @@ current buffer is not its own master file.
      the master file.  The command is then actually run on the region
      file.  See above for details.
 
+ -- Command: LaTeX-command-section
+     ('C-c C-z') Query the user for a command, and apply it to the
+     current section (or part, chapter, subsection, paragraph, or
+     subparagraph).  What makes the current section is determined by
+     'LaTeX-command-section-level' which can be enlarged/shrunken using
+     'LaTeX-command-section-change-level' ('C-c M-z').  The given
+     numeric prefix arg is added to the current value of
+     'LaTeX-command-section-level'.  By default,
+     'LaTeX-command-section-level' is initialized with the current
+     document's 'LaTeX-largest-level'.  The buffer contents are written
+     into the region file, after extracting the header and trailer from
+     the master file.  The command is then actually run on the region
+     file.  See 'TeX-command-region' for details.
+
+   It is also possible to compile automatically the whole document until
+it is ready with a single command: 'TeX-command-run-all'.
+
+ -- Command: TeX-command-run-all
+     ('C-c C-a') Compile the current document until an error occurs or
+     it is finished.  If compilation finishes successfully, run the
+     viewer at the end.
+
+   Here are some relevant variables.
+
  -- User Option: TeX-region
      The name of the file for temporarily storing the text when
      formatting the current region.
@@ -3419,7 +3494,7 @@ File: auctex.info,  Node: Selecting a Command,  Next: Processor Options,  Prev: 
 4.1.2 Selecting and Executing a Command
 ---------------------------------------
 
-Once you started the command selection with 'C-c C-c', 'C-c C-s' or 'C-c
+Once you started the command selection with 'C-c C-c', 'C-c C-r' or 'C-c
 C-b' you will be prompted for the type of command.  AUCTeX will try to
 guess which command is appropriate in the given situation and propose it
 as default.  Usually this is a processor like 'TeX' or 'LaTeX' if the
@@ -3498,7 +3573,8 @@ result.  These options control if DVI or PDF output should be produced,
 if TeX should be started in interactive or nonstop mode, if source
 specials or a SyncTeX file should be produced for making inverse and
 forward search possible or which TeX engine should be used instead of
-regular TeX, like PDFTeX, Omega or XeTeX.
+regular TeX, like PDFTeX, Omega or XeTeX, and the style error messages
+are printed with.
 
  -- Command: TeX-PDF-mode
      ('C-c C-t C-p') This command toggles the PDF mode of AUCTeX, a
@@ -3546,6 +3622,28 @@ regular TeX, like PDFTeX, Omega or XeTeX.
      document.  In particular, fine-tuning the page breaks should be
      done with source specials switched off.
 
+   Sometimes you are requested, by journal rules or packages, to compile
+the document into DVI output.  Thus, if you want a PDF document in the
+end you can either use XeTeX engine, see below for information about how
+to set engines, or compile the document with 'tex' and then convert to
+PDF with 'dvips'-'ps2pdf' before viewing it.  The latter can be done
+automatically in AUCTeX by setting the 'TeX-PDF-via-dvips-ps2pdf'
+variable to a non-nil value.
+
+ -- User Option: TeX-PDF-via-dvips-ps2pdf
+     With 'TeX-PDF-mode' set to non-nil, if 'TeX-PDF-via-dvips-ps2pdf'
+     is non-nil too, the document is compiled with 'tex' (or 'latex')
+     instead of 'pdftex' (or 'pdflatex').  When the document is ready,
+     'C-c C-c' will suggest to run 'dvips' and then 'ps2pdf' in order to
+     convert the DVI file to PDF.  When the PDF file is finally ready,
+     the next suggested command will be to open the viewer.
+
+     This option can also be set as a file local variable, in order to
+     use the sequence 'tex'-'dvips'-'ps2pdf' on a per-document basis.
+
+     Recall the whole sequence of 'C-c C-c' commands can be replace by
+     the single 'C-c C-a'.
+
    AUCTeX also allows you to easily select different TeX engines for
 processing, either by using the entries in the 'TeXing Options' submenu
 below the 'Command' menu or by calling the function 'TeX-engine-set'.
@@ -3591,6 +3689,31 @@ to add support for engines not covered per default.
      string.  An empty string or nil means there is no command
      available.
 
+   In some systems, Emacs cannot inherit the PATH environment variable
+from the shell and thus AUCTeX may not be able to run TeX commands.
+Before running them, AUCTeX checks if it able to find those commands and
+will warn you in case it fails.  You can skip this test by changing the
+option 'TeX-check-TeX'.
+
+ -- User Option: TeX-check-TeX
+     If non-nil, AUCTeX will check if it is able to find a working TeX
+     distribution before running TeX, LaTeX, ConTeXt, etc.  It actually
+     checks if can run 'TeX-command' command or the shell returns a
+     command not found error.  The error code returned by the shell in
+     this case can be set in 'TeX-check-TeX-command-not-found' option.
+
+   Some LaTeX packages requires the document to be compiled with a
+specific engine.  Notable examples are fontspec and polyglossia
+packages, which require LuaTeX and XeTeX engines.  If you try to compile
+a document which loads one of such packages and the set engine is not
+one of those allowed you will be asked to select a different engine
+before running the LaTeX command.  If you do not want to be warned by
+AUCTeX in these cases, customize the option 'TeX-check-engine'.
+
+ -- User Option: TeX-check-engine
+     This boolean option controls whether AUCTeX should check the
+     correct engine has been set before running LaTeX commands.
+
    As shown above, AUCTeX handles in a special way most of the main
 options that can be given to the TeX processors.  When you need to pass
 to the TeX processor arbitrary options not handled by AUCTeX, you can
@@ -3611,6 +3734,21 @@ produced.
  -- User Option: TeX-show-compilation
      If non-nil, the output of TeX compilation is shown in another
      window.
+
+   You can instruct TeX to print error messages in the form
+file:line:error which is similar to the way many compilers format them.
+
+ -- User Option: TeX-file-line-error
+     If non-nil, TeX will produce file:line:error style error messages.
+
+   ConTeXt users can choose between Mark II and Mark IV versions.  This
+is controlled by 'ConTeXt-Mark-version' option.
+
+ -- User Option: ConTeXt-Mark-version
+     This variables specifies which version of Mark should be used.
+     Values currently supported are '"II"', the default, and '"IV"'.  It
+     can be set globally using customization interface or on a per-file
+     basis, by specifying it as a file variable.
 
 
 File: auctex.info,  Node: Viewing,  Next: Debugging,  Prev: Commands,  Up: Processing
@@ -3698,18 +3836,26 @@ one of them or add your own definitions, you can do so via the variables
      can be conditionalized by prefixing them with predicates from
      'TeX-view-predicate-list' or 'TeX-view-predicate-list-builtin'.
      (See the doc string for the exact format to use.)  The command line
-     can also contain placeholders as defined in 'TeX-expand-list' which
-     are expanded before the viewer is called.
+     can also contain placeholders as defined in 'TeX-expand-list' and
+     'TeX-expand-list-builtin' which are expanded before the viewer is
+     called.
+
+     The third element of each item is a string, or a list of strings,
+     with the name of the executable, or executables, needed to open the
+     output file in the viewer.  Placeholders defined in
+     'TeX-expand-list' and 'TeX-expand-list-builtin' can be used here.
+     This element is optional and is used to check whether the viewer is
+     actually available on the system.
 
      A built-in viewer spec from 'TeX-view-program-list-builtin' can be
      overwritten by defining a new viewer spec with the same name.
 
    Note that the viewer selection and invocation as described above will
 only work if certain default settings in AUCTeX are intact.  For one,
-the whole viewer selection machinery will only be triggered if the '%V'
-expander in 'TeX-expand-list' is unchanged.  So if you have trouble with
-the viewer invocation you might check if there is an older customization
-of the variable in place.  In addition, the use of a function in
+the whole viewer selection machinery will only be triggered if there is
+no '%V' expander in 'TeX-expand-list'.  So if you have trouble with the
+viewer invocation you might check if there is an older customization of
+the variable in place.  In addition, the use of a function in
 'TeX-view-program-list' only works if the View command in
 'TeX-command-list' makes use of the hook 'TeX-run-discard-or-function'.
 
@@ -3815,7 +3961,9 @@ File: auctex.info,  Node: Debugging,  Next: Checking,  Prev: Viewing,  Up: Proce
 =======================
 
 Once you've formatted your document you may 'debug' it, i.e.  browse
-through the errors (La)TeX reported.
+through the errors (La)TeX reported.  If you have GNU Emacs 24 or later,
+you may also have a look at a nicely formatted list of all errors and
+warnings reported by the compiler.
 
  -- Command: TeX-next-error ARG REPARSE
      ('C-c `') Go to the next error reported by TeX.  The view will be
@@ -3871,8 +4019,18 @@ error reported by TeX along with the documentation.  There is however an
      If 'expert' AUCTeX will display the output buffer with the raw TeX
      output.
 
-   When the option 'TeX-parse-all-errors' is non-nil, you will be also
-able to open an overview of all errors and warnings reported by the TeX
+* Menu:
+
+* Error overview::            List of all errors and warnings
+
+
+File: auctex.info,  Node: Error overview,  Up: Debugging
+
+4.3.1 List of all errors and warnings
+-------------------------------------
+
+When the option 'TeX-parse-all-errors' is non-nil, you will be also able
+to open an overview of all errors and warnings reported by the TeX
 compiler.  This feature requires 'tabulated-list-mode', shipped with GNU
 Emacs 24 or later.
 
@@ -3884,8 +4042,9 @@ Emacs 24 or later.
      pressing <RET>, and visit the next or previous issue by pressing
      <n> or <p> respectively.  A prefix argument to these keys specifies
      how many errors to move forward or backward.  You can visit an
-     error also by clicking on its message.  Press <q> to quit the
-     overview.
+     error also by clicking on its message.  Jump to error point in the
+     source code with <j>, and use <l> see the error in the log buffer.
+     Press <q> to quit the overview.
 
  -- User Option: TeX-error-overview-open-after-TeX-run
      When this boolean variable is non-nil, the error overview will be
@@ -4045,6 +4204,19 @@ for one of the modes listed above, put it into the respective mode hook,
 if it is relevant for any AUCTeX mode, add it to 'TeX-mode-hook' and if
 it is relevant for all text modes, append it to 'text-mode-hook'.
 
+   Other useful hooks are listed below.
+
+ -- Variable: TeX-after-TeX-LaTeX-command-finished-hook
+     Hook which is run after the TeX/LaTeX processor has successfully
+     finished compiling your document.  (*Note Processing::, for finding
+     out how to compile your document).  Each function in the hook is
+     run with the compiled output document as its argument.
+
+     This is useful for automatically refreshing the viewer after
+     re-compilation especially when using Emacs viewers such as DocView
+     or PDF Tools.  The function 'TeX-revert-document-buffer' can be
+     added to the hook for this purpose.
+
 
 File: auctex.info,  Node: Multifile,  Next: Parsing Files,  Prev: Modes and Hooks,  Up: Customization
 
@@ -4099,6 +4271,9 @@ you can set 'TeX-master' in your '.emacs' file.
 
      If the variable is 'shared', then AUCTeX will query for the name,
      but will not change the file.
+
+     If the variable is 'dwim', AUCTeX will try to avoid querying by
+     attempting to "do what I mean"; and then change the file.
 
  -- User Option: TeX-one-master
      Regular expression matching ordinary TeX files.
@@ -4558,8 +4733,7 @@ found in 'TeX-style-path' are loaded, and all hooks defined in the files
 will be executed.
 
  -- User Option: TeX-style-path
-     List of directories to search for AUCTeX style files.  Each must
-     end with a slash.
+     List of directories to search for AUCTeX style files.
 
    By default, when AUCTeX searches a directory for files, it will
 recursively search through subdirectories.
@@ -4598,8 +4772,7 @@ the variable 'TeX-auto-global' to nil.
      Directories containing the site's TeX style files.
 
  -- User Option: TeX-style-global
-     Directory containing hand generated TeX information.  Must end with
-     a slash.
+     Directory containing hand generated TeX information.
 
      These correspond to TeX macros shared by all users of a site.
 
@@ -4658,14 +4831,12 @@ document.  The disadvantage is that saving will be slower.  To disable,
 set 'TeX-auto-local' to nil.
 
  -- User Option: TeX-style-local
-     Directory containing hand generated TeX information.  Must end with
-     a slash.
+     Directory containing hand generated TeX information.
 
      These correspond to TeX macros found in the current directory.
 
  -- User Option: TeX-auto-local
-     Directory containing automatically generated TeX information.  Must
-     end with a slash.
+     Directory containing automatically generated TeX information.
 
      These correspond to TeX macros found in the current directory.
 
@@ -5309,10 +5480,10 @@ A.1 Copying this Manual
 
 The copyright notice for this manual is:
 
-   This manual is for AUCTeX (version 11.88 from 2014-10-29), a
+   This manual is for AUCTeX (version 11.89 from 2015-11-12), a
 sophisticated TeX environment for Emacs.
 
-   Copyright (C) 1992-1995, 2001, 2002, 2004-2014 Free Software
+   Copyright (C) 1992-1995, 2001, 2002, 2004-2015 Free Software
 Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
@@ -5816,6 +5987,63 @@ File: auctex.info,  Node: Changes,  Next: Development,  Prev: Copying this Manua
 A.2 Changes and New Features
 ============================
 
+News in 11.89
+=============
+
+   * You can now run all commands needed to compile a document and then
+     open the viewer with a single command: 'TeX-command-run-all', bound
+     to 'C-c C-a'.
+
+   * Commands such as LaTeX and View can now be executed conveniently on
+     the current section (or part, chapter, subsection, etc).  See
+     'LaTeX-command-section' and 'LaTeX-command-section-change-level'.
+     *Note Starting a Command::, for details.
+
+   * Forward and backward search with Evince now also work when only a
+     region of the document is compiled/viewed.
+
+   * To open the PDF output file you can now use also PDF Tools, a
+     document viewer for Emacs.  With it, as a plus, forward and
+     backward search is accurate at word level.
+
+   * With new option 'TeX-PDF-via-dvips-ps2pdf' it is possible to
+     compile a document to DVI and then convert it to PDF using
+     'dvips'-'ps2pdf' before viewing it.
+
+   * New option 'TeX-file-line-error' allows to select file:line:error
+     style for error messages.
+
+   * Indent '\[...\]' math mode as a regular environment by default.
+
+   * Now AUCTeX suggests to run 'makeindex' when appropriate.
+
+   * 'TeX-view-program-list' can contain, as third optional element of
+     each item, the name of the executable(s) needed to open the viewer.
+
+   * 'TeX-expand-list' variable has been split into 'TeX-expand-list'
+     and 'TeX-expand-list-builtin'.  Only the former is intended to be
+     customized by the user, the latter contains built-in expanders.
+     You might want to keep in 'TeX-expand-list' only new expansion
+     strings.
+
+   * Before running commands like TeX and LaTeX, now AUCTeX performs
+     some checks.  If 'TeX-check-TeX' is non-nil, it will test whether a
+     working TeX distribution is actually present in the system and
+     available to Emacs.  Instead, when 'TeX-check-engine' is non-nil,
+     before running LaTeX commands AUCTeX will check whether the correct
+     engine has been set, based upon known restrictions posed by LaTeX
+     packages.
+
+   * Basic support to ConTeXt Mark IV has been added.  Users can now
+     select the Mark version to be used with new option
+     'ConTeXt-Mark-version', and AUCTeX is able to catch error messages
+     in the output log of a Mark IV document.
+
+   * Support for tons of LaTeX packages has been addedd.
+
+   * Numbers of bugs have been fixed, many minor features have been
+     addedd.
+
 News in 11.88
 =============
 
@@ -5916,8 +6144,8 @@ News in 11.88
 
    * There have been lots of bug fixes and feature additions.
 
-News since 11.87
-================
+News in 11.87
+=============
 
    * AUCTeX now supports Biber in conjunction with biblatex in addition
      to BibTeX.
@@ -6632,8 +6860,6 @@ A.3.2 Wishlist
      This default value for TeX-master could then be controled with
      mapping based on the extension.
 
-   * Suggest 'makeindex' when appropriate.
-
    * Use index files (when available) to speed up 'C-c C-m include
      <RET>'.
 
@@ -6671,16 +6897,6 @@ A.3.2 Wishlist
    * Use Emacs 19 minibuffer history to choose between previewers, and
      other stuff.  Suggested by John Interrante
      '<interran@uluru.Stanford.EDU>'.
-
-   * Make features.
-
-     A new command 'TeX-update' ('C-c C-u') could be used to create an
-     up-to-date dvi file by repeatedly running BibTeX, MakeIndex and
-     (La)TeX, until an error occurs or we are done.
-
-     An alternative is to have an 'Update' command that ensures the
-     'dvi' file is up to date.  This could be called before printing and
-     previewing.
 
    * Documentation of variables that can be set in a style hook.
 
@@ -6824,8 +7040,8 @@ A.4 Frequently Asked Questions
      possibly made to work by updating the 'xemacs-base' package through
      the XEmacs package system.  If you are looking for a
      recommendation, it would appear that the smoothest working platform
-     on all operating systems at the current point of time would be Emacs 22
-     or higher.
+     on all operating systems at the current point of time would be
+     Emacs 22 or higher.
 
      Our success with XEmacs has been less than convincing.  Code for
      core functionality like formatting and syntax highlighting tends to
@@ -6881,157 +7097,24 @@ A.4 Frequently Asked Questions
 
   8. Why does 'TeX-next-error' ('C-c `') fail?
 
-     When writing the log file, TeX puts information related to a file,
-     including error messages, between a pair of parentheses.  AUCTeX
-     determines the file where the error happened by parsing the log
-     file and counting the parentheses.  This can fail when there are
-     other, unbalanced parentheses present.
+     If 'TeX-file-line-error' is set to nil (not the default), these
+     sort of failures might be related to the the fact that when writing
+     the log file, TeX puts information related to a file, including
+     error messages, between a pair of parentheses.  In this scenario
+     AUCTeX determines the file where the error happened by parsing the
+     log file and counting the parentheses.  This can fail when there
+     are other, unbalanced parentheses present.
 
-     As a workaround you can activate so-called file:line:error messages
-     for the log file.  (Those are are easier to parse, but may lack
-     some details.)  Either you do this in the configuration of your TeX
-     system (consult its manual to see where this is) or you add a
-     command line switch to the (la)tex call, e.g.  by customizing
-     'LaTeX-command-style' or 'TeX-command-list'.
+     Activating so-called file:line:error messages for the log file
+     usually solves this issue, as these kind of messages are are easier
+     to parse; however, they may lack some details.  Activation can be
+     done either in the configuration of your TeX system (consult its
+     manual to see where this is) or by simply keeping the variable
+     'TeX-file-line-error' to the default value of non-nil.
 
   9. What does AUC stand for?
 
      AUCTeX came into being at Aalborg University in Denmark.  Back then
      the Danish name of the university was Aalborg Universitetscenter;
      AUC for short.
-
-
-File: auctex.info,  Node: Texinfo mode,  Prev: FAQ,  Up: Appendices
-
-A.5 Features specific to AUCTeX's Texinfo major mode
-====================================================
-
-AUCTeX includes a major mode for editting Texinfo files.  This major
-mode is not the same mode as the native Texinfo mode (*note (texinfo)
-Texinfo Mode::) of Emacs, although they have the same name.  However,
-AUCTeX still relies on a number of functions from the native Texinfo
-mode.
-
-   The following text describes which functionality is offered by AUCTeX
-and which by the native Texinfo mode.  This should enable you to decide
-when to consult the AUCTeX manual and when the manual of the native
-mode.  And in case you are a seasoned user of the native mode, the
-information should help you to swiftly get to know the AUCTeX-specific
-commands.
-
-* Menu:
-
-* Exploiting::                  How AUCTeX and the native mode work together
-* Superseding::                 Where the native mode is superseded
-* Mapping::                     Where key bindings are mapped to the native mode
-* Unbinding::                   Which native mode key bindings are missing
-
-
-File: auctex.info,  Node: Exploiting,  Next: Superseding,  Up: Texinfo mode
-
-A.5.1 How AUCTeX and the native mode work together
---------------------------------------------------
-
-In a nutshell the split between AUCTeX Texinfo mode, and native Texinfo
-mode is as follows:
-
-   * Most of the editing (environment creation, commenting, font command
-     insertions) and/or processing commands (e.g.  compiling or
-     printing) which are available in other AUCTeX modes are also
-     handled by AUCTeX in Texinfo mode.
-
-   * Texinfo-related features (e.g.  info node linkage or menu creation)
-     rely on the commands provided by the native Texinfo mode.  AUCTeX
-     provides the key bindings to reach these functions, keeping the
-     same keys as in native Texinfo whenever possible, or similar ones
-     otherwise.
-
-
-File: auctex.info,  Node: Superseding,  Next: Mapping,  Prev: Exploiting,  Up: Texinfo mode
-
-A.5.2 Where the native mode is superseded
------------------------------------------
-
-This section is directed to users of the native Texinfo mode switching
-to AUCTeX.  It follows the summary of the native mode (*note (texinfo)
-Texinfo Mode Summary::) and lists which of its commands are no longer of
-use.
-
-Insert commands
-     In the native Texinfo mode, frequently used Texinfo commands can be
-     inserted with key bindings of the form 'C-c C-c K' where K differs
-     for each Texinfo command; 'c' inserts @code, 'd' inserts @dfn, 'k'
-     @kbd, etc.
-
-     In AUCTeX commands are inserted with the key binding 'C-c C-m'
-     instead which prompts for the macro to be inserted.  For font
-     selection commands (like @b, @i, or @emph) and a few related ones
-     (like @var, @key or @code) there are bindings which insert the
-     respective macros directly.  They have the form 'C-c C-f K' or 'C-c
-     C-f C-K' and call the function 'TeX-font'.  Type 'C-c C-f <RET>' to
-     get a list of supported commands.
-
-     Note that the prefix argument is not handled the same way by
-     AUCTeX.  Note also that the node insertion command from the native
-     mode ('texinfo-insert-@node') can still accessed from the Texinfo
-     menu in AUCTeX.
-
-Insert braces
-     In AUCTeX braces can be inserted with the same key binding as in
-     the native Texinfo mode: 'C-c {'.  But AUCTeX uses its own function
-     for the feature: 'TeX-insert-braces'.
-
-Insert environments
-     The native Texinfo mode does not insert full environments.
-     Instead, it provides the function 'texinfo-insert-@end' (mapped to
-     'C-c C-c e') for closing an open environment with a matching @end
-     statement.
-
-     In AUCTeX you can insert full environments, i.e.  both the opening
-     and closing statements, with the function 'Texinfo-environment'
-     (mapped to 'C-c C-e').
-
-Format info files with makeinfo and TeX
-     In the native Texinfo mode there are various functions and bindings
-     to format a region or the whole buffer for info or to typeset the
-     respective text.  For example, there is 'makeinfo-buffer' (mapped
-     to 'C-c C-m C-b') which runs 'makeinfo' on the buffer or there is
-     'texinfo-tex-buffer' (mapped to 'C-c C-t C-b') which runs TeX on
-     the buffer in order to produce a DVI file.
-
-     In AUCTeX different commands for formatting or typesetting can be
-     invoked through the function 'TeX-command-master' (mapped to 'C-c
-     C-c').  After typing 'C-c C-c', you can select the desired command,
-     e.g 'Makeinfo' or 'TeX', through a prompt in the mini buffer.  Note
-     that you can make, say 'Makeinfo', the default by adding this
-     statement in your init file:
-
-          (add-hook 'Texinfo-mode-hook
-                    (lambda () (setq TeX-command-default "Makeinfo")))
-
-     Note also that 'C-c C-c Makeinfo <RET>' is not completely
-     functionally equivalent to 'makeinfo-buffer' as the latter will
-     display the resulting info file in Emacs, showing the node
-     corresponding to the position in the source file, just after a
-     successful compilation.  This is why, while using AUCTeX, invoking
-     'makeinfo-buffer' might still be more convenient.
-
-     Note also that in the case of a multifile document, 'C-c C-c' in
-     AUCTeX will work on the whole document (provided that the file
-     variable 'TeX-master' is set correctly), while 'makeinfo-buffer' in
-     the native mode will process only the current buffer, provided at
-     the '@setfilename' statement is provided.
-
-Produce indexes and print
-     The native Texinfo mode provides the binding 'C-c C-t C-i'
-     ('texinfo-texindex') for producing an index and the bindings 'C-c
-     C-t C-p' ('texinfo-tex-print') and 'C-c C-t C-q'
-     ('tex-show-print-queue') for printing and showing the printer
-     queue.  These are superseded by the respective commands available
-     through 'C-c C-c' ('TeX-command-master') in AUCTeX: Index, Print,
-     and Queue.
-
-Kill jobs
-     The command 'C-c C-t C-k' ('tex-kill-job') in the native mode is
-     superseded by 'C-c C-k' ('TeX-kill-job') in AUCTeX.
 
