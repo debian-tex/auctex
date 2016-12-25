@@ -11,6 +11,9 @@
 
 SHELL := /bin/bash
 
+<: # There are no tests at this moment :>//
+DEB_BUILD_OPTIONS := nocheck
+
 EPERL_SRC := $(wildcard debian/*.eperl)
 EPERL_OBJ := $(EPERL_SRC:%.eperl=%)
 
