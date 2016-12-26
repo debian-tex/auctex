@@ -1,3 +1,16 @@
+auctex (11.89-1) unstable; urgency=medium
+
+  * [da2e9d7] New upstream version 11.89.
+    Thanks to Norbert Preining, Rémi Vanicat (Closes: #838119)
+  * [9b94e58] Remove upstream merged patches
+  * [0eb2307] Refresh upstream patches
+  * [01282cb] Adapt to preview to top-level merge
+  * [678c0b9] debian/rules: Disable dh_auto_test
+  * [baa9409] debian/copyright: Update
+  * [c4958c4] debian/auctex.NEWS: Update
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sun, 25 Dec 2016 23:59:59 +0100
+
 auctex (11.88-2) unstable; urgency=medium
 
   * [1451bf3] Switch to debhelper compatibility level 9
