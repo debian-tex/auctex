@@ -10,6 +10,7 @@
 :>//
 
 SHELL := /bin/bash
+SBUILD := "sbuild --verbose"
 
 <: # There are no tests at this moment :>//
 DEB_BUILD_OPTIONS := nocheck
@@ -121,29 +122,32 @@ vcs-import: vcs-switch
 	rm --force "../auctex_$(V).orig.tar.gz"
 
 .PHONY: snapshot
+snapshot: OBJ := --arch-all
+snapshot: DIST := unstable
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
 snapshot:
 	gbp dch --debian-branch=$(BRANCH) --snapshot --auto --commit
-	gbp buildpackage --clean-source \
-		--git-builder='sbuild --verbose --arch-all --source --dist=unstable' \
+	gbp buildpackage \
+		--git-builder='$(SBUILD) $(OBJ) --dist=$(DIST)' \
 		--git-debian-branch=$(BRANCH)
 
 .PHONY: release
-release:
+release: OBJ := --arch-all --arch-any --source --source-only-changes
+release: DIST := unstable
+release: clean
 	git checkout master
 	gbp pq rebase
 	gbp pq export
 	gbp dch --release --commit
-	gbp buildpackage --clean-source \
-		--git-builder='sbuild --verbose --arch-all --source --source-only-changes --dist=unstable' \
+	gbp buildpackage \
+		--git-builder='$(SBUILD) $(OBJ) --dist=$(DIST)' \
 		--git-tag
 
 .PHONY: upload
 upload: V := $(shell dpkg-parsechangelog --show-field Version)
-upload: A := $(shell dpkg --print-architecture)
 upload:
 	debsign
-	dput ../auctex_$(V)_$(A).changes
+	dput ../auctex_$(V)_source.changes
 <:
 # local variables:
 # mode: makefile-gmake
