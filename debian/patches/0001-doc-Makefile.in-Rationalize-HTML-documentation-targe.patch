@@ -18,7 +18,7 @@ Subject: doc/Makefile.in: Rationalize HTML documentation targets
  1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index 01e7e2af..50795b56 100644
+index 6a3754118..1a9549964 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
 @@ -87,7 +87,7 @@ install-man:

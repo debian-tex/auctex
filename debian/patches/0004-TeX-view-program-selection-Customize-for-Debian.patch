@@ -10,10 +10,10 @@ Subject: TeX-view-program-selection: Customize for Debian
  1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/tex.el b/tex.el
-index ce0c344f..78557d60 100644
+index 02946b9af..413c50c13 100644
 --- a/tex.el
 +++ b/tex.el
-@@ -1393,10 +1393,12 @@ restarting Emacs."
+@@ -1486,10 +1486,12 @@ restarting Emacs."
        (output-pdf "open")
        (output-html "open")))
     (t

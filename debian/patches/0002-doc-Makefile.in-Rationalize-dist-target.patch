@@ -8,7 +8,7 @@ Depend on the info target instead of on the individual info manuals.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index 50795b56..4d8a9f06 100644
+index 1a9549964..21a120b6d 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
 @@ -85,7 +85,7 @@ install-man:
