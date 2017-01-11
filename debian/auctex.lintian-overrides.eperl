@@ -3,6 +3,7 @@
 
 # Needed to build alternative formats of the manual from sources
 auctex binary: extra-license-file usr/share/doc/auctex/src/copying.texi
+auctex binary: wrong-name-for-upstream-changelog usr/share/doc/auctex/CHANGES.gz
 
 <:
 # local variables:

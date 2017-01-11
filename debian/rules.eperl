@@ -56,6 +56,10 @@ override_dh_install:
 		-print0 | xargs --null --no-run-if-empty rm -f
 	dh_install
 
+.PHONY: override_dh_installchangelogs
+override_dh_installchangelogs:
+	dh_installchangelogs --exclude CHANGES
+
 .PHONY: override_dh_compress
 override_dh_compress:
 	dh_compress --exclude=.pdf
@@ -125,7 +129,7 @@ vcs-import: vcs-switch
 snapshot: OBJ := --arch-all
 snapshot: DIST := unstable
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
-snapshot:
+snapshot: clean
 	gbp dch --debian-branch=$(BRANCH) --snapshot --auto --commit
 	gbp buildpackage \
 		--git-builder='$(SBUILD) $(OBJ) --dist=$(DIST)' \
