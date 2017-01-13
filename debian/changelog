@@ -1,6 +1,20 @@
+auctex (11.90-1) unstable; urgency=medium
+
+  * [ca6576f] New upstream release 11.90
+  * [1b78da3] debian/rules: Source only upload
+  * [577e702] debian/copyright: Update
+  * [6fcbd44] debian/auctex.NEWS: Update
+  * [bea5d9c] Remove upstream merged patches
+  * [9ae36c0] Refresh upstream patches
+  * [178d053] Cope with missing upstream ChangeLog
+  * [a853cd1] Add patch: Fix ConTeXt-outline-regexp.
+    Thanks to Sanjoy Mahajan (Closes: #850444)
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Sat, 14 Jan 2017 00:23:32 +0100
+
 auctex (11.89-1) unstable; urgency=medium
 
-  * [da2e9d7] New upstream version 11.89.
+  * [da2e9d7] New upstream release 11.89
     Thanks to Norbert Preining, Rémi Vanicat (Closes: #838119)
   * [9b94e58] Remove upstream merged patches
   * [0eb2307] Refresh upstream patches
