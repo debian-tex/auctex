@@ -1,0 +1,30 @@
+From: "Davide G. M. Salvetti" <salve@debian.org>
+Date: Fri, 13 Jan 2017 21:58:37 +0100
+Subject: Fix ConTeXt-outline-regexp
+
+Add a separator between different elements; see Debian bug #850444.
+---
+ context.el | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/context.el b/context.el
+index 941057a70..e220c437b 100644
+--- a/context.el
++++ b/context.el
+@@ -1,6 +1,6 @@
+ ;;; context.el --- Support for ConTeXt documents.
+ 
+-;; Copyright (C) 2003-2006, 2008, 2010, 2012, 2014-2016
++;; Copyright (C) 2003-2006, 2008, 2010, 2012, 2014-2017
+ ;;   Free Software Foundation, Inc.
+ 
+ ;; Maintainer: Berend de Boer <berend@pobox.com>
+@@ -1037,7 +1037,7 @@ header is at the start of a line."
+    (regexp-quote TeX-esc)
+    "\\("
+    (mapconcat #'ConTeXt-environment-full-start-name ConTeXt-section-block-list "\\|") "\\|"
+-   (mapconcat #'car ConTeXt-numbered-section-list "\\|")
++   (mapconcat #'car ConTeXt-numbered-section-list "\\|") "\\|"
+    (mapconcat #'car ConTeXt-unnumbered-section-list "\\|")
+    "\\)\\b"
+    (if TeX-outline-extra
