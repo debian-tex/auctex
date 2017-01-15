@@ -150,7 +150,6 @@ release: clean
 .PHONY: upload
 upload: V := $(shell dpkg-parsechangelog --show-field Version)
 upload:
-	debsign
 	dput ../auctex_$(V)_source.changes
 <:
 # local variables:
