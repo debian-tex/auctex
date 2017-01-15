@@ -134,7 +134,7 @@ snapshot: DIST := unstable
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
 snapshot: clean
 	gbp dch --debian-branch=$(BRANCH) --snapshot --auto --commit
-	gbp buildpackage \
+	gbp buildpackage --keyid='' \
 		--git-builder='$(SBUILD) $(OBJ) --dist=$(DIST)' \
 		--git-debian-branch=$(BRANCH)
 
