@@ -2,7 +2,7 @@
 #
 # makefile rules for the Debian package auctex
 #
-# Copyright (C) 1997-2016 Davide G. M. Salvetti.
+# Copyright (C) 1997-2017 Davide G. M. Salvetti.
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
@@ -21,7 +21,7 @@
 # License in "/usr/share/common-licenses/GPL".
 
 SHELL := /bin/bash
-SBUILD := "sbuild --verbose"
+SBUILD := sbuild --verbose
 
 DEB_BUILD_OPTIONS := nocheck
 

@@ -10,7 +10,7 @@
 :>//
 
 SHELL := /bin/bash
-SBUILD := "sbuild --verbose"
+SBUILD := sbuild --verbose
 
 <: # There are no tests at this moment :>//
 DEB_BUILD_OPTIONS := nocheck
