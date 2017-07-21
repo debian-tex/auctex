@@ -1,3 +1,17 @@
+auctex (11.90-2) unstable; urgency=medium
+
+  [ Davide G. M. Salvetti ]
+  * [9572013] debian/rules (snapshot): Do not sign snapshots
+  * [2b18f96] debian/watch: Check GPG signature
+  * [60b3789] debian/COPYRIGHT: Update
+  * [f794a56] debian/rules (SBUILD): Do not overquote
+
+  [ Norbert Preining ]
+  * [ec2ea9c] Add patch: Support new date format of LaTeX kernel in TL2017.
+    Thanks to Markus Kohm
+
+ -- Davide G. M. Salvetti <salve@debian.org>  Fri, 21 Jul 2017 14:14:32 +0200
+
 auctex (11.90-1) unstable; urgency=medium
 
   * [ca6576f] New upstream release 11.90
@@ -643,7 +657,7 @@ auctex (11.83-1) unstable; urgency=low
     (build, clean, binary-indep, binary-arch): Change accordingly.
 
   * auctex/docbase.auctex.in (Abstract): Fixed typo.
-  
+
   * auctex/templates.in: Renamed from "auctex/template".
     (auctex/doauto, auctex/doautofg): Improved wording.
   * po/de.po, po/es.po, po/it.po, po/pt_BR.po, po/templates.po: Updated
@@ -675,10 +689,10 @@ auctex (11.82-1) unstable; urgency=high
   * control (Depends): Add "gs-gpl | gs"; thanks to Frank Küster.
   * install.in (do_install): Also touch "preview/configure.ac"; thanks to
     Frank Küster.  (Closes: #349330, #349471, #349620)
-  
+
   * control (Build-Depends-Indep): Change Ghostscript dependence to
     "gs-gpl | gs".
-  
+
   * control (Depends): Add alternative "texlive-latex-base"; thanks to
     Norbert Preining.  (Closes: #349662)
 
@@ -944,7 +958,7 @@ auctex (11.14+CVS.2004.05.14.1-1) UNRELEASED; urgency=low
  -- Davide G. M. Salvetti <salve@debian.org>  Fri, 14 May 2004 21:30:25 +0200
 
 auctex (11.14+CVS.2004.05.13.1-1) UNRELEASED; urgency=low
-  
+
   * New CVS upstream source.
   * ../latex.el: Upstream updated, reverted.
   * ../doc/Makefile: Reverted to upstream.
