@@ -43,6 +43,7 @@ debian/clean: $(EPERL_OBJ)
 ELCC := $(shell pwd)/debian/elcc
 .PHONY: override_dh_auto_build
 override_dh_auto_build: debian/clean
+	chmod -R a+rX debian/
 	chmod a+x debian/elcc
 	$(MAKE) ELCC=$(ELCC)
 	rm --force auto-loads.el
