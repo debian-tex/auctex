@@ -8,7 +8,7 @@ Add a separator between different elements; see Debian bug #850444.
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/context.el b/context.el
-index 941057a70..e220c437b 100644
+index 941057a..e220c43 100644
 --- a/context.el
 +++ b/context.el
 @@ -1,6 +1,6 @@

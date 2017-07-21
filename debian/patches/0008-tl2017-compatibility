@@ -7,12 +7,14 @@ this format, too, otherwise warnings are issued.
 
 Patch by Markus Kohm on the TeX Live mailing list.
 ---
- tex-buf.el |    2 +-
+ tex-buf.el | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- auctex.git.orig/tex-buf.el
-+++ auctex.git/tex-buf.el
-@@ -1582,7 +1582,7 @@
+diff --git a/tex-buf.el b/tex-buf.el
+index 6497777..644f69e 100644
+--- a/tex-buf.el
++++ b/tex-buf.el
+@@ -1582,7 +1582,7 @@ Rerun to get mark in right position\\." nil t)
  	 (setq TeX-command-next TeX-command-default))
  	((re-search-forward
  	  "^\\(\\*\\* \\)?J?I?p?\\(La\\|Sli\\)TeX\\(2e\\)? \

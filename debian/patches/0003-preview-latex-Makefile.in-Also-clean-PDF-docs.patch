@@ -12,7 +12,7 @@ Thanks: Matthias Kümmerer
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/latex/Makefile.in b/latex/Makefile.in
-index afb0a62a3..02cab15ac 100644
+index afb0a62..02cab15 100644
 --- a/latex/Makefile.in
 +++ b/latex/Makefile.in
 @@ -93,5 +93,5 @@ preview.pdf: preview.drv preview.dtx preview.sty
