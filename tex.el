@@ -155,8 +155,12 @@ If nil, none is specified."
      :help "Convert DVI file to PDF with dvipdfmx")
     ("Ps2pdf" "ps2pdf %f" TeX-run-ps2pdf nil t
      :help "Convert PostScript file to PDF")
+    ("Glossaries" "makeglossaries %s" TeX-run-command nil
+     t :help "Run makeglossaries to create glossary file")
     ("Index" "makeindex %s" TeX-run-index nil t
      :help "Run makeindex to create index file")
+    ("upMendex" "upmendex %s" TeX-run-index t t
+     :help "Run upmendex to create index file")
     ("Xindy" "texindy %s" TeX-run-command nil t
      :help "Run xindy to create index file")
     ("Check" "lacheck %s" TeX-run-compile nil (latex-mode)
@@ -476,8 +480,8 @@ string."
     ("%(file-line-error)"
      (lambda () (if TeX-file-line-error " -file-line-error" "")))
     ("%(o?)" (lambda () (if (eq TeX-engine 'omega) "o" "")))
-    ("%(tex)" (lambda () (eval (nth 2 (assq TeX-engine (TeX-engine-alist))))))
-    ("%(latex)" (lambda () (eval (nth 3 (assq TeX-engine (TeX-engine-alist))))))
+    ("%(tex)" (lambda () (eval (nth 2 (TeX-engine-in-engine-alist TeX-engine)))))
+    ("%(latex)" (lambda () (eval (nth 3 (TeX-engine-in-engine-alist TeX-engine)))))
     ("%(cntxcom)" ConTeXt-expand-command)
     ("%(execopts)" ConTeXt-expand-options)
     ("%(extraopts)" (lambda () TeX-command-extra-options))
@@ -760,7 +764,11 @@ overlays."
 	     (/ outer-priority 2))
 	    ((and inner-priority outer-priority)
 	     (+ (/ (- outer-priority inner-priority) 2) inner-priority))
-	    (t TeX-overlay-priority-step)))) )
+	    (t TeX-overlay-priority-step))))
+
+  (defun TeX-replace-regexp-in-string (regexp rep string)
+    "Compatibility function mimicking `replace-regexp-in-string' for XEmacs."
+    (replace-in-string string regexp rep)) )
 
 ;; require crm here, because we often do
 ;;
@@ -898,7 +906,9 @@ overlays."
 	     (/ outer-priority 2))
 	    ((and inner-priority outer-priority)
 	     (+ (/ (- outer-priority inner-priority) 2) inner-priority))
-	    (t TeX-overlay-priority-step)))) )
+	    (t TeX-overlay-priority-step))))
+
+  (defalias #'TeX-replace-regexp-in-string #'replace-regexp-in-string) )
 
 (defun TeX-delete-dups-by-car (alist &optional keep-list)
   "Return a list of all elements in ALIST, but each car only once.
@@ -1165,21 +1175,33 @@ all the regular expressions must match for the element to apply."
     (mode-io-correlate
      TeX-source-correlate-mode)
     (paper-landscape
-     (TeX-match-style "\\`landscape\\'"))
+     (and (fboundp 'LaTeX-match-class-option)
+	  (LaTeX-match-class-option "\\`landscape\\'")))
     (paper-portrait
-     (not (TeX-match-style "\\`landscape\\'")))
+     (not (and (fboundp 'LaTeX-match-class-option)
+	       (LaTeX-match-class-option "\\`landscape\\'"))))
     (paper-a4
-     (TeX-match-style "\\`a4paper\\|a4dutch\\|a4wide\\|sem-a4\\'"))
+     (let ((regex "\\`\\(?:a4paper\\|a4dutch\\|a4wide\\|sem-a4\\)\\'"))
+       (or (TeX-match-style regex)
+	   (and (fboundp 'LaTeX-match-class-option)
+		(LaTeX-match-class-option regex)))))
     (paper-a5
-     (TeX-match-style "\\`a5paper\\|a5comb\\'"))
+     (let ((regex "\\`\\(?:a5paper\\|a5comb\\)\\'"))
+       (or (TeX-match-style regex)
+	   (and (fboundp 'LaTeX-match-class-option)
+		(LaTeX-match-class-option regex)))))
     (paper-b5
-     (TeX-match-style "\\`b5paper\\'"))
+     (and (fboundp 'LaTeX-match-class-option)
+	  (LaTeX-match-class-option "\\`b5paper\\'")))
     (paper-letter
-     (TeX-match-style "\\`letterpaper\\'"))
+     (and (fboundp 'LaTeX-match-class-option)
+	  (LaTeX-match-class-option "\\`letterpaper\\'")))
     (paper-legal
-     (TeX-match-style "\\`legalpaper\\'"))
+     (and (fboundp 'LaTeX-match-class-option)
+	  (LaTeX-match-class-option "\\`legalpaper\\'")))
     (paper-executive
-     (TeX-match-style "\\`executivepaper\\'")))
+     (and (fboundp 'LaTeX-match-class-option)
+	  (LaTeX-match-class-option "\\`executivepaper\\'"))))
   "Alist of built-in predicates for viewer selection and invocation.
 See the doc string of `TeX-view-predicate-list' for a short
 description of each predicate.")
@@ -1212,33 +1234,31 @@ The following built-in predicates are available:
   :group 'TeX-view
   :type '(alist :key-type symbol :value-type (group sexp)))
 
-;; XXX: Atril is a fork of Evince and shares an almost identical interface with
-;; it.  Instead of having different functions for each program, we keep the
-;; original *-evince-* functions and make them accept arguments to specify the
-;; actual name of the program and the desktop environment, that will be used to
-;; set up DBUS communication.
+;; XXX: Atril and xreader are forks of Evince and share an almost
+;; identical interface with it. Instead of having different functions
+;; for each program, we keep the original *-evince-* functions and
+;; make them accept arguments to specify the actual name of the
+;; program and the desktop environment, that will be used to set up
+;; DBUS communication.
 
 ;; Require dbus at compile time to prevent errors due to `dbus-ignore-errors'
 ;; not being defined.
 (eval-when-compile (and (featurep 'dbusbind)
 			(require 'dbus nil :no-error)))
 (defun TeX-evince-dbus-p (de app &rest options)
-  "Return non-nil, if atril or evince are installed and accessible via DBUS.
+  "Return non-nil, if an evince-compatible reader is accessible via DBUS.
 Additional OPTIONS may be given to extend the check.  If none are
 given, only the minimal requirements needed by backward search
 are checked.  If OPTIONS include `:forward', which is currently
 the only option, then additional requirements needed by forward
 search are checked, too.
 
-DE is the name of the desktop environment, either \"gnome\" or
-\"mate\", APP is the name of viewer, either \"evince\" or
-\"atril\"."
+DE is the name of the desktop environment, APP is the name of viewer."
   (let ((dbus-debug nil))
     (and (featurep 'dbusbind)
 	 (require 'dbus nil :no-error)
 	 (dbus-ignore-errors (dbus-get-unique-name :session))
 	 (dbus-ping :session (format "org.%s.%s.Daemon" de app))
-	 (executable-find app)
 	 (or (not (memq :forward options))
 	     (let ((spec (dbus-introspect-get-method
 			  :session (format "org.%s.%s.Daemon" de app)
@@ -1286,12 +1306,11 @@ entry in `TeX-view-program-list-builtin'."
 (defun TeX-evince-sync-view-1 (de app)
   "Focus the focused page/paragraph in Evince with the position
 of point in emacs by using Evince's DBUS API.  Used by default
-for the Atril or Evince entries in
+for the Evince-compatible entries in
 `TeX-view-program-list-builtin' if the requirements are met.
 
-DE is the name of the desktop environment, either \"gnome\" or
-\"mate\", APP is the name of viewer, either \"evince\" or
-\"atril\"."
+DE is the name of the desktop environment, APP is the name of
+viewer."
   (require 'url-util)
   (let* ((uri (concat "file://" (url-encode-url
 				 (expand-file-name
@@ -1313,7 +1332,13 @@ DE is the name of the desktop environment, either \"gnome\" or
 	   (format "org.%s.%s.Window" de app)
 	   "SyncView"
 	   (buffer-file-name)
-	   (list :struct :int32 (line-number-at-pos)
+	   (list :struct :int32 (1+ (TeX-current-offset))
+		 ;; FIXME: Using `current-column' here is dubious.
+		 ;; Most of CJK letters count as occupying 2 columns,
+		 ;; so the column number is not equal to the number of
+		 ;; the characters counting from the beginning of a
+		 ;; line.  What is the right number to specify here?
+		 ;; number of letters? bytes in UTF8? or other?
 		 :int32 (1+ (current-column)))
 	   :uint32 0))
       (error "Couldn't find the %s instance for %s" (capitalize app) uri))))
@@ -1326,12 +1351,15 @@ DE is the name of the desktop environment, either \"gnome\" or
   "Run `TeX-evince-sync-view-1', which see, set up for Evince."
   (TeX-evince-sync-view-1 "gnome" "evince"))
 
+(defun TeX-xreader-sync-view ()
+  "Run `TeX-evince-sync-view-1', which see, set up for Evince."
+  (TeX-evince-sync-view-1 "x" "reader"))
+
 (defun TeX-view-program-select-evince (de app)
   "Select how to call the Evince-like viewer.
 
-DE is the name of the desktop environment, either \"gnome\" or
-\"mate\", APP is the name of viewer, either \"evince\" or
-\"atril\"."
+DE is the name of the desktop environment, APP is the name of
+viewer."
   (if (TeX-evince-dbus-p de app :forward)
       (intern (format "TeX-%s-sync-view" app))
     `(,app (mode-io-correlate
@@ -1363,7 +1391,7 @@ DE is the name of the desktop environment, either \"gnome\" or
 		 "%d" (mode-io-correlate " \"# %n '%b'\"")) "dviout")
       ("SumatraPDF"
        ("SumatraPDF -reuse-instance"
-	(mode-io-correlate " -forward-search \"%b\" %n") " %o")
+	(mode-io-correlate " -forward-search %b %n") " %o")
        "SumatraPDF")
       ("dvips and start" "dvips %d -o && start \"\" %f" "dvips")
       ("start" "start \"\" %o")))
@@ -1390,6 +1418,7 @@ DE is the name of the desktop environment, either \"gnome\" or
       ("xpdf" ("xpdf -remote %s -raise %o" (mode-io-correlate " %(outpage)")) "xpdf")
       ("Evince" ,(TeX-view-program-select-evince "gnome" "evince") "evince")
       ("Atril" ,(TeX-view-program-select-evince "mate" "atril") "atril")
+      ("Xreader" ,(TeX-view-program-select-evince "x" "reader") "xreader")
       ("Okular" ("okular --unique %o" (mode-io-correlate "#src:%n%a")) "okular")
       ("xdg-open" "xdg-open %o" "xdg-open")
       ("PDF Tools" TeX-pdf-tools-sync-view)
@@ -1650,6 +1679,17 @@ The function appends the built-in engine specs from
 where an entry with the same car exists in the user-defined part."
   (TeX-delete-dups-by-car (append TeX-engine-alist TeX-engine-alist-builtin)))
 
+(defun TeX-engine-in-engine-alist (engine)
+  "Return the `engine' entry in `TeX-engine-alist'.
+
+Throw an error if `engine' is not present in the alist."
+  (or
+   (assq engine (TeX-engine-alist))
+   (error "`%s' is not a known engine.  Valid values are: %s." engine
+	  (mapconcat
+	   (lambda (x) (prin1-to-string (car x)))
+	   (TeX-engine-alist) ", "))))
+
 (defcustom TeX-engine 'default
   (concat "Type of TeX engine to use.
 It should be one of the following symbols:\n\n"
@@ -1852,8 +1892,8 @@ file and LINE to (+ LINE offset-of-region).  Else, return nil."
 (defcustom TeX-raise-frame-function #'raise-frame
   "A function which will be called to raise the Emacs frame.
 The function is called after `TeX-source-correlate-sync-source'
-has processed an inverse search DBUS request from Evince or
-Atril in order to raise the Emacs frame.
+has processed an inverse search DBUS request from
+Evince-compatible viewers in order to raise the Emacs frame.
 
 The default value is `raise-frame', however, depending on window
 manager and focus stealing policies, it might very well be that
@@ -1895,7 +1935,7 @@ If the Emacs frame isn't raised, customize
 		     (url-unhex-string (aref (url-generic-parse-url file) 6)))
 		 ;; For Emacs 21 compatibility, which doesn't have the
 		 ;; url package.
-		 (file-error (replace-regexp-in-string "^file://" "" file))))
+		 (file-error (TeX-replace-regexp-in-string "^file://" "" file))))
 	 (flc (or (apply #'TeX-source-correlate-handle-TeX-region file linecol)
 		  (apply #'list file linecol)))
 	 (file (car flc))
@@ -1943,8 +1983,9 @@ SyncTeX are recognized."
 				       TeX-source-correlate-map))
   (TeX-set-mode-name 'TeX-source-correlate-mode t t)
   (setq TeX-source-correlate-start-server-flag TeX-source-correlate-mode)
-  ;; Register Emacs for the SyncSource DBUS signal emitted by Evince or Atril.
-  (dolist (de-app '(("gnome" "evince") ("mate" "atril")))
+  ;; Register Emacs for the SyncSource DBUS signal emitted by
+  ;; Evince-compatible viewers.
+  (dolist (de-app '(("gnome" "evince") ("mate" "atril") ("x" "reader")))
     (when (TeX-evince-dbus-p (car de-app) (cadr de-app))
       (dbus-register-signal
        :session nil (format "/org/%s/%s/Window/0" (car de-app) (cadr de-app))
@@ -2057,11 +2098,14 @@ enabled and the `synctex' binary is available."
   (let ((synctex-output
 	 (with-output-to-string
 	   (call-process "synctex" nil (list standard-output nil) nil "view"
-			 "-i" (format "%s:%s:%s" (line-number-at-pos)
-				      (current-column)
+			 "-i" (format "%s:%s:%s" (1+ (TeX-current-offset))
+				      ;; FIXME: Using `current-column'
+				      ;; here is dubious.  See comment in
+				      ;; `TeX-evince-sync-view-1'.
+				      (1+ (current-column))
 				      file)
 			 "-o" (TeX-active-master (TeX-output-extension))))))
-    (when (string-match "Page:\\([0-9]+\\)" synctex-output)
+    (when (string-match "^Page:\\([0-9]+\\)" synctex-output)
       (match-string 1 synctex-output))))
 
 (defun TeX-synctex-output-page ()
@@ -2397,7 +2441,7 @@ this variable to \"<none>\"."
     (let* ((default (TeX-dwim-master))
 	   (name (or (and (eq 'dwim TeX-master) default)
 		     (condition-case nil
-			 (read-file-name (format "Master file: (default %s) "
+			 (read-file-name (format "Master file (default %s): "
 						 (or default "this file"))
 					 nil default)
 		       (quit "<quit>")))))
@@ -2455,7 +2499,7 @@ name of master file if it cannot be determined otherwise."
 	  (setq TeX-master
 		(let* ((default (TeX-dwim-master))
 		       (name (read-file-name
-			      (format "Master file: (default %s) "
+			      (format "Master file (default %s): "
 				      (or default "this file"))
 			      nil default)))
 		  (cond ((string= name default)
@@ -3044,7 +3088,7 @@ FORCE is not nil."
 				    TeX-style-hook-list))))
 	(TeX-auto-apply))
     (run-hooks 'TeX-update-style-hook)
-    (message "Applying style hooks... done")))
+    (message "Applying style hooks...done")))
 
 (defvar TeX-remove-style-hook nil
   "List of hooks to call when we remove the style specific information.")
@@ -3859,6 +3903,7 @@ The algorithm is as follows:
       (set local
 	   (sort (mapcar 'TeX-listify (apply 'append (symbol-value local)))
 		 'TeX-car-string-lessp))
+      (message "Sorting %s...done" name)
       ;; Make it unique
       (message "Removing duplicates...")
       (let ((entry (symbol-value local)))
@@ -3872,7 +3917,7 @@ The algorithm is as follows:
 	      (if (> (length next) (length this))
 		  (setcdr this (cdr next)))
 	      (setcdr entry (cdr (cdr entry)))))))
-      (message "Removing duplicates... done"))
+      (message "Removing duplicates...done"))
     (symbol-value local)))
 
 (defmacro TeX-auto-add-type (name prefix &optional plural)
@@ -4054,7 +4099,7 @@ If TEX is a directory, generate style files for all files in the directory."
 							t)
 				   ".el"))
 	   (kill-buffer (current-buffer))
-	   (message "Parsing %s... done" tex)))))
+	   (message "Parsing %s...done" tex)))))
 
 ;;;###autoload
 (defun TeX-auto-generate-global ()
@@ -4209,7 +4254,7 @@ alter the numbering of any ordinary, non-shy groups.")
        1 TeX-auto-file)
       (,(concat "\\\\mathchardef\\\\\\(" token "+\\)[^a-zA-Z@]")
        1 TeX-auto-symbol)))
-  "List of regular expression matching common LaTeX macro definitions.")
+  "List of regular expression matching common plain TeX macro definitions.")
 
 (defvar TeX-auto-full-regexp-list plain-TeX-auto-regexp-list
   "Full list of regular expression matching TeX macro definitions.")
@@ -6646,6 +6691,30 @@ skipped."
      (message "Error skipping s-expressions at point %d" (point))
      (sit-for 2))))
 
+(defun TeX-ispell-tex-arg-verb-end (&optional arg)
+  "Skip across an optional argument, ARG number of mandatory ones and verbatim content.
+This function always checks if one optional argument in brackets
+is given and skips over it.  If ARG is a number, it skips over
+that many mandatory arguments in braces.  Then it checks for
+verbatim content to skip which is enclosed by a character given
+in `TeX-ispell-verb-delimiters' or in braces, otherwise raises an
+error."
+  (condition-case nil
+      (progn
+	(when (looking-at "[ \t\n]*\\[") (forward-sexp))
+	(when (and arg (looking-at "{"))
+	  (forward-sexp arg))
+	(cond ((looking-at (concat "[" TeX-ispell-verb-delimiters "]"))
+	       (forward-char)
+	       (skip-chars-forward (concat "^" (string (char-before))))
+	       (forward-char))
+	      ((looking-at "{")
+	       (forward-sexp))
+	      (t (error nil))))
+    (error
+     (message "Verbatim delimiter is not one of %s"
+	      (split-string TeX-ispell-verb-delimiters "" t))
+     (sit-for 2))))
 
 ;;; Abbrev mode
 

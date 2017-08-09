@@ -1,6 +1,6 @@
 ;;; context.el --- Support for ConTeXt documents.
 
-;; Copyright (C) 2003-2006, 2008, 2010, 2012, 2014-2016
+;; Copyright (C) 2003-2006, 2008, 2010, 2012, 2014-2017
 ;;   Free Software Foundation, Inc.
 
 ;; Maintainer: Berend de Boer <berend@pobox.com>
@@ -1037,7 +1037,7 @@ header is at the start of a line."
    (regexp-quote TeX-esc)
    "\\("
    (mapconcat #'ConTeXt-environment-full-start-name ConTeXt-section-block-list "\\|") "\\|"
-   (mapconcat #'car ConTeXt-numbered-section-list "\\|")
+   (mapconcat #'car ConTeXt-numbered-section-list "\\|") "\\|"
    (mapconcat #'car ConTeXt-unnumbered-section-list "\\|")
    "\\)\\b"
    (if TeX-outline-extra
@@ -1220,7 +1220,10 @@ else.  There might be text before point."
        (condition-case err
 	   (progn
 	     (backward-sexp 1)
-	     (while (> (current-column) (current-indentation))
+	     (while (or (> (current-column) (current-indentation))
+			;; Continue going back if we are
+			;; at a hanging optional group.
+			(looking-at (regexp-quote ConTeXt-optop)))
 	       (backward-sexp 1)))
 	 (scan-error
 	  (setq up-list-pos (nth 2 err))))
@@ -1623,7 +1626,7 @@ Use `ConTeXt-Mark-version' to choose the command."
    ;; In any other case fall back on Mark II.
    (t
     (concat
-     (let ((engine (eval (nth 4 (assq TeX-engine (TeX-engine-alist))))))
+     (let ((engine (eval (nth 4 (TeX-engine-in-engine-alist TeX-engine)))))
        (when engine
 	 (format "--engine=%s " engine)))
      (unless (eq ConTeXt-current-interface "en")
