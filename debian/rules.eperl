@@ -31,6 +31,11 @@ debian/clean: $(EPERL_OBJ)
 %:
 	dh $@ --exclude .eperl --with tex
 
+.PHONY: override_dh_auto_configure
+override_dh_auto_configure: debian/clean
+	./autogen.sh
+	dh_auto_configure
+
 <: # Debian Emacs policy requires to byte-compile at installation time;
    # debian/elcc simulates Emacs byte compilation touching empty elcs. :>//
 ELCC := $(shell pwd)/debian/elcc
