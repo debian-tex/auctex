@@ -75,6 +75,7 @@ override_dh_installdocs:
 	install -m 755 -d debian/tmp/usr/doc/auctex/src
 	install -m 644 doc/tex-ref.pdf debian/tmp/usr/doc/auctex
 	install -m 644 doc/*.tex{,i} debian/tmp/usr/doc/auctex/src
+	install -m 644 etc/auctex-logo.tex debian/tmp/usr/doc/auctex/src
 	install -m 755 -d \
 		debian/tmp/usr/doc/auctex/HTML/{auctex,preview-latex}
 	install -m 644 doc/auctex.htmls/* \
