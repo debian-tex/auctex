@@ -140,6 +140,7 @@ snapshot: LAST := $(shell git describe --abbrev=0 --match 'debian/*' master)
 snapshot: clean
 	gbp dch --debian-branch=$(BRANCH) --snapshot --since $(LAST) --commit
 	gbp buildpackage --keyid='' \
+		--git-no-pristine-tar \
 		--git-builder='$(SBUILD) $(OBJ) --dist=$(DIST)' \
 		--git-debian-branch=$(BRANCH)
 
@@ -152,6 +153,8 @@ release: clean
 	gbp pq export
 	gbp dch --release --commit
 	gbp buildpackage \
+		--git-no-pristine-tar \
+		--git-pristine-tar-commit \
 		--git-builder='$(SBUILD) $(OBJ) --dist=$(DIST)' \
 		--git-tag
 
