@@ -141,6 +141,7 @@ snapshot: DIST := unstable
 snapshot: BRANCH := $(shell git branch | perl -ne 'print if s/^\* //')
 snapshot: LAST := $(shell git describe --abbrev=0 --match 'debian/*' master)
 snapshot: clean
+	git clean -ix
 	gbp dch --debian-branch=$(BRANCH) --snapshot --since $(LAST) --commit
 	gbp buildpackage --keyid='' \
 		--git-no-pristine-tar \
@@ -151,6 +152,7 @@ snapshot: clean
 release: OBJ := --arch-all --arch-any --source --source-only-changes
 release: DIST := unstable
 release: clean
+	git clean -ix
 	git checkout master
 	gbp pq rebase
 	gbp pq export
