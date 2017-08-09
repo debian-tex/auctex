@@ -14,7 +14,7 @@ Forwarded: not-needed
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/preview.el.in b/preview.el.in
-index 8a58104..a96394f 100644
+index 1aa7e1a..08c96e3 100644
 --- a/preview.el.in
 +++ b/preview.el.in
 @@ -228,7 +228,7 @@ method, like when PDFTeX was used."
