@@ -20,6 +20,8 @@
 # On Debian GNU/Linux System you can find a copy of the GNU General Public
 # License in "/usr/share/common-licenses/GPL".
 
+include /usr/share/dpkg/pkg-info.mk
+
 SHELL := /bin/bash
 SBUILD := sbuild --verbose
 
@@ -118,10 +120,8 @@ vcs-switch:
 	git checkout vcs/debian
 
 .PHONY: vcs-import
-vcs-import: B := $(shell dpkg-parsechangelog --show-field Version \
-	| cut --fields 1 --delimiter '-')
 vcs-import: D := $(shell date --utc +%Y%m%d%H%M)
-vcs-import: V := "$(B)+vcs.$(D)"
+vcs-import: V := "$(DEB_VERSION_UPSTREAM)+vcs.$(D)"
 vcs-import: vcs-switch
 	git archive --verbose --worktree-attributes \
 		--prefix="auctex-$(V)/" \
@@ -162,6 +162,5 @@ release: clean
 		--git-tag
 
 .PHONY: upload
-upload: V := $(shell dpkg-parsechangelog --show-field Version)
 upload:
-	dput ../auctex_$(V)_source.changes
+	dput ../auctex_$(DEB_VERSION)_source.changes
