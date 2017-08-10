@@ -12,9 +12,6 @@
 SHELL := /bin/bash
 SBUILD := sbuild --verbose
 
-<: # There are no tests at this moment :>//
-DEB_BUILD_OPTIONS := nocheck
-
 EPERL_SRC := $(wildcard debian/*.eperl)
 EPERL_OBJ := $(EPERL_SRC:%.eperl=%)
 
@@ -51,6 +48,10 @@ override_dh_auto_build: debian/clean
 	$(MAKE) tex-site.el
 	cd doc && $(MAKE) auctex.htmls/index.html
 	cd doc && $(MAKE) preview-latex.htmls/index.html
+
+<: # There are no working tests at this moment :>//
+.PHONY: override_dh_auto_test
+override_dh_auto_test:
 
 .PHONY: override_dh_install
 override_dh_install:
