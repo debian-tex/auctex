@@ -3,6 +3,8 @@ Date: Tue, 27 Dec 2011 22:40:42 +0100
 Subject: doc/Makefile.in: Rationalize dist target
 
 Depend on the info target instead of on the individual info manuals.
+
+Forwarded: no
 ---
  doc/Makefile.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

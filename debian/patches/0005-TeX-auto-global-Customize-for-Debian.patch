@@ -3,6 +3,8 @@ Date: Tue, 27 Dec 2011 22:48:11 +0100
 Subject: TeX-auto-global: Customize for Debian
 
 Use "debian-emacs-flavor", according to Debian Emacs policy.
+
+Forwarded: not-needed
 ---
  tex-site.el.in | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

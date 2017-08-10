@@ -5,6 +5,8 @@ Subject: TeX-view-program-selection: Customize for Debian
 * tex.el (TeX-view-program-selection): Look for Evince and use it if
   available, else look for Okular and use it if available, fall back to
   xdvi or xpdf otherwise.
+
+Forwarded: not-needed
 ---
  tex.el | 8 +++++---
  1 file changed, 5 insertions(+), 3 deletions(-)

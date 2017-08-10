@@ -5,6 +5,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+Bug-Debian: http://bugs.debian.org/628787
+Forwarded: no
 Closes: #628787
 Thanks: Matthias Kümmerer
 ---
