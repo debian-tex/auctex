@@ -1,2 +1,4 @@
 version=4
-opts="pgpsigurlmangle=s%$%.sig%" https://ftp.gnu.org/pub/gnu/@PACKAGE@/@PACKAGE@-([0-9.]+)\.tar\.gz
+opts="mode=git, pgpmode=none" \
+	https://git.savannah.gnu.org/git/@PACKAGE@.git \
+	refs/tags/release_([\d]+)_([\d]+) debian uupdate
