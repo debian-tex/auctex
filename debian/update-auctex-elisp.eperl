@@ -96,6 +96,7 @@ rm --force ${TMPFILE}
 trap 'rm --force ${PIDFILE}' EXIT
 
 for FLAVOR in ${_FLAVORS}; do
+    umask 0022
     ${NO_ACT:+'echo'} rm --force --recursive /var/lib/auctex/${FLAVOR}
     ${NO_ACT:+'echo'} install --owner root --group root --mode 755 \
 	--directory /var/lib/auctex/${FLAVOR}
