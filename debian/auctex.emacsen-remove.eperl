@@ -36,6 +36,15 @@ undo_install () {
 }
 
 undo_update_auctex_elisp () {
+    <: # Take care of running update-auctex-elisp instances :>//
+    while pgrep -f update-auctex-elisp >/dev/null; do
+	echo -n "${PROGNAME}:" \
+	     "Killing $(pgrep -fc update-auctex-elisp) running" \
+	     "update-auctex-elisp instance(s)..."
+	pkill -f update-auctex-elisp || true
+	sleep 1
+	echo 'done.'
+    done
     echo -n "${PROGNAME}:" \
 	"Removing parsed (La)TeX macros for ${FLAVOR}..."
     rm --recursive --force /var/lib/auctex/${FLAVOR}

@@ -11,7 +11,7 @@ Vcs-Git: https://anonscm.debian.org/git/users/salve/auctex.git
 
 Package: auctex
 Architecture: all
-Depends: emacs25 | emacs24 | emacs-snapshot, emacsen-common (>= 2.0.8), preview-latex-style, ${misc:Depends}
+Depends: emacs25 | emacs24 | emacs-snapshot, emacsen-common (>= 2.0.8), preview-latex-style, procps, ${misc:Depends}
 Recommends: ghostscript, texlive-latex-recommended, xpdf | evince | evince-gtk | okular
 Suggests: catdvi, dvipng, lacheck
 Breaks: emacspeak (<= 17.0-1)
