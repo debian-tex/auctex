@@ -83,6 +83,7 @@ fi
 
 <: # Ensure serial execution of multiple instances :>//
 PIDFILE=/var/run/${PROGNAME}.pid
+unset TMPFILE
 trap 'echo ${TMPFILE} | xargs --no-run-if-empty rm --force' EXIT
 TMPFILE=$(mktemp /var/run/${PROGNAME}.XXXXXXXX)
 chmod a+r ${TMPFILE}
