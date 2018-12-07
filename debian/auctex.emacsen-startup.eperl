@@ -5,7 +5,7 @@
 ;;; form "(unload-feature 'tex-site)" (i.e., put that string into your
 ;;; "~/.emacs" to disable AUCTeX completely).
 
-(if (member debian-emacs-flavor '(emacs24 emacs25 emacs-snapshot))
+(if (member debian-emacs-flavor '(emacs))
 <: # skip if removed and not purged :>//
     (if (file-exists-p "/usr/share/auctex/tex.el")
 	(progn

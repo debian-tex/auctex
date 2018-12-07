@@ -4,14 +4,14 @@ Section: tex
 Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 4.0.1
-Build-Depends-Indep: autoconf, debhelper (>= 9), emacs25 | emacs24 | emacs-snapshot, eperl, ghostscript, po-debconf, tex-common (>= 4.01), texlive-latex-base, texinfo (>= 5)
+Build-Depends-Indep: autoconf, debhelper (>= 9), emacs, eperl, ghostscript, po-debconf, tex-common (>= 4.01), texlive-latex-base, texinfo (>= 5)
 Homepage: https://www.gnu.org/software/auctex/
 Vcs-Browser: https://salsa.debian.org/salve/auctex
 Vcs-Git: https://salsa.debian.org//salve/auctex.git
 
 Package: auctex
 Architecture: all
-Depends: emacs25 | emacs24 | emacs-snapshot, emacsen-common (>= 2.0.8), preview-latex-style, procps, ${misc:Depends}
+Depends: emacs, emacsen-common (>= 3.0.0), preview-latex-style, procps, ${misc:Depends}
 Recommends: ghostscript, texlive-latex-recommended, xpdf | evince | evince-gtk | okular
 Suggests: catdvi, dvipng, lacheck
 Breaks: emacspeak (<= 17.0-1)

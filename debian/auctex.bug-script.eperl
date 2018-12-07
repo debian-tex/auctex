@@ -34,7 +34,7 @@ cat >&3 <<EOF
 EOF
 
 <: # Default flavors: only GNU/Emacsen, XEmacs comes with its own AUCTeX :>//
-FLAVORS=${*:-"emacs24 emacs25 emacs-snapshot"}
+FLAVORS=${*:-"emacs"}
 
 for FLAVOR in ${FLAVORS}; do
     if [ -x /usr/bin/${FLAVOR} ]; then
