@@ -1,2 +1,3 @@
 debian/update-auctex-elisp usr/sbin
 debian/tmp/usr/share/emacs/site-lisp
+debian/tmp/usr/share/auctex

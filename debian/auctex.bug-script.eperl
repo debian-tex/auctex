@@ -24,10 +24,10 @@ EMACS_COMMAND='
 
 cat >&3 <<EOF
 ========================================================================
-Content of '/usr/share/emacs/site-lisp/auctex'
+Content of '/usr/share/auctex'
 ------------------------------------------------------------------------
 EOF
-find 2>/dev/null /usr/share/emacs/site-lisp/auctex -type f -print0 \
+find 2>/dev/null /usr/share/auctex -type f -print0 \
     | xargs --null --no-run-if-empty md5sum | sort --key=2,2 >&3
 cat >&3 <<EOF
 ------------------------------------------------------------------------

@@ -7,31 +7,14 @@
 
 (if (member debian-emacs-flavor '(emacs24 emacs25 emacs-snapshot))
 <: # skip if removed and not purged :>//
-    (if (file-exists-p "/usr/share/emacs/site-lisp/auctex/tex.el")
+    (if (file-exists-p "/usr/share/auctex/tex.el")
 	(progn
-	  (let ((list '((lisp . "auctex") (source . "auctex"))))
-	    (while list
-	      (let ((elt (car list)))
-		(cond
-		 ((equal 'lisp (car elt))
-		  (let ((dir (concat "/usr/share/"
-				     (symbol-name debian-emacs-flavor)
-				     "/site-lisp/" (cdr elt))))
-		    (when (file-directory-p dir)
-<: # since the package depends on emacsen-common (>= 2.0.8),
-   # which is greater than (>= 1.4.14), as per Debian Emacs policy
-   # (fboundp 'debian-pkg-add-load-path-item) should be 't;
-   # however, looking ahead for troubles,
-   # it's safer to leave the (if) form :>//
-		      (if (fboundp 'debian-pkg-add-load-path-item)
-			  (debian-pkg-add-load-path-item dir)
-			(add-to-list 'load-path dir 'append)))))
-		 ((equal 'source (car elt))
-		  (let ((dir (concat "/usr/share/emacs/site-lisp/"
-				     (cdr elt))))
-		    (when (file-directory-p dir)
-		      (add-to-list 'load-path dir 'append))))))
-	      (setq list (cdr list))))
+	  (let ((dir (concat "/etc/"
+			     (symbol-name debian-emacs-flavor)
+			     "/site-lisp/auctex")))
+	    (when (file-directory-p dir)
+	      (debian-pkg-add-load-path-item dir)))
+	  (add-to-list 'load-path "/usr/share/auctex" 'append)
 	  (load "auctex.el")
 	  (load "preview-latex.el"))
       (message "auctex: Package removed but not purged; skipping setup")))

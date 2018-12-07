@@ -46,7 +46,7 @@ FLAVOR=${1}
 
 do_install () {
     local FLAVOR=${1}
-    local srcdir=${prefix}/usr/share/emacs/site-lisp/auctex
+    local srcdir=${prefix}/usr/share/auctex
     local objdir=${prefix}/usr/share/${FLAVOR}/site-lisp/auctex
     local ELCC="/usr/bin/${FLAVOR} --batch --no-site-file --no-init-file"
     local LOGFILE=${objdir}/CompilationLog
@@ -61,12 +61,12 @@ do_install () {
     umask 0022
     touch ${objdir}/.nosearch
     for target in *.el images; do
-	ln --symbolic --verbose ../../../emacs/site-lisp/auctex/${target} \
+	ln --symbolic --verbose ../../../auctex/${target} \
 	    ${objdir}/${target}
     done
     touch ${objdir}/style/.nosearch
     for target in style/*.el; do
-	ln --symbolic --verbose ../../../../emacs/site-lisp/auctex/${target} \
+	ln --symbolic --verbose ../../../../auctex/${target} \
 	    ${objdir}/${target}
     done
     popd
