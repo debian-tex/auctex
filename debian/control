@@ -12,7 +12,7 @@ Vcs-Git: https://salsa.debian.org//salve/auctex.git
 Package: auctex
 Architecture: all
 Depends: emacs, emacsen-common (>= 3.0.0), preview-latex-style, procps, ${misc:Depends}
-Recommends: ghostscript, texlive-latex-recommended, xpdf | evince | evince-gtk | okular
+Recommends: ghostscript, texlive-latex-recommended, xpdf | evince | okular
 Suggests: catdvi, dvipng, lacheck
 Breaks: emacspeak (<= 17.0-1)
 Conflicts: preview-latex
