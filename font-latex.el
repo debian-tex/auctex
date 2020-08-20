@@ -1,6 +1,6 @@
 ;;; font-latex.el --- LaTeX fontification for Font Lock mode.
 
-;; Copyright (C) 1996-2017  Free Software Foundation, Inc.
+;; Copyright (C) 1996-2019  Free Software Foundation, Inc.
 
 ;; Authors:    Peter S. Galbraith <psg@debian.org>
 ;;             Simon Marshall <Simon.Marshall@esrin.esa.it>
@@ -43,7 +43,7 @@
 (require 'tex)
 
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
 (defgroup font-latex nil
   "Font-latex text highlighting package."
@@ -69,7 +69,7 @@
   "Regexp used to find quotes.")
 (make-variable-buffer-local 'font-latex-quote-regexp-beg)
 
-(defvar font-latex-quote-list '(("``" "''") ("<<" ">>" french) ("«" "»" french))
+(defvar font-latex-quote-list '(("``" "''") ("<<" ">>" french) ("Â«" "Â»" french))
   "List of quote specifiers for quotation fontification.
 
 Each element of the list is either a list consisting of two
@@ -155,25 +155,15 @@ correct value from document properties."
 (defconst font-latex-sectioning-max 5
   "Highest number for font-latex-sectioning-N-face")
 (defface font-latex-sectioning-5-face
-  (if (featurep 'xemacs)
-      '((((type tty pc) (class color) (background light))
-	 (:foreground "blue4" :bold t))
-	(((type tty pc) (class color) (background dark))
-	 (:foreground "yellow" :bold t))
-	(((class color) (background light))
-	 (:bold t :foreground "blue4" :family "helvetica"))
-	(((class color) (background dark))
-	 (:bold t :foreground "yellow" :family "helvetica"))
-	(t (:bold t :family "helvetica")))
-    '((((type tty pc) (class color) (background light))
-       (:foreground "blue4" :weight bold))
-      (((type tty pc) (class color) (background dark))
-       (:foreground "yellow" :weight bold))
-      (((class color) (background light))
-       (:weight bold :inherit variable-pitch :foreground "blue4"))
-      (((class color) (background dark))
-       (:weight bold :inherit variable-pitch :foreground "yellow"))
-      (t (:weight bold :inherit variable-pitch))))
+  '((((type tty pc) (class color) (background light))
+     (:foreground "blue4" :weight bold))
+    (((type tty pc) (class color) (background dark))
+     (:foreground "yellow" :weight bold))
+    (((class color) (background light))
+     (:weight bold :inherit variable-pitch :foreground "blue4"))
+    (((class color) (background dark))
+     (:weight bold :inherit variable-pitch :foreground "yellow"))
+    (t (:weight bold :inherit variable-pitch)))
   "Face for sectioning commands at level 5."
   :group 'font-latex-highlighting-faces)
 
@@ -193,19 +183,7 @@ correct value from document properties."
 	   (num (- max (1+ num)))
 	   (face-name (intern (format "font-latex-sectioning-%s-face" num))))
       (unless (get face-name 'saved-face) ; Do not touch customized faces.
-	(if (featurep 'xemacs)
-	    (let ((size
-		   ;; Multiply with .9 because `face-height' returns a value
-		   ;; slightly larger than the actual font size.
-		   ;; `make-face-size' takes numeric points according to Aidan
-		   ;; Kehoe in <16989.15536.613916.678965@parhasard.net> (not
-		   ;; documented).
-		   (round (* 0.9
-			     (face-height 'default)
-			     (expt height-scale (- max 1 num))))))
-	      ;; (message "%s - %s" face-name size)
-	      (make-face-size face-name size))
-	  (set-face-attribute face-name nil :height  height-scale))))))
+	(set-face-attribute face-name nil :height  height-scale)))))
 
 (defcustom font-latex-fontify-sectioning 1.1
   "Whether to fontify sectioning macros with varying height or a color face.
@@ -223,7 +201,6 @@ this variable directly does not take effect unless you call
 Switching from `color' to a number or vice versa does not take
 effect unless you call \\[font-lock-fontify-buffer] or restart
 Emacs."
-  ;; Possibly add some words about XEmacs here. :-(
   :type '(choice (number :tag "Scale factor")
 		 (const color))
   :initialize 'custom-initialize-default
@@ -244,31 +221,18 @@ Emacs."
 			   (float font-latex-fontify-sectioning)
 			 1.1)))
   (dotimes (num max)
-    (let* (;; reverse for XEmacs:
-	   (num (- max (1+ num)))
+    (let* ((num (- max (1+ num)))
 	   (face-name (intern (format "font-latex-sectioning-%s-face" num)))
-	   (f-inherit (intern (format "font-latex-sectioning-%s-face" (1+ num))))
-	   (size (when (featurep 'xemacs)
-		   (round (* 0.9 (face-height 'default)
-			     (expt height-scale (- max 1 num)))))))
+	   (f-inherit (intern (format "font-latex-sectioning-%s-face" (1+ num)))))
       (eval
        `(defface ,face-name
-	  (if (featurep 'xemacs)
-	      '((t (:size ,(format "%spt" size))))
-	    '((t (:height ,height-scale :inherit ,f-inherit))))
+	  '((t (:height ,height-scale :inherit ,f-inherit)))
 	  (format "Face for sectioning commands at level %s.
 
 Probably you don't want to customize this face directly.  Better
 change the base face `font-latex-sectioning-5-face' or customize the
 variable `font-latex-fontify-sectioning'." ',num)
-	  :group 'font-latex-highlighting-faces))
-      (when (and (featurep 'xemacs)
-		 ;; Do not touch customized  faces.
-		 (not (get face-name 'saved-face)))
-	(set-face-parent face-name f-inherit)
-	;; Explicitely set the size again to code around the bug that
-	;; `set-face-parent' overwrites the original face size.
-	(make-face-size face-name size)))))
+	  :group 'font-latex-highlighting-faces)))))
 
 (font-latex-make-sectioning-faces font-latex-sectioning-max)
 
@@ -299,35 +263,87 @@ variable `font-latex-fontify-sectioning'." ',num)
      ("newrefsegment" "mancite" "pno" "ppno" "nopp" "psq" "psqq")
      font-lock-variable-name-face 2 noarg)
     ("biblatex"
-     (("newrefsection" "[") ("ExecuteBibliographyOptions" "[{")
-      ("printbibliography" "[") ("printshorthands" "[") ("printbibheading" "[")
+     (;; 3.2.2 Setting Package Options
+      ("ExecuteBibliographyOptions" "[{")
+      ;; 3.7.1 Resources
       ("addbibresource" "[{") ("addglobalbib" "[{") ("addsectionbib" "[{")
-      ("bibbysection" "[") ("bibbysegment" "[") ("bibbycategory" "[")
-      ("DeclareBibliographyCategory" "{") ("addtocategory" "{{") ("defbibenvironment" "{{{{")
-      ("defbibheading" "{[{") ("defbibnote" "{{") ("defbibfilter" "{{") ("defbibcheck" "{{")
-      ("defbibentryset" "{{") ("Cite" "[[{") ("parencite" "*[[{") ("Parencite" "[[{")
-      ("footcite" "[[{") ("footcitetext" "[[{") ("textcite" "[[{") ("Textcite" "[[{")
-      ("smartcite" "[[{") ("Smartcite" "[[{") ("supercite" "{") ("autocite" "*[[{")
-      ("Autocite" "*[[{") ("citeauthor" "*[[{") ("Citeauthor" "*[[{") ("citetitle" "*[[{")
-      ("citeyear" "*[[{") ("citedate" "*[[{") ("citeurl" "[[{") ("parentext" "{")
-      ("brackettext" "{") ("fullcite" "[[{") ("fullfootcite" "[[{") ("volcite" "[{[[")
-      ("Volcite" "[{[[") ("pvolcite" "[{[[") ("Pvolcite" "[{[[") ("fvolcite" "[{[[")
-      ("ftvolcite" "[{[[") ("svolcite" "[{[[") ("Svolcite" "[{[[") ("tvolcite" "[{[[")
-      ("Tvolcite" "[{[[") ("avolcite" "[{[[") ("Avolcite" "[{[[") ("notecite" "[[{")
-      ("Notecite" "[[{") ("pnotecite" "[[{") ("Pnotecite" "[[{") ("fnotecite" "[[{")
-      ("citename" "[[{[{") ("citelist" "[[{[{") ("citefield" "[[{[{") ("citereset" "*")
-      ("RN" "{") ("Rn" "{") ("DefineBibliographyStrings" "{{") ("DefineBibliographyExtras" "{{")
+      ;; 3.7.2 The Bibliography
+      ("printbibliography" "[") ("bibbysection"    "[") ("bibbysegment" "[")
+      ("bibbycategory"     "[") ("printbibheading" "[")
+      ;; 3.7.3 Bibliography Lists
+      ("printbiblist" "[{") ("printshorthands" "[")
+      ;; 3.7.4 Bibliography Sections
+      ("newrefsection" "[")
+      ;; 3.7.6 Bibliography Categories
+      ("DeclareBibliographyCategory" "{") ("addtocategory" "{{")
+      ;; 3.7.7 Bibliography Headings and Environments
+      ("defbibenvironment" "{{{{") ("defbibheading" "{[{")
+      ;; 3.7.8 Bibliography Notes
+      ("defbibnote" "{{")
+      ;; 3.7.9 Bibliography Filters and Checks
+      ("defbibfilter" "{{") ("defbibcheck" "{{")
+      ;; 3.7.10 Reference Contexts
+      ("DeclareRefcontext"       "{{")  ("newrefcontext"        "[{")
+      ("assignrefcontextkeyws"   "*[{") ("assignrefcontextcats" "*[{")
+      ("assignrefcontextentries" "*[{")
+      ;; 3.7.11 Dynamic Entry Sets
+      ("defbibentryset" "{{")
+      ;; 3.8.1 Standard Commands
+      ("Cite" "[[{")
+      ("parencite" "*[[{") ("Parencite"    "[[{")
+      ("footcite"  "[[{")  ("footcitetext" "[[{")
+      ;; 3.8.2 Style-specific Commands
+      ("textcite"  "[[{") ("Textcite"  "[[{")
+      ("smartcite" "[[{") ("Smartcite" "[[{")
+      ("supercite" "{")
+      ;; 3.8.3 Qualified Citation Lists
+      ;; For qualified lists, fontify at least 2 mandatory arguments
+      ("cites"      "(([[{[[{") ("Cites"         "(([[{[[{")
+      ("parencites" "(([[{[[{") ("Parencites"    "(([[{[[{")
+      ("footcites"  "(([[{[[{") ("footcitetexts" "(([[{[[{")
+      ("smartcites" "(([[{[[{") ("Smartcites"    "(([[{[[{")
+      ("textcites"  "(([[{[[{") ("Textcites"     "(([[{[[{")
+      ("supercites" "(([[{[[{")
+      ;; 3.8.4 Style-independent Commands
+      ("autocite" "*[[{")      ("Autocite" "*[[{")
+      ("autocites" "(([[{[[{") ("Autocites" "(([[{[[{")
+      ;; 3.8.5 Text Commands
+      ("citeauthor" "*[[{") ("Citeauthor" "*[[{") ("citetitle" "*[[{")
+      ("citeyear"   "*[[{") ("citedate" "*[[{")
+      ("citeurl"    "[[{")  ("parentext" "{")
+      ("brackettext" "{")
+      ;; 3.8.6 Special Commands
+      ("fullcite"  "[[{")         ("footfullcite" "[[{")
+      ("volcite"   "[{[{")        ("Volcite"      "[{[{")
+      ("volcites"  "(([{[{[{[{")  ("Volcites"     "(([{[{[{[{")
+      ("pvolcite"  "[{[{")        ("Pvolcite"     "[{[{")
+      ("pvolcites" "(([{[{[{[{")  ("Pvolcites"    "(([{[{[{[{")
+      ("fvolcite"  "[{[{")        ("ftvolcite"    "[{[{")
+      ("fvolcites" "(([{[{[{[{")  ("Fvolcites"    "(([{[{[{[{")
+      ("svolcite"  "[{[{")        ("Svolcite"     "[{[{")
+      ("svolcites" "(([{[{[{[{")  ("Svolcites"    "(([{[{[{[{")
+      ("tvolcite"  "[{[{")        ("Tvolcite"     "[{[{")
+      ("tvolcites" "(([{[{[{[{")  ("Tvolcites"    "(([{[{[{[{")
+      ("avolcite"  "[{[{")        ("Avolcite"     "[{[{")
+      ("avolcites" "(([{[{[{[{")  ("Avolcites"    "(([{[{[{[{")
+      ("notecite"  "[[{")         ("Notecite"     "[[{")
+      ("pnotecite" "[[{")         ("Pnotecite"    "[[{")
+      ("fnotecite" "[[{")
+      ;; 3.8.7 Low-level Commands
+      ("citename" "[[{[{") ("citelist" "[[{[{") ("citefield" "[[{[{")
+      ;; 3.8.8 Miscellaneous Commands
+      ("citereset" "*") ("RN" "{") ("Rn" "{")
+      ;; 3.9 Localization Commands
+      ("DefineBibliographyStrings" "{{")  ("DefineBibliographyExtras" "{{")
       ("UndefineBibliographyExtras" "{{") ("DefineHyphenationExceptions" "{{")
-      ("NewBibliographyString" "{") ("autocites" "(([[{") ("Autocites" "(([[{")
-      ("cites" "(([[{") ("Cites" "(([[{") ("parencites" "(([[{") ("Parencites" "(([[{")
-      ("footcites" "(([[{") ("footcitetexts" "(([[{") ("smartcites" "(([[{")
-      ("Smartcites" "(([[{") ("textcites" "(([[{") ("Textcites" "(([[{") ("supercites" "(([[{"))
+      ("NewBibliographyString" "{"))
      font-lock-constant-face 2 command)
     ("reference"
      (("nocite" "*{") ("cite" "*[[{") ("label" "{") ("pageref" "{")
-      ("vref" "*{") ("eqref" "{") ("ref" "{") ("include" "{")
+      ("vref" "*{") ("eqref" "{") ("ref" "{") ("Ref" "{") ("include" "{")
       ("input" "{") ("bibliography" "{") ("index" "{") ("glossary" "{")
-      ("footnote" "[{") ("footnotemark" "[") ("footnotetext" "[{"))
+      ("footnote" "[{") ("footnotemark" "[") ("footnotetext" "[{")
+      ("marginpar" "[{"))
      font-lock-constant-face 2 command)
     ("function"
      (("begin" "{") ("end" "{") ("pagenumbering" "{")
@@ -340,11 +356,14 @@ variable `font-latex-fontify-sectioning'." ',num)
       ("newcounter" "{[") ("renewenvironment" "*{[[{{")
       ("renewcommand" "*|{\\[[{") ("renewtheorem" "{[{[")
       ("usepackage" "[{[") ("fbox" "{") ("mbox" "{") ("rule" "[{{")
-      ("vspace" "*{") ("hspace" "*{") ("thinspace" "") ("negthinspace" "")
+      ("addvspace" "{") ("vspace" "*{") ("hspace" "*{")
+      ("thinspace" "")  ("negthinspace" "")
+      ("labelformat" "{{")
       ;; XXX: Should macros without arguments rather be listed in a
       ;; separate category with 'noarg instead of 'command handling?
       ("enspace" "") ("enskip" "") ("quad" "") ("qquad" "") ("nonumber" "")
-      ("centering" "") ("TeX" "") ("LaTeX" ""))
+      ("centering" "") ("raggedright" "") ("raggedleft" "")
+      ("TeX" "") ("LaTeX" "") ("LaTeXe" ""))
      font-lock-function-name-face 2 command)
     ("sectioning-0"
      (("part" "*[{"))
@@ -385,7 +404,7 @@ variable `font-latex-fontify-sectioning'." ',num)
      2 command)
     ("slide-title" () font-latex-slide-title-face 2 command)
     ("textual"
-     (("item" "[") ("title" "{") ("author" "{") ("date" "{")
+     (("item" "[") ("bibitem" "[{") ("title" "{") ("author" "{") ("date" "{")
       ("thanks" "{") ("address" "{") ("caption" "[{")
       ("textsuperscript" "{") ("textsubscript" "{") ("verb" "*"))
      font-lock-type-face 2 command)
@@ -557,7 +576,11 @@ use."
 	   (4 (font-latex-matched-face 4) append t)
 	   (5 (font-latex-matched-face 5) append t)
 	   (6 (font-latex-matched-face 6) append t)
-	   (7 (font-latex-matched-face 7) append t)))
+	   (7 (font-latex-matched-face 7) append t)
+	   (8 (font-latex-matched-face 8) append t)
+	   (9 (font-latex-matched-face 9) append t)
+	   (10 (font-latex-matched-face 10) append t)
+	   (11 (font-latex-matched-face 11) append t)))
 	((eq type 'noarg)
 	 `(,(intern (concat prefix name))
 	   (0 ,face)))
@@ -708,7 +731,7 @@ also specify two alternative arguments by prefixing them with
 \"*|{\\=\\[[{\".
 
 The face argument can either be an existing face or a face
-attribute.  (The latter option is not available in XEmacs.)
+attribute.
 
 There are three alternatives for the class type:
 
@@ -735,10 +758,8 @@ restart Emacs."
 				:tag "Keywords with specs"
 				(group (string :tag "Keyword")
 				       (string :tag "Format specifier"))))
-		       ,(if (featurep 'xemacs)
-			    '(face :tag "Face name")
-			  '(choice (face :tag "Face name")
-				   (custom-face-edit :tag "Face attributes")))
+		       ,'(choice (face :tag "Face name")
+				 (custom-face-edit :tag "Face attributes"))
 		       (choice :tag "Type"
 			       ;; Maps to
 			       ;;`font-latex-match-command-with-arguments'
@@ -868,9 +889,8 @@ locking machinery will be triggered."
 
 ;;; Subscript and superscript
 
-(defcustom font-latex-fontify-script (not (featurep 'xemacs))
+(defcustom font-latex-fontify-script t
   "If non-nil, fontify subscript and superscript strings.
-This feature does not work in XEmacs.
 
 By default, super/subscripts are raised/lowered if this variable
 is non-nil.  This fontification only affects one level of
@@ -894,7 +914,7 @@ script operators ^ and _ are not displayed."
   :group 'font-latex)
 (put 'font-latex-fontify-script 'safe-local-variable
      (lambda (val)
-       (or (TeX-booleanp val)
+       (or (booleanp val)
 	   (memq val '(multi-level invisible)))))
 
 (defcustom font-latex-fontify-script-max-level 3
@@ -1048,7 +1068,7 @@ have changed."
      ((not char) 'font-lock-comment-face)
      ((eq char ?$) 'font-latex-math-face)
      (t
-      (when (char-valid-p char)
+      (when (characterp char)
 	;; This is a \verb?...? construct.  Let's find the end and mark it.
 	(save-excursion
 	  (skip-chars-forward (string ?^ char)) ;; Use `end' ?
@@ -1155,9 +1175,7 @@ have changed."
 
 (defface font-latex-verbatim-face
   (let ((font (if (and (assq :inherit custom-face-attributes)
-		       (if (featurep 'xemacs)
-			   (find-face 'fixed-pitch)
-			 (facep 'fixed-pitch)))
+		       (facep 'fixed-pitch))
 		  '(:inherit fixed-pitch)
 		'(:family "courier"))))
     `((((class grayscale) (background light))
@@ -1199,19 +1217,11 @@ have changed."
   :group 'font-latex-highlighting-faces)
 
 (defface font-latex-slide-title-face
-  (let* ((scale 1.2)
-	 (size (when (featurep 'xemacs)
-		 (round (* 0.9 (face-height 'default) scale)))))
-    (if (featurep 'xemacs)
-	`((t (:bold t :family "helvetica" :size ,size)))
-      `((t (:inherit (variable-pitch font-lock-type-face)
-		     :weight bold :height ,scale)))))
+  (let* ((scale 1.2))
+    `((t (:inherit (variable-pitch font-lock-type-face)
+		   :weight bold :height ,scale))))
   "Face for slide titles."
   :group 'font-latex-highlighting-faces)
-(when (featurep 'xemacs)
-  (set-face-parent 'font-latex-slide-title-face 'font-lock-type-face
-		   nil nil 'append))
-
 
 ;;; Setup
 
@@ -1241,7 +1251,6 @@ The entries are added to `font-latex-syntax-alist' and eventually
 end up in `font-lock-defaults'.  Each entry in LIST should be a
 cons pair as expected by `font-lock-defaults'.  The function also
 triggers Font Lock to recognize the change."
-  (make-local-variable 'font-latex-syntax-alist)
   (set (make-local-variable 'font-latex-syntax-alist)
        (append font-latex-syntax-alist list))
   ;; Tell font-lock about the update.
@@ -1316,19 +1325,8 @@ triggers Font Lock to recognize the change."
 		       . font-latex-syntactic-face-function)
 		      (font-lock-syntactic-keywords
 		       . font-latex-syntactic-keywords)))))
-    ;; Cater for the idiosyncrasies of Emacs and XEmacs.
-    (if (featurep 'xemacs)
-	(progn
-	  ;; XEmacs does not set these variables via `font-lock-defaults'
-	  ;; but requires them to be set explicitely.
-	  (mapc (lambda (alist)
-		  (set (car alist) (cdr alist))) variables)
-	  ;; Has to be set to t as otherwise syntax properties will not be
-	  ;; be picked up during fontification.
-	  (set (make-local-variable 'lookup-syntax-properties) t))
-      (setq defaults (append defaults variables)))
     ;; Set the defaults.
-    (setq font-lock-defaults defaults))
+    (setq font-lock-defaults (append defaults variables)))
 
   ;; Make sure fontification will be refreshed if a user sets variables
   ;; influencing fontification in her file-local variables section.
@@ -1442,27 +1440,14 @@ modified.  Such variables include
 `LaTeX-verbatim-environments-local',
 `LaTeX-verbatim-macros-with-braces-local',
 `LaTeX-verbatim-macros-with-delims-local'."
-  (when (if (boundp 'file-local-variables-alist)
-	    ;; In Emacs we know if the value came from file or directory
-	    ;; locals.  Note to self: directory-local variables are also added
-	    ;; to file-local-variables-alist.
-	    (let ((hacked-local-vars (mapcar #'car file-local-variables-alist)))
-	      (or (memq 'LaTeX-verbatim-environments-local hacked-local-vars)
-		  (memq 'LaTeX-verbatim-macros-with-braces-local hacked-local-vars)
-		  (memq 'LaTeX-verbatim-macros-with-delims-local hacked-local-vars)))
-	  ;; In XEmacs and old Emacs versions we don't know if a buffer-local
-	  ;; variable has been set by a file-local variables block or somehow
-	  ;; else.  So we trigger a refresh if any of those variables has a
-	  ;; non-nil local binding.
-	  (or (and LaTeX-verbatim-environments-local
-		   (local-variable-p LaTeX-verbatim-environments-local
-				     (current-buffer)))
-	      (and LaTeX-verbatim-macros-with-braces-local
-		   (local-variable-p LaTeX-verbatim-macros-with-braces-local
-				     (current-buffer)))
-	      (and LaTeX-verbatim-macros-with-delims-local
-		   (local-variable-p LaTeX-verbatim-macros-with-delims-local
-				     (current-buffer)))))
+  (when
+      ;; In Emacs we know if the value came from file or directory
+      ;; locals.  Note to self: directory-local variables are also added
+      ;; to file-local-variables-alist.
+      (let ((hacked-local-vars (mapcar #'car file-local-variables-alist)))
+	(or (memq 'LaTeX-verbatim-environments-local hacked-local-vars)
+	    (memq 'LaTeX-verbatim-macros-with-braces-local hacked-local-vars)
+	    (memq 'LaTeX-verbatim-macros-with-delims-local hacked-local-vars)))
     ;; Ok, we need to refresh fontification.
     (font-latex-update-font-lock t)))
 
@@ -1568,8 +1553,7 @@ In docTeX mode \"%\" at the start of a line will be treated as whitespace."
 The text property is used to find the start or end of a multiline
 construct when unfontifying a region.  Emacs adds such a text
 property automatically if `font-lock-multiline' is set to t and
-extends the region to be unfontified automatically as well.
-XEmacs does not do this at the time of this writing."
+extends the region to be unfontified automatically as well."
   (unless (boundp 'font-lock-multiline)
     (put-text-property beg end 'font-latex-multiline t)))
 
@@ -1588,7 +1572,7 @@ XEmacs does not do this at the time of this writing."
 Set this to nil if verification of command syntax is unwanted.")
 
 (defvar font-latex-command-with-args-opt-arg-delims
-  '((?[ . ?]) (?< . ?>) (?\( . ?\)))
+  '((?\[ . ?\]) (?< . ?>) (?\( . ?\)))
   "List character pairs used as delimiters for optional arguments.")
 
 (defvar font-latex-syntax-error-modes '(latex-mode)
@@ -1787,6 +1771,14 @@ marks boundaries for searching for group ends."
   "List of characters directly after \"\\\" excluded from fontification.
 Each character is a string.")
 
+(defvar font-latex-match-simple-include-list '("@")
+  "List of characters allowed in a macro for fontification.
+Each character is a string.  This variable is initialized to
+\"@\" since internal LaTeX commands are very often redefined in a
+.tex file and the fontification should work correctly in those
+cases.")
+(make-variable-buffer-local 'font-latex-match-simple-include-list)
+
 (defun font-latex-match-simple-command (limit)
   "Search for command like \\foo before LIMIT."
   ;; \s_ matches chars with symbol syntax, \sw chars with word syntax,
@@ -1799,7 +1791,20 @@ Each character is a string.")
   ;; like `\__module_foo:nnn'
   (let* ((search (lambda ()
 		   (TeX-re-search-forward-unescaped
-		    "\\\\\\(\\s_\\|\\sw\\|\\s.\\)\\(?:\\s_\\|\\sw\\)*" limit t)))
+		    (concat
+                     ;; Chars directly after backslash
+                     "\\\\\\(\\s_\\|\\sw\\|\\s.\\)"
+                     ;; Start group of the following chars
+                     "\\(?:["
+                     ;; a-zA-Z are always allowed:
+                     "a-zA-Z"
+                     ;; Additional characters added by AUCTeX styles
+                     (mapconcat #'identity
+                                  font-latex-match-simple-include-list
+                                  "")
+                     ;; End group
+                     "]\\)*")
+		    limit t)))
 	 (pos (funcall search)))
     (while (and pos
 		(member (match-string 1)
@@ -1813,7 +1818,7 @@ Each character is a string.")
   "Match math pattern up to LIMIT.
 Used for patterns like:
 \\( F = ma \\)
-\\[ F = ma \\] but not \\\\ [len]"
+\\=\\[ F = ma \\] but not \\\\=\\[len]"
   (catch 'match
     (while (re-search-forward "\\(\\\\(\\)\\|\\(\\\\\\[\\)" limit t)
       (unless (save-excursion
@@ -2080,7 +2085,7 @@ END marks boundaries for searching for quotation ends."
 (defun font-latex--get-script-props (pos script-type)
   (let* ((old-raise (or (plist-get (get-text-property pos 'display) 'raise) 0.0))
 	 (new-level (1+ (or (get-text-property pos 'script-level) 0)))
-	 (disp-props (copy-sequence (case script-type
+	 (disp-props (copy-sequence (cl-case script-type
 				      (:super (cdr font-latex-script-display))
 				      (:sub   (car font-latex-script-display)))))
 	 (new-disp-props (let ((raise (plist-get disp-props 'raise))
@@ -2098,7 +2103,7 @@ END marks boundaries for searching for quotation ends."
 						   (* nl nl 0.012018514285714385)))))
 			     disp-props))))
     `(face ,(if (<= new-level font-latex-fontify-script-max-level)
-		(case script-type
+		(cl-case script-type
 		  (:super 'font-latex-superscript-face)
 		  (:sub   'font-latex-subscript-face))
 	      nil)
@@ -2124,8 +2129,7 @@ END marks boundaries for searching for quotation ends."
     ;; `font-lock-apply-highlight' in CVS Emacsen since 2001-10-28.
     ;; With the introduction of this feature the variable
     ;; `font-lock-extra-managed-props' was introduced and serves here
-    ;; for feature checking.  XEmacs (CVS and 21.4.15) currently
-    ;; (2004-08-18) does not support this feature.
+    ;; for feature checking.
     (let ((extra-props-flag (boundp 'font-lock-extra-managed-props)))
       (if (eq (char-after pos) ?_)
 	  (if extra-props-flag
@@ -2185,26 +2189,14 @@ END marks boundaries for searching for quotation ends."
 	     ;; syntax-table can't deal with.  We could turn it
 	     ;; into a non-comment, or use `\n%' or `%^' as the comment.
 	     ;; Instead, we include it in the ^^A comment.
-	     ;; COMPATIBILITY for Emacs 20 and XEmacs
-	     (eval-when-compile (if (fboundp 'string-to-syntax)
-				    (string-to-syntax "< b")
-				  '(2097163)))
-	   ;; COMPATIBILITY for Emacs 20 and XEmacs
-	   (eval-when-compile (if (fboundp 'string-to-syntax)
-				  (string-to-syntax ">")
-				'(12)))))
+	     (eval-when-compile (string-to-syntax "< b"))
+	   (eval-when-compile (string-to-syntax ">"))))
 	(let ((end (line-end-position)))
 	  (if (< end (point-max))
 	      (put-text-property end (1+ end) 'syntax-table
-				    ;; COMPATIBILITY for Emacs 20 and XEmacs
 				    (eval-when-compile
-				      (if (fboundp 'string-to-syntax)
-					  (string-to-syntax "> b")
-					'(2097164))))))
-	;; COMPATIBILITY for Emacs 20 and XEmacs
-	(eval-when-compile (if (fboundp 'string-to-syntax)
-			       (string-to-syntax "< b")
-			     '(2097163))))))
+				      (string-to-syntax "> b")))))
+	(eval-when-compile (string-to-syntax "< b")))))
 
 ;; Copy and adaptation of `doctex-font-lock-syntactic-face-function'
 ;; in `tex-mode.el' of CVS Emacs (March 2004)
@@ -2240,7 +2232,7 @@ END marks boundaries for searching for quotation ends."
 (provide 'font-latex)
 
 ;; Local Variables:
-;; coding: iso-8859-1
+;; coding: utf-8
 ;; End:
 
 ;;; font-latex.el ends here

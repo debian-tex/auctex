@@ -1,6 +1,6 @@
 ;;; menukeys.el --- AUCTeX style for `menukeys.sty' (v1.4)
 
-;; Copyright (C) 2016 Free Software Foundation, Inc.
+;; Copyright (C) 2016, 2018 Free Software Foundation, Inc.
 
 ;; Author: Arash Esbati <arash@gnu.org>
 ;; Maintainer: auctex-devel@gnu.org
@@ -31,8 +31,15 @@
 
 ;;; Code:
 
-;; Needed for auto-parsing.
+;; Needed for auto-parsing:
 (require 'tex)
+
+;; Silence the compiler:
+(declare-function font-latex-add-keywords
+		  "font-latex"
+		  (keywords class))
+
+(declare-function LaTeX-xcolor-definecolor-list "xcolor" ())
 
 (defvar LaTeX-menukeys-input-separators-list
   '("/" "=" "*" "+" "," ";" ":" "-" ">" "<" "bslash")
@@ -132,7 +139,7 @@ macro.  If RENEW is non-nil, query for an already defined macro."
   (let ((macro (if renew
 		   (completing-read
 		    (concat "Macro: " TeX-esc)
-		    (delete-dups (mapcar #'car (LaTeX-menukeys-newmenumacro-list))))
+		    (TeX-delete-duplicate-strings (mapcar #'car (LaTeX-menukeys-newmenumacro-list))))
 		 (TeX-read-string (concat "Macro: " TeX-esc))))
 	(sep   (completing-read
 		(TeX-argument-prompt optional nil "Input separator (default ,)")

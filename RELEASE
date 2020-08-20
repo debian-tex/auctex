@@ -1,17 +1,17 @@
-Release notes for AUCTeX 11.91 with preview-latex
-=================================================
+Release notes for AUCTeX 12.2 with preview-latex
+================================================
 
 AUCTeX provides by far the most wide-spread and sophisticated
 environment for editing LaTeX, TeX, ConTeXt and Texinfo documents with
-Emacs or XEmacs.  Combined with packages like RefTeX, flyspell and
-others it is pretty much without peer as a comprehensive authoring
-solution for a large variety of operating system platforms and TeX
-distributions.  It supports document-dependent completion and syntax
-highlighting, easily accessible menus, jumping to error locations in
-the source file, a number of editing shortcuts, intelligent
-indentation and filling of text during entry, and WYSIWYG previews of
-graphical elements like math formulas right in the Emacs source
-buffer, by virtue of its preview-latex component.
+Emacs.  Combined with packages like RefTeX, flyspell and others it is
+pretty much without peer as a comprehensive authoring solution for a
+large variety of operating system platforms and TeX distributions.  It
+supports document-dependent completion and syntax highlighting, easily
+accessible menus, jumping to error locations in the source file, a
+number of editing shortcuts, intelligent indentation and filling of
+text during entry, and WYSIWYG previews of graphical elements like
+math formulas right in the Emacs source buffer, by virtue of its
+preview-latex component.
 
 One part of the preview-latex subsystem is the central `preview.sty'
 file that is independently useful for a number of applications and is
@@ -24,121 +24,95 @@ sleuth work, testing.
 New features and fixed bugs in this release
 -------------------------------------------
 
-Now AUCTeX has a logo.  The LaTeX code to create it is available in
-the 'etc/' directory of the package.
+AUCTeX reflects the changes in LaTeX2e 2019-10-01 release.
+'filecontents' environment now takes an optional argument and can
+be used anywhere in a document.  The macros '\Ref' and
+'\labelformat' are moved from 'varioref.sty' to LaTeX kernel.
+amsmath has a new macro '\overunderset'.
 
-Add support for 'upmendex', an extension of 'makeindex' capable of
-sorting indexes by unicode based ICU.
+A new method is implemented in preview-latex to adjust the
+foreground colors of generated images to those of Emacs, when the
+LaTeX command produces PDF.  The traditional method became invalid
+because of the change introduced in Ghostscript 9.27.
+Unfortunately, the new method doesn't work due to a bug in
+Ghostscript 9.27 and is valid only for Ghostscript > 9.27.  There
+is also a fallback method for gs 9.27 users which displays plain
+"black on white" images.  For successful function of preview-latex,
+the users are encouraged to set up the new user option
+'preview-pdf-color-adjust-method' to choose appropriate option
+among the three: new, traditional and fallback method.
 
-Fix preview-latex to interact correctly with Japanese LaTeX.  The
-parsing routine was made robust not to be confused by the 7-bit
-encoding of Japanese text and the necessary option to LaTeX command
-is kept even when preamble caching is enabled.
+AUCTeX has support for the Flymake package in Emacs 26 or newer.
+To enable, call 'M-x flymake-mode RET' or add this to your '.emacs'
+file:
+     (add-hook 'LaTeX-mode-hook #'flymake-mode)
 
-The new "Glossaries" entry in 'TeX-command-list' runs the command
-'makeglossaries'.
+The way the option 'TeX-record-buffer' is used was corrected.  It
+was used in just the opposite way as the document says.  Erase the
+customization if you have customized this option since it now acts
+in reverse to your expectation.
 
-Fontification of control symbols has been improved.  Characters
-defined in 'font-latex-match-simple-exclude-list' do not receive
-any fontification.  In DocTeX mode, the character '_' is removed
-from 'font-latex-match-simple-exclude-list' in order to fontify
-macros like '\__module_foo:nnn' correctly.
+A former customize option 'japanese-TeX-command-list' is removed.
+Use 'japanese-TeX-engine-default', or if it's really necessary,
+customize 'TeX-command-list' directly if the task which the option
+used to carry is required.
 
-Fontification of math environments has been improved.  Optional
-and/or mandatory argument(s) to environments are not fontified.
+Support for standard LaTeX without e-TeX extension is now very
+limited.  It doesn't work if raw TeX code is put on the command
+line to invoke latex command.  It also fails for region compilation
+('C-c C-r' and so on) with documents of non-ascii file name.  In
+addition, it no longer works with preview-latex.  We consider this
+incompatibility is permissible because e-TeX extension is enabled
+for standard LaTeX by default long ago.  LaTeX variants such as
+XeLaTeX and LuaLaTeX are not affected.
 
-'preview.sty' loads 'luatex85.sty' if possible and should be
-compatible with newer luaTeX versions.
+Key binds in Texinfo mode are improved.  Typing '$', '^', '_' and
+'\' now just self-inserts without pointless side effects in Texinfo
+mode.
 
-AUCTeX has a new customize option 'TeX-ispell-verb-delimiters'.
-This string contains usual characters used as delimiters for
-in-line verbatim macros like '\verb'.  Text between delimiters
-after an in-line verbatim macro will be skipped during spell
-checking.
+In addition, the option 'TeX-electric-escape' is now effective in
+Texinfo mode.  When it is enabled, typing '@' will invoke
+'TeX-electric-macro' offering completion in similar style with
+other TeX modes of AUCTeX.
 
-Fontification of in-line verbatim macros has been improved.
-'font-latex.el' recognizes an optional or a mandatory argument for
-macros like '\Verb' from 'fancyvrb.sty', '\mint' and '\mintinline'
-from 'minted.sty' and fontifies verbatim content correctly.
+Fontification support for 'biblatex' package is improved and
+updated to macros provided by package version 3.12.  For qualified
+lists, at least 2 mandatory arguments are fontified.
 
-AUCTeX can put and parse labels in optional argument of
-environments.  Inserting labels is done by new function
-'LaTeX-env-label-as-keyval'.  A new customize option
-'LaTeX-listing-label' is available as prefix to labels in code
-typesetting environments, e.g.  'lstlisting' environment provided
-by 'listings' package.  'LaTeX-listing-label' defaults to 'lst:'.
-Parsing of labels for later referencing relies on two requirements:
-  1. Label should come as last key-value argument, and
-  2. label must be enclosed in braces, e.g.
-          \begin{lstlisting}[caption=Some Caption,label={lst:foo}]
-          ...
-          \end{lstlisting}
+Support for column specifiers 'w' and 'W' provided by 'array'
+package is added to 'array.el'.  The correct counting of columns
+only works when the 'align' parameter is enclosed in braces, e.g.,
+'w{l}{3cm}'.  The short version 'wl{3cm}' is not supported.
 
-The function 'LaTeX-label' now takes a second optional argument
-'NO-INSERT'.  When non-'nil', 'LaTeX-label' reads a label and
-returns it as a string.  This argument is also passed to any
-function bound to 'LaTeX-label-function' (see next item).
+Entries for 'PDF Tools' are added in
+'TeX-view-program-list-builtin' for Windows and macOS. This viewer
+can be configured under these operating systems with an entry like
+this in an init file:
+     (setq TeX-view-program-selection '((output-pdf "PDF Tools")))
 
-*Incompatible change:* The signature for the function passed with
-the customize option 'LaTeX-label-function' has changed.  The
-function bound to this variable is now expected to take an optional
-second argument 'NO-INSERT'.  When this argument is non-'nil', the
-function should read and only return a label as a string; insertion
-is done by another function.
-
-Directory local variables were ineffective for
-'japanese-latex-mode' and 'japanese-plain-tex-mode'.  This bug was
-fixed.  (This was actually done in AUCTeX 11.90, but not
-advertised)
-
-The output of Japanese text from Japanese TeX engines is decoded
-correctly for most cases, according to the encoding of the TeX
-documents and the locale.  The difference between MS Windows, macOS
-and unix-like OS is taken into account.  (This was actually done in
-AUCTeX 11.90, but not advertised)
-
-Quite a few new LaTeX packages are supported.
-
-As usual, many bugs were fixed.
+Several other bugs were fixed, many minor features were added.
 
 Requirements
 ------------
 
-It is required that you use at least GNU Emacs 21 or XEmacs 21.4.
-XEmacs requires at least version 1.84 of the xemacs-base package
-(released on 01/27/2004) or a sumo tarball dated 02/02/2004 or newer
-for compiling AUCTeX: please use the XEmacs package system for
-upgrading if necessary.
+It is required that you use at least GNU Emacs 24.
 
-The preview-latex subsystem requires image support.  This is available
-with GNU Emacs 21.3 under the X window system.  For Windows[2], Mac OS
-X (Carbon, Cocoa)[3] or native GTK+ toolkit support, at least version
-22.1 of GNU Emacs is required.  Emacs 22 and later is the recommended
-platform for AUCTeX in general.  If you prefer XEmacs, it will work in
-version 21.4.10 or later.
+The preview-latex subsystem requires image support.
 
 You'll also need a working LaTeX installation and Ghostscript.
-dvipng[4] (version 1.4 or later), a very fast DVI converter, can be
+dvipng[2] (version 1.4 or later), a very fast DVI converter, can be
 used to speed up the conversion.
 
 Availability
 ------------
 
-The easiest way for getting AUCTeX, for users running Emacs 24.1 or
-higher, is installing it with GNU ELPA, see
+The easiest way for getting AUCTeX is installing it with GNU ELPA, see
 <URL:https://elpa.gnu.org/packages/auctex.html> for more information.
 Other download options are available at
-<URL:ftp://ftp.gnu.org/gnu/auctex/>.  At release time, we provide the
-source tarball, and a platform-independent XEmacs package file (which
-you have to install yourself using XEmacs' own package system, after
-using it for removing the previous version of AUCTeX).  You can also
-use versions of Emacs that already include AUCTeX or a software
-package management system for your operating system which provides you
-with the latest release.
-
-The XEmacs package file can be discerned by `pkg' in its name.  It is
-usually more recent than what gets distributed from XEmacs servers and
-as part of the Sumo tarball.
+<URL:https://ftp.gnu.org/gnu/auctex/>.  At release time, we provide the
+source tarball.  You can also use versions of Emacs that already
+include AUCTeX or a software package management system for your
+operating system which provides you with the latest release.
 
 A separate directory for each release contains some stuff from the
 tarball, such as ChangeLog, printable manuals, and a reference sheet.
@@ -146,7 +120,7 @@ The download area is mirrored to the directory support/auctex on CTAN.
 AUCTeX is licensed under the GNU General Public License version 3.
 
 You'll find more information at the web site of AUCTeX
-<URL:http://www.gnu.org/software/auctex/>, including its mailing list
+<URL:https://www.gnu.org/software/auctex/>, including its mailing list
 addresses.
 
 Future development and additional information
@@ -166,29 +140,23 @@ bugs and suggesting improvements, but the most effective way of
 helping AUCTeX development remains volunteering for tasks.
 
 The following people contributed to this release series (in
-alphabetical order): Ivan Andrus, Ralf Angeli, Masayuki Ataka, Fabrice
-Ben Hamouda, Thomas Baumann, Vincent Belaïche, Berend de Boer, Uwe
-Brauer, Ken Brown, Joshua Buhl, Patrice Dumas, Arash Esbati, Werner
-Fink, Miguel Frasson, Peter S. Galbraith, Mosè Giordano, Patrick
-Gundlach, Jobst Hoffmann, Tassilo Horn, Yvon Hevel, Orlando Iovino,
-Mads Jensen, Arne Jørgensen, David Kastrup, Ikumi Keita, Philip Kime,
-Oleh Krehel, Joost Kremers, Frank Küster, Jan-Åke Larsson, Matthew
-Leach, Antoine Levitt, Leo Liu, Vladimir Lomov, Stefan Monnier, Dan
-Nicolaescu, Piet van Oostrum, Nicolas Richard, Augusto Ritter Stoffel,
-Florent Rougon, Santiago Saavedra, Davide G. M. Salvetti, Rüdiger
-Sonderfeld, Holger Sparr, Mike Sperber, Reiner Steib, Christian
-Schlauer, Shiro Takeda, Mark Trettin (Please accept our apologies if
-we forgot somebody.)
+alphabetical order): Ivan Andrus, Ralf Angeli, Masayuki Ataka,
+Mohammad Hossein Bateni, Fabrice Ben Hamouda, Thomas Baumann, Vincent
+Belaïche, Berend de Boer, Alex Branham, Uwe Brauer, Ken Brown, Joshua
+Buhl, Jean-François Burnol, Patrice Dumas, Arash Esbati, Werner Fink,
+Miguel Frasson, Peter S. Galbraith, Mosè Giordano, Patrick Gundlach,
+Jobst Hoffmann, Tassilo Horn, Yvon Hevel, Orlando Iovino, Mads Jensen,
+Arne Jørgensen, David Kastrup, Ikumi Keita, Philip Kime, Oleh Krehel,
+Joost Kremers, Frank Küster, Jan-Åke Larsson, Matthew Leach, Antoine
+Levitt, Leo Liu, Vladimir Lomov, Stefan Monnier, Dan Nicolaescu, Piet
+van Oostrum, Nicolas Richard, Augusto Ritter Stoffel, Florent Rougon,
+Santiago Saavedra, Davide G. M. Salvetti, Rüdiger Sonderfeld, Holger
+Sparr, Mike Sperber, Reiner Steib, Christian Schlauer, Shiro Takeda,
+Mark Trettin (Please accept our apologies if we forgot somebody.)
 
 Footnotes:
 
-[1]  <URL:ftp://ftp.dante.de/tex-archive/macros/latex/contrib/preview/>
+[1]  <URL:https://www.ctan.org/pkg/preview>
 
-[2]  You can get a precompiled version of Emacs for Windows at
-<URL:ftp://ftp.gnu.org/gnu/emacs/windows/>.
-
-[3]  See e.g. <URL:http://www.emacswiki.org/cgi-bin/wiki/EmacsForMacOS>
-for a list of precompiled versions of Emacs for Mac OS X.
-
-[4]  dvipng is available via its project page
-<URL:http://savannah.nongnu.org/projects/dvipng> and from CTAN.
+[2]  dvipng is available via its project page
+<URL:https://savannah.nongnu.org/projects/dvipng> and from CTAN.

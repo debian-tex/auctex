@@ -1,6 +1,6 @@
 ;;; listings.el --- AUCTeX style for `listings.sty'
 
-;; Copyright (C) 2004, 2005, 2009, 2013-2017 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2009, 2013--2019 Free Software Foundation, Inc.
 
 ;; Author: Ralf Angeli <angeli@iwi.uni-sb.de>
 ;; Maintainer: auctex-devel@gnu.org
@@ -36,12 +36,28 @@
 ;;
 ;; January 2017: Put label in opt. argument of environment.
 ;;
+;; October 2018: Extract label context for RefTeX.
+;;
 ;; FIXME: Please make me more sophisticated!
 
 ;;; Code:
 
-;; Needed for compiling `pushnew':
-(eval-when-compile (require 'cl))
+;; Needed for compiling `cl-pushnew':
+(eval-when-compile
+  (require 'cl-lib))
+
+;; Needed for auto-parsing:
+(require 'tex)
+(require 'latex)
+
+;; Silence the compiler:
+(declare-function font-latex-add-keywords
+		  "font-latex"
+		  (keywords class))
+
+(declare-function font-latex-update-font-lock
+		  "font-latex"
+		  (&optional syntactic-kws))
 
 ;; The following are options taken from chapter 4 of the listings
 ;; manual (2007/02/22 Version 1.4).
@@ -258,22 +274,9 @@ from `listings' package.")
 
 ;; Setup for parsing the labels inside optional arguments:
 
-(defvar LaTeX-listings-key-val-label-extract
-  (concat
-   "\\(?:\\[[^][]*"
-     "\\(?:{[^}{]*"
-       "\\(?:{[^}{]*"
-         "\\(?:{[^}{]*}[^}{]*\\)*"
-       "}[^}{]*\\)*"
-     "}[^][]*\\)*"
-   "label[ \t]*=[ \t]*{\\([^}]+\\)}"
-   "\\(?:[^]]*\\)*"
-   "\\]\\)")
-  "Helper regexp to extract the label out of optional argument.")
-
 (defvar LaTeX-listings-key-val-label-regexp
   `(,(concat
-      "\\\\begin{lstlisting}" LaTeX-listings-key-val-label-extract)
+      "\\\\begin{lstlisting}" (LaTeX-extract-key-value-label))
     1 LaTeX-auto-label)
   "Matches the label inside an optional argument after \\begin{lstlisting}.")
 
@@ -284,9 +287,9 @@ with user-defined values via the \"lstdefinestyle\" macro."
 	 (key (car elt))
 	 (temp (copy-alist LaTeX-listings-key-val-options-local))
 	 (opts (assq-delete-all (car (assoc key temp)) temp)))
-    (pushnew (list key (delete-dups
-			(mapcar 'car (LaTeX-listings-lstdefinestyle-list))))
-	     opts :test #'equal)
+    (cl-pushnew (list key (TeX-delete-duplicate-strings
+			   (mapcar #'car (LaTeX-listings-lstdefinestyle-list))))
+		opts :test #'equal)
     (setq LaTeX-listings-key-val-options-local
 	  (copy-alist opts))))
 
@@ -323,12 +326,14 @@ with user-defined values via the \"lstdefinestyle\" macro."
       (add-to-list 'LaTeX-label-alist `(,env . LaTeX-listing-label) t)
       ;; Add new env to parser for labels in opt. argument:
       (TeX-auto-add-regexp `(,(concat "\\\\begin{" env "}"
-				      LaTeX-listings-key-val-label-extract)
+				      (LaTeX-extract-key-value-label))
 			     1 LaTeX-auto-label))
       ;; Tell RefTeX
       (when (fboundp 'reftex-add-label-environments)
 	(reftex-add-label-environments
-	 `((,env ?l "lst:" "~\\ref{%s}" nil (regexp "[Ll]isting")))))
+	 `((,env ?l "lst:" "~\\ref{%s}"
+		 LaTeX-listings-reftex-label-context-function
+		 (regexp "[Ll]isting")))))
       ;; Fontification
       (when (and (fboundp 'font-latex-add-keywords)
 		 (fboundp 'font-latex-update-font-lock)
@@ -343,6 +348,39 @@ with user-defined values via the \"lstdefinestyle\" macro."
 (add-hook 'TeX-auto-prepare-hook #'LaTeX-listings-auto-prepare t)
 (add-hook 'TeX-auto-cleanup-hook #'LaTeX-listings-auto-cleanup t)
 (add-hook 'TeX-update-style-hook #'TeX-auto-parse t)
+
+(defun LaTeX-listings-reftex-label-context-function (env)
+  "Extract and return a context string for RefTeX.
+The context string is the value given to the caption key.  If no
+caption key is found, an error is issued."
+  (let* ((envstart (save-excursion
+		     (re-search-backward (concat "\\\\begin{" env "}")
+					 nil t)))
+	 (capt-key (save-excursion
+		     (re-search-backward "caption[ \t\n\r%]*=[ \t\n\r%]*"
+					 envstart t)))
+	 capt-start capt-end)
+    (if capt-key
+	(save-excursion
+	  (goto-char capt-key)
+	  (re-search-forward
+	   "caption[ \t\n\r%]*=[ \t\n\r%]*" nil t)
+	  (cond (;; Short caption inside [] is available, extract it only
+		 (looking-at-p (regexp-quote (concat TeX-grop LaTeX-optop)))
+		 (forward-char)
+		 (setq capt-start (1+ (point)))
+		 (setq capt-end (1- (progn (forward-sexp) (point)))))
+		;; Extract the entire caption which is enclosed in braces
+		((looking-at-p TeX-grop)
+		 (setq capt-start (1+ (point)))
+		 (setq capt-end (1- (progn (forward-sexp) (point)))))
+		;; Extract everything to next comma ,
+		(t
+		 (setq capt-start (point))
+		 (setq capt-end (progn (skip-chars-forward "^,") (point)))))
+	  ;; Return the extracted string
+	  (buffer-substring-no-properties capt-start capt-end))
+      (error "No caption found"))))
 
 (TeX-add-style-hook
  "listings"
@@ -368,7 +406,8 @@ with user-defined values via the \"lstdefinestyle\" macro."
 	   (LaTeX-listings-update-style-key)
 	   (format "%s" name))))
       (TeX-arg-key-val LaTeX-listings-key-val-options-local))
-    '("lstinline" TeX-arg-verb)
+    '("lstinline" [TeX-arg-key-val LaTeX-listings-key-val-options-local]
+      TeX-arg-verb-delim-or-brace)
     '("lstinputlisting" [TeX-arg-key-val LaTeX-listings-key-val-options-local]
       TeX-arg-file)
     "lstlistoflistings"
@@ -398,6 +437,16 @@ with user-defined values via the \"lstdefinestyle\" macro."
    (add-to-list 'LaTeX-verbatim-environments-local "lstlisting")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "lstinline")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "lstinline")
+
+   ;; RefTeX support lstlistings environment via
+   ;; `reftex-label-alist-builtin'.  We add the same thing here only
+   ;; with our function as 5th element:
+   (when (fboundp 'reftex-add-label-environments)
+     (reftex-add-label-environments
+      '(("lstlisting" ?l "lst:" "~\\ref{%s}"
+	 LaTeX-listings-reftex-label-context-function
+	 (regexp "[Ll]isting")))))
+
    ;; Fontification
    (when (and (fboundp 'font-latex-add-keywords)
 	      (fboundp 'font-latex-update-font-lock)

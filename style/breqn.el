@@ -1,6 +1,6 @@
 ;;; breqn.el --- AUCTeX style for `breqn.sty' (v0.98e)
 
-;; Copyright (C) 2017 Free Software Foundation, Inc.
+;; Copyright (C) 2017--2019 Free Software Foundation, Inc.
 
 ;; Author: Arash Esbati <arash@gnu.org>
 ;; Maintainer: auctex-devel@gnu.org
@@ -48,6 +48,12 @@
 
 ;;; Code:
 
+(require 'latex)
+
+;; Silence the compiler:
+(declare-function LaTeX-color-definecolor-list "color" ())
+(declare-function LaTeX-xcolor-definecolor-list "xcolor" ())
+
 (defvar LaTeX-breqn-key-val-options
   '(("style" ("\\tiny" "\\scriptsize" "\\footnotesize" "\\small"
 	      "\\normalsize" "\\large" "\\Large" "\\LARGE"
@@ -73,15 +79,7 @@ The keys \"label\" and \"labelprefix\" are omitted.")
       "\\\\begin{"
       (regexp-opt '("dmath" "dseries" "dgroup" "darray"))
       "}"
-      "\\(?:\\[[^][]*"
-	"\\(?:{[^}{]*"
-	  "\\(?:{[^}{]*"
-	    "\\(?:{[^}{]*}[^}{]*\\)*"
-	  "}[^}{]*\\)*"
-	"}[^][]*\\)*"
-      "label[ \t]*=[ \t]*{\\([^}]+\\)}"
-      "\\(?:[^]]*\\)*"
-      "\\]\\)")
+      (LaTeX-extract-key-value-label))
     1 LaTeX-auto-label)
   "Matches the label inside an optional argument after \\begin{<breqn-env's>}.")
 

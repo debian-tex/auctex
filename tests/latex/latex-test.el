@@ -1,6 +1,6 @@
 ;;; latex-test.el --- tests for LaTeX mode
 
-;; Copyright (C) 2014--2017 Free Software Foundation, Inc.
+;; Copyright (C) 2014--2018 Free Software Foundation, Inc.
 
 ;; This file is part of AUCTeX.
 
@@ -23,25 +23,6 @@
 
 (require 'ert)
 (require 'latex)
-
-;; Add the "style/" directory to `TeX-style-path',
-;; so we can load style files inside tests.
-(add-to-list 'TeX-style-path
-	     (expand-file-name "../../style"
-			       (when load-file-name
-				 (file-name-directory load-file-name))))
-
-(defun AUCTeX-set-ert-path (&rest sym-val)
-  "Set first element of SYM-VAL to the next one, and so on.
-
-The value is the path to the test file, make sure it is expanded
-in the right directory even when the ERT test from the command
-line and from another directory."
-  (while sym-val
-    (set (pop sym-val)
-	 (expand-file-name (pop sym-val)
-			   (when load-file-name
-			     (file-name-directory load-file-name))))))
 
 (AUCTeX-set-ert-path
  'LaTeX-indent-tabular-test/in
@@ -164,5 +145,179 @@ last extension is stripped."
 	(TeX-update-style t))
       (LaTeX-bibliography-list))
     '(("../foo-1.bar_2.qux3")))))
+
+(ert-deftest LaTeX-auto-class-regexp ()
+  "Check parsing optional argument with comment correctly.
+
+Test against RequirePackage."
+  (with-temp-buffer
+    (insert "\\RequirePackage[
+backend=biber % here is a comment
+]{biblatex}
+")
+    (latex-mode)
+    (let ((TeX-parse-self t))
+      (TeX-update-style t))
+    (should (member "biblatex" (TeX-style-list)))
+    (should (LaTeX-provided-package-options-member
+	     "biblatex" "backend=biber"))))
+
+(ert-deftest LaTeX-includegraphics-extensions ()
+  "Check correct extensions are generated accoding to `TeX-engine'."
+  ;; Emacs 26.1 has a bug in byte compile optimization, which makes
+  ;; compiled `LaTeX-includegraphics-extensions-list' to return wrong
+  ;; value when `TeX-engine' is neither `default', `xetex' nor
+  ;; `luatex'.
+  ;; c.f. https://debbugs.gnu.org/cgi/bugreport.cgi?bug=31718
+  :expected-result (if (and (= emacs-major-version 26)
+			    (= emacs-minor-version 1))
+		       :failed
+		     :passed)
+  (with-temp-buffer
+    (LaTeX-mode)
+    (TeX-load-style "graphicx")
+    (let (TeX-engine TeX-PDF-mode TeX-PDF-from-DVI
+		     TeX-PDF-via-dvips-ps2pdf TeX-DVI-via-PDFTeX)
+      ;; tests for default engine
+      (setq TeX-engine 'default)
+      ;; default 1
+      (setq TeX-PDF-mode t
+	    TeX-PDF-from-DVI nil
+	    TeX-DVI-via-PDFTeX nil)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("png" "pdf" "jpe?g" "jbig2" "jb2" "mps"
+		      "PNG" "PDF" "JPE?G" "JBIG2" "JB2" "eps") #'string<)))
+      ;; default 2
+      (setq TeX-PDF-mode t
+	    TeX-PDF-from-DVI "Dvips"
+	    TeX-DVI-via-PDFTeX nil)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("eps" "mps" "EPS") #'string<)))
+      ;; default 3
+      (setq TeX-PDF-mode nil
+	    TeX-PDF-from-DVI nil
+	    TeX-DVI-via-PDFTeX nil)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("eps" "mps" "EPS") #'string<)))
+      ;; default 4
+      (setq TeX-PDF-mode nil
+	    TeX-PDF-from-DVI nil
+	    TeX-DVI-via-PDFTeX t)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("png" "pdf" "jpe?g" "jbig2" "jb2" "mps"
+		      "PNG" "PDF" "JPE?G" "JBIG2" "JB2" "eps") #'string<)))
+      ;; default 5
+      (setq TeX-PDF-mode t
+	    TeX-PDF-from-DVI "Dvipdfmx"
+	    TeX-DVI-via-PDFTeX nil)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("eps" "mps" "EPS" "jpe?g" "pdf" "png") #'string<)))
+
+      ;; tests for luatex engine
+      (setq TeX-engine 'luatex)
+      ;; luatex 1
+      (setq TeX-PDF-mode t)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("png" "pdf" "jpe?g" "jbig2" "jb2" "mps"
+		      "PNG" "PDF" "JPE?G" "JBIG2" "JB2" "eps") #'string<)))
+      ;; luatex 2
+      (setq TeX-PDF-mode nil)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("eps" "mps" "EPS") #'string<)))
+
+      ;; test for xetex engine
+      (setq TeX-engine 'xetex)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("pdf" "eps" "mps" "ps" "png" "jpe?g" "jp2" "jpf"
+		      "PDF" "EPS" "MPS" "PS" "PNG" "JPE?G" "JP2" "JPF"
+		      "bmp" "pict" "psd" "mac" "tga" "gif" "tif" "tiff"
+		      "BMP" "PICT" "PSD" "MAC" "TGA" "GIF" "TIF" "TIFF")
+		    #'string<)))
+
+      ;; test for other engine
+      (setq TeX-engine 'omega)
+      ;; other 1
+      (setq TeX-PDF-mode t
+	    TeX-PDF-from-DVI "Dvipdfmx")
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("eps" "mps" "EPS" "jpe?g" "pdf" "png") #'string<)))
+      ;; other 2
+      (setq TeX-PDF-mode nil
+	    TeX-PDF-from-DVI nil)
+      (should
+       (equal (sort (LaTeX-includegraphics-extensions-list) #'string<)
+	      (sort '("eps" "jpe?g" "pdf" "png") #'string<))))))
+
+(ert-deftest LaTeX-style-hook-with-class-option ()
+  "Check style hooks associated with class option are processed."
+  (with-temp-buffer
+    (let ((TeX-parse-self t))
+      ;; test for dvips option
+      ;; This depends on the following code in latex.el:
+      ;; (TeX-add-style-hook "dvips"
+      ;;		      (lambda ()
+      ;;			(setq TeX-PDF-from-DVI "Dvips"))
+      ;;		      :classopt)
+      (insert "\\documentclass[dvips]{article}\n")
+      (latex-mode)
+      (TeX-update-style)
+      (should (equal (TeX-PDF-from-DVI) "Dvips"))
+      (should (not (member "dvips" TeX-active-styles)))
+
+      ;; test for dvipdfmx option
+      (erase-buffer)
+      ;; This depends on the following code in latex.el:
+      ;; (TeX-add-style-hook "dvipdfmx"
+      ;; 		      (lambda ()
+      ;; 			(TeX-PDF-mode-on)
+      ;; 			;; XeLaTeX normally don't use dvipdfmx
+      ;; 			;; explicitly.
+      ;; 			(unless (eq TeX-engine 'xetex)
+      ;; 			  (setq TeX-PDF-from-DVI "Dvipdfmx")))
+      ;; 		      :classopt)
+      (insert "\\documentclass[dvipdfmx]{article}\n")
+      (latex-mode)
+      (TeX-update-style)
+      (should TeX-PDF-mode)
+      (should (equal (TeX-PDF-from-DVI) "Dvipdfmx"))
+      (should (not (member "dvipdfmx" TeX-active-styles)))
+
+      ;; dvipdfmx option should not trigger `TeX-PDF-from-DVI' for
+      ;; XeLaTeX document
+      (latex-mode)
+      (let ((TeX-engine 'xetex))
+	(TeX-update-style))
+      (should TeX-PDF-mode)
+      (should (not (TeX-PDF-from-DVI)))
+      (should (not (member "dvipdfmx" TeX-active-styles)))
+
+      ;; test for pdftricks option
+      (erase-buffer)
+      ;; This depends on the following code in latex.el:
+      ;; (TeX-add-style-hook "pdftricks" #'TeX-PDF-mode-on :classopt)
+      (insert "\\documentclass[pdftricks]{article}\n")
+      (latex-mode)
+      (TeX-update-style)
+      (should TeX-PDF-mode)
+      (should (not (member "pdftricks" TeX-active-styles)))
+
+      ;; test for psfrag option
+      (erase-buffer)
+      ;; This depends on the following code in latex.el:
+      ;; (TeX-add-style-hook "psfrag" #'TeX-PDF-mode-off :classopt)
+      (insert "\\documentclass[psfrag]{article}\n")
+      (latex-mode)
+      (TeX-update-style)
+      (should (not TeX-PDF-mode))
+      (should (not (member "psfrag" TeX-active-styles))))))
 
 ;;; latex-test.el ends here
