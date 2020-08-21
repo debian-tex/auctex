@@ -5,6 +5,7 @@ Maintainer: Davide G. M. Salvetti <salve@debian.org>
 Uploaders: OHURA Makoto <ohura@debian.org>
 Standards-Version: 4.0.1
 Build-Depends-Indep: autoconf, debhelper (>= 9), emacs, eperl, ghostscript, po-debconf, tex-common (>= 4.01), texlive-latex-base, texlive-extra-utils, texinfo (>= 5)
+Rules-Requires-Root: no
 Homepage: https://www.gnu.org/software/auctex/
 Vcs-Browser: https://salsa.debian.org/salve/auctex
 Vcs-Git: https://salsa.debian.org//salve/auctex.git
