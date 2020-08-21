@@ -12,7 +12,7 @@ This manual is for @AUCTeX{}
 (version @value{VERSION} from @value{UPDATED}),
 a sophisticated TeX environment for Emacs.
 
-Copyright @copyright{} 1992-1995, 2001, 2002, 2004-2017
+Copyright @copyright{} 1992-1995, 2001, 2002, 2004-2019
 Free Software Foundation, Inc.
 
 @quotation
@@ -258,7 +258,7 @@ Indices
 
 @c This text adapted from the Texinfo 2.16 distribution.
 
-@AUCTeX{} primarily consists of Lisp files for Emacs (and XEmacs), but
+@AUCTeX{} primarily consists of Lisp files for Emacs, but
 there are also installation scripts and files and @TeX{} support files.
 All of those are @dfn{free}; this means that everyone is free to use
 them and free to redistribute them on a free basis.  The files of
@@ -459,10 +459,10 @@ and @samp{\(...\)} in @LaTeX{} files by pressing @kbd{$}, add the
 following to your init file
 @lisp
 (add-hook 'plain-TeX-mode-hook
-	  (lambda () (set (make-variable-buffer-local 'TeX-electric-math)
+	  (lambda () (set (make-local-variable 'TeX-electric-math)
 			  (cons "$" "$"))))
 (add-hook 'LaTeX-mode-hook
-	  (lambda () (set (make-variable-buffer-local 'TeX-electric-math)
+	  (lambda () (set (make-local-variable 'TeX-electric-math)
 			  (cons "\\(" "\\)"))))
 @end lisp
 
@@ -519,7 +519,7 @@ immediately adds the corresponding right brace @samp{)}, @samp{@}} or
 @samp{]}.  The point is left after the opening brace.  If there is an
 active region, braces are put around it.
 
-They recognize the preceeding backslash or size adjusting macros such
+They recognize the preceding backslash or size adjusting macros such
 as @samp{\left}, @samp{\bigl} etc., so the following completions will
 occur:
 @itemize @bullet
@@ -1206,6 +1206,15 @@ In order to enable this feature, set the variable
 If non-nil, insert braces after typing @key{^} and @key{_} in math mode.
 @end defopt
 
+You can automatically turn off input methods, used to input non-ascii
+characters, when you begin to enter math constructs.
+
+@defopt TeX-math-input-method-off-regexp
+Input method matching this regular expression is turned off when @kbd{$}
+is typed to begin math mode or a math environment is inserted by
+@kbd{C-c C-e} (@code{LaTeX-environment}).
+@end defopt
+
 @node Completion
 @section Completion
 @cindex Completion
@@ -1323,13 +1332,14 @@ Note that for some macros, there are special mechanisms, e.g.
 Default macro to insert when invoking @code{TeX-insert-macro} first time.
 @end defopt
 
-A faster alternative is to bind the function @code{TeX-electric-macro}
-to @samp{\}.  This can be done by setting the variable
-@code{TeX-electric-escape}
+A faster alternative is to enable the option
+@code{TeX-electric-escape}.
 
 @defopt TeX-electric-escape
-If this is non-nil when @AUCTeX{} is loaded, the @TeX{} escape
-character @samp{\} will be bound to @code{TeX-electric-macro}
+If this is non-nil, typing the @TeX{} escape character @kbd{\} will
+invoke the command @code{TeX-electric-macro}.
+
+In Texinfo mode, the command is invoked by @kbd{@@} instead.
 @end defopt
 
 The difference between @code{TeX-insert-macro} and
@@ -1345,11 +1355,12 @@ Space will complete and exit.
 
 By default @AUCTeX{} will put an empty set braces @samp{@{@}} after a
 macro with no arguments to stop it from eating the next whitespace.
-This can be stopped by entering @code{LaTeX-math-mode},
-@pxref{Mathematics}, or by setting @code{TeX-insert-braces} to nil.
+This is suppressed inside math mode and can be disabled totally by
+setting @code{TeX-insert-braces} to nil.
 
 @defopt TeX-insert-braces
-If non-nil, append a empty pair of braces after inserting a macro.
+If non-nil, append a empty pair of braces after inserting a macro with
+no arguments.
 @end defopt
 
 @defopt TeX-insert-braces-alist
@@ -1361,7 +1372,7 @@ the macro name, and the cdr is non-nil or nil, depending on whether a
 pair of braces should be, respectively, appended or not to the macro.
 
 If a macro has an element in this variable, @code{TeX-parse-macro} will
-use its value to decided what to do, whatever the value of the variable
+use its value to decide what to do, whatever the value of the variable
 @code{TeX-insert-braces}.
 @end defopt
 
@@ -2152,7 +2163,7 @@ following stanza into your init file:
 (eval-after-load "font-latex"
   '(setq-default
     font-latex-match-reference-keywords-local
-    (remove (TeX-assoc-string "footnote"
+    (remove (assoc-string "footnote"
             font-latex-match-reference-keywords-local)
                 font-latex-match-reference-keywords-local)))
 @end lisp
@@ -2181,7 +2192,7 @@ name omitting the leading backslash or a list consisting of the command
 name and a string specifying the sequence of arguments for the command.
 
 The face argument can either be an existing face or face attributes
-made by you.  (The latter option is not available on XEmacs.)
+made by you.
 
 There are three alternatives for the type of keywords---``Command with
 arguments'', ``Declaration inside @TeX{} group'' and ``Command without
@@ -2257,10 +2268,6 @@ below.)
 Lastly, you can set this variable to @code{invisible} whose behavior is
 like @code{multi-level}, and in addition the super-/subscript characters
 @i{^} and @i{_} are not displayed.
-
-Note that this feature is not available on XEmacs, for which
-it is disabled per default.  In GNU Emacs raising and lowering is not
-enabled for versions 21.3 and before due to it working not properly.
 @end defopt
 
 
@@ -3232,6 +3239,7 @@ be the default command to convert the @acronym{PS} file to
 @code{"Dvipdfmx"}: the @acronym{DVI} file is converted to @acronym{PDF}
 with @command{dvipdfmx}.
 @end itemize
+(case is significant; note the uppercase ``D'' in both strings)
 When the @acronym{PDF} file is finally ready, the next suggested command
 will be to open the viewer.
 
@@ -3473,6 +3481,18 @@ A built-in viewer spec from @code{TeX-view-program-list-builtin} can be
 overwritten by defining a new viewer spec with the same name.
 @end defopt
 
+After the viewer is called via either the View command or the key stroke
+@kbd{C-c C-v}, the window system focus goes and stays on the viewer.  If
+you prefer that the focus is pulled back to Emacs immediately after that
+and you are using evince-compatible viewer, customize the option
+@code{TeX-view-enince-keep-focus}.
+
+@defopt TeX-view-evince-keep-focus
+When this option is non-nil and the viewer is compatible with evince,
+the focus is pulled back to Emacs immediately after the viewer is
+invoked or refreshed from within @AUCTeX{}.
+@end defopt
+
 Note that the viewer selection and invocation as described above will
 only work if certain default settings in @AUCTeX{} are intact.  For one,
 the whole viewer selection machinery will only be triggered if there is
@@ -3609,8 +3629,7 @@ leave this variable set to its default value
 settings that work for some users.
 
 @lisp
-;; Alternative 1: For some users, `x-focus-frame' works.  Note
-;; that this function requires Emacs 24+.
+;; Alternative 1: For some users, `x-focus-frame' works.
 (setq TeX-raise-frame-function #'x-focus-frame)
 
 ;; Alternative 2: Under GNOME 3.20 (and probably others), it
@@ -3628,7 +3647,7 @@ settings that work for some users.
       (lambda ()
 	(call-process
 	 "wmctrl" nil nil nil "-i" "-R"
-	 (frame-parameter (selected-frame) ’outer-window-id))))
+	 (frame-parameter (selected-frame) 'outer-window-id))))
 @end lisp
 @end defopt
 
@@ -3646,9 +3665,9 @@ settings that work for some users.
 @cindex Underfull boxes
 
 Once you've formatted your document you may `debug' it, i.e. browse
-through the errors (La)@TeX{} reported.  If you have GNU Emacs 24 or
-later, you may also have a look at a nicely formatted list of all errors
-and warnings reported by the compiler.
+through the errors (La)@TeX{} reported.  You may also have a look at a
+nicely formatted list of all errors and warnings reported by the
+compiler.
 
 @deffn Command TeX-next-error @var{arg} @var{reparse}
 @kindex C-c `
@@ -3764,8 +3783,7 @@ all warnings are hidden in any case.
 
 When the option @code{TeX-parse-all-errors} is non-nil, you will be also
 able to open an overview of all errors and warnings reported by the TeX
-compiler.  This feature requires @code{tabulated-list-mode}, shipped
-with GNU Emacs 24 or later.
+compiler.
 
 @deffn Command TeX-error-overview
 Show an overview of the errors and warnings occurred in the last TeX
@@ -3816,6 +3834,8 @@ will be used regardless of the value of this variable.
 @cindex Running @code{chktex}
 @cindex Style
 @cindex Problems
+@cindex Flymake
+@cindex Running Flymake
 
 Running @TeX{} or @LaTeX{} will only find regular errors in the
 document, not examples of bad style.  Furthermore, description of the
@@ -3829,13 +3849,24 @@ escape the space after an abbreviation or using @samp{...} instead of
 @kbd{C-x `} (@code{next-error}, @pxref{Compilation,,,emacs,The Emacs
 Editor}), which will move point to the location of the next error.
 
-Each of the two utilities will find some errors the other doesn't, but
-@code{chktex} is more configurable, allowing you to create your own
-errors.  You may need to install the programs before using them.  You
-can get @code{lacheck} from
-@file{<URL:ftp://ftp.ctan.org/tex-archive/support/lacheck/>} and
+Alternatively, you may want in-buffer notation.  @AUCTeX{} provides
+support for this using the Flymake package in Emacs 26 or newer
+(@xref{Using Flymake,,,Flymake,GNU Flymake} for details).  To enable,
+call @kbd{M-x flymake-mode RET} in the buffer or enable it in all
+buffers by adding this to your init file:
+@lisp
+(add-hook 'LaTeX-mode-hook #'flymake-mode)
+@end lisp
+Note that @AUCTeX{} currently only provides support for using
+@code{chktex} as the flymake backend.
+
+Each of the two utilities @code{lacheck} and @code{chktex} will find
+some errors the other doesn't, but @code{chktex} is more configurable,
+allowing you to create your own errors.  You may need to install the
+programs before using them.  You can get @code{lacheck} from
+@file{<URL:https://www.ctan.org/pkg/lacheck>} and
 @code{chktex} from
-@file{<URL:ftp://ftp.ctan.org/tex-archive/support/chktex/>}.
+@file{<URL:https://www.ctan.org/pkg/chktex>}.
 
 @node Control
 @section Controlling the output
@@ -3887,6 +3918,8 @@ process was started.
 @vindex Texinfo-clean-output-suffixes
 @vindex ConTeXt-clean-intermediate-suffixes
 @vindex ConTeXt-clean-output-suffixes
+@vindex AmSTeX-clean-intermediate-suffixes
+@vindex AmSTeX-clean-output-suffixes
 Remove generated intermediate files.  In case a prefix argument is
 given, remove output files as well.
 
@@ -3904,8 +3937,10 @@ for each @AUCTeX{} mode by means of the variables
 @code{docTeX-clean-output-suffixes},
 @code{Texinfo-clean-intermediate-suffixes},
 @code{Texinfo-clean-output-suffixes},
-@code{ConTeXt-clean-intermediate-suffixes} and
-@code{ConTeXt-clean-output-suffixes}.
+@code{ConTeXt-clean-intermediate-suffixes},
+@code{ConTeXt-clean-output-suffixes},
+@code{AmSTeX-clean-intermediate-suffixes} and
+@code{AmSTeX-clean-output-suffixes}.
 @end deffn
 
 @defopt TeX-clean-confirm
@@ -4319,22 +4354,25 @@ typesetting and editing documents in European languages.
 @c -> @abbr{MULE, MULtilingual Enhancement to GNU Emacs}
 @c -> @acronym{CJK, Chinese@comma{} Japanese@comma{} and Korean}
 
-For @acronym{CJK} (Chinese, Japanese, and Korean) languages, Emacs or
-XEmacs with @acronym{MULE} (MULtilingual Enhancement to GNU Emacs)
-support is required.  @acronym{MULE} is part of Emacs by default since
-Emacs 20.  XEmacs has to be configured with the @samp{--with-mule}
-option.  Special versions of @TeX{} are needed for @acronym{CJK}
-languages: C@TeX{} and China@TeX{} for Chinese, ASCII p@TeX{} and NTT
-j@TeX{} for Japanese, H@LaTeX{} and k@TeX{} for Korean.  The
-@acronym{CJK}-@LaTeX{} package is required for supporting multiple
-@acronym{CJK} scripts within a single document.
+All Emacs versions supported by current @AUCTeX{} can handle
+@acronym{CJK} languages by default.
 
-Note that Unicode is not fully supported in Emacs 21 and XEmacs 21.
-@acronym{CJK} characters are not usable.  Please use the
-@acronym{MULE}-@acronym{UCS} EmacsLisp package or Emacs 22 and later if
-you need @acronym{CJK}.
+In most cases, special versions of @TeX{} engines are needed for
+high-quality typesetting of @acronym{CJK} languages: C@TeX{} and
+China@TeX{} for Chinese, ASCII p@TeX{}, up@TeX{} and NTT j@TeX{} for
+Japanese, H@LaTeX{} and k@TeX{} for Korean.  They are necessary as well
+when you want to typeset documents saved in their domestic encodings
+such as @acronym{Shift-JIS}.  Currently, @AUCTeX{} offers native support
+for p@TeX{}, up@TeX{} and j@TeX{} only.
 
 @c FIXME: We need more information for CTeX, ChinaTeX, KTeX, and HLaTeX.
+
+If you don't need fine tuning in the result with respect to the
+typesetting rules of their respective national standards, most unicode
+based @TeX{} engines e.g. Lua@TeX{} and Xe@TeX{} can handle
+@acronym{CJK} languages by default if they are encoded in
+@acronym{UTF-8}.  The @acronym{CJK}-@LaTeX{} package is provided for
+supporting @acronym{CJK} scripts in a standard @LaTeX{} document.
 
 @menu
 * European::                    Using @AUCTeX{} with European Languages
@@ -4363,9 +4401,9 @@ languages than Western European ones will probably have other encoding
 needs.
 
 To be able to display non-ASCII characters you will need an appropriate
-font and a version of GNU Emacs capable of displaying 8-bit characters
-(e.g. Emacs 21).  The manner in which this is supported differs between
-Emacsen, so you need to take a look at your respective documentation.
+font and a version of GNU Emacs capable of displaying 8-bit characters.
+The manner in which this is supported differs between Emacsen, so you
+need to take a look at your respective documentation.
 
 A compromise is to use an European character set when editing the file,
 and convert to @TeX{} macros when reading and writing the files.
@@ -4375,14 +4413,10 @@ and convert to @TeX{} macros when reading and writing the files.
 @cindex @file{iso-cvt.el}
 Much like @file{iso-tex.el} but is bundled with Emacs 19.23 and later.
 
-@item x-compose.el
-@cindex @file{x-compose.el}
-Similar package bundled with new versions of XEmacs.
-
 @item X-Symbol
 @cindex X-Symbol
-a much more complete package for both Emacs and XEmacs that can also
-handle a lot of mathematical characters and input methods.
+a much more complete package for Emacs that can also handle a lot of
+mathematical characters and input methods.
 @end table
 
 @subsubsection Style Files for Different Languages
@@ -4581,8 +4615,7 @@ If nil do it the other way round.
 To write Japanese text with @AUCTeX{}, you need the versions of
 @TeX{} and Emacs that support Japanese.  @AUCTeX{} supports three
 Japanese @TeX{} engines by default: NTT j@TeX{}, ASCII p@TeX{} and
-up@TeX{}.  On XEmacs, @AUCTeX{} needs @acronym{MULE, MULtilingual
-Enhancement to GNU Emacs} feature to deal with Japanese text.
+up@TeX{}.
 
 To use the Japanese @TeX{} engines, activate
 @code{japanese-plain-tex-mode} or @code{japanese-latex-mode}.  If it
@@ -4693,15 +4726,12 @@ If non-nil, used for decoding output from Japanese @TeX{} process.
 When @code{nil}, @AUCTeX{} tries to choose suitable coding system.
 @end defopt
 
-The former customize options @code{japanese-TeX-command-default} and
-@code{japanese-LaTeX-command-default} are obsolete.  Use
+The former customize options @code{japanese-TeX-command-default},
+@code{japanese-LaTeX-command-default} and
+@code{japanese-TeX-command-list} are removed from @AUCTeX{}.  Use
 @code{japanese-TeX-engine-default} instead.  If you need to customize
 the executable file name such as @samp{"latex"}, the options for them,
 or both, customize @code{TeX-engine-alist}.
-
-Also, the option @code{japanese-TeX-command-list} is considered as
-semi-obsolete.  It still functions as before, but in theory, it is not
-required anymore in normal use.
 
 The following two additional font commands are available in
 @LaTeX{} mode buffer.
@@ -4710,12 +4740,14 @@ The following two additional font commands are available in
 @item C-c C-f g
 @kindex C-c C-f g
 @cindex @code{\textgt}
-Insert @b{gothic face} font command @samp{\textbf@{@point{}@}} or
-@samp{\mathbf@{@point{}@}} depending on the context.
+@cindex @code{\mathgt}
+Insert @b{gothic face} font command @samp{\textgt@{@point{}@}} or
+@samp{\mathgt@{@point{}@}} depending on the context.
 
 @item C-c C-f m
 @kindex C-c C-f m
 @cindex @code{\textmc}
+@cindex @code{\mathmc}
 Insert mincho font command @samp{\textmc@{@point{}@}} or
 @samp{\mathmc@{@point{}@}} depending on the context.
 
@@ -4972,11 +5004,18 @@ A symbol indicating a singleton containing one basic @TeX{} dialect,
 this symbol shall be selected among:
 @table @code
 @item :latex
-For all files in @LaTeX{} mode, or any mode derived thereof
+For all files in @LaTeX{} mode, or any mode derived thereof.
 @item :bibtex
-For all files in Bib@TeX{} mode, or any mode derived thereof
+For all files in Bib@TeX{} mode, or any mode derived thereof.
 @item :texinfo
 For all files in @acronym{Texinfo} mode.
+@item :plain-tex
+For all files in plain-@TeX{} mode, or any mode derived thereof.
+@item :context
+For all files in @ConTeXt{} mode.
+@item :classopt
+For class options of @LaTeX{} document.  This is provided as
+pseudo-dialect for style hooks associated with class options.
 @end table
 @item
 A logical expression like:
@@ -5050,7 +5089,7 @@ point inside braces.  Otherwise, each argument of this function should
 match an argument of the @TeX{} macro.  What is done depends on the argument
 type.
 
-If a macro is defined multiple times, @AUCTeX{} will chose the one with
+If a macro is defined multiple times, @AUCTeX{} will choose the one with
 the longest definition (i.e. the one with the most arguments).
 
 Thus, to overwrite
@@ -5194,7 +5233,6 @@ defined labels.
 Prompt for a @LaTeX{} length completing with known lengths.  Add length
 to list of defined lengths.
 
-
 @item TeX-arg-define-macro
 Prompt for a @TeX{} macro with completion.  Add macro to list of defined
 macros.
@@ -5254,6 +5292,11 @@ Prompt for a @LaTeX{} pagestyle with completion.
 
 @item TeX-arg-verb
 Prompt for delimiter and text.
+
+@item TeX-arg-verb-delim-or-brace
+Prompt for delimiter and text.  This function is similar to
+@code{TeX-arg-verb}, but is intended for macros which take their
+argument enclosed in delimiters or in braces.
 
 @item TeX-arg-pair
 Insert a pair of numbers, use arguments for prompt. The numbers are
@@ -5862,5 +5905,6 @@ used by @AUCTeX{} for sectioning.
 
 @c Local Variables:
 @c mode: texinfo
+@c coding: utf-8
 @c TeX-master: t
 @c End:

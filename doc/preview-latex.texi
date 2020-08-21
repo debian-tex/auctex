@@ -10,7 +10,7 @@ This manual is for preview-latex, a @LaTeX{} preview mode for @AUCTeX{}
 (version @value{VERSION} from @value{UPDATED}).
 
 Copyright @copyright{} 2001, 2002, 2003,
-2004, 2005, 2006 Free Software Foundation, Inc.
+2004, 2005, 2006, 2017, 2018 Free Software Foundation, Inc.
 
 @quotation
 Permission is granted to copy, distribute and/or modify this document
@@ -197,9 +197,7 @@ the region with borders switched off.  As this is an asynchronous
 operation running in the background, you'll need to call this command
 explicitly again to get the newly generated images into the kill ring.
 
-Preview your articles with @code{mml-preview} (on @kbd{M-m P}, or
-@kbd{C-c C-m P} in @w{Emacs 22})
-@kindex @kbd{M-m P}
+Preview your articles with @code{mml-preview} (on @kbd{C-c C-m P})
 @kindex @kbd{C-c C-m P}
 to make sure they look fine.
 
@@ -297,6 +295,18 @@ done from within Emacs, but it will not notice if the preamble
 effectively changes because some included file or style file is
 tampered with.
 
+Note that support for preamble cache is limited for @LaTeX{} variants.
+c.f. @url{https://github.com/davidcarlisle/dpctex/issues/15}
+@itemize @bullet
+@item
+Xe@LaTeX{} cannot use preamble cache at all.  The reason is intrinsic in
+Xe@LaTeX{}, so @previewlatex{} can't help.
+@item
+Lua@LaTeX{} works with preamble cache only when the preamble is simple
+enough, i.e., when it doesn't load opentype fonts and it doesn't use lua
+codes in preamble.
+@end itemize
+
 @item @kbd{C-c C-p C-c C-f}
 @itemx @code{preview-cache-preamble-off}
 @itemx Preview/Turn preamble cache off
@@ -358,9 +368,7 @@ artifacts at the edges of your previews.  Playing around with the option
 might improve things.  With some settings, the cursor may cover the
 whole background of a preview, however.
 
-This option is specific to the display engine in use.  Its default is
-different in @w{Emacs 21} and @w{Emacs 22}, and it is not available in
-XEmacs.
+This option is specific to the display engine in use.
 
 @item Showing @code{\label}s
 @cindex Showing @code{\label}s
@@ -658,14 +666,6 @@ when this is needed is in
 accordingly @code{split} is one entry in
 @code{preview-inner-environments}.
 
-@item preview-use-balloon-help
-If you turn this XEmacs-only option `on', then moving the mouse over
-previews and icons will show appropriate help texts.  This works by
-switching on @code{balloon-help-mode} in the buffer if it is not already
-enabled.  The default now is `off' since some users reported problems
-with their version of XEmacs.  @w{GNU Emacs} has its corresponding
-@code{tooltip-mode} enabled by default and in usable condition.
-
 @end vtable
 
 @node The preview images, Misplaced previews, The Emacs interface, For advanced users
@@ -721,6 +721,12 @@ the case for @acronym{PDF} output by PDF@LaTeX{}, but it will also happen
 if the @acronym{DVI} file contains PostScript specials in which case the
 affected images will get run through Dvips and Ghostscript once
 @samp{dvipng} finishes.
+
+Note for p@LaTeX{} and up@LaTeX{} users: It is known that @code{dvipng}
+is not compatible with p@LaTeX{} and up@LaTeX{}.  If
+@code{preview-image-type} is set to @samp{dvipng} and (u)p@LaTeX{} is
+used, @samp{dvipng} just fails and @previewlatex{} falls back on Dvips
+and Ghostscript.
 
 @item preview-gs-options
 Most interesting to the user perhaps is the setting of this variable.

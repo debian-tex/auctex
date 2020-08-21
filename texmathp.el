@@ -53,7 +53,8 @@
 ;;
 ;;  To configure which macros and environments influence LaTeX math mode,
 ;;  customize the variable `texmathp-tex-commands'.  By default
-;;  it recognizes the LaTeX core as well as AMS-LaTeX (see the variable
+;;  it recognizes the plain TeX and LaTeX core as well as AMS-LaTeX and
+;;  packages mathtools, empheq and breqn (see the variable
 ;;  `texmathp-tex-commands-default', also as an example).
 ;;
 ;;  To try out the code interactively, use `M-x texmathp RET'.
@@ -152,7 +153,14 @@
     ("AmSgather"     env-on)      ("AmSgather*"    env-on)
     ("AmSmultline"   env-on)      ("AmSmultline*"  env-on)
     ("AmSflalign"    env-on)      ("AmSflalign*"   env-on)
-    ("AmSalignat"    env-on)      ("AmSalignat*"   env-on))
+    ("AmSalignat"    env-on)      ("AmSalignat*"   env-on)
+
+    ;; breqn
+    ("dmath"         env-on)      ("dmath*"        env-on)
+    ("dseries"       env-on)      ("dseries*"      env-on)
+    ("dgroup"        env-on)      ("dgroup*"       env-on)
+    ("darray"        env-on)      ("darray*"       env-on)
+    ("dsuspend"      env-off))
   "The default entries for `texmathp-tex-commands', which see.")
 
 (defun texmathp-compile ()
@@ -229,8 +237,8 @@ empty lines we go back to fix the search limit."
 
 (defcustom texmathp-allow-detached-args nil
   "*Non-nil means, allow arguments of macros to be detached by whitespace.
-When this is t, `aaa' will be interpreted as an argument of \bb in the
-following construct:  \bbb [xxx] {aaa}
+When this is t, `aaa' will be interpreted as an argument of \\bbb in the
+following construct:  \\bbb [xxx] {aaa}
 This is legal in TeX.  The disadvantage is that any number of braces expressions
 will be considered arguments of the macro independent of its definition."
   :group 'texmathp
@@ -239,7 +247,7 @@ will be considered arguments of the macro independent of its definition."
 (defvar texmathp-why nil
   "After a call to `texmathp' this variable shows why math-mode is on or off.
 The value is a cons cell (MATCH . POSITION).
-MATCH is a string like a car of an entry in `texmathp-tex-commands', e.q.
+MATCH is a string like a car of an entry in `texmathp-tex-commands', e.g.
 \"equation\" or \"\\ensuremath\" or \"\\=\\[\" or \"$\".
 POSITION is the buffer position of the match.  If there was no match,
 it points to the limit used for searches, usually two paragraphs up.")
@@ -302,7 +310,7 @@ See the variable `texmathp-tex-commands' about which commands are checked."
 
     ;; Store info, show as message when interactive, and return
     (setq texmathp-why match)
-    (and (interactive-p)
+    (and (called-interactively-p 'any)
 	 (message "math-mode is %s: %s begins at buffer position %d"
 		  (if math-on "on" "off")
 		  (or (car match) "new paragraph")

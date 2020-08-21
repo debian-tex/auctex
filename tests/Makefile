@@ -13,7 +13,7 @@
 # GNU General Public License for more details.
 
 # You should have received a copy of the GNU General Public License
-# along with GNU Emacs.  If not, see <http://www.gnu.org/licenses/>.
+# along with GNU Emacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ### Commentary:
 
@@ -55,7 +55,8 @@ all: check
 WRITE_LOG = 2>&1 | tee $@
 
 %.log: %.el
-	$(emacs) -l ert -l $< -f ert-run-tests-batch-and-exit ${WRITE_LOG}
+	$(emacs) -l ert -l make-test-deps.emacs-lisp -l $< \
+	-f ert-run-tests-batch-and-exit ${WRITE_LOG}
 
 ELFILES = $(wildcard */*.el)
 LOGFILES = $(patsubst %.el,%.log, ${ELFILES})

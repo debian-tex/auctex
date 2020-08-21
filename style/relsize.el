@@ -1,6 +1,6 @@
 ;;; relsize.el --- AUCTeX style for `relsize.sty' version v4.1
 
-;; Copyright (C) 2014 Free Software Foundation, Inc.
+;; Copyright (C) 2014, 2018 Free Software Foundation, Inc.
 
 ;; Author: Arash Esbati <arash@gnu.org>
 ;; Maintainer: auctex-devel@gnu.org
@@ -31,6 +31,11 @@
 
 ;;; Code:
 
+;; Silence the compiler:
+(declare-function font-latex-add-keywords
+		  "font-latex"
+		  (keywords class))
+
 (TeX-add-style-hook
  "relsize"
  (lambda ()
@@ -38,8 +43,8 @@
     ;; Declarations and commands
     '("relsize"     "Steps"                    )
     '("relscale"    "Scale factor"             )
-    '("larger"      [ "Steps (default: 1)" ] -1)
-    '("smaller"     [ "Steps (default: 1)" ] -1)
+    '("larger"      [ "Steps (default 1)" ] -1)
+    '("smaller"     [ "Steps (default 1)" ] -1)
     '("textlarger"  [ "Steps" ]               t)
     '("textsmaller" [ "Steps" ]               t)
     '("textscale"   "Scale factor"            t)

@@ -1,6 +1,6 @@
 ;;; context.el --- Support for ConTeXt documents.
 
-;; Copyright (C) 2003-2006, 2008, 2010, 2012, 2014-2017
+;; Copyright (C) 2003-2006, 2008, 2010, 2012, 2014-2018
 ;;   Free Software Foundation, Inc.
 
 ;; Maintainer: Berend de Boer <berend@pobox.com>
@@ -508,7 +508,7 @@ in your .emacs file."
 Insert this hook into `ConTeXt-numbered-section-hook' to allow the user to change
 the name of the sectioning command inserted with `\\[ConTeXt-section]'."
   (let ((string (completing-read
-		 (concat "Select level: (default " name ") ")
+		 (concat "Select level (default " name "): ")
 		 ConTeXt-numbered-section-list
 		 nil nil nil)))
     ;; Update name
@@ -520,7 +520,7 @@ the name of the sectioning command inserted with `\\[ConTeXt-section]'."
 Insert this hook into `ConTeXt-unnumbered-section-hook' to allow the user to change
 the name of the sectioning command inserted with `\\[ConTeXt-section]'."
   (let ((string (completing-read
-		 (concat "Select level: (default " name ") ")
+		 (concat "Select level (default " name "): ")
 		 ConTeXt-unnumbered-section-list
 		 nil nil nil)))
     ;; Update name
@@ -619,7 +619,7 @@ inserted after the sectioning command."
 ;;; Environments
 
 (defgroup ConTeXt-environment nil
-  "Environments in AUCTeX."
+  "Environments in ConTeXt."
   :group 'ConTeXt-macro)
 
 ;; TODO: interface awareness
@@ -670,7 +670,7 @@ With optional ARG, modify current environment."
 		   ((TeX-near-bobp) "text")
 		   (t ConTeXt-default-environment)))
 	 (environment
-	  (completing-read (concat "Environment type: (default " default ") ")
+	  (completing-read (concat "Environment type (default " default "): ")
 			   ConTeXt-environment-list nil nil nil
 			   'ConTeXt-environment-history default)))
     ;; Use `environment' as default for the next time only if it is different
@@ -1482,58 +1482,57 @@ else.  There might be text before point."
 (easy-menu-define ConTeXt-mode-menu
   ConTeXt-mode-map
   "Menu used in ConTeXt mode."
-  (TeX-menu-with-help
-   `("ConTeXt"
-     (,ConTeXt-project-structure-menu-name)
-     (,ConTeXt-section-block-menu-name)
-     (,ConTeXt-numbered-section-menu-name)
-     (,ConTeXt-unnumbered-section-menu-name)
-     ["Add Table of Contents to Emacs Menu" (imenu-add-to-menubar "TOC") t]
-     "-"
-     ["Macro ..." TeX-insert-macro
-      :help "Insert a macro and possibly arguments"]
-     ["Complete" TeX-complete-symbol
-      :help "Complete the current macro or environment name"]
-     ["Show ConTeXt Macro Definition" ConTeXt-etexshow]
-     "-"
-     (,ConTeXt-environment-menu-name)
-     (,ConTeXt-environment-modify-menu-name)
-     ["Item" ConTeXt-insert-item
-      :help "Insert a new \\item into current environment"]
-     (,ConTeXt-define-menu-name)
-     (,ConTeXt-setup-menu-name)
-     (,ConTeXt-other-macro-menu-name)
-     "-"
-     ("Insert Font"
-      ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
-      ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
-      ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
-      ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
-      ["Sans Serif" (TeX-font nil ?\C-f) :keys "C-c C-f C-f"]
-      ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
-      ["Slanted"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
-      ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"]
-      ["Calligraphic" (TeX-font nil ?\C-a) :keys "C-c C-f C-a"])
-     ("Replace Font"
-      ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
-      ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
-      ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
-      ["Small Caps" (TeX-font t ?\C-c) :keys "C-u C-c C-f C-c"]
-      ["Sans Serif" (TeX-font t ?\C-f) :keys "C-u C-c C-f C-f"]
-      ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
-      ["Slanted"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
-      ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"]
-      ["Calligraphic" (TeX-font t ?\C-a) :keys "C-u C-c C-f C-a"])
-     ["Delete Font" (TeX-font t ?\C-d) :keys "C-c C-f C-d"]
-     "-"
-     ["Comment or Uncomment Region"
-      TeX-comment-or-uncomment-region
-      :help "Make the selected region outcommented or active again"]
-     ["Comment or Uncomment Paragraph"
-      TeX-comment-or-uncomment-paragraph
-      :help "Make the current paragraph outcommented or active again"]
-     ,TeX-fold-menu
-     "-" . ,TeX-common-menu-entries)))
+  `("ConTeXt"
+    (,ConTeXt-project-structure-menu-name)
+    (,ConTeXt-section-block-menu-name)
+    (,ConTeXt-numbered-section-menu-name)
+    (,ConTeXt-unnumbered-section-menu-name)
+    ["Add Table of Contents to Emacs Menu" (imenu-add-to-menubar "TOC") t]
+    "-"
+    ["Macro ..." TeX-insert-macro
+     :help "Insert a macro and possibly arguments"]
+    ["Complete" TeX-complete-symbol
+     :help "Complete the current macro or environment name"]
+    ["Show ConTeXt Macro Definition" ConTeXt-etexshow]
+    "-"
+    (,ConTeXt-environment-menu-name)
+    (,ConTeXt-environment-modify-menu-name)
+    ["Item" ConTeXt-insert-item
+     :help "Insert a new \\item into current environment"]
+    (,ConTeXt-define-menu-name)
+    (,ConTeXt-setup-menu-name)
+    (,ConTeXt-other-macro-menu-name)
+    "-"
+    ("Insert Font"
+     ["Emphasize"  (TeX-font nil ?\C-e) :keys "C-c C-f C-e"]
+     ["Bold"       (TeX-font nil ?\C-b) :keys "C-c C-f C-b"]
+     ["Typewriter" (TeX-font nil ?\C-t) :keys "C-c C-f C-t"]
+     ["Small Caps" (TeX-font nil ?\C-c) :keys "C-c C-f C-c"]
+     ["Sans Serif" (TeX-font nil ?\C-f) :keys "C-c C-f C-f"]
+     ["Italic"     (TeX-font nil ?\C-i) :keys "C-c C-f C-i"]
+     ["Slanted"    (TeX-font nil ?\C-s) :keys "C-c C-f C-s"]
+     ["Roman"      (TeX-font nil ?\C-r) :keys "C-c C-f C-r"]
+     ["Calligraphic" (TeX-font nil ?\C-a) :keys "C-c C-f C-a"])
+    ("Replace Font"
+     ["Emphasize"  (TeX-font t ?\C-e) :keys "C-u C-c C-f C-e"]
+     ["Bold"       (TeX-font t ?\C-b) :keys "C-u C-c C-f C-b"]
+     ["Typewriter" (TeX-font t ?\C-t) :keys "C-u C-c C-f C-t"]
+     ["Small Caps" (TeX-font t ?\C-c) :keys "C-u C-c C-f C-c"]
+     ["Sans Serif" (TeX-font t ?\C-f) :keys "C-u C-c C-f C-f"]
+     ["Italic"     (TeX-font t ?\C-i) :keys "C-u C-c C-f C-i"]
+     ["Slanted"    (TeX-font t ?\C-s) :keys "C-u C-c C-f C-s"]
+     ["Roman"      (TeX-font t ?\C-r) :keys "C-u C-c C-f C-r"]
+     ["Calligraphic" (TeX-font t ?\C-a) :keys "C-u C-c C-f C-a"])
+    ["Delete Font" (TeX-font t ?\C-d) :keys "C-c C-f C-d"]
+    "-"
+    ["Comment or Uncomment Region"
+     comment-or-uncomment-region
+     :help "Make the selected region outcommented or active again"]
+    ["Comment or Uncomment Paragraph"
+     TeX-comment-or-uncomment-paragraph
+     :help "Make the current paragraph outcommented or active again"]
+    ,TeX-fold-menu
+    "-" . ,TeX-common-menu-entries))
 
 (defun ConTeXt-menu-update (&optional menu)
   "Update entries on AUCTeX menu."
@@ -1545,46 +1544,55 @@ else.  There might be text before point."
 	(setq ConTeXt-menu-changed nil)
 	(message "Updating section menu...")
 	(mapc #'ConTeXt-section-enable ConTeXt-section-list)
+	(message "Updating section menu...done")
 	(message "Updating environment menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-environment-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-environment-menu-entry
 				   (ConTeXt-environment-list))))
+	(message "Updating environment menu...done")
 	(message "Updating modify environment menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-environment-modify-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-environment-modify-menu-entry
 				   (ConTeXt-environment-list))))
+	(message "Updating modify environment menu...done")
 	(message "Updating define menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-define-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-define-menu-entry
 				   ConTeXt-define-list)))
+	(message "Updating define menu...done")
 	(message "Updating setup menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-setup-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-setup-menu-entry
 				   ConTeXt-setup-list)))
+	(message "Updating setup menu...done")
 	(message "Updating referencing menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-referencing-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-referencing-menu-entry
 				   ConTeXt-referencing-list)))
+	(message "Updating referencing menu...done")
 	(message "Updating other macro's menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-other-macro-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-other-macro-menu-entry
 				   ConTeXt-other-macro-list)))
+	(message "Updating other macro's menu...done")
 	(message "Updating project structure menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-project-structure-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-project-structure-menu-entry
 				   ConTeXt-project-structure-list)))
+	(message "Updating project structure menu...done")
 	(message "Updating section block menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-section-block-menu-name
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-section-block-menu-entry
 				   ConTeXt-section-block-list)))
+	(message "Updating section block menu...done")
 	(message "Updating section menu...")
 	(easy-menu-change '("ConTeXt") ConTeXt-numbered-section-menu-name
 			  (LaTeX-split-long-menu
@@ -1594,7 +1602,7 @@ else.  There might be text before point."
 			  (LaTeX-split-long-menu
 			   (mapcar #'ConTeXt-unnumbered-section-menu-entry
 				   ConTeXt-unnumbered-section-list)))
-	(message "Updating...done")
+	(message "Updating section menu...done")
 	(and menu (easy-menu-return-item ConTeXt-mode-menu menu))
 	)))
 
@@ -1774,7 +1782,7 @@ i.e. you do _not_ have to cater for this yourself by adding \\\\' or $."
   ;; run hooks
   (setq TeX-command-default "ConTeXt")
   (setq TeX-sentinel-default-function 'TeX-ConTeXt-sentinel)
-  (TeX-run-mode-hooks 'text-mode-hook 'TeX-mode-hook 'ConTeXt-mode-hook))
+  (run-mode-hooks 'text-mode-hook 'TeX-mode-hook 'ConTeXt-mode-hook))
 
 (defun context-guess-current-interface ()
   "Guess what ConTeXt interface the current buffer is using."
