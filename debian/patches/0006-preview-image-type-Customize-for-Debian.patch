@@ -14,10 +14,10 @@ Forwarded: not-needed
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/preview.el.in b/preview.el.in
-index 1aa7e1a..08c96e3 100644
+index 89b767a..fa42a26 100644
 --- a/preview.el.in
 +++ b/preview.el.in
-@@ -228,7 +228,7 @@ method, like when PDFTeX was used."
+@@ -221,7 +221,7 @@ method, like when PDFTeX was used."
  		       (symbol :tag "Emacs image-type")
  		       (repeat :inline t :tag "Ghostscript options" string))))
  

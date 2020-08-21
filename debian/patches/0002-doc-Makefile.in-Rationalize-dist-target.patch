@@ -6,18 +6,27 @@ Depend on the info target instead of on the individual info manuals.
 
 Forwarded: no
 ---
- doc/Makefile.in | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ doc/Makefile.in | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/doc/Makefile.in b/doc/Makefile.in
-index 1a95499..21a120b 100644
+index b22188d..67842b2 100644
 --- a/doc/Makefile.in
 +++ b/doc/Makefile.in
-@@ -85,7 +85,7 @@ install-man:
- 	done ; \
- 	}
+@@ -75,7 +75,16 @@ dvi: auctex.dvi tex-ref.dvi preview-latex.dvi
+ 
+ install: install-auctex install-preview
  
 -dist: $(DISTTEXTS) preview-latex.info auctex.info tex-ref.pdf
++install-man:
++	test x$(packagedir) != xno && \
++	{ $(MKINSTALLDIRS) $(DESTDIR)$(packagedir)/man/auctex ; \
++	for i in $(AUCTEXTEXIFILES) $(PREVIEWTEXIFILES) tex-ref.tex ; \
++	do echo $(INSTALL_DATA) $$i $(DESTDIR)$(packagedir)/man/auctex; \
++	   $(INSTALL_DATA) $$i $(DESTDIR)$(packagedir)/man/auctex; \
++	done ; \
++	}
++
 +dist: $(DISTTEXTS) info tex-ref.pdf
  
  extradist: auctex.htmls/$(TEXI2HTML_TOC) auctex.ps auctex.pdf tex-ref.ps tex-ref.pdf
