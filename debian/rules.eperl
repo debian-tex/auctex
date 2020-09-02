@@ -18,7 +18,7 @@ EPERL_SRC := $(wildcard debian/*.eperl)
 EPERL_OBJ := $(EPERL_SRC:%.eperl=%)
 
 debian/clean: $(EPERL_OBJ)
-	echo $(filter-out debian/copyright debian/rules \
+	echo $(filter-out debian/rules \
 		debian/auctex.templates, $(EPERL_OBJ)) \
 		debian/auctex.templates.dcobj \
 		debian/clean > debian/clean
