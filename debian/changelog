@@ -1,14 +1,15 @@
 auctex (12.2-1) unstable; urgency=medium
 
   * [0c6b2de] New upstream release 12.2
-    Thanks to Benjamin Redelings, Itaï BEN YAACOV, Sanjoy Mahajan (Closes: #63513, #702871, #769977, #896844, #912438)
+    Thanks to Benjamin Redelings, Itaï BEN YAACOV, Sanjoy Mahajan
+    (Closes: #63513, #702871, #769977, #896844, #912438)
   * [79f0a28] Drop alternate recommends on dummy package evince-gtk.
     Thanks to Jeremy Bicha (Closes: #884360)
   * [7f3946b] Refresh upstream patches
   * [a25f788] debian/control (Build-Depends-Indep): Add texlive-extra-utils.
     Thanks to Lucas Nussbaum, Itaï BEN YAACOV (Closes: #951973)
   * [ebabf80] debian/auctex.lintian-ovverrides: Update according to 4.2.0 policy
-  * [c5718d9] debian/po/de.po: Reencode in UTF-8
+  * [c5718d9] debian/po/de.po: Re-encode in UTF-8
   * [cc9cf07] debian/compat: Update dh compatibility level to 12
   * [8541bc8] debian/control (Rules-Requires-Root): Declare no root need
   * [17f62ae] debian/control (Standards-Version): Upgrade to 4.5.0
