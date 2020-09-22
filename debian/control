@@ -45,7 +45,7 @@ Package: preview-latex-style
 Architecture: all
 Depends: ${misc:Depends}
 Breaks: preview-latex (<=0.7.3-2)
-Homepage: http://www.gnu.org/software/auctex/preview-latex.html
+Homepage: https://www.gnu.org/software/auctex/preview-latex.html
 Description: extraction of elements from LaTeX documents as graphics
  The purpose of preview is the extraction of selected elements from a
  LaTeX source, like formulas or graphics, into separate pages of a DVI
