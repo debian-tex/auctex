@@ -96,18 +96,18 @@ I'm not sure I can confirm this bug.  Trying to produce a minimal doc, at
 this moment I'm here:
 #+begin_src LaTeX
   \documentclass{article}
-  
+
   \begin{document}
-  
+
     \begin{equation}
       \int h \Big(
       (\mbox{Id} - D_scD_s c^T   - D^2_s c c^T ) {(f + c(D_s f \cdot D_s c)) }
       +  (D_s^2 c {(f \cdot D_s^2 c)}+
       D_s(P(D_s k)) \Big) ~ s
     \end{equation}
-  
+
   \undefined
-  
+
   \end{document}
 #+end_src
 
@@ -194,6 +194,42 @@ These tag Debian backports.
 These tag Debian NMUs.
 *** =upstream/*=
 These tag upstream releases.
+
+* Development
+** How to import a new upstream release from an upstream tarball
+: git status
+: git checkout master
+: gbp import-orig --pristine-tar --uscan
+: git diff upstream/11.90..upstream/11.91
+: emacs debian/auctex.NEWS CHANGES
+: emacs debian/rules.eperl
+: debian/rules clean
+** How to import a new upstream release from upstream git
+1. Pull from the upstream repository:
+   : git checkout vcs/upstream/git
+   : git pull upstream
+2. Merge the new release tag into the master branch:
+   : git checkout master
+   : git merge -m "New upstream version 11.91" release_11_91
+3. Tag the merge commit:
+   : git tag -a -m "Upstream version 11.91" upstream/11.91
+4. Study diffs between the old and new release:
+   : git diff upstream/11.90..upstream/11.91
+5. Update "debian/auctex.NEWS" taking into account "RELEASE" and =git commit=.
+6. Update "debian/rules.eperl" as needed.
+7. Update "debian/rules" with =debian/rules clean= and =git commit=.
+8. Update copyright notices in "debian/COPYRIGHT" and "debian/copyright" and =git commit=..
+9. Remove upstream merged patches with =gbp pq rebase= and =git commit=.
+10. Refresh upstream patches with =gbp pq export= and =git commit=.
+11. Optionally commit the unused dist tarball with =pristine-tar= for future references:
+    : uscan
+    : pristine-tar commit ../auctex_11.91.orig.tar.gz
+** How to properly import a NMU
+: git status
+: git checkout master
+: git branch nmu/<version> master
+: gbp import-dsc --debian-branch=nmu/<version> \
+:   --download http://snapshot.debian.org/archive/debian/<date>/pool/main/a/auctex/auctex_<version>.dsc
 
 * Uninteresting org init stuff, local variables, local words
 :PROPERTIES:
